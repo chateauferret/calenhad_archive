@@ -1,0 +1,38 @@
+//
+// Created by martin on 27/11/16.
+//
+
+#ifndef CALENHAD_QCONSTANTMODULE_H
+#define CALENHAD_QCONSTANTMODULE_H
+
+
+
+#include <QtCore/QString>
+#include <libnoise/module/modulebase.h>
+#include "QModule.h"
+#include <libnoise/module/const.h>
+#include <QtWidgets/QDoubleSpinBox>
+
+using namespace noise::module;
+class QConstModule : public QModule {
+    Q_OBJECT
+public:
+    void initialise();
+    double constValue ();
+    Const* module() override;
+    Q_PROPERTY (double constantValue READ constValue WRITE setConstValue());
+    ModuleType type() override;
+    static QConstModule* newInstance();
+    QConstModule* addCopy (CalenhadModel* model)  override;
+    QString typeString() override;
+public slots:
+    void setConstValue (double value);
+
+private:
+    QDoubleSpinBox* constValueSpin;
+    QConstModule (QWidget* parent = 0);
+
+};
+
+
+#endif //CALENHAD_QCONSTANTMODULE_H
