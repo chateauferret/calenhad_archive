@@ -8,15 +8,15 @@
 #include <marble/ViewportParams.h>
 #include "../geoutils.h"
 #include "../libnoiseutils/NoiseContstants.h"
-#include "../pipeline/QColorGradient.h"
 #include <noise/module/module.h>
+#include "../libnoiseutils/GradientLegend.h"
 
 
 using namespace geoutils;
 using namespace Marble;
 using namespace noise::utils;
 
-CalenhadLayer::CalenhadLayer (noise::module::Module* source) : _source (source), _gradient (new QColorGradient()) {
+CalenhadLayer::CalenhadLayer (noise::module::Module* source) : _source (source), _gradient (new GradientLegend()) {
 
 }
 
@@ -24,7 +24,7 @@ CalenhadLayer::~CalenhadLayer() {
     if (_gradient) { delete _gradient; }
 }
 
-void CalenhadLayer::setGradient (QColorGradient* gradient) {
+void CalenhadLayer::setGradient (GradientLegend* gradient) {
     _gradient = gradient;
 }
 
@@ -44,7 +44,7 @@ bool CalenhadLayer::render (GeoPainter* painter, GeoDataLatLonBox box) {
     double noise;
     Geolocation geolocation;
     Cartesian cartesian;
-    Color color;
+    QColor color;
     QColor qc;
     int r, g, b;
 
@@ -55,9 +55,9 @@ bool CalenhadLayer::render (GeoPainter* painter, GeoDataLatLonBox box) {
                 geolocation = Geolocation (lat, lon, Geolocation::RADS);
                 cartesian = Math::toCartesian (geolocation);
                 noise = _source -> GetValue (cartesian.x, cartesian.y, cartesian.z);
-                color = _gradient -> GetColor (noise);
-                // to do - gradient colour mapping and normal
-                qc = QColor (color.red, color.green, color.blue);
+                color = _gradient -> lookup (noise);
+                // to do - _gradient colour mapping and normal
+                qc = QColor (color.red(), color.green(), color.blue());
                 painter -> setPen (qc);
                 painter -> drawPoint ((GeoDataCoordinates ((qreal) geolocation.latitude, (qreal) geolocation.longitude)));
             }

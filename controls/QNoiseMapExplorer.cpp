@@ -7,13 +7,15 @@
 #include <marble/MarbleModel.h>
 #include <marble/MarbleMap.h>
 #include <marble/GeoDataTreeModel.h>
-#include "../pipeline/QColorGradient.h"
+#include "../libnoiseutils/GradientLegend.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #endif
 
-QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, const QWidget* parent) : QDialog(), _gradient (new QColorGradient()) {
+using namespace noise::utils;
+
+QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, const QWidget* parent) : QDialog(), _gradient (new GradientLegend()) {
 
     _mapWidget = new CalenhadMarbleWidget (this);
     //_mapWidget->setProjection(Marble::Mercator);
@@ -32,6 +34,7 @@ QNoiseMapExplorer::~QNoiseMapExplorer () {
     if (_producer) { delete _producer; }
     if (_source) { delete _source; }
     if (_layer) { delete _layer; }
+    if (_gradient) { delete _gradient; }
 }
 
 void QNoiseMapExplorer::setSource (noise::module::Module* source) {

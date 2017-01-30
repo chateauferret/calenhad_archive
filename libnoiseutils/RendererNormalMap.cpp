@@ -4,10 +4,9 @@
 
 #include <cmath>
 #include <libnoise/exception.h>
+#include <libnoise/basictypes.h>
 #include "RendererNormalMap.h"
-#include "Color.h"
 #include "NoiseMap.h"
-#include "Image.h"
 
 using namespace noise::utils;
 
@@ -18,13 +17,10 @@ RendererNormalMap::RendererNormalMap ():
         m_bumpHeight      (1.0),
         m_isWrapEnabled   (false),
         m_pDestImage      (NULL),
-        m_pSourceNoiseMap (NULL)
-{
+        m_pSourceNoiseMap (NULL) {
 }
 
-Color RendererNormalMap::CalcNormalColor (double nc, double nr, double nu,
-                                          double bumpHeight) const
-{
+QColor RendererNormalMap::CalcNormalColor (double nc, double nr, double nu, double bumpHeight) const {
     // Calculate the surface normal.
     nc *= bumpHeight;
     nr *= bumpHeight;
@@ -43,7 +39,7 @@ Color RendererNormalMap::CalcNormalColor (double nc, double nr, double nu,
     yc = (noise::uint8)((noise::uint)((floor)((vyc + 1.0) * 127.5)) & 0xff);
     zc = (noise::uint8)((noise::uint)((floor)((vzc + 1.0) * 127.5)) & 0xff);
 
-    return Color (xc, yc, zc, 0);
+    return QColor (xc, yc, zc, 0);
 }
 
 void RendererNormalMap::Render ()
@@ -60,7 +56,6 @@ void RendererNormalMap::Render ()
 
     for (int y = 0; y < height; y++) {
         const float* pSource = m_pSourceNoiseMap->GetConstSlabPtr (y);
-        Color* pDest = m_pDestImage->GetSlabPtr (y);
         for (int x = 0; x < width; x++) {
 
             // Calculate the positions of the current point's right and up
@@ -98,11 +93,12 @@ void RendererNormalMap::Render ()
             double nu = (double)(*(pSource + yUpOffset   ));
 
             // Calculate the normal product.
-            *pDest = CalcNormalColor (nc, nr, nu, m_bumpHeight);
-
+            QColor c = CalcNormalColor (nc, nr, nu, m_bumpHeight);
+            m_pDestImage -> setPixelColor (x, y, c);
             // Go to the next point.
             ++pSource;
-            ++pDest;
+            // Go to the next point.
+            ++pSource;
         }
     }
 }

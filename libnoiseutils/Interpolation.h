@@ -6,7 +6,7 @@
 #define CALENHAD_INTERPOLATION_H
 
 #include <libnoise/basictypes.h>
-#include "Color.h"
+#include <QColor>
 #include "LittleEndian.h"
 #include <noise/interp.h>
 
@@ -16,19 +16,19 @@ namespace noise {
         class Interpolation {
         public:
             // Performs linear interpolation between two 8-bit channel values.
-            static inline noise::uint8 BlendChannel (const uint8 channel0, const uint8 channel1, float alpha) {
-                float c0 = (float) channel0 / 255.0;
-                float c1 = (float) channel1 / 255.0;
+            static inline noise::uint8 blendChannel (const int channel0, const int channel1, float alpha) {
+                float c0 = (float) (channel0 / 255.0);
+                float c1 = (float) (channel1 / 255.0);
                 return (noise::uint8) (((c1 * alpha) + (c0 * (1.0f - alpha))) * 255.0f);
             }
 
             // Performs linear interpolation between two colors and stores the result
             // in out.
-            static inline void LinearInterpColor (const Color& color0, const Color& color1, float alpha, Color& out) {
-                out.alpha = BlendChannel (color0.alpha, color1.alpha, alpha);
-                out.blue = BlendChannel (color0.blue, color1.blue, alpha);
-                out.green = BlendChannel (color0.green, color1.green, alpha);
-                out.red = BlendChannel (color0.red, color1.red, alpha);
+            static inline void linearInterpColor (const QColor& color0, const QColor& color1, float alpha, QColor& out) {
+                out.setAlpha (blendChannel (color0.alpha (), color1.alpha (), alpha));
+                out.setBlue (blendChannel (color0.blue (), color1.blue (), alpha));
+                out.setGreen (blendChannel (color0.green (), color1.green (), alpha));
+                out.setRed (blendChannel (color0.red (), color1.red (), alpha));
             }
 
 
@@ -46,7 +46,7 @@ namespace noise {
             /// The alpha value should range from 0.0 to 1.0.  If the alpha value is
             /// 0.0, this function returns @a n1.  If the alpha value is 1.0, this
             /// function returns @a n2.
-            static inline double CubicInterp (double n0, double n1, double n2, double n3, double a) {
+            static inline double cubicInterp (double n0, double n1, double n2, double n3, double a) {
                 double p = (n3 - n2) - (n0 - n1);
                 double q = (n0 - n1) - p;
                 double r = n2 - n0;
@@ -65,7 +65,7 @@ namespace noise {
             /// The alpha value should range from 0.0 to 1.0.  If the alpha value is
             /// 0.0, this function returns @a n0.  If the alpha value is 1.0, this
             /// function returns @a n1.
-            static inline double LinearInterp (double n0, double n1, double a) {
+            static inline double linearInterp (double n0, double n1, double a) {
                 return ((1.0 - a) * n0) + (a * n1);
             }
 
@@ -79,7 +79,7 @@ namespace noise {
             ///
             /// The derivative of a cubic S-curve is zero at @a a = 0.0 and @a a =
             /// 1.0
-            static inline double SCurve3 (double a) {
+            static inline double sCurve3 (double a) {
                 return (a * a * (3.0 - 2.0 * a));
             }
 
@@ -96,7 +96,7 @@ namespace noise {
             ///
             /// The second derivative of a quintic S-curve is zero at @a a = 0.0 and
             /// @a a = 1.0
-            static inline double SCurve5 (double a) {
+            static inline double sCurve5 (double a) {
                 double a3 = a * a * a;
                 double a4 = a3 * a;
                 double a5 = a4 * a;

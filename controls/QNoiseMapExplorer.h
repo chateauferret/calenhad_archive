@@ -10,6 +10,7 @@
 #include "../pipeline/TileProducer.h"
 #include "CalenhadMarbleWidget.h"
 #include "../mapping/CalenhadLayer.h"
+#include "../libnoiseutils/GradientLegend.h"
 #include <marble/MarbleWidget.h>
 #include <QDialog>
 
@@ -27,7 +28,7 @@ protected:
     TileProducer* _producer;
     noise::module::Module* _source = nullptr;
     CalenhadLayer* _layer = nullptr;
-    QColorGradient* _gradient;
+    noise::utils::GradientLegend* _gradient;
 };
 
 #endif //CALENHAD_QNOISEMAPEXPLORER_H

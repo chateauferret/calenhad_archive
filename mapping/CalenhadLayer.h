@@ -14,7 +14,7 @@ class QColorGradient;
 
 namespace noise {
     namespace utils {
-        class Gradient;
+        class GradientLegend;
     }
     namespace module {
         class Module;
@@ -37,11 +37,11 @@ public:
     QStringList renderPosition() const override;
     virtual bool render	(Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString & renderPos, Marble::GeoSceneLayer* layer) override;
     bool render (Marble::GeoPainter* painter, Marble::GeoDataLatLonBox box);
-    void setGradient (QColorGradient* gradient);
+    void setGradient (noise::utils::GradientLegend* gradient);
 protected:
     double _angularResolution;
     noise::module::Module* _source;
-    QColorGradient* _gradient;
+    noise::utils::GradientLegend* _gradient;
     Marble::ViewportParams* _viewport;
 
 

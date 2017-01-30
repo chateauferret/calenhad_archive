@@ -12,8 +12,9 @@ namespace noise {
 
         class GradientLegend : public IntervalLegend {
         public:
-            QColor lookup (const int& value) override;
-
+            GradientLegend();
+            virtual ~GradientLegend();
+            QColor lookup (const double& value) override;
             QColor interpolate (const QColor& c1, const QColor& c2, const double& mix);
         };
     }

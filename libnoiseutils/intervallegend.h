@@ -1,6 +1,6 @@
 #ifndef INTERVALLEGEND_H
 #define INTERVALLEGEND_H
-#include <legend.h>
+
 #include <map>
 #include <algorithm>
 #include <QtGui/QColor>
@@ -14,13 +14,13 @@ namespace noise {
             IntervalLegend ();
             IntervalLegend (const IntervalLegend& other);
             virtual ~IntervalLegend ();
-            virtual QColor lookup (const int& value);
-            void addEntry (const int& value, const QColor& colour);
-            unsigned removeEntries (const int& from, const int& unto);
-
+            virtual QColor lookup (const double& value) override;
+            void addEntry (const double& value, const QColor& colour) override;
+            unsigned removeEntries (const double& from, const double& unto);
+            bool isValid() override;
         protected:
-            std::map<int, QColor> intervals;
+            std::map<double, QColor> intervals;
         };
     } // utils
-} noise
+} // noise
 #endif // INTERVALLEGEND_H

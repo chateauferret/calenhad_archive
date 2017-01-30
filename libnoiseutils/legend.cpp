@@ -4,7 +4,7 @@
 using namespace noise::utils;
 
 Legend::Legend() :
-    noValueColour (QColor (0, 0, 0, 0)) {
+    _defaultColor (QColor (0, 0, 0, 0)) {
 
 }
 
@@ -13,11 +13,11 @@ Legend::~Legend() {
 }
 
 Legend::Legend (const Legend& other) :
-    noValueColour (other.noValueColour) {}
+    _defaultColor (other._defaultColor) {}
 
 
-void Legend::setNoValueColour (const QColor& colour) {
-    noValueColour = colour;
+void Legend::setDefaultColor (const QColor& colour) {
+    _defaultColor = colour;
 }
 
 

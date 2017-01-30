@@ -6,8 +6,11 @@
 #define CALENHAD_RENDERERIMAGE_H
 
 #include <libnoise/exception.h>
+#include <QtGui/QImage>
+#include <memory>
 #include "NoiseContstants.h"
-#include "../libnoiseutils/Color.h"
+#include "legend.h"
+
 namespace noise {
     namespace utils {
 
@@ -109,64 +112,12 @@ namespace noise {
         /// - Pass an Image object to the SetDestImage() method.
         /// - Pass an Image object to the SetBackgroundImage() method (optional)
         /// - Call the Render() method.
-        class RendererImage
-        {
+        class RendererImage {
 
         public:
 
             /// Constructor.
             RendererImage ();
-
-            /// Adds a gradient point to this gradient object.
-            ///
-            /// @param gradientPos The position of this gradient point.
-            /// @param gradientColor The color of this gradient point.
-            ///
-            /// @pre No two gradient points have the same position.
-            ///
-            /// @throw noise::ExceptionInvalidParam See the preconditions.
-            ///
-            /// This object uses a color gradient to calculate the color for each
-            /// pixel in the destination image according to the value from the
-            /// corresponding position in the noise map.
-            ///
-            /// The gradient requires a minimum of two gradient points.
-            ///
-            /// The specified color value passed to this method has an alpha
-            /// channel.  This alpha channel specifies how a pixel in the
-            /// background image (if specified) is blended with the calculated
-            /// color.  If the alpha value is high, this object weighs the blend
-            /// towards the calculated color, and if the alpha value is low, this
-            /// object weighs the blend towards the color from the corresponding
-            /// pixel in the background image.
-            void AddGradientPoint (double gradientPos,
-                                   const Color& gradientColor);
-
-            /// Builds a grayscale gradient.
-            ///
-            /// @post The original gradient is cleared and a grayscale gradient is
-            /// created.
-            ///
-            /// This color gradient contains the following gradient points:
-            /// - -1.0 maps to black
-            /// - 1.0 maps to white
-            void BuildGrayscaleGradient ();
-
-            /// Builds a color gradient suitable for terrain.
-            ///
-            /// @post The original gradient is cleared and a terrain gradient is
-            /// created.
-            ///
-            /// This gradient color at position 0.0 is the "sea level".  Above
-            /// that value, the gradient contains greens, browns, and whites.
-            /// Below that value, the gradient contains various shades of blue.
-            void BuildTerrainGradient ();
-
-            /// Clears the color gradient.
-            ///
-            /// Before calling the Render() method, the application must specify a
-            /// new color gradient with at least two gradient points.
-            void ClearGradient ();
 
             /// Enables or disables the light source.
             ///
@@ -174,9 +125,8 @@ namespace noise {
             ///
             /// If the light source is enabled, this object will interpret the
             /// noise map as a bump map.
-            void EnableLight (bool enable = true)
-            {
-                m_isLightEnabled = enable;
+            void setLightEnabled (bool enable = true) {
+                _isLightEnabled = enable;
             }
 
             /// Enables or disables noise-map wrapping.
@@ -192,9 +142,8 @@ namespace noise {
             ///
             /// Enabling wrapping is useful when creating spherical renderings and
             /// tileable textures.
-            void EnableWrap (bool enable = true)
-            {
-                m_isWrapEnabled = enable;
+            void setWrapEnabled (bool enable = true) {
+                _isWrapEnabled = enable;
             }
 
             /// Returns the azimuth of the light source, in degrees.
@@ -207,25 +156,22 @@ namespace noise {
             /// - 90.0 degrees is north.
             /// - 180.0 degrees is west.
             /// - 270.0 degrees is south.
-            double GetLightAzimuth () const
-            {
-                return m_lightAzimuth;
+            double getLightAzimuth() const {
+                return _lightAzimuth;
             }
 
             /// Returns the brightness of the light source.
             ///
             /// @returns The brightness of the light source.
-            double GetLightBrightness () const
-            {
-                return m_lightBrightness;
+            double getLightBrightness() const {
+                return _lightBrightness;
             }
 
             /// Returns the color of the light source.
             ///
             /// @returns The color of the light source.
-            Color GetLightColor () const
-            {
-                return m_lightColor;
+            QColor getLightColor() const {
+                return _lightColor;
             }
 
             /// Returns the contrast of the light source.
@@ -241,9 +187,8 @@ namespace noise {
             /// map as a height map that has a spatial resolution of @a h meters
             /// and an elevation resolution of 1 meter, a good contrast amount to
             /// use is ( 1.0 / @a h ).
-            double GetLightContrast () const
-            {
-                return m_lightContrast;
+            double getLightContrast() const {
+                return _lightContrast;
             }
 
             /// Returns the elevation of the light source, in degrees.
@@ -253,17 +198,15 @@ namespace noise {
             /// The elevation is the angle above the horizon:
             /// - 0 degrees is on the horizon.
             /// - 90 degrees is straight up.
-            double GetLightElev () const
-            {
-                return m_lightElev;
+            double getLightElev() const {
+                return _lightElev;
             }
 
             /// Returns the intensity of the light source.
             ///
             /// @returns The intensity of the light source.
-            double GetLightIntensity () const
-            {
-                return m_lightIntensity;
+            double getLightIntensity() const {
+                return _lightIntensity;
             }
 
             /// Determines if the light source is enabled.
@@ -271,9 +214,8 @@ namespace noise {
             /// @returns
             /// - @a true if the light source is enabled.
             /// - @a false if the light source is disabled.
-            bool IsLightEnabled () const
-            {
-                return m_isLightEnabled;
+            bool isLightEnabled() const {
+                return _isLightEnabled;
             }
 
             /// Determines if noise-map wrapping is enabled.
@@ -291,9 +233,8 @@ namespace noise {
             ///
             /// Enabling wrapping is useful when creating spherical renderings and
             /// tileable textures
-            bool IsWrapEnabled () const
-            {
-                return m_isWrapEnabled;
+            bool isWrapEnabled() const {
+                return _isWrapEnabled;
             }
 
             /// Renders the destination image using the contents of the source
@@ -313,24 +254,7 @@ namespace noise {
             /// The background image and the destination image can safely refer to
             /// the same image, although in this case, the destination image is
             /// irretrievably blended into the background image.
-            void Render ();
-
-            /// Sets the background image.
-            ///
-            /// @param backgroundImage The background image.
-            ///
-            /// If a background image has been specified, the Render() method
-            /// blends the pixels from the background image onto the corresponding
-            /// pixels in the destination image.  The blending weights are
-            /// determined by the alpha channel in the pixels in the destination
-            /// image.
-            ///
-            /// The destination image must exist throughout the lifetime of this
-            /// object unless another image replaces that image.
-            void SetBackgroundImage (const Image& backgroundImage)
-            {
-                m_pBackgroundImage = &backgroundImage;
-            }
+            void render ();
 
             /// Sets the destination image.
             ///
@@ -341,9 +265,8 @@ namespace noise {
             ///
             /// The destination image must exist throughout the lifetime of this
             /// object unless another image replaces that image.
-            void SetDestImage (Image& destImage)
-            {
-                m_pDestImage = &destImage;
+            void setDestImage (std::shared_ptr<QImage> destImage) {
+                _pDestImage = destImage;
             }
 
             /// Sets the azimuth of the light source, in degrees.
@@ -359,10 +282,9 @@ namespace noise {
             ///
             /// Make sure the light source is enabled via a call to the
             /// EnableLight() method before calling the Render() method.
-            void SetLightAzimuth (double lightAzimuth)
-            {
-                m_lightAzimuth = lightAzimuth;
-                m_recalcLightValues = true;
+            void setLightAzimuth (double lightAzimuth) {
+                _lightAzimuth = lightAzimuth;
+                _recalcLightValues = true;
             }
 
             /// Sets the brightness of the light source.
@@ -371,10 +293,9 @@ namespace noise {
             ///
             /// Make sure the light source is enabled via a call to the
             /// EnableLight() method before calling the Render() method.
-            void SetLightBrightness (double lightBrightness)
-            {
-                m_lightBrightness = lightBrightness;
-                m_recalcLightValues = true;
+            void setLightBrightness (double lightBrightness) {
+                _lightBrightness = lightBrightness;
+                _recalcLightValues = true;
             }
 
             /// Sets the color of the light source.
@@ -383,9 +304,8 @@ namespace noise {
             ///
             /// Make sure the light source is enabled via a call to the
             /// EnableLight() method before calling the Render() method.
-            void SetLightColor (const Color& lightColor)
-            {
-                m_lightColor = lightColor;
+            void setLightColor (const QColor& lightColor) {
+                _lightColor = lightColor;
             }
 
             /// Sets the contrast of the light source.
@@ -408,14 +328,13 @@ namespace noise {
             ///
             /// Make sure the light source is enabled via a call to the
             /// EnableLight() method before calling the Render() method.
-            void SetLightContrast (double lightContrast)
-            {
+            void setLightContrast (double lightContrast) {
                 if (lightContrast <= 0.0) {
                     throw noise::ExceptionInvalidParam ();
                 }
 
-                m_lightContrast = lightContrast;
-                m_recalcLightValues = true;
+                _lightContrast = lightContrast;
+                _recalcLightValues = true;
             }
 
             /// Sets the elevation of the light source, in degrees.
@@ -428,10 +347,9 @@ namespace noise {
             ///
             /// Make sure the light source is enabled via a call to the
             /// EnableLight() method before calling the Render() method.
-            void SetLightElev (double lightElev)
-            {
-                m_lightElev = lightElev;
-                m_recalcLightValues = true;
+            void setLightElev (double lightElev) {
+                _lightElev = lightElev;
+                _recalcLightValues = true;
             }
 
             /// Returns the intensity of the light source.
@@ -442,14 +360,13 @@ namespace noise {
             ///
             /// Make sure the light source is enabled via a call to the
             /// EnableLight() method before calling the Render() method.
-            void SetLightIntensity (double lightIntensity)
-            {
+            void setLightIntensity (double lightIntensity) {
                 if (lightIntensity < 0.0) {
                     throw noise::ExceptionInvalidParam ();
                 }
 
-                m_lightIntensity = lightIntensity;
-                m_recalcLightValues = true;
+                _lightIntensity = lightIntensity;
+                _recalcLightValues = true;
             }
 
             /// Sets the source noise map.
@@ -458,10 +375,11 @@ namespace noise {
             ///
             /// The destination image must exist throughout the lifetime of this
             /// object unless another image replaces that image.
-            void SetSourceNoiseMap (const NoiseMap& sourceNoiseMap)
-            {
-                m_pSourceNoiseMap = &sourceNoiseMap;
+            void setSourceNoiseMap (const NoiseMap& sourceNoiseMap) {
+                _pSourceNoiseMap = &sourceNoiseMap;
             }
+
+            void setLegend (Legend* legend);
 
         private:
 
@@ -474,8 +392,7 @@ namespace noise {
             /// @param lightValue The intensity of the light at that position.
             ///
             /// @returns The destination color.
-            Color CalcDestColor (const Color& sourceColor,
-                                 const Color& backgroundColor, double lightValue) const;
+            QColor findDestinationColor (const QColor& sourceColor, double lightValue) const;
 
             /// Calculates the intensity of the light given some elevation values.
             ///
@@ -489,50 +406,46 @@ namespace noise {
             /// @param up Elevation of the point directly above the center point.
             ///
             /// These values come directly from the noise map.
-            double CalcLightIntensity (double center, double left, double right,
-                                       double down, double up) const;
+            double findLightIntensity (double center, double left, double right, double down, double up) const;
 
             /// The cosine of the azimuth of the light source.
-            mutable double m_cosAzimuth;
+            mutable double _cosAzimuth;
 
             /// The cosine of the elevation of the light source.
-            mutable double m_cosElev;
+            mutable double _cosElev;
 
             /// The color gradient used to specify the image colors.
-            QColorGradient* m_gradient;
+            QColorGradient* _gradient;
 
             /// A flag specifying whether lighting is enabled.
-            bool m_isLightEnabled;
+            bool _isLightEnabled;
 
             /// A flag specifying whether wrapping is enabled.
-            bool m_isWrapEnabled;
+            bool _isWrapEnabled;
 
             /// The azimuth of the light source, in degrees.
-            double m_lightAzimuth;
+            double _lightAzimuth;
 
             /// The brightness of the light source.
-            double m_lightBrightness;
+            double _lightBrightness;
 
             /// The color of the light source.
-            Color m_lightColor;
+            QColor _lightColor;
 
             /// The contrast between areas in light and areas in shadow.
-            double m_lightContrast;
+            double _lightContrast;
 
             /// The elevation of the light source, in degrees.
-            double m_lightElev;
+            double _lightElev;
 
             /// The intensity of the light source.
-            double m_lightIntensity;
-
-            /// A pointer to the background image.
-            const Image* m_pBackgroundImage;
+            double _lightIntensity;
 
             /// A pointer to the destination image.
-            Image* m_pDestImage;
+            std::shared_ptr<QImage> _pDestImage;
 
             /// A pointer to the source noise map.
-            const NoiseMap* m_pSourceNoiseMap;
+            const NoiseMap* _pSourceNoiseMap;
 
             /// Used by the CalcLightIntensity() method to recalculate the light
             /// values only if the light parameters change.
@@ -540,13 +453,15 @@ namespace noise {
             /// When the light parameters change, this value is set to True.  When
             /// the CalcLightIntensity() method is called, this value is set to
             /// false.
-            mutable bool m_recalcLightValues;
+            mutable bool _recalcLightValues;
 
             /// The sine of the azimuth of the light source.
-            mutable double m_sinAzimuth;
+            mutable double _sinAzimuth;
 
             /// The sine of the elevation of the light source.
-            mutable double m_sinElev;
+            mutable double _sinElev;
+
+            mutable Legend* _legend;
 
         };
 

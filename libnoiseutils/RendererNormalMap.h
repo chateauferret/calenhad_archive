@@ -6,7 +6,7 @@
 #define CALENHAD_RENDERERNORMALMAP_H
 
 #include "NoiseContstants.h"
-
+#include <QImage>
 
 namespace noise {
     namespace utils {
@@ -37,12 +37,9 @@ namespace noise {
         /// - Pass an Image object to the SetDestImage() method.
         /// - Call the Render() method.
 
-        class Image;
         class NoiseMap;
-        class Color;
 
-        class RendererNormalMap
-        {
+        class RendererNormalMap {
 
         public:
 
@@ -63,8 +60,7 @@ namespace noise {
             ///
             /// Enabling wrapping is useful when creating spherical and tileable
             /// normal maps.
-            void EnableWrap (bool enable = true)
-            {
+            void EnableWrap (bool enable = true) {
                 m_isWrapEnabled = enable;
             }
 
@@ -79,8 +75,7 @@ namespace noise {
             ///
             /// The spatial resolution and elevation resolution are determined by
             /// the application.
-            double GetBumpHeight () const
-            {
+            double GetBumpHeight () const {
                 return m_bumpHeight;
             }
 
@@ -100,8 +95,7 @@ namespace noise {
             ///
             /// Enabling wrapping is useful when creating spherical and tileable
             /// normal maps.
-            bool IsWrapEnabled () const
-            {
+            bool IsWrapEnabled () const {
                 return m_isWrapEnabled;
             }
 
@@ -126,8 +120,7 @@ namespace noise {
             ///
             /// The spatial resolution and elevation resolution are determined by
             /// the application.
-            void SetBumpHeight (double bumpHeight)
-            {
+            void SetBumpHeight (double bumpHeight) {
                 m_bumpHeight = bumpHeight;
             }
 
@@ -140,8 +133,7 @@ namespace noise {
             ///
             /// The destination image must exist throughout the lifetime of this
             /// object unless another image replaces that image.
-            void SetDestImage (Image& destImage)
-            {
+            void SetDestImage (QImage& destImage) {
                 m_pDestImage = &destImage;
             }
 
@@ -151,8 +143,7 @@ namespace noise {
             ///
             /// The destination image must exist throughout the lifetime of this
             /// object unless another image replaces that image.
-            void SetSourceNoiseMap (const NoiseMap& sourceNoiseMap)
-            {
+            void SetSourceNoiseMap (const NoiseMap& sourceNoiseMap) {
                 m_pSourceNoiseMap = &sourceNoiseMap;
             }
 
@@ -179,8 +170,7 @@ namespace noise {
             ///
             /// The spatial resolution and elevation resolution are determined by
             /// the application.
-            Color CalcNormalColor (double nc, double nr, double nu,
-                                   double bumpHeight) const;
+            QColor CalcNormalColor (double nc, double nr, double nu, double bumpHeight) const;
 
             /// The bump height for the normal map.
             double m_bumpHeight;
@@ -189,7 +179,7 @@ namespace noise {
             bool m_isWrapEnabled;
 
             /// A pointer to the destination image.
-            Image* m_pDestImage;
+            QImage* m_pDestImage;
 
             /// A pointer to the source noise map.
             const NoiseMap* m_pSourceNoiseMap;

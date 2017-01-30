@@ -56,7 +56,7 @@ protected:
     void setStatus (RenderJobStatus s);
     int _percentComplete;
     static bool declared ;
-    noise::utils::Image fetchImage (int height, int width);
+    QImage fetchImage (int height, int width);
 };
 
 #endif //CALENHAD_RENDERJOB_H

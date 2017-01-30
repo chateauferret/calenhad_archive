@@ -13,14 +13,13 @@ namespace noise {
             Legend ();
             virtual ~Legend ();
             Legend (const Legend& other);
-            virtual QColor lookup (const int& value) = 0;
-            void setNoValueColour (const QColor& color);
-            virtual void addEntry (const int& value, const QColor& colour) = 0;
-            virtual unsigned removeEntries (const int& from, const int& unto) = 0;
-
+            virtual QColor lookup (const double& value) = 0;
+            void setDefaultColor (const QColor& color);
+            virtual void addEntry (const double& value, const QColor& colour) = 0;
+            virtual unsigned removeEntries (const double& from, const double& unto) = 0;
+            virtual bool isValid() = 0;
         protected:
-            QColor noValueColour = QColor (0, 0, 0, 0);
-            int lowerBound = INT_MIN, upperBound = INT_MAX;
+            QColor _defaultColor = QColor (0, 0, 0, 0);
         };
 
         class IllegalLegendAccessException : std::runtime_error {

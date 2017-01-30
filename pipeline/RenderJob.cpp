@@ -8,10 +8,9 @@
 #include "../libnoiseutils/NoiseContstants.h"
 #include "noise/module/modulebase.h"
 #include "../libnoiseutils/NoiseMapBuilderSphere.h"
-#include "../libnoiseutils/Color.h"
-#include "../libnoiseutils/Image.h"
 #include "../libnoiseutils/NoiseMap.h"
 #include "../libnoiseutils/RendererImage.h"
+#include "../libnoiseutils/GradientLegend.h"
 
 using namespace noise::utils;
 using namespace geoutils;
@@ -114,57 +113,27 @@ void RenderJob::render (osg::Image* image) {
 }
 */
 void RenderJob::render() {
-    Image rendered = fetchImage (_image -> height (), _image -> width());
-    int r, g, b, a;
-    noise::utils::Color c;
-    // Build and write each horizontal line to the QImage.
 
-    for (int y = 0; y < rendered.GetHeight(); y++) {
-        if (status() == RenderJobStatus::Underway) {
-            for (int x = 0; x < rendered.GetWidth (); x++) {
-                c = rendered.GetValue (x, y);
-                r = c.red;
-                g = c.green;
-                b = c.blue;
-                a = c.alpha;
-                if (_image -> height() >= y && _image -> width() >= x) {
-                    QColor color = QColor (r, g, b, a);
-                    _image -> setPixelColor (x, y, color);
-                }
-            }
-        }
-    }
-}
-
-Image RenderJob::fetchImage (int height, int width) {
     setStatus (RenderJobStatus::Underway);
     NoiseMap heightMap;
     NoiseMapBuilderSphere* heightMapBuilder = new NoiseMapBuilderSphere();
 
     heightMapBuilder -> SetSourceModule (*_source);
     heightMapBuilder -> SetDestNoiseMap (heightMap);
-    heightMapBuilder -> SetDestSize (width, height);
+    heightMapBuilder -> SetDestSize (_image -> width(), _image -> height());
     heightMapBuilder -> SetBounds (_bounds.sw ().lonDegrees, _bounds.ne ().lonDegrees, _bounds.sw ().latDegrees, _bounds.ne ().latDegrees);
     heightMapBuilder -> Build ();
 
     RendererImage renderer;
-    Image rendered;
-    renderer.SetSourceNoiseMap (heightMap);
-    renderer.SetDestImage (rendered);
-    renderer.ClearGradient ();
-    renderer.AddGradientPoint (-1.0000, Color (0, 0, 128, 255)); // deeps
-    renderer.AddGradientPoint (-0.2500, Color (0, 0, 255, 255)); // shallow
-    renderer.AddGradientPoint (0.0000, Color (0, 128, 255, 255)); // shore
-    renderer.AddGradientPoint (0.0625, Color (240, 240, 64, 255)); // sand
-    renderer.AddGradientPoint (0.1250, Color (32, 160, 0, 255)); // grass
-    renderer.AddGradientPoint (0.3750, Color (224, 224, 0, 255)); // dirt
-    renderer.AddGradientPoint (0.7500, Color (128, 128, 128, 255)); // rock
-    renderer.AddGradientPoint (1.0000, Color (255, 255, 255, 255)); // snow
-    renderer.EnableLight ();
-    renderer.SetLightContrast (3.0);
-    renderer.SetLightBrightness (2.0);
-    renderer.Render ();
-    return rendered;
+
+    renderer.setSourceNoiseMap (heightMap);
+    renderer.setDestImage (_image);
+    GradientLegend legend = GradientLegend();
+    renderer.setLegend (&legend);
+    renderer.setLightEnabled (true);
+    renderer.setLightContrast (3.0);
+    renderer.setLightBrightness (2.0);
+    renderer.render ();
 }
 
 void RenderJob::setStatus (RenderJobStatus s) {

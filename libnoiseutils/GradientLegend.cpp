@@ -7,8 +7,16 @@
 
 using namespace noise::utils;
 
-QColor GradientLegend::lookup (const int& value) {
-    std::map<int, QColor>::iterator i = std::find_if_not (intervals.begin(), intervals.end(), [&value] (std::pair<int, QColor> entry) -> bool { return entry.first <= value; } );
+GradientLegend::GradientLegend() : IntervalLegend() {
+
+}
+
+GradientLegend::~GradientLegend() {
+
+}
+
+QColor GradientLegend::lookup (const double& value) {
+    std::map<double, QColor>::iterator i = std::find_if_not (intervals.begin(), intervals.end(), [&value] (std::pair<double, QColor> entry) -> bool { return entry.first <= value; } );
     QColor c2 = i -> second;
     double p2 = i -> first;
     QColor c1 = (--i) -> second;
