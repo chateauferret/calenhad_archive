@@ -10,13 +10,15 @@
 #include "../libnoiseutils/NoiseContstants.h"
 #include <noise/module/module.h>
 #include "../libnoiseutils/GradientLegend.h"
-
+#include <libnoise/model/sphere.h>
+#include <ctime>
 
 using namespace geoutils;
 using namespace Marble;
 using namespace noise::utils;
+using namespace noise::model;
 
-CalenhadLayer::CalenhadLayer (noise::module::Module* source) : _source (source), _gradient (new GradientLegend()) {
+CalenhadLayer::CalenhadLayer (noise::module::Module* source) : _source (source), _gradient (new GradientLegend()), _sphere (new Sphere (*source)) {
 
 }
 
@@ -41,34 +43,35 @@ bool CalenhadLayer::render (GeoPainter* painter, GeoDataLatLonBox box) {
                render (painter, GeoDataLatLonBox (box.north(), box.south(), (qreal) -M_PI, box.east()));
     }
 
-    double noise;
-    Geolocation geolocation;
-    Cartesian cartesian;
-    QColor color;
-    QColor qc;
-    int r, g, b;
+    double noise, latd, lond;
 
+    QColor color;
     // see if circumpolar boxes work - if not set north to M_PI / 2 if north pole included, south to -M_PI / 2 if south pole included
-    for (double lat = box.west(); lat <= box.east(); lat += _angularResolution) {
-        for (double lon = box.south (); lon <= box.north (); lon += _angularResolution) {
-            if (_viewport->screenCoordinates (lat, lon, x, y)) {
-                geolocation = Geolocation (lat, lon, Geolocation::RADS);
-                cartesian = Math::toCartesian (geolocation);
-                noise = _source -> GetValue (cartesian.x, cartesian.y, cartesian.z);
+    // to do - put this in a separate thread
+
+    std::time_t start = std::clock();
+    for (double lon = box.west(); lon <= box.east(); lon += _angularResolution) {
+        for (double lat = box.south (); lat <= box.north (); lat += _angularResolution) {
+            if (_viewport -> screenCoordinates (lon, lat, x, y)) {
+                latd = lat * -180 / M_PI;
+                lond = lon * 180 / M_PI;
+                noise = _sphere -> GetValue (latd, lond);
                 color = _gradient -> lookup (noise);
                 // to do - _gradient colour mapping and normal
-                qc = QColor (color.red(), color.green(), color.blue());
-                painter -> setPen (qc);
-                painter -> drawPoint ((GeoDataCoordinates ((qreal) geolocation.latitude, (qreal) geolocation.longitude)));
+
+                painter -> setPen (color);
+                painter -> drawPoint (GeoDataCoordinates ((qreal) lon, (qreal) lat));
             }
         }
     }
+    std::time_t end = std::clock();
+    std::cout << "Rendered in " << (end - start) / (double) (CLOCKS_PER_SEC / 1000) << " ms\n";
 }
 
 
 bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
     GeoDataLatLonAltBox box = viewport -> viewLatLonAltBox();
-    _angularResolution = viewport -> angularResolution();
+    _angularResolution = viewport -> angularResolution() / 4;
     _viewport = viewport;
-    return render (painter, box);
+      return render (painter, box);
 }

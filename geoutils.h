@@ -18,6 +18,7 @@
 #include <GeographicLib/Geocentric.hpp>
 #include <QtCore/QString>
 namespace geoutils {
+
     class IllegalGeoCoordinatesException : public std::runtime_error {
     public:
         IllegalGeoCoordinatesException (const std::string& msg) : runtime_error (msg) {}
@@ -77,7 +78,7 @@ namespace geoutils {
         static void normalise (Cartesian& c);
         static double distSquared (const Cartesian& a, const Cartesian& b);
         static bool isNearer (const Cartesian& a, const Cartesian& b, const Cartesian& c);
-        //    static double distance (Geolocation a, Geolocation b);
+
 
     };
 } // namespace Geoutils

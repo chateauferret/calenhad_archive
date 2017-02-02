@@ -19,6 +19,9 @@ namespace noise {
     namespace module {
         class Module;
     }
+    namespace model {
+        class Sphere;
+    }
 }
 
 namespace Marble {
@@ -43,7 +46,7 @@ protected:
     noise::module::Module* _source;
     noise::utils::GradientLegend* _gradient;
     Marble::ViewportParams* _viewport;
-
+    noise::model::Sphere* _sphere;
 
 };
 

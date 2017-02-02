@@ -1,0 +1,356 @@
+// This file is part of Eigen, a lightweight C++ template library
+// for linear algebra.
+//
+// Copyright (C) 2008 Gael Guennebaud <gael.guennebaud@inria.fr>
+//
+// This Source Code Form is subject to the terms of the Mozilla
+// Public License v. 2.0. If a copy of the MPL was not distributed
+// with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#include <stack>
+
+#include "icosphere.h"
+#include "vertex.h"
+#include "triangle.h"
+
+using namespace geoutils;
+using namespace icosphere;
+using namespace noise::utils;
+
+
+Icosphere::Icosphere (const unsigned int& depth, GeoQuad* bounds) : Model (depth) {
+
+    _bounds = bounds;
+
+    //--------------------------------------------------------------------------------
+    // icosahedron data
+    //--------------------------------------------------------------------------------
+
+    static constexpr double vdata[12][3] = {
+       {-X, 0.0, Z}, {X, 0.0, Z}, {-X, 0.0, -Z}, {X, 0.0, -Z},
+       {0.0, Z, X}, {0.0, Z, -X}, {0.0, -Z, X}, {0.0, -Z, -X},
+       {Z, X, 0.0}, {-Z, X, 0.0}, {Z, -X, 0.0}, {-Z, -X, 0.0}
+    };
+
+    static constexpr unsigned tindices[20][3] = {
+       {0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
+       {8,10,1}, {8,3,10}, {5,3,8}, {5,2,3}, {2,7,3},
+       {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
+       {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11} };
+    //--------------------------------------------------------------------------------
+
+    std::cout << "Building icosphere to level " << (int) _levels << "\n";
+    _gc = new GeographicLib::Geocentric (1.0, 0.0); // sphere
+    _gd = new GeographicLib::Geodesic (1.0, 0.0);
+    _rhumb = new GeographicLib::Rhumb (1.0, 0.0);
+
+
+    // init with an icosahedron
+     for (int i = 0; i < 12; i++) {
+        Cartesian c = Cartesian (vdata [i][0], vdata[i][1], vdata [i][2]);
+        _vertices.push_back (new Vertex (i, c, 0, _rhumb));
+    }
+    _lastVisited = _vertices [0];
+    _indices.push_back (new std::vector<unsigned>);
+    std::vector<unsigned>& indices = *_indices.back();
+    for (int i = 0; i < 20; i++) {
+        for (int k = 0; k < 3; k++) {
+            indices.push_back (tindices[i][k]);
+        }
+    }
+
+    for (int i = 0; i < 20; i++) {
+        int j = i * 3;
+        makeNeighbours (indices [j], indices [j + 1]);
+        makeNeighbours (indices [j], indices [j + 2]);
+        makeNeighbours (indices [j + 1], indices [j + 2]);
+        addTriangle (indices [j], indices [j + 1], indices [j + 2], 0, 0);
+    }
+    
+    _listIds.push_back(0);
+    while(_indices.size()<_levels) {
+        subdivide (_indices.size());
+    }
+}
+
+Icosphere::~Icosphere() {
+    delete _gc;
+    delete _gd;
+    delete _rhumb;
+    std::for_each (_vertices.begin(), _vertices.end(), [] (Vertex* p) { delete p; });
+    std::for_each (_triangles.begin(), _triangles.end(), [] (std::pair<uint128_t, Triangle*> t) { delete t.second; });
+}
+
+const std::vector<unsigned>& Icosphere::indices (const unsigned int& level) {
+    while (level >= _indices.size()) {
+        const_cast<Icosphere*>(this) -> subdivide (_indices.size());
+    }
+  return *_indices [level];
+}
+
+void Icosphere::subdivide (const unsigned int& level) {
+    int count = 0;
+    typedef unsigned long long Key;
+    std::map<Key, unsigned> edgeMap;
+    const std::vector<unsigned>& indices = *_indices.back();
+    _indices.push_back (new std::vector<unsigned>);
+    std::vector<unsigned>& refinedIndices = *_indices.back();
+    unsigned end = indices.size();
+    int temp;
+    for (unsigned i = 0; i < end; i += 3) {
+        unsigned ids0 [3];  // indices of outer vertices
+        unsigned ids1 [3];  // indices of edge vertices
+        for (int k = 0; k < 3; ++k) {
+            int k1 = (k + 1) % 3;
+            int e0 = indices [i + k];
+            int e1 = indices [i + k1];
+            ids0 [k] = e0;
+            if (e1 > e0) {
+                temp = e0; e0 = e1; e1 = temp;
+            }
+            Key edgeKey = Key (e0) | (Key (e1) << 32);
+            std::map<Key,unsigned>::iterator it = edgeMap.find(edgeKey);
+            if (it == edgeMap.end()) {
+                ids1 [k] = _vertices.size();
+                edgeMap [edgeKey] = ids1 [k];
+                Vertex* mid = _vertices [e0];
+                Cartesian c = (mid -> getCartesian()) + (_vertices [e1] -> getCartesian());
+                _vertex = new Vertex (ids1 [k], c, level, _rhumb);
+                _vertices.push_back (_vertex);
+            } else {
+                ids1 [k] = it -> second;
+            }
+            _vertex = _vertices [ids1 [k]];
+        }
+        Triangle* parent = _triangles.find (triangleKey (ids0 [0], ids0 [1], ids0 [2])) -> second;
+        makeTriangle (refinedIndices, ids0 [0], ids1 [0], ids1 [2], level, parent);
+        makeTriangle (refinedIndices, ids0 [1], ids1 [1], ids1 [0], level, parent);
+        makeTriangle (refinedIndices, ids0 [2], ids1 [2], ids1 [1], level, parent);
+        makeTriangle (refinedIndices, ids1 [0], ids1 [1], ids1 [2], level, parent);
+        count++;
+    }
+    _listIds.push_back (0);
+}
+
+void Icosphere::makeTriangle (std::vector<unsigned>& refinedIndices, const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {
+    refinedIndices.push_back (a);
+    refinedIndices.push_back (b);
+    refinedIndices.push_back (c);
+    makeNeighbours (a, b);
+    makeNeighbours (b, c);
+    makeNeighbours (a, c);
+
+    addTriangle (a, b, c, level, parent);
+}
+
+void Icosphere::addTriangle (const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {
+
+    // Don't add the triangle if none of it is in bounds
+    if (_bounds && (_bounds -> contains (_vertices [a] -> getGeolocation()) || _bounds -> contains (_vertices [b] -> getGeolocation()) || _bounds -> contains (_vertices [c] -> getGeolocation()))) {
+
+        uint128_t tkey = triangleKey (a, b, c);
+        Triangle* t = new Triangle (_vertices [a], _vertices [b], _vertices [c], level);
+        if (level > 0) {
+            t -> setParent (parent);
+            parent -> addChild (t);
+        }
+        _triangles.insert (std::make_pair (tkey, t));
+
+        _vertices [a] -> addTriangle (t);
+        _vertices [b] -> addTriangle (t);
+        _vertices [c] -> addTriangle (t);
+    }
+}
+
+uint128_t Icosphere::triangleKey (unsigned a, unsigned b, unsigned c) {
+    unsigned temp;
+    if (a > b) { temp = a; a = b; b = temp; }
+    if (a > c) { temp = a; a = c; c = temp; }
+    if (b > c) { temp = b; b = c; c = temp; }
+    uint128_t tkey = ((uint128_t) (a)) << 64 | ((uint128_t) (b)) << 32 | ((uint128_t) (c));
+
+    return tkey;
+}
+
+void Icosphere::makeNeighbours (const unsigned& p, const unsigned& q) {
+    _vertices [p] -> addNeighbour (_vertices [q]);
+    _vertices [q] -> addNeighbour (_vertices [p]);
+}
+
+Vertex* Icosphere::operator [] (const unsigned& id) {
+    return _vertices [id];
+}
+
+const std::vector<Vertex*> Icosphere::vertices() { return _vertices; }
+unsigned Icosphere::vertexCount() { return _vertices.size(); }
+
+Vertex* Icosphere::nearest (const Geolocation& target, const unsigned int& depth) const{
+    double d, dist;
+    Vertex* pV;
+    _lastVisited = _vertices [0];
+    for (int i = 1; i < 12; i++) {
+        pV = _vertices [i];
+        d = distance (pV -> getGeolocation(), target);
+        if (i == 1 || d < dist) {
+           _lastVisited = pV;
+           dist = d;
+        }
+    }
+
+    // walk over the Delaunay triangulation until a point is reached that is nearer the key than any connected point
+    return walkTowards (target, depth);
+}
+
+void Icosphere::visit (Vertex* pV) {
+    _lastVisited = pV;
+}
+
+Vertex* Icosphere::walkTowards (const Geolocation& target, const unsigned int& depth) const {
+    return walkTowards (Math::toCartesian (target), depth);
+}
+
+Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& depth) const {
+  if (depth == 0 || depth > _levels - 1) { return walkTowards (target, _levels - 1); }
+  double dist = Math::distSquared (_lastVisited -> getCartesian(), target);
+  std::pair <std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> n = _lastVisited -> getNeighbours();
+  std::set<Vertex*>::iterator i  = n.first;
+  Vertex* next;
+
+  bool found = false;
+  while (i != n.second) {
+      if ((*i) -> getLevel() <= depth) {
+          double d = Math::distSquared ((*i) -> getCartesian(), target);
+          if (d < dist && (*i) -> getLevel() >= (_lastVisited -> getLevel())) {
+              next = *i;
+              dist = d;
+              found = true;
+            }
+        }
+      i++;
+    }
+
+  if (found) {
+      _lastVisited = next;
+      return walkTowards (target, depth);
+    } else {
+      return _lastVisited;
+    }
+}
+
+
+int Icosphere::getDatum (const Geolocation& g, const std::string& key) {
+    std::map<std::string, Dataset>::iterator i = _datasets.find (key);
+    if (i != _datasets.end()) {
+        Dataset dataset = i -> second;
+        Vertex* v = walkTowards (Math::toCartesian (g), dataset.getDepth());
+        return v -> getDatum (key);
+    } else {
+        throw DatasetNotFoundException (key);
+    }
+}
+
+void Icosphere::setDatum (const Geolocation& g, const std::string& key, int datum) {
+    std::map<std::string, Dataset>::iterator i = _datasets.find (key);
+    if (i != _datasets.end()) {
+        Dataset dataset = i -> second;
+        Vertex* v = walkTowards (Math::toCartesian (g), dataset.getDepth());
+        v -> setDatum (key, datum);
+    } else {
+        throw DatasetNotFoundException (key);
+    }
+}
+
+
+// for now, images can't cross the dateline - this is OK in a tiling arrangement
+bool Icosphere::getImage (QImage* image, const GeoQuad& bounds, const std::string& key) {
+    std::map<std::string, Dataset>::iterator item = _datasets.find (key);
+    std::cout << "Looking for dataset " << key << "\n";
+    if (item != _datasets.end()) {
+        Dataset dataset = item -> second;
+        Legend* legend = dataset.getLegend();
+        for (int i = 0; i < image -> width(); i++) {
+            double lon = bounds.se().longitude + (bounds.nw().longitude - bounds.se().longitude) / image -> height() * i;
+            if (lon < -HALF_PI) { lon += HALF_PI; }
+            if (lon > HALF_PI) { lon -= HALF_PI; }
+            for (int j = 0; j < image -> height(); j++) {
+                double lat = bounds.nw().latitude + (bounds.se().latitude - bounds.nw().latitude) / image -> width() * j;
+                if (lat < -PI) { lat += PI; }
+                if (lat > PI) { lat -= PI; }
+                Vertex* v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Geolocation::RADS)));
+                image -> setPixel (i, j, legend -> lookup (v -> getDatum (key)).rgb());
+            }
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/*
+// this is the version for OSGEarth
+// for now, images can't cross the dateline - this is OK in a tiling arrangement
+// data needs to have allocated size * size * 3 elements or else this will throw a segmentation fault
+bool Icosphere::getImage (unsigned char* data, const GeoQuad &bounds, const std::string& key, const unsigned& size) const {
+    std::map<std::string, Dataset>::const_iterator item = _datasets.find (key);
+    unsigned index = 0;
+    QColor colour;
+    if (item != _datasets.end()) {
+        double lonstep = (bounds._nw.longitude - bounds._se.longitude) / size;
+        double latstep = (bounds._se.latitude - bounds._nw.latitude) / size;
+        double lon = bounds._se.longitude;
+        double lat = bounds._nw.latitude;
+        Vertex* v;
+        Dataset dataset = item -> second;
+        Legend* legend = dataset.getLegend();
+        for (int i = 0; i < size; i++) {
+            if (lon < -HALF_PI) { lon += HALF_PI; }
+            if (lon > HALF_PI) { lon -= HALF_PI; }
+            for (int j = 0; j < size; j++) {
+                if (lat < -PI) { lat += PI; }
+                if (lat > PI) { lat -= PI; }
+                v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Geolocation::RADS)));
+                colour = legend -> lookup (v -> getDatum (key));
+                data [index++] = colour.red();
+                data [index++] = colour.green();
+                data [index++] = colour.blue();
+                lat += latstep;
+            }
+            lon += lonstep;
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+*/
+
+std::set<Vertex*>* Icosphere::getVertices (const GeoQuad &bounds, const unsigned& depth) {
+  std::set<Vertex*>* result = new std::set<Vertex*>();
+  std::stack<Vertex*>* stack = new std::stack<Vertex*>();
+  Vertex* start = nearest (bounds.centre(), depth);
+  stack -> push (start);
+  while (! (stack -> empty())) {
+      start = stack -> top();
+      stack -> pop();
+      if (bounds.contains (start -> getGeolocation()) && start -> getLevel() <= depth) {
+          std::pair<std::set<Vertex*>::iterator, bool> inserted = result -> insert (start);
+          if (inserted.second) {
+              std::pair<std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> neighbours = start -> getNeighbours();
+              if (neighbours.first != neighbours.second) {
+                  for (std::set<Vertex*>::iterator i = neighbours.first; i != neighbours.second; i++) {
+                      stack -> push (*i);
+                    }
+                }
+            }
+        }
+    }
+  delete stack;
+  return result;
+}
+
+std::string Icosphere::getType() {
+  return "Icosphere";
+}
+
+
+

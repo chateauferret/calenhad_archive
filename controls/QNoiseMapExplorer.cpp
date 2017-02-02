@@ -18,15 +18,14 @@ using namespace noise::utils;
 QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, const QWidget* parent) : QDialog(), _gradient (new GradientLegend()) {
 
     _mapWidget = new CalenhadMarbleWidget (this);
-    //_mapWidget->setProjection(Marble::Mercator);
-    _mapWidget -> setMapThemeId("/home/martin/.config/calenhad/globe.dgml");
 
-    Marble::MarbleModel* model = _mapWidget -> model();
+    std::cout << _mapWidget -> mapThemeId ().toStdString () << "\n";
     _mapWidget -> setWindowTitle (title);
      QVBoxLayout* layout = new QVBoxLayout();
      layout -> addWidget (_mapWidget);
      setLayout (layout);
-
+    _mapWidget -> setZoom (1000);
+    setGeometry (200, 200, 640, 480);
 }
 
 QNoiseMapExplorer::~QNoiseMapExplorer () {

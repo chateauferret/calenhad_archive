@@ -1,11 +1,18 @@
 cmake_minimum_required(VERSION 3.6)
-project(calenhad)
-include(CMakeFindDependencyMacro)
+project (calenhad)
+include (CMakeFindDependencyMacro)
+
+include_directories(
+        ${LIBNOISE_LIBRARIES_INCLUDE_DIRS}
+        ${GeographicLib_INCLUDE_DIRS}
+        ${QtWebApp_INCLUDE_DIRS}
+)
+
+add_subdirectory (test)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_AUTOMOC ON)
-set(OSG_DIR "/usr/local/lib64")
 set(SOURCE_FILES
-        main.cpp
         preferences.h
         preferences.cpp
         geoutils.h
@@ -121,10 +128,19 @@ set(SOURCE_FILES
         libnoiseutils/intervallegend.h
         libnoiseutils/intervallegend.cpp
         libnoiseutils/GradientLegend.cpp
-        libnoiseutils/GradientLegend.h)
+        libnoiseutils/GradientLegend.h
+        icosphere/model.h
+        icosphere/model.cpp
+        icosphere/dataset.h
+        icosphere/dataset.cpp
+        icosphere/vertex.h
+        icosphere/vertex.cpp
+        icosphere/triangle.h
+        icosphere/triangle.cpp
+        icosphere/icosphere.h
+        icosphere/icosphere.cpp icosphere/icosphereutils.h)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
-add_executable(calenhad ${SOURCE_FILES})
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -132,31 +148,17 @@ find_package(Qt5Gui REQUIRED)
 find_package(Qt5OpenGL)
 find_package(LibProj4 REQUIRED)
 find_package(LibNoise REQUIRED)
-#find_package (OpenThreads REQUIRED)
 find_package(GeographicLib 1.34 REQUIRED)
-#find_package (OpenSceneGraph COMPONENTS osg osgUtil osgGA osgDB osgTerrain osgViewer osgText osgWidget osgManipulator osgShadow REQUIRED)
-#find_package (OsgEarth REQUIRED)
 find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
-add_definitions(${GeographicLib_DEFINITIONS})
-qt5_use_modules(calenhad Gui Widgets OpenGL)
+add_library (core ${SOURCE_FILES})
+add_executable (calenhad main.cpp ${SOURCE_FILES})
 
-#set (OSG_LIBRARIES
-#    libosg.so libosgUtil.so  libosgGA.so libosgDB.so libosgUI.so libosgTerrain.so libosgViewer.so libosgText.so libosgWidget.so libosgManipulator.so libosgShadow.so)
+add_definitions (${GeographicLib_DEFINITIONS})
+#qt5_use_modules (calenhad Gui Widgets OpenGL)
 
-#set (OSGEARTH_LIBRARIES libosgEarthd.so
-#    libosgEarthUtild.so libosgEarthQtd.so libosgEarthUtild.so libosgEarthAnnotationd.so libosgEarthFeaturesd.so libosgEarthSymbologyd.so )
 
-include_directories(
-        ${LIBNOISE_LIBRARIES_INCLUDE_DIRS}
-        #${OPENTHREADS_INCLUDE_DIRS}
-        ${GeographicLib_INCLUDE_DIRS}
-        ${QtWebApp_INCLUDE_DIRS}
-        #${OPENSCENEGRAPH_INCLUDE_DIR} ${OSGEARTH_INCLUDE_DIRS}
-)
-target_link_libraries(calenhad Marble
-        #${OSG_LIBRARIES}
-        #osgEarthQt
-        #${OPENTHREADS_LIBRARIES} ${OSGEARTH_LIBRARIES}
-        ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES})
+
+target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES})
+target_link_libraries (calenhad core)

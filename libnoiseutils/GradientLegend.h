@@ -15,7 +15,10 @@ namespace noise {
             GradientLegend();
             virtual ~GradientLegend();
             QColor lookup (const double& value) override;
-            QColor interpolate (const QColor& c1, const QColor& c2, const double& mix);
+
+            QColor interpolateColors (std::map<double, QColor>::iterator lower, std::map<double, QColor>::iterator higher, const double& value);
+
+            double interpolateValues (const double& p1, const double& v1, const double& p2, const double& v2, const double& value);
         };
     }
 }

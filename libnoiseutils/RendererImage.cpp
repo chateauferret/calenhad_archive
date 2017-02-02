@@ -95,7 +95,7 @@ void RendererImage::render () {
          || _pDestImage == nullptr
          || _pSourceNoiseMap -> GetWidth  () <= 0
          || _pSourceNoiseMap -> GetHeight () <= 0
-         || _legend -> isValid()) {
+         || ! (_legend -> isValid())) {
         throw noise::ExceptionInvalidParam ();
     }
 
