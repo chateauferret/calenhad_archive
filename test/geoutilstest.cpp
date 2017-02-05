@@ -69,13 +69,3 @@ public:
 };
 
 
-class BoundsCrossingDatelineTest : public ::testing::TestWithParam<BoundsCrossingDatelineTestRow> {
-protected:
-    virtual void setUpTestCase() {
-
-    }
-
-    virtual void tearDownTestCase() {
-
-    }
-};

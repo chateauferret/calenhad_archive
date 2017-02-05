@@ -99,13 +99,13 @@ void Icosphere::subdivide (const unsigned int& level) {
     unsigned end = indices.size();
     for (unsigned i = 0; i < end; i += 3) {
         // Subdivide each triangle if any part of it is in bounds, or if there are no bounds
-        if (coversTriangle (_vertices [indices [i]] -> getGeolocation(), _vertices [indices [i + 1]] -> getGeolocation(), _vertices[indices [i + 2]] -> getGeolocation())) {
-            unsigned ids0[3];  // indices of outer vertices
-            unsigned ids1[3];  // indices of edge vertices
+        if (coversTriangle (_vertices [indices [i]] -> getGeolocation(), _vertices [indices [i + 1]] -> getGeolocation(), _vertices [indices [i + 2]] -> getGeolocation())) {
+            unsigned ids0 [3];  // indices of outer vertices
+            unsigned ids1 [3];  // indices of edge vertices
             for (int k = 0; k < 3; ++k) {
                 int k1 = (k + 1) % 3;
-                int e0 = indices[i + k];
-                int e1 = indices[i + k1];
+                int e0 = indices [i + k];
+                int e1 = indices [i + k1];
 
                 ids0[k] = e0;
                 if (e1 > e0) {
@@ -114,27 +114,26 @@ void Icosphere::subdivide (const unsigned int& level) {
                 Key edgeKey = Key (e0) | (Key (e1) << 32);
                 std::map<Key, unsigned>::iterator it = edgeMap.find (edgeKey);
                 if (it == edgeMap.end ()) {
-                    ids1[k] = _vertices.size ();
-                    edgeMap[edgeKey] = ids1[k];
-                    Vertex* mid = _vertices[e0];
-                    Cartesian c = (mid->getCartesian ()) + (_vertices[e1] -> getCartesian ());
-                    _vertex = new Vertex (ids1[k], c, level, _rhumb);
+                    ids1 [k] = _vertices.size ();
+                    edgeMap [edgeKey] = ids1 [k];
+                    Vertex* mid = _vertices [e0];
+                    Cartesian c = (mid->getCartesian()) + (_vertices [e1] -> getCartesian());
+                    _vertex = new Vertex (ids1 [k], c, level, _rhumb);
                     _vertices.push_back (_vertex);
                 } else {
-                    ids1[k] = it->second;
+                    ids1 [k] = it->second;
                 }
-                _vertex = _vertices[ids1[k]];
+                _vertex = _vertices [ids1 [k]];
             }
-            Triangle* parent = _triangles.find (triangleKey (ids0[0], ids0[1], ids0[2]) )-> second;
-            makeTriangle (refinedIndices, ids0[0], ids1[0], ids1[2], level, parent);
-            makeTriangle (refinedIndices, ids0[1], ids1[1], ids1[0], level, parent);
-            makeTriangle (refinedIndices, ids0[2], ids1[2], ids1[1], level, parent);
-            makeTriangle (refinedIndices, ids1[0], ids1[1], ids1[2], level, parent);
+            Triangle* parent = _triangles.find (triangleKey (ids0 [0], ids0 [1], ids0 [2])) -> second;
+            makeTriangle (refinedIndices, ids0 [0], ids1 [0], ids1 [2], level, parent);
+            makeTriangle (refinedIndices, ids0 [1], ids1 [1], ids1 [0], level, parent);
+            makeTriangle (refinedIndices, ids0 [2], ids1 [2], ids1 [1], level, parent);
+            makeTriangle (refinedIndices, ids1 [0], ids1 [1], ids1 [2], level, parent);
             count++;
         }
     }
     _listIds.push_back (0);
-    std::cout << count << " triangles divided; " << _vertices.size () << " vertices\n";
 }
 
 void Icosphere::makeTriangle (std::vector<unsigned>& refinedIndices, const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {
@@ -298,26 +297,31 @@ std::string Icosphere::getType() {
 bool Icosphere::coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c, const Bounds& bounds) {
     double minLat = std::min (std::min(a.longitude, b.longitude), c.longitude);
     double maxLat = std::max (std::max(a.longitude, b.longitude), c.longitude);
-    if (bounds.west > bounds.east) {
-             return coversTriangle (a, b, c, Bounds (bounds.north, bounds.south, bounds.west, M_PI)) ||
-                    coversTriangle (a, b, c, Bounds (bounds.north, bounds.south, -M_PI, bounds.east));
-    } else {
-        if (maxLat - minLat > M_PI) {
-            // then triangle is deemed to cross the dateline
-            Geolocation a1 = Geolocation (a.longitude > M_PI_2 ? a.longitude : a.longitude - M_2_PI, a.latitude, Units::Radians);
-            Geolocation b1 = Geolocation (b.longitude > M_PI_2 ? b.longitude : b.longitude - M_2_PI, b.latitude, Units::Radians);
-            Geolocation c1 = Geolocation (c.longitude > M_PI_2 ? c.longitude : c.longitude - M_2_PI, c.latitude, Units::Radians);
-            Geolocation a2 = Geolocation (a.longitude < -M_PI_2 ? a.longitude : a.longitude + M_2_PI, a.latitude, Units::Radians);
-            Geolocation b2 = Geolocation (b.longitude < -M_PI_2 ? b.longitude : b.longitude + M_2_PI, b.latitude, Units::Radians);
-            Geolocation c2 = Geolocation (c.longitude < -M_PI_2 ? c.longitude : c.longitude + M_2_PI, c.latitude, Units::Radians);
-            return coversTriangle (a1, b1, c1, bounds) || coversTriangle (a2, b2, c2, bounds);
-        }
-        // triangle is in bounds if its vertices don't all lie beyond the same side of the box
-        if (a.longitude < bounds.west && b.longitude < bounds.west && c.longitude < bounds.west) { return false; }
-        if (a.longitude > bounds.east && b.longitude > bounds.east && c.longitude > bounds.east) { return false; }
-        if (a.latitude < bounds.south && b.latitude < bounds.south && c.latitude < bounds.south) { return false; }
-        if (a.latitude > bounds.north && b.latitude > bounds.north && c.latitude > bounds.north) { return false; }
+    if (maxLat - minLat > M_PI) {
+        // then triangle is deemed to cross the dateline
+        Geolocation a1 = Geolocation (a.longitude > M_PI_2 ? a.longitude : a.longitude - M_2_PI, a.latitude, Units::Radians);
+        Geolocation b1 = Geolocation (b.longitude > M_PI_2 ? b.longitude : b.longitude - M_2_PI, b.latitude, Units::Radians);
+        Geolocation c1 = Geolocation (c.longitude > M_PI_2 ? c.longitude : c.longitude - M_2_PI, c.latitude, Units::Radians);
+        Geolocation a2 = Geolocation (a.longitude < -M_PI_2 ? a.longitude : a.longitude + M_2_PI, a.latitude, Units::Radians);
+        Geolocation b2 = Geolocation (b.longitude < -M_PI_2 ? b.longitude : b.longitude + M_2_PI, b.latitude, Units::Radians);
+        Geolocation c2 = Geolocation (c.longitude < -M_PI_2 ? c.longitude : c.longitude + M_2_PI, c.latitude, Units::Radians);
+        return coversTriangle (a1, b1, c1, bounds) || coversTriangle (a2, b2, c2, bounds);
     }
+    // triangle is in bounds if its vertices don't all lie beyond the same side of the box
+    if (a.latitude < bounds.south && b.latitude < bounds.south && c.latitude < bounds.south) { return false; }
+    if (a.latitude > bounds.north && b.latitude > bounds.north && c.latitude > bounds.north) { return false; }
+    if (bounds.west > bounds.east) {
+        // test on the longitude coordinates is inverted if the bounds cross the dateline
+        if ((a.longitude < bounds.west && b.longitude < bounds.west && c.longitude < bounds.west &&
+                a.longitude > 0 && b.longitude > 0 && c.longitude > 0)  ||
+            (a.longitude > bounds.east && b.longitude > bounds.east && c.longitude > bounds.east &&
+                a.longitude < 0 && b.longitude < 0 && c.longitude < 0)) { return false; }
+    } else {
+        if ((a.longitude < bounds.west && b.longitude < bounds.west && c.longitude < bounds.west) ||
+        (a.longitude > bounds.east && b.longitude > bounds.east && c.longitude > bounds.east)) { return false; }
+    }
+
+
     return true;
 }
 

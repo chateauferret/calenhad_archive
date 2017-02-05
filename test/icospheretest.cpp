@@ -16,17 +16,13 @@ using namespace noise::utils;
 using namespace icosphere;
 using namespace geoutils;
 
-class IcosphereTestRow {
+class IcosphereBoundsTestRow {
 public:
-    IcosphereTestRow () { }
-
-protected:
-
-
+    double _n, _s, _w, _e;
+    IcosphereBoundsTestRow (const double& n, const double& s, const double& w, const double& e) : _n (n), _s (s), _w (w), _e (e) { }
 };
 
-
-class IcosphereTest : public ::testing::TestWithParam<IcosphereTestRow> {
+class IcosphereTest {
     protected:
     unsigned points;
     double maxdist, totaldist;
@@ -63,7 +59,7 @@ class IcosphereTest : public ::testing::TestWithParam<IcosphereTestRow> {
 
 TEST (IcosphereTest, buildSpeed) {
     double start = clock() / static_cast<double> (CLOCKS_PER_SEC);
-    Icosphere i = Icosphere (2);
+    Icosphere i = Icosphere (8);
     double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
     std::cout << "Built icosphere with " << i.vertexCount() << " vertices in " << end - start << " seconds" << "\n";
 }
@@ -113,15 +109,36 @@ TEST (IcosphereTest, searchTimes) {
     std::cout << "Average distance from a point: " << (totaldist / points) << " radians" << "\n";
 }
 
-TEST (IcosphereTest, bounds) {
-    icosphere::Bounds bounds (degreesToRadians (60), degreesToRadians (-60), degreesToRadians (-60), degreesToRadians (60));
+
+class IcosphereBoundsTest : public ::testing::TestWithParam<IcosphereBoundsTestRow> {
+protected:
+    virtual void setUpTestCase() {
+
+    }
+
+    virtual void tearDownTestCase() {
+
+    }
+};
+
+
+TEST_P (IcosphereBoundsTest, bounds) {
+
+    IcosphereBoundsTestRow const& row = GetParam();
+    icosphere::Bounds bounds (degreesToRadians (row._n), degreesToRadians (row._s), degreesToRadians (row._w), degreesToRadians (row._e));
     double start = clock() / static_cast<double> (CLOCKS_PER_SEC);
     Icosphere icosphere = Icosphere (8, bounds);
     double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
     std::cout << "Built icosphere with " << icosphere.vertexCount() << " vertices in " << end - start << " seconds" << "\n";
-    Geolocation target = Geolocation (45, 45, Units::Degrees);
-    for (int i = 2; i != 8; i++) {
-        Vertex* v = icosphere.nearest (target, i);
-        EXPECT_LT (v -> getLevel(), i + 1);
-    }
+
 }
+
+INSTANTIATE_TEST_CASE_P (bounds, IcosphereBoundsTest, ::testing::Values (
+        IcosphereBoundsTestRow (90, -90, -180, 180),
+        IcosphereBoundsTestRow (30, 0, 0, 30),
+        IcosphereBoundsTestRow (60, 0, 0, 60),
+        IcosphereBoundsTestRow (30, -30, -30, 30),
+        IcosphereBoundsTestRow (30, 0, -150, 150), // not across dateline
+        IcosphereBoundsTestRow (30, 0, 150, -150), // across dateline
+        IcosphereBoundsTestRow (30, 0, -180, 180)); // across dateline
+);
