@@ -29,13 +29,13 @@ protected:
 TEST_P (VertexTest, conversion) {
 
     VertexTestRow const& row = GetParam();
-    Geolocation g1 (row.latRads, row.lonRads, Geolocation::RADS);
+    Geolocation g1 (row.latRads, row.lonRads, Units::Radians);
     Cartesian c1 = Math::toCartesian (g1);
     EXPECT_NEAR (row.x, c1.x, TOLERANCE);
     EXPECT_NEAR (row.y, c1.y, TOLERANCE);
     EXPECT_NEAR (row.z, c1.z, TOLERANCE);
 
-    Geolocation g2 (row.latDegrees, row.lonDegrees, Geolocation::DEGS);
+    Geolocation g2 (row.latDegrees, row.lonDegrees, Units::Degrees);
     Cartesian c2 = Math::toCartesian (g2);
     EXPECT_NEAR (row.x, c2.x, TOLERANCE);
     EXPECT_NEAR (row.y, c2.y, TOLERANCE);

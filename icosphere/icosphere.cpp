@@ -18,10 +18,10 @@ using namespace icosphere;
 using namespace noise::utils;
 
 
-Icosphere::Icosphere (const unsigned int& depth, GeoQuad* bounds) : Model (depth) {
+Icosphere::Icosphere (const unsigned int& depth, const Bounds& bounds) : Model (depth) {
 
     _bounds = bounds;
-
+    
     //--------------------------------------------------------------------------------
     // icosahedron data
     //--------------------------------------------------------------------------------
@@ -83,7 +83,8 @@ Icosphere::~Icosphere() {
 
 const std::vector<unsigned>& Icosphere::indices (const unsigned int& level) {
     while (level >= _indices.size()) {
-        const_cast<Icosphere*>(this) -> subdivide (_indices.size());
+        subdivide (_indices.size());
+
     }
   return *_indices [level];
 }
@@ -96,40 +97,44 @@ void Icosphere::subdivide (const unsigned int& level) {
     _indices.push_back (new std::vector<unsigned>);
     std::vector<unsigned>& refinedIndices = *_indices.back();
     unsigned end = indices.size();
-    int temp;
     for (unsigned i = 0; i < end; i += 3) {
-        unsigned ids0 [3];  // indices of outer vertices
-        unsigned ids1 [3];  // indices of edge vertices
-        for (int k = 0; k < 3; ++k) {
-            int k1 = (k + 1) % 3;
-            int e0 = indices [i + k];
-            int e1 = indices [i + k1];
-            ids0 [k] = e0;
-            if (e1 > e0) {
-                temp = e0; e0 = e1; e1 = temp;
+        // Subdivide each triangle if any part of it is in bounds, or if there are no bounds
+        if (coversTriangle (_vertices [indices [i]] -> getGeolocation(), _vertices [indices [i + 1]] -> getGeolocation(), _vertices[indices [i + 2]] -> getGeolocation())) {
+            unsigned ids0[3];  // indices of outer vertices
+            unsigned ids1[3];  // indices of edge vertices
+            for (int k = 0; k < 3; ++k) {
+                int k1 = (k + 1) % 3;
+                int e0 = indices[i + k];
+                int e1 = indices[i + k1];
+
+                ids0[k] = e0;
+                if (e1 > e0) {
+                    std::swap (e0, e1);
+                }
+                Key edgeKey = Key (e0) | (Key (e1) << 32);
+                std::map<Key, unsigned>::iterator it = edgeMap.find (edgeKey);
+                if (it == edgeMap.end ()) {
+                    ids1[k] = _vertices.size ();
+                    edgeMap[edgeKey] = ids1[k];
+                    Vertex* mid = _vertices[e0];
+                    Cartesian c = (mid->getCartesian ()) + (_vertices[e1] -> getCartesian ());
+                    _vertex = new Vertex (ids1[k], c, level, _rhumb);
+                    _vertices.push_back (_vertex);
+                } else {
+                    ids1[k] = it->second;
+                }
+                _vertex = _vertices[ids1[k]];
             }
-            Key edgeKey = Key (e0) | (Key (e1) << 32);
-            std::map<Key,unsigned>::iterator it = edgeMap.find(edgeKey);
-            if (it == edgeMap.end()) {
-                ids1 [k] = _vertices.size();
-                edgeMap [edgeKey] = ids1 [k];
-                Vertex* mid = _vertices [e0];
-                Cartesian c = (mid -> getCartesian()) + (_vertices [e1] -> getCartesian());
-                _vertex = new Vertex (ids1 [k], c, level, _rhumb);
-                _vertices.push_back (_vertex);
-            } else {
-                ids1 [k] = it -> second;
-            }
-            _vertex = _vertices [ids1 [k]];
+            Triangle* parent = _triangles.find (triangleKey (ids0[0], ids0[1], ids0[2]) )-> second;
+            makeTriangle (refinedIndices, ids0[0], ids1[0], ids1[2], level, parent);
+            makeTriangle (refinedIndices, ids0[1], ids1[1], ids1[0], level, parent);
+            makeTriangle (refinedIndices, ids0[2], ids1[2], ids1[1], level, parent);
+            makeTriangle (refinedIndices, ids1[0], ids1[1], ids1[2], level, parent);
+            count++;
         }
-        Triangle* parent = _triangles.find (triangleKey (ids0 [0], ids0 [1], ids0 [2])) -> second;
-        makeTriangle (refinedIndices, ids0 [0], ids1 [0], ids1 [2], level, parent);
-        makeTriangle (refinedIndices, ids0 [1], ids1 [1], ids1 [0], level, parent);
-        makeTriangle (refinedIndices, ids0 [2], ids1 [2], ids1 [1], level, parent);
-        makeTriangle (refinedIndices, ids1 [0], ids1 [1], ids1 [2], level, parent);
-        count++;
     }
     _listIds.push_back (0);
+    std::cout << count << " triangles divided; " << _vertices.size () << " vertices\n";
 }
 
 void Icosphere::makeTriangle (std::vector<unsigned>& refinedIndices, const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {
@@ -146,7 +151,7 @@ void Icosphere::makeTriangle (std::vector<unsigned>& refinedIndices, const unsig
 void Icosphere::addTriangle (const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {
 
     // Don't add the triangle if none of it is in bounds
-    if (_bounds && (_bounds -> contains (_vertices [a] -> getGeolocation()) || _bounds -> contains (_vertices [b] -> getGeolocation()) || _bounds -> contains (_vertices [c] -> getGeolocation()))) {
+    //if (!_bounds || (_bounds -> contains (_vertices [a] -> getGeolocation()) || _bounds -> contains (_vertices [b] -> getGeolocation()) || _bounds -> contains (_vertices [c] -> getGeolocation()))) {
 
         uint128_t tkey = triangleKey (a, b, c);
         Triangle* t = new Triangle (_vertices [a], _vertices [b], _vertices [c], level);
@@ -159,7 +164,7 @@ void Icosphere::addTriangle (const unsigned& a, const unsigned& b, const unsigne
         _vertices [a] -> addTriangle (t);
         _vertices [b] -> addTriangle (t);
         _vertices [c] -> addTriangle (t);
-    }
+    //}
 }
 
 uint128_t Icosphere::triangleKey (unsigned a, unsigned b, unsigned c) {
@@ -173,8 +178,8 @@ uint128_t Icosphere::triangleKey (unsigned a, unsigned b, unsigned c) {
 }
 
 void Icosphere::makeNeighbours (const unsigned& p, const unsigned& q) {
-    _vertices [p] -> addNeighbour (_vertices [q]);
-    _vertices [q] -> addNeighbour (_vertices [p]);
+        _vertices[p]->addNeighbour (_vertices[q]);
+        _vertices[q]->addNeighbour (_vertices[p]);
 }
 
 Vertex* Icosphere::operator [] (const unsigned& id) {
@@ -262,21 +267,21 @@ void Icosphere::setDatum (const Geolocation& g, const std::string& key, int datu
 
 
 // for now, images can't cross the dateline - this is OK in a tiling arrangement
-bool Icosphere::getImage (QImage* image, const GeoQuad& bounds, const std::string& key) {
+bool Icosphere::getImage (QImage* image, const Bounds& bounds, const std::string& key) {
     std::map<std::string, Dataset>::iterator item = _datasets.find (key);
     std::cout << "Looking for dataset " << key << "\n";
     if (item != _datasets.end()) {
         Dataset dataset = item -> second;
         Legend* legend = dataset.getLegend();
         for (int i = 0; i < image -> width(); i++) {
-            double lon = bounds.se().longitude + (bounds.nw().longitude - bounds.se().longitude) / image -> height() * i;
+            double lon = bounds.east + (bounds.west - bounds.east) / image -> height() * i;
             if (lon < -HALF_PI) { lon += HALF_PI; }
             if (lon > HALF_PI) { lon -= HALF_PI; }
             for (int j = 0; j < image -> height(); j++) {
-                double lat = bounds.nw().latitude + (bounds.se().latitude - bounds.nw().latitude) / image -> width() * j;
+                double lat = bounds.north + (bounds.south - bounds.north) / image -> width() * j;
                 if (lat < -PI) { lat += PI; }
                 if (lat > PI) { lat -= PI; }
-                Vertex* v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Geolocation::RADS)));
+                Vertex* v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Units::Radians)));
                 image -> setPixel (i, j, legend -> lookup (v -> getDatum (key)).rgb());
             }
         }
@@ -286,71 +291,53 @@ bool Icosphere::getImage (QImage* image, const GeoQuad& bounds, const std::strin
     }
 }
 
-/*
-// this is the version for OSGEarth
-// for now, images can't cross the dateline - this is OK in a tiling arrangement
-// data needs to have allocated size * size * 3 elements or else this will throw a segmentation fault
-bool Icosphere::getImage (unsigned char* data, const GeoQuad &bounds, const std::string& key, const unsigned& size) const {
-    std::map<std::string, Dataset>::const_iterator item = _datasets.find (key);
-    unsigned index = 0;
-    QColor colour;
-    if (item != _datasets.end()) {
-        double lonstep = (bounds._nw.longitude - bounds._se.longitude) / size;
-        double latstep = (bounds._se.latitude - bounds._nw.latitude) / size;
-        double lon = bounds._se.longitude;
-        double lat = bounds._nw.latitude;
-        Vertex* v;
-        Dataset dataset = item -> second;
-        Legend* legend = dataset.getLegend();
-        for (int i = 0; i < size; i++) {
-            if (lon < -HALF_PI) { lon += HALF_PI; }
-            if (lon > HALF_PI) { lon -= HALF_PI; }
-            for (int j = 0; j < size; j++) {
-                if (lat < -PI) { lat += PI; }
-                if (lat > PI) { lat -= PI; }
-                v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Geolocation::RADS)));
-                colour = legend -> lookup (v -> getDatum (key));
-                data [index++] = colour.red();
-                data [index++] = colour.green();
-                data [index++] = colour.blue();
-                lat += latstep;
-            }
-            lon += lonstep;
-        }
-        return true;
-    } else {
-        return false;
-    }
-}
-*/
-
-std::set<Vertex*>* Icosphere::getVertices (const GeoQuad &bounds, const unsigned& depth) {
-  std::set<Vertex*>* result = new std::set<Vertex*>();
-  std::stack<Vertex*>* stack = new std::stack<Vertex*>();
-  Vertex* start = nearest (bounds.centre(), depth);
-  stack -> push (start);
-  while (! (stack -> empty())) {
-      start = stack -> top();
-      stack -> pop();
-      if (bounds.contains (start -> getGeolocation()) && start -> getLevel() <= depth) {
-          std::pair<std::set<Vertex*>::iterator, bool> inserted = result -> insert (start);
-          if (inserted.second) {
-              std::pair<std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> neighbours = start -> getNeighbours();
-              if (neighbours.first != neighbours.second) {
-                  for (std::set<Vertex*>::iterator i = neighbours.first; i != neighbours.second; i++) {
-                      stack -> push (*i);
-                    }
-                }
-            }
-        }
-    }
-  delete stack;
-  return result;
-}
-
 std::string Icosphere::getType() {
   return "Icosphere";
 }
 
+bool Icosphere::coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c, const Bounds& bounds) {
+    double minLat = std::min (std::min(a.longitude, b.longitude), c.longitude);
+    double maxLat = std::max (std::max(a.longitude, b.longitude), c.longitude);
+    if (bounds.west > bounds.east) {
+             return coversTriangle (a, b, c, Bounds (bounds.north, bounds.south, bounds.west, M_PI)) ||
+                    coversTriangle (a, b, c, Bounds (bounds.north, bounds.south, -M_PI, bounds.east));
+    } else {
+        if (maxLat - minLat > M_PI) {
+            // then triangle is deemed to cross the dateline
+            Geolocation a1 = Geolocation (a.longitude > M_PI_2 ? a.longitude : a.longitude - M_2_PI, a.latitude, Units::Radians);
+            Geolocation b1 = Geolocation (b.longitude > M_PI_2 ? b.longitude : b.longitude - M_2_PI, b.latitude, Units::Radians);
+            Geolocation c1 = Geolocation (c.longitude > M_PI_2 ? c.longitude : c.longitude - M_2_PI, c.latitude, Units::Radians);
+            Geolocation a2 = Geolocation (a.longitude < -M_PI_2 ? a.longitude : a.longitude + M_2_PI, a.latitude, Units::Radians);
+            Geolocation b2 = Geolocation (b.longitude < -M_PI_2 ? b.longitude : b.longitude + M_2_PI, b.latitude, Units::Radians);
+            Geolocation c2 = Geolocation (c.longitude < -M_PI_2 ? c.longitude : c.longitude + M_2_PI, c.latitude, Units::Radians);
+            return coversTriangle (a1, b1, c1, bounds) || coversTriangle (a2, b2, c2, bounds);
+        }
+        // triangle is in bounds if its vertices don't all lie beyond the same side of the box
+        if (a.longitude < bounds.west && b.longitude < bounds.west && c.longitude < bounds.west) { return false; }
+        if (a.longitude > bounds.east && b.longitude > bounds.east && c.longitude > bounds.east) { return false; }
+        if (a.latitude < bounds.south && b.latitude < bounds.south && c.latitude < bounds.south) { return false; }
+        if (a.latitude > bounds.north && b.latitude > bounds.north && c.latitude > bounds.north) { return false; }
+    }
+    return true;
+}
 
+
+bool Icosphere::coversTriangle (const geoutils::Geolocation& a, const geoutils::Geolocation& b, const geoutils::Geolocation& c) {
+    return coversTriangle (a, b, c, _bounds);
+}
+
+
+bool Icosphere::isInTriangle (const Geolocation& p1, const Geolocation& p2, const Geolocation& p3, double lon, double lat) {
+    // triangle is in bounds if any corner of the bounds is within it - compute barymetric coordinates - true if all these are positive
+    double alpha = ((p2.latitude - p3.latitude)*(lon - p3.longitude) + (p3.longitude - p2.longitude)*(lat - p3.latitude)) /
+                  ((p2.latitude - p3.latitude)*(p1.longitude - p3.longitude) + (p3.longitude - p2.longitude)*(p1.latitude - p3.latitude));
+    double beta = ((p3.latitude - p1.latitude)*(lon - p3.longitude) + (p1.longitude - p3.longitude)*(lat - p3.latitude)) /
+                  ((p2.latitude - p3.latitude)*(p1.longitude - p3.longitude) + (p3.longitude - p2.longitude)*(p1.latitude - p3.latitude));
+    double gamma = 1.0d - alpha - beta;
+    return alpha > 0 && beta > 0 && gamma > 0;
+}
+
+bool Icosphere::isInBounds (const Geolocation& a, const Bounds& bounds) {
+    return (a.latitude <= bounds.north && a.latitude >= bounds.south && a.longitude >= bounds.west && a.longitude <= bounds.east);
+}
 

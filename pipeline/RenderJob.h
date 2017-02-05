@@ -12,6 +12,7 @@
 #include "../geoutils.h"
 
 #include <memory>
+#include <marble/GeoDataLatLonBox.h>
 
 namespace noise {
     namespace utils {
@@ -30,7 +31,7 @@ Q_DECLARE_METATYPE (RenderJobStatus);
 class RenderJob : public QObject {
 Q_OBJECT
 public:
-    RenderJob (const geoutils::GeoQuad& bounds, noise::module::Module* source);
+    RenderJob (const Marble::GeoDataLatLonBox& bounds, noise::module::Module* source);
     virtual ~RenderJob ();
     void setImage (std::shared_ptr<QImage>& image);
     bool canRender ();
@@ -48,7 +49,7 @@ signals:
     void status (RenderJobStatus);
 
 protected:
-    geoutils::GeoQuad _bounds;
+    Marble::GeoDataLatLonBox _bounds;
     // the image is referenced by a shared pointer because we don't know what will be destructed when
     std::shared_ptr<QImage> _image = nullptr;
     noise::module::Module* _source;

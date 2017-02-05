@@ -11,14 +11,16 @@
 #include "../libnoiseutils/NoiseMap.h"
 #include "../libnoiseutils/RendererImage.h"
 #include "../libnoiseutils/GradientLegend.h"
+#include <marble/GeoDataLatLonBox.h>
 
 using namespace noise::utils;
 using namespace geoutils;
+using namespace Marble;
 
 
 bool RenderJob::declared = false;
 
-RenderJob::RenderJob (const GeoQuad& bounds, noise::module::Module* source) :
+RenderJob::RenderJob (const GeoDataLatLonBox& bounds, noise::module::Module* source) :
         _bounds (bounds),
         _source (source),
         _status (RenderJobStatus::Pending),
@@ -121,7 +123,7 @@ void RenderJob::render() {
     heightMapBuilder -> SetSourceModule (*_source);
     heightMapBuilder -> SetDestNoiseMap (heightMap);
     heightMapBuilder -> SetDestSize (_image -> width(), _image -> height());
-    heightMapBuilder -> SetBounds (_bounds.sw ().lonDegrees, _bounds.ne ().lonDegrees, _bounds.sw ().latDegrees, _bounds.ne ().latDegrees);
+    heightMapBuilder -> SetBounds (_bounds.south (GeoDataCoordinates::Degree), _bounds.north (GeoDataCoordinates::Degree), _bounds.west(GeoDataCoordinates::Degree), _bounds.east(GeoDataCoordinates::Degree));
     heightMapBuilder -> Build ();
 
     RendererImage renderer;

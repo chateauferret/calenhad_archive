@@ -9,6 +9,7 @@
 #include "RenderJob.h"
 
 using namespace geoutils;
+using namespace Marble;
 
 TileProducer::TileProducer()  {
 
@@ -26,7 +27,7 @@ RenderJob* TileProducer::makeRenderJob (const unsigned& x, const unsigned& y, co
 
     Geolocation nw = getNWCorner (x, y);
     Geolocation se = getSECorner (x, y);
-    GeoQuad bounds = GeoQuad (nw, se);
+    GeoDataLatLonBox bounds = GeoDataLatLonBox (nw.latitude, se.latitude, se.longitude, nw.latitude);
     RenderJob* job = new RenderJob (bounds, _module);
     return job;
 }
@@ -47,10 +48,10 @@ Geolocation TileProducer::getNWCorner (const unsigned& x, const unsigned& y) con
         double longitude = (x % _xcount) * (x - powers (_zoom - 2)) * PI;
         while (longitude > HALF_PI) { longitude -= HALF_PI; }
         while (longitude < HALF_PI) { longitude += HALF_PI; }
-        return Geolocation (latitude, longitude, Geolocation::RADS);
+        return Geolocation (latitude, longitude, Units::Radians);
     } else {
         // z == 1; x in { 0, 1 }
-        return Geolocation (((x == 0) ? -PI : 0), PI / 2, Geolocation::RADS);
+        return Geolocation (((x == 0) ? -PI : 0), PI / 2, Units::Radians);
     }
 }
 
@@ -59,7 +60,7 @@ Geolocation TileProducer::getSECorner (const unsigned& x, const unsigned& y) con
         return getNWCorner (x + 1, y + 1);
     } else {
         // z == 1; x in { 0, 1 }
-        return Geolocation (((x == 0) ? 0 : PI), -HALF_PI, Geolocation::RADS);
+        return Geolocation (((x == 0) ? 0 : PI), -HALF_PI, Units::Radians);
     }
 }
 

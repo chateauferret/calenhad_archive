@@ -21,14 +21,17 @@ TriangleComparator::TriangleComparator () {}
 TriangleComparator::TriangleComparator (const TriangleComparator& other) : _rhumb (other._rhumb), _pole (other._pole) { }
 TriangleComparator::TriangleComparator (GeographicLib::Rhumb* rhumb, Geolocation& pole) : _rhumb (rhumb), _pole (pole) { }
 bool TriangleComparator:: operator() (Triangle* t1, Triangle* t2) {
-    double a1, a2, d;
-    geoutils::Geolocation c1 = geoutils::Math::toGeolocation (t1 -> centre);
-    Geolocation c2 = Math::toGeolocation (t2 -> centre);
-    _rhumb -> Inverse (pole.latitude, pole.longitude, c1.latitude, c1.longitude, d, a1);
-    _rhumb -> Inverse (pole.latitude, pole.longitude, c2.latitude, c2.longitude, d, a2);
-    return a1 < a2;
+    if (t1 && t2) {
+        double a1, a2, d;
+        geoutils::Geolocation c1 = geoutils::Math::toGeolocation (t1->centre);
+        Geolocation c2 = Math::toGeolocation (t2->centre);
+        _rhumb->Inverse (pole.latitude, pole.longitude, c1.latitude, c1.longitude, d, a1);
+        _rhumb->Inverse (pole.latitude, pole.longitude, c2.latitude, c2.longitude, d, a2);
+        return a1 < a2;
+    } else {
+        return false;
+    }
 }
-
 Vertex::Vertex() {
 }
 

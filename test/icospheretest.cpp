@@ -3,6 +3,7 @@
 #include "../libnoiseutils/legend.h"
 #include <iostream>
 #include <random>
+#include <QtGui/QtGui>
 #include "../libnoiseutils/intervallegend.h"
 #include "../icosphere/dataset.h"
 #include "../icosphere/icosphere.h"
@@ -62,7 +63,7 @@ class IcosphereTest : public ::testing::TestWithParam<IcosphereTestRow> {
 
 TEST (IcosphereTest, buildSpeed) {
     double start = clock() / static_cast<double> (CLOCKS_PER_SEC);
-    Icosphere i = Icosphere (8);
+    Icosphere i = Icosphere (2);
     double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
     std::cout << "Built icosphere with " << i.vertexCount() << " vertices in " << end - start << " seconds" << "\n";
 }
@@ -74,40 +75,17 @@ TEST (IcosphereTest, imageSpeed) {
 
     double start = clock() / static_cast<double> (CLOCKS_PER_SEC);
     QImage* image = new QImage(256, 256, QImage::Format_RGB888);
-    Geolocation nw (30, 30, Geolocation::DEGS);
-    Geolocation se (60, 0, Geolocation::DEGS);
+    Geolocation nw (30, 30, Units::Degrees);
+    Geolocation se (60, 0, Units::Degrees);
     int i;
     for (i = 0; i < 10; i++) {
-        EXPECT_TRUE (icosphere.getImage (image, GeoQuad (nw, se), "dataset"));
+        EXPECT_TRUE (icosphere.getImage (image, icosphere::Bounds (nw.latitude, se.latitude, se.longitude, se.latitude), "dataset"));
     }
     double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
     std::cout << "Built " << i << " images in " << end - start << " seconds" << "\n";
     delete image;
 }
 
-/*
-// OSGEarth version
-TEST (IcosphereTest, imageSpeed) {
-    Icosphere icosphere = Icosphere (8);
-    IntervalLegend legend = IntervalLegend();
-    const std::string key = "dataset";
-    icosphere.addDataset (key, &legend, 8);
-    const unsigned size = 256;
-    unsigned char* data = new unsigned char [size * size * 3];
-    double start = clock() / static_cast<double> (CLOCKS_PER_SEC);
-
-    Geolocation nw (30, 30, Geolocation::DEGS);
-    Geolocation se (60, 0, Geolocation::DEGS);
-    GeoQuad bounds = GeoQuad (nw, se);
-    int i;
-    for (i = 0; i < 10; i++) {
-        EXPECT_TRUE (icosphere.getImage (data, bounds, key, size));
-    }
-    double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
-    std::cout << "Built " << i << " images in " << end - start << " seconds" << "\n";
-    delete data;
-}
-*/
 TEST (IcosphereTest, searchTimes) {
     Icosphere icosphere = Icosphere (8);
     time_t seed = time (NULL);
@@ -119,7 +97,7 @@ TEST (IcosphereTest, searchTimes) {
     for (points = 0; points < 100; points++) {
         double lat = (random (e) - 0.5) * M_PI;
         double lon = (random (e) - 0.5) * M_PI * 2;
-        Geolocation sought = Geolocation (lat, lon, Geolocation::RADS);
+        Geolocation sought = Geolocation (lat, lon,Units::Radians);
         Vertex* found = icosphere.nearest (sought);
         double dist = icosphere.distance (found -> getGeolocation(), sought);
         maxdist = dist > maxdist ? dist : maxdist;
@@ -135,63 +113,15 @@ TEST (IcosphereTest, searchTimes) {
     std::cout << "Average distance from a point: " << (totaldist / points) << " radians" << "\n";
 }
 
-TEST (IcosphereTest, searchLevels) {
-  Icosphere icosphere = Icosphere (8);
-  Geolocation target = Geolocation (45, 45, Geolocation::DEGS);
-  for (int i = 2; i != 8; i++) {
-      Vertex* v = icosphere.nearest (target, i);
-      EXPECT_LT (v -> getLevel(), i + 1);
+TEST (IcosphereTest, bounds) {
+    icosphere::Bounds bounds (degreesToRadians (60), degreesToRadians (-60), degreesToRadians (-60), degreesToRadians (60));
+    double start = clock() / static_cast<double> (CLOCKS_PER_SEC);
+    Icosphere icosphere = Icosphere (8, bounds);
+    double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
+    std::cout << "Built icosphere with " << icosphere.vertexCount() << " vertices in " << end - start << " seconds" << "\n";
+    Geolocation target = Geolocation (45, 45, Units::Degrees);
+    for (int i = 2; i != 8; i++) {
+        Vertex* v = icosphere.nearest (target, i);
+        EXPECT_LT (v -> getLevel(), i + 1);
     }
 }
-
-TEST (IcosphereTest, vertices) {
-    Icosphere icosphere = Icosphere (8);
-
-    GeoQuad bounds = GeoQuad (Geolocation (30, 30, Geolocation::DEGS), Geolocation (60, 60, Geolocation::DEGS), Geolocation (45, 45, Geolocation::DEGS));
-    for (int i = 1; i <= 7; i++) {
-        int expected = 0;
-        double timeStart = clock() / static_cast<double> (CLOCKS_PER_SEC);
-        int count = 0, outwith = 0;
-        std::set<Vertex*>* vertices = icosphere.getVertices (bounds, i);
-        for (Vertex* v : *vertices) {
-            if (bounds.contains (v -> getGeolocation())) {
-              count++;
-            } else {
-                outwith++;
-            }
-         }
-
-
-        for (Vertex* v : icosphere.vertices()) {
-          if (bounds.contains (v -> getGeolocation()) && v -> getLevel() <= i) {
-              expected++;
-            }
-        }
-
-        double timeEnd = clock() / static_cast<double> (CLOCKS_PER_SEC);
-        std::cout << "Depth " << i << ": found " << count << " in bounds, " << outwith << " outside in " << timeEnd - timeStart << " seconds ";
-        std::cout << "Should have " << expected << " vertices\n";
-        delete vertices;
-     }
-
-}
-/*
-TEST (IcosphereTest, mesh) {
-    Icosphere icosphere = Icosphere (8);
-    GeoQuad bounds = GeoQuad (Geolocation (30, 30, Geolocation::DEGS), Geolocation (35, 35, Geolocation::DEGS));
-    std::vector<double> vertices;
-    std::vector<unsigned> indices;
-    icosphere.mesh (bounds, 7, vertices, indices);
-}
-
-
-TEST (IcosphereTest, modelService) {
-  ModelService::open();
-  Model* model = ModelService::getModel();
-   std::cout <<"Model of type " << model -> getType() << "\n";
-   QImage* _buffer = new QImage (256, 256, QImage::Format_RGB32);
-   GeoQuad _bounds =  GeoQuad (Geolocation (-20, -20, Geolocation::DEGS), Geolocation (20, 20, Geolocation::DEGS));
-   std::string _key = "elevation";
-   bool ok = model -> getImage (_buffer, _bounds, _key);
-}
-*/

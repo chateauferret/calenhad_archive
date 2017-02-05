@@ -14,6 +14,7 @@
 #include "../pipeline/RenderJob.h"
 #include <memory>
 #include "../geoutils.h"
+#include <marble/GeoDataLatLonBox.h>
 
 
 class QModule;
@@ -25,8 +26,8 @@ Q_OBJECT
 public:
     QNoiseMapViewer (QModule* parent = 0);
     virtual ~QNoiseMapViewer();
-    void setBounds (const geoutils::GeoQuad& bounds);
-    geoutils::GeoQuad bounds();
+    void setBounds (const Marble::GeoDataLatLonBox& bounds);
+    Marble::GeoDataLatLonBox bounds();
     void setSize (const int& height, const int& width);
     int height();
     int width();
@@ -48,7 +49,7 @@ public slots:
     void abandon();
 
 protected:
-    geoutils::GeoQuad _bounds;
+    Marble::GeoDataLatLonBox _bounds;
     std::shared_ptr<QImage> _image;
     QGraphicsView* _view;
     QGraphicsScene* _scene;

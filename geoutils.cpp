@@ -9,19 +9,11 @@
 #include <math.h>
 #include <QtGui/QtGui>
 namespace geoutils {
-// Converts degrees to radians.
-#define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
 
-// Converts radians to degrees.
-#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
-
-    const unsigned Geolocation::RADS = 0;
-    const unsigned Geolocation::DEGS = 1;
-
-    Geolocation::Geolocation () : Geolocation (0.0, 0.0, Geolocation::RADS) {}
+    Geolocation::Geolocation () : Geolocation (0.0, 0.0, Units::Radians) {}
 
     Geolocation::Geolocation (const double& newLat, const double& newLon, const unsigned& units) {
-        if (units == DEGS) {
+        if (units == Units::Degrees) {
             latitude = degreesToRadians (newLat);
             longitude = degreesToRadians (newLon);
             latDegrees = newLat;
@@ -34,7 +26,7 @@ namespace geoutils {
         }
     }
 
-    Geolocation::Geolocation (const Geolocation& other) : Geolocation (other.latitude, other.longitude, Geolocation::RADS) {
+    Geolocation::Geolocation (const Geolocation& other) : Geolocation (other.latitude, other.longitude, Units::Radians) {
         latDegrees = other.latDegrees;
         lonDegrees = other.lonDegrees;
     }
@@ -79,75 +71,6 @@ namespace geoutils {
         Cartesian c = Cartesian (x - other.x, y - other.y, z - other.z);
         Math::normalise (c);
         return c;
-    }
-
-    GeoQuad::GeoQuad (const Geolocation& g1, const Geolocation& g2) : _crossesDateline (false) {
-        if (g1.latitude == g2.latitude || g1.longitude == g2.longitude) { throw IllegalGeoCoordinatesException ("Bounds must define a region"); }
-        _north = g1.latitude > g2.latitude ? g1.latitude : g2.latitude;
-        _south = g1.latitude <= g2.latitude ? g1.latitude : g2.latitude;
-        _east = g1.longitude > g2.longitude ? g1.longitude : g2.longitude;
-        _west = g1.longitude <= g2.longitude ? g1.longitude : g2.longitude;
-    }
-
-    Geolocation GeoQuad::nw () const {
-        return Geolocation (_north, _west, Geolocation::RADS);
-    }
-
-    Geolocation GeoQuad::se () const {
-        return Geolocation (_south, _east, Geolocation::RADS);
-    }
-
-    Geolocation GeoQuad::ne () const {
-        return Geolocation (_north, _east, Geolocation::RADS);
-    }
-
-    Geolocation GeoQuad::sw () const {
-        return Geolocation (_south, _west, Geolocation::RADS);
-    }
-
-    QString GeoQuad::toString () {
-        return ne ().toString () + " - " + sw ().toString ();
-    }
-
-    GeoQuad::GeoQuad (const Geolocation& g1, const Geolocation& g2, const Geolocation& pointWithin) : GeoQuad (g1, g2) {
-        if (!(contains (pointWithin))) {
-            _crossesDateline = true;
-            if (!contains (pointWithin)) {
-                throw IllegalGeoCoordinatesException ("Point given must lie within latitude range of bounds");
-            }
-        }
-    }
-
-    std::pair<std::vector<GeoQuad>::iterator, std::vector<GeoQuad>::iterator> GeoQuad::rationalise () {
-        std::vector<GeoQuad> partitions;
-        if (crossesDateline ()) {
-            partitions.push_back (GeoQuad (Geolocation (se ().longitude, se ().latitude), Geolocation (M_PI / 2, nw ().latitude)));
-            partitions.push_back (GeoQuad (Geolocation (-M_PI / 2, se ().latitude), Geolocation (nw ().longitude, nw ().latitude)));
-        } else {
-            partitions.push_back (*this);
-        }
-        return make_pair (partitions.begin (), partitions.end ());
-    }
-
-    bool GeoQuad::crossesDateline () {
-        return _crossesDateline;
-    }
-
-    bool GeoQuad::contains (const Geolocation& g) const {
-        if (_crossesDateline) {
-            return (g.latitude > se ().latitude && g.latitude < nw ().latitude && !(g.longitude > nw ().longitude && g.longitude < se ().longitude));
-        } else {
-            return (g.latitude > se ().latitude && g.latitude < nw ().latitude && g.longitude > nw ().longitude && g.longitude < se ().longitude);
-        }
-    }
-
-    const Geolocation GeoQuad::centre () const {
-        double lat = (nw ().latitude + se ().latitude) / 2;
-        double lon = (nw ().longitude + se ().longitude) / 2;
-        if (_crossesDateline) {
-            lon += lon > 0 ? -M_PI : M_PI;
-        }
-        return Geolocation (lat, lon);
     }
 
     double Math::distSquared (const Cartesian& a, const Cartesian& b) {
@@ -197,13 +120,10 @@ namespace geoutils {
 
 
     Geolocation Math::toGeolocation (const Cartesian& c) {
-        //double lon = atan2 (c.y, c.x);
-        //double lat = asin (c.z);
-        //return Geolocation (lat, lon, Geolocation::RADS);
         GeographicLib::Geocentric gc = GeographicLib::Geocentric (1, 0);
         double lat, lon, h;
         gc.Reverse (c.x, c.y, c.z, lat, lon, h);
-        return Geolocation (lat, lon, Geolocation::DEGS);
+        return Geolocation (lat, lon, Units::Degrees);
 
     }
 

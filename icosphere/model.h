@@ -14,6 +14,14 @@
 
 
 namespace icosphere {
+
+    class Bounds {
+    public:
+        // in radians
+        Bounds (double n = M_PI_2, double s = -M_PI_2, double w = -M_PI, double e = M_PI) : north (n), south (s), west (w), east (e) { }
+        double north, south, west, east;
+    };
+
     class Model {
     public:
 
@@ -37,7 +45,7 @@ namespace icosphere {
 
         virtual int getDatum (const geoutils::Geolocation& g, const std::string& key) = 0;
 
-        virtual bool getImage (QImage* image, const geoutils::GeoQuad& bounds, const std::string& key) = 0;
+        virtual bool getImage (QImage* image, const Bounds& bounds, const std::string& key) = 0;
 
         virtual std::string getType () = 0;
 

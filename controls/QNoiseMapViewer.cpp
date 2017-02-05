@@ -11,10 +11,11 @@
 
 
 using namespace geoutils;
+using namespace Marble;
 
 QNoiseMapViewer::QNoiseMapViewer (QModule* parent) : QWidget (parent),
     _isRendered (false),
-    _bounds (Geolocation (-180.0, -90.0, Geolocation::DEGS), Geolocation (180.0, 90.0, Geolocation::DEGS)),
+    _bounds (M_PI_2, -M_PI_2, -M_PI, M_PI),
     _source (nullptr), _explorer (nullptr) {
 }
 
@@ -53,11 +54,11 @@ QNoiseMapViewer::~QNoiseMapViewer() {
     }
 }
 
-void QNoiseMapViewer::setBounds (const GeoQuad& bounds) {
+void QNoiseMapViewer::setBounds (const GeoDataLatLonBox& bounds) {
     _bounds = bounds;
 }
 
-GeoQuad QNoiseMapViewer::bounds () {
+GeoDataLatLonBox QNoiseMapViewer::bounds () {
     return _bounds;
 }
 

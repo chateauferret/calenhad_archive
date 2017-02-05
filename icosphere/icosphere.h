@@ -15,7 +15,7 @@ namespace icosphere {
 
     class Icosphere : public Model {
     public:
-        Icosphere (const unsigned int& depth, geoutils::GeoQuad* bounds = nullptr);
+        Icosphere (const unsigned int& depth, const Bounds& bounds = Bounds());
 
         ~Icosphere ();
 
@@ -35,16 +35,17 @@ namespace icosphere {
 
         void visit (Vertex* vertex);
 
-        std::set<Vertex*>* getVertices (const geoutils::GeoQuad& bounds, const unsigned& depth); // caller is responsible for deleting the returned pointer
-
         // override virtual methods
         int getDatum (const geoutils::Geolocation& g, const std::string& key);
 
         void setDatum (const geoutils::Geolocation& g, const std::string& key, int datum);
 
-        bool getImage (QImage* image, const geoutils::GeoQuad& bounds, const std::string& key);
+        bool getImage (QImage* image, const Bounds& bounds, const std::string& key);
 
         std::string getType ();
+
+        bool coversTriangle (const geoutils::Geolocation& a, const geoutils::Geolocation& b, const geoutils::Geolocation& c, const Bounds& bounds);
+        bool coversTriangle (const geoutils::Geolocation& a, const geoutils::Geolocation& b, const geoutils::Geolocation& c);
 
     protected:
         void subdivide (const unsigned int& level);
@@ -53,7 +54,7 @@ namespace icosphere {
         std::vector<std::vector<unsigned>*> _indices;
         std::vector<unsigned> _listIds;
         std::map<uint128_t, Triangle*> _triangles;
-        geoutils::GeoQuad* _bounds;
+        Bounds _bounds;
         mutable Vertex* _vertex;
         mutable Vertex* _lastVisited;
 
@@ -66,6 +67,9 @@ namespace icosphere {
 
         void makeNeighbours (const unsigned& p, const unsigned& q);
 
+        bool isInBounds (const geoutils::Geolocation& a, const Bounds& bounds);
+
+        bool isInTriangle (const geoutils::Geolocation& p1, const geoutils::Geolocation& p2, const geoutils::Geolocation& p3, double lon, double lat);
     };
 }
 #endif // ICOSPHERE_H

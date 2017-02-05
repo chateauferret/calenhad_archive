@@ -14,10 +14,20 @@
 #ifndef GEOUTILS_H
 #define GEOUTILS_H
 
+// Converts degrees to radians.
+#define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
+
+// Converts radians to degrees.
+#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
+
+
+
 #include <iostream>
 #include <GeographicLib/Geocentric.hpp>
 #include <QtCore/QString>
 namespace geoutils {
+
+    enum Units { Degrees, Radians };
 
     class IllegalGeoCoordinatesException : public std::runtime_error {
     public:
@@ -28,8 +38,7 @@ namespace geoutils {
     class Geolocation {                // a point in spherical space
     public:
         Geolocation ();
-        static const unsigned DEGS, RADS;
-        Geolocation (const double& newLat, const double& newLon, const unsigned& units = RADS);
+        Geolocation (const double& newLat, const double& newLon, const unsigned& units = Units::Radians);
         Geolocation (const Geolocation& other);
         bool operator== (const Geolocation& other) const;
         Geolocation operator+ (const Geolocation& other);
@@ -51,24 +60,6 @@ namespace geoutils {
         Cartesian operator- (const Cartesian& other);
     };
 
-    class GeoQuad {                      // a region bounded by lines of latitude and longitude
-    public:
-        GeoQuad (const Geolocation& g1, const Geolocation& g2);
-        GeoQuad (const Geolocation& g1, const Geolocation& g2, const Geolocation& pointWithin);
-        bool contains (const Geolocation& g) const;
-        const Geolocation centre () const;
-        Geolocation nw() const;
-        Geolocation se() const;
-        Geolocation ne() const;
-        Geolocation sw() const;
-        QString toString ();
-        std::pair<std::vector<GeoQuad>::iterator, std::vector<GeoQuad>::iterator> rationalise ();
-        bool crossesDateline ();
-
-    protected:
-        bool _crossesDateline;
-        double _north, _south, _east, _west;
-    };
 
     class Math {
     public:
