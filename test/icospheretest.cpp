@@ -4,25 +4,22 @@
 #include <iostream>
 #include <random>
 #include <QtGui/QtGui>
+#include <libnoise/module/modulebase.h>
+#include <libnoise/module/perlin.h>
+
 #include "../libnoiseutils/intervallegend.h"
 #include "../icosphere/dataset.h"
 #include "../icosphere/icosphere.h"
 #include "../icosphere/vertex.h"
-#include "../geoutils.h"
-#include "../icosphere/model.h"
+#include "../libnoiseutils/IcosphereBuilder.h"
+#include "../libnoiseutils/GradientLegend.h"
 
 
 using namespace noise::utils;
 using namespace icosphere;
 using namespace geoutils;
 
-class IcosphereBoundsTestRow {
-public:
-    double _n, _s, _w, _e;
-    IcosphereBoundsTestRow (const double& n, const double& s, const double& w, const double& e) : _n (n), _s (s), _w (w), _e (e) { }
-};
-
-class IcosphereTest {
+class IcosphereTest : public ::testing::Test {
     protected:
     unsigned points;
     double maxdist, totaldist;
@@ -39,7 +36,7 @@ class IcosphereTest {
     std::uniform_real_distribution<double> random;
 
 
-    virtual void SetUpTestCase() {
+    virtual void SetUp() override {
         for (int i = 0; i < 8; i++) {
             legend.addEntry (100 * i, colours [i]);
         }
@@ -52,19 +49,19 @@ class IcosphereTest {
 
     }
 
-    virtual void TearDownTestCase() {
+    virtual void TearDown() override {
 
     }
 };
 
-TEST (IcosphereTest, buildSpeed) {
+TEST_F (IcosphereTest, buildSpeed) {
     double start = clock() / static_cast<double> (CLOCKS_PER_SEC);
     Icosphere i = Icosphere (8);
     double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
     std::cout << "Built icosphere with " << i.vertexCount() << " vertices in " << end - start << " seconds" << "\n";
 }
 
-TEST (IcosphereTest, imageSpeed) {
+TEST_F (IcosphereTest, imageSpeed) {
     Icosphere icosphere = Icosphere (8);
     IntervalLegend legend = IntervalLegend();
     icosphere.addDataset ("dataset", &legend, 8);
@@ -82,7 +79,7 @@ TEST (IcosphereTest, imageSpeed) {
     delete image;
 }
 
-TEST (IcosphereTest, searchTimes) {
+TEST_F (IcosphereTest, searchTimes) {
     Icosphere icosphere = Icosphere (8);
     time_t seed = time (NULL);
     std::default_random_engine e = std::default_random_engine (seed);
@@ -110,15 +107,19 @@ TEST (IcosphereTest, searchTimes) {
 }
 
 
+// Exercising class IcosphereBounds and its use
+
+class IcosphereBoundsTestRow {
+public:
+    double _n, _s, _w, _e;
+    int _count;
+    IcosphereBoundsTestRow (const double& n, const double& s, const double& w, const double& e, const int& count) : _n (n), _s (s), _w (w), _e (e), _count (count) { }
+};
+
 class IcosphereBoundsTest : public ::testing::TestWithParam<IcosphereBoundsTestRow> {
 protected:
-    virtual void setUpTestCase() {
-
-    }
-
-    virtual void tearDownTestCase() {
-
-    }
+    virtual void SetUp() override { }
+    virtual void TearDown() override { }
 };
 
 
@@ -130,15 +131,121 @@ TEST_P (IcosphereBoundsTest, bounds) {
     Icosphere icosphere = Icosphere (8, bounds);
     double end = clock() / static_cast<double> (CLOCKS_PER_SEC);
     std::cout << "Built icosphere with " << icosphere.vertexCount() << " vertices in " << end - start << " seconds" << "\n";
-
+    EXPECT_EQ (icosphere.vertexCount(), row._count);
 }
 
 INSTANTIATE_TEST_CASE_P (bounds, IcosphereBoundsTest, ::testing::Values (
-        IcosphereBoundsTestRow (90, -90, -180, 180),
-        IcosphereBoundsTestRow (30, 0, 0, 30),
-        IcosphereBoundsTestRow (60, 0, 0, 60),
-        IcosphereBoundsTestRow (30, -30, -30, 30),
-        IcosphereBoundsTestRow (30, 0, -150, 150), // not across dateline
-        IcosphereBoundsTestRow (30, 0, 150, -150), // across dateline
-        IcosphereBoundsTestRow (30, 0, -180, 180)); // across dateline
+        IcosphereBoundsTestRow (90, -90, -180, 180, 163842),
+        IcosphereBoundsTestRow (30, 0, 0, 30, 4374),
+        IcosphereBoundsTestRow (60, 0, 0, 60, 13514),
+        IcosphereBoundsTestRow (30, -30, -30, 30, 15108),
+        IcosphereBoundsTestRow (30, 0, -150, 150, 38944), // not across dateline
+        IcosphereBoundsTestRow (30, 0, 150, -150, 6855), // across dateline
+        IcosphereBoundsTestRow (30, 0, -180, 180, 45771)); // across dateline
+);
+
+// Exercising class IcosphereBuilder
+
+
+class IcosphereBuilderTestRow {
+public:
+    double _n, _s, _w, _e;          // icosphere bounds
+    IcosphereBuilderTestRow (const double& n, const double& s, const double& w, const double& e) : _n (n), _s (s), _w (w), _e (e) { }
+};
+
+class IcosphereBuilderTest : public ::testing::TestWithParam<IcosphereBuilderTestRow> {
+protected:
+
+    GradientLegend* legend;
+    noise::module::Perlin* perlin;
+
+    virtual void SetUp() override {
+        legend = new noise::utils::GradientLegend();
+        perlin = new noise::module::Perlin();
+    }
+
+    virtual void TearDown() override {
+        delete perlin;
+        delete legend;
+    }
+
+
+};
+
+TEST_P (IcosphereBuilderTest, builder) {
+    IcosphereBuilderTestRow const& row = GetParam ();
+    IcosphereBuilder builder = IcosphereBuilder (8, Bounds (degreesToRadians (row._n), degreesToRadians (row._s), degreesToRadians (row._w), degreesToRadians (row._e)));
+
+    builder.build ("altitude", legend, perlin);
+    Icosphere* icosphere = builder.icosphere ();
+    EXPECT_TRUE (icosphere -> hasDataset ("altitude"));
+    for (int i = 1000; i < icosphere->vertexCount (); i += 100) {
+        Vertex* v = (*icosphere) [i];
+        Cartesian c = v -> getCartesian ();
+        Vertex* found = icosphere -> nearest (Math::toGeolocation (c));
+        double foundValue = found -> getDatum ("altitude").value ();
+        EXPECT_EQ (v -> getId(), found -> getId());
+        EXPECT_NEAR (Math::toGeolocation (c).latDegrees, found -> getGeolocation().latDegrees, 0.00001);
+        EXPECT_NEAR (Math::toGeolocation (c).lonDegrees, found -> getGeolocation().lonDegrees, 0.00001);
+        EXPECT_EQ (foundValue, perlin -> GetValue (c.x, c.y, c.z));
+    }
+}
+
+INSTANTIATE_TEST_CASE_P (builder, IcosphereBuilderTest, ::testing::Values (
+        IcosphereBuilderTestRow (90, -90, -180, 180),
+        IcosphereBuilderTestRow (30, -30, -30, 30),
+        IcosphereBuilderTestRow (30, -30, 150, -150));
+);
+
+// Exercising icosphere bounds checking for searches
+
+class IcosphereBoundsCheckTestRow {
+public:
+    double _lat, _lon;
+    bool _ok;
+    IcosphereBoundsCheckTestRow (const double& lat, const double& lon, const bool& ok) : _lat (lat), _lon (lon), _ok (ok) { }
+};
+
+class IcosphereBoundsCheckTest : public ::testing::TestWithParam<IcosphereBoundsCheckTestRow> {
+protected:
+
+    GradientLegend* legend;
+    noise::module::Perlin* perlin;
+
+    virtual void SetUp() override {
+        legend = new noise::utils::GradientLegend();
+        perlin = new noise::module::Perlin();
+    }
+
+    virtual void TearDown() override {
+        delete perlin;
+        delete legend;
+    }
+};
+
+TEST_P (IcosphereBoundsCheckTest, boundsCheck) {
+    IcosphereBoundsCheckTestRow const& row = GetParam ();
+    IcosphereBuilder builder = IcosphereBuilder (8, Bounds (degreesToRadians (30), degreesToRadians (0), degreesToRadians (0), degreesToRadians (30)));
+
+    builder.build ("altitude", legend, perlin);
+    Icosphere* icosphere = builder.icosphere ();
+
+    // when we ask the icosphere for a value out of bounds it throws an exception
+
+    if (!row._ok) {
+        EXPECT_THROW ({
+                          double value = icosphere -> getDatum (Geolocation (row._lon, row._lat, Units::Degrees), "altitude").value ();
+                      }, IllegalIcosphereAccessException);
+    } else {
+        EXPECT_NO_THROW ({
+                             double value = icosphere -> getDatum (Geolocation (row._lon, row._lat, Units::Degrees), "altitude").value ();
+                         });
+    }
+}
+INSTANTIATE_TEST_CASE_P (boundsCheck, IcosphereBoundsCheckTest, ::testing::Values (
+        IcosphereBoundsCheckTestRow (15, 15, true),
+        IcosphereBoundsCheckTestRow (15, 60, false),
+        IcosphereBoundsCheckTestRow (15, -15, false),
+        IcosphereBoundsCheckTestRow (45, 15, false),
+        IcosphereBoundsCheckTestRow (15, 45, false));
 );

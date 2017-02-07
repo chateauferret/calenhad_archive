@@ -92,7 +92,7 @@ void RenderJob::render (osg::Image* image) {
     noise::utils::Color c;
     unsigned char* data = image -> data();
     int index = 0;
-    // Build and write each horizontal line to the osg::Image.
+    // build and write each horizontal line to the osg::Image.
 
     for (int y = 0; y < rendered.GetHeight(); y++) {
         if (status() == RenderJobStatus::Underway) {
@@ -120,11 +120,11 @@ void RenderJob::render() {
     NoiseMap heightMap;
     NoiseMapBuilderSphere* heightMapBuilder = new NoiseMapBuilderSphere();
 
-    heightMapBuilder -> SetSourceModule (*_source);
-    heightMapBuilder -> SetDestNoiseMap (heightMap);
-    heightMapBuilder -> SetDestSize (_image -> width(), _image -> height());
+    heightMapBuilder->setSourceModule (*_source);
+    heightMapBuilder->setDestNoiseMap (heightMap);
+    heightMapBuilder->setDestSize (_image->width (), _image->height ());
     heightMapBuilder -> SetBounds (_bounds.south (GeoDataCoordinates::Degree), _bounds.north (GeoDataCoordinates::Degree), _bounds.west(GeoDataCoordinates::Degree), _bounds.east(GeoDataCoordinates::Degree));
-    heightMapBuilder -> Build ();
+    heightMapBuilder->build ();
 
     RendererImage renderer;
 

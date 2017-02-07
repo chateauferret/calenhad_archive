@@ -16,12 +16,12 @@ bool Model::addDataset (const std::string& key, Legend* legend, const char& dept
     std::cout << "Adding dataset " << key << "\n";
     Dataset dataset = Dataset (key, legend, depth);
     if (hasDataset (key)) {
-        return false;
-    } else {
-        std::pair<std::string, Dataset> item = std::make_pair (key, dataset);
-        _datasets.insert (item);
-        return true;
+        removeDataset (key);
     }
+    std::pair<std::string, Dataset> item = std::make_pair (key, dataset);
+    _datasets.insert (item);
+    return true;
+
 }
 
 bool Model::removeDataset (const std::string& key) {

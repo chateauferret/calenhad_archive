@@ -46,9 +46,6 @@ bool CalenhadLayer::render (GeoPainter* painter, GeoDataLatLonBox box) {
     double noise, latd, lond;
 
     QColor color;
-    // see if circumpolar boxes work - if not set north to M_PI / 2 if north pole included, south to -M_PI / 2 if south pole included
-    // to do - put this in a separate thread
-
     std::time_t start = std::clock();
     for (double lon = box.west(); lon <= box.east(); lon += _angularResolution) {
         for (double lat = box.south (); lat <= box.north (); lat += _angularResolution) {

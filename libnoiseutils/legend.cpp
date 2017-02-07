@@ -20,6 +20,14 @@ void Legend::setDefaultColor (const QColor& colour) {
     _defaultColor = colour;
 }
 
+QColor Legend::lookup (const std::experimental::optional<double>& value) {
+    if ((bool) value) {
+        return lookup (value.value ());
+    } else {
+        return _defaultColor;
+    }
+}
+
 
 
 

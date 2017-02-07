@@ -83,7 +83,7 @@ namespace noise {
             /// If this method is successful, the destination noise map contains
             /// the coherent-noise values from the noise module specified by
             /// SetSourceModule().
-            virtual void Build () = 0;
+            virtual void build () = 0;
 
             /// Returns the height of the destination noise map.
             ///
@@ -92,7 +92,7 @@ namespace noise {
             /// This object does not change the height in the destination noise
             /// map object until the Build() method is called.
             double GetDestHeight () const {
-                return m_destHeight;
+                return _destHeight;
             }
 
             /// Returns the width of the destination noise map.
@@ -102,7 +102,7 @@ namespace noise {
             /// This object does not change the height in the destination noise
             /// map object until the Build() method is called.
             double GetDestWidth () const {
-                return m_destWidth;
+                return _destWidth;
             }
 
             /// Sets the callback function that Build() calls each time it fills a
@@ -125,8 +125,8 @@ namespace noise {
             ///
             /// The destination noise map must exist throughout the lifetime of
             /// this object unless another noise map replaces that noise map.
-            void SetDestNoiseMap (NoiseMap& destNoiseMap) {
-                m_pDestNoiseMap = &destNoiseMap;
+            void setDestNoiseMap (NoiseMap& destNoiseMap) {
+                _destNoiseMap = &destNoiseMap;
             }
 
             /// Sets the source module.
@@ -138,8 +138,8 @@ namespace noise {
             ///
             /// The source module must exist throughout the lifetime of this
             /// object unless another noise module replaces that noise module.
-            void SetSourceModule (const module::Module& sourceModule) {
-                m_pSourceModule = &sourceModule;
+            void setSourceModule (const module::Module& sourceModule) {
+                _source = &sourceModule;
             }
 
             /// Sets the size of the destination noise map.
@@ -151,9 +151,9 @@ namespace noise {
             ///
             /// This method does not change the size of the destination noise map
             /// until the Build() method is called.
-            void SetDestSize (int destWidth, int destHeight) {
-                m_destWidth = destWidth;
-                m_destHeight = destHeight;
+            void setDestSize (int destWidth, int destHeight) {
+                _destWidth = destWidth;
+                _destHeight = destHeight;
             }
 
         protected:
@@ -168,16 +168,16 @@ namespace noise {
             NoiseMapCallback m_pCallback;
 
             /// Height of the destination noise map, in points.
-            int m_destHeight;
+            int _destHeight;
 
             /// Width of the destination noise map, in points.
-            int m_destWidth;
+            int _destWidth;
 
             /// Destination noise map that will contain the coherent-noise values.
-            NoiseMap* m_pDestNoiseMap;
+            NoiseMap* _destNoiseMap;
 
             /// Source noise module that will generate the coherent-noise values.
-            const module::Module* m_pSourceModule;
+            const module::Module* _source;
 
         };
     }

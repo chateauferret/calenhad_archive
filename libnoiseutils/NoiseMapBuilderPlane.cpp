@@ -27,33 +27,33 @@ void NoiseMapBuilderPlane::Build ()
 {
     if ( m_upperXBound <= m_lowerXBound
          || m_upperZBound <= m_lowerZBound
-         || m_destWidth <= 0
-         || m_destHeight <= 0
-         || m_pSourceModule == NULL
-         || m_pDestNoiseMap == NULL) {
+         || _destWidth <= 0
+         || _destHeight <= 0
+         || _source == NULL
+         || _destNoiseMap == NULL) {
         throw noise::ExceptionInvalidParam ();
     }
 
     // Resize the destination noise map so that it can store the new output
     // values from the source model.
-    m_pDestNoiseMap->SetSize (m_destWidth, m_destHeight);
+    _destNoiseMap->SetSize (_destWidth, _destHeight);
 
     // Create the plane model.
     noise::model::Plane planeModel;
-    planeModel.SetModule (*m_pSourceModule);
+    planeModel.SetModule (*_source);
 
     double xExtent = m_upperXBound - m_lowerXBound;
     double zExtent = m_upperZBound - m_lowerZBound;
-    double xDelta  = xExtent / (double)m_destWidth ;
-    double zDelta  = zExtent / (double)m_destHeight;
+    double xDelta  = xExtent / (double)_destWidth ;
+    double zDelta  = zExtent / (double)_destHeight;
     double xCur    = m_lowerXBound;
     double zCur    = m_lowerZBound;
 
     // Fill every point in the noise map with the output values from the model.
-    for (int z = 0; z < m_destHeight; z++) {
-        float* pDest = m_pDestNoiseMap->GetSlabPtr (z);
+    for (int z = 0; z < _destHeight; z++) {
+        float* pDest = _destNoiseMap->GetSlabPtr (z);
         xCur = m_lowerXBound;
-        for (int x = 0; x < m_destWidth; x++) {
+        for (int x = 0; x < _destWidth; x++) {
             float finalValue;
             if (!m_isSeamlessEnabled) {
                 finalValue = (float) planeModel.GetValue (xCur, zCur);

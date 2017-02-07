@@ -18,28 +18,33 @@ using namespace icosphere;
 using namespace noise::utils;
 
 
-Icosphere::Icosphere (const unsigned int& depth, const Bounds& bounds) : Model (depth) {
+//--------------------------------------------------------------------------------
+// icosahedron data
+//--------------------------------------------------------------------------------
+
+static constexpr double X = 0.525731112119133606;
+static constexpr double Z = 0.850650808352039932;
+
+static constexpr double vdata[12][3] = {
+        {-X, 0.0, Z}, {X, 0.0, Z}, {-X, 0.0, -Z}, {X, 0.0, -Z},
+        {0.0, Z, X}, {0.0, Z, -X}, {0.0, -Z, X}, {0.0, -Z, -X},
+        {Z, X, 0.0}, {-Z, X, 0.0}, {Z, -X, 0.0}, {-Z, -X, 0.0}
+};
+
+static constexpr unsigned tindices[20][3] = {
+        {0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
+        {8,10,1}, {8,3,10}, {5,3,8}, {5,2,3}, {2,7,3},
+        {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
+        {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11} };
+
+//--------------------------------------------------------------------------------
+
+
+Icosphere::Icosphere (const char& depth, const Bounds& bounds) : Model (depth) {
 
     _bounds = bounds;
-    
-    //--------------------------------------------------------------------------------
-    // icosahedron data
-    //--------------------------------------------------------------------------------
 
-    static constexpr double vdata[12][3] = {
-       {-X, 0.0, Z}, {X, 0.0, Z}, {-X, 0.0, -Z}, {X, 0.0, -Z},
-       {0.0, Z, X}, {0.0, Z, -X}, {0.0, -Z, X}, {0.0, -Z, -X},
-       {Z, X, 0.0}, {-Z, X, 0.0}, {Z, -X, 0.0}, {-Z, -X, 0.0}
-    };
-
-    static constexpr unsigned tindices[20][3] = {
-       {0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
-       {8,10,1}, {8,3,10}, {5,3,8}, {5,2,3}, {2,7,3},
-       {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
-       {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11} };
-    //--------------------------------------------------------------------------------
-
-    std::cout << "Building icosphere to level " << (int) _levels << "\n";
+    std::cout << "\nBuilding icosphere to level " << (int) _levels << "\n";
     _gc = new GeographicLib::Geocentric (1.0, 0.0); // sphere
     _gd = new GeographicLib::Geodesic (1.0, 0.0);
     _rhumb = new GeographicLib::Rhumb (1.0, 0.0);
@@ -48,7 +53,8 @@ Icosphere::Icosphere (const unsigned int& depth, const Bounds& bounds) : Model (
     // init with an icosahedron
      for (int i = 0; i < 12; i++) {
         Cartesian c = Cartesian (vdata [i][0], vdata[i][1], vdata [i][2]);
-        _vertices.push_back (new Vertex (i, c, 0, _rhumb));
+         Vertex* v = new Vertex (i, c, 0, _rhumb);
+        _vertices.push_back (v);
     }
     _lastVisited = _vertices [0];
     _indices.push_back (new std::vector<unsigned>);
@@ -177,8 +183,8 @@ uint128_t Icosphere::triangleKey (unsigned a, unsigned b, unsigned c) {
 }
 
 void Icosphere::makeNeighbours (const unsigned& p, const unsigned& q) {
-        _vertices[p]->addNeighbour (_vertices[q]);
-        _vertices[q]->addNeighbour (_vertices[p]);
+        _vertices [p] -> addNeighbour (_vertices [q]);
+        _vertices [q] -> addNeighbour (_vertices [p]);
 }
 
 Vertex* Icosphere::operator [] (const unsigned& id) {
@@ -188,21 +194,23 @@ Vertex* Icosphere::operator [] (const unsigned& id) {
 const std::vector<Vertex*> Icosphere::vertices() { return _vertices; }
 unsigned Icosphere::vertexCount() { return _vertices.size(); }
 
-Vertex* Icosphere::nearest (const Geolocation& target, const unsigned int& depth) const{
+Vertex* Icosphere::nearest (const Geolocation& target, const unsigned int& depth) const {
+
     double d, dist;
     Vertex* pV;
-    _lastVisited = _vertices [0];
+    _lastVisited = _vertices[0];
     for (int i = 1; i < 12; i++) {
-        pV = _vertices [i];
-        d = distance (pV -> getGeolocation(), target);
+        pV = _vertices[i];
+        d = distance (pV->getGeolocation (), target);
         if (i == 1 || d < dist) {
-           _lastVisited = pV;
-           dist = d;
+            _lastVisited = pV;
+            dist = d;
         }
     }
 
     // walk over the Delaunay triangulation until a point is reached that is nearer the key than any connected point
     return walkTowards (target, depth);
+
 }
 
 void Icosphere::visit (Vertex* pV) {
@@ -218,13 +226,13 @@ Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& dep
   double dist = Math::distSquared (_lastVisited -> getCartesian(), target);
   std::pair <std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> n = _lastVisited -> getNeighbours();
   std::set<Vertex*>::iterator i  = n.first;
-  Vertex* next;
+  Vertex* next = nullptr;
 
   bool found = false;
   while (i != n.second) {
       if ((*i) -> getLevel() <= depth) {
           double d = Math::distSquared ((*i) -> getCartesian(), target);
-          if (d < dist && (*i) -> getLevel() >= (_lastVisited -> getLevel())) {
+          if (d < dist) { // && (*i) -> getLevel() >= (_lastVisited -> getLevel())) {
               next = *i;
               dist = d;
               found = true;
@@ -237,23 +245,28 @@ Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& dep
       _lastVisited = next;
       return walkTowards (target, depth);
     } else {
+
       return _lastVisited;
     }
 }
 
 
-int Icosphere::getDatum (const Geolocation& g, const std::string& key) {
-    std::map<std::string, Dataset>::iterator i = _datasets.find (key);
-    if (i != _datasets.end()) {
-        Dataset dataset = i -> second;
-        Vertex* v = walkTowards (Math::toCartesian (g), dataset.getDepth());
-        return v -> getDatum (key);
+std::experimental::optional<double> Icosphere::getDatum (const Geolocation& g, const std::string& key) {
+    if (isInBounds (g, _bounds)) {
+        std::map<std::string, Dataset>::iterator i = _datasets.find (key);
+        if (i != _datasets.end()) {
+            Dataset dataset = i -> second;
+            Vertex* v = walkTowards (Math::toCartesian (g), dataset.getDepth());
+            return v -> getDatum (key);
+        } else {
+            throw DatasetNotFoundException (key);
+        }
     } else {
-        throw DatasetNotFoundException (key);
+        throw IllegalIcosphereAccessException ("Search target out of bounds");
     }
 }
 
-void Icosphere::setDatum (const Geolocation& g, const std::string& key, int datum) {
+bool Icosphere::setDatum (const Geolocation& g, const std::string& key, const double& datum) {
     std::map<std::string, Dataset>::iterator i = _datasets.find (key);
     if (i != _datasets.end()) {
         Dataset dataset = i -> second;
@@ -264,7 +277,6 @@ void Icosphere::setDatum (const Geolocation& g, const std::string& key, int datu
     }
 }
 
-
 // for now, images can't cross the dateline - this is OK in a tiling arrangement
 bool Icosphere::getImage (QImage* image, const Bounds& bounds, const std::string& key) {
     std::map<std::string, Dataset>::iterator item = _datasets.find (key);
@@ -274,19 +286,19 @@ bool Icosphere::getImage (QImage* image, const Bounds& bounds, const std::string
         Legend* legend = dataset.getLegend();
         for (int i = 0; i < image -> width(); i++) {
             double lon = bounds.east + (bounds.west - bounds.east) / image -> height() * i;
-            if (lon < -HALF_PI) { lon += HALF_PI; }
-            if (lon > HALF_PI) { lon -= HALF_PI; }
+            if (lon < -M_PI_2) { lon += M_PI_2; }
+            if (lon > M_PI_2) { lon -= M_PI_2; }
             for (int j = 0; j < image -> height(); j++) {
                 double lat = bounds.north + (bounds.south - bounds.north) / image -> width() * j;
-                if (lat < -PI) { lat += PI; }
-                if (lat > PI) { lat -= PI; }
+                if (lat < -M_PI) { lat += M_PI; }
+                if (lat > M_PI) { lat -= M_PI; }
                 Vertex* v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Units::Radians)));
                 image -> setPixel (i, j, legend -> lookup (v -> getDatum (key)).rgb());
             }
         }
         return true;
     } else {
-        return false;
+        throw DatasetNotFoundException (key);
     }
 }
 
@@ -294,7 +306,7 @@ std::string Icosphere::getType() {
   return "Icosphere";
 }
 
-bool Icosphere::coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c, const Bounds& bounds) {
+bool Icosphere::coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c, const Bounds& bounds) const {
     double minLat = std::min (std::min(a.longitude, b.longitude), c.longitude);
     double maxLat = std::max (std::max(a.longitude, b.longitude), c.longitude);
     if (maxLat - minLat > M_PI) {
@@ -326,12 +338,12 @@ bool Icosphere::coversTriangle (const Geolocation& a, const Geolocation& b, cons
 }
 
 
-bool Icosphere::coversTriangle (const geoutils::Geolocation& a, const geoutils::Geolocation& b, const geoutils::Geolocation& c) {
+bool Icosphere::coversTriangle (const geoutils::Geolocation& a, const geoutils::Geolocation& b, const geoutils::Geolocation& c) const {
     return coversTriangle (a, b, c, _bounds);
 }
 
 
-bool Icosphere::isInTriangle (const Geolocation& p1, const Geolocation& p2, const Geolocation& p3, double lon, double lat) {
+bool Icosphere::isInTriangle (const Geolocation& p1, const Geolocation& p2, const Geolocation& p3, double lon, double lat) const {
     // triangle is in bounds if any corner of the bounds is within it - compute barymetric coordinates - true if all these are positive
     double alpha = ((p2.latitude - p3.latitude)*(lon - p3.longitude) + (p3.longitude - p2.longitude)*(lat - p3.latitude)) /
                   ((p2.latitude - p3.latitude)*(p1.longitude - p3.longitude) + (p3.longitude - p2.longitude)*(p1.latitude - p3.latitude));
@@ -341,7 +353,6 @@ bool Icosphere::isInTriangle (const Geolocation& p1, const Geolocation& p2, cons
     return alpha > 0 && beta > 0 && gamma > 0;
 }
 
-bool Icosphere::isInBounds (const Geolocation& a, const Bounds& bounds) {
+bool Icosphere::isInBounds (const Geolocation& a, const Bounds& bounds) const {
     return (a.latitude <= bounds.north && a.latitude >= bounds.south && a.longitude >= bounds.west && a.longitude <= bounds.east);
 }
-

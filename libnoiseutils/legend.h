@@ -5,6 +5,8 @@
 #include <map>
 #include <limits.h>
 #include <qcolor.h>
+#include <experimental/optional>
+
 namespace noise {
     namespace utils {
         class Legend {
@@ -13,6 +15,7 @@ namespace noise {
             Legend ();
             virtual ~Legend ();
             Legend (const Legend& other);
+            virtual QColor lookup (const std::experimental::optional<double>& value);
             virtual QColor lookup (const double& value) = 0;
             void setDefaultColor (const QColor& color);
             virtual void addEntry (const double& value, const QColor& colour) = 0;

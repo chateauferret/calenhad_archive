@@ -38,7 +38,7 @@ namespace noise {
             /// Constructor.
             NoiseMapBuilderSphere ();
 
-            virtual void Build ();
+            virtual void build ();
 
             /// Returns the eastern boundary of the spherical noise map.
             ///
@@ -101,7 +101,7 @@ namespace noise {
                 m_eastLonBound  = eastLonBound ;
             }
 
-        private:
+        protected:
 
             /// Eastern boundary of the spherical noise map, in degrees.
             double m_eastLonBound;
@@ -115,6 +115,9 @@ namespace noise {
             /// Western boundary of the spherical noise map, in degrees.
             double m_westLonBound;
 
+            double _curLat, _curLon, _xDelta, _yDelta;
+
+            void prepare ();
         };
 
 

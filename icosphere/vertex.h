@@ -20,6 +20,7 @@
 #include <map>
 #include <GeographicLib/Rhumb.hpp>
 #include "icosphereutils.h"
+#include <experimental/optional>
 
 namespace icosphere {
     class Triangle;
@@ -45,38 +46,21 @@ namespace icosphere {
     public:
         typedef std::set<Triangle*, TriangleComparator> TriangleSet;
 
-        Vertex ();
-
         Vertex (unsigned i, geoutils::Cartesian& c, const unsigned& l, GeographicLib::Rhumb* r);
-
         Vertex (const Vertex& other);
-
         virtual ~Vertex ();
-
         geoutils::Geolocation getGeolocation () const;
-
         geoutils::Cartesian getCartesian () const;
-
         unsigned getLevel () const;
-
         void addNeighbour (Vertex* pV);
-
         std::pair<std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> getNeighbours () const;
-
         int countNeighbours (const unsigned int& depth = 0);
-
-        int getDatum (const std::string& dataset);
-
-        void setDatum (const std::string& dataset, const int& value);
-
+        std::experimental::optional<double> getDatum (const std::string& dataset);
+        bool setDatum (const std::string& dataset, const double& value);
         void erase (const std::string& key);
-
         unsigned getId () const;
-
         void addTriangle (Triangle* t);
-
         std::vector<geoutils::Geolocation>::iterator getCell (const unsigned& level);
-
 
     protected:
         unsigned _id;
@@ -85,7 +69,9 @@ namespace icosphere {
         geoutils::Cartesian _cartesian;
         geoutils::Geolocation _geolocation;
         double _a1, _a2, _length;
-        std::map<std::string, int> _data;           // map dataset names to the datum of that dataset for this vertex
+        std::map<std::string, std::experimental::optional<double>> _data = std::map<std::string, std::experimental::optional<double>>();
+        // map dataset names to the datum of that dataset for this vertex
+
         std::set<Vertex*> _neighbours;              // neighbouring vertices
         std::map<unsigned, TriangleSet> _triangles;
     };

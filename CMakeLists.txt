@@ -10,7 +10,7 @@ include_directories(
 
 add_subdirectory (test)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(CMAKE_AUTOMOC ON)
 set(SOURCE_FILES
         preferences.h
@@ -129,6 +129,8 @@ set(SOURCE_FILES
         libnoiseutils/intervallegend.cpp
         libnoiseutils/GradientLegend.cpp
         libnoiseutils/GradientLegend.h
+        libnoiseutils/IcosphereBuilder.h
+        libnoiseutils/IcosphereBuilder.cpp
         icosphere/model.h
         icosphere/model.cpp
         icosphere/dataset.h
@@ -153,7 +155,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES})
+add_executable (calenhad main.cpp ${SOURCE_FILES} libnoiseutils/IcosphereBuilder.cpp libnoiseutils/IcosphereBuilder.h)
 
 add_definitions (${GeographicLib_DEFINITIONS})
 #qt5_use_modules (calenhad Gui Widgets OpenGL)

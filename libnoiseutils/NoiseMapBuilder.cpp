@@ -11,10 +11,10 @@ using namespace noise::utils;
 
 NoiseMapBuilder::NoiseMapBuilder ():
         m_pCallback (NULL),
-        m_destHeight (0),
-        m_destWidth  (0),
-        m_pDestNoiseMap (NULL),
-        m_pSourceModule (NULL)
+        _destHeight (0),
+        _destWidth  (0),
+        _destNoiseMap (NULL),
+        _source (NULL)
 {
 }
 

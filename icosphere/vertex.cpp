@@ -11,8 +11,12 @@
  * Created on 30 September 2015, 17:22
  */
 
+
+#include <experimental/optional>
+#include <unordered_map>
 #include "vertex.h"
 #include "triangle.h"
+#include "model.h"
 
 using namespace geoutils;
 using namespace icosphere;
@@ -32,13 +36,11 @@ bool TriangleComparator:: operator() (Triangle* t1, Triangle* t2) {
         return false;
     }
 }
-Vertex::Vertex() {
-}
 
 Vertex::Vertex (unsigned i, Cartesian& c, const unsigned int& l, GeographicLib::Rhumb* r) : _id (i), _level (l), _rhumb (r), _cartesian (c), _geolocation (Math::toGeolocation (_cartesian)) {
 }
 
-Vertex::Vertex (const Vertex& other) : _id (other._id), _level (other._level), _rhumb (other._rhumb), _cartesian (other._cartesian), _geolocation (other._geolocation) {
+Vertex::Vertex (const Vertex& other) : _id (other._id), _level (other._level), _rhumb (other._rhumb), _cartesian (other._cartesian), _geolocation (other._geolocation), _data (other._data) {
 }
 
 unsigned Vertex::getId() const {
@@ -69,16 +71,24 @@ std::pair <std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> Vertex::get
   return std::make_pair (_neighbours.begin(), _neighbours.end());
 }
 
-void Vertex::setDatum (const std::string& dataset, const int& value) {
-    _data [dataset] = value;
+bool Vertex::setDatum (const std::string& dataset, const double& value) {
+    std::map<std::string, std::experimental::optional<double>>::iterator i = _data.find (dataset);
+    if (i == _data.end()) {
+        _data.insert (make_pair (dataset, std::experimental::make_optional (value)));
+        return true;
+    } else {
+        bool result = ! ((bool) (*i -> second));
+        _data [dataset] = value;
+        return result;
+    }
 }
 
-int Vertex::getDatum (const std::string& dataset) {
-    std::map<std::string, int>::iterator i = _data.find (dataset);
+std::experimental::optional<double> Vertex::getDatum (const std::string& dataset) {
+    std::map<std::string, std::experimental::optional<double>>::iterator i = _data.find (dataset);
     if (i == _data.end()) {
-        return 0; // to do - optional no value
+        return std::experimental::optional<double>(); // no value
     } else {
-        return i -> second;
+        return (i -> second);
     }
 }
 
