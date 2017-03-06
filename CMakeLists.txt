@@ -123,18 +123,14 @@ set(SOURCE_FILES
         libnoiseutils/nullmodule.h
         libnoiseutils/nullmodule.cpp
         libnoiseutils/NoiseContstants.h
-        libnoiseutils/legend.h
-        libnoiseutils/legend.cpp
+        icosphere/legend.h
+        icosphere/legend.cpp
         libnoiseutils/intervallegend.h
         libnoiseutils/intervallegend.cpp
         libnoiseutils/GradientLegend.cpp
         libnoiseutils/GradientLegend.h
         libnoiseutils/IcosphereBuilder.h
         libnoiseutils/IcosphereBuilder.cpp
-        icosphere/model.h
-        icosphere/model.cpp
-        icosphere/dataset.h
-        icosphere/dataset.cpp
         icosphere/vertex.h
         icosphere/vertex.cpp
         icosphere/triangle.h
@@ -155,12 +151,12 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} libnoiseutils/IcosphereBuilder.cpp libnoiseutils/IcosphereBuilder.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES})
 
 add_definitions (${GeographicLib_DEFINITIONS})
 #qt5_use_modules (calenhad Gui Widgets OpenGL)
 
 
 
-target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES})
+target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY})
 target_link_libraries (calenhad core)

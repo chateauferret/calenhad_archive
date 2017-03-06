@@ -33,7 +33,6 @@ protected:
     QBuffer* _buffer = nullptr;
     std::shared_ptr<QImage> _tile = nullptr;
     noise::module::Module* findModule (const QString& name);
-    TileProducer* _tileProducer;
     void setTileSize (const unsigned int& s);
     void parseTilePath (const QByteArray& path, QByteArray& message, int& statusCode, QByteArray& statusMessage, QByteArray* content);
     CalenhadModel* _model;

@@ -20,7 +20,6 @@
 class QModule;
 class QNoiseMapExplorer;
 
-
 class QNoiseMapViewer : public QWidget {
 Q_OBJECT
 public:
@@ -32,7 +31,6 @@ public:
     int height();
     int width();
     bool isRendered();
-    std::shared_ptr<QImage> image();
     QModule* source();
     void setSource (QModule* qm);
     void initialise();
@@ -40,17 +38,14 @@ public:
     bool eventFilter (QObject*, QEvent*);
 
 public slots:
-    void jobUpdate (RenderJobStatus);
-    void jobComplete ();
+
+    void jobComplete (TileId, std::shared_ptr<QImage> image);
     void render();
     void setProgress (int p);
 
-    signals:
-    void abandon();
 
 protected:
     Marble::GeoDataLatLonBox _bounds;
-    std::shared_ptr<QImage> _image;
     QGraphicsView* _view;
     QGraphicsScene* _scene;
     QGraphicsPixmapItem* _item = nullptr;
@@ -62,6 +57,7 @@ protected:
     QWidget* _content;
     QNoiseMapExplorer* _explorer;
     QProgressBar* _progressBar;
+    std::shared_ptr<QImage> _image;
 };
 
 

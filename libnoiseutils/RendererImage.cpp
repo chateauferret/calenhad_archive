@@ -9,14 +9,16 @@
 #include "RendererImage.h"
 #include "NoiseMap.h"
 #include "Interpolation.h"
+#include <QThread>
+#include "../pipeline/RenderJob.h"
 
 using namespace noise::utils;
-
+using namespace icosphere;
 
 //////////////////////////////////////////////////////////////////////////////
 // RendererImage class
 
-RendererImage::RendererImage ():
+RendererImage::RendererImage (RenderJob* job):
         _isLightEnabled    (false),
         _isWrapEnabled     (false),
         _lightAzimuth      (45.0),
@@ -27,7 +29,8 @@ RendererImage::RendererImage ():
         _lightIntensity    (1.0),
         _pDestImage        (NULL),
         _pSourceNoiseMap   (NULL),
-        _recalcLightValues (true)  {
+        _recalcLightValues (true) ,
+        _job (job) {
 }
 
 QColor RendererImage::findDestinationColor (const QColor& sourceColor, double lightValue) const {
@@ -106,88 +109,95 @@ void RendererImage::render () {
         const float* pSource = _pSourceNoiseMap -> GetConstSlabPtr (y);
         for (int x = 0; x < width; x++) {
 
-            // Get the color based on the value at the current point in the noise map.
-            double value = _pSourceNoiseMap -> GetValue (x, y);
-            QColor destColor = _legend -> lookup (value);
-
-            // If lighting is enabled, calculate the light intensity based on the
-            // rate of change at the current point in the noise map.
-            double lightIntensity;
-            if (_isLightEnabled) {
-
-                // Calculate the positions of the current point's four-neighbors.
-                int xLeftOffset, xRightOffset;
-                int yUpOffset  , yDownOffset ;
-                if (_isWrapEnabled) {
-                    if (x == 0) {
-                        xLeftOffset  = width - 1;
-                        xRightOffset = 1;
-                    } else if (x == width - 1) {
-                        xLeftOffset  = -1;
-                        xRightOffset = -(width - 1);
-                    } else {
-                        xLeftOffset  = -1;
-                        xRightOffset = 1;
-                    }
-                    if (y == 0) {
-                        yDownOffset = height - 1;
-                        yUpOffset   = 1;
-                    } else if (y == height - 1) {
-                        yDownOffset = -1;
-                        yUpOffset   = -(height - 1);
-                    } else {
-                        yDownOffset = -1;
-                        yUpOffset   = 1;
-                    }
-                } else {
-                    if (x == 0) {
-                        xLeftOffset  = 0;
-                        xRightOffset = 1;
-                    } else if (x == width - 1) {
-                        xLeftOffset  = -1;
-                        xRightOffset = 0;
-                    } else {
-                        xLeftOffset  = -1;
-                        xRightOffset = 1;
-                    }
-                    if (y == 0) {
-                        yDownOffset = 0;
-                        yUpOffset   = 1;
-                    } else if (y == height - 1) {
-                        yDownOffset = -1;
-                        yUpOffset   = 0;
-                    } else {
-                        yDownOffset = -1;
-                        yUpOffset   = 1;
-                    }
-                }
-                yDownOffset *= _pSourceNoiseMap->GetStride ();
-                yUpOffset   *= _pSourceNoiseMap->GetStride ();
-
-                // Get the noise value of the current point in the source noise map
-                // and the noise values of its four-neighbors.
-                double nc = (double) (*pSource);
-                double nl = (double) (*(pSource + xLeftOffset ));
-                double nr = (double) (*(pSource + xRightOffset));
-                double nd = (double) (*(pSource + yDownOffset ));
-                double nu = (double) (*(pSource + yUpOffset   ));
-
-                // Now we can calculate the lighting intensity.
-                lightIntensity = findLightIntensity (nc, nl, nr, nd, nu);
-                lightIntensity *= _lightBrightness;
-
+            // if thread is being interrupted, terminate the loops gracefully
+            if (_job -> isAbandoned ()) {
+                x = width;
+                y = height;
             } else {
 
-                // These values will apply no lighting to the destination image.
-                lightIntensity = 1.0;
-            }
+                // Get the color based on the value at the current point in the noise map.
+                double value = _pSourceNoiseMap->GetValue (x, y);
+                QColor destColor = _legend->lookup (value);
 
-            // Blend the destination color and the light
-            // intensity together, then update the destination image with that color.
-            QColor c = findDestinationColor (destColor, lightIntensity);
-            _pDestImage -> setPixelColor (x, y, c);
-            // Go to the next point.
-            ++pSource;
+                // If lighting is enabled, calculate the light intensity based on the
+                // rate of change at the current point in the noise map.
+                double lightIntensity;
+                if (_isLightEnabled) {
+
+                    // Calculate the positions of the current point's four-neighbors.
+                    int xLeftOffset, xRightOffset;
+                    int yUpOffset, yDownOffset;
+                    if (_isWrapEnabled) {
+                        if (x == 0) {
+                            xLeftOffset = width - 1;
+                            xRightOffset = 1;
+                        } else if (x == width - 1) {
+                            xLeftOffset = -1;
+                            xRightOffset = -(width - 1);
+                        } else {
+                            xLeftOffset = -1;
+                            xRightOffset = 1;
+                        }
+                        if (y == 0) {
+                            yDownOffset = height - 1;
+                            yUpOffset = 1;
+                        } else if (y == height - 1) {
+                            yDownOffset = -1;
+                            yUpOffset = -(height - 1);
+                        } else {
+                            yDownOffset = -1;
+                            yUpOffset = 1;
+                        }
+                    } else {
+                        if (x == 0) {
+                            xLeftOffset = 0;
+                            xRightOffset = 1;
+                        } else if (x == width - 1) {
+                            xLeftOffset = -1;
+                            xRightOffset = 0;
+                        } else {
+                            xLeftOffset = -1;
+                            xRightOffset = 1;
+                        }
+                        if (y == 0) {
+                            yDownOffset = 0;
+                            yUpOffset = 1;
+                        } else if (y == height - 1) {
+                            yDownOffset = -1;
+                            yUpOffset = 0;
+                        } else {
+                            yDownOffset = -1;
+                            yUpOffset = 1;
+                        }
+                    }
+                    yDownOffset *= _pSourceNoiseMap->GetStride ();
+                    yUpOffset *= _pSourceNoiseMap->GetStride ();
+
+                    // Get the noise value of the current point in the source noise map
+                    // and the noise values of its four-neighbors.
+                    double nc = (double) (*pSource);
+                    double nl = (double) (*(pSource + xLeftOffset));
+                    double nr = (double) (*(pSource + xRightOffset));
+                    double nd = (double) (*(pSource + yDownOffset));
+                    double nu = (double) (*(pSource + yUpOffset));
+
+                    // Now we can calculate the lighting intensity.
+                    lightIntensity = findLightIntensity (nc, nl, nr, nd, nu);
+                    lightIntensity *= _lightBrightness;
+
+                } else {
+
+                    // These values will apply no lighting to the destination image.
+                    lightIntensity = 1.0;
+                }
+
+                // Blend the destination color and the light
+                // intensity together, then invalidate the destination image with that color.
+                QColor c = findDestinationColor (destColor, lightIntensity);
+                _pDestImage->setPixelColor (x, y, c);
+                // Go to the next point.
+                ++pSource;
+            }
         }
     }
 }

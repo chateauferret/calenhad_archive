@@ -1,6 +1,6 @@
 #include <limits.h>
 #include <gtest/gtest.h>
-#include "../libnoiseutils/legend.h"
+#include "../icosphere/legend.h"
 #include <iostream>
 #include "../libnoiseutils/intervallegend.h"
 

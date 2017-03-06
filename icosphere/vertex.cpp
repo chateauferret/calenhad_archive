@@ -16,7 +16,7 @@
 #include <unordered_map>
 #include "vertex.h"
 #include "triangle.h"
-#include "model.h"
+#include "icosphere.h"
 
 using namespace geoutils;
 using namespace icosphere;
@@ -63,7 +63,7 @@ int Vertex::countNeighbours (const unsigned int& depth) {
     }
 }
 
-void Vertex::erase (const std::string& key) {
+void Vertex::erase (const QUuid& key) {
     _data.erase (key);
 }
 
@@ -71,8 +71,8 @@ std::pair <std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> Vertex::get
   return std::make_pair (_neighbours.begin(), _neighbours.end());
 }
 
-bool Vertex::setDatum (const std::string& dataset, const double& value) {
-    std::map<std::string, std::experimental::optional<double>>::iterator i = _data.find (dataset);
+bool Vertex::setDatum (const QUuid& dataset, const double& value) {
+    std::map<QUuid, std::experimental::optional<double>>::iterator i = _data.find (dataset);
     if (i == _data.end()) {
         _data.insert (make_pair (dataset, std::experimental::make_optional (value)));
         return true;
@@ -83,8 +83,8 @@ bool Vertex::setDatum (const std::string& dataset, const double& value) {
     }
 }
 
-std::experimental::optional<double> Vertex::getDatum (const std::string& dataset) {
-    std::map<std::string, std::experimental::optional<double>>::iterator i = _data.find (dataset);
+std::experimental::optional<double> Vertex::getDatum (const QUuid& dataset) {
+    std::map<QUuid, std::experimental::optional<double>>::iterator i = _data.find (dataset);
     if (i == _data.end()) {
         return std::experimental::optional<double>(); // no value
     } else {
@@ -124,5 +124,23 @@ std::vector<geoutils::Geolocation>::iterator Vertex::getCell (const unsigned& le
 Geolocation Vertex::getGeolocation() const { return _geolocation; }
 Cartesian Vertex::getCartesian() const { return _cartesian; }
 unsigned Vertex::getLevel() const { return _level; }
+
+bool Vertex::isInBounds (const icosphere::Bounds& bounds) {
+    if (bounds.east > bounds.west) {
+        if (_geolocation.longitude < bounds.west || _geolocation.longitude > bounds.east) {
+            return false;
+        }
+    } else {
+        if (_geolocation.longitude >= bounds.west && _geolocation.longitude <= bounds.east) {
+            return false;
+        }
+    }
+
+    if (_geolocation.longitude > 2 * M_PI || _geolocation.longitude < - 2 * M_PI) {
+        return false;
+    }
+
+    return (_geolocation.latitude >= bounds.south && _geolocation.latitude <= bounds.north );
+}
 
 

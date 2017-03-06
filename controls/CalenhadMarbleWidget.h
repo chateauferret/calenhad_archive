@@ -13,6 +13,10 @@ Q_OBJECT
 public:
     CalenhadMarbleWidget (QWidget* parent);
     virtual ~CalenhadMarbleWidget();
+    void resizeEvent (QResizeEvent* e);
+
+    signals:
+    void resized (const QSize& size);
 
 };
 

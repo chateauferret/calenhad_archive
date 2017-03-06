@@ -7,8 +7,8 @@
 #include <qcolor.h>
 #include <experimental/optional>
 
-namespace noise {
-    namespace utils {
+namespace icosphere {
+
         class Legend {
 
         public:
@@ -29,6 +29,6 @@ namespace noise {
         public:
             IllegalLegendAccessException (const std::string& msg) : std::runtime_error (msg) {}
         };
-    } // utils
-} // noise
+
+} // icosphere
 #endif // LEGEND_H

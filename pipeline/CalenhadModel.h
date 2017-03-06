@@ -13,11 +13,15 @@
 
 class CalenhadController;
 
+namespace icosphere {
+    class Icosphere;
+}
+
 class CalenhadModel : public QGraphicsScene {
 Q_OBJECT
 public:
-    CalenhadModel ();
-    virtual ~CalenhadModel ();
+    CalenhadModel();
+    virtual ~CalenhadModel();
     QModule* findModule (const QString& name);
     void save (QDataStream& ds);
     void load (QDataStream& ds);
@@ -48,7 +52,6 @@ protected:
     QNEConnection* conn;
     QNEPort* _port = nullptr; // last port we coloured in as dropping on
     CalenhadController* _controller = nullptr;
-
 
 };
 

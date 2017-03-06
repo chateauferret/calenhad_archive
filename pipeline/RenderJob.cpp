@@ -11,26 +11,30 @@
 #include "../libnoiseutils/NoiseMap.h"
 #include "../libnoiseutils/RendererImage.h"
 #include "../libnoiseutils/GradientLegend.h"
-#include <marble/GeoDataLatLonBox.h>
+#include "../mapping/GeoSceneEquirectTileProjection.h"
+#include <QMutexLocker>
 
 using namespace noise::utils;
 using namespace geoutils;
 using namespace Marble;
 
 
-bool RenderJob::declared = false;
+RenderJob::RenderJob (const TileId& id, noise::module::Module* source, Marble::GeoSceneAbstractTileProjection* projection) :
+        _id (id),
+        _source (source),
+        _percentComplete (0) {
+
+    int zoom = id.zoomLevel() > MAX_ZOOM ? MAX_ZOOM : id.zoomLevel();
+
+    projection -> geoCoordinates (zoom, id.x(), id.y(), _bounds);
+    std::cout << "Tile bounds " << _bounds.north () << " " << _bounds.west () << " - " << _bounds.south () << " " << _bounds.east () << "\n";
+}
+
 
 RenderJob::RenderJob (const GeoDataLatLonBox& bounds, noise::module::Module* source) :
-        _bounds (bounds),
-        _source (source),
-        _status (RenderJobStatus::Pending),
-        _percentComplete (0) {
-    emit status (_status);
-    if (! declared) {
-        qRegisterMetaType<RenderJobStatus>("RenderJobStatus");
-        declared = true;
-    }
+    _id (TileId()),_source (source), _percentComplete (0), _bounds (bounds) {
 }
+
 
 RenderJob::~RenderJob () {
 
@@ -58,75 +62,37 @@ bool RenderJob::canRender () {
     }
 }
 
-void RenderJob::setSource (noise::module::Module* source) {
-    _source = source;
-}
+void RenderJob::startJob() {
 
-void RenderJob::startJobAsync() {
     if (canRender()) {
 
-        render();
+        render ();
 
-        if (status () != RenderJobStatus::Cancelled) {
-            setStatus (RenderJobStatus::Complete);
-        } else {
-            _image = nullptr;
-        }
-
-    } else {
-        setStatus (RenderJobStatus::Invalid);
-        _image = nullptr;
-    }
-    if (_image) {
-        emit complete();
-        if (thread () == QThread::currentThread ()) {
-            moveToThread (qApp->thread ());
-        }
-    }
-}
-/*
-void RenderJob::render (osg::Image* image) {
-    utils::Image rendered = fetchImage (image -> t(), image -> s());
-
-    unsigned char r, g, b, a;
-    noise::utils::Color c;
-    unsigned char* data = image -> data();
-    int index = 0;
-    // build and write each horizontal line to the osg::Image.
-
-    for (int y = 0; y < rendered.GetHeight(); y++) {
-        if (status() == RenderJobStatus::Underway) {
-            for (int x = 0; x < rendered.GetWidth (); x++) {
-                c = rendered.GetValue (x, y);
-                r = c.red;
-                g = c.green;
-                b = c.blue;
-                a = c.alpha;
-                if (image -> t() >= y && image -> s() >= x) {
-                    *(data + index++) = r;
-                    *(data + index++) = g;
-                    *(data + index++) = b;
-                }
+        if (! QThread::currentThread() -> isInterruptionRequested()) {
+            if (_image) {
+                emit complete (_id, _image);
+            } else {
+                std::cout << "Interrupted";
             }
-            _percentComplete = y / rendered.GetHeight ();
-            emit progress (_percentComplete);
+
+        } else {
+            std::cout << "No image for render target\n";
         }
     }
 }
-*/
+
 void RenderJob::render() {
 
-    setStatus (RenderJobStatus::Underway);
     NoiseMap heightMap;
-    NoiseMapBuilderSphere* heightMapBuilder = new NoiseMapBuilderSphere();
+    NoiseMapBuilderSphere heightMapBuilder (this);
 
-    heightMapBuilder->setSourceModule (*_source);
-    heightMapBuilder->setDestNoiseMap (heightMap);
-    heightMapBuilder->setDestSize (_image->width (), _image->height ());
-    heightMapBuilder -> SetBounds (_bounds.south (GeoDataCoordinates::Degree), _bounds.north (GeoDataCoordinates::Degree), _bounds.west(GeoDataCoordinates::Degree), _bounds.east(GeoDataCoordinates::Degree));
-    heightMapBuilder->build ();
+    heightMapBuilder.setSourceModule (*_source);
+    heightMapBuilder.setDestNoiseMap (heightMap);
+    heightMapBuilder.setDestSize (_image -> width(), _image -> height());
+    heightMapBuilder.SetBounds (_bounds.south (GeoDataCoordinates::Degree), _bounds.north (GeoDataCoordinates::Degree), _bounds.east(GeoDataCoordinates::Degree), _bounds.west(GeoDataCoordinates::Degree));
+    heightMapBuilder.build();
 
-    RendererImage renderer;
+    RendererImage renderer (this);
 
     renderer.setSourceNoiseMap (heightMap);
     renderer.setDestImage (_image);
@@ -135,26 +101,27 @@ void RenderJob::render() {
     renderer.setLightEnabled (true);
     renderer.setLightContrast (3.0);
     renderer.setLightBrightness (2.0);
-    renderer.render ();
-}
-
-void RenderJob::setStatus (RenderJobStatus s) {
-    _status = s;
-    emit status (s);
-}
-
-RenderJobStatus RenderJob::status() {
-    return _status;
-}
-
-void RenderJob::cancel() {
-    setStatus (RenderJobStatus::Cancelled);
+    renderer.render();
 }
 
 void RenderJob::setImage (std::shared_ptr<QImage>& image) {
     _image = image;
 }
 
+std::shared_ptr<QImage> RenderJob::image() {
+    return _image;
+}
+
 void RenderJob::sendProgress (int p) {
     emit progress (p);
+}
+
+void RenderJob::abandon() {
+    QMutexLocker locker (&_mutex);
+    _abandoned = true;
+}
+
+bool RenderJob::isAbandoned () {
+    QMutexLocker locker (&_mutex);
+    return _abandoned;
 }

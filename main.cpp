@@ -4,8 +4,7 @@
 #include "httplistener.h"
 #include "httpserver/CalenhadRequestHandler.h"
 
-
-// Includes for OSGEarth test
+#include <memory>
 #include "preferences.h"
 
 
@@ -13,8 +12,19 @@
 #include <X11/Xlib.h>
 #endif
 
+using namespace Marble;
+
+Q_DECLARE_METATYPE (TileId)
+Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
 
 int main (int argc, char **argv) {
+
+
+    // Register required metatypes for Qt services
+    qRegisterMetaType<QImage>();
+    qRegisterMetaType<std::shared_ptr<QImage>>();
+    qRegisterMetaType<TileId>();
+
 
     QCoreApplication::setOrganizationName("calenhad");
     QCoreApplication::setOrganizationDomain("chateauferret.com");

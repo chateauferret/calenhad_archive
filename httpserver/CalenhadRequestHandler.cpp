@@ -11,7 +11,6 @@ using namespace qtwebapp;
 
 
 CalenhadRequestHandler::CalenhadRequestHandler (QObject* parent) : HttpRequestHandler (parent),
-    _tileProducer (new TileProducer()),
     _size (TileProducer::DEFAULT_SIZE),
     _buffer (new QBuffer()),
     _content (new QByteArray()) {
@@ -20,7 +19,6 @@ CalenhadRequestHandler::CalenhadRequestHandler (QObject* parent) : HttpRequestHa
 CalenhadRequestHandler::~CalenhadRequestHandler() {
     if (_content) { delete _content; }
     if (_buffer) { delete _buffer; }
-    if (_tileProducer) { delete _tileProducer; }
 }
 
 void CalenhadRequestHandler::service (HttpRequest& request, HttpResponse& response) {
@@ -60,8 +58,7 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
     // {servername}:{port}/tile/{format}/{module_name}/{x}/{y}/{z}
     std::cout << "Request for " << path.toStdString () << "\n";
     QList<QByteArray> params = path.split ('/');
-    foreach (QByteArray a, params) { std::cout << "'" << a.toStdString () << "', "; }
-    std::cout << "\n";
+
     if (params.size() != 7) {
         message = "Request in incorrect format.";
         statusCode = 400;
@@ -78,7 +75,8 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
     }
 
     // obtain the module whose output is to be served
-    noise::module::Module* module = findModule (params.at (CalenhadRequestPart::ModuleName));
+    QString moduleName = params.at (CalenhadRequestPart::ModuleName);
+    noise::module::Module* module = findModule (moduleName);
     if (! (module)) {
         std::ostringstream messageStream;
         messageStream << "Module not found.\n";
@@ -90,7 +88,7 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
 
     // identify requested file format
     QList<QByteArray> fileNameParts = params.at (CalenhadRequestPart::Format).split ('.');
-    bool ok;
+    bool ok = true;
     if (fileNameParts.size() < 2) {
         format = fileNameParts.at (0).toLower();
     } else {
@@ -102,8 +100,9 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
             return;
         }
     }
-
-    if (z < 0 || z >> TileProducer::MAX_ZOOM) {
+    if (ok) { z = params.at (CalenhadRequestPart::TileZ).toInt (&ok); }
+    if (z < 0 || z > RenderJob::MAX_ZOOM) {
+        std::cout << z << "\n";
         message = "Zoom out of range.\n Available zoom is 0 to 24";
         statusCode = 400;
         statusMessage = "Bad request";
@@ -123,8 +122,9 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
     }
 
     if (ok && _tile != 0) {
-        _tileProducer -> setModule (module);
-        if (_tileProducer -> fetchTile (_tile, x, y, z)) {
+        TileProducer tileProducer (module, moduleName);
+        std::shared_ptr<QImage> tile = tileProducer.fetchTile (x, y, z);
+        if (tile) {
             _buffer -> setBuffer (content);
             _buffer -> open  (QIODevice::WriteOnly);
             _tile -> save (_buffer, format);

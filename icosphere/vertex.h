@@ -21,20 +21,18 @@
 #include <GeographicLib/Rhumb.hpp>
 #include "icosphereutils.h"
 #include <experimental/optional>
+#include <QtCore/QUuid>
 
 namespace icosphere {
     class Triangle;
+    class Bounds;
 
     class TriangleComparator {
     public:
         TriangleComparator ();
-
         TriangleComparator (const TriangleComparator& other);
-
         TriangleComparator (GeographicLib::Rhumb* rhumb, geoutils::Geolocation& pole);
-
         geoutils::Geolocation pole;
-
         bool operator() (Triangle* t1, Triangle* t2);
 
     protected:
@@ -55,12 +53,13 @@ namespace icosphere {
         void addNeighbour (Vertex* pV);
         std::pair<std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> getNeighbours () const;
         int countNeighbours (const unsigned int& depth = 0);
-        std::experimental::optional<double> getDatum (const std::string& dataset);
-        bool setDatum (const std::string& dataset, const double& value);
-        void erase (const std::string& key);
+        std::experimental::optional<double> getDatum (const QUuid& dataset);
+        bool setDatum (const QUuid& dataset, const double& value);
+        void erase (const QUuid& key);
         unsigned getId () const;
         void addTriangle (Triangle* t);
         std::vector<geoutils::Geolocation>::iterator getCell (const unsigned& level);
+        bool isInBounds (const icosphere::Bounds& bounds);
 
     protected:
         unsigned _id;
@@ -69,7 +68,7 @@ namespace icosphere {
         geoutils::Cartesian _cartesian;
         geoutils::Geolocation _geolocation;
         double _a1, _a2, _length;
-        std::map<std::string, std::experimental::optional<double>> _data = std::map<std::string, std::experimental::optional<double>>();
+        std::map<QUuid, std::experimental::optional<double>> _data = std::map<QUuid, std::experimental::optional<double>>();
         // map dataset names to the datum of that dataset for this vertex
 
         std::set<Vertex*> _neighbours;              // neighbouring vertices

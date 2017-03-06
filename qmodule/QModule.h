@@ -12,6 +12,7 @@
 #include <QtWidgets/QToolBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QTextEdit>
+#include <QUuid>
 #include "../nodeedit/qneport.h"
 #include "QNode.h"
 #include "../controls/QNoiseMapViewer.h"
@@ -66,6 +67,7 @@ public:
     virtual QString typeString() override = 0;
     static int seed;
     static noise::NoiseQuality noiseQuality;
+    QUuid id();
 
 public slots:
     void invalidate ();
@@ -80,6 +82,7 @@ protected:
     QWidget* _formPreview;
     QFormLayout* _previewLayout;
     QNoiseMapViewer* _preview;
+    QUuid _id;
 
 };
 

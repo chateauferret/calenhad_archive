@@ -8,6 +8,8 @@
 #include "NoiseContstants.h"
 #include "NoiseMapBuilder.h"
 
+class RenderJob;
+
 namespace noise {
     namespace utils {
 
@@ -30,13 +32,12 @@ namespace noise {
         ///
         /// The application must provide the southern, northern, western, and
         /// eastern bounds of the noise map, in degrees.
-        class NoiseMapBuilderSphere: public NoiseMapBuilder
-        {
-
+        class NoiseMapBuilderSphere: public QObject, public NoiseMapBuilder {
+        Q_OBJECT
         public:
 
             /// Constructor.
-            NoiseMapBuilderSphere ();
+            NoiseMapBuilderSphere (RenderJob* job);
 
             virtual void build ();
 
@@ -90,10 +91,10 @@ namespace noise {
             void SetBounds (double southLatBound, double northLatBound,
                             double westLonBound, double eastLonBound)
             {
-                if (southLatBound >= northLatBound
-                    || westLonBound >= eastLonBound) {
-                    throw noise::ExceptionInvalidParam ();
-                }
+                if (southLatBound >= northLatBound) { double temp = southLatBound; southLatBound = northLatBound; northLatBound = temp; }
+                if (westLonBound >= eastLonBound) { double temp = eastLonBound; eastLonBound = westLonBound; westLonBound = temp; }
+                    //throw noise::ExceptionInvalidParam ();
+
 
                 m_southLatBound = southLatBound;
                 m_northLatBound = northLatBound;
@@ -116,7 +117,7 @@ namespace noise {
             double m_westLonBound;
 
             double _curLat, _curLon, _xDelta, _yDelta;
-
+            RenderJob* _job;
             void prepare ();
         };
 

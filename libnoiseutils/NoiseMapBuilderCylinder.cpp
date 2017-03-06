@@ -2,6 +2,7 @@
 // Created by martin on 27/01/17.
 //
 
+#include <QtCore/QThread>
 #include "NoiseMapBuilderCylinder.h"
 #include "NoiseMap.h"
 #include "libnoise/model/cylinder.h"
@@ -50,13 +51,18 @@ void NoiseMapBuilderCylinder::Build ()
         float* pDest = _destNoiseMap->GetSlabPtr (y);
         curAngle = m_lowerAngleBound;
         for (int x = 0; x < _destWidth; x++) {
-            float curValue = (float)cylinderModel.GetValue (curAngle, curHeight);
-            *pDest++ = curValue;
-            curAngle += xDelta;
-        }
-        curHeight += yDelta;
-        if (m_pCallback != NULL) {
-            m_pCallback (y);
+            if (QThread::currentThread ()->isInterruptionRequested ()) {
+                x = _destWidth;
+                y = _destHeight;
+            } else {
+                float curValue = (float) cylinderModel.GetValue (curAngle, curHeight);
+                *pDest++ = curValue;
+                curAngle += xDelta;
+            }
+            curHeight += yDelta;
+            if (m_pCallback != NULL) {
+                m_pCallback (y);
+            }
         }
     }
 }

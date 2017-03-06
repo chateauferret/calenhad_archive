@@ -2,80 +2,80 @@
 // Created by martin on 11/01/17.
 //
 
-
-#include <osgEarthUtil/Common>
+#include <QQueue>
 #include "TileProducer.h"
 #include "../httpserver/CalenhadRequestHandler.h"
-#include "RenderJob.h"
+#include "../mapping/GeoSceneEquirectTileProjection.h"
+#include <QThread>
+
 
 using namespace geoutils;
 using namespace Marble;
 
-TileProducer::TileProducer()  {
+QCache<TileId, std::shared_ptr<QImage>>* TileProducer::_cache = new QCache<TileId, std::shared_ptr<QImage>>();
+
+TileProducer::TileProducer (noise::module::Module* module, QString name) : _module (module), _name (name), _projection (new GeoSceneEquirectTileProjection()) {
 
 }
 
-TileProducer::~TileProducer() { }
+TileProducer::~TileProducer() {
+    delete _projection;
 
-RenderJob* TileProducer::makeRenderJob (const unsigned& x, const unsigned& y, const unsigned& z) {
-    // change the zoom level if requested different from last time
-    if (z != _zoom) {
-        _zoom = z > MAX_ZOOM ? MAX_ZOOM : z;
-        _width_rads = (TWO_PI) / powers (z);
-        _height_rads = PI / z == 0 ? 1 : powers (z - 1);
-    }
+}
 
-    Geolocation nw = getNWCorner (x, y);
-    Geolocation se = getSECorner (x, y);
-    GeoDataLatLonBox bounds = GeoDataLatLonBox (nw.latitude, se.latitude, se.longitude, nw.latitude);
-    RenderJob* job = new RenderJob (bounds, _module);
+RenderJob* TileProducer::makeRenderJob (TileId id, GeoSceneAbstractTileProjection* projection) {
+    RenderJob* job = new RenderJob (id, _module, projection);
     return job;
 }
 
-bool TileProducer::fetchTile (std::shared_ptr<QImage> tile, const unsigned& x, const unsigned& y, const unsigned& z) {
-    RenderJob* job = makeRenderJob (x, y, z);
-    job -> setImage (tile);
+
+std::shared_ptr<QImage> TileProducer::fetchTile (const int& x, const int& y, const int& z) {
+    TileId id = TileId (_name, x, y, z);
+    RenderJob* job = makeRenderJob (id, _projection);
+    std::shared_ptr<QImage> image = std::make_shared<QImage> (_size, _size, QImage::Format_ARGB32);
+    image -> fill (QColor (0, 0, 255));
+    job -> setImage (image);
     job -> render();
-    delete job;
-    return tile != nullptr;
+    emit tileProduced (id, image);
+    return job -> image();
 }
 
-Geolocation TileProducer::getNWCorner (const unsigned& x, const unsigned& y) const {
-    if (_zoom >= 2) {
-        double latitude = (y % _ycount) * (y - powers (_zoom - 1)) * TWO_PI;
-        while (latitude > PI) { latitude -= PI; }
-        while (latitude < -PI)  { latitude += PI; }
-        double longitude = (x % _xcount) * (x - powers (_zoom - 2)) * PI;
-        while (longitude > HALF_PI) { longitude -= HALF_PI; }
-        while (longitude < HALF_PI) { longitude += HALF_PI; }
-        return Geolocation (latitude, longitude, Units::Radians);
-    } else {
-        // z == 1; x in { 0, 1 }
-        return Geolocation (((x == 0) ? -PI : 0), PI / 2, Units::Radians);
-    }
+std::shared_ptr<QImage> TileProducer::fetchTile (const TileId& id) {
+    // tile is a bare pointer to a shared pointer. If the cache deletes the bare pointer the shared pointer still provides access to the image.
+    // try and find the requested tile in the cache
+    //tile = _cache -> object (id);
+    //if (! tile) {
+    std::cout << "Generating tile " << id.x() << ", " << id.y() << " zoom level " << id.zoomLevel () <<"\n";
+    std::shared_ptr<QImage> image = std::make_shared<QImage> (_size, _size, QImage::Format_ARGB32);
+    image -> fill (QColor (0, 0, 255));
+        // if tile was not found, make it and save it in the cache
+    RenderJob* job = makeRenderJob (id, _projection);
+
+    QThread* thread = new QThread();
+
+    job -> setImage (image);
+    job -> moveToThread (thread);
+    connect (thread, SIGNAL (started()), job, SLOT (startJob()));
+    connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), this, SLOT (tileGenerated (TileId, std::shared_ptr<QImage>)));
+    connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), thread, SLOT (quit ()));
+    connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
+    connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), job, SLOT (deleteLater()));
+    thread -> start ();
+    //    _cache -> insert (id, tile), 1;
+    //} else {
+    //    std::cout << "Found tile in cache: " << id.x() << ", " << id.y() << " zoom level " << id.zoomLevel () << "\n";
+    //}
+    //std::cout << "emit signal\n";
+    //std::shared_ptr<QImage> image = *tile;
+
+
+    //std::cout << " ... complete\n";
+
+    return image;
 }
 
-Geolocation TileProducer::getSECorner (const unsigned& x, const unsigned& y) const {
-    if (_zoom >= 2) {
-        return getNWCorner (x + 1, y + 1);
-    } else {
-        // z == 1; x in { 0, 1 }
-        return Geolocation (((x == 0) ? 0 : PI), -HALF_PI, Units::Radians);
-    }
+void TileProducer::tileGenerated (TileId id, std::shared_ptr<QImage> image) {
+    std::cout << " Tile generated \n";
+    emit tileProduced (id, image);
 }
 
-void TileProducer::setModule (noise::module::Module* module) {
-    _module = module;
-}
-
-void TileProducer::setImageSize (int size) {
-    _size = size;
-}
-
-// return 2 to the power of the given index
-int TileProducer::powers (int index) {
-    if (index < 0) { return 0; }
-    int result = 1;
-    result <<= (index - 1);
-    return result;
-}

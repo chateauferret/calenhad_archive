@@ -9,9 +9,10 @@
 #include "../nodeedit/qnemainwindow.h"
 #include "../preferences.h"
 #include "../nodeedit/qneblockhandle.h"
+#include "../icosphere/icosphere.h"
 #include <QMouseEvent>
 
-
+using namespace icosphere;
 
 CalenhadModel::CalenhadModel() : QGraphicsScene(), conn (nullptr), _port (nullptr) {
     installEventFilter (this);

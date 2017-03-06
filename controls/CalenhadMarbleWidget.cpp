@@ -5,6 +5,9 @@
 #include "CalenhadMarbleWidget.h"
 #include <marble/MarbleDirs.h>
 #include <iostream>
+#include <QResizeEvent>
+
+using namespace Marble;
 
 CalenhadMarbleWidget::CalenhadMarbleWidget (QWidget* parent) : MarbleWidget (parent) {
     setMapThemeId (QStringLiteral ("earth/calenhad/calenhad.dgml"));
@@ -15,4 +18,9 @@ CalenhadMarbleWidget::CalenhadMarbleWidget (QWidget* parent) : MarbleWidget (par
 
 CalenhadMarbleWidget::~CalenhadMarbleWidget () {
 
+}
+
+void CalenhadMarbleWidget::resizeEvent (QResizeEvent* e) {
+    MarbleWidget::resizeEvent (e);
+    emit resized (e -> size());
 }

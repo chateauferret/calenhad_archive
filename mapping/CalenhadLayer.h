@@ -5,12 +5,18 @@
 #ifndef CALENHAD_CALENHADLAYER_H
 #define CALENHAD_CALENHADLAYER_H
 
-#include <QString>
-#include <QStringList>
 #include <marble/LayerInterface.h>
 #include <marble/GeoDataLatLonBox.h>
+#include <memory>
+#include <marble/TileId.h>
+#include <marble/GeoDataLatLonAltBox.h>
+#include "../qmodule/QModule.h"
 
 class QColorGradient;
+
+namespace icosphere {
+    class Icosphere;
+}
 
 namespace noise {
     namespace utils {
@@ -32,21 +38,37 @@ namespace Marble {
     class GeoDataLatLonBox;
 }
 
-class CalenhadLayer : public Marble::LayerInterface {
+class RenderJob;
+
+using namespace Marble;
+
+class CalenhadLayer : public QObject, public Marble::LayerInterface {
+    Q_OBJECT
 
 public:
-    CalenhadLayer (noise::module::Module* source);
+    static const int INITIAL_STEP = 32;
+    CalenhadLayer (QModule* source);
     virtual ~CalenhadLayer();
     QStringList renderPosition() const override;
     virtual bool render	(Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString & renderPos, Marble::GeoSceneLayer* layer) override;
-    bool render (Marble::GeoPainter* painter, Marble::GeoDataLatLonBox box);
+    int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport);
     void setGradient (noise::utils::GradientLegend* gradient);
+
+    public slots:
+    void refresh (const GeoDataLatLonAltBox&);
+    void rescale (const QSize&);
+
+    signals:
+    void imageRefreshed();
+
 protected:
+    int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const int& offset);
     double _angularResolution;
-    noise::module::Module* _source;
+    QModule* _source;
     noise::utils::GradientLegend* _gradient;
-    Marble::ViewportParams* _viewport;
     noise::model::Sphere* _sphere;
+    int _step;
+
 
 };
 

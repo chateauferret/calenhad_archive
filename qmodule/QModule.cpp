@@ -11,7 +11,7 @@ int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
 QModule::QModule (noise::module::Module* m, QWidget* parent) : QNode (parent), _module (m) {
-
+    _id = QUuid::createUuid ();
 }
 
 QModule::~QModule () {
@@ -79,6 +79,10 @@ void QModule::setUniqueName() {
     }
     setName (name);
     _nameEdit -> setText (_name);
+}
+
+QUuid QModule::id () {
+    return _id;
 }
 
 

@@ -9,7 +9,10 @@
 #include <QtGui/QImage>
 #include <memory>
 #include "NoiseContstants.h"
-#include "legend.h"
+#include "../icosphere/legend.h"
+
+
+class RenderJob;
 
 namespace noise {
     namespace utils {
@@ -112,12 +115,12 @@ namespace noise {
         /// - Pass an Image object to the SetDestImage() method.
         /// - Pass an Image object to the SetBackgroundImage() method (optional)
         /// - Call the Render() method.
-        class RendererImage {
-
+        class RendererImage : public QObject {
+        Q_OBJECT
         public:
 
             /// Constructor.
-            RendererImage ();
+            RendererImage (RenderJob* job);
 
             /// Enables or disables the light source.
             ///
@@ -379,7 +382,7 @@ namespace noise {
                 _pSourceNoiseMap = &sourceNoiseMap;
             }
 
-            void setLegend (Legend* legend);
+            void setLegend (icosphere::Legend* legend);
 
         private:
 
@@ -461,7 +464,9 @@ namespace noise {
             /// The sine of the elevation of the light source.
             mutable double _sinElev;
 
-            mutable Legend* _legend;
+            mutable icosphere::Legend* _legend;
+
+            RenderJob* _job;
 
         };
 

@@ -251,7 +251,7 @@ void CalenhadController::actionTriggered () {
     if (action -> data() == CalenhadAction::UndoAction) { _undoStack -> undo(); }
     if (action -> data() == CalenhadAction::RedoAction) { _undoStack -> redo(); }
 
-    // update action enabled status
+    // invalidate action enabled status
     double z = _views -> at (0) -> currentZoom ();
     zoomInAction -> setEnabled (z < 4.0);
     zoomOutAction -> setEnabled (z > 0.025);

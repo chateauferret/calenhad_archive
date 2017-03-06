@@ -10,9 +10,11 @@
 #include <QtCore/QRunnable>
 #include <QtCore/QMutex>
 #include "../geoutils.h"
-
+#include <QMutex>
 #include <memory>
 #include <marble/GeoDataLatLonBox.h>
+#include <marble/TileId.h>
+
 
 namespace noise {
     namespace utils {
@@ -24,40 +26,45 @@ namespace noise {
     }
 }
 
-enum RenderJobStatus { Pending, Underway, Paused, Complete, Invalid, Cancelled };
-Q_DECLARE_METATYPE (RenderJobStatus);
+namespace Marble {
+    class GeoSceneAbstractTileProjection;
+}
 
+using namespace Marble;
 
 class RenderJob : public QObject {
 Q_OBJECT
 public:
-    RenderJob (const Marble::GeoDataLatLonBox& bounds, noise::module::Module* source);
+    static constexpr int MAX_ZOOM = 24;
+    RenderJob (const TileId& id, noise::module::Module* source, GeoSceneAbstractTileProjection* projection);
+    RenderJob (const GeoDataLatLonBox& box, noise::module::Module* source);
     virtual ~RenderJob ();
     void setImage (std::shared_ptr<QImage>& image);
     bool canRender ();
-    void setSource (noise::module::Module* source);
-    RenderJobStatus status ();
     void render ();
+    std::shared_ptr<QImage> image ();
+    bool isAbandoned();
 
 public slots:
-    void cancel();
-    void startJobAsync ();
+    void startJob ();
     void sendProgress (int);
+    void abandon ();
+
 signals:
     void progress (int);
-    void complete();
-    void status (RenderJobStatus);
+    void complete (TileId, std::shared_ptr<QImage>);
 
 protected:
     Marble::GeoDataLatLonBox _bounds;
     // the image is referenced by a shared pointer because we don't know what will be destructed when
     std::shared_ptr<QImage> _image = nullptr;
     noise::module::Module* _source;
-    RenderJobStatus _status;
-    void setStatus (RenderJobStatus s);
     int _percentComplete;
-    static bool declared ;
-    QImage fetchImage (int height, int width);
+    Marble::TileId _id;
+    bool _abandoned = false;
+    QMutex _mutex;
+
+
 };
 
 #endif //CALENHAD_RENDERJOB_H

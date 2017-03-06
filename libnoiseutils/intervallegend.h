@@ -4,11 +4,11 @@
 #include <map>
 #include <algorithm>
 #include <QtGui/QColor>
-#include "legend.h"
+#include "../icosphere/legend.h"
 
 namespace noise {
     namespace utils {
-        class IntervalLegend : public Legend {
+        class IntervalLegend : public icosphere::Legend {
 
         public:
             IntervalLegend ();

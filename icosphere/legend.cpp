@@ -1,7 +1,6 @@
 #include "legend.h"
-#include <algorithm>
 
-using namespace noise::utils;
+using namespace icosphere;
 
 Legend::Legend() :
     _defaultColor (QColor (0, 0, 0, 0)) {
