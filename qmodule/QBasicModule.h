@@ -14,6 +14,8 @@ public:
     virtual ~QBasicModule();
     QBasicModule* addCopy (CalenhadModel* model) override;
     ModuleType type() override;
+    //void inflate (const QDomElement& element);
+    //QDomElement serialise();
     void initialise();
     static QBasicModule* newInstance (const ModuleType& type);
 private:

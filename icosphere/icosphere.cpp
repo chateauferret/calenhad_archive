@@ -24,7 +24,6 @@ using namespace icosphere;
 
 static constexpr double X = 0.525731112119133606;
 static constexpr double Z = 0.850650808352039932;
-Icosphere* Icosphere::_instance;
 
 static constexpr double vdata[12][3] = {
         {-X, 0.0, Z}, {X, 0.0, Z}, {-X, 0.0, -Z}, {X, 0.0, -Z},
@@ -40,13 +39,16 @@ static constexpr unsigned tindices[20][3] = {
 
 //--------------------------------------------------------------------------------
 
+Icosphere::Icosphere() {
+    Icosphere (7, Bounds());
+}
 
-Icosphere::Icosphere (const char& depth, const Bounds& bounds) : _levels (depth) {
+Icosphere::Icosphere (const char& depth, const Bounds& bounds) : _depth (depth) {
 
     _bounds = bounds;
     _countInBounds = 0;
     _merged = 0;
-    std::cout << "\nBuilding icosphere to level " << (int) _levels << "\n";
+    std::cout << "\nBuilding icosphere to level " << (int) _depth << "\n";
     _gc = new GeographicLib::Geocentric (1.0, 0.0); // sphere
     _gd = new GeographicLib::Geodesic (1.0, 0.0);
     _rhumb = new GeographicLib::Rhumb (1.0, 0.0);
@@ -76,7 +78,7 @@ Icosphere::Icosphere (const char& depth, const Bounds& bounds) : _levels (depth)
     }
     
     _listIds.push_back(0);
-    while(_indices.size() <_levels) {
+    while(_indices.size() <_depth) {
         subdivide (_indices.size());
     }
 }
@@ -224,7 +226,26 @@ Vertex* Icosphere::nearest (const Geolocation& target, const unsigned int& depth
     _lastVisited = _vertices[0];
     for (int i = 1; i < 12; i++) {
         pV = _vertices[i];
-        d = distance (pV->getGeolocation (), target);
+        d = distance (pV -> getGeolocation(), target);
+        if (i == 1 || d < dist) {
+            _lastVisited = pV;
+            dist = d;
+        }
+    }
+
+    // walk over the Delaunay triangulation until a point is reached that is nearer the key than any connected point
+    return walkTowards (target, depth);
+
+}
+
+Vertex* Icosphere::nearest (const Cartesian& target, const unsigned int& depth) const {
+
+    double d, dist;
+    Vertex* pV;
+    _lastVisited = _vertices[0];
+    for (int i = 1; i < 12; i++) {
+        pV = _vertices[i];
+        double d = Math::distSquared (pV -> getCartesian(), target);
         if (i == 1 || d < dist) {
             _lastVisited = pV;
             dist = d;
@@ -245,7 +266,7 @@ Vertex* Icosphere::walkTowards (const Geolocation& target, const unsigned int& d
 }
 
 Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& depth) const {
-  if (depth == 0 || depth > _levels - 1) { return walkTowards (target, _levels - 1); }
+  if (depth == 0 || depth > _depth - 1) { return walkTowards (target, _depth - 1); }
   double dist = Math::distSquared (_lastVisited -> getCartesian(), target);
   std::pair <std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> n = _lastVisited -> getNeighbours();
   std::set<Vertex*>::iterator i  = n.first;
@@ -274,29 +295,61 @@ Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& dep
 }
 
 
-std::experimental::optional<double> Icosphere::getDatum (const Geolocation& g, const QUuid& key) {
+std::experimental::optional<double> Icosphere::getDatum (const Geolocation& g, const QString& key) {
     if (isInBounds (g, _bounds)) {
-            Vertex* v = walkTowards (Math::toCartesian (g));
+            Vertex* v = walkTowards (g);
             return v -> getDatum (key);
     } else {
         throw IllegalIcosphereAccessException ("Search target out of bounds");
     }
 }
 
-bool Icosphere::setDatum (const Geolocation& g, const QUuid& key, const double& datum) {
+std::experimental::optional<double> Icosphere::getDatum (const Cartesian& c, const QString& key) {
+    if (isInBounds (Math::toGeolocation (c), _bounds)) {
+        Vertex* v = walkTowards (c);
+        return v -> getDatum (key);
+    } else {
+        throw IllegalIcosphereAccessException ("Search target out of bounds");
+    }
+}
+
+bool Icosphere::setDatum (const Geolocation& g, const QString& key, const double& datum) {
+    if (isInBounds (g, _bounds)) {
         Vertex* v = walkTowards (Math::toCartesian (g));
-        v -> setDatum (key, datum);
+        if (v) {
+            v->setDatum (key, datum);
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+bool Icosphere::setDatum (const Cartesian& c, const QString& key, const double& datum) {
+    if (isInBounds (Math::toGeolocation (c), _bounds)) {
+        Vertex* v = walkTowards (c);
+        if (v) {
+            v->setDatum (key, datum);
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }
 
 // for now, images can't cross the dateline - this is OK in a tiling arrangement
-bool Icosphere::getImage (QImage* image, const Bounds& bounds, const QUuid& key, Legend* legend) {
+bool Icosphere::getImage (QImage* image, const Bounds& bounds, const QString& key, Legend* legend) {
 
         for (int i = 0; i < image -> width(); i++) {
-            double lon = bounds.east + (bounds.west - bounds.east) / image -> height() * i;
+            double lon = bounds.lon2 + (bounds.lon1 - bounds.lon2) / image -> height() * i;
             if (lon < -M_PI_2) { lon += M_PI_2; }
             if (lon > M_PI_2) { lon -= M_PI_2; }
             for (int j = 0; j < image -> height(); j++) {
-                double lat = bounds.north + (bounds.south - bounds.north) / image -> width() * j;
+                double lat = bounds.lat1 + (bounds.lat2 - bounds.lat1) / image -> width() * j;
                 if (lat < -M_PI) { lat += M_PI; }
                 if (lat > M_PI) { lat -= M_PI; }
                 Vertex* v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Units::Radians)));
@@ -317,17 +370,17 @@ bool Icosphere::coversTriangle (const Geolocation& a, const Geolocation& b, cons
         return coversTriangle (a2, b2, c2, bounds);
     }
     // triangle is in bounds if its vertices don't all lie beyond the same side of the box
-    if (a.latitude < bounds.south && b.latitude < bounds.south && c.latitude < bounds.south) { return false; }
-    if (a.latitude > bounds.north && b.latitude > bounds.north && c.latitude > bounds.north) { return false; }
-    if (bounds.west > bounds.east) {
+    if (a.latitude < bounds.lat2 && b.latitude < bounds.lat2 && c.latitude < bounds.lat2) { return false; }
+    if (a.latitude > bounds.lat1 && b.latitude > bounds.lat1 && c.latitude > bounds.lat1) { return false; }
+    if (bounds.lon1 > bounds.lon2) {
         // test on the longitude coordinates is inverted if the bounds cross the dateline
-        if ((a.longitude < bounds.west && b.longitude < bounds.west && c.longitude < bounds.west &&
+        if ((a.longitude < bounds.lon1 && b.longitude < bounds.lon1 && c.longitude < bounds.lon1 &&
                 a.longitude > 0 && b.longitude > 0 && c.longitude > 0)  ||
-            (a.longitude > bounds.east && b.longitude > bounds.east && c.longitude > bounds.east &&
+            (a.longitude > bounds.lon2 && b.longitude > bounds.lon2 && c.longitude > bounds.lon2 &&
                 a.longitude < 0 && b.longitude < 0 && c.longitude < 0)) { return false; }
     } else {
-        if ((a.longitude < bounds.west && b.longitude < bounds.west && c.longitude < bounds.west) ||
-        (a.longitude > bounds.east && b.longitude > bounds.east && c.longitude > bounds.east)) { return false; }
+        if ((a.longitude < bounds.lon1 && b.longitude < bounds.lon1 && c.longitude < bounds.lon1) ||
+        (a.longitude > bounds.lon2 && b.longitude > bounds.lon2 && c.longitude > bounds.lon2)) { return false; }
     }
 
 
@@ -351,7 +404,7 @@ bool Icosphere::isInTriangle (const Geolocation& p1, const Geolocation& p2, cons
 }
 
 bool Icosphere::isInBounds (const Geolocation& a, const Bounds& bounds) const {
-    return (a.latitude <= bounds.north && a.latitude >= bounds.south && a.longitude >= bounds.west && a.longitude <= bounds.east);
+    return (a.latitude <= bounds.lat1 && a.latitude >= bounds.lat2 && a.longitude >= bounds.lon1 && a.longitude <= bounds.lon2);
 }
 
 int Icosphere::getCountInBounds () {
@@ -360,13 +413,6 @@ int Icosphere::getCountInBounds () {
 
 int Icosphere::getCountMerged() {
     return _merged;
-}
-
-Icosphere* Icosphere::instance () {
-    if (! _instance) {
-        _instance = new Icosphere (6);
-    }
-    return _instance;
 }
 
 double Icosphere::distance (const geoutils::Geolocation& from, const geoutils::Geolocation& unto) const {
@@ -381,3 +427,13 @@ double Icosphere::loxodrome (const geoutils::Geolocation& from, const geoutils::
     _rhumb -> Inverse (from.latitude, from.longitude, unto.latitude, unto.longitude, azimuth, length);
     return azimuth;
 }
+
+const char& Icosphere::depth() {
+    return _depth;
+}
+
+const Bounds& Icosphere::bounds() {
+    return _bounds;
+}
+
+

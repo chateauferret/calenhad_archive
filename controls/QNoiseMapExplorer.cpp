@@ -27,9 +27,7 @@ using namespace Marble;
 QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, QModule* source, const QWidget* parent) : QDialog(),
         _title (title), _name (source -> name()), _gradient (new GradientLegend()),
         _image (nullptr),
-        _source (source),
-        _tileProducer (nullptr),
-        _tileMap (new GeoSceneEquirectTileProjection()) {
+        _source (source) {
 
     _mapWidget = new CalenhadMarbleWidget (this);
     _mapWidget->setMapThemeId ("earth/calenhad/calenhad.dgml");
@@ -44,37 +42,40 @@ QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, QModule* source, con
     _mapWidget->setZoom (1000);
     setGeometry (200, 200, 640, 480);
 
-    connect (_mapWidget, SIGNAL (visibleLatLonAltBoxChanged (const GeoDataLatLonAltBox&)), _layer, SLOT (refresh (const GeoDataLatLonAltBox&)));
-    connect (_mapWidget, SIGNAL (resized (const QSize&)), _layer, SLOT (rescale (const QSize&)));
-    connect (&timer, SIGNAL (timeout()), this, SLOT (boundsChanged()));
+
+    connect (_mapWidget, SIGNAL (visibleLatLonAltBoxChanged (const GeoDataLatLonAltBox&)), this, SLOT (changeView (const GeoDataLatLonAltBox&)));
+    connect (_mapWidget, SIGNAL (resized (const QSize&)), _layer, SLOT (rescale()));
+    connect (&timer, SIGNAL (timeout()), this, SLOT (changeBounds()));
+    connect (this, SIGNAL (boundsChanged  (const GeoDataLatLonBox&)), _source, SLOT (changeBounds (const GeoDataLatLonBox&)));
+    connect (_source, SIGNAL (nodeChanged (const QString&, const QVariant&)), this, SLOT (invalidate()));
 
 }
 
 
-QNoiseMapExplorer::~QNoiseMapExplorer () {
+QNoiseMapExplorer::~QNoiseMapExplorer() {
     if (_mapWidget) { delete _mapWidget; }
-    if (_source) { delete _source; }
     if (_layer) { delete _layer; }
     if (_gradient) { delete _gradient; }
-    if (_tileProducer) { delete _tileProducer; }
-    if (_tileMap) { delete _tileMap; }
     if (_layer) { delete _layer; }
-    for (GeoDataDocument* doc : _tileDocuments.values()) {
-        delete doc;
-    }
 }
 
 void QNoiseMapExplorer::invalidate () {
     _mapWidget -> update();
 }
 
-void QNoiseMapExplorer::viewChanged (const GeoDataLatLonAltBox&) {
+void QNoiseMapExplorer::changeView (const GeoDataLatLonAltBox& bounds) {
+    changeView ((GeoDataLatLonBox) bounds);
+}
+
+void QNoiseMapExplorer::changeView (const GeoDataLatLonBox& bounds) {
+    _bounds = bounds;
+    _layer -> rescale();
     timer.setSingleShot (true);
     timer.start();
 }
 
-void QNoiseMapExplorer::boundsChanged () {
-    update();
+void QNoiseMapExplorer::changeBounds () {
+    emit boundsChanged (_bounds);
 }
 
 

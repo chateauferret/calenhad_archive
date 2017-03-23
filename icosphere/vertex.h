@@ -21,7 +21,6 @@
 #include <GeographicLib/Rhumb.hpp>
 #include "icosphereutils.h"
 #include <experimental/optional>
-#include <QtCore/QUuid>
 
 namespace icosphere {
     class Triangle;
@@ -53,9 +52,9 @@ namespace icosphere {
         void addNeighbour (Vertex* pV);
         std::pair<std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> getNeighbours () const;
         int countNeighbours (const unsigned int& depth = 0);
-        std::experimental::optional<double> getDatum (const QUuid& dataset);
-        bool setDatum (const QUuid& dataset, const double& value);
-        void erase (const QUuid& key);
+        std::experimental::optional<double> getDatum (const QString& dataset);
+        bool setDatum (const QString& dataset, const double& value);
+        void erase (const QString& key);
         unsigned getId () const;
         void addTriangle (Triangle* t);
         std::vector<geoutils::Geolocation>::iterator getCell (const unsigned& level);
@@ -68,7 +67,7 @@ namespace icosphere {
         geoutils::Cartesian _cartesian;
         geoutils::Geolocation _geolocation;
         double _a1, _a2, _length;
-        std::map<QUuid, std::experimental::optional<double>> _data = std::map<QUuid, std::experimental::optional<double>>();
+        std::map<QString, std::experimental::optional<double>> _data = std::map<QString, std::experimental::optional<double>>();
         // map dataset names to the datum of that dataset for this vertex
 
         std::set<Vertex*> _neighbours;              // neighbouring vertices

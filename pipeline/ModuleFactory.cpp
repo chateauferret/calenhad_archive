@@ -4,7 +4,23 @@
 
 #include <iostream>
 #include "ModuleFactory.h"
-#include "../qmodule/QNode.h"
+#include "../libnoiseutils/diff.h"
+#include "../qmodule/QClampModule.h"
+#include "../qmodule/QConstModule.h"
+#include "../qmodule/QNoiseModule.h"
+#include "../qmodule/QCylindersModule.h"
+#include "../qmodule/QSpheresModule.h"
+#include "../qmodule/QExponentModule.h"
+#include "../qmodule/QTranslateModule.h"
+#include "../qmodule/QScaleBiasModule.h"
+#include "../qmodule/QSelectModule.h"
+#include "../qmodule/QTurbulenceModule.h"
+#include "../qmodule/QVoronoiModule.h"
+#include "../controls/QExpander.h"
+#include "../qmodule/QRotateModule.h"
+#include "../qmodule/QScaleModule.h"
+#include "../qmodule/QBasicModule.h"
+#include "../qmodule/QIcosphereMap.h"
 
 
 using namespace noise::module;
@@ -90,6 +106,7 @@ void ModuleFactory::makeRepository() {
     _repository.insert (ModuleType::TURBULENCE, QTurbulenceModule::newInstance());
     _repository.insert (ModuleType::VORONOI, QVoronoiModule::newInstance());
     _repository.insert (ModuleType::SCALEPOINT, QScaleModule::newInstance());
+    _repository.insert (ModuleType::ICOSPHEREMAP, QIcosphereMap::newInstance());
 
 }
 

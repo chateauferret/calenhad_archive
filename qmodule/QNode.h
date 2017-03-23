@@ -11,11 +11,13 @@
 #include <QtWidgets/QToolBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QTextEdit>
+#include <QtCore/QSet>
+#include <QtXml/QDomElement>
 #include "../nodeedit/qneport.h"
 #include "../controls/QLogSpinBox.h"
+#include "../libnoiseutils/icospheremap.h"
 
 class CalenhadModel;
-
 
 class QNode : public QWidget {
 Q_OBJECT
@@ -25,12 +27,13 @@ public:
     enum { Type = QGraphicsItem::UserType + 6 };
     virtual ~QNode();
     virtual void initialise();
+    //virtual void inflate (const QDomElement& element) = 0;
+    //virtual QDomElement serialise() = 0;
+    virtual void setUniqueName() = 0;
     void setModel (CalenhadModel* model);
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QNode* addCopy (CalenhadModel* model) = 0;
-
     QString name();
-
     void setName (const QString& name);
     void setNotes (const QString& notes);
     QString notes();
@@ -42,11 +45,15 @@ public:
     Q_PROPERTY (QString notes READ notes WRITE setNotes MEMBER _notes);
     virtual QString typeString() = 0;
 
-    bool isRenderable();
-    bool isComplete();
+    virtual bool isRenderable();
+    virtual bool isComplete();
+
+
+public slots:
+    void invalidate ();
 
 signals:
-    void nodeChanged (const char* property, QVariant value);
+    void nodeChanged (const QString&, const QVariant&);
 
 protected:
     QNode (QWidget* widget);
@@ -66,7 +73,6 @@ protected:
     QLogSpinBox* logParameterControl (const QString& text);
     QFormLayout* _contentLayout;
     bool _isInitialised;
-
 
 };
 

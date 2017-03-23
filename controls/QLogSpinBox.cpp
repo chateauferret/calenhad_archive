@@ -19,8 +19,7 @@ void QLogSpinBox::stepBy (int steps) {
 }
 
 QLogSpinBox::QLogSpinBox (QWidget* parent) : QDoubleSpinBox (parent) {
-    setRange (0.01, 100.0);
-    setSingleStep (0.1);
+
 }
 
 QLogSpinBox::~QLogSpinBox() {

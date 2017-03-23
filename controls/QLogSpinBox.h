@@ -10,7 +10,7 @@
 
 class QLogSpinBox : public QDoubleSpinBox {
 public:
-    QLogSpinBox (QWidget* parent);
+    QLogSpinBox (QWidget* parent = 0);
     virtual ~QLogSpinBox();
     void stepBy (int steps) override;
 };

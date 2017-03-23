@@ -21,8 +21,7 @@ class QColorGradient;
 class TileProducer;
 class QModule;
 namespace Marble {
-    class GeoDataDocument;
-    class GeoSceneEquirectTileProjection;
+    class GeoDataLatLonAltBox;
 }
 
 using namespace Marble;
@@ -37,9 +36,13 @@ public:
     virtual ~QNoiseMapExplorer();
 
 public slots:
-    void viewChanged (const GeoDataLatLonAltBox&);
-    void boundsChanged();
+    void changeView (const GeoDataLatLonBox&);
+    void changeView (const GeoDataLatLonAltBox&);
+    void changeBounds();
     void invalidate ();
+
+    signals:
+    void boundsChanged (const GeoDataLatLonBox&);
 
 protected:
     QString _title, _name;
@@ -48,15 +51,8 @@ protected:
     CalenhadLayer* _layer = nullptr;
     noise::utils::GradientLegend* _gradient;
     std::shared_ptr<QImage> _image;
-    TileProducer* _tileProducer;
-    QMap<Marble::TileId, Marble::GeoDataDocument*> _tileDocuments;
-    Marble::GeoSceneEquirectTileProjection* _tileMap;
-    // get rid of any previous version of this tile already on the map
-    //void remove (Marble::TileId id);
-    QQueue<Marble::TileId*> _queue;
-    // remember if we declared metatypes
-    static bool declared;
     QTimer timer;
+    GeoDataLatLonBox _bounds;
 };
 
 #endif //CALENHAD_QNOISEMAPEXPLORER_H

@@ -17,10 +17,6 @@ using namespace noise::utils;
 // NoiseMapBuilderSphere class
 
 NoiseMapBuilderSphere::NoiseMapBuilderSphere (RenderJob* job) :
-        m_eastLonBound (0.0),
-        m_northLatBound (0.0),
-        m_southLatBound (0.0),
-        m_westLonBound (0.0),
         _job (job) {
 }
 
@@ -32,11 +28,11 @@ void NoiseMapBuilderSphere::build () {
     // Create the sphere model.
     noise::model::Sphere sphereModel;
     sphereModel.SetModule (*_source);
-
+    _curLat = _bounds.south (GeoDataCoordinates::Degree);
     // Fill every point in the noise map with the output values from the model.
     for (int y = 0; y < _destHeight; y++) {
         float* pDest = _destNoiseMap -> GetSlabPtr (y);
-        _curLon = m_westLonBound;
+        _curLon = _bounds.west (GeoDataCoordinates::Degree);
         for (int x = 0; x < _destWidth; x++) {
             // if thread is being interrupted, terminate the loops gracefully
             if (_job -> isAbandoned()) {
@@ -46,7 +42,7 @@ void NoiseMapBuilderSphere::build () {
                 float curValue = (float) sphereModel.GetValue (_curLat, _curLon);
                 *pDest++ = curValue;
                 _curLon += _xDelta;
-                if (_curLon > 180) {
+                if (_curLon >= 180) {
                     _curLon -= 360;
                 }
             }
@@ -59,24 +55,17 @@ void NoiseMapBuilderSphere::build () {
 }
 
 void NoiseMapBuilderSphere::prepare () {
-    if (
-          m_northLatBound <= m_southLatBound
-         || _destWidth <= 0
-         || _destHeight <= 0
-         || _source == NULL
-         || _destNoiseMap == NULL) {
-       // throw noise::ExceptionInvalidParam ();
-    }
 
     // Resize the destination noise map so that it can store the new output
     // values from the source model.
     _destNoiseMap -> SetSize (_destWidth, _destHeight);
 
-    double lonExtent = m_eastLonBound > m_westLonBound ? m_eastLonBound - m_westLonBound : 360 - ( m_westLonBound - m_eastLonBound );
-    double latExtent = m_northLatBound - m_southLatBound;
-    _xDelta = lonExtent / (double) _destWidth;
-    _yDelta = latExtent / (double) _destHeight;
-    _curLon = m_westLonBound;
-    _curLat = m_southLatBound;
+    _xDelta = _bounds.width (GeoDataCoordinates::Degree) / (double) _destWidth;
+    _yDelta = _bounds.height (GeoDataCoordinates::Degree) / (double) _destHeight;
+
+    // GeoDataLatLonBox thinks 180 degrees West is equal to 180 degrees East; so we need to remember that the actual
+    // longitudinal extent around the whole globe starting and ending on this meridian is 180 degrees (2 * M_PI radians), not 0.
+    if (_xDelta == 0) { _xDelta = 360 / (double) _destWidth; }
+
 
 }

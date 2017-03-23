@@ -91,8 +91,8 @@ namespace noise {
             // Bitmap header size.
             static constexpr int BMP_HEADER_SIZE = 54;
 
-            // Direction of the light source, in compass degrees (0 = north, 90 = east,
-            // 180 = south, 270 = east)
+            // Direction of the light source, in compass degrees (0 = lat1, 90 = lon2,
+            // 180 = lat2, 270 = lon2)
             static constexpr double DEFAULT_LIGHT_AZIMUTH = 45.0;
 
             // Amount of contrast between light and dark areas.

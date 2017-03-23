@@ -90,7 +90,9 @@ void CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         c -> updatePosFromPorts();
         c -> updatePath();
         update();
-        input -> module() -> SetSourceModule (input -> index(), *(output -> module()));
+        if (input -> module()) {
+            input -> module () -> SetSourceModule (input -> index (), *(output -> module ()));
+        }
         input -> invalidateRenders();
     }
 }

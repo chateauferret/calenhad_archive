@@ -8,10 +8,6 @@
 #include <string>
 #include "../icosphere/icosphere.h"
 
-namespace icosphere {
-    class Icosphere;
-}
-
 namespace noise {
     namespace utils {
         class Legend;
@@ -25,18 +21,34 @@ namespace noise {
     }
     namespace utils {
 
-        class IcosphereBuilder {
+        class IcosphereBuilder : public QObject {
+            Q_OBJECT
         public:
-            IcosphereBuilder (const char& depth, const icosphere::Bounds& bounds = icosphere::Bounds());
+            IcosphereBuilder ();
             virtual ~IcosphereBuilder();
-            virtual void build (std::string dataset, noise::utils::Legend* legend, noise::module::Module* module);
-            virtual icosphere::Icosphere* icosphere();
+            void setDepth (const int& depth);
+            void setBounds (const icosphere::Bounds& bounds);
+            void setModule (noise::module::Module* module);
+            virtual std::shared_ptr<icosphere::Icosphere> icosphere();
+            void setIcosphere (std::shared_ptr<icosphere::Icosphere> icosphere);
+
+        public slots:
+            void build();
+            void fill();
+            void cancel();
+
+         signals:
+            void complete (std::shared_ptr<icosphere::Icosphere>);
 
         protected:
-            icosphere::Icosphere* _icosphere;
+            std::shared_ptr<icosphere::Icosphere> _icosphere;
             char _depth;
             icosphere::Bounds _bounds;
             geoutils::Cartesian c;
+            noise::module::Module* _module;
+            bool _cancelled = false;
+            QMutex _mutex;
+            bool isCancelled ();
         };
 
     }

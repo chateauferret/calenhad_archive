@@ -136,13 +136,15 @@ set(SOURCE_FILES
         icosphere/triangle.h
         icosphere/triangle.cpp
         icosphere/icosphere.h
-        icosphere/icosphere.cpp icosphere/icosphereutils.h)
+        icosphere/icosphere.cpp
+        icosphere/icosphereutils.h qmodule/QIcosphereMap.cpp qmodule/QIcosphereMap.h)
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Xml REQUIRED)
 find_package(Qt5OpenGL)
 find_package(LibProj4 REQUIRED)
 find_package(LibNoise REQUIRED)
@@ -151,7 +153,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES})
+add_executable (calenhad main.cpp ${SOURCE_FILES} libnoiseutils/icospheremap.cpp libnoiseutils/icospheremap.h icosphere/Bounds.cpp icosphere/Bounds.h)
 
 add_definitions (${GeographicLib_DEFINITIONS})
 #qt5_use_modules (calenhad Gui Widgets OpenGL)

@@ -40,12 +40,14 @@ int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
 
 
 int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const int& offset) {
+    _sphere -> SetModule (* (_source -> module()));
     GeoDataLatLonAltBox box = viewport -> viewLatLonAltBox();
     QColor color;
     std::time_t start = std::clock();
         double lat;
         double lon = box.west();
         bool finished = false;
+
         while (! finished) {
             lon += _angularResolution * _step;
             if (box.east() > box.west()) {
@@ -82,10 +84,6 @@ bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const
     return render (painter, viewport) == 0;
 }
 
-void CalenhadLayer::refresh (const GeoDataLatLonAltBox& box) {
-    _step = INITIAL_STEP;
-}
-
-void CalenhadLayer::rescale (const QSize&) {
+void CalenhadLayer::rescale() {
     _step = INITIAL_STEP;
 }

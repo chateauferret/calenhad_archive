@@ -63,7 +63,7 @@ int Vertex::countNeighbours (const unsigned int& depth) {
     }
 }
 
-void Vertex::erase (const QUuid& key) {
+void Vertex::erase (const QString& key) {
     _data.erase (key);
 }
 
@@ -71,8 +71,8 @@ std::pair <std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> Vertex::get
   return std::make_pair (_neighbours.begin(), _neighbours.end());
 }
 
-bool Vertex::setDatum (const QUuid& dataset, const double& value) {
-    std::map<QUuid, std::experimental::optional<double>>::iterator i = _data.find (dataset);
+bool Vertex::setDatum (const QString& dataset, const double& value) {
+    std::map<QString, std::experimental::optional<double>>::iterator i = _data.find (dataset);
     if (i == _data.end()) {
         _data.insert (make_pair (dataset, std::experimental::make_optional (value)));
         return true;
@@ -83,8 +83,8 @@ bool Vertex::setDatum (const QUuid& dataset, const double& value) {
     }
 }
 
-std::experimental::optional<double> Vertex::getDatum (const QUuid& dataset) {
-    std::map<QUuid, std::experimental::optional<double>>::iterator i = _data.find (dataset);
+std::experimental::optional<double> Vertex::getDatum (const QString& dataset) {
+    std::map<QString, std::experimental::optional<double>>::iterator i = _data.find (dataset);
     if (i == _data.end()) {
         return std::experimental::optional<double>(); // no value
     } else {
@@ -126,12 +126,12 @@ Cartesian Vertex::getCartesian() const { return _cartesian; }
 unsigned Vertex::getLevel() const { return _level; }
 
 bool Vertex::isInBounds (const icosphere::Bounds& bounds) {
-    if (bounds.east > bounds.west) {
-        if (_geolocation.longitude < bounds.west || _geolocation.longitude > bounds.east) {
+    if (bounds.lon2 > bounds.lon1) {
+        if (_geolocation.longitude < bounds.lon1 || _geolocation.longitude > bounds.lon2) {
             return false;
         }
     } else {
-        if (_geolocation.longitude >= bounds.west && _geolocation.longitude <= bounds.east) {
+        if (_geolocation.longitude >= bounds.lon1 && _geolocation.longitude <= bounds.lon2) {
             return false;
         }
     }
@@ -140,7 +140,7 @@ bool Vertex::isInBounds (const icosphere::Bounds& bounds) {
         return false;
     }
 
-    return (_geolocation.latitude >= bounds.south && _geolocation.latitude <= bounds.north );
+    return (_geolocation.latitude >= bounds.lat2 && _geolocation.latitude <= bounds.lat1 );
 }
 
 

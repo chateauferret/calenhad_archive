@@ -7,6 +7,7 @@
 
 #include "NoiseContstants.h"
 #include "NoiseMapBuilder.h"
+#include <marble/GeoDataLatLonBox.h>
 
 class RenderJob;
 
@@ -41,80 +42,26 @@ namespace noise {
 
             virtual void build ();
 
-            /// Returns the eastern boundary of the spherical noise map.
+            /// Returns the boundary of the spherical noise map.
             ///
-            /// @returns The eastern boundary of the noise map, in degrees.
-            double GetEastLonBound () const
-            {
-                return m_eastLonBound;
+            /// @returns The boundary of the noise map, in degrees.
+            Marble::GeoDataLatLonBox bounds () const {
+                return _bounds;
             }
 
-            /// Returns the northern boundary of the spherical noise map
-            ///
-            /// @returns The northern boundary of the noise map, in degrees.
-            double GetNorthLatBound () const
-            {
-                return m_northLatBound;
-            }
 
-            /// Returns the southern boundary of the spherical noise map
-            ///
-            /// @returns The southern boundary of the noise map, in degrees.
-            double GetSouthLatBound () const
-            {
-                return m_southLatBound;
-            }
-
-            /// Returns the western boundary of the spherical noise map
-            ///
-            /// @returns The western boundary of the noise map, in degrees.
-            double GetWestLonBound () const
-            {
-                return m_westLonBound;
-            }
 
             /// Sets the coordinate boundaries of the noise map.
             ///
-            /// @param southLatBound The southern boundary of the noise map, in
-            /// degrees.
-            /// @param northLatBound The northern boundary of the noise map, in
-            /// degrees.
-            /// @param westLonBound The western boundary of the noise map, in
-            /// degrees.
-            /// @param eastLonBound The eastern boundary of the noise map, in
-            /// degrees.
-            ///
-            /// @pre The southern boundary is less than the northern boundary.
-            /// @pre The western boundary is less than the eastern boundary.
-            ///
             /// @throw noise::ExceptionInvalidParam See the preconditions.
-            void SetBounds (double southLatBound, double northLatBound,
-                            double westLonBound, double eastLonBound)
-            {
-                if (southLatBound >= northLatBound) { double temp = southLatBound; southLatBound = northLatBound; northLatBound = temp; }
-                if (westLonBound >= eastLonBound) { double temp = eastLonBound; eastLonBound = westLonBound; westLonBound = temp; }
-                    //throw noise::ExceptionInvalidParam ();
-
-
-                m_southLatBound = southLatBound;
-                m_northLatBound = northLatBound;
-                m_westLonBound  = westLonBound ;
-                m_eastLonBound  = eastLonBound ;
+            void SetBounds (Marble::GeoDataLatLonBox bounds) {
+                _bounds = bounds;
             }
 
         protected:
 
-            /// Eastern boundary of the spherical noise map, in degrees.
-            double m_eastLonBound;
-
-            /// Northern boundary of the spherical noise map, in degrees.
-            double m_northLatBound;
-
-            /// Southern boundary of the spherical noise map, in degrees.
-            double m_southLatBound;
-
-            /// Western boundary of the spherical noise map, in degrees.
-            double m_westLonBound;
+            /// Boundary of the spherical noise map, in degrees.
+            Marble::GeoDataLatLonBox _bounds;
 
             double _curLat, _curLon, _xDelta, _yDelta;
             RenderJob* _job;

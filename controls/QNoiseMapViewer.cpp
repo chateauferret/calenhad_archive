@@ -15,8 +15,8 @@ using namespace Marble;
 
 QNoiseMapViewer::QNoiseMapViewer (QModule* parent) : QWidget (parent),
     _isRendered (false),
-    _bounds (M_PI_2, -M_PI_2, -M_PI, M_PI),
-    _source (nullptr), _image (nullptr), _explorer (nullptr) {
+    _bounds (GeoDataLatLonBox (-M_PI_2, M_PI_2, -M_PI, M_PI)),
+    _source (nullptr), _image (nullptr), _explorer (nullptr), _previewType (NoiseMapPreviewType::WholeWorld) {
 }
 
 void QNoiseMapViewer::initialise() {
@@ -46,16 +46,20 @@ QNoiseMapViewer::~QNoiseMapViewer() {
     if (_item) {
         delete _item;
     }
-    if (_job) {
-        delete _job;
-    }
+
     if (_explorer) {
         delete _explorer;
     }
 }
 
 void QNoiseMapViewer::setBounds (const GeoDataLatLonBox& bounds) {
-    _bounds = bounds;
+    if (bounds != _bounds) {
+        _bounds = bounds;
+        if (_previewType == NoiseMapPreviewType::ExplorerBounds) {
+            render ();
+        }
+    }
+
 }
 
 GeoDataLatLonBox QNoiseMapViewer::bounds () {
@@ -84,23 +88,21 @@ void QNoiseMapViewer::showEvent (QShowEvent *) {
 }
 
 void QNoiseMapViewer::render() {
-    if (_job) {
- //       _job -> thread() -> terminate();
-        delete _job;
-    }
+
     QModule* module = (QModule*) parent ();
         if (module -> isEnabled ()) {
-            _job = new RenderJob (_bounds, _source -> module ());
-
+            RenderJob* job = new RenderJob (_bounds, _source -> module ());
             QThread* thread = new QThread();
-            std::shared_ptr<QImage> image = std::make_shared<QImage> (2 * height (), height (), QImage::Format_ARGB32);
-            _job -> setImage (image);
+            std::cout << _bounds.toString().toStdString() << " " << _bounds.crossesDateLine () << "\n";
+            int width = _previewType == NoiseMapPreviewType::WholeWorld ? 2 * height() : height();
+            std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height(), QImage::Format_ARGB32);
+            job -> setImage (image);
             _image = image;
-            _job -> moveToThread (thread);
-            connect (thread, SIGNAL (started ()), _job, SLOT (startJob()));
-            connect (_job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), this, SLOT (jobComplete (TileId, std::shared_ptr<QImage>)));
-            connect (_job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), thread, SLOT (quit ()));
-            connect (_job, SIGNAL (progress (int)), this, SLOT (setProgress (int)));
+            job -> moveToThread (thread);
+            connect (thread, SIGNAL (started ()), job, SLOT (startJob()));
+            connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), this, SLOT (jobComplete (TileId, std::shared_ptr<QImage>)));
+            connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), thread, SLOT (quit ()));
+            connect (job, SIGNAL (progress (int)), this, SLOT (setProgress (int)));
             connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
             thread -> start ();
             _label -> setText (_bounds.toString ());
@@ -108,10 +110,14 @@ void QNoiseMapViewer::render() {
 }
 
 void QNoiseMapViewer::jobComplete (TileId, std::shared_ptr<QImage> image) {
-    QPixmap pixmap = QPixmap::fromImage (*image);
+    QPixmap pixmap = QPixmap::fromImage (image -> mirrored());
+    _scene -> clear();
     _item = _scene -> addPixmap (pixmap);
     _scene -> setSceneRect (_item -> boundingRect());
     _isRendered = true;
+    if (_explorer) {
+        _explorer -> changeView (_bounds);
+    }
 
 }
 
@@ -130,7 +136,7 @@ bool QNoiseMapViewer::eventFilter (QObject* o, QEvent* e) {
         case QEvent::GraphicsSceneMousePress:
             switch ((int) me -> button ()) {
                 case Qt::LeftButton: {
-                    if (_source -> isRenderable ()) {
+                    if (_source -> isRenderable()) {
                         if (_explorer) {
                             _explorer -> close ();
                             delete _explorer;

@@ -93,6 +93,7 @@ CalenhadController::CalenhadController (QObject* parent) : QObject (parent), _vi
     addModuleTool ("V&oronoi", "Voronoi pattern", QVariant (ModuleType::VORONOI));
     addModuleTool ("Select &x", "Select input", QVariant (ModuleType::SELECT));
     addModuleTool ("Turbulence &Q", "Turbulence", QVariant (ModuleType::TURBULENCE));
+    addModuleTool ("Icosphere Map", "Icosphere map", QVariant (ModuleType::ICOSPHEREMAP));
 
     // undo/redo arrangemenyts
     _undoStack = new QUndoStack();

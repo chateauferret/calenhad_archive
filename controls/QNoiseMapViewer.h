@@ -20,6 +20,8 @@
 class QModule;
 class QNoiseMapExplorer;
 
+enum NoiseMapPreviewType { WholeWorld, ExplorerBounds };
+
 class QNoiseMapViewer : public QWidget {
 Q_OBJECT
 public:
@@ -52,12 +54,12 @@ protected:
     bool _isRendered;
     QLabel* _label;
     QModule* _source;
-    RenderJob* _job = nullptr;
     QVBoxLayout* _layout;
     QWidget* _content;
     QNoiseMapExplorer* _explorer;
     QProgressBar* _progressBar;
     std::shared_ptr<QImage> _image;
+    NoiseMapPreviewType _previewType;
 };
 
 

@@ -17,6 +17,9 @@
 #include "QNode.h"
 #include "../controls/QNoiseMapViewer.h"
 
+namespace Marble {
+    class GeoDataLatLonAltBox;
+}
 
 enum ModuleType {
     NONE,
@@ -46,7 +49,8 @@ enum ModuleType {
     SCALEBIAS,
     SELECT,
     TURBULENCE,
-    VORONOI
+    VORONOI,
+    ICOSPHEREMAP
 };
 
 Q_DECLARE_METATYPE (ModuleType)
@@ -58,9 +62,8 @@ public:
     QModule (noise::module::Module* m, QWidget* parent = 0);
 
     virtual ~QModule();
-    virtual Module* module();
 
-    void setUniqueName ();
+    void setUniqueName() override;
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QModule* addCopy (CalenhadModel* model) = 0;
     virtual ModuleType type() = 0;
@@ -68,22 +71,22 @@ public:
     static int seed;
     static noise::NoiseQuality noiseQuality;
     QUuid id();
+    virtual Module* module();
 
-public slots:
-    void invalidate ();
+    public slots:
+    void changeBounds (const GeoDataLatLonBox&);
 
 signals:
     void initialised();
 
 protected:
-    noise::module::Module* _module;
-    void addInputPorts ();
-    void initialise ();
-    QWidget* _formPreview;
+
+    virtual void addInputPorts();
+    void initialise();
     QFormLayout* _previewLayout;
     QNoiseMapViewer* _preview;
     QUuid _id;
-
+    noise::module::Module* _module;
 };
 
 

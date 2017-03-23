@@ -8,6 +8,8 @@
 #include "../nodeedit/qneconnection.h"
 #include <QMenu>
 #include "../nodeedit/CalenhadController.h"
+#include "QModule.h"
+#include "../libnoiseutils/icospheremap.h"
 
 void QNode::initialise() {
 
@@ -145,6 +147,11 @@ QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitiali
 
 QNode::~QNode () {
 
+}
+
+void QNode::invalidate() {
+    setEnabled (true);
+    emit (nodeChanged ("Inputs", 0));
 }
 
 void QNode::setModel (CalenhadModel* model) {

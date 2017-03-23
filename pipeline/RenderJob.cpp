@@ -89,7 +89,7 @@ void RenderJob::render() {
     heightMapBuilder.setSourceModule (*_source);
     heightMapBuilder.setDestNoiseMap (heightMap);
     heightMapBuilder.setDestSize (_image -> width(), _image -> height());
-    heightMapBuilder.SetBounds (_bounds.south (GeoDataCoordinates::Degree), _bounds.north (GeoDataCoordinates::Degree), _bounds.east(GeoDataCoordinates::Degree), _bounds.west(GeoDataCoordinates::Degree));
+    heightMapBuilder.SetBounds (_bounds);
     heightMapBuilder.build();
 
     RendererImage renderer (this);

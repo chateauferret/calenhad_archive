@@ -20,7 +20,6 @@ QVoronoiModule::~QVoronoiModule() {
 
 void QVoronoiModule::initialise() {
     QModule::initialise();
-    _name = "New Voronoi";
     frequencySpin = logParameterControl ("Frequency");
     connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);

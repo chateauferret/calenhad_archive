@@ -16,6 +16,7 @@ using namespace Marble;
 
 Q_DECLARE_METATYPE (TileId)
 Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
+Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
 
 int main (int argc, char **argv) {
 
@@ -23,8 +24,8 @@ int main (int argc, char **argv) {
     // Register required metatypes for Qt services
     qRegisterMetaType<QImage>();
     qRegisterMetaType<std::shared_ptr<QImage>>();
+    qRegisterMetaType<std::shared_ptr<icosphere::Icosphere>>();
     qRegisterMetaType<TileId>();
-
 
     QCoreApplication::setOrganizationName("calenhad");
     QCoreApplication::setOrganizationDomain("chateauferret.com");

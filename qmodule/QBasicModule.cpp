@@ -4,8 +4,7 @@
 
 #include <iostream>
 #include "QBasicModule.h"
-#include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
+#include "../libnoiseutils/diff.h"
 
 QBasicModule::QBasicModule (Module* m, QWidget* parent) : QModule (m, parent) {
 

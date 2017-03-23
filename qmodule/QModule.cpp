@@ -6,6 +6,7 @@
 #include "QModule.h"
 #include "../nodeedit/qnemainwindow.h"
 #include "../pipeline/CalenhadModel.h"
+#include "marble/GeoDataLatLonAltBox.h"
 
 int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
@@ -33,13 +34,18 @@ void QModule::initialise() {
     _preview -> setLayout (_previewLayout);
     _preview -> setSource (this);
     int index = QNode::addPanel (tr ("Preview"), _preview);
-    connect (this, &QNode::nodeChanged, this, [=] () { _expander -> setItemEnabled (index, isRenderable ()); });
-    connect (this, SIGNAL (nodeChanged (const char*, QVariant)), _preview, SLOT (render()));
+    connect (this, &QNode::nodeChanged, this, [=] () { _expander -> setItemEnabled (index, isRenderable()); });
+    connect (this, SIGNAL (nodeChanged (const QString&, const QVariant&)), _preview, SLOT (render()));
     _preview -> initialise();
     setEnabled (false);
 }
 
-Module* QModule::module () {
+void QModule::changeBounds (const GeoDataLatLonBox& bounds) {
+    _preview->setBounds (bounds);
+}
+
+
+noise::module::Module* QModule::module () {
     return _module;
 }
 
@@ -48,11 +54,10 @@ void QModule::addInputPorts() {
     // Rules: if there are < 3 inputs none of them are controls,
     // if there are 3 inputs, 0 and 1 are data and 2 is control,
     // if there are > 3 inputs, 1 is data and the rest are controls
+    int portType;
+    QString name;
     int inputs = _module -> GetSourceModuleCount();
     for (int i = 0; i < inputs; i++) {
-
-        QString name = "";
-        int portType;
         if (inputs < 3 || i == 0 || (i == 1 && inputs == 3)) {
             name = "Input " + QString::number (i + 1);
             portType = QNEPort::InputPort;
@@ -60,15 +65,11 @@ void QModule::addInputPorts() {
             name = "Control " + QString::number (i - 1);
             portType = QNEPort::ControlPort;
         }
-        QNEPort* input = new QNEPort (portType, i, name);
+        QNEPort* input = new QNEPort (portType, 0, name);
         addPort (input);
     }
 }
 
-void QModule::invalidate() {
-    setEnabled (true);
-    emit (nodeChanged ("inputs", 0));
-}
 
 void QModule::setUniqueName() {
     int i = 0;

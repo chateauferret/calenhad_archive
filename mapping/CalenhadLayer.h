@@ -53,10 +53,8 @@ public:
     virtual bool render	(Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString & renderPos, Marble::GeoSceneLayer* layer) override;
     int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport);
     void setGradient (noise::utils::GradientLegend* gradient);
-
     public slots:
-    void refresh (const GeoDataLatLonAltBox&);
-    void rescale (const QSize&);
+    void rescale();
 
     signals:
     void imageRefreshed();
