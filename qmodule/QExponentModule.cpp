@@ -8,6 +8,9 @@
 #include "QExponentModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QExponentModule::QExponentModule (QWidget* parent) : QModule (new noise::module::Exponent(), parent) {
 
@@ -24,7 +27,7 @@ void QExponentModule::initialise() {
     connect (exponentSpin, SIGNAL (valueChanged (double)), this, SLOT (setExponent (double)));
     _contentLayout -> addRow (tr ("Exponent"), exponentSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QExponentModule::exponent() {
@@ -48,8 +51,8 @@ QExponentModule* QExponentModule::newInstance() {
     return qm;
 }
 
-ModuleType QExponentModule::type() {
-    return ModuleType::EXPONENT;
+QString QExponentModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_exponent;
 }
 
 QExponentModule* QExponentModule::addCopy (CalenhadModel* model) {
@@ -61,6 +64,16 @@ QExponentModule* QExponentModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-QString QExponentModule::typeString () {
-    return "Exponent";
+
+void QExponentModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double exp = _model -> readParameter (element, "exponent").toDouble (&ok);
+    if (ok) { setExponent (exp); }
+}
+
+void QExponentModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "exponent", QString::number (exponent()));
 }

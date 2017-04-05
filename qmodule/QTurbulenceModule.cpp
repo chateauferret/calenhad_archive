@@ -8,6 +8,9 @@
 #include "QTurbulenceModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 
 QTurbulenceModule::QTurbulenceModule (QWidget* parent)  : QModule (new Turbulence(), parent) {
@@ -32,7 +35,7 @@ void QTurbulenceModule::initialise() {
     connect (roughnessSpin, SIGNAL (valueChanged (double)), this, SLOT (setRoughness (double)));
     _contentLayout -> addRow (tr ("Roughness"), roughnessSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QTurbulenceModule::frequency() {
@@ -77,8 +80,8 @@ QTurbulenceModule* QTurbulenceModule::newInstance () {
     return qm;
 }
 
-ModuleType QTurbulenceModule::type() {
-    return ModuleType::TURBULENCE;
+QString QTurbulenceModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_turbulence;
 }
 
 QTurbulenceModule* QTurbulenceModule::addCopy (CalenhadModel* model) {
@@ -92,6 +95,23 @@ QTurbulenceModule* QTurbulenceModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-QString QTurbulenceModule::typeString () {
-    return "Turbulence";
+void QTurbulenceModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    if (ok) { setFrequency (frequency); }
+
+    double power = _model -> readParameter (element, "power").toDouble (&ok);
+    if (ok) { setPower (power); }
+
+    double roughness = _model -> readParameter (element, "roughness").toDouble (&ok);
+    if (ok) { setRoughness (roughness); }
+}
+
+void QTurbulenceModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
+    _model -> writeParameter (_element, "power", QString::number (power()));
+    _model -> writeParameter (_element, "roughness", QString::number (roughness()));
 }

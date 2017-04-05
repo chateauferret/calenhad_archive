@@ -8,6 +8,8 @@
 #include "QSelectModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QSelectModule::QSelectModule (QWidget* parent) : QRangeModule (new noise::module::Select(), parent) {
 
@@ -24,7 +26,7 @@ void QSelectModule::initialise() {
     connect (falloffSpin, SIGNAL (valueChanged (double)), this, SLOT (setFalloff (double)));
     _contentLayout -> addRow (tr ("Falloff"), falloffSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QSelectModule::falloff() {
@@ -60,8 +62,8 @@ QSelectModule* QSelectModule::newInstance () {
     return qm;
 }
 
-ModuleType QSelectModule::type() {
-    return ModuleType::SELECT;
+QString QSelectModule::moduleType() {
+    return Calenhad::preferences -> calenhad_module_select;
 }
 
 QSelectModule* QSelectModule::addCopy (CalenhadModel* model) {
@@ -75,6 +77,12 @@ QSelectModule* QSelectModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-QString QSelectModule::typeString () {
-    return "Select";
+
+
+void QSelectModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QRangeModule::inflate (element, messages);
+}
+
+void QSelectModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QRangeModule::serialise (doc, messages);
 }

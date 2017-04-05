@@ -7,6 +7,7 @@
 
 
 #include <QtWidgets/QGraphicsScene>
+#include <QtCore/QDateTime>
 #include "../qmodule/QModule.h"
 #include "../libnoiseutils/nullmodule.h"
 #include "../pipeline/ModuleFactory.h"
@@ -23,9 +24,7 @@ public:
     CalenhadModel();
     virtual ~CalenhadModel();
     QModule* findModule (const QString& name);
-    void save (QDataStream& ds);
-    void load (QDataStream& ds);
-    void addModule (const QPointF& initPos, const ModuleType& type, const QString& name = QString::null);
+    QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
     void deleteModule (QModule* module);
     bool canConnect (QNEPort* output, QNEPort* input);
     void connectPorts (QNEPort* output, QNEPort* input);
@@ -36,6 +35,15 @@ public:
     void setController (CalenhadController* controller);
     CalenhadController* controller();
     void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
+    QDomDocument serialise (MessageFactory* messages);
+    void inflate (const QDomDocument& doc, MessageFactory* messages);
+    QList<QModule*> modules();
+
+    QString readParameter (const QDomElement& element, const QString param);
+    void writeParameter (QDomElement& element, const QString& param, const QString& value);
+
+    public slots:
+    void redraw();
 
 signals:
     void showMessage (QString);
@@ -53,6 +61,13 @@ protected:
     QNEPort* _port = nullptr; // last port we coloured in as dropping on
     CalenhadController* _controller = nullptr;
 
+    QString _title, _author, _description;
+    QDateTime _date;
+
+    void writeMetadata (QDomDocument& doc, MessageFactory* messages);
+    void readMetadata (const QDomDocument& doc, MessageFactory* messages);
+
+    QList<QNEConnection*> connections ();
 };
 
 #endif //CALENHAD_CALENHADMODEL_H

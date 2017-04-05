@@ -24,9 +24,11 @@ public:
     double upperBound();
 
     Select* module () override;
-    ModuleType type() override;
     QSelectModule* addCopy (CalenhadModel* model) override;
-    virtual QString typeString() override;
+    virtual QString moduleType() override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
 public slots:
     void setFalloff (double value);
 

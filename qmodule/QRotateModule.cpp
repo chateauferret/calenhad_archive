@@ -8,6 +8,9 @@
 #include "QRotateModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QRotateModule::QRotateModule (noise::module::RotatePoint* m, QWidget* parent) : QModule (m, parent) {
 
@@ -30,7 +33,7 @@ void QRotateModule::initialise() {
     zAngleSpin = angleParameterControl ("Rotate Z");
     _contentLayout -> addRow (tr ("around Z"), zAngleSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 
 }
 
@@ -71,8 +74,8 @@ RotatePoint* QRotateModule::module () {
     return r;
 }
 
-ModuleType QRotateModule::type() {
-    return ModuleType::ROTATE;
+QString QRotateModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_rotate;
 }
 
 QRotateModule* QRotateModule::newInstance () {
@@ -93,6 +96,24 @@ QRotateModule* QRotateModule::addCopy (CalenhadModel* model){
     return qm;
 }
 
-QString QRotateModule::typeString () {
-    return "Rotate";
+
+void QRotateModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double x = _model -> readParameter (element, "x").toDouble (&ok);
+    if (ok) { setXAngle (x); }
+
+    double y = _model -> readParameter (element, "y").toDouble (&ok);
+    if (ok) { setYAngle (y); }
+
+    double z = _model -> readParameter (element, "z").toDouble (&ok);
+    if (ok) { setZAngle (z); }
+}
+
+void QRotateModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "x", QString::number (xAngle()));
+    _model -> writeParameter (_element, "y", QString::number (yAngle()));
+    _model -> writeParameter (_element, "z", QString::number (zAngle()));
 }

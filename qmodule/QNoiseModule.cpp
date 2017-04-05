@@ -6,8 +6,9 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QDoubleSpinBox>
 #include "QNoiseModule.h"
-#include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QNoiseModule::QNoiseModule (noise::module::Module* m, QWidget* parent) : QModule (m, parent) {
 
@@ -36,7 +37,13 @@ void QNoiseModule::initialise() {
     connect (octaveSpin, SIGNAL (valueChanged (int)), this, SLOT (setOctaveCount (int)));
     _contentLayout -> addRow (tr ("Octaves"), octaveSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+
+    setFrequency (frequency ());
+    setLacunarity (lacunarity ());
+    setOctaveCount (octaveCount ());
+    setPersistence (persistence ());
+
+    emit initialised();
 }
 
 double QNoiseModule::frequency() {
@@ -170,18 +177,18 @@ QNoiseModule* QNoiseModule::newInstance (Module* m) {
     return qm;
 }
 
-ModuleType QNoiseModule::type() {
-    if (dynamic_cast<Perlin*> (_module)) { return ModuleType::PERLIN; }
-    if (dynamic_cast<Billow*> (_module)) { return ModuleType::BILLOW; }
-    if (dynamic_cast<RidgedMulti*> (_module)) { return ModuleType::RIDGEDMULTI; }
-    return ModuleType::NONE;
+QString QNoiseModule::moduleType () {
+    if (dynamic_cast<Perlin*> (_module)) { return Calenhad::preferences -> calenhad_module_perlin; }
+    if (dynamic_cast<Billow*> (_module)) { return Calenhad::preferences -> calenhad_module_billow; }
+    if (dynamic_cast<RidgedMulti*> (_module)) { return Calenhad::preferences -> calenhad_module_ridgedmulti; }
+    return QString::null;
 }
 
 QNoiseModule* QNoiseModule::addCopy (CalenhadModel* model)  {
     QNoiseModule* qm = nullptr;
-    if (type() == ModuleType::PERLIN) { qm = newPerlinInstance(); }
-    if (type() == ModuleType::BILLOW) { qm = newBillowInstance(); }
-    if (type() == ModuleType::RIDGEDMULTI) { qm = newRidgedMultiInstance(); }
+    if (moduleType() == Calenhad::preferences -> calenhad_module_perlin) { qm = newPerlinInstance(); }
+    if (moduleType() == Calenhad::preferences -> calenhad_module_billow) { qm = newBillowInstance(); }
+    if (moduleType() == Calenhad::preferences -> calenhad_module_ridgedmulti) { qm = newRidgedMultiInstance(); }
     if (qm) {
         qm -> setModel (model);
         qm -> setFrequency (frequency ());
@@ -192,9 +199,32 @@ QNoiseModule* QNoiseModule::addCopy (CalenhadModel* model)  {
     return qm;
 }
 
-QString QNoiseModule::typeString () {
-    if (dynamic_cast<Perlin*> (_module)) { return "Perlin"; }
-    if (dynamic_cast<Billow*> (_module)) { return "Billow"; }
-    if (dynamic_cast<RidgedMulti*> (_module)) { return "RidgedMulti"; }
-    return "";
+
+void QNoiseModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    if (ok) { setFrequency (frequency); }
+
+    double lacunarity = _model -> readParameter (element, "lacunarity").toDouble (&ok);
+    if (ok) { setLacunarity (lacunarity); }
+
+    int octaves = _model -> readParameter (element, "octaves").toInt (&ok);
+    if (ok) { setOctaveCount (octaves); }
+
+    if (hasPersistence()) {
+        double persistence = _model -> readParameter (element, "persistence").toDouble (&ok);
+        if (ok) { setPersistence (persistence); }
+    }
+}
+
+void QNoiseModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
+    _model -> writeParameter (_element, "lacunarity", QString::number (lacunarity()));
+    _model -> writeParameter (_element, "octaves", QString::number (octaveCount()));
+    if (hasPersistence ()) {
+        _model -> writeParameter (_element, "persistence", QString::number (persistence()));
+    }
 }

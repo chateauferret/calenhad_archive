@@ -7,6 +7,9 @@
 #include <QWidget>
 #include <QVector>
 #include "nodeedit/qnemessagebox.h"
+#include <QTextStream>
+
+class CalenhadMessageStream;
 
 class MessageFactory : public QObject {
     Q_OBJECT
@@ -15,8 +18,6 @@ public:
     ~MessageFactory();
     void message (const QString& title, const QString& message);
     void setHost (QWidget* host);
-
-
     public slots:
     void clearMessage (QNEMessageBox* message);
 
@@ -24,6 +25,8 @@ private:
     QWidget* _host = 0;
     QVector<QNEMessageBox*> messages;
 };
+
+
 
 
 #endif //CALENHAD_MESSAGEFACTORY_H

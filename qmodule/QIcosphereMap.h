@@ -35,10 +35,12 @@ public:
     void initialise() override;
     bool isRenderable() override;
     IcosphereMap* module() override;
-    ModuleType type() override;
     QIcosphereMap* addCopy (CalenhadModel* model) override;
-    QString typeString() override;
+    QString moduleType () override;
     void setIcosphereDepth (const unsigned& depth);
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    int icosphereDepth();
 
 public slots:
     void icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosphere);

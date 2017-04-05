@@ -21,43 +21,14 @@ namespace Marble {
     class GeoDataLatLonAltBox;
 }
 
-enum ModuleType {
-    NONE,
-    CYLINDERS,
-    SPHERES,
-    EXPONENT,
-    TRANSLATE,
-    ROTATE,
-    SCALEPOINT,
-    CLAMP,
-    CONSTANT,
-    ADD,
-    ABS,
-    BLEND,
-    CACHE,
-    CHECKERBOARD,
-    INVERT,
-    MAX,
-    MIN,
-    MULTIPLY,
-    POWER,
-    DISPLACE,
-    DIFF,
-    PERLIN,
-    BILLOW,
-    RIDGEDMULTI,
-    SCALEBIAS,
-    SELECT,
-    TURBULENCE,
-    VORONOI,
-    ICOSPHEREMAP
-};
-
-Q_DECLARE_METATYPE (ModuleType)
 using namespace noise::module;
+
+class QNEBlockHandle;
+class MessageFactory;
 
 class QModule : public QNode {
 Q_OBJECT
+    Q_ENUMS (ModuleType)
 public:
     QModule (noise::module::Module* m, QWidget* parent = 0);
 
@@ -66,15 +37,20 @@ public:
     void setUniqueName() override;
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QModule* addCopy (CalenhadModel* model) = 0;
-    virtual ModuleType type() = 0;
-    virtual QString typeString() override = 0;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual QString moduleType () = 0;
     static int seed;
     static noise::NoiseQuality noiseQuality;
-    QUuid id();
     virtual Module* module();
+    void setHandle (QNEBlockHandle* h);
+    void setModel (CalenhadModel* model) override;
+    QNEBlockHandle* handle();
 
     public slots:
     void changeBounds (const GeoDataLatLonBox&);
+    void refresh();
+    void invalidate() override;
 
 signals:
     void initialised();
@@ -82,11 +58,16 @@ signals:
 protected:
 
     virtual void addInputPorts();
-    void initialise();
+    void initialise() override;
     QFormLayout* _previewLayout;
     QNoiseMapViewer* _preview;
-    QUuid _id;
     noise::module::Module* _module;
+    QNEBlockHandle* _handle;
+    int _previewIndex;
+
+
+
+    bool _renderRequested;
 };
 
 

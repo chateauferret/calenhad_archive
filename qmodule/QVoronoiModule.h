@@ -24,12 +24,14 @@ public:
     double displacement();
     bool enableDistance();
     Voronoi* module() override;
-    ModuleType type() override;
     QVoronoiModule* addCopy (CalenhadModel* model) override;
     QVoronoiModule (QWidget* parent = 0);
     QDoubleSpinBox* frequencySpin, * displacementSpin;
     QCheckBox* enableDistanceCheck;
-    virtual QString typeString() override;
+    virtual QString moduleType () override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
 public slots:
     void setEnableDistance (bool value);
     void setDisplacement (double value);

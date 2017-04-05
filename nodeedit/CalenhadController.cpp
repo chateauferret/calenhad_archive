@@ -27,29 +27,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../actions/ZoomCommand.h"
 #include "../actions/DeleteConnectionCommand.h"
 #include "../actions/DeleteModuleCommand.h"
-#include "qnemainwindow.h"
+#include "Calenhad.h"
 #include "qneblock.h"
+#include <iostream>
 
 #include "qneblockhandle.h"
 #include "qnetoolbox.h"
 #include "qneconnection.h"
 #include "../messagefactory.h"
-
+#include "../preferences.h"
 
 
 CalenhadController::CalenhadController (QObject* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 
     // tool groups - activating a toggle action deactivates all others in the same group (like a radio button)
     _addModuleGroup = new ToolGroup();
-    QNEMainWindow::toolbox -> addGroup (_addModuleGroup);
+    Calenhad::toolbox -> addGroup (_addModuleGroup);
 
     // tool drawers - tools in the same drawer are grouped in the UI
     _addModuleDrawer = new ToolDrawer ("Modules");
-    QNEMainWindow::toolbox -> addDrawer (_addModuleDrawer);
+    Calenhad::toolbox -> addDrawer (_addModuleDrawer);
     _viewDrawer = new ToolDrawer ("View");
-    QNEMainWindow::toolbox -> addDrawer (_viewDrawer);
+    Calenhad::toolbox -> addDrawer (_viewDrawer);
     _editDrawer = new ToolDrawer ("Edit");
-    QNEMainWindow::toolbox -> addDrawer (_editDrawer);
+    Calenhad::toolbox -> addDrawer (_editDrawer);
 
     // create context menus
     _connectionContextMenu = new QMenu ("Connection");
@@ -68,32 +69,32 @@ CalenhadController::CalenhadController (QObject* parent) : QObject (parent), _vi
 //    _inputPortContextMenu -> addMenu (connectOutputMenu());
 
     // tools to create modules
-    addModuleTool ("&Perlin", "Perlin libnoiseutils", QVariant (ModuleType::PERLIN));
-    addModuleTool ("Billo&w", "Billow libnoiseutils", QVariant (ModuleType::BILLOW));
-    addModuleTool ("&RidgedMulti", "Ridged multifractal libnoiseutils", QVariant (ModuleType::RIDGEDMULTI));
-    addModuleTool ("&Cylinders", "Cylindrical distance function", QVariant (ModuleType::CYLINDERS));
-    addModuleTool ("&Spheres", "Spherical distance function", QVariant (ModuleType::SPHERES));
-    addModuleTool ("&Exponent", "Exponent function", QVariant (ModuleType::EXPONENT));
-    addModuleTool ("&Translate", "Translation function", QVariant (ModuleType::TRANSLATE));
-    addModuleTool ("&Rotate", "Rotation function", QVariant (ModuleType::ROTATE));
-    addModuleTool ("Sca&lepoint", "Scale points", QVariant (ModuleType::SCALEPOINT));
-    addModuleTool ("Scale and &Bias", "Scale and bias", QVariant (ModuleType::SCALEBIAS));
-    addModuleTool ("&Add", "Add values", QVariant (ModuleType::ADD));
-    addModuleTool ("Di&fference", "Difference between values", QVariant (ModuleType::DIFF));
-    addModuleTool ("Cla&mp", "Clamp values", QVariant (ModuleType::CLAMP));
-    addModuleTool ("Co&nstant value", "Constant value", QVariant (ModuleType::CONSTANT));
-    addModuleTool ("Absol&ute value", "Absolute value", QVariant (ModuleType::ABS));
-    addModuleTool ("Bl&end", "Blend points", QVariant (ModuleType::BLEND));
-    addModuleTool ("Cac&he", "Cache value", QVariant (ModuleType::CACHE));
-    addModuleTool ("Chec&kerboard", "Checkerboard pattern", QVariant (ModuleType::CHECKERBOARD));
-    addModuleTool ("In&vert", "Invert values", QVariant (ModuleType::INVERT));
-    addModuleTool ("Cac&he", "Cache value", QVariant (ModuleType::CACHE));
-    addModuleTool ("Ma&x", "Maximum value", QVariant (ModuleType::MAX));
-    addModuleTool ("Mi&n", "Minimum value", QVariant (ModuleType::MIN));
-    addModuleTool ("V&oronoi", "Voronoi pattern", QVariant (ModuleType::VORONOI));
-    addModuleTool ("Select &x", "Select input", QVariant (ModuleType::SELECT));
-    addModuleTool ("Turbulence &Q", "Turbulence", QVariant (ModuleType::TURBULENCE));
-    addModuleTool ("Icosphere Map", "Icosphere map", QVariant (ModuleType::ICOSPHEREMAP));
+    addModuleTool (Calenhad::preferences -> calenhad_module_perlin, "Perlin noise");
+    addModuleTool (Calenhad::preferences -> calenhad_module_billow, "Billow noise");
+    addModuleTool (Calenhad::preferences -> calenhad_module_ridgedmulti, "Ridged multifractal noise");
+    addModuleTool (Calenhad::preferences -> calenhad_module_cylinders, "Cylindrical distance function");
+    addModuleTool (Calenhad::preferences -> calenhad_module_spheres, "Spherical distance function");
+    addModuleTool (Calenhad::preferences -> calenhad_module_exponent, "Exponent function");
+    addModuleTool (Calenhad::preferences -> calenhad_module_translate, "Translation function");
+    addModuleTool (Calenhad::preferences -> calenhad_module_rotate, "Rotation function");
+    addModuleTool (Calenhad::preferences -> calenhad_module_scalepoint, "Scale points");
+    addModuleTool (Calenhad::preferences -> calenhad_module_scalebias, "Scale and bias");
+    addModuleTool (Calenhad::preferences -> calenhad_module_add, "Add values");
+    addModuleTool (Calenhad::preferences -> calenhad_module_diff, "Difference between values");
+    addModuleTool (Calenhad::preferences -> calenhad_module_clamp, "Clamp values");
+    addModuleTool (Calenhad::preferences -> calenhad_module_constant, "Constant value");
+    addModuleTool (Calenhad::preferences -> calenhad_module_abs, "Absolute value");
+    addModuleTool (Calenhad::preferences -> calenhad_module_blend, "Blend points");
+    addModuleTool (Calenhad::preferences -> calenhad_module_cache, "Cache value");
+    addModuleTool (Calenhad::preferences -> calenhad_module_checkerboard, "Checkerboard pattern");
+    addModuleTool (Calenhad::preferences -> calenhad_module_invert, "Invert values");
+    addModuleTool (Calenhad::preferences -> calenhad_module_max, "Maximum value");
+    addModuleTool (Calenhad::preferences -> calenhad_module_min, "Minimum value");
+    addModuleTool (Calenhad::preferences -> calenhad_module_voronoi, "Voronoi pattern");
+    addModuleTool (Calenhad::preferences -> calenhad_module_select, "Select input");
+    addModuleTool (Calenhad::preferences -> calenhad_module_turbulence, "Turbulence");
+    addModuleTool (Calenhad::preferences -> calenhad_module_icospheremap, "Icosphere map");
+    addModuleTool (Calenhad::preferences -> calenhad_module_altitudemap, "Altitude map");
 
     // undo/redo arrangemenyts
     _undoStack = new QUndoStack();
@@ -135,6 +136,7 @@ QAction* CalenhadController::createTool (const QString& caption, const QString& 
     tool -> setStatusTip (statusTip);
     tool -> setCheckable (toggle);
     tool -> setData (id);
+
     drawer -> addTool (tool);
     if (toggle) {
         connect (tool, SIGNAL (toggled (bool)), this, SLOT (toolSelected (bool)));
@@ -162,8 +164,10 @@ CalenhadController::~CalenhadController() {
     delete _addModuleDrawer;
 }
 
-void CalenhadController::addModuleTool (const QString& label, const QString& tooltip, const QVariant& key) {
-    QAction* tool = createTool (label, tooltip, key, _addModuleDrawer, true);
+// to do - provide further lookup for name to localisation file
+void CalenhadController::addModuleTool (const QString& name, const QString& tooltip) {
+    QAction* tool = createTool (name, tooltip, name, _addModuleDrawer, true);
+    tool -> setCheckable (true);
     _addModuleGroup -> addTool (tool);
 }
 
@@ -198,7 +202,7 @@ void CalenhadController::toolSelected (bool state) {
 }
 
 void CalenhadController::showMessage (QString message) {
-    QNEMainWindow::messages -> message ("", message);
+    Calenhad::messages -> message ("", message);
 }
 
 QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {

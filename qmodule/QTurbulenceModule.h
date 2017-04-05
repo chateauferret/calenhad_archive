@@ -25,14 +25,17 @@ public:
     double roughness();
 
     Turbulence* module() override;
-    ModuleType type() override;
+    QString moduleType () override;
     QTurbulenceModule* addCopy (CalenhadModel* model) override;
 
     public slots:
     void setFrequency (double value);
     void setPower (double value);
     void setRoughness (double value);
-    virtual QString typeString() override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
+
 protected:
     QTurbulenceModule (QWidget* parent = 0);
     QDoubleSpinBox* frequencySpin, * powerSpin, * roughnessSpin;

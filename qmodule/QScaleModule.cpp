@@ -8,6 +8,9 @@
 #include "QScaleModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QScaleModule::QScaleModule (QWidget* parent) : QModule (new noise::module::ScalePoint(), parent) {
 
@@ -30,7 +33,7 @@ void QScaleModule::initialise() {
     connect (scaleZSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleZ (double)));
     _contentLayout -> addRow ("Scale Z", scaleZSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QScaleModule::scaleX() {
@@ -70,8 +73,8 @@ ScalePoint* QScaleModule::module () {
     return t;
 }
 
-ModuleType QScaleModule::type() {
-    return ModuleType::SCALEPOINT;
+QString QScaleModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_scalepoint;
 }
 
 QScaleModule* QScaleModule::newInstance() {
@@ -91,6 +94,25 @@ QScaleModule* QScaleModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-QString QScaleModule::typeString () {
-    return "Scale";
+
+void QScaleModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double x = _model -> readParameter (element, "x").toDouble (&ok);
+    if (ok) { setScaleX (x); }
+
+    double y = _model -> readParameter (element, "y").toDouble (&ok);
+    if (ok) { setScaleY (y); }
+
+    double z = _model -> readParameter (element, "z").toDouble (&ok);
+    if (ok) { setScaleZ (z); }
 }
+
+void QScaleModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "x", QString::number (scaleX()));
+    _model -> writeParameter (_element, "y", QString::number (scaleY()));
+    _model -> writeParameter (_element, "z", QString::number (scaleZ()));
+}
+

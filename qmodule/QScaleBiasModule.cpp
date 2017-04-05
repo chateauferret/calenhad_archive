@@ -8,6 +8,9 @@
 #include "QScaleBiasModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QScaleBiasModule::QScaleBiasModule (QWidget* parent) : QModule (new noise::module::ScaleBias(), parent) {
 
@@ -27,7 +30,7 @@ void QScaleBiasModule::initialise() {
     connect (biasSpin, SIGNAL (valueChanged (double)), this, SLOT (setBias (double)));
     _contentLayout -> addRow (tr ("Bias"), biasSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QScaleBiasModule::scale() {
@@ -61,8 +64,8 @@ QScaleBiasModule* QScaleBiasModule::newInstance() {
     return sm;
 }
 
-ModuleType QScaleBiasModule::type() {
-    return ModuleType::SCALEBIAS;
+QString QScaleBiasModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_scalebias;
 }
 
 
@@ -76,6 +79,22 @@ QScaleBiasModule* QScaleBiasModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-QString QScaleBiasModule::typeString() {
-    return "ScaleBias";
+
+void QScaleBiasModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double scale = _model -> readParameter (element, "scale").toDouble (&ok);
+    if (ok) { setScale (scale); }
+
+    double bias = _model -> readParameter (element, "bias").toDouble (&ok);
+    if (ok) { setBias (bias); }
+
 }
+
+void QScaleBiasModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "scale", QString::number (scale()));
+    _model -> writeParameter (_element, "bias", QString::number (bias()));
+}
+

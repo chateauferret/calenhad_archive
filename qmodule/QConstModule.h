@@ -21,10 +21,13 @@ public:
     double constValue ();
     Const* module() override;
     Q_PROPERTY (double constantValue READ constValue WRITE setConstValue());
-    ModuleType type() override;
     static QConstModule* newInstance();
     QConstModule* addCopy (CalenhadModel* model)  override;
-    QString typeString() override;
+    QString moduleType () override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
+
 public slots:
     void setConstValue (double value);
 

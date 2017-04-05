@@ -8,6 +8,9 @@
 #include "QVoronoiModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 
 QVoronoiModule::QVoronoiModule (QWidget* parent)  : QModule (new Voronoi(), parent) {
@@ -33,7 +36,7 @@ void QVoronoiModule::initialise() {
     enableDistanceCheck -> setToolTip ("Enable distance");
     _contentLayout -> addRow (tr ("Enable distance"), enableDistanceCheck);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QVoronoiModule::frequency() {
@@ -79,8 +82,8 @@ QVoronoiModule* QVoronoiModule::newInstance () {
     return qm;
 }
 
-ModuleType QVoronoiModule::type() {
-    return ModuleType::VORONOI;
+QString QVoronoiModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_voronoi;
 }
 
 
@@ -95,6 +98,23 @@ QVoronoiModule* QVoronoiModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-QString QVoronoiModule::typeString () {
-    return "Voronoi";
+void QVoronoiModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    if (ok) { setFrequency (frequency); }
+
+    double displacement = _model -> readParameter (element, "displacement").toDouble (&ok);
+    if (ok) { setDisplacement (displacement); }
+
+    bool enableDistance = element.attribute ("enableDistance").toStdString() == "y";
+    setEnableDistance (enableDistance);
+}
+
+void QVoronoiModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
+    _model -> writeParameter (_element, "displacement", QString::number (displacement()));
+    _model -> writeParameter (_element, "enableDistance", enableDistance() ? "y" : "n");
 }

@@ -6,6 +6,9 @@
 #include "QClampModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 
 using namespace noise::module;
@@ -23,8 +26,8 @@ QClampModule* QClampModule::newInstance() {
     return qm;
 }
 
-ModuleType QClampModule::type() {
-    return ModuleType::CLAMP;
+QString QClampModule::moduleType() {
+    return Calenhad::preferences -> calenhad_module_clamp;
 }
 
 QClampModule* QClampModule::addCopy (CalenhadModel* model)  {
@@ -49,12 +52,17 @@ void QClampModule::setBounds (double lowerBound, double upperBound) {
     module() -> SetBounds (lowerBound, upperBound);
 }
 
-QString QClampModule::typeString () {
-    return "Clamp";
-}
-
 void QClampModule::initialise () {
     QRangeModule::initialise ();
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
+}
+
+
+void QClampModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QRangeModule::inflate (element, messages);
+}
+
+void QClampModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QRangeModule::serialise (doc, messages);
 }

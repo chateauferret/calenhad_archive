@@ -3,7 +3,7 @@
 //
 
 #include "qneblockhandle.h"
-#include "qnemainwindow.h"
+#include "Calenhad.h"
 #include "../qmodule/QModule.h"
 #include "../preferences.h"
 
@@ -24,7 +24,7 @@ void QNEBlockHandle::paint (QPainter* painter, const QStyleOptionGraphicsItem* o
     rect.setWidth (rect.width() - 2);
     rect.moveTo (1, 1);
     QPen pen = QPen();
-    QBrush brush = QBrush (QNEMainWindow::preferences -> calenhad_handle_brush_color_bg);
+    QBrush brush = QBrush (Calenhad::preferences -> calenhad_handle_brush_color_bg);
 
     painter -> setPen (pen);
     painter -> setBrush (brush);
@@ -33,12 +33,12 @@ void QNEBlockHandle::paint (QPainter* painter, const QStyleOptionGraphicsItem* o
     rect.setWidth (rect.width() - 4);
     rect.setHeight (rect.height() - 6);
     rect.moveTo (3, 4);
-    brush = QBrush (isSelected() ? QNEMainWindow::preferences -> calenhad_handle_brush_color_selected : QNEMainWindow::preferences -> calenhad_handle_brush_color_normal);
+    brush = QBrush (isSelected() ? Calenhad::preferences -> calenhad_handle_brush_color_selected : Calenhad::preferences -> calenhad_handle_brush_color_normal);
     painter -> setBrush (brush);
     QPainterPath path = QPainterPath();
     path.addRoundedRect (rect, 4, 4);
     painter -> drawPath (path);
-    pen = QPen (isSelected() ? QNEMainWindow::preferences -> calenhad_handle_text_color_selected : QNEMainWindow::preferences -> calenhad_handle_text_color_normal);
+    pen = QPen (isSelected() ? Calenhad::preferences -> calenhad_handle_text_color_selected : Calenhad::preferences -> calenhad_handle_text_color_normal);
     painter -> setBrush (brush);
     rect.setWidth (rect.width() - 4);
     rect.moveTo (5, 3);

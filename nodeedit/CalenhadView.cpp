@@ -3,7 +3,7 @@
 //
 
 #include "CalenhadView.h"
-#include "qnemainwindow.h"
+#include "Calenhad.h"
 #include "CalenhadController.h"
 #include <QGraphicsView>
 #include <QWidget>
@@ -18,7 +18,6 @@ CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::IntersectsItemShape);
     //setContextMenuPolicy(Qt::CustomContextMenu);
-
     setZoom (1.0);
 }
 

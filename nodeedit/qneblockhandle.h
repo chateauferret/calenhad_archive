@@ -17,7 +17,7 @@ public:
     enum { Type = QGraphicsItem::UserType + 5 };
     QNEBlockHandle (QModule* w, QGraphicsItem* parent = 0);
     ~QNEBlockHandle();
-    void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     virtual QRectF boundingRect() const;
     int type() const { return Type; }
     public slots:

@@ -10,17 +10,15 @@
 class QBasicModule : public QModule {
 
 public:
-
     virtual ~QBasicModule();
     QBasicModule* addCopy (CalenhadModel* model) override;
-    ModuleType type() override;
-    //void inflate (const QDomElement& element);
-    //QDomElement serialise();
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
     void initialise();
-    static QBasicModule* newInstance (const ModuleType& type);
+    QString moduleType () override;
+    static QBasicModule* newInstance (const QString& type);
 private:
     QBasicModule (Module* m, QWidget* parent = 0);
-    QString typeString() override;
 };
 
 

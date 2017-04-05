@@ -24,9 +24,9 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneconnection.h"
-#include <iostream>
+#include "../qmodule/QModule.h"
 #include "qneport.h"
-#include "qnemainwindow.h"
+#include "Calenhad.h"
 #include "../preferences.h"
 
 QNEConnection::QNEConnection (QGraphicsItem* parent) : QGraphicsPathItem (parent) {
@@ -77,12 +77,12 @@ void QNEConnection::updatePath() {
 
     if (m_port2) {
         if (isSelected()) {
-            pen = QPen (QNEMainWindow::preferences -> calenhad_connector_selected_color, QNEMainWindow::preferences -> calenhad_connector_selected_weight);
+            pen = QPen (Calenhad::preferences -> calenhad_connector_selected_color, Calenhad::preferences -> calenhad_connector_selected_weight);
         } else {
-            pen = QPen (QNEMainWindow::preferences -> calenhad_connector_normal_color, QNEMainWindow::preferences -> calenhad_connector_normal_weight);
+            pen = QPen (Calenhad::preferences -> calenhad_connector_normal_color, Calenhad::preferences -> calenhad_connector_normal_weight);
         }
     } else {
-        pen = QPen (QNEMainWindow::preferences -> calenhad_connector_drawing_color, QNEMainWindow::preferences -> calenhad_connector_drawing_weight);
+        pen = QPen (Calenhad::preferences -> calenhad_connector_drawing_color, Calenhad::preferences -> calenhad_connector_drawing_weight);
     }
 
     setPen (pen);
@@ -118,5 +118,22 @@ void QNEConnection::load (QDataStream& ds, const QMap<quint64, QNEPort*>& portMa
     setPort2 (portMap[ptr2]);
     updatePosFromPorts();
     updatePath();
+}
+
+void QNEConnection::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QDomElement connectionElement = doc.createElement ("connection");
+    doc.documentElement().appendChild (connectionElement);
+    QDomElement connectionFromElement = doc.createElement ("source");
+    connectionElement.appendChild (connectionFromElement);
+    QDomElement connectionToElement = doc.createElement ("target");
+    connectionElement.appendChild (connectionToElement);
+    connectionFromElement.setAttribute ("module", m_port1 -> module() -> name());
+    connectionToElement.setAttribute ("module", m_port2 -> module() -> name());
+    connectionFromElement.setAttribute ("output", m_port1 -> index());
+    connectionToElement.setAttribute ("input", m_port2 -> index());
+}
+
+void QNEConnection::inflate (const QDomDocument& doc, MessageFactory* messages) {
+    // to do - handle name here. Connecting the ports is dealt with in CalenhadModel::inflate.
 }
 

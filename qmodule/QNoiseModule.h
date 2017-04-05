@@ -21,7 +21,7 @@ public:
     virtual ~QNoiseModule();
     void initialise() override;
     QNoiseModule* addCopy (CalenhadModel* model)  override;
-    ModuleType type() override;
+    QString moduleType () override;
     Q_PROPERTY (double frequency READ frequency WRITE setFrequency);
     Q_PROPERTY (double persistence READ persistence WRITE setPersistence);
     Q_PROPERTY (double lacunarity READ lacunarity WRITE setLacunarity);
@@ -31,7 +31,10 @@ public:
     double persistence();
     int octaveCount();
     bool hasPersistence();
-    QString typeString() override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
+
 public slots:
     void setFrequency (double value);
     void setLacunarity (double value);

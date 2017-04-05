@@ -25,7 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneblock.h"
 #include <QPainter>
-#include "qnemainwindow.h"
+#include "Calenhad.h"
 #include <iostream>
 
 QNEBlock::QNEBlock (ComponentProxyWidget* parent) : QGraphicsPathItem (parent) {

@@ -21,9 +21,11 @@ public:
     double exponent();
 
     Exponent* module () override;
-    ModuleType type() override;
     QExponentModule* addCopy (CalenhadModel* model)  override;
-    QString typeString() override;
+    QString moduleType () override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
 public slots:
     void setExponent (double value);
 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <QApplication>
-#include "nodeedit/qnemainwindow.h"
+#include "nodeedit/Calenhad.h"
 #include "httplistener.h"
 #include "httpserver/CalenhadRequestHandler.h"
 
@@ -29,11 +29,11 @@ int main (int argc, char **argv) {
 
     QCoreApplication::setOrganizationName("calenhad");
     QCoreApplication::setOrganizationDomain("chateauferret.com");
-    QCoreApplication::setApplicationName("Calenhad");
-    QNEMainWindow::preferences = new Preferences();
-    QNEMainWindow::preferences -> loadSettings();
+    QCoreApplication::setApplicationName("calenhad");
+    Calenhad::preferences = new Preferences();
+    Calenhad::preferences -> loadSettings();
 
-    QString fileName = QNEMainWindow::preferences -> calenhad_stylesheet;
+    QString fileName = Calenhad::preferences -> calenhad_stylesheet;
     QFile file (fileName);
     file.open(QFile::ReadOnly);
     QString styleSheet = QLatin1String (file.readAll());
@@ -41,7 +41,7 @@ int main (int argc, char **argv) {
     app.setStyleSheet (styleSheet);;
 
     CalenhadModel* model = new CalenhadModel();
-    QNEMainWindow* window = new QNEMainWindow();
+    Calenhad* window = new Calenhad();
     window -> setModel (model);
     window -> show();
 

@@ -309,7 +309,7 @@ std::experimental::optional<double> Icosphere::getDatum (const Cartesian& c, con
         Vertex* v = walkTowards (c);
         return v -> getDatum (key);
     } else {
-        throw IllegalIcosphereAccessException ("Search target out of bounds");
+       // throw IllegalIcosphereAccessException ("Search target out of bounds");
     }
 }
 

@@ -28,14 +28,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsScene>
 #include <QFontMetrics>
 #include "qneconnection.h"
-#include "qnemainwindow.h"
+#include "Calenhad.h"
 #include "../preferences.h"
+#include "../qmodule/QModule.h"
 #include "../qmodule/QModule.h"
 
 QNEPort::QNEPort (int type, int index, const QString& name, QGraphicsItem* parent) :
         QGraphicsPathItem (parent),
-        _radius (QNEMainWindow::preferences -> calenhad_port_radius),
-        _margin (QNEMainWindow::preferences -> calenhad_port_margin),
+        _radius (Calenhad::preferences -> calenhad_port_radius),
+        _margin (Calenhad::preferences -> calenhad_port_margin),
         _index (index),
         _portType (type),
         _name (name) {
@@ -46,19 +47,19 @@ QNEPort::QNEPort (int type, int index, const QString& name, QGraphicsItem* paren
 
     if (type == OutputPort) {
         polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);
-        setPen (QPen (QNEMainWindow::preferences -> calenhad_port_out_border_color, QNEMainWindow::preferences -> calenhad_port_border_weight));
-        setBrush (QNEMainWindow::preferences -> calenhad_port_out_fill_color);
+        setPen (QPen (Calenhad::preferences -> calenhad_port_out_border_color, Calenhad::preferences -> calenhad_port_border_weight));
+        setBrush (Calenhad::preferences -> calenhad_port_out_fill_color);
         setCursor (Qt::ArrowCursor);
     }
     if (type == InputPort) {
         polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);
-        setPen (QPen (QNEMainWindow::preferences -> calenhad_port_in_border_color, QNEMainWindow::preferences -> calenhad_port_border_weight));
-        setBrush (QNEMainWindow::preferences -> calenhad_port_in_fill_color);
+        setPen (QPen (Calenhad::preferences -> calenhad_port_in_border_color, Calenhad::preferences -> calenhad_port_border_weight));
+        setBrush (Calenhad::preferences -> calenhad_port_in_fill_color);
     }
     if (type == ControlPort) {
         polygon = QRectF (-_radius, -_radius, _radius * 2, _radius * 2);
-        setPen (QPen (QNEMainWindow::preferences -> calenhad_port_control_border_color, QNEMainWindow::preferences -> calenhad_port_border_weight));
-        setBrush (QNEMainWindow::preferences -> calenhad_port_control_fill_color);
+        setPen (QPen (Calenhad::preferences -> calenhad_port_control_border_color, Calenhad::preferences -> calenhad_port_border_weight));
+        setBrush (Calenhad::preferences -> calenhad_port_control_fill_color);
     }
     p.addPolygon (polygon);
     setPath (p);
@@ -79,7 +80,7 @@ void QNEPort::setName (const QString& n) {
     }
     _name = n;
     _label -> setPlainText (n);
-    _label -> setDefaultTextColor (QNEMainWindow::preferences -> calenhad_port_text_color);
+    _label -> setDefaultTextColor (Calenhad::preferences -> calenhad_port_text_color);
 }
 
 
@@ -141,7 +142,7 @@ void QNEPort::initialise () {
 
         _label->setPlainText (_name);
 
-        _label->setDefaultTextColor (QNEMainWindow::preferences->calenhad_port_text_color);
+        _label->setDefaultTextColor (Calenhad::preferences->calenhad_port_text_color);
         if (_portType == OutputPort) {
             _label->setPos (_radius, -2 * (_radius + 1));
         } else {
@@ -163,9 +164,9 @@ int QNEPort::index() {
     return _index;
 }
 
-Module* QNEPort::module()  {
+QModule* QNEPort::module()  {
     ComponentProxyWidget* cpw = ((ComponentProxyWidget*) _block -> parentItem());
-    return ((QModule*) cpw -> widget()) -> module();
+    return (QModule*) cpw -> widget();
 }
 
 void QNEPort::invalidateRenders() {

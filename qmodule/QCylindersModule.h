@@ -21,16 +21,18 @@ public:
     double frequency();
 
     Cylinders* module () override;
-    ModuleType type() override;
     QCylindersModule* addCopy (CalenhadModel* model) override;
-    QString typeString() override;
+    QString moduleType () override;
+
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
 public slots:
     void setFrequency (double value);
 
 protected:
     QDoubleSpinBox* frequencySpin;
     QCylindersModule (QWidget* parent = 0);
-
 
 
 };

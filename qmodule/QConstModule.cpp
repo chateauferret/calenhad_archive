@@ -5,6 +5,9 @@
 #include "QConstModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 using namespace noise::module;
 QConstModule::QConstModule (QWidget* parent) : QModule (new Const(), parent) {
@@ -18,7 +21,7 @@ void QConstModule::initialise() {
     connect (constValueSpin, SIGNAL (valueChanged (double)), this, SLOT (setConstValue (double)));
     _contentLayout -> addRow (tr ("Constant value"), constValueSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 void QConstModule::setConstValue (double value) {
@@ -41,8 +44,8 @@ QConstModule* QConstModule::newInstance() {
     return qm;
 }
 
-ModuleType QConstModule::type() {
-    return ModuleType::CONSTANT;
+QString QConstModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_constant;
 }
 
 QConstModule* QConstModule::addCopy (CalenhadModel* model)  {
@@ -54,6 +57,16 @@ QConstModule* QConstModule::addCopy (CalenhadModel* model)  {
     return qm;
 }
 
-QString QConstModule::typeString () {
-    return "Constant";
+void QConstModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double constValue = _model -> readParameter (element, "constValue").toDouble (&ok);
+    if (ok) { setConstValue (constValue); }
+
+}
+
+void QConstModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "constValue", QString::number (constValue()));
 }

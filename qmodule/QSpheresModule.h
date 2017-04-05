@@ -19,14 +19,14 @@ public:
     void initialise() override;
     Q_PROPERTY (double frequency READ frequency WRITE setFrequency);
     double frequency();
-
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
     Spheres* module () override;
-    ModuleType type() override;
+    QString moduleType () override;
     QSpheresModule* addCopy (CalenhadModel* model) override;
 
     public slots:
     void setFrequency (double value);
-    virtual QString typeString() override;
 protected:
     QDoubleSpinBox* frequencySpin;
     QSpheresModule (QWidget* parent = 0);

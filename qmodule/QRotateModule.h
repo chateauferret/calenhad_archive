@@ -25,8 +25,11 @@ public:
     double zAngle();
     QRotateModule* addCopy (CalenhadModel* model) override;
     RotatePoint* module () override;
-    ModuleType type() override;
-    virtual QString typeString() override;
+    QString moduleType () override;
+
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
 public slots:
     void setXAngle (double value);
     void setYAngle (double value);

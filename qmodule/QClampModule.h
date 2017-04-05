@@ -19,11 +19,13 @@ public:
     static QClampModule* newInstance();
     void initialise() override;
     Clamp* module() override;
-    ModuleType type() override;
+    QString moduleType() override;
     double upperBound() override;
     double lowerBound() override;
     QClampModule* addCopy (CalenhadModel* model)  override;
-    QString typeString() override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
 private:
     QClampModule (QWidget* parent = 0);
     void setBounds (double lowerBound, double upperBound) override;

@@ -5,7 +5,7 @@
 #include <QtGui/QImage>
 #include <sstream>
 #include "CalenhadRequestHandler.h"
-#include "../nodeedit/qnemainwindow.h"
+#include "../nodeedit/Calenhad.h"
 
 using namespace qtwebapp;
 

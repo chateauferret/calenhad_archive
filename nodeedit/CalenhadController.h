@@ -76,7 +76,7 @@ private:
 	CalenhadModel* _model;
     QGraphicsItem* _contextItem;
     QModule* _contextModule;
-	void addModuleTool (const QString& label, const QString& tooltip, const QVariant& key);
+	void addModuleTool (const QString& name, const QString& tooltip);
 
 	QMenu* _moduleContextMenu;
 	QMenu* _connectionContextMenu;

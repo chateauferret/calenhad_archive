@@ -4,7 +4,7 @@
 
 #include "messagefactory.h"
 
-MessageFactory::MessageFactory() {
+MessageFactory::MessageFactory()  {
 }
 
 MessageFactory::~MessageFactory() {

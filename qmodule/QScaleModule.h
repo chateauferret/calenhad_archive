@@ -25,9 +25,12 @@ public:
     double scaleZ();
 
     ScalePoint* module () override;
-    ModuleType type() override;
     QScaleModule* addCopy (CalenhadModel* model) override;
-    virtual QString typeString() override;
+    virtual QString moduleType () override;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
+
 public slots:
     void setScaleX (double value);
     void setScaleY (double value);

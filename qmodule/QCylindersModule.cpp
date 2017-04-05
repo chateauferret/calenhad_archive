@@ -8,6 +8,9 @@
 #include "QCylindersModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QCylindersModule::QCylindersModule (QWidget* parent) : QModule (new noise::module::Cylinders(), parent) {
 
@@ -24,7 +27,7 @@ void QCylindersModule::initialise() {
     connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QCylindersModule::frequency() {
@@ -49,8 +52,8 @@ QCylindersModule* QCylindersModule::newInstance () {
     return qm;
 }
 
-ModuleType QCylindersModule::type() {
-    return ModuleType::CYLINDERS;
+QString QCylindersModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_cylinders;
 }
 
 QCylindersModule* QCylindersModule::addCopy (CalenhadModel* model)  {
@@ -62,6 +65,16 @@ QCylindersModule* QCylindersModule::addCopy (CalenhadModel* model)  {
     return qm;
 }
 
-QString QCylindersModule::typeString () {
-    return "Cylinders";
+
+void QCylindersModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    if (ok) { setFrequency (frequency); }
+}
+
+void QCylindersModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
 }

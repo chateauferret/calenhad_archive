@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 class QNEBlock;
 class QNEConnection;
+class QModule;
 
 class QNEPort : public QGraphicsPathItem
 {
@@ -59,7 +60,7 @@ public:
 
     virtual QRectF boundingRect() const;
 	bool isConnected (QNEPort*);
-	noise::module::Module* module ();
+	QModule* module ();
 	void invalidateRenders ();
 protected:
 	QVariant itemChange (GraphicsItemChange change, const QVariant &value);

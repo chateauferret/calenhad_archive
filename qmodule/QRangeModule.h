@@ -16,11 +16,13 @@ public:
     virtual double lowerBound() = 0;
     virtual double upperBound() = 0;
     virtual Module* module() override = 0;
-    virtual ModuleType type() override = 0;
+    virtual QString moduleType () override = 0;
     virtual QRangeModule* addCopy (CalenhadModel* model) override = 0;
     Q_PROPERTY (double lowerBound READ lowerBound WRITE setLowerBound);
     Q_PROPERTY (double upperBound READ upperBound WRITE setUpperBound);
-    virtual QString typeString() override = 0;
+    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
+    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+
 public slots:
     void setLowerBound (double lowerBound);
     void setUpperBound (double upperBound);

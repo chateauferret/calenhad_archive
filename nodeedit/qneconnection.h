@@ -27,8 +27,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define QNECONNECTION_H
 
 #include <QGraphicsPathItem>
+#include <QtXml/QDomDocument>
 
 class QNEPort;
+class MessageFactory;
 
 class QNEConnection : public QGraphicsPathItem {
 
@@ -49,6 +51,9 @@ public:
 	void load(QDataStream&, const QMap<quint64, QNEPort*> &portMap);
     bool canDrop;
 	int type() const { return Type; }
+	void serialise (QDomDocument& doc, MessageFactory* messages);
+	void inflate (const QDomDocument& doc, MessageFactory* messages);
+
 private:
 
 	QPointF pos1;

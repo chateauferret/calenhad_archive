@@ -21,8 +21,8 @@ set(SOURCE_FILES
         nodeedit/qneblock.cpp
         nodeedit/qneconnection.h
         nodeedit/qneconnection.cpp
-        nodeedit/qnemainwindow.h
-        nodeedit/qnemainwindow.cpp
+        nodeedit/Calenhad.h
+        nodeedit/Calenhad.cpp
         nodeedit/qneport.h
         nodeedit/qneport.cpp
         nodeedit/CalenhadController.h
@@ -137,7 +137,22 @@ set(SOURCE_FILES
         icosphere/triangle.cpp
         icosphere/icosphere.h
         icosphere/icosphere.cpp
-        icosphere/icosphereutils.h qmodule/QIcosphereMap.cpp qmodule/QIcosphereMap.h)
+        icosphere/icosphereutils.h
+        qmodule/QIcosphereMap.cpp
+        qmodule/QIcosphereMap.h
+        qmodule/QAltitudeMap.cpp
+        qmodule/QAltitudeMap.h
+        controls/AltitudeMapPlot.cpp
+        controls/AltitudeMapPlot.h
+        libnoiseutils/icospheremap.cpp
+        libnoiseutils/icospheremap.h
+        icosphere/Bounds.cpp
+        icosphere/Bounds.h
+        controls/AltitudeMapEditor.cpp
+        controls/AltitudeMapEditor.h
+        controls/AltitudeMapPlot.cpp
+        controls/AltitudeMapPlot.h)
+
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 
@@ -145,6 +160,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Xml REQUIRED)
+find_package(Qwt REQUIRED)
 find_package(Qt5OpenGL)
 find_package(LibProj4 REQUIRED)
 find_package(LibNoise REQUIRED)
@@ -152,13 +168,9 @@ find_package(GeographicLib 1.34 REQUIRED)
 find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
-add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} libnoiseutils/icospheremap.cpp libnoiseutils/icospheremap.h icosphere/Bounds.cpp icosphere/Bounds.h)
-
+add_library (core ${SOURCE_FILES} )
+add_executable (calenhad main.cpp ${SOURCE_FILES} controls/AltitudeMapFitter.cpp controls/AltitudeMapFitter.h)
 add_definitions (${GeographicLib_DEFINITIONS})
-#qt5_use_modules (calenhad Gui Widgets OpenGL)
 
-
-
-target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY})
+target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})
 target_link_libraries (calenhad core)

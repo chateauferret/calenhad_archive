@@ -42,6 +42,41 @@ public:
     QColor calenhad_port_in_border_color_drop;
     QColor calenhad_handle_text_color_selected;
     QColor calenhad_handle_text_color_normal;
+    unsigned calenhad_altitudemap_deletemargin;
+
+    // modules
+
+    QString calenhad_module_perlin;
+    QString calenhad_module_cylinders;
+    QString calenhad_module_spheres;
+    QString calenhad_module_exponent;
+    QString calenhad_module_translate;
+    QString calenhad_module_rotate;
+    QString calenhad_module_clamp;
+    QString calenhad_module_constant;
+    QString calenhad_module_add;
+    QString calenhad_module_abs;
+    QString calenhad_module_blend;
+    QString calenhad_module_cache;
+    QString calenhad_module_checkerboard;
+    QString calenhad_module_invert;
+    QString calenhad_module_max;
+    QString calenhad_module_min;
+    QString calenhad_module_multiply;
+    QString calenhad_module_power;
+    QString calenhad_module_displace;
+    QString calenhad_module_diff;
+    QString calenhad_module_billow;
+    QString calenhad_module_ridgedmulti;
+    QString calenhad_module_scalebias;
+    QString calenhad_module_select;
+    QString calenhad_module_turbulence;
+    QString calenhad_module_voronoi;
+    QString calenhad_module_scalepoint;
+    QString calenhad_module_icospheremap;
+    QString calenhad_module_altitudemap;
+
+
 private:
     QSettings* _settings;
 

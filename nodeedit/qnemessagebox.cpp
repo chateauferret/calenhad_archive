@@ -25,6 +25,8 @@ void QNEMessageBox::showEvent (QShowEvent* e) {
 }
 
 void QNEMessageBox::mousePressEvent (QMouseEvent* e) {
+    _timer -> stop();
+    disconnect (_timer, SIGNAL (timeout()), this, SLOT (dismiss()));
     dismiss();
 }
 

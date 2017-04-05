@@ -4,15 +4,28 @@
 
 #include "QNode.h"
 #include <QLineEdit>
+#include <QTextStream>
+#include <QVariant>
 #include <iostream>
 #include "../nodeedit/qneconnection.h"
 #include <QMenu>
 #include "../nodeedit/CalenhadController.h"
 #include "QModule.h"
-#include "../libnoiseutils/icospheremap.h"
+#include "../nodeedit/Calenhad.h"
+#include "../messagefactory.h"
+#include "../pipeline/CalenhadModel.h"
+
+
+QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitialised (false) {
+    connect (this, &QNode::initialised, this, [=] () { _isInitialised = true; });
+}
+
+QNode::~QNode () {
+
+}
 
 void QNode::initialise() {
-
+    _ports.clear();
     addInputPorts();
 
     // these widgets are relevant for all modules
@@ -23,9 +36,7 @@ void QNode::initialise() {
     layout -> setMargin (5);
     about -> setLayout (layout);
     _nameEdit = new QLineEdit();
-    connect (_nameEdit, &QLineEdit::textChanged, this, [=] () {
-        setName (_nameEdit -> text());
-    });
+    connect (_nameEdit, SIGNAL (textEdited (const QString&)), this, SLOT (setName (const QString&)));
 
     _nameEdit -> selectAll();
     layout -> addWidget (_nameEdit);
@@ -60,8 +71,7 @@ void QNode::setName (const QString& name) {
             _nameEdit -> setText (name);
         }
     }
-    emit (nodeChanged ("name", name));
-    update();
+    emit (nameChanged (name));
 
 }
 
@@ -72,7 +82,7 @@ void QNode::setNotes (const QString& notes) {
             _notesEdit -> setText (_notes);
         }
     }
-    emit (nodeChanged ("notes", notes));
+    emit (notesChanged (notes));
 }
 
 QString QNode::notes() {
@@ -107,7 +117,8 @@ bool QNode::isComplete() {
 }
 
 bool QNode::isRenderable() {
-    return isComplete() && isEnabled() ;
+    std::cout << "Is complete " << isComplete() << "\n";
+    return isComplete();
     // other conditions to do
 }
 
@@ -141,23 +152,60 @@ QLogSpinBox* QNode::logParameterControl (const QString& text) {
     return new QLogSpinBox (_content);
 }
 
-QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitialised (false) {
-
-}
-
-QNode::~QNode () {
-
-}
-
 void QNode::invalidate() {
     setEnabled (true);
-    emit (nodeChanged ("Inputs", 0));
+    emit nodeChanged ("inputs", 0);
 }
 
 void QNode::setModel (CalenhadModel* model) {
     if (! _model) {
         _model = model;
+        initialise();
+        emit nodeChanged ("model", 0);
     } else {
         std::cout << "Can't reassign module to another model";
+    }
+}
+
+void QNode::inflate (const QDomElement& element, MessageFactory* messages) {
+    _element = element;
+    QDomNodeList notesElements = element.elementsByTagName ("notes");
+    _notes = notesElements.isEmpty() ? QString() : notesElements.item(0).nodeValue();
+    QDomNodeList portNodes = element.elementsByTagName ("port");
+    for (int i = 0; i < portNodes.count(); i++) {
+        bool okIndex, okType;
+        int portIndex = portNodes.at (i).attributes ().namedItem ("index").nodeValue ().toInt (&okIndex);
+        int portType = portNodes.at (i).attributes ().namedItem ("type").nodeValue ().toInt (&okType);
+        QString name = portNodes.at (i).attributes ().namedItem ("name").nodeValue ();
+        if (okIndex && okType) {
+            for (QNEPort* p : _ports) {
+                if (p->index () == portIndex && p->type () == portType) {
+                    p->setName (name);
+                }
+            }
+        } else {
+            QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue() + " port with index " + portNodes.at (i).attributes ().namedItem ("index").nodeValue() + " in module " + _name;
+            Calenhad::messages -> message ("Reverting to default port names", m);
+        }
+    }
+}
+
+void QNode::serialise (QDomDocument& doc, MessageFactory* messages) {
+    _element = doc.createElement ("module");
+
+    doc.documentElement().appendChild (_element);
+    _element.setAttribute ("name", name());
+    if (! _notes.isEmpty ()) {
+        QDomElement notesElement = doc.createElement ("notes");
+        _element.appendChild (notesElement);
+        QDomText notesContent = doc.createTextNode (_notes);
+        notesElement.appendChild (notesContent);
+    }
+    for (QNEPort* p : _ports) {
+        QDomElement portElement = doc.createElement ("port");
+        _element.appendChild (portElement);
+        portElement.setAttribute ("index", p -> index());
+        portElement.setAttribute ("name", p -> portName());
+        portElement.setAttribute ("type", p -> portType());
     }
 }

@@ -5,7 +5,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QGraphicsView>
 #include "QNoiseMapViewer.h"
-#include "../nodeedit/qnemainwindow.h"
+#include "../nodeedit/Calenhad.h"
 #include "QNoiseMapExplorer.h"
 #include "../qmodule/QModule.h"
 
@@ -39,6 +39,8 @@ void QNoiseMapViewer::initialise() {
     _scene -> installEventFilter (this);
     _progressBar = new QProgressBar (this);
     _layout -> addWidget (_progressBar);
+    setSize (105);
+
 }
 
 QNoiseMapViewer::~QNoiseMapViewer() {
@@ -66,9 +68,8 @@ GeoDataLatLonBox QNoiseMapViewer::bounds () {
     return _bounds;
 }
 
-void QNoiseMapViewer::setSize (const int& height, const int& width) {
+void QNoiseMapViewer::setSize (const int& height) {
     _view -> setFixedHeight (height);
-    _view -> setFixedWidth (width);
 }
 
 int QNoiseMapViewer::height () {
@@ -84,16 +85,15 @@ bool QNoiseMapViewer::isRendered () {
 }
 
 void QNoiseMapViewer::showEvent (QShowEvent *) {
-    render ();
+
 }
 
 void QNoiseMapViewer::render() {
 
     QModule* module = (QModule*) parent ();
-        if (module -> isEnabled ()) {
+        if (module -> isInitialised ()) {
             RenderJob* job = new RenderJob (_bounds, _source -> module ());
             QThread* thread = new QThread();
-            std::cout << _bounds.toString().toStdString() << " " << _bounds.crossesDateLine () << "\n";
             int width = _previewType == NoiseMapPreviewType::WholeWorld ? 2 * height() : height();
             std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height(), QImage::Format_ARGB32);
             job -> setImage (image);
@@ -104,21 +104,25 @@ void QNoiseMapViewer::render() {
             connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), thread, SLOT (quit ()));
             connect (job, SIGNAL (progress (int)), this, SLOT (setProgress (int)));
             connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
+
             thread -> start ();
             _label -> setText (_bounds.toString ());
-        }
+       }
 }
 
 void QNoiseMapViewer::jobComplete (TileId, std::shared_ptr<QImage> image) {
-    QPixmap pixmap = QPixmap::fromImage (image -> mirrored());
+    std::cout << "Rendered\n";
+    _pixmap = QPixmap::fromImage (image->mirrored ());
     _scene -> clear();
-    _item = _scene -> addPixmap (pixmap);
+    _item = _scene -> addPixmap (_pixmap);
     _scene -> setSceneRect (_item -> boundingRect());
     _isRendered = true;
     if (_explorer) {
         _explorer -> changeView (_bounds);
     }
-
+    emit renderComplete();
+    _label -> setText ("Rendered image " + QDateTime::currentDateTime ().toString ());
+    _item -> update();
 }
 
 QModule* QNoiseMapViewer::source() {
@@ -131,7 +135,6 @@ void QNoiseMapViewer::setSource (QModule* qm) {
 
 bool QNoiseMapViewer::eventFilter (QObject* o, QEvent* e) {
     QGraphicsSceneMouseEvent* me = (QGraphicsSceneMouseEvent*) e;
-
     switch ((int) e -> type ()) {
         case QEvent::GraphicsSceneMousePress:
             switch ((int) me -> button ()) {

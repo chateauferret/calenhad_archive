@@ -8,6 +8,9 @@
 #include "QTranslateModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "QNode.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/Calenhad.h"
+#include "../preferences.h"
 
 QTranslateModule::QTranslateModule (QWidget* parent) : QModule (new TranslatePoint(), parent) {
 
@@ -30,7 +33,7 @@ void QTranslateModule::initialise() {
     connect (dZSpin, SIGNAL (valueChanged (double)), this, SLOT (setDZ (double)));
     _contentLayout -> addRow (tr ("Z"), dZSpin);
     _isInitialised = true;
-    emit nodeChanged ("initialised", 0);
+    emit initialised();
 }
 
 double QTranslateModule::dX() {
@@ -76,8 +79,8 @@ QTranslateModule* QTranslateModule::newInstance () {
     return qm;
 }
 
-ModuleType QTranslateModule::type() {
-    return ModuleType::TRANSLATE;
+QString QTranslateModule::moduleType () {
+    return Calenhad::preferences -> calenhad_module_translate;
 }
 
 QTranslateModule* QTranslateModule::addCopy (CalenhadModel* model) {
@@ -91,6 +94,23 @@ QTranslateModule* QTranslateModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-QString QTranslateModule::typeString () {
-    return "Translate";
+void QTranslateModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QModule::inflate (element, messages);
+    bool ok;
+
+    double x = _model -> readParameter (element, "x").toDouble (&ok);
+    if (ok) { setDX (x); }
+
+    double y = _model -> readParameter (element, "y").toDouble (&ok);
+    if (ok) { setDY (y); }
+
+    double z = _model -> readParameter (element, "z").toDouble (&ok);
+    if (ok) { setDZ (z); }
+}
+
+void QTranslateModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QModule::serialise (doc, messages);
+    _model -> writeParameter (_element, "x", QString::number (dX()));
+    _model -> writeParameter (_element, "y", QString::number (dY()));
+    _model -> writeParameter (_element, "z", QString::number (dZ()));
 }

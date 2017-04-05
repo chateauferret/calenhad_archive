@@ -4,15 +4,17 @@
 
 #include <QtWidgets/QFormLayout>
 #include "QModule.h"
-#include "../nodeedit/qnemainwindow.h"
+#include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
 #include "marble/GeoDataLatLonAltBox.h"
+#include "../nodeedit/qneblockhandle.h"
+#include "../messagefactory.h"
 
 int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
 QModule::QModule (noise::module::Module* m, QWidget* parent) : QNode (parent), _module (m) {
-    _id = QUuid::createUuid ();
+
 }
 
 QModule::~QModule () {
@@ -33,15 +35,23 @@ void QModule::initialise() {
 
     _preview -> setLayout (_previewLayout);
     _preview -> setSource (this);
-    int index = QNode::addPanel (tr ("Preview"), _preview);
-    connect (this, &QNode::nodeChanged, this, [=] () { _expander -> setItemEnabled (index, isRenderable()); });
-    connect (this, SIGNAL (nodeChanged (const QString&, const QVariant&)), _preview, SLOT (render()));
+    _previewIndex = QNode::addPanel (tr ("Preview"), _preview);
+
     _preview -> initialise();
-    setEnabled (false);
+    connect (this, &QNode::nodeChanged, _preview, &QNoiseMapViewer::render);
 }
+
 
 void QModule::changeBounds (const GeoDataLatLonBox& bounds) {
     _preview->setBounds (bounds);
+}
+
+void QModule::setHandle (QNEBlockHandle* h) {
+    _handle = h;
+}
+
+QNEBlockHandle* QModule::handle() {
+    return _handle;
 }
 
 
@@ -73,17 +83,48 @@ void QModule::addInputPorts() {
 
 void QModule::setUniqueName() {
     int i = 0;
-    QString name = "New " + typeString();
+    QString type = moduleType ();
+    QString name = "New " + moduleType ();
+
     while (_model -> findModule (name)) {
         i++;
-        name = QString ("New ") + typeString() + " " + QString::number (i);
+        name = QString ("New ") + moduleType () + " " + QString::number (i);
     }
     setName (name);
     _nameEdit -> setText (_name);
 }
 
-QUuid QModule::id () {
-    return _id;
+void QModule::inflate (const QDomElement& element, MessageFactory* messages) {
+    QNode::inflate (element, messages);
+    QString name = element.attribute ("name");
+    if (name == QString::null) {
+        setUniqueName();
+        messages -> message ("", "Name not found for module. Assigned default name " +  _name);
+        _warnings = true;
+    }
+    // position is retrieved in CalenhadModel
 }
 
+void QModule::serialise (QDomDocument& doc, MessageFactory* messages) {
+    QNode::serialise (doc, messages);
+    QDomElement positionElement = doc.createElement ("position");
+    _element.appendChild (positionElement);
+    positionElement.setAttribute ("y", handle() -> scenePos().y());
+    positionElement.setAttribute ("x", handle() -> scenePos().x());
+    _element.setAttribute ("type", moduleType());
+
+}
+
+void QModule::refresh () {
+    _model -> update();
+    std::cout << "update " << name ().toStdString () << "\n";
+}
+
+void QModule::invalidate() {
+    QNode::invalidate();
+}
+
+void QModule::setModel (CalenhadModel* model) {
+    QNode::setModel (model);
+}
 

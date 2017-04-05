@@ -22,15 +22,17 @@
 
 class ModuleFactory : public QObject {
     Q_OBJECT
+    Q_ENUMS (ModuleType)
 public:
     ModuleFactory();
     ~ModuleFactory();
-    QModule* createModule (const ModuleType& moduleType, CalenhadModel* model);
-
+    QModule* createModule (const QString& moduleType, CalenhadModel* model);
     void setSeed (const int& seed);
     void setNoiseQuality (const noise::NoiseQuality& noiseQuality);
     int seed();
     noise::NoiseQuality noiseQuality();
+
+
 signals:
     void seedChanged (const int& seed);
     void noiseQualityChanged (const noise::NoiseQuality& noiseQuality);
@@ -38,9 +40,7 @@ signals:
 private:
     noise::NoiseQuality _noiseQuality = noise::NoiseQuality::QUALITY_STD;
     int _seed = 0;
-    QMap<ModuleType, QModule*> _repository;
-    QSet<QModule*> _roster;
-    void makeRepository();
+
 };
 
 

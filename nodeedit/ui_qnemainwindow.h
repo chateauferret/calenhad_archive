@@ -41,7 +41,7 @@ public:
     void setupUi(QMainWindow *QNEMainWindow)
     {
         if (QNEMainWindow->objectName().isEmpty())
-            QNEMainWindow->setObjectName(QString::fromUtf8("QNEMainWindow"));
+            QNEMainWindow->setObjectName(QString::fromUtf8("Calenhad"));
         QNEMainWindow->resize(540, 389);
         action_Save = new QAction(QNEMainWindow);
         action_Save->setObjectName(QString::fromUtf8("action_Save"));
