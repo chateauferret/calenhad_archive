@@ -10,6 +10,8 @@
 #include <qwt/qwt_plot_canvas.h>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QComboBox>
+#include "../qmodule/QAltitudeMap.h"
 
 class AltitudeMapFitter;
 class QwtSymbol;
@@ -17,7 +19,7 @@ class QwtSymbol;
 class AltitudeMapPlot : public QwtPlot {
 Q_OBJECT
 public:
-    AltitudeMapPlot (QWidget *parent = 0);
+    AltitudeMapPlot (int resolution = 100, QWidget *parent = 0);
     ~AltitudeMapPlot();
     void setEntries (const QVector<QPointF>& entries);
     QVector<QPointF> getEntries();
@@ -26,22 +28,28 @@ public:
     void mouseCanvasReleaseEvent (QMouseEvent* event);
     QPointF toPlotCoordinates (const int& pixelX, const int& pixelY);
     const int noneSelected = -1;
-
-
+    void setCurveType (CurveType type);
+    CurveType curveType();
 
 protected:
     void changeEvent (QEvent *e);
     QwtPlotCurve* _curve;
-    AltitudeMapFitter* _fitter;
+    QwtCurveFitter* _fitter;
     QwtSymbol* _symbol;
     QVector<QPointF> _entries;
     int _index;
     bool _drag;
-
-
+    CurveType _curveType;
+    int _resolution;
     bool isOnCanvas (QPointF point);
 
     void updatePoint (QPointF point);
+
+    QVector<QPointF> remapTerrace ();
+
+    bool canDeleteSelected ();
+
+    void sortEntries (QVector<QPointF>& entries);
 };
 
 class AltitudeMapPlotCanvas : public QwtPlotCanvas {

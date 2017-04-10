@@ -9,10 +9,12 @@
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
 #include "../controls/AltitudeMapEditor.h"
+#include "../messagefactory.h"
+#include "../controls/AltitudeMapPlot.h"
 
 using noise::module::Module;
 
-QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (new TranslatePoint(), parent) {
+QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (new TranslatePoint(), parent), _editor (nullptr) {
 
 }
 
@@ -23,76 +25,99 @@ QAltitudeMap::~QAltitudeMap() {
 void QAltitudeMap::initialise() {
     QModule::initialise();
     _name = "New Altitude Map";
-    _module = new Curve();
+
+    // prepare the editor
+    _editor = new AltitudeMapEditor ();
+    connect (_editor, SIGNAL (accepted()), this, SLOT (updateEntries()));
+    connect (_editor, SIGNAL (rejected()), this, SLOT (editingFinished()));
+
+    // set up the curve type roster with modules
+    Curve* curve = new Curve();
+    _modules.insert (CurveType::AltitudeCurve, curve);
+    Terrace* terrace = new Terrace();
+    _modules.insert (CurveType::TerraceCurve, terrace);
+    Terrace* invertedTerrace = new Terrace();
+    invertedTerrace -> InvertTerraces (true);
+    _modules.insert (CurveType::InvertedTerraceCurve, invertedTerrace);
+    _module = curve;
 
     QPushButton* editButton = new QPushButton (this);
     editButton->setText ("Edit mapping");
     connect (editButton, SIGNAL (pressed()), this, SLOT (editAltitudeMap()));
     _contentLayout -> addRow ("", editButton);
-    clearMap();
+    resetMap ();
     _isInitialised = true;
+
+    // see to it that changes to the input module are propogated to all the modules we might use
+    connect (this, &QNode::nodeChanged, this, [=] () {
+        for (Module* module : _modules.values ()) {
+            try {
+                module->SetSourceModule (0, _module->GetSourceModule (0));
+            } catch (...) {}
+        }
+    });
     emit initialised();
 
 }
 
 void QAltitudeMap::editAltitudeMap() {
-    _editor = new AltitudeMapEditor();
-    connect (_editor, SIGNAL (accepted()), this, SLOT (updateEntries()));
-    connect (_editor, SIGNAL (rejected()), this, SLOT (editingFinished()));
+
     QVector<QPointF> entries = getEntries();
     _editor -> setEntries (entries);
+    if (dynamic_cast<Terrace*> (_module)) {
+        _editor -> setCurveType (dynamic_cast<Terrace*> (_module) -> IsTerracesInverted() ? CurveType::InvertedTerraceCurve : CurveType::TerraceCurve);
+    } else {
+        _editor -> setCurveType (CurveType::AltitudeCurve);
+    }
     _editor -> exec();
 }
 
+// retrieve parameters from the curve editing dialog: control points and curve type (function)
+// based on those assign the relevant module and set tbe control points on it,
 void QAltitudeMap::updateEntries() {
+    CurveType curveType = _editor -> curveType();
+    _module = _modules.find (curveType).value();
+    clearMap();
     QVector<QPointF> entries = _editor -> getEntries();
 
-    if (dynamic_cast<Curve*> (_module)) {
-        Curve* c = dynamic_cast<Curve*> (_module);
-        c -> ClearAllControlPoints();
-    }
-    if (dynamic_cast<Terrace*> (_module)) {
-        Terrace* t = dynamic_cast<Terrace*> (_module) ;
-        t -> ClearAllControlPoints();
-    }
     for (QPointF point : entries) {
-        addEntry (point.x(), point.y());
+        addEntry (point.x (), point.y ());
     }
     emit nodeChanged ("entries", entries.size ());
     editingFinished();
 }
 
 void QAltitudeMap::editingFinished() {
-    if (_editor) { delete _editor; }
+    if (_editor) {
+        _editor -> hide();
+    }
 }
 
 
 void QAltitudeMap::addEntry (const double& in, const double& out) {
-    if (dynamic_cast<Curve*> (_module)) {
-        Curve* c = dynamic_cast<Curve*> (_module);
-        c -> AddControlPoint (in, out);
-     }
-    if (dynamic_cast<Terrace*> (_module)) {
-        Terrace* t = dynamic_cast<Terrace*> (_module) ;
-        t -> AddControlPoint (in);
+    for (Module* module : _modules) {
+        if (dynamic_cast<Curve*> (module)) {
+            Curve* c = dynamic_cast<Curve*> (module);
+            c->AddControlPoint (in, out);
+        }
+        if (dynamic_cast<Terrace*> (module)) {
+            Terrace* t = dynamic_cast<Terrace*> (module);
+            t->AddControlPoint (in);
+        }
     }
-
 }
 
 void QAltitudeMap::removeEntry (const double& key) {
-    if (dynamic_cast<Curve*> (_module)) {
-        Curve* c = dynamic_cast<Curve*> (_module);
-        c -> ClearAllControlPoints();
-    }
-    if (dynamic_cast<Terrace*> (_module)) {
-        Terrace* t = dynamic_cast<Terrace*> (_module) ;
-        t -> ClearAllControlPoints();
-    }
-    QVector<QPointF> entries = getEntries();
+    QVector<QPointF> entries = getEntries ();
+    clearMap();
+    for (Module* module : _modules) {
 
-    for (QPointF point : entries) {
         for (QPointF point : entries) {
-            addEntry (point.x(), point.y());
+            for (QPointF point : entries) {
+                if (point.x() != key) {
+                    addEntry (point.x (), point.y ());
+                }
+            }
         }
     }
 }
@@ -120,21 +145,27 @@ QVector<QPointF>  QAltitudeMap::getEntries() const {
     return entries;
 };
 
-void QAltitudeMap::clearMap() {
-    if (dynamic_cast<Curve*> (_module)) {
-        Curve* c = dynamic_cast<Curve*> (_module);
-        c -> ClearAllControlPoints();
-    }
-    if (dynamic_cast<Terrace*> (_module)) {
-        Terrace* t = dynamic_cast<Terrace*> (_module) ;
-        t -> ClearAllControlPoints();
-    }
+void QAltitudeMap::resetMap () {
+    clearMap();
     addEntry (-1.0, -1.0);
     addEntry (1.0, 1.0);
     addEntry (0.0, 0.0);
     addEntry (-0.5, -0.5);
     addEntry (0.5, 0.5);
     emit nodeChanged ("entries", 2);
+}
+
+void QAltitudeMap::clearMap() {
+    for (Module* module : _modules) {
+        if (dynamic_cast<Curve*> (module)) {
+            Curve* c = dynamic_cast<Curve*> (module);
+            c->ClearAllControlPoints ();
+        }
+        if (dynamic_cast<Terrace*> (module)) {
+            Terrace* t = dynamic_cast<Terrace*> (module);
+            t->ClearAllControlPoints ();
+        }
+    }
 }
 
 QAltitudeMap* QAltitudeMap::newInstance () {
@@ -158,10 +189,53 @@ QAltitudeMap* QAltitudeMap::addCopy (CalenhadModel* model) {
 
 void QAltitudeMap::inflate (const QDomElement& element, MessageFactory* messages) {
     QModule::inflate (element, messages);
-    bool ok;
+    QDomElement mapElement = element.firstChildElement ("map");
+    if (mapElement.attribute ("function") == "terrace") {
+        if (mapElement.attribute ("inverted") == "true") {
+            _module = _modules.find (CurveType::InvertedTerraceCurve).value();
+        } else {
+            _module = _modules.find (CurveType::TerraceCurve).value();
+        }
+    } else {
+        _module = _modules.find (CurveType::AltitudeCurve).value();
+    }
+    QDomNodeList entryElements = mapElement.elementsByTagName ("entry");
+    clearMap ();
+    for (int i = 0; i < entryElements.size(); i++) {
+        QDomNamedNodeMap attributes = entryElements.at (i).attributes();
+        double x, y;
+        bool ok;
+        x = attributes.namedItem ("x").nodeValue().toDouble (&ok);
+        if (ok) {
+            y = attributes.namedItem ("y").nodeValue ().toDouble (&ok);
+        }
+        if (ok) {
+            addEntry (x, y);
+        } else {
+            Calenhad::messages -> message ("", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
+                    + " for " + moduleType() + " module " + name());
+        }
+    }
 }
 
 void QAltitudeMap::serialise (QDomDocument& doc, MessageFactory* messages) {
     QModule::serialise (doc, messages);
 
+
+    QDomElement mapElement = _document.createElement ("map");
+    _element.appendChild (mapElement);
+    if (dynamic_cast<Terrace*> (_module)) {
+        mapElement.setAttribute ("function", "terrace");
+        mapElement.setAttribute ("inverted", dynamic_cast<Terrace*> (_module) -> IsTerracesInverted ());
+    } else {
+        mapElement.setAttribute ("function", "spline");
+    }
+
+    QVector<QPointF> entries = getEntries();
+    for (QPointF entry : entries) {
+        QDomElement entryElement = _document.createElement ("entry");
+        entryElement.setAttribute ("x", entry.x());
+        entryElement .setAttribute ("y", entry.y());
+        mapElement.appendChild (entryElement);
+    }
 }

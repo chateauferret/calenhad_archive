@@ -6,7 +6,7 @@
 
 #include <memory>
 #include "preferences.h"
-
+#include "controls/AltitudeMapPlot.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -17,6 +17,7 @@ using namespace Marble;
 Q_DECLARE_METATYPE (TileId)
 Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
 Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
+Q_DECLARE_METATYPE (CurveType)
 
 int main (int argc, char **argv) {
 
@@ -26,6 +27,7 @@ int main (int argc, char **argv) {
     qRegisterMetaType<std::shared_ptr<QImage>>();
     qRegisterMetaType<std::shared_ptr<icosphere::Icosphere>>();
     qRegisterMetaType<TileId>();
+    qRegisterMetaType<CurveType>();
 
     QCoreApplication::setOrganizationName("calenhad");
     QCoreApplication::setOrganizationDomain("chateauferret.com");

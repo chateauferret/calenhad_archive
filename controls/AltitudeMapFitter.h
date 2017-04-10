@@ -12,6 +12,7 @@
 class AltitudeMapFitter : public QwtSplineCurveFitter {
 public:
     AltitudeMapFitter();
+    virtual ~AltitudeMapFitter();
     QPolygonF fitCurve (const QPolygonF& points) const override;
 protected:
     double getY (const double& x, const QPolygonF& points) const;

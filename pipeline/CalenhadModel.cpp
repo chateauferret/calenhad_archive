@@ -106,6 +106,9 @@ void CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         } else {
             Calenhad::messages -> message ("", "No target module");
         }
+
+        // tell the target module to declare change requiring rerender
+        output -> module() -> invalidate();
         input -> invalidateRenders();
     }
 }

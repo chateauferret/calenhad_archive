@@ -7,6 +7,19 @@ QToolTip
      opacity: 100;
 }
 
+QPushButton
+{
+	background-color: #00007f;
+}
+
+QPushButton:hover{
+	background-color: #0000ff;
+}
+
+QPushButton:pressed{
+	background-color:#7f7fff;
+}
+
 QWidget
 {
     color: #b1b1b1;

@@ -9,6 +9,8 @@
 #include <QtWidgets/QDialog>
 #include <QtCore/QMap>
 #include <qwt/qwt_series_data.h>
+#include <QtWidgets/QComboBox>
+#include "AltitudeMapPlot.h"
 
 class AltitudeMapPlot;
 
@@ -19,14 +21,22 @@ public:
     AltitudeMapEditor (QWidget* parent = 0);
     ~AltitudeMapEditor();
     QVector<QPointF> getEntries();
+    CurveType curveType();
+    void setCurveType (CurveType curveType);
 
     public slots:
     void setEntries (const QVector<QPointF>& entries);
     void accept();
     void reject();
+    void curveTypeSelected (int index);
 
 protected:
     AltitudeMapPlot* _plot;
+    QComboBox* _curveTypeCombo;
+    virtual void showEvent (QShowEvent *event) override;
+    QMap<QString, CurveType> _curveTypeOptions;
+
+
 };
 
 

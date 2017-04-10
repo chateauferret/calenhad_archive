@@ -5,6 +5,7 @@
 #include "AltitudeMapFitter.h"
 #include "libnoise/misc.h"
 #include "libnoise/interp.h"
+#include <qwt/qwt_plot.h>
 
 
 //! Constructor
@@ -12,7 +13,7 @@ AltitudeMapFitter::AltitudeMapFitter(): QwtSplineCurveFitter() {
 }
 
 //! Destructor
-QwtSplineCurveFitter::~QwtSplineCurveFitter() {
+AltitudeMapFitter::~AltitudeMapFitter() {
 }
 
 /*

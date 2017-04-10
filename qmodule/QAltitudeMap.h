@@ -11,6 +11,8 @@
 
 class AltitudeMapEditor;
 
+enum CurveType { AltitudeCurve=1, TerraceCurve=2, InvertedTerraceCurve=3 };
+
 class QAltitudeMap : public QModule {
     Q_OBJECT
 public:
@@ -30,14 +32,16 @@ public slots:
 
     void updateEntries();
     void editingFinished();
-    void clearMap();
+    void resetMap ();
     void editAltitudeMap();
 
 protected:
     QAltitudeMap (QWidget* parent = 0);
     AltitudeMapEditor* _editor;
+    QMap<CurveType, noise::module::Module*> _modules;
 
 
+    void clearMap ();
 };
 
 
