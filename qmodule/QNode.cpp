@@ -194,7 +194,10 @@ void QNode::serialise (QDomDocument& doc, MessageFactory* messages) {
     _element = doc.createElement ("module");
 
     doc.documentElement().appendChild (_element);
-    _element.setAttribute ("name", name());
+    QDomElement nameElement = doc.createElement ("name");
+    nameElement.setNodeValue (_name);
+    _element.appendChild (nameElement);
+
     if (! _notes.isEmpty ()) {
         QDomElement notesElement = doc.createElement ("notes");
         _element.appendChild (notesElement);

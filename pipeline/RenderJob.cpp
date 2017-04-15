@@ -31,8 +31,8 @@ RenderJob::RenderJob (const TileId& id, noise::module::Module* source, Marble::G
 }
 
 
-RenderJob::RenderJob (const GeoDataLatLonBox& bounds, noise::module::Module* source) :
-    _id (TileId()),_source (source), _percentComplete (0), _bounds (bounds) {
+RenderJob::RenderJob (const GeoDataLatLonBox& bounds, noise::module::Module* source, icosphere::Legend* legend) :
+    _id (TileId()),_source (source), _percentComplete (0), _bounds (bounds), _legend (legend) {
 }
 
 
@@ -42,7 +42,7 @@ RenderJob::~RenderJob () {
 
 bool RenderJob::canRender () {
 
-    if (_image && _source) {
+    if (_image && _source && _legend) {
         int inputs = _source -> GetSourceModuleCount ();
         if (inputs == 0) {
             return true;
@@ -96,8 +96,8 @@ void RenderJob::render() {
 
     renderer.setSourceNoiseMap (heightMap);
     renderer.setDestImage (_image);
-    GradientLegend legend = GradientLegend();
-    renderer.setLegend (&legend);
+    //GradientLegend legend = GradientLegend ("default");
+    renderer.setLegend (_legend);
     renderer.setLightEnabled (true);
     renderer.setLightContrast (3.0);
     renderer.setLightBrightness (2.0);

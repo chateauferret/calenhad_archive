@@ -16,7 +16,7 @@ using namespace Marble;
 using namespace noise::utils;
 using namespace noise::model;
 
-CalenhadLayer::CalenhadLayer (QModule* source) : _source (source), _gradient (new GradientLegend()), _sphere (new Sphere (*source -> module ())), _step (INITIAL_STEP) {
+CalenhadLayer::CalenhadLayer (QModule* source) : _source (source), _gradient (new GradientLegend ("default")), _sphere (new Sphere (*source -> module ())), _step (INITIAL_STEP) {
 
 }
 

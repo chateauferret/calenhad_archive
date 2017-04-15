@@ -21,6 +21,10 @@ namespace Marble {
     class GeoDataLatLonAltBox;
 }
 
+namespace icosphere {
+    class Legend;
+}
+
 using namespace noise::module;
 
 class QNEBlockHandle;
@@ -46,6 +50,8 @@ public:
     void setHandle (QNEBlockHandle* h);
     void setModel (CalenhadModel* model) override;
     QNEBlockHandle* handle();
+    void setLegend (icosphere::Legend* legend);
+    icosphere::Legend* legend();
 
     public slots:
     void changeBounds (const GeoDataLatLonBox&);
@@ -64,8 +70,7 @@ protected:
     noise::module::Module* _module;
     QNEBlockHandle* _handle;
     int _previewIndex;
-
-
+    icosphere::Legend* _legend;
 
     bool _renderRequested;
 };

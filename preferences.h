@@ -43,6 +43,7 @@ public:
     QColor calenhad_handle_text_color_selected;
     QColor calenhad_handle_text_color_normal;
     unsigned calenhad_altitudemap_deletemargin;
+    QString calenhad_legends_filename;
 
     // modules
 

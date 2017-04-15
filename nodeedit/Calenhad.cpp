@@ -32,15 +32,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../pipeline/CalenhadModel.h"
 #include "CalenhadView.h"
 #include "../nodeedit/qnetoolbox.h"
+#include "../icosphere/legend.h"
 
-
+using namespace icosphere;
 
 Preferences* Calenhad::preferences;
 MessageFactory* Calenhad::messages = new MessageFactory();
 QNEToolBox* Calenhad::toolbox = new QNEToolBox();
 
-Calenhad::Calenhad (QWidget* parent) :
-        QMainWindow (parent) {
+Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
     messages -> setHost (this);
     _controller = new CalenhadController (this);
@@ -53,6 +53,8 @@ Calenhad::Calenhad (QWidget* parent) :
 
     setCentralWidget (_view);
 
+    // Legends
+    initialiseLegends();
 
     // Tools
 
@@ -152,22 +154,11 @@ void Calenhad::saveFile() {
 }
 
 void Calenhad::loadFile() {
-    QString fname = QFileDialog::getOpenFileName ();
-    std::cout << "Opening file " << fname.toStdString() << "\n";
-    if (fname.isEmpty()) {
-        return;
-    }
-    QFile f (fname);
-    f.open (QFile::ReadOnly);
-
     QDomDocument doc;
-    QString error;
-    int errLine, errColumn;
-    if (doc.setContent (&f, false, &error, &errLine, &errColumn)) {
-        _model -> inflate (doc, Calenhad::messages);
-    } else {
-        Calenhad::messages -> message ("Couldn't read file " + fname, "Error " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
-    }
+    QString fname = QFileDialog::getOpenFileName ();
+     if (readXml (fname, doc)) {
+         _model -> inflate (doc, Calenhad::messages);
+     }
 }
 
 void Calenhad::closeEvent (QCloseEvent* event) {
@@ -178,5 +169,36 @@ void Calenhad::closeEvent (QCloseEvent* event) {
     settings -> setValue ("pos", pos());
     settings -> endGroup();
     event -> accept();
+}
+
+bool Calenhad::readXml (const QString& fname, QDomDocument& doc) {
+    std::cout << "Opening file " << fname.toStdString() << "\n";
+    if (fname.isEmpty()) {
+        Calenhad::messages -> message ("Couldn't read file " + fname, "File not found");
+    }
+    QFile f (fname);
+    f.open (QFile::ReadOnly);
+    QString error;
+    int errLine, errColumn;
+
+    if (! doc.setContent (&f, false, &error, &errLine, &errColumn)) {
+        Calenhad::messages -> message ("Couldn't read file " + fname, "Error " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
+        return false;
+    } else {
+        return true;
+    }
+
+}
+
+void Calenhad::initialiseLegends() {
+    QString fname = preferences -> calenhad_legends_filename;
+    QDomDocument doc;
+    if (readXml (fname, doc)) {
+        QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
+        for (int i = 0; i < legendNodes.size (); i++) {
+            Legend* legend = Legend::fromNode (legendNodes.item (i));
+            _legends.insert (legend->name (), legend);
+        }
+    }
 }
 

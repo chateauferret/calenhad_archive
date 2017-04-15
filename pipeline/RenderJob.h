@@ -30,6 +30,10 @@ namespace Marble {
     class GeoSceneAbstractTileProjection;
 }
 
+namespace icosphere {
+    class Legend;
+}
+
 using namespace Marble;
 
 class RenderJob : public QObject {
@@ -37,7 +41,7 @@ Q_OBJECT
 public:
     static constexpr int MAX_ZOOM = 24;
     RenderJob (const TileId& id, noise::module::Module* source, GeoSceneAbstractTileProjection* projection);
-    RenderJob (const GeoDataLatLonBox& box, noise::module::Module* source);
+    RenderJob (const GeoDataLatLonBox& box, noise::module::Module* source, icosphere::Legend* legend);
     virtual ~RenderJob ();
     void setImage (std::shared_ptr<QImage>& image);
     bool canRender ();
@@ -63,7 +67,7 @@ protected:
     Marble::TileId _id;
     bool _abandoned = false;
     QMutex _mutex;
-
+    icosphere::Legend* _legend;
 
 };
 

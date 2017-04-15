@@ -6,7 +6,7 @@
 
 using namespace noise::utils;
 
-GradientLegend::GradientLegend() : IntervalLegend() {
+GradientLegend::GradientLegend (const QString& name) : IntervalLegend (name) {
     addEntry (-1.00, QColor (  0,   0, 128, 255));
     addEntry (-0.20, QColor ( 32,  64, 128, 255));
     addEntry (-0.04, QColor ( 64,  96, 192, 255));

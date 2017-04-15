@@ -7,8 +7,6 @@
 #include "QNoiseMapViewer.h"
 #include "../nodeedit/Calenhad.h"
 #include "QNoiseMapExplorer.h"
-#include "../qmodule/QModule.h"
-
 
 using namespace geoutils;
 using namespace Marble;
@@ -92,7 +90,7 @@ void QNoiseMapViewer::render() {
 
     QModule* module = (QModule*) parent ();
         if (module -> isInitialised ()) {
-            RenderJob* job = new RenderJob (_bounds, _source -> module ());
+            RenderJob* job = new RenderJob (_bounds, _source -> module(), _source -> legend());
             QThread* thread = new QThread();
             int width = _previewType == NoiseMapPreviewType::WholeWorld ? 2 * height() : height();
             std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height(), QImage::Format_ARGB32);

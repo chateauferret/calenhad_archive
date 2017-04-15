@@ -39,6 +39,10 @@ class QNEToolBox;
 class Preferences;
 class MessageFactory;
 
+namespace icosphere {
+    class Legend;
+}
+
 
 class Calenhad : public QMainWindow {
 Q_OBJECT
@@ -51,10 +55,12 @@ public:
     static QNEToolBox* toolbox;
     void setModel (CalenhadModel* model);
     CalenhadModel* model ();
+    void initialiseLegends();
+
 private slots:
 
-    void saveFile ();
-    void loadFile ();
+    void saveFile();
+    void loadFile();
     void closeEvent (QCloseEvent* event);
 
 private:
@@ -62,8 +68,11 @@ private:
     CalenhadView* _view;
     CalenhadModel* _model;
     QString _lastFile;
+    QMap<QString, icosphere::Legend*> _legends;
 
-    void readMetadata (const QDomDocument& doc, MessageFactory* messages);
+    //void readMetadata (const QDomDocument& doc, MessageFactory* messages);
+
+    bool readXml (const QString& fname, QDomDocument& doc);
 };
 
 #endif // QNEMAINWINDOW_H

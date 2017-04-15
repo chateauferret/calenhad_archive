@@ -6,14 +6,21 @@
 #include "QModule.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
-#include "marble/GeoDataLatLonAltBox.h"
 #include "../nodeedit/qneblockhandle.h"
 #include "../messagefactory.h"
+#include "../libnoiseutils/GradientLegend.h"
+
+using namespace icosphere;
+using namespace noise::utils;
 
 int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
 QModule::QModule (noise::module::Module* m, QWidget* parent) : QNode (parent), _module (m) {
+
+    // for noe
+    GradientLegend* gl = new GradientLegend ("default");
+    _legend = gl;
 
 }
 
@@ -27,6 +34,8 @@ void QModule::initialise() {
     // all modules have an output
     QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
     addPort (output);
+
+
 
     // preview panel
 
@@ -96,7 +105,8 @@ void QModule::setUniqueName() {
 
 void QModule::inflate (const QDomElement& element, MessageFactory* messages) {
     QNode::inflate (element, messages);
-    QString name = element.attribute ("name");
+    QDomElement nameElement = element.firstChildElement ("name");
+    QString name = nameElement.nodeValue();
     if (name == QString::null) {
         setUniqueName();
         messages -> message ("", "Name not found for module. Assigned default name " +  _name);
@@ -126,5 +136,14 @@ void QModule::invalidate() {
 
 void QModule::setModel (CalenhadModel* model) {
     QNode::setModel (model);
+}
+
+void QModule::setLegend (icosphere::Legend* legend) {
+    _legend = legend;
+    emit nodeChanged ("legend", 0);
+}
+
+icosphere::Legend* QModule::legend () {
+    return _legend;
 }
 

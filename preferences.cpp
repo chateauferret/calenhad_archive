@@ -42,6 +42,7 @@ void Preferences::loadSettings() {
     calenhad_handle_text_color_selected = _settings -> value ("calenhad/handle/text/color/selected", "#000000").value<QColor>();
     calenhad_handle_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
     calenhad_altitudemap_deletemargin = _settings -> value ("calenhad/altitude/deletemargin", 0.2).toUInt();
+    calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/.config/calenhad/legends.xml").toString ();
 
     // Module names
 
@@ -105,7 +106,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/handle/text/color/selected", calenhad_handle_text_color_selected);
     _settings -> setValue ("calenhad/handle/text/color/normal", calenhad_handle_text_color_normal);
     _settings -> setValue ("calenhad/altitudemap/deletemargin", calenhad_altitudemap_deletemargin);
-
+    _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
 
     _settings -> setValue ("calenhad/module/perlin", calenhad_module_perlin);
     _settings -> setValue ("calenhad/module/cylinders", calenhad_module_cylinders);

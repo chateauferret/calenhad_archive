@@ -25,7 +25,7 @@ using namespace Marble;
 
 
 QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, QModule* source, const QWidget* parent) : QDialog(),
-        _title (title), _name (source -> name()), _gradient (new GradientLegend()),
+        _title (title), _name (source -> name()), _gradient (new GradientLegend ("default")),
         _image (nullptr),
         _source (source) {
 

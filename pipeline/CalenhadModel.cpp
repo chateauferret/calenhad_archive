@@ -294,32 +294,31 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 }
 
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
-    QModule* w = _moduleFactory.createModule (type, this);
+    QModule* module = _moduleFactory.createModule (type, this);
     if (type != QString::null) {
-        w -> setModel (this);
-        if (!name.isNull () || name.isEmpty ()) {
-            w->setUniqueName ();
+        module -> setModel (this);
+        if (!name.isNull () || name.isEmpty()) {
+            module->setUniqueName ();
         } else {
-            w->setName (name); // to do - make sure this is unique
+            module->setName (name); // to do - make sure this is unique
         }
         ComponentProxyWidget* proxy = new ComponentProxyWidget ();
-        QNEBlockHandle* handle = new QNEBlockHandle (w);
-        proxy -> setWidget (w);
-        w -> setHandle (handle);
+        QNEBlockHandle* handle = new QNEBlockHandle (module);
+        proxy -> setWidget (module);
+        module -> setHandle (handle);
         proxy -> setParentItem (handle);
         QNEBlock* b = new QNEBlock (proxy);
         handle -> setPos (initPos.x (), initPos.y ());
         proxy -> setPos (0, 20);
         addItem (handle);
         setFocusItem (proxy);
-        w -> nextInFocusChain() -> setFocus ();
-        connect (w, &QNode::nameChanged, this, [=] () { handle -> refresh (); });
-        for (QNEPort* port : w->ports ()) {
+        module -> nextInFocusChain() -> setFocus ();
+        connect (module, &QNode::nameChanged, this, [=] () { handle -> refresh(); });
+        for (QNEPort* port : module->ports ()) {
             b->addPort (port);
         }
-        w -> invalidate ();
-
-        return w;
+        module -> invalidate ();
+        return module;
     } else {
         Calenhad::messages -> message ("", "Couldn't create module of type " + type + "\n");
         return nullptr;

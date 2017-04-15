@@ -11,7 +11,7 @@ namespace noise {
         class IntervalLegend : public icosphere::Legend {
 
         public:
-            IntervalLegend ();
+            IntervalLegend (const QString& name);
             IntervalLegend (const IntervalLegend& other);
             virtual ~IntervalLegend ();
             virtual QColor lookup (const double& value) override;

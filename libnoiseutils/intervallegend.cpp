@@ -7,7 +7,7 @@ IntervalLegend::IntervalLegend (const IntervalLegend& other) : Legend (other),
 }
 
 
-IntervalLegend::IntervalLegend() : Legend(),
+IntervalLegend::IntervalLegend (const QString& name) : Legend (name),
     intervals (std::map<double, QColor>()) {
     intervals [INT_MIN] = _defaultColor;
 }
