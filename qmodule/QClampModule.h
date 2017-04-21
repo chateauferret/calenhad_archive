@@ -23,8 +23,8 @@ public:
     double upperBound() override;
     double lowerBound() override;
     QClampModule* addCopy (CalenhadModel* model)  override;
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
 
 private:
     QClampModule (QWidget* parent = 0);

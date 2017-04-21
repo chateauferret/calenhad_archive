@@ -63,7 +63,7 @@ QSelectModule* QSelectModule::newInstance () {
 }
 
 QString QSelectModule::moduleType() {
-    return Calenhad::preferences -> calenhad_module_select;
+    return CalenhadServices::preferences() -> calenhad_module_select;
 }
 
 QSelectModule* QSelectModule::addCopy (CalenhadModel* model) {
@@ -79,10 +79,10 @@ QSelectModule* QSelectModule::addCopy (CalenhadModel* model) {
 
 
 
-void QSelectModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QRangeModule::inflate (element, messages);
+void QSelectModule::inflate (const QDomElement& element) {
+    QRangeModule::inflate (element);
 }
 
-void QSelectModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QRangeModule::serialise (doc, messages);
+void QSelectModule::serialise (QDomDocument& doc) {
+    QRangeModule::serialise (doc);
 }

@@ -5,10 +5,15 @@
 #include <libnoise/module/modulebase.h>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QDoubleSpinBox>
+#include <QDomElement>
+
 #include "QNoiseModule.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "../nodeedit/CalenhadView.h"
+#include "../actions/ChangeModuleCommand.h"
+#include "../nodeedit/CalenhadController.h"
+
 
 QNoiseModule::QNoiseModule (noise::module::Module* m, QWidget* parent) : QModule (m, parent) {
 
@@ -22,31 +27,75 @@ void QNoiseModule::initialise() {
     QModule::initialise();
 
     frequencySpin = logParameterControl ("Frequency");
+    frequencySpin -> setValue (getFrequency());
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
-    connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
+    connect (frequencySpin, SIGNAL (valueChanged (const double&)), this, SLOT (frequencyChangeRequested (const double&)));
+
     lacunaritySpin = logParameterControl ("Lacunarity");
+    lacunaritySpin -> setValue (getLacunarity());
     _contentLayout -> addRow (tr ("Lacunarity"), lacunaritySpin);
-    connect (lacunaritySpin, SIGNAL (valueChanged (double)), this, SLOT (setLacunarity (double)));
+    connect (lacunaritySpin, SIGNAL (valueChanged (const double&)), this, SLOT (lacunarityChangeRequested (const double&)));
+
     if (hasPersistence()) {
         persistenceSpin = logParameterControl ("Persistence");
+        persistenceSpin -> setValue (getPersistence());
         _contentLayout -> addRow (tr ("Persistence"), persistenceSpin);
-        connect (persistenceSpin, SIGNAL (valueChanged (double)), this, SLOT (setPersistence (double)));
+        connect (persistenceSpin, SIGNAL (valueChanged (const double&)), this, SLOT (persistenceChangeRequested (const double&)));
     }
 
     octaveSpin = countParameterControl ("Number of octaves");
-    connect (octaveSpin, SIGNAL (valueChanged (int)), this, SLOT (setOctaveCount (int)));
+    octaveSpin -> setValue (getOctaveCount());
+    connect (octaveSpin, SIGNAL (valueChanged (const int&)), this, SLOT (octaveCountChangeRequested (const int&)));
     _contentLayout -> addRow (tr ("Octaves"), octaveSpin);
     _isInitialised = true;
 
-    setFrequency (frequency ());
-    setLacunarity (lacunarity ());
-    setOctaveCount (octaveCount ());
-    setPersistence (persistence ());
+    setFrequency (getFrequency ());
+    setLacunarity (getLacunarity ());
+    setOctaveCount (getOctaveCount ());
+    setPersistence (getPersistence ());
 
     emit initialised();
 }
 
-double QNoiseModule::frequency() {
+void QNoiseModule::frequencyChangeRequested (const double& value) {
+    if (_model && (getFrequency () != value)) {
+        ChangeModuleCommand* c = new ChangeModuleCommand (this, "frequency", getFrequency (), value);
+        if (_model) {
+            _model->controller() -> doCommand (c);
+        }
+    }
+    frequencySpin -> setValue (value);
+    _model -> update();
+}
+
+void QNoiseModule::lacunarityChangeRequested (const double& value) {
+    if (_model && (getLacunarity () != value)) {
+        ChangeModuleCommand* c = new ChangeModuleCommand (this, "lacunarity", getLacunarity (), value);
+        if (_model) {
+            _model->controller() -> doCommand (c);
+        }
+    }
+}
+
+void QNoiseModule::persistenceChangeRequested (const double& value) {
+    if (_model && (getPersistence () != value)) {
+        ChangeModuleCommand* c = new ChangeModuleCommand (this, "persistence", getPersistence (), value);
+        if (_model) {
+            _model->controller() -> doCommand (c);
+        }
+    }
+}
+
+void QNoiseModule::octaveCountChangeRequested (const int& value) {
+    if (_model && (getOctaveCount() != value)) {
+        ChangeModuleCommand* c = new ChangeModuleCommand (this, "octaveCount", getOctaveCount (), value);
+        if (_model) {
+            _model->controller() -> doCommand (c);
+        }
+    }
+}
+
+double QNoiseModule::getFrequency () {
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         return perlin -> GetFrequency ();
@@ -62,7 +111,7 @@ double QNoiseModule::frequency() {
     return 0.0;
 }
 
-void QNoiseModule::setFrequency (double value) {
+void QNoiseModule::setFrequency (const double& value) {
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) { perlin -> SetFrequency (value); }
     Billow* billow = dynamic_cast<Billow*> (_module);
@@ -70,13 +119,14 @@ void QNoiseModule::setFrequency (double value) {
     RidgedMulti* rm = dynamic_cast<RidgedMulti*> (_module);
     if (rm) { rm -> SetFrequency (value); }
     if (perlin || billow || rm) {
-        emit (nodeChanged ("frequency", value));
-        frequencySpin -> setValue (value);
+        emit (nodeChanged ("getFrequency", value));
+        //frequencySpin -> setValue (value);
+        std::cout << "Set value " << value << "\n";
         return;
     }
 }
 
-double QNoiseModule::lacunarity() {
+double QNoiseModule::getLacunarity() {
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         return perlin -> GetLacunarity();
@@ -92,7 +142,8 @@ double QNoiseModule::lacunarity() {
     return 0.0;
 }
 
-void QNoiseModule::setLacunarity (double value) {
+void QNoiseModule::setLacunarity (const double& value) {
+    preserve();
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) { perlin -> SetLacunarity (value); }
     Billow* billow = dynamic_cast<Billow*> (_module);
@@ -100,13 +151,13 @@ void QNoiseModule::setLacunarity (double value) {
     RidgedMulti* rm = dynamic_cast<RidgedMulti*> (_module);
     if (rm) { rm -> SetLacunarity (value); }
     if (perlin || billow || rm) {
-        emit (nodeChanged ("lacunarity", value));
-        lacunaritySpin -> setValue (value);
+        emit (nodeChanged ("getLacunarity", value));
+        //lacunaritySpin -> setValue (value);
         return;
     }
 }
 
-double QNoiseModule::persistence() {
+double QNoiseModule::getPersistence () {
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         return perlin -> GetPersistence();
@@ -114,17 +165,18 @@ double QNoiseModule::persistence() {
     return 0.0;
 }
 
-void QNoiseModule::setPersistence (double value) {
+void QNoiseModule::setPersistence (const double& value) {
+    preserve();
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         perlin -> SetPersistence (value);
-        persistenceSpin -> setValue (value);
-        emit (nodeChanged ("persistence", value));
+        //persistenceSpin -> setValue (value);
+        emit (nodeChanged ("getPersistence", value));
         return;
     }
 }
 
-int QNoiseModule::octaveCount () {
+int QNoiseModule::getOctaveCount () {
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         return perlin -> GetOctaveCount();
@@ -132,12 +184,13 @@ int QNoiseModule::octaveCount () {
     return 0;
 }
 
-void QNoiseModule::setOctaveCount (int value) {
+void QNoiseModule::setOctaveCount (const int& value) {
+    preserve();
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         perlin -> SetOctaveCount (value);
-        octaveSpin -> setValue (value);
-        emit (nodeChanged ("octaveCount", value));
+        //octaveSpin -> setValue (value);
+        emit (nodeChanged ("getOctaveCount", value));
         return;
     }
 }
@@ -178,53 +231,53 @@ QNoiseModule* QNoiseModule::newInstance (Module* m) {
 }
 
 QString QNoiseModule::moduleType () {
-    if (dynamic_cast<Perlin*> (_module)) { return Calenhad::preferences -> calenhad_module_perlin; }
-    if (dynamic_cast<Billow*> (_module)) { return Calenhad::preferences -> calenhad_module_billow; }
-    if (dynamic_cast<RidgedMulti*> (_module)) { return Calenhad::preferences -> calenhad_module_ridgedmulti; }
+    if (dynamic_cast<Perlin*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_perlin; }
+    if (dynamic_cast<Billow*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_billow; }
+    if (dynamic_cast<RidgedMulti*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_ridgedmulti; }
     return QString::null;
 }
 
 QNoiseModule* QNoiseModule::addCopy (CalenhadModel* model)  {
     QNoiseModule* qm = nullptr;
-    if (moduleType() == Calenhad::preferences -> calenhad_module_perlin) { qm = newPerlinInstance(); }
-    if (moduleType() == Calenhad::preferences -> calenhad_module_billow) { qm = newBillowInstance(); }
-    if (moduleType() == Calenhad::preferences -> calenhad_module_ridgedmulti) { qm = newRidgedMultiInstance(); }
+    if (moduleType() == CalenhadServices::preferences() -> calenhad_module_perlin) { qm = newPerlinInstance(); }
+    if (moduleType() == CalenhadServices::preferences() -> calenhad_module_billow) { qm = newBillowInstance(); }
+    if (moduleType() == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) { qm = newRidgedMultiInstance(); }
     if (qm) {
         qm -> setModel (model);
-        qm -> setFrequency (frequency ());
-        qm -> setLacunarity (lacunarity ());
-        qm -> setOctaveCount (octaveCount ());
-        qm -> setPersistence (persistence ());
+        qm -> setFrequency (getFrequency ());
+        qm -> setLacunarity (getLacunarity ());
+        qm -> setOctaveCount (getOctaveCount ());
+        qm -> setPersistence (getPersistence ());
     }
     return qm;
 }
 
 
-void QNoiseModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QNoiseModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
-    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    double frequency = _model -> readParameter (element, "getFrequency").toDouble (&ok);
     if (ok) { setFrequency (frequency); }
 
-    double lacunarity = _model -> readParameter (element, "lacunarity").toDouble (&ok);
+    double lacunarity = _model -> readParameter (element, "getLacunarity").toDouble (&ok);
     if (ok) { setLacunarity (lacunarity); }
 
     int octaves = _model -> readParameter (element, "octaves").toInt (&ok);
     if (ok) { setOctaveCount (octaves); }
 
     if (hasPersistence()) {
-        double persistence = _model -> readParameter (element, "persistence").toDouble (&ok);
+        double persistence = _model -> readParameter (element, "getPersistence").toDouble (&ok);
         if (ok) { setPersistence (persistence); }
     }
 }
 
-void QNoiseModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
-    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
-    _model -> writeParameter (_element, "lacunarity", QString::number (lacunarity()));
-    _model -> writeParameter (_element, "octaves", QString::number (octaveCount()));
+void QNoiseModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
+    _model -> writeParameter (_element, "getFrequency", QString::number (getFrequency ()));
+    _model -> writeParameter (_element, "getLacunarity", QString::number (getLacunarity ()));
+    _model -> writeParameter (_element, "octaves", QString::number (getOctaveCount ()));
     if (hasPersistence ()) {
-        _model -> writeParameter (_element, "persistence", QString::number (persistence()));
+        _model -> writeParameter (_element, "getPersistence", QString::number (getPersistence ()));
     }
 }

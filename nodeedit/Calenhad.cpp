@@ -36,13 +36,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 using namespace icosphere;
 
-Preferences* Calenhad::preferences;
-MessageFactory* Calenhad::messages = new MessageFactory();
 QNEToolBox* Calenhad::toolbox = new QNEToolBox();
 
 Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
-    messages -> setHost (this);
     _controller = new CalenhadController (this);
 
     // Nodes editor
@@ -106,7 +103,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
     // Settings
 
-    QSettings* settings = preferences -> settings();
+    QSettings* settings = CalenhadServices::preferences() -> settings();
     settings -> beginGroup ("MainWindow");
     resize (settings -> value("size", QSize(400, 400)).toSize());
     move (settings -> value("pos", QPoint(200, 200)).toPoint());
@@ -114,7 +111,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 }
 
 Calenhad::~Calenhad() {
-    delete messages;
+
 }
 
 void Calenhad::setModel (CalenhadModel* model) {
@@ -137,33 +134,34 @@ void Calenhad::saveFile() {
 
     QFile file (fname);
     QTextStream ds (&file);
-    QDomDocument doc = _model -> serialise (messages);
+    QDomDocument doc = _model -> serialise();
 
     std::cout << doc.toString().toStdString();
     std::cout.flush();
     if (! file.open( QIODevice::WriteOnly | QIODevice::Text )) {
-        messages -> message ("", "Failed to open file for writing");
+        CalenhadServices::messages() -> message ("", "Failed to open file for writing");
         return;
     }
 
     ds << doc.toString();
 
     file.close();
-    messages -> message ("", "Wrote file " + fname);
+    MessageService* service = CalenhadServices::messages();
+    CalenhadServices::messages() -> message ("", "Wrote file " + fname);
     _lastFile = fname;
 }
 
 void Calenhad::loadFile() {
     QDomDocument doc;
     QString fname = QFileDialog::getOpenFileName ();
-     if (readXml (fname, doc)) {
-         _model -> inflate (doc, Calenhad::messages);
+     if (CalenhadServices::readXml (fname, doc)) {
+         _model -> inflate (doc);
      }
 }
 
 void Calenhad::closeEvent (QCloseEvent* event) {
-    preferences -> saveSettings();
-    QSettings* settings = preferences -> settings();
+    CalenhadServices::preferences() -> saveSettings();
+    QSettings* settings = CalenhadServices::preferences() -> settings();
     settings -> beginGroup ("MainWindow");
     settings -> setValue ("size", size());
     settings -> setValue ("pos", pos());
@@ -171,34 +169,7 @@ void Calenhad::closeEvent (QCloseEvent* event) {
     event -> accept();
 }
 
-bool Calenhad::readXml (const QString& fname, QDomDocument& doc) {
-    std::cout << "Opening file " << fname.toStdString() << "\n";
-    if (fname.isEmpty()) {
-        Calenhad::messages -> message ("Couldn't read file " + fname, "File not found");
-    }
-    QFile f (fname);
-    f.open (QFile::ReadOnly);
-    QString error;
-    int errLine, errColumn;
-
-    if (! doc.setContent (&f, false, &error, &errLine, &errColumn)) {
-        Calenhad::messages -> message ("Couldn't read file " + fname, "Error " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
-        return false;
-    } else {
-        return true;
-    }
-
-}
-
 void Calenhad::initialiseLegends() {
-    QString fname = preferences -> calenhad_legends_filename;
-    QDomDocument doc;
-    if (readXml (fname, doc)) {
-        QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
-        for (int i = 0; i < legendNodes.size (); i++) {
-            Legend* legend = Legend::fromNode (legendNodes.item (i));
-            _legends.insert (legend->name (), legend);
-        }
-    }
+
 }
 

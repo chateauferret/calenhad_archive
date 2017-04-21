@@ -35,9 +35,13 @@ double QCylindersModule::frequency() {
 }
 
 void QCylindersModule::setFrequency (double value) {
-    module() -> SetFrequency (value);
-    emit (nodeChanged ("frequency", value));
-    frequencySpin -> setValue (value);
+    if (value != module() -> GetFrequency()) {
+        preserve ();
+        module ()->SetFrequency (value);
+        emit (nodeChanged ("getFrequency", value));
+        frequencySpin->setValue (value);
+    }
+
 }
 
 
@@ -53,7 +57,7 @@ QCylindersModule* QCylindersModule::newInstance () {
 }
 
 QString QCylindersModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_cylinders;
+    return CalenhadServices::preferences() -> calenhad_module_cylinders;
 }
 
 QCylindersModule* QCylindersModule::addCopy (CalenhadModel* model)  {
@@ -66,15 +70,15 @@ QCylindersModule* QCylindersModule::addCopy (CalenhadModel* model)  {
 }
 
 
-void QCylindersModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QCylindersModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
-    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    double frequency = _model -> readParameter (element, "getFrequency").toDouble (&ok);
     if (ok) { setFrequency (frequency); }
 }
 
-void QCylindersModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
-    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
+void QCylindersModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
+    _model -> writeParameter (_element, "getFrequency", QString::number (frequency()));
 }

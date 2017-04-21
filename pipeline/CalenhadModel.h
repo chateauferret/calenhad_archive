@@ -35,10 +35,10 @@ public:
     void setController (CalenhadController* controller);
     CalenhadController* controller();
     void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
-    QDomDocument serialise (MessageFactory* messages);
-    void inflate (const QDomDocument& doc, MessageFactory* messages);
+    QDomDocument serialise();
+    void inflate (const QDomDocument& doc);
     QList<QModule*> modules();
-
+    QList<QNEConnection*> connections ();
     QString readParameter (const QDomElement& element, const QString param);
     void writeParameter (QDomElement& element, const QString& param, const QString& value);
 
@@ -64,10 +64,10 @@ protected:
     QString _title, _author, _description;
     QDateTime _date;
 
-    void writeMetadata (QDomDocument& doc, MessageFactory* messages);
-    void readMetadata (const QDomDocument& doc, MessageFactory* messages);
+    void writeMetadata (QDomDocument& doc);
+    void readMetadata (const QDomDocument& doc);
 
-    QList<QNEConnection*> connections ();
+
 };
 
 #endif //CALENHAD_CALENHADMODEL_H

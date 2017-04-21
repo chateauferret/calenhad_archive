@@ -7,6 +7,8 @@
 #include <memory>
 #include "preferences.h"
 #include "controls/AltitudeMapPlot.h"
+#include "CalenhadServices.h"
+#include "LegendRoster.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -29,33 +31,55 @@ int main (int argc, char **argv) {
     qRegisterMetaType<TileId>();
     qRegisterMetaType<CurveType>();
 
+    // set up application
     QCoreApplication::setOrganizationName("calenhad");
     QCoreApplication::setOrganizationDomain("chateauferret.com");
     QCoreApplication::setApplicationName("calenhad");
-    Calenhad::preferences = new Preferences();
-    Calenhad::preferences -> loadSettings();
+    QApplication app (argc, argv);
 
-    QString fileName = Calenhad::preferences -> calenhad_stylesheet;
+
+    // set up services
+    // Preferences service
+    Preferences* preferences = new Preferences();
+    preferences -> loadSettings();
+    CalenhadServices::providePreferences (preferences);
+
+    // Legends service
+    QString fname = CalenhadServices::preferences() -> calenhad_legends_filename;
+    LegendRoster* roster = new LegendRoster();
+    roster -> provideFromXml (fname);
+    CalenhadServices::provideLegends (roster);
+
+
+
+    // Stylesheet
+    QString fileName = CalenhadServices::preferences() -> calenhad_stylesheet;
     QFile file (fileName);
     file.open(QFile::ReadOnly);
     QString styleSheet = QLatin1String (file.readAll());
-    QApplication app (argc, argv);
     app.setStyleSheet (styleSheet);;
 
+    // Calenhad model - the arrangement of modules and connections between them
     CalenhadModel* model = new CalenhadModel();
     Calenhad* window = new Calenhad();
+
+    // Message service
+    MessageFactory* factory = new MessageFactory();
+    factory -> setHost (window);
+    CalenhadServices::provideMessages (factory);
     window -> setModel (model);
     window -> show();
 
     // set up web service endpoint
-    QSettings* listenerSettings = new QSettings("/home/martin/.config/calenhad/webapp1.ini", QSettings::IniFormat, &app);
-    qDebug("config file loaded");
-    listenerSettings -> beginGroup("listener");
+    //QSettings* listenerSettings = new QSettings("/home/martin/.config/calenhad/webapp1.ini", QSettings::IniFormat, &app);
+    //qDebug("config file loaded");
+    //listenerSettings -> beginGroup("listener");
 
     // Start the HTTP server
-    CalenhadRequestHandler* handler = new CalenhadRequestHandler (&app);
-    handler -> setModel (model);
-    HttpListener* listener = new HttpListener (listenerSettings, handler, &app);
+    //CalenhadRequestHandler* handler = new CalenhadRequestHandler (&app);
+    //handler -> setModel (model);
+    //HttpListener* listener = new HttpListener (listenerSettings, handler, &app);
 
+    // done
     return app.exec();
 }

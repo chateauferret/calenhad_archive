@@ -27,8 +27,8 @@ public:
     RotatePoint* module () override;
     QString moduleType () override;
 
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
 
 public slots:
     void setXAngle (double value);

@@ -9,10 +9,14 @@
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
 #include <QPen>
+#include <QtWidgets/QLineEdit>
 
 class QModule;
 
-class QNEBlockHandle : public QGraphicsItem {
+class QNELineEdit;
+
+class QNEBlockHandle : public QObject, public QGraphicsItem {
+    Q_OBJECT
 public:
     enum { Type = QGraphicsItem::UserType + 5 };
     QNEBlockHandle (QModule* w, QGraphicsItem* parent = 0);
@@ -23,12 +27,24 @@ public:
     public slots:
     void refresh();
     QModule* module();
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
+public slots:
+    void setName();
+
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
 private:
     QModule* _module;
     QRectF rect;
+    QLineEdit* _nameEdit;
+    QGraphicsProxyWidget* _nameProxy;
+    void createNameEditor ();
+
+    void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event);
+
+    void editModuleName ();
 };
 
 

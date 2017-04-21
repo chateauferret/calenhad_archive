@@ -65,7 +65,7 @@ QScaleBiasModule* QScaleBiasModule::newInstance() {
 }
 
 QString QScaleBiasModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_scalebias;
+    return CalenhadServices::preferences() -> calenhad_module_scalebias;
 }
 
 
@@ -80,8 +80,8 @@ QScaleBiasModule* QScaleBiasModule::addCopy (CalenhadModel* model) {
 }
 
 
-void QScaleBiasModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QScaleBiasModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
     double scale = _model -> readParameter (element, "scale").toDouble (&ok);
@@ -92,8 +92,8 @@ void QScaleBiasModule::inflate (const QDomElement& element, MessageFactory* mess
 
 }
 
-void QScaleBiasModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QScaleBiasModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "scale", QString::number (scale()));
     _model -> writeParameter (_element, "bias", QString::number (bias()));
 }

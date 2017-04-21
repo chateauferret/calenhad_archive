@@ -89,8 +89,9 @@ void QNoiseMapViewer::showEvent (QShowEvent *) {
 void QNoiseMapViewer::render() {
 
     QModule* module = (QModule*) parent ();
-        if (module -> isInitialised ()) {
+        if (module -> isInitialised () && _source -> legend()) {
             RenderJob* job = new RenderJob (_bounds, _source -> module(), _source -> legend());
+            std::cout << _source -> legend() -> name ().toStdString () << "\n";
             QThread* thread = new QThread();
             int width = _previewType == NoiseMapPreviewType::WholeWorld ? 2 * height() : height();
             std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height(), QImage::Format_ARGB32);
@@ -110,7 +111,7 @@ void QNoiseMapViewer::render() {
 
 void QNoiseMapViewer::jobComplete (TileId, std::shared_ptr<QImage> image) {
     std::cout << "Rendered\n";
-    _pixmap = QPixmap::fromImage (image->mirrored ());
+    _pixmap = QPixmap::fromImage (image -> mirrored ());
     _scene -> clear();
     _item = _scene -> addPixmap (_pixmap);
     _scene -> setSceneRect (_item -> boundingRect());

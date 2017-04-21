@@ -80,7 +80,7 @@ QTranslateModule* QTranslateModule::newInstance () {
 }
 
 QString QTranslateModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_translate;
+    return CalenhadServices::preferences() -> calenhad_module_translate;
 }
 
 QTranslateModule* QTranslateModule::addCopy (CalenhadModel* model) {
@@ -94,8 +94,8 @@ QTranslateModule* QTranslateModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-void QTranslateModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QTranslateModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
     double x = _model -> readParameter (element, "x").toDouble (&ok);
@@ -108,8 +108,8 @@ void QTranslateModule::inflate (const QDomElement& element, MessageFactory* mess
     if (ok) { setDZ (z); }
 }
 
-void QTranslateModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QTranslateModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "x", QString::number (dX()));
     _model -> writeParameter (_element, "y", QString::number (dY()));
     _model -> writeParameter (_element, "z", QString::number (dZ()));

@@ -25,9 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneconnection.h"
 #include "../qmodule/QModule.h"
-#include "qneport.h"
-#include "Calenhad.h"
-#include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QNEConnection::QNEConnection (QGraphicsItem* parent) : QGraphicsPathItem (parent) {
     setFlag (QGraphicsItem::ItemIsSelectable);
@@ -77,12 +75,12 @@ void QNEConnection::updatePath() {
 
     if (m_port2) {
         if (isSelected()) {
-            pen = QPen (Calenhad::preferences -> calenhad_connector_selected_color, Calenhad::preferences -> calenhad_connector_selected_weight);
+            pen = QPen (CalenhadServices::preferences() -> calenhad_connector_selected_color, CalenhadServices::preferences() -> calenhad_connector_selected_weight);
         } else {
-            pen = QPen (Calenhad::preferences -> calenhad_connector_normal_color, Calenhad::preferences -> calenhad_connector_normal_weight);
+            pen = QPen (CalenhadServices::preferences() -> calenhad_connector_normal_color, CalenhadServices::preferences() -> calenhad_connector_normal_weight);
         }
     } else {
-        pen = QPen (Calenhad::preferences -> calenhad_connector_drawing_color, Calenhad::preferences -> calenhad_connector_drawing_weight);
+        pen = QPen (CalenhadServices::preferences() -> calenhad_connector_drawing_color, CalenhadServices::preferences() -> calenhad_connector_drawing_weight);
     }
 
     setPen (pen);
@@ -120,7 +118,7 @@ void QNEConnection::load (QDataStream& ds, const QMap<quint64, QNEPort*>& portMa
     updatePath();
 }
 
-void QNEConnection::serialise (QDomDocument& doc, MessageFactory* messages) {
+void QNEConnection::serialise (QDomDocument& doc) {
     QDomElement connectionElement = doc.createElement ("connection");
     doc.documentElement().appendChild (connectionElement);
     QDomElement connectionFromElement = doc.createElement ("source");
@@ -133,7 +131,7 @@ void QNEConnection::serialise (QDomDocument& doc, MessageFactory* messages) {
     connectionToElement.setAttribute ("input", m_port2 -> index());
 }
 
-void QNEConnection::inflate (const QDomDocument& doc, MessageFactory* messages) {
+void QNEConnection::inflate (const QDomDocument& doc) {
     // to do - handle name here. Connecting the ports is dealt with in CalenhadModel::inflate.
 }
 

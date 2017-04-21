@@ -4,6 +4,8 @@
 
 #include "qnemessagebox.h"
 
+int QNEMessageBox::nextId = 0;
+
 QNEMessageBox::QNEMessageBox (const QString& message, QWidget* parent) : QFrame (parent), _timer (new QTimer()) {
     setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
     setWindowModality (Qt::NonModal);
@@ -11,6 +13,7 @@ QNEMessageBox::QNEMessageBox (const QString& message, QWidget* parent) : QFrame 
     _message = new QLabel (message);
     layout -> addWidget (_message);
     show();
+    _id = nextId++;
 }
 
 QNEMessageBox::~QNEMessageBox () {
@@ -32,7 +35,7 @@ void QNEMessageBox::mousePressEvent (QMouseEvent* e) {
 
 void QNEMessageBox::dismiss() {
     close();
-    emit messageDismissed (this);
+    emit messageDismissed (_id);
 }
 
 void QNEMessageBox::setIndex (const int& index) {
@@ -41,4 +44,8 @@ void QNEMessageBox::setIndex (const int& index) {
     int y = w -> geometry().y() + w -> height() - (height() * (index + 1)) - 5;
     QPoint pos = QPoint (x, y);
     move (pos);
+}
+
+int QNEMessageBox::id () {
+    return _id;
 }

@@ -19,8 +19,8 @@ public:
     void initialise() override;
     Q_PROPERTY (double frequency READ frequency WRITE setFrequency);
     double frequency();
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
     Spheres* module () override;
     QString moduleType () override;
     QSpheresModule* addCopy (CalenhadModel* model) override;

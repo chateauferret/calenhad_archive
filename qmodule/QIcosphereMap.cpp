@@ -127,7 +127,7 @@ QIcosphereMap* QIcosphereMap::newInstance() {
 }
 
 QString QIcosphereMap::moduleType () {
-    return Calenhad::preferences -> calenhad_module_icospheremap;
+    return CalenhadServices::preferences() -> calenhad_module_icospheremap;
 }
 
 QIcosphereMap* QIcosphereMap::addCopy (CalenhadModel* model)  {
@@ -139,8 +139,8 @@ QIcosphereMap* QIcosphereMap::addCopy (CalenhadModel* model)  {
     return qm;
 }
 
-void QIcosphereMap::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QIcosphereMap::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
     double depth = _model -> readParameter (element, "depth").toDouble (&ok);
     if (ok) { setIcosphereDepth (depth); }
@@ -161,8 +161,8 @@ void QIcosphereMap::inflate (const QDomElement& element, MessageFactory* message
     }
 }
 
-void QIcosphereMap::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QIcosphereMap::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "depth", QString::number (_depth));
     QDomElement boundsElement = doc.createElement ("bounds");
     _element.appendChild (boundsElement);

@@ -52,7 +52,7 @@ QExponentModule* QExponentModule::newInstance() {
 }
 
 QString QExponentModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_exponent;
+    return CalenhadServices::preferences() -> calenhad_module_exponent;
 }
 
 QExponentModule* QExponentModule::addCopy (CalenhadModel* model) {
@@ -65,15 +65,15 @@ QExponentModule* QExponentModule::addCopy (CalenhadModel* model) {
 }
 
 
-void QExponentModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QExponentModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
     double exp = _model -> readParameter (element, "exponent").toDouble (&ok);
     if (ok) { setExponent (exp); }
 }
 
-void QExponentModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QExponentModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "exponent", QString::number (exponent()));
 }

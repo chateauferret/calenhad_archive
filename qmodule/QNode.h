@@ -17,6 +17,7 @@
 #include "../nodeedit/qneport.h"
 #include "../controls/QLogSpinBox.h"
 #include "../libnoiseutils/icospheremap.h"
+#include "../CalenhadServices.h"
 
 class CalenhadModel;
 class MessageFactory;
@@ -30,8 +31,8 @@ public:
     enum { Type = QGraphicsItem::UserType + 6 };
     virtual ~QNode();
     virtual void initialise();
-    virtual void inflate (const QDomElement& element, MessageFactory* messages);
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages);
+    virtual void inflate (const QDomElement& element);
+    virtual void serialise (QDomDocument& doc);
     virtual void setUniqueName() = 0;
     virtual void setModel (CalenhadModel* model);
     // don't want a copy constructor because subclass implementations will have to call initialise()
@@ -42,6 +43,8 @@ public:
     void addPort (QNEPort* port);
     QList<QNEPort*> ports();
     bool isInitialised();
+    void showEvent (QShowEvent *event) override;
+    QString preservedXml();
 
     Q_PROPERTY (QString name READ name WRITE setName MEMBER _name);
     Q_PROPERTY (QString notes READ notes WRITE setNotes MEMBER _notes);
@@ -53,6 +56,7 @@ public:
 public slots:
     virtual void invalidate();
     void setName (const QString& name);
+
 
 signals:
     void nodeChanged (const QString&, const QVariant&);
@@ -70,6 +74,8 @@ protected:
     QToolBox* _expander;
     QList<QNEPort*> _ports;
     QWidget* _content;
+    QString _preservedXml;
+    void preserve();
     virtual void addInputPorts() = 0;
     int addPanel (const QString& name, QWidget* widget);
     QDoubleSpinBox* noiseValueParamControl (const QString& text);

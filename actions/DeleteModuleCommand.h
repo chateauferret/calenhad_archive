@@ -9,8 +9,8 @@
 #include <QtWidgets/QUndoCommand>
 #include "../qmodule/QModule.h"
 
-class DeleteModuleCommand : public QUndoCommand {
 
+class DeleteModuleCommand : public QUndoCommand {
 
 public:
     DeleteModuleCommand (QModule* module, CalenhadModel* model);
@@ -19,10 +19,9 @@ public:
     virtual void redo () override;
 
 protected:
-    QModule* _module = nullptr;
     CalenhadModel* _model = nullptr;
-    QString* xml = nullptr;
-
+    QModule* _module;
+    QString _xml;
 };
 
 

@@ -7,10 +7,8 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "QVoronoiModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "../CalenhadServices.h"
 
 
 QVoronoiModule::QVoronoiModule (QWidget* parent)  : QModule (new Voronoi(), parent) {
@@ -54,7 +52,7 @@ bool QVoronoiModule::enableDistance() {
 
 void QVoronoiModule::setFrequency (double value) {
     module() -> SetFrequency (value);
-    emit (nodeChanged ("frequency", value));
+    emit (nodeChanged ("getFrequency", value));
     frequencySpin -> setValue (value);
 }
 
@@ -83,7 +81,7 @@ QVoronoiModule* QVoronoiModule::newInstance () {
 }
 
 QString QVoronoiModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_voronoi;
+    return CalenhadServices::preferences() -> calenhad_module_voronoi;
 }
 
 
@@ -98,11 +96,11 @@ QVoronoiModule* QVoronoiModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-void QVoronoiModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QVoronoiModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
-    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    double frequency = _model -> readParameter (element, "getFrequency").toDouble (&ok);
     if (ok) { setFrequency (frequency); }
 
     double displacement = _model -> readParameter (element, "displacement").toDouble (&ok);
@@ -112,9 +110,9 @@ void QVoronoiModule::inflate (const QDomElement& element, MessageFactory* messag
     setEnableDistance (enableDistance);
 }
 
-void QVoronoiModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
-    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
+void QVoronoiModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
+    _model -> writeParameter (_element, "getFrequency", QString::number (frequency()));
     _model -> writeParameter (_element, "displacement", QString::number (displacement()));
     _model -> writeParameter (_element, "enableDistance", enableDistance() ? "y" : "n");
 }

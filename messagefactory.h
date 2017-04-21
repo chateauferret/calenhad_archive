@@ -7,19 +7,20 @@
 #include <QWidget>
 #include <QVector>
 #include "nodeedit/qnemessagebox.h"
+#include "MessageService.h"
 #include <QTextStream>
 
 class CalenhadMessageStream;
 
-class MessageFactory : public QObject {
+class MessageFactory : public MessageService {
     Q_OBJECT
 public:
     MessageFactory ();
     ~MessageFactory();
-    void message (const QString& title, const QString& message);
-    void setHost (QWidget* host);
+    int message (const QString& title, const QString& message) override;
+    void setHost (QWidget* host) override;
     public slots:
-    void clearMessage (QNEMessageBox* message);
+    void clearMessage (const int& id);
 
 private:
     QWidget* _host = 0;

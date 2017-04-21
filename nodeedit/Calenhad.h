@@ -50,8 +50,6 @@ Q_OBJECT
 public:
     explicit Calenhad (QWidget* parent = 0);
     ~Calenhad ();
-    static Preferences* preferences;
-    static MessageFactory* messages;
     static QNEToolBox* toolbox;
     void setModel (CalenhadModel* model);
     CalenhadModel* model ();

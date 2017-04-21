@@ -20,8 +20,8 @@ public:
     virtual QRangeModule* addCopy (CalenhadModel* model) override = 0;
     Q_PROPERTY (double lowerBound READ lowerBound WRITE setLowerBound);
     Q_PROPERTY (double upperBound READ upperBound WRITE setUpperBound);
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
 
 public slots:
     void setLowerBound (double lowerBound);

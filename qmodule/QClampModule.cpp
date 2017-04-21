@@ -27,7 +27,7 @@ QClampModule* QClampModule::newInstance() {
 }
 
 QString QClampModule::moduleType() {
-    return Calenhad::preferences -> calenhad_module_clamp;
+    return CalenhadServices::preferences() -> calenhad_module_clamp;
 }
 
 QClampModule* QClampModule::addCopy (CalenhadModel* model)  {
@@ -49,6 +49,7 @@ double QClampModule::lowerBound() {
 }
 
 void QClampModule::setBounds (double lowerBound, double upperBound) {
+    preserve();
     module() -> SetBounds (lowerBound, upperBound);
 }
 
@@ -59,10 +60,10 @@ void QClampModule::initialise () {
 }
 
 
-void QClampModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QRangeModule::inflate (element, messages);
+void QClampModule::inflate (const QDomElement& element) {
+    QRangeModule::inflate (element);
 }
 
-void QClampModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QRangeModule::serialise (doc, messages);
+void QClampModule::serialise (QDomDocument& doc) {
+    QRangeModule::serialise (doc);
 }

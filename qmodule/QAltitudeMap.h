@@ -23,8 +23,8 @@ public:
     QAltitudeMap* addCopy (CalenhadModel* model) override;
     virtual QString moduleType () override;
     QVector<QPointF> getEntries() const;
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
     void addEntry (const double& in, const double& out = 0);
     void removeEntry (const double& key);
 

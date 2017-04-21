@@ -22,24 +22,39 @@ public:
     void initialise() override;
     QNoiseModule* addCopy (CalenhadModel* model)  override;
     QString moduleType () override;
-    Q_PROPERTY (double frequency READ frequency WRITE setFrequency);
-    Q_PROPERTY (double persistence READ persistence WRITE setPersistence);
-    Q_PROPERTY (double lacunarity READ lacunarity WRITE setLacunarity);
-    Q_PROPERTY (int octaveCount READ octaveCount WRITE setOctaveCount);
-    double frequency();
-    double lacunarity();
-    double persistence();
-    int octaveCount();
+    double getFrequency ();
+    double getLacunarity ();
+    double getPersistence ();
+    int getOctaveCount ();
     bool hasPersistence();
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
+
+
+    // properties
+    Q_PROPERTY (double frequency READ getFrequency WRITE setFrequency NOTIFY frequencyChanged);
+    Q_PROPERTY (double lacunarity READ getLacunarity WRITE setLacunarity NOTIFY lacunarityChanged);
+    Q_PROPERTY (double persistence READ getPersistence WRITE setPersistence NOTIFY persistenceChanged);
+    Q_PROPERTY (int octaveCount READ getOctaveCount WRITE setOctaveCount NOTIFY octaveCountChanged);
 
 
 public slots:
-    void setFrequency (double value);
-    void setLacunarity (double value);
-    void setPersistence (double value);
-    void setOctaveCount (int value);
+    void frequencyChangeRequested (const double& value);
+    void lacunarityChangeRequested (const double& value);
+    void persistenceChangeRequested (const double& value);
+    void octaveCountChangeRequested (const int& value);
+
+
+    void setFrequency (const double& value);
+    void setLacunarity (const double& value);
+    void setPersistence (const double& value);
+    void setOctaveCount (const int& value);
+
+signals:
+    void frequencyChanged (const double&);
+    void lacunarityChanged (const double&);
+    void persistenceChanged (const double&);
+    void octaveCountChanged (const int&);
 
 protected:
     QDoubleSpinBox* persistenceSpin = nullptr;

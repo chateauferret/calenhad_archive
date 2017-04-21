@@ -25,6 +25,7 @@ void QConstModule::initialise() {
 }
 
 void QConstModule::setConstValue (double value) {
+    preserve();
     module() -> SetConstValue (value);
     constValueSpin -> setValue (value);
     emit nodeChanged ("constValue", value);
@@ -45,7 +46,7 @@ QConstModule* QConstModule::newInstance() {
 }
 
 QString QConstModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_constant;
+    return CalenhadServices::preferences() -> calenhad_module_constant;
 }
 
 QConstModule* QConstModule::addCopy (CalenhadModel* model)  {
@@ -57,8 +58,8 @@ QConstModule* QConstModule::addCopy (CalenhadModel* model)  {
     return qm;
 }
 
-void QConstModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QConstModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
     double constValue = _model -> readParameter (element, "constValue").toDouble (&ok);
@@ -66,7 +67,7 @@ void QConstModule::inflate (const QDomElement& element, MessageFactory* messages
 
 }
 
-void QConstModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QConstModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "constValue", QString::number (constValue()));
 }

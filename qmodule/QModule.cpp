@@ -35,8 +35,6 @@ void QModule::initialise() {
     QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
     addPort (output);
 
-
-
     // preview panel
 
     _previewLayout = new QFormLayout();
@@ -100,23 +98,15 @@ void QModule::setUniqueName() {
         name = QString ("New ") + moduleType () + " " + QString::number (i);
     }
     setName (name);
-    _nameEdit -> setText (_name);
 }
 
-void QModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QNode::inflate (element, messages);
-    QDomElement nameElement = element.firstChildElement ("name");
-    QString name = nameElement.nodeValue();
-    if (name == QString::null) {
-        setUniqueName();
-        messages -> message ("", "Name not found for module. Assigned default name " +  _name);
-        _warnings = true;
-    }
+void QModule::inflate (const QDomElement& element) {
+    QNode::inflate (element);
     // position is retrieved in CalenhadModel
 }
 
-void QModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QNode::serialise (doc, messages);
+void QModule::serialise (QDomDocument& doc) {
+    QNode::serialise (doc);
     QDomElement positionElement = doc.createElement ("position");
     _element.appendChild (positionElement);
     positionElement.setAttribute ("y", handle() -> scenePos().y());

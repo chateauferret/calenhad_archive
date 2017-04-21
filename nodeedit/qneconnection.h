@@ -51,8 +51,8 @@ public:
 	void load(QDataStream&, const QMap<quint64, QNEPort*> &portMap);
     bool canDrop;
 	int type() const { return Type; }
-	void serialise (QDomDocument& doc, MessageFactory* messages);
-	void inflate (const QDomDocument& doc, MessageFactory* messages);
+	void serialise (QDomDocument& doc);
+	void inflate (const QDomDocument& doc);
 
 private:
 

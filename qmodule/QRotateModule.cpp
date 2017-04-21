@@ -75,7 +75,7 @@ RotatePoint* QRotateModule::module () {
 }
 
 QString QRotateModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_rotate;
+    return CalenhadServices::preferences() -> calenhad_module_rotate;
 }
 
 QRotateModule* QRotateModule::newInstance () {
@@ -97,8 +97,8 @@ QRotateModule* QRotateModule::addCopy (CalenhadModel* model){
 }
 
 
-void QRotateModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QRotateModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
     double x = _model -> readParameter (element, "x").toDouble (&ok);
@@ -111,8 +111,8 @@ void QRotateModule::inflate (const QDomElement& element, MessageFactory* message
     if (ok) { setZAngle (z); }
 }
 
-void QRotateModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QRotateModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "x", QString::number (xAngle()));
     _model -> writeParameter (_element, "y", QString::number (yAngle()));
     _model -> writeParameter (_element, "z", QString::number (zAngle()));

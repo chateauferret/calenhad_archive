@@ -21,35 +21,35 @@ NoiseMapBuilderSphere::NoiseMapBuilderSphere (RenderJob* job) :
 }
 
 void NoiseMapBuilderSphere::build () {
+    if (_source) {
+        prepare ();
 
-    prepare ();
-
-
-    // Create the sphere model.
-    noise::model::Sphere sphereModel;
-    sphereModel.SetModule (*_source);
-    _curLat = _bounds.south (GeoDataCoordinates::Degree);
-    // Fill every point in the noise map with the output values from the model.
-    for (int y = 0; y < _destHeight; y++) {
-        float* pDest = _destNoiseMap -> GetSlabPtr (y);
-        _curLon = _bounds.west (GeoDataCoordinates::Degree);
-        for (int x = 0; x < _destWidth; x++) {
-            // if thread is being interrupted, terminate the loops gracefully
-            if (_job -> isAbandoned()) {
-                x = _destWidth;
-                y = _destHeight;
-            } else {
-                float curValue = (float) sphereModel.GetValue (_curLat, _curLon);
-                *pDest++ = curValue;
-                _curLon += _xDelta;
-                if (_curLon >= 180) {
-                    _curLon -= 360;
+        // Create the sphere model.
+        noise::model::Sphere sphereModel;
+        sphereModel.SetModule (*_source);
+        _curLat = _bounds.south (GeoDataCoordinates::Degree);
+        // Fill every point in the noise map with the output values from the model.
+        for (int y = 0; y < _destHeight; y++) {
+            float* pDest = _destNoiseMap -> GetSlabPtr (y);
+            _curLon = _bounds.west (GeoDataCoordinates::Degree);
+            for (int x = 0; x < _destWidth; x++) {
+                // if thread is being interrupted, terminate the loops gracefully
+                if (_job->isAbandoned ()) {
+                    x = _destWidth;
+                    y = _destHeight;
+                } else {
+                    float curValue = (float) sphereModel.GetValue (_curLat, _curLon);
+                    *pDest++ = curValue;
+                    _curLon += _xDelta;
+                    if (_curLon >= 180) {
+                        _curLon -= 360;
+                    }
                 }
             }
-        }
-        _curLat += _yDelta;
-        if (m_pCallback != NULL) {
-            m_pCallback (y);
+            _curLat += _yDelta;
+            if (m_pCallback != NULL) {
+                m_pCallback (y);
+            }
         }
     }
 }

@@ -69,35 +69,43 @@ CalenhadController::CalenhadController (QObject* parent) : QObject (parent), _vi
 //    _inputPortContextMenu -> addMenu (connectOutputMenu());
 
     // tools to create modules
-    addModuleTool (Calenhad::preferences -> calenhad_module_perlin, "Perlin noise");
-    addModuleTool (Calenhad::preferences -> calenhad_module_billow, "Billow noise");
-    addModuleTool (Calenhad::preferences -> calenhad_module_ridgedmulti, "Ridged multifractal noise");
-    addModuleTool (Calenhad::preferences -> calenhad_module_cylinders, "Cylindrical distance function");
-    addModuleTool (Calenhad::preferences -> calenhad_module_spheres, "Spherical distance function");
-    addModuleTool (Calenhad::preferences -> calenhad_module_exponent, "Exponent function");
-    addModuleTool (Calenhad::preferences -> calenhad_module_translate, "Translation function");
-    addModuleTool (Calenhad::preferences -> calenhad_module_rotate, "Rotation function");
-    addModuleTool (Calenhad::preferences -> calenhad_module_scalepoint, "Scale points");
-    addModuleTool (Calenhad::preferences -> calenhad_module_scalebias, "Scale and bias");
-    addModuleTool (Calenhad::preferences -> calenhad_module_add, "Add values");
-    addModuleTool (Calenhad::preferences -> calenhad_module_diff, "Difference between values");
-    addModuleTool (Calenhad::preferences -> calenhad_module_clamp, "Clamp values");
-    addModuleTool (Calenhad::preferences -> calenhad_module_constant, "Constant value");
-    addModuleTool (Calenhad::preferences -> calenhad_module_abs, "Absolute value");
-    addModuleTool (Calenhad::preferences -> calenhad_module_blend, "Blend points");
-    addModuleTool (Calenhad::preferences -> calenhad_module_cache, "Cache value");
-    addModuleTool (Calenhad::preferences -> calenhad_module_checkerboard, "Checkerboard pattern");
-    addModuleTool (Calenhad::preferences -> calenhad_module_invert, "Invert values");
-    addModuleTool (Calenhad::preferences -> calenhad_module_max, "Maximum value");
-    addModuleTool (Calenhad::preferences -> calenhad_module_min, "Minimum value");
-    addModuleTool (Calenhad::preferences -> calenhad_module_voronoi, "Voronoi pattern");
-    addModuleTool (Calenhad::preferences -> calenhad_module_select, "Select input");
-    addModuleTool (Calenhad::preferences -> calenhad_module_turbulence, "Turbulence");
-    addModuleTool (Calenhad::preferences -> calenhad_module_icospheremap, "Icosphere map");
-    addModuleTool (Calenhad::preferences -> calenhad_module_altitudemap, "Altitude map");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_perlin, "Perlin noise");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_billow, "Billow noise");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "Ridged multifractal noise");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_cylinders, "Cylindrical distance function");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_spheres, "Spherical distance function");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_exponent, "Exponent function");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_translate, "Translation function");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_rotate, "Rotation function");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_scalepoint, "Scale points");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_scalebias, "Scale and bias");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_add, "Add values");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_diff, "Difference between values");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_clamp, "Clamp values");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_constant, "Constant value");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_abs, "Absolute value");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_blend, "Blend points");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_cache, "Cache value");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_checkerboard, "Checkerboard pattern");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_invert, "Invert values");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_max, "Maximum value");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_min, "Minimum value");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_voronoi, "Voronoi pattern");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_select, "Select input");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_turbulence, "Turbulence");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
+    addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
 
-    // undo/redo arrangemenyts
+    // undo/redo apparatus
     _undoStack = new QUndoStack();
+    undoAction = createTool (tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
+    redoAction = createTool (tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
+    undoAction -> setEnabled (_undoStack -> canUndo());
+    redoAction -> setEnabled (_undoStack -> canRedo());
+    _defaultContextMenu -> addAction (undoAction);
+    _defaultContextMenu -> addAction (redoAction);
+    connect (_undoStack, &QUndoStack::canUndoChanged, this, [=] () { undoAction -> setEnabled (_undoStack -> canUndo()); });
+    connect (_undoStack, &QUndoStack::canRedoChanged, this, [=] () { redoAction -> setEnabled (_undoStack -> canRedo()); });
 
     // zoom actions
     zoomInAction = createTool (tr ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
@@ -108,14 +116,6 @@ CalenhadController::CalenhadController (QObject* parent) : QObject (parent), _vi
     _zoomMenu -> addAction (zoomOutAction);
     _zoomMenu -> addAction (zoomToFitAction);
     _zoomMenu -> addAction (zoomSelectionAction);
-
-    // undo/redo actions
-    undoAction = createTool (tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
-    redoAction = createTool (tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
-    undoAction -> setEnabled (_undoStack -> canUndo());
-    redoAction -> setEnabled (_undoStack -> canRedo());
-    _defaultContextMenu -> addAction (undoAction);
-    _defaultContextMenu -> addAction (redoAction);
 
     // connection actions
     deleteConnectionAction = createTool (tr ("Delete connection"), "Delete connection", CalenhadAction::DeleteConnectionAction, _editDrawer);
@@ -202,7 +202,7 @@ void CalenhadController::toolSelected (bool state) {
 }
 
 void CalenhadController::showMessage (QString message) {
-    Calenhad::messages -> message ("", message);
+    CalenhadServices::messages() -> message ("", message);
 }
 
 QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
@@ -247,19 +247,19 @@ void CalenhadController::actionTriggered () {
 
     // fire the selected action
     QAction* action = (QAction*) sender();
-    if (action -> data() == CalenhadAction::ZoomInAction) { _undoStack -> push (new ZoomCommand (0.1, _views -> at (0))); }
-    if (action -> data() == CalenhadAction::ZoomOutAction) {  _undoStack -> push (new ZoomCommand (-0.1,  _views -> at (0))); }
-    if (action -> data() == CalenhadAction::ZoomToFitAction) {  _undoStack -> push (new ZoomToFitCommand ( _views -> at (0))); }
-    if (action -> data() == CalenhadAction::ZoomToSelectionAction) {  _undoStack -> push (new ZoomToSelectionCommand ( _views -> at (0))); }
-    if (action -> data() == CalenhadAction::DeleteConnectionAction) {  _undoStack -> push (new DeleteConnectionCommand (static_cast<QNEConnection*> (_contextItem), _model)); }
-    if (action -> data() == CalenhadAction::DeleteModuleAction) { _undoStack -> push (new DeleteModuleCommand (_contextModule,  _model)); }
+    if (action -> data() == CalenhadAction::ZoomInAction) { doCommand (new ZoomCommand (0.1, _views -> at (0))); }
+    if (action -> data() == CalenhadAction::ZoomOutAction) { doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
+    if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
+    if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
+    if (action -> data() == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<QNEConnection*> (_contextItem), _model)); }
+    if (action -> data() == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteModuleCommand (_contextModule,  _model)); }
     if (action -> data() == CalenhadAction::UndoAction) { _undoStack -> undo(); }
     if (action -> data() == CalenhadAction::RedoAction) { _undoStack -> redo(); }
+}
 
-    // invalidate action enabled status
-    double z = _views -> at (0) -> currentZoom ();
-    zoomInAction -> setEnabled (z < 4.0);
-    zoomOutAction -> setEnabled (z > 0.025);
-    undoAction -> setEnabled (_undoStack -> canUndo());
-    redoAction -> setEnabled (_undoStack -> canRedo());
+void CalenhadController::doCommand (QUndoCommand* c) {
+    _undoStack->push (c);
+    double z = _views->at (0)->currentZoom ();
+    zoomInAction->setEnabled (z < 4.0);
+    zoomOutAction->setEnabled (z > 0.025);
 }

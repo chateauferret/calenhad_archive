@@ -41,8 +41,8 @@ public:
     void setUniqueName() override;
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QModule* addCopy (CalenhadModel* model) = 0;
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
     virtual QString moduleType () = 0;
     static int seed;
     static noise::NoiseQuality noiseQuality;
@@ -53,13 +53,11 @@ public:
     void setLegend (icosphere::Legend* legend);
     icosphere::Legend* legend();
 
-    public slots:
+public slots:
     void changeBounds (const GeoDataLatLonBox&);
     void refresh();
     void invalidate() override;
 
-signals:
-    void initialised();
 
 protected:
 

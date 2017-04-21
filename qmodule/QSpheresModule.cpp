@@ -36,7 +36,7 @@ double QSpheresModule::frequency() {
 
 void QSpheresModule::setFrequency (double value) {
     module() -> SetFrequency (value);
-    emit (nodeChanged ("frequency", value));
+    emit (nodeChanged ("getFrequency", value));
     frequencySpin -> setValue (value);
 }
 
@@ -52,7 +52,7 @@ QSpheresModule* QSpheresModule::newInstance () {
 }
 
 QString QSpheresModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_spheres;
+    return CalenhadServices::preferences() -> calenhad_module_spheres;
 }
 
 QSpheresModule* QSpheresModule::addCopy (CalenhadModel* model) {
@@ -64,15 +64,15 @@ QSpheresModule* QSpheresModule::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-void QSpheresModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QSpheresModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
-    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
+    double frequency = _model -> readParameter (element, "getFrequency").toDouble (&ok);
     if (ok) { setFrequency (frequency); }
 }
 
-void QSpheresModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
-    _model -> writeParameter (_element, "frequency", QString::number (frequency()));
+void QSpheresModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
+    _model -> writeParameter (_element, "getFrequency", QString::number (frequency()));
 }

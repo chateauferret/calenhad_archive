@@ -14,6 +14,7 @@
 #include "../nodeedit/Calenhad.h"
 #include "../messagefactory.h"
 #include "../pipeline/CalenhadModel.h"
+#include "../actions/ChangeModuleCommand.h"
 
 
 QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitialised (false) {
@@ -36,7 +37,7 @@ void QNode::initialise() {
     layout -> setMargin (5);
     about -> setLayout (layout);
     _nameEdit = new QLineEdit();
-    connect (_nameEdit, SIGNAL (textEdited (const QString&)), this, SLOT (setName (const QString&)));
+    connect (_nameEdit, SIGNAL (textChanged (const QString&)), this, SLOT (setName (const QString&)));
 
     _nameEdit -> selectAll();
     layout -> addWidget (_nameEdit);
@@ -65,20 +66,20 @@ QString QNode::name() {
 }
 
 void QNode::setName (const QString& name) {
-    if (! (name.isNull ())) {
+    if (! (name.isNull()) && (name != _name)) {
+        preserve();
         _name = name;
-        if (! (name == _nameEdit -> text())) {
-            _nameEdit -> setText (name);
-        }
+        _nameEdit -> setText (name);
+        update();
+        emit (nameChanged (name));
     }
-    emit (nameChanged (name));
-
 }
 
 void QNode::setNotes (const QString& notes) {
-    _notes = notes;
     if (! notes.isNull()) {
-        if (!(notes == _notesEdit -> toPlainText ())) {
+        if (! (notes == _notesEdit -> toPlainText())) {
+            preserve();
+            _notes = notes;
             _notesEdit -> setText (_notes);
         }
     }
@@ -167,7 +168,7 @@ void QNode::setModel (CalenhadModel* model) {
     }
 }
 
-void QNode::inflate (const QDomElement& element, MessageFactory* messages) {
+void QNode::inflate (const QDomElement& element) {
     _element = element;
     QDomNodeList notesElements = element.elementsByTagName ("notes");
     _notes = notesElements.isEmpty() ? QString() : notesElements.item(0).nodeValue();
@@ -185,17 +186,18 @@ void QNode::inflate (const QDomElement& element, MessageFactory* messages) {
             }
         } else {
             QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue() + " port with index " + portNodes.at (i).attributes ().namedItem ("index").nodeValue() + " in module " + _name;
-            Calenhad::messages -> message ("Reverting to default port names", m);
+            CalenhadServices::messages() -> message ("Reverting to default port names", m);
         }
     }
 }
 
-void QNode::serialise (QDomDocument& doc, MessageFactory* messages) {
+void QNode::serialise (QDomDocument& doc) {
     _element = doc.createElement ("module");
 
     doc.documentElement().appendChild (_element);
     QDomElement nameElement = doc.createElement ("name");
-    nameElement.setNodeValue (_name);
+    QDomText nameText = doc.createTextNode (_name);
+    nameElement.appendChild (nameText);
     _element.appendChild (nameElement);
 
     if (! _notes.isEmpty ()) {
@@ -210,5 +212,24 @@ void QNode::serialise (QDomDocument& doc, MessageFactory* messages) {
         portElement.setAttribute ("index", p -> index());
         portElement.setAttribute ("name", p -> portName());
         portElement.setAttribute ("type", p -> portType());
+    }
+}
+
+void QNode::showEvent (QShowEvent* event) {
+    _nameEdit -> setText (_name);
+    QWidget::showEvent (event);
+}
+
+QString QNode::preservedXml() {
+    return _preservedXml;
+}
+
+void QNode::preserve() {
+    if (_model) {
+        QDomDocument doc;
+        QDomElement root = doc.createElement ("model");
+        doc.appendChild (root);
+        serialise (doc);
+        _preservedXml = doc.toString ();
     }
 }

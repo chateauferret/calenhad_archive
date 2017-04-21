@@ -44,8 +44,8 @@ void QRangeModule::setUpperBound (double upperBound) {
 }
 
 
-void QRangeModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QRangeModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
     double x = _model -> readParameter (element, "lowerBound").toDouble (&ok);
@@ -56,8 +56,8 @@ void QRangeModule::inflate (const QDomElement& element, MessageFactory* messages
 
 }
 
-void QRangeModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QRangeModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "lowerBound", QString::number (lowerBound()));
     _model -> writeParameter (_element, "upperBound", QString::number (upperBound()));
 }

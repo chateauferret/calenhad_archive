@@ -25,8 +25,8 @@ public:
     ScaleBias* module () override;
     QScaleBiasModule* addCopy (CalenhadModel* model);
     virtual QString moduleType () override;
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
 
 
 public slots:

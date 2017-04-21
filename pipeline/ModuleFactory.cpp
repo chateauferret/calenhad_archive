@@ -48,36 +48,36 @@ QModule* ModuleFactory::createModule (const QString& type, CalenhadModel* model)
     Populate the default module name
 
 */
-    if (type == Calenhad::preferences -> calenhad_module_abs ||
-     type == Calenhad::preferences -> calenhad_module_add ||
-     type == Calenhad::preferences -> calenhad_module_blend ||
-     type == Calenhad::preferences -> calenhad_module_cache||
-     type == Calenhad::preferences -> calenhad_module_checkerboard ||
-     type == Calenhad::preferences -> calenhad_module_invert ||
-     type == Calenhad::preferences -> calenhad_module_max ||
-     type == Calenhad::preferences -> calenhad_module_min ||
-     type == Calenhad::preferences -> calenhad_module_multiply ||
-     type == Calenhad::preferences -> calenhad_module_power ||
-     type == Calenhad::preferences -> calenhad_module_displace ||
-     type == Calenhad::preferences -> calenhad_module_diff) { return QBasicModule::newInstance (type); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_abs ||
+     type == CalenhadServices::preferences() -> calenhad_module_add ||
+     type == CalenhadServices::preferences() -> calenhad_module_blend ||
+     type == CalenhadServices::preferences() -> calenhad_module_cache||
+     type == CalenhadServices::preferences() -> calenhad_module_checkerboard ||
+     type == CalenhadServices::preferences() -> calenhad_module_invert ||
+     type == CalenhadServices::preferences() -> calenhad_module_max ||
+     type == CalenhadServices::preferences() -> calenhad_module_min ||
+     type == CalenhadServices::preferences() -> calenhad_module_multiply ||
+     type == CalenhadServices::preferences() -> calenhad_module_power ||
+     type == CalenhadServices::preferences() -> calenhad_module_displace ||
+     type == CalenhadServices::preferences() -> calenhad_module_diff) { return QBasicModule::newInstance (type); }
 
-    if (type == Calenhad::preferences -> calenhad_module_cylinders) { return QCylindersModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_spheres) { return QSpheresModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_exponent) { return QExponentModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_translate) { return QTranslateModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_rotate) { return QRotateModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_clamp) { return QClampModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_constant) { return QConstModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_perlin) { return QNoiseModule::newPerlinInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_billow) { return QNoiseModule::newBillowInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_ridgedmulti) { return QNoiseModule::newRidgedMultiInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_scalebias) { return QScaleBiasModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_select) { return QSelectModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_turbulence) { return QTurbulenceModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_voronoi) { return QVoronoiModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_scalepoint) { return QScaleModule::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_icospheremap) { return QIcosphereMap::newInstance(); }
-    if (type == Calenhad::preferences -> calenhad_module_altitudemap) { return QAltitudeMap::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_cylinders) { return QCylindersModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_spheres) { return QSpheresModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_exponent) { return QExponentModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_translate) { return QTranslateModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_rotate) { return QRotateModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_clamp) { return QClampModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_constant) { return QConstModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_perlin) { return QNoiseModule::newPerlinInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_billow) { return QNoiseModule::newBillowInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) { return QNoiseModule::newRidgedMultiInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_scalebias) { return QScaleBiasModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_select) { return QSelectModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_turbulence) { return QTurbulenceModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_voronoi) { return QVoronoiModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_scalepoint) { return QScaleModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_icospheremap) { return QIcosphereMap::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { return QAltitudeMap::newInstance(); }
 
 }
 

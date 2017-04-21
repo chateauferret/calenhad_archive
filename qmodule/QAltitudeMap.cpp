@@ -61,7 +61,6 @@ void QAltitudeMap::initialise() {
 }
 
 void QAltitudeMap::editAltitudeMap() {
-
     QVector<QPointF> entries = getEntries();
     _editor -> setEntries (entries);
     if (dynamic_cast<Terrace*> (_module)) {
@@ -75,6 +74,7 @@ void QAltitudeMap::editAltitudeMap() {
 // retrieve parameters from the curve editing dialog: control points and curve type (function)
 // based on those assign the relevant module and set tbe control points on it,
 void QAltitudeMap::updateEntries() {
+    preserve();
     CurveType curveType = _editor -> curveType();
     _module = _modules.find (curveType).value();
     clearMap();
@@ -175,7 +175,7 @@ QAltitudeMap* QAltitudeMap::newInstance () {
 }
 
 QString QAltitudeMap::moduleType () {
-    return Calenhad::preferences -> calenhad_module_altitudemap;
+    return CalenhadServices::preferences() -> calenhad_module_altitudemap;
 }
 
 QAltitudeMap* QAltitudeMap::addCopy (CalenhadModel* model) {
@@ -187,8 +187,8 @@ QAltitudeMap* QAltitudeMap::addCopy (CalenhadModel* model) {
     return qm;
 }
 
-void QAltitudeMap::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QAltitudeMap::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     QDomElement mapElement = element.firstChildElement ("map");
     if (mapElement.attribute ("function") == "terrace") {
         if (mapElement.attribute ("inverted") == "true") {
@@ -212,14 +212,14 @@ void QAltitudeMap::inflate (const QDomElement& element, MessageFactory* messages
         if (ok) {
             addEntry (x, y);
         } else {
-            Calenhad::messages -> message ("", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
+            CalenhadServices::messages() -> message ("", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
                     + " for " + moduleType() + " module " + name());
         }
     }
 }
 
-void QAltitudeMap::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QAltitudeMap::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
 
 
     QDomElement mapElement = _document.createElement ("map");

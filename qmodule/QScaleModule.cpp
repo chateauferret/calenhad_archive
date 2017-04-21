@@ -74,7 +74,7 @@ ScalePoint* QScaleModule::module () {
 }
 
 QString QScaleModule::moduleType () {
-    return Calenhad::preferences -> calenhad_module_scalepoint;
+    return CalenhadServices::preferences() -> calenhad_module_scalepoint;
 }
 
 QScaleModule* QScaleModule::newInstance() {
@@ -95,8 +95,8 @@ QScaleModule* QScaleModule::addCopy (CalenhadModel* model) {
 }
 
 
-void QScaleModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QScaleModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     bool ok;
 
     double x = _model -> readParameter (element, "x").toDouble (&ok);
@@ -109,8 +109,8 @@ void QScaleModule::inflate (const QDomElement& element, MessageFactory* messages
     if (ok) { setScaleZ (z); }
 }
 
-void QScaleModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QScaleModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _model -> writeParameter (_element, "x", QString::number (scaleX()));
     _model -> writeParameter (_element, "y", QString::number (scaleY()));
     _model -> writeParameter (_element, "z", QString::number (scaleZ()));

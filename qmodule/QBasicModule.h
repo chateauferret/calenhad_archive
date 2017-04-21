@@ -12,8 +12,8 @@ class QBasicModule : public QModule {
 public:
     virtual ~QBasicModule();
     QBasicModule* addCopy (CalenhadModel* model) override;
-    virtual void inflate (const QDomElement& element, MessageFactory* messages) override;
-    virtual void serialise (QDomDocument& doc, MessageFactory* messages) override;
+    virtual void inflate (const QDomElement& element) override;
+    virtual void serialise (QDomDocument& doc) override;
     void initialise();
     QString moduleType () override;
     static QBasicModule* newInstance (const QString& type);

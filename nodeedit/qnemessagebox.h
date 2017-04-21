@@ -12,6 +12,7 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QObject>
+#include <QtCore/QUuid>
 
 class QNEMessageBox : public QFrame {
     Q_OBJECT
@@ -21,16 +22,19 @@ public:
     void showEvent (QShowEvent* e);
     void mousePressEvent (QMouseEvent* e);
     void setIndex (const int& index);
+    int id();
 
 public slots:
     void dismiss();
 
 signals:
-    void messageDismissed (QNEMessageBox* source);
+    void messageDismissed (int id);
 
 private:
     QTimer* _timer;
     QLabel* _message;
+    int _id;
+    static int nextId;
 };
 
 

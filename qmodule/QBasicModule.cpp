@@ -18,18 +18,18 @@ QBasicModule::~QBasicModule() {
 
 QBasicModule* QBasicModule::newInstance (const QString& type) {
     QBasicModule* qm = nullptr;
-    if (type == Calenhad::preferences -> calenhad_module_add) { Add* m = new Add(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_abs) { Abs* m = new Abs(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_blend) { Blend* m = new Blend(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_cache) { noise::module::Cache* m = new noise::module::Cache(); }
-    if (type == Calenhad::preferences -> calenhad_module_checkerboard) { Checkerboard* m = new Checkerboard(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_invert) { Invert* m = new Invert(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_max) { Max* m = new Max(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_min) { Min* m = new Min(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_multiply) { Multiply* m = new Multiply(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_power) { Power* m = new Power(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_displace) { Displace* m = new Displace(); qm = new QBasicModule (m); }
-    if (type == Calenhad::preferences -> calenhad_module_diff) { Diff* m = new Diff(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_add) { Add* m = new Add(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_abs) { Abs* m = new Abs(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_blend) { Blend* m = new Blend(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_cache) { noise::module::Cache* m = new noise::module::Cache(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_checkerboard) { Checkerboard* m = new Checkerboard(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_invert) { Invert* m = new Invert(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_max) { Max* m = new Max(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_min) { Min* m = new Min(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_multiply) { Multiply* m = new Multiply(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_power) { Power* m = new Power(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_displace) { Displace* m = new Displace(); qm = new QBasicModule (m); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_diff) { Diff* m = new Diff(); qm = new QBasicModule (m); }
     if (qm) {
         qm -> initialise();
     }
@@ -46,18 +46,18 @@ QBasicModule* QBasicModule::addCopy (CalenhadModel* model) {
 
 
 QString QBasicModule::moduleType () {
-    if (dynamic_cast<Add*> (_module)) { return Calenhad::preferences -> calenhad_module_add; }
-    if (dynamic_cast<Abs*> (_module)) { return Calenhad::preferences -> calenhad_module_abs; }
-    if (dynamic_cast<Blend*> (_module)) { return Calenhad::preferences -> calenhad_module_blend; }
-    if (dynamic_cast<noise::module::Cache*> (_module)) { return Calenhad::preferences -> calenhad_module_cache; }
-    if (dynamic_cast<Checkerboard*> (_module)) { return Calenhad::preferences -> calenhad_module_checkerboard; }
-    if (dynamic_cast<Invert*> (_module)) { return Calenhad::preferences -> calenhad_module_invert; }
-    if (dynamic_cast<Max*> (_module)) { return Calenhad::preferences -> calenhad_module_max; }
-    if (dynamic_cast<Min*> (_module)) { return Calenhad::preferences -> calenhad_module_min; }
-    if (dynamic_cast<Multiply*> (_module)) { return Calenhad::preferences -> calenhad_module_multiply; }
-    if (dynamic_cast<Power*> (_module)) { return Calenhad::preferences -> calenhad_module_power; }
-    if (dynamic_cast<Displace*> (_module)) { return Calenhad::preferences -> calenhad_module_displace; }
-    if (dynamic_cast<Diff*> (_module)) { return Calenhad::preferences -> calenhad_module_diff; }
+    if (dynamic_cast<Add*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_add; }
+    if (dynamic_cast<Abs*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_abs; }
+    if (dynamic_cast<Blend*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_blend; }
+    if (dynamic_cast<noise::module::Cache*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_cache; }
+    if (dynamic_cast<Checkerboard*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_checkerboard; }
+    if (dynamic_cast<Invert*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_invert; }
+    if (dynamic_cast<Max*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_max; }
+    if (dynamic_cast<Min*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_min; }
+    if (dynamic_cast<Multiply*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_multiply; }
+    if (dynamic_cast<Power*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_power; }
+    if (dynamic_cast<Displace*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_displace; }
+    if (dynamic_cast<Diff*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_diff; }
     return "";
 }
 
@@ -67,13 +67,13 @@ void QBasicModule::initialise () {
     emit initialised();
 }
 
-void QBasicModule::serialise (QDomDocument& doc, MessageFactory* messages) {
-    QModule::serialise (doc, messages);
+void QBasicModule::serialise (QDomDocument& doc) {
+    QModule::serialise (doc);
     _element.setAttribute ("moduleType", moduleType ());
 
 }
 
-void QBasicModule::inflate (const QDomElement& element, MessageFactory* messages) {
-    QModule::inflate (element, messages);
+void QBasicModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
     // element moduleType is done in Node class - to do
 }
