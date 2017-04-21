@@ -27,7 +27,7 @@ namespace icosphere {
 
 using namespace noise::module;
 
-class QNEBlockHandle;
+class QNEBlock;
 class MessageFactory;
 
 class QModule : public QNode {
@@ -47,15 +47,14 @@ public:
     static int seed;
     static noise::NoiseQuality noiseQuality;
     virtual Module* module();
-    void setHandle (QNEBlockHandle* h);
+    void setHandle (QNEBlock* h);
     void setModel (CalenhadModel* model) override;
-    QNEBlockHandle* handle();
+    QNEBlock* handle();
     void setLegend (icosphere::Legend* legend);
     icosphere::Legend* legend();
 
 public slots:
     void changeBounds (const GeoDataLatLonBox&);
-    void refresh();
     void invalidate() override;
 
 
@@ -66,7 +65,7 @@ protected:
     QFormLayout* _previewLayout;
     QNoiseMapViewer* _preview;
     noise::module::Module* _module;
-    QNEBlockHandle* _handle;
+    QNEBlock* _handle;
     int _previewIndex;
     icosphere::Legend* _legend;
 

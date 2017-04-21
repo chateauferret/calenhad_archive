@@ -4,10 +4,9 @@
 
 #include <QtWidgets/QFormLayout>
 #include "QModule.h"
+#include "../nodeedit/qneblock.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../nodeedit/qneblockhandle.h"
-#include "../messagefactory.h"
 #include "../libnoiseutils/GradientLegend.h"
 
 using namespace icosphere;
@@ -53,11 +52,11 @@ void QModule::changeBounds (const GeoDataLatLonBox& bounds) {
     _preview->setBounds (bounds);
 }
 
-void QModule::setHandle (QNEBlockHandle* h) {
+void QModule::setHandle (QNEBlock* h) {
     _handle = h;
 }
 
-QNEBlockHandle* QModule::handle() {
+QNEBlock* QModule::handle() {
     return _handle;
 }
 
@@ -113,11 +112,6 @@ void QModule::serialise (QDomDocument& doc) {
     positionElement.setAttribute ("x", handle() -> scenePos().x());
     _element.setAttribute ("type", moduleType());
 
-}
-
-void QModule::refresh () {
-    _model -> update();
-    std::cout << "update " << name ().toStdString () << "\n";
 }
 
 void QModule::invalidate() {

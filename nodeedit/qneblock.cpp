@@ -26,79 +26,55 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneblock.h"
 #include <QPainter>
 #include "Calenhad.h"
-#include <iostream>
+#include "../CalenhadServices.h"
+#include "../qmodule/QModule.h"
 
-QNEBlock::QNEBlock (ComponentProxyWidget* parent) : QGraphicsPathItem (parent) {
+
+QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem (parent), _module (module), _nameProxy (new QGraphicsProxyWidget()), _nameEdit (nullptr) {
 //-- : QGraphicsPathItem(parent) {
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
+
+        QPainterPath p;
+        QPolygonF polygon;
+
+
+        polygon = QRectF (0, 0, 32, 32);
+        setPen (QPen (CalenhadServices::preferences() -> calenhad_handle_text_color_normal, CalenhadServices::preferences() -> calenhad_port_border_weight));
+        setBrush (CalenhadServices::preferences() -> calenhad_handle_brush_color_normal);
+        p.addPolygon (polygon);
+        setPath (p);
+        setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
 }
 
-QNEPort* QNEBlock::addPort (const QString& name, int portType, int index) {
-    QNEPort* port = new QNEPort (portType, index, name);
-    return addPort (port);
-}
 
 QNEPort* QNEBlock::addPort (QNEPort* port) {
-    port -> setParentItem ((ComponentProxyWidget*) parentItem());
-    ((ComponentProxyWidget*) parentItem()) -> addPort (port);
-    port -> setBlock (this);
-    port -> initialise();
-    return port;
-}
+    port -> setParentItem (this);
 
-void QNEBlock::save (QDataStream& ds) {
-    ds << pos ();
+    int horzMargin = 20;
+    int vertMargin = 25;
+    QFontMetrics fm (scene() -> font());
+    int yInput = port -> radius();
+    int yOutput = yInput;
+    int w = fm.width (port -> portName());
+    int h = fm.height();
 
-    int count (0);
-    foreach(QGraphicsItem* port_, childItems ()) {
-        if (port_ -> type () != QNEPort::Type) {
-            continue;
-        }
-        count++;
-    }
-    ds << count;
-    foreach(QGraphicsItem* port_, childItems ()) {
-        if (port_ -> type () != QNEPort::Type) {
-            continue;
-        }
-
-        QNEPort* port = (QNEPort*) port_;
-        ds << (quint64) port;
-        ds << port -> portName ();
-        ds << port -> portType ();
-    }
-}
-
-void QNEBlock::load (QDataStream& ds, QMap<quint64, QNEPort*>& portMap) {
-    QPointF p;
-    ds >> p;
-    setPos (p);
-    int count;
-    ds >> count;
-    for (int i = 0; i < count; i++) {
-        QString name;
-        bool portType;
-        quint64 ptr;
-
-        ds >> ptr;
-        ds >> name;
-        ds >> portType;
-        portMap[ptr] = addPort (name, portType, ptr);
-    }
-}
-
-QNEBlock* QNEBlock::clone () {
-    QNEBlock* b = new QNEBlock (0);
-    this -> scene () -> addItem (b);
-            foreach(QGraphicsItem* port_, childItems ()) {
-            if (port_ -> type () == QNEPort::Type) {
+            foreach (QGraphicsItem* port_, childItems()) {
+            if (port_ -> type() == QNEPort::Type) {
                 QNEPort* port = (QNEPort*) port_;
-                b -> addPort (port -> portName (), port -> portType(), port -> ptr ());
+                if (port -> portType() == QNEPort::OutputPort) {
+                    port -> setPos (port -> radius (), yOutput + vertMargin);
+                    yOutput += h;
+                } else {
+                    port -> setPos ( - port -> radius (), yInput + vertMargin);
+                    yInput += h;
+                }
             }
         }
 
-    return b;
+    port -> setBlock (this);
+    port -> initialise();
+    return port;
 }
 
 QVector<QNEPort*> QNEBlock::ports() {
@@ -143,6 +119,34 @@ QVector<QNEPort*> QNEBlock::outputs() {
     return res;
 }
 
+
+void QNEBlock::editModuleName() {
+    if (! _nameEdit) {
+        createNameEditor ();
+        scene() -> addItem (_nameProxy);
+        _nameEdit -> setFixedHeight (16);
+    }
+    _nameProxy -> setPos (pos ().x () + 2, pos ().y () + 2);
+    QString name = _module -> name();
+    _nameEdit -> setText (name);
+    _nameEdit -> selectAll ();
+    _nameEdit -> setFocus();
+    _nameEdit -> show();
+}
+
+
+void QNEBlock::createNameEditor() {
+    _nameEdit = new QLineEdit();
+    _nameProxy -> setWidget (_nameEdit);
+    connect (_nameEdit, &QLineEdit::editingFinished, this, &QNEBlock::setName);
+}
+
+void QNEBlock::setName() {
+    _nameEdit -> hide();
+    _module -> setName (_nameEdit -> text());
+}
+
+
 QVector<QNEPort*> QNEBlock::controls() {
     QVector<QNEPort*> res;
             foreach (QGraphicsItem* port_, parentItem() -> childItems()) {
@@ -156,11 +160,51 @@ QVector<QNEPort*> QNEBlock::controls() {
     return res;
 }
 
-void QNEBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    // do not paint the item
+void QNEBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
+    QGraphicsItem::mouseMoveEvent (event);
+    if (_nameProxy) {
+        _nameProxy->setPos (pos ().x () + 2, pos ().y () + 2);
+    }
+}
+
+void QNEBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
+    setCursor (Qt::ClosedHandCursor);
+    QGraphicsItem::mousePressEvent (event);
 
 }
 
+void QNEBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
+    setCursor (Qt::OpenHandCursor);
+    QGraphicsItem::mouseReleaseEvent (event);
+}
+
+void QNEBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    QGraphicsPathItem::paint (painter, option);
+    QPen pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_handle_text_color_selected : CalenhadServices::preferences() -> calenhad_handle_text_color_normal);
+    QBrush brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_handle_brush_color_selected : CalenhadServices::preferences() -> calenhad_handle_brush_color_normal);
+    painter -> setBrush (brush);
+    QRect rect (38, 0, 38, 0);
+    rect.setWidth (rect.width() - 4);
+    rect.moveTo (5, 3);
+    painter -> drawText (rect, Qt::AlignLeft, _module -> name());
+}
+
 QRectF QNEBlock::boundingRect() const {
-    return parentItem() -> boundingRect ();
+    QRectF r = QGraphicsPathItem::boundingRect();
+        foreach (QGraphicsItem* port_, childItems ()) {
+            if (port_ -> type() == QNEPort::Type) {
+                r = r.united (port_ -> boundingRect());
+            }
+        }
+    return r;
+}
+
+
+
+QModule* QNEBlock::module () {
+    return _module;
+}
+
+void QNEBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
+    editModuleName();
 }

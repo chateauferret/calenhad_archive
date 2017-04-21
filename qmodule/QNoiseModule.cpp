@@ -143,7 +143,6 @@ double QNoiseModule::getLacunarity() {
 }
 
 void QNoiseModule::setLacunarity (const double& value) {
-    preserve();
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) { perlin -> SetLacunarity (value); }
     Billow* billow = dynamic_cast<Billow*> (_module);
@@ -166,7 +165,6 @@ double QNoiseModule::getPersistence () {
 }
 
 void QNoiseModule::setPersistence (const double& value) {
-    preserve();
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         perlin -> SetPersistence (value);
@@ -185,7 +183,6 @@ int QNoiseModule::getOctaveCount () {
 }
 
 void QNoiseModule::setOctaveCount (const int& value) {
-    preserve();
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         perlin -> SetOctaveCount (value);

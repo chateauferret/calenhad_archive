@@ -67,6 +67,7 @@ signals:
 protected:
 
     CalenhadModel* _model;
+    QDialog* _dialog;
     QString _name;
     QString _notes;
     QLineEdit* _nameEdit;

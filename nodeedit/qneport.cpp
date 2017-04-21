@@ -163,11 +163,11 @@ int QNEPort::index() {
 }
 
 QModule* QNEPort::module()  {
-    ComponentProxyWidget* cpw = ((ComponentProxyWidget*) _block -> parentItem());
-    return (QModule*) cpw -> widget();
+    QNEBlock* b = ((QNEBlock*) _block -> parentItem());
+    return (QModule*) b -> module();
 }
 
 void QNEPort::invalidateRenders() {
-    ComponentProxyWidget* cpw = ((ComponentProxyWidget*) _block -> parentItem());
-    ((QModule*) cpw -> widget()) -> invalidate();
+    QNEBlock* b = ((QNEBlock*) _block -> parentItem());
+    b -> module() -> invalidate();
 }

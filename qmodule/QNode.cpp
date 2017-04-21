@@ -22,7 +22,7 @@ QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitiali
 }
 
 QNode::~QNode () {
-
+    if (_dialog) { delete _dialog; }
 }
 
 void QNode::initialise() {
@@ -53,7 +53,8 @@ void QNode::initialise() {
     l -> setSpacing (0);
     l -> setMargin (5);
     l -> addWidget (_expander);
-    setLayout (l);
+    _dialog = new QDialog();
+    _dialog -> setLayout (l);
 
     _contentLayout = new QFormLayout();
     _content = new QWidget (QNode::_expander);
@@ -67,7 +68,6 @@ QString QNode::name() {
 
 void QNode::setName (const QString& name) {
     if (! (name.isNull()) && (name != _name)) {
-        preserve();
         _name = name;
         _nameEdit -> setText (name);
         update();

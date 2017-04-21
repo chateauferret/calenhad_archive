@@ -29,14 +29,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../actions/DeleteModuleCommand.h"
 #include "Calenhad.h"
 #include "qneblock.h"
-#include <iostream>
-
-#include "qneblockhandle.h"
 #include "qnetoolbox.h"
 #include "qneconnection.h"
-#include "../messagefactory.h"
-#include "../preferences.h"
-
 
 CalenhadController::CalenhadController (QObject* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 
@@ -213,14 +207,9 @@ QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
     else if (item -> type() == QNEConnection::Type) {
         return _connectionContextMenu;
     }
-    else if (item -> type() == QNEBlockHandle::Type) {
-        QNEBlockHandle* handle = (QNEBlockHandle*) item;
+    else if (item -> type() == QNEBlock::Type) {
+        QNEBlock* handle = (QNEBlock*) item;
         QModule* module = handle -> module();
-        return getContextMenu (module);
-    }
-    else if (item -> type() == ComponentProxyWidget::Type) {
-        ComponentProxyWidget* cpw = (ComponentProxyWidget*) item;
-        QModule* module = (QModule*) cpw -> widget();
         return getContextMenu (module);
     }
     else if (item -> type() == QNEPort::Type) {

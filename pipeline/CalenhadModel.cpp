@@ -8,7 +8,6 @@
 #include "../nodeedit/qneblock.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
-#include "../nodeedit/qneblockhandle.h"
 #include "../icosphere/icosphere.h"
 #include "../messagefactory.h"
 
@@ -303,20 +302,21 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     QModule* module = _moduleFactory.createModule (type, this);
     if (type != QString::null) {
-        ComponentProxyWidget* proxy = new ComponentProxyWidget ();
-        QNEBlockHandle* handle = new QNEBlockHandle (module);
-        proxy -> setWidget (module);
-        module -> setHandle (handle);
-        proxy -> setParentItem (handle);
-        QNEBlock* b = new QNEBlock (proxy);
-        handle -> setPos (initPos.x (), initPos.y ());
-        proxy -> setPos (0, 20);
-        addItem (handle);
-        setFocusItem (proxy);
-        module -> nextInFocusChain() -> setFocus ();
-        connect (module, &QNode::nameChanged, this, [=] () { handle -> refresh(); });
+//        ComponentProxyWidget* proxy = new ComponentProxyWidget ();
+//        QNEBlockHandle* handle = new QNEBlockHandle (module);
+//        proxy -> setWidget (module);
+//        module -> setHandle (handle);
+//        proxy -> setParentItem (handle);
+        QNEBlock* b = new QNEBlock (module);
+        addItem (b);
+        b -> setPos (initPos.x (), initPos.y ());
+//        proxy -> setPos (0, 20);
+
+//        setFocusItem (proxy);
+//        module -> nextInFocusChain() -> setFocus ();
+        connect (module, &QNode::nameChanged, this, [=] () { b -> update(); });
         for (QNEPort* port : module->ports ()) {
-            b->addPort (port);
+            b -> addPort (port);
         }
         module -> setModel (this);
         if (name.isNull () || name.isEmpty()) {
@@ -352,7 +352,7 @@ void CalenhadModel::deleteModule (QModule* module) {
     // remove the visible appartions from the display
 
     for (QGraphicsItem* item : items()) {
-        if (item -> type () == ComponentProxyWidget::Type && ((ComponentProxyWidget*) item) -> widget() == module) {
+        if (item -> type () == QNEBlock::Type && ((QNEBlock*) item) -> module() == module) {
             removeItem (item -> parentItem());
             delete item;
         }
@@ -374,7 +374,7 @@ QList<QModule*> CalenhadModel::modules() {
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
             if (type == QGraphicsItem::UserType + 5) {  // is a QNEBlockHandle
-                QNEBlockHandle* handle = (QNEBlockHandle*) item;
+                QNEBlock* handle = (QNEBlock*) item;
                 QModule* qm = handle -> module();
                 modules.append (qm);
             }

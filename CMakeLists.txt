@@ -28,8 +28,6 @@ set(SOURCE_FILES
         nodeedit/CalenhadController.h
         nodeedit/CalenhadController.cpp
         nodeedit/ui_qnemainwindow.h
-        nodeedit/qneblockhandle.cpp
-        nodeedit/qneblockhandle.h
         messagefactory.cpp
         messagefactory.h
         LegendService.h
@@ -39,8 +37,6 @@ set(SOURCE_FILES
         nodeedit/qnemessagebox.h
         nodeedit/CalenhadView.cpp
         nodeedit/CalenhadView.h
-        nodeedit/componentproxywidget.cpp
-        nodeedit/componentproxywidget.h
         nodeedit/qnetoolbox.cpp
         nodeedit/qnetoolbox.h
         pipeline/ModuleFactory.cpp

@@ -29,30 +29,43 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsItem>
 #include <QRectF>
 #include <QVector>
-#include "componentproxywidget.h"
+#include <QtWidgets/QLineEdit>
 
 class QNEPort;
+class QModule;
 
-class QNEBlock : public QGraphicsPathItem {
+class QNEBlock : public QObject, public QGraphicsPathItem {
+	Q_OBJECT
 public:
 	enum { Type = QGraphicsItem::UserType + 3 };
-    QNEBlock (ComponentProxyWidget *parent = 0);
-    QNEPort* addPort (const QString& name, int portType, int ptr);
+    QNEBlock (QModule* module, QGraphicsItem *parent = 0);
 	QNEPort* addPort (QNEPort* port);
 
-	void save(QDataStream&);
-	void load(QDataStream&, QMap<quint64, QNEPort*> &portMap);
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-	QNEBlock* clone();
 	QVector<QNEPort*> ports();
 	int type() const { return Type; }
 	QVector<QNEPort*> inputs();
 	QVector<QNEPort*> outputs();
     QVector<QNEPort*> controls();
     virtual QRectF boundingRect() const;
+public slots:
+    QModule* module();
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent (QGraphicsSceneMouseEvent* event) override;
+    void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) override;
 
 protected:
 	QVariant itemChange (GraphicsItemChange change, const QVariant &value);
+    QModule* _module;
+    QGraphicsProxyWidget* _nameProxy;
+    QRectF rect;
+    QLineEdit* _nameEdit;
+    void createNameEditor ();
+
+    void editModuleName ();
+
+    void setName ();
 
 };
 
