@@ -8,11 +8,11 @@
 #include <QtWidgets/QUndoCommand>
 #include <QtCore/QVariant>
 
-class QModule;
+class QNode;
 
 class ChangeModuleCommand : public QUndoCommand {
 public:
-    ChangeModuleCommand (QModule* module, const QString& property, const QVariant& oldValue, const QVariant& newValue);
+    ChangeModuleCommand (QNode* node, const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex = -1, const int& portType = -1);
     virtual ~ChangeModuleCommand();
     virtual void redo() override;
     virtual void undo() override;
@@ -20,8 +20,9 @@ public:
 protected:
     QString _property;
     QVariant _oldValue, _newValue;
-    QModule* _module;
-
+    QNode* _node;
+    int _portIndex;
+    int _portType;
 };
 
 

@@ -36,24 +36,32 @@ void QNode::initialise() {
     layout -> setSpacing (0);
     layout -> setMargin (5);
     about -> setLayout (layout);
-    _nameEdit = new QLineEdit();
-    connect (_nameEdit, SIGNAL (textChanged (const QString&)), this, SLOT (setName (const QString&)));
 
-    _nameEdit -> selectAll();
+    _nameEdit = new QLineEdit();
     layout -> addWidget (_nameEdit);
+
+    connect (_nameEdit, &QLineEdit::editingFinished, this, [=] () {
+        propertyChangeRequested ("name", _nameEdit -> text());
+    });
+    connect (this, &QNode::nameChanged, this, [=] () { _nameEdit -> setText (_name); });
 
     _notesEdit = new QTextEdit (about);
     _notesEdit -> setFixedHeight (100);
     layout -> addWidget (_notesEdit);
+
     connect (_notesEdit, &QTextEdit::textChanged, this, [=] () {
-        setNotes (_notesEdit -> document() -> toPlainText());
+        propertyChangeRequested ("notes", _notesEdit -> document() -> toPlainText());
     });
+    connect (this, &QNode::notesChanged, this, [=] () { _notesEdit -> setText (_notes); });
+
     addPanel ("About", about);
     QLayout* l = new QVBoxLayout();
     l -> setSpacing (0);
     l -> setMargin (5);
     l -> addWidget (_expander);
     _dialog = new QDialog();
+    _dialog -> setModal (false);
+    _dialog -> setWindowTitle (name());
     _dialog -> setLayout (l);
 
     _contentLayout = new QFormLayout();
@@ -78,7 +86,6 @@ void QNode::setName (const QString& name) {
 void QNode::setNotes (const QString& notes) {
     if (! notes.isNull()) {
         if (! (notes == _notesEdit -> toPlainText())) {
-            preserve();
             _notes = notes;
             _notesEdit -> setText (_notes);
         }
@@ -95,6 +102,7 @@ int QNode::addPanel (const QString& title, QWidget* widget) {
 }
 
 void QNode::addPort (QNEPort* port) {
+    std::cout << port -> portName ().toStdString () << "\n";
     _ports.append (port);
 }
 
@@ -118,70 +126,88 @@ bool QNode::isComplete() {
 }
 
 bool QNode::isRenderable() {
-    std::cout << "Is complete " << isComplete() << "\n";
     return isComplete();
     // other conditions to do
 }
 
 // Spin box which selects a libnoiseutils level value between -1 and 1
-QDoubleSpinBox* QNode::noiseValueParamControl (const QString& text) {
+QDoubleSpinBox* QNode::noiseValueParamControl (const QString& text, const QString& property) {
+    if (property == QString::null) { return noiseValueParamControl (text, propertyName (text)); }
     QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
     spin -> setRange (-1.0, 1.0);
     spin -> setSingleStep (0.1);
     spin -> setToolTip (text);
+    connect (spin, static_cast<void(QDoubleSpinBox::*)(double)> (&QDoubleSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
 
 // Spin box which selects an iteration or octave count between 1 and 12
-QSpinBox* QNode::countParameterControl (const QString& text) {
+QSpinBox* QNode::countParameterControl (const QString& text, const QString& property) {
+    if (property == QString::null) { return countParameterControl (text, propertyName (text)); }
     QSpinBox* spin = new QSpinBox (_content);
     spin -> setRange (1, 12);
     spin -> setToolTip (text);
+    connect (spin, static_cast<void(QSpinBox::*)(int)> (&QSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
 
 // Spin box which selects an angle between + / - 180 degrees
-QDoubleSpinBox* QNode::angleParameterControl (const QString& text) {
+QDoubleSpinBox* QNode::angleParameterControl (const QString& text, const QString& property) {
+    if (property == QString::null) { return angleParameterControl (text, propertyName (text)); }
     QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
     spin -> setRange (-179.0, 180.0);
     spin -> setSingleStep (1.0);
     spin -> setToolTip (text);
+    connect (spin, static_cast<void(QDoubleSpinBox::*)(double)> (&QDoubleSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
 
-QLogSpinBox* QNode::logParameterControl (const QString& text) {
-    return new QLogSpinBox (_content);
+QLogSpinBox* QNode::logParameterControl (const QString& text, const QString& property) {
+    if (property == QString::null) { return logParameterControl (text, propertyName (text)); }
+    QLogSpinBox* spin = new QLogSpinBox (_content);
+    connect (spin, static_cast<void(QDoubleSpinBox::*)(double)>  (&QDoubleSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
+    return spin;
 }
 
 void QNode::invalidate() {
     setEnabled (true);
-    emit nodeChanged ("inputs", 0);
+    emit nodeChanged();
 }
 
 void QNode::setModel (CalenhadModel* model) {
     if (! _model) {
         _model = model;
-        initialise();
-        emit nodeChanged ("model", 0);
+        emit nodeChanged();
     } else {
         std::cout << "Can't reassign module to another model";
     }
 }
 
+void QNode::showParameters (const bool& visible) {
+    if (visible) {
+        _dialog -> exec();
+    } else {
+        _dialog -> hide();
+    }
+}
+
 void QNode::inflate (const QDomElement& element) {
     _element = element;
-    QDomNodeList notesElements = element.elementsByTagName ("notes");
-    _notes = notesElements.isEmpty() ? QString() : notesElements.item(0).nodeValue();
+    QDomElement notesNode = element.firstChildElement ("name");
+    QString name = notesNode.text();
     QDomNodeList portNodes = element.elementsByTagName ("port");
     for (int i = 0; i < portNodes.count(); i++) {
         bool okIndex, okType;
         int portIndex = portNodes.at (i).attributes ().namedItem ("index").nodeValue ().toInt (&okIndex);
         int portType = portNodes.at (i).attributes ().namedItem ("type").nodeValue ().toInt (&okType);
-        QString name = portNodes.at (i).attributes ().namedItem ("name").nodeValue ();
+        QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
+        QString name = portNameNode.text();
         if (okIndex && okType) {
+            std::cout << "Inflate port " << name.toStdString () << "\n";
             for (QNEPort* p : _ports) {
-                if (p->index () == portIndex && p->type () == portType) {
-                    p->setName (name);
+                if (p -> index() == portIndex) {
+                    p -> setName (name);
+                    std::cout << "Assign port " << name.toStdString () << "\n";
                 }
             }
         } else {
@@ -210,8 +236,21 @@ void QNode::serialise (QDomDocument& doc) {
         QDomElement portElement = doc.createElement ("port");
         _element.appendChild (portElement);
         portElement.setAttribute ("index", p -> index());
-        portElement.setAttribute ("name", p -> portName());
         portElement.setAttribute ("type", p -> portType());
+        QDomElement portNameElement = doc.createElement ("name");
+        QDomText portNameText = doc.createTextNode (p -> portName());
+        portNameElement.appendChild (portNameText);
+        portElement.appendChild (portNameElement);
+    }
+}
+
+void QNode::propertyChangeRequested (const QString& p, const QVariant& value) {
+    if (_model && (property (p.toStdString ().c_str ()) != value)) {
+        ChangeModuleCommand* c = new ChangeModuleCommand (this, p, property (p.toStdString ().c_str ()), value);
+        if (_model) {
+            _model -> controller() -> doCommand (c);
+        }
+        _model -> update();
     }
 }
 
@@ -220,16 +259,26 @@ void QNode::showEvent (QShowEvent* event) {
     QWidget::showEvent (event);
 }
 
-QString QNode::preservedXml() {
-    return _preservedXml;
+CalenhadModel* QNode::model () {
+    return _model;
 }
 
-void QNode::preserve() {
-    if (_model) {
-        QDomDocument doc;
-        QDomElement root = doc.createElement ("model");
-        doc.appendChild (root);
-        serialise (doc);
-        _preservedXml = doc.toString ();
+QString QNode::propertyName (const QString& name) {
+    QString result;
+    QString text = name.trimmed();
+    for (int i = 0; i < text.size(); i++) {
+        if (i == 0) {
+            result = text.at (i).toLower();
+        } else {
+            if (text.at (i) != ' ') {
+                result += text.at (i);
+            } else {
+                i++;
+                result += text.at (i).toUpper();
+            }
+        }
     }
+    std::cout << name.toStdString () << " = " << result.toStdString () << "\n";
+    return result;
 }
+

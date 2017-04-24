@@ -51,20 +51,20 @@ double QTranslateModule::dZ() {
 
 void QTranslateModule::setDX (double value) {
     module() -> SetXTranslation (value);
-    emit (nodeChanged ("dX", value));
+    emit (nodeChanged());
     dXSpin -> setValue (value);
 }
 
 
 void QTranslateModule::setDY (double value) {
     module() -> SetYTranslation (value);
-    emit (nodeChanged ("dY", value));
+    emit (nodeChanged());
     dYSpin -> setValue (value);
 }
 
 void QTranslateModule::setDZ (double value) {
     module() -> SetZTranslation (value);
-    emit (nodeChanged ("xAngle", value));
+    emit (nodeChanged());
     dZSpin -> setValue (value);
 }
 

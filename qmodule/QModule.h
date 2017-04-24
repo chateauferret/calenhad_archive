@@ -70,6 +70,9 @@ protected:
     icosphere::Legend* _legend;
 
     bool _renderRequested;
+
+protected slots:
+    void setupPreview ();
 };
 
 

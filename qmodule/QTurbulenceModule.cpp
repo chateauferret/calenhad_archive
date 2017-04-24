@@ -53,19 +53,19 @@ double QTurbulenceModule::roughness() {
 
 void QTurbulenceModule::setFrequency (double value) {
     module() -> SetFrequency (value);
-    emit (nodeChanged ("getFrequency", value));
+    emit (nodeChanged());
     frequencySpin -> setValue (value);
 }
 
 void QTurbulenceModule::setPower (double value) {
     module() -> SetPower (value);
-    emit (nodeChanged ("power", value));
+    emit (nodeChanged());
     powerSpin -> setValue (value);
 }
 
 void QTurbulenceModule::setRoughness (double value) {
     module() -> SetRoughness (value);
-    emit (nodeChanged ("roughness", value));
+    emit (nodeChanged());
     roughnessSpin -> setValue (value);
 }
 

@@ -29,7 +29,7 @@ void QRangeModule::setLowerBound (double lowerBound) {
         lowerBoundSpin -> setValue (lowerBound);
         setBounds (lowerBound, upperBound());
         upperBoundSpin -> setMinimum (lowerBound + lowerBoundSpin -> singleStep());
-        emit QNode::nodeChanged ("lowerBound", lowerBound);
+        emit QNode::nodeChanged();
     }
 
 }
@@ -39,7 +39,7 @@ void QRangeModule::setUpperBound (double upperBound) {
         upperBoundSpin -> setValue (upperBound);
         setBounds (lowerBound(), upperBound);
         lowerBoundSpin -> setMaximum (upperBound - upperBoundSpin -> singleStep());
-        emit QNode::nodeChanged ("upperBound", upperBound);
+        emit QNode::nodeChanged();
     }
 }
 

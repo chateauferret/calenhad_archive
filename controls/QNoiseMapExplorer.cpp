@@ -47,10 +47,9 @@ QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, QModule* source, con
     connect (_mapWidget, SIGNAL (resized (const QSize&)), _layer, SLOT (rescale()));
     connect (&timer, SIGNAL (timeout()), this, SLOT (changeBounds()));
     connect (this, SIGNAL (boundsChanged  (const GeoDataLatLonBox&)), _source, SLOT (changeBounds (const GeoDataLatLonBox&)));
-    connect (_source, SIGNAL (nodeChanged (const QString&, const QVariant&)), this, SLOT (invalidate()));
+    connect (_source, SIGNAL (nodeChanged()), this, SLOT (invalidate()));
 
 }
-
 
 QNoiseMapExplorer::~QNoiseMapExplorer() {
     if (_mapWidget) { delete _mapWidget; }

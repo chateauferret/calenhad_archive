@@ -36,9 +36,8 @@ double QCylindersModule::frequency() {
 
 void QCylindersModule::setFrequency (double value) {
     if (value != module() -> GetFrequency()) {
-        preserve ();
         module ()->SetFrequency (value);
-        emit (nodeChanged ("getFrequency", value));
+        emit (nodeChanged());
         frequencySpin->setValue (value);
     }
 

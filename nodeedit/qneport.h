@@ -32,52 +32,54 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 class QNEBlock;
 class QNEConnection;
 class QModule;
+class EditableLabel;
 
-class QNEPort : public QGraphicsPathItem
-{
+class QNEPort : public QObject, public QGraphicsPathItem {
+    Q_OBJECT
 public:
 	enum { Type = QGraphicsItem::UserType + 1 };
 	enum { ControlPort = 0, InputPort = 1, OutputPort = 2 };
 
-    QNEPort (int type, int index, const QString& name, QGraphicsItem *parent = 0);
+    QNEPort (int type, int index, const QString& name, QNEBlock *parent = 0);
 	~QNEPort();
 
 	void setBlock (QNEBlock*);
-	void setName (const QString &n);
-	void setPortType (const unsigned& o);
+
 	int index();
 	int radius();
 	QVector<QNEConnection*>& connections();
 	void initialise ();
-	const QString& portName() const { return _name; }
+	QString& portName();
 	int portType() const { return _portType; }
 	bool hasConnection();
 	int type() const { return Type; }
 	QNEBlock* block() const;
 
-	quint64 ptr();
-	void setPtr (quint64);
-
     virtual QRectF boundingRect() const;
 	bool isConnected (QNEPort*);
 	QModule* module ();
 	void invalidateRenders ();
+
+    Q_PROPERTY (QString name READ portName WRITE setName MEMBER _portName);
+
+public slots:
+    void setName (const QString &n);
+	void nameChangeRequested (const QString& value);
+
 protected:
 	QVariant itemChange (GraphicsItemChange change, const QVariant &value);
 
 private:
 	QNEBlock *_block;
-	QString _name;
+	QString _portName;
 	bool isOutput_;
-	QGraphicsTextItem *_label = nullptr;
+	EditableLabel*_label = nullptr;
 	int _radius;
 	int _margin;
 	QVector<QNEConnection*> m_connections;
 	int _portType;
 	int _index;
 	quint64 _ptr;
-
-
 
 };
 

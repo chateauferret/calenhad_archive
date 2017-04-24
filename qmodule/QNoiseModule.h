@@ -32,33 +32,20 @@ public:
 
 
     // properties
-    Q_PROPERTY (double frequency READ getFrequency WRITE setFrequency NOTIFY frequencyChanged);
-    Q_PROPERTY (double lacunarity READ getLacunarity WRITE setLacunarity NOTIFY lacunarityChanged);
-    Q_PROPERTY (double persistence READ getPersistence WRITE setPersistence NOTIFY persistenceChanged);
-    Q_PROPERTY (int octaveCount READ getOctaveCount WRITE setOctaveCount NOTIFY octaveCountChanged);
+    Q_PROPERTY (double frequency READ getFrequency WRITE setFrequency);
+    Q_PROPERTY (double lacunarity READ getLacunarity WRITE setLacunarity);
+    Q_PROPERTY (double persistence READ getPersistence WRITE setPersistence);
+    Q_PROPERTY (int octaveCount READ getOctaveCount WRITE setOctaveCount);
 
 
 public slots:
-    void frequencyChangeRequested (const double& value);
-    void lacunarityChangeRequested (const double& value);
-    void persistenceChangeRequested (const double& value);
-    void octaveCountChangeRequested (const int& value);
-
-
     void setFrequency (const double& value);
     void setLacunarity (const double& value);
     void setPersistence (const double& value);
     void setOctaveCount (const int& value);
 
-signals:
-    void frequencyChanged (const double&);
-    void lacunarityChanged (const double&);
-    void persistenceChanged (const double&);
-    void octaveCountChanged (const int&);
-
 protected:
-    QDoubleSpinBox* persistenceSpin = nullptr;
-    QDoubleSpinBox* frequencySpin, * lacunaritySpin;
+    QDoubleSpinBox* persistenceSpin, * frequencySpin, * lacunaritySpin;
     QSpinBox* octaveSpin;
     QNoiseModule (noise::module::Module* m, QWidget* parent = 0);
     static QNoiseModule* newInstance  (Module* m);

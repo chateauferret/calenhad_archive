@@ -52,20 +52,20 @@ bool QVoronoiModule::enableDistance() {
 
 void QVoronoiModule::setFrequency (double value) {
     module() -> SetFrequency (value);
-    emit (nodeChanged ("getFrequency", value));
+    emit (nodeChanged());
     frequencySpin -> setValue (value);
 }
 
 
 void QVoronoiModule::setDisplacement (double value) {
     module() -> SetDisplacement (value);
-    emit (nodeChanged ("power", value));
+    emit (nodeChanged());
     displacementSpin -> setValue (value);
 }
 
 void QVoronoiModule::setEnableDistance (bool value) {
     module() -> EnableDistance (value);
-    emit (nodeChanged ("roughness", value));
+    emit (nodeChanged());
     enableDistanceCheck -> setChecked (value);
 }
 

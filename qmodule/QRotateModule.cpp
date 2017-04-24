@@ -52,19 +52,19 @@ double QRotateModule::zAngle() {
 
 void QRotateModule::setXAngle (double value) {
     module() -> SetXAngle (value);
-    emit (nodeChanged ("xAngle", value));
+    emit (nodeChanged());
     xAngleSpin -> setValue (value);
 }
 
 void QRotateModule::setYAngle (double value) {
     module() -> SetYAngle (value);
-    emit (nodeChanged ("yAngle", value));
+    emit (nodeChanged());
     yAngleSpin -> setValue (value);
 }
 
 void QRotateModule::setZAngle (double value) {
     module() -> SetZAngle (value);
-    emit (nodeChanged ("zAngle", value));
+    emit (nodeChanged());
     zAngleSpin -> setValue (value);
     return;
 }

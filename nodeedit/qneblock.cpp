@@ -26,51 +26,78 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneblock.h"
 #include <QPainter>
 #include "Calenhad.h"
-#include "../CalenhadServices.h"
 #include "../qmodule/QModule.h"
+#include "EditableLabel.h"
 
 
-QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem (parent), _module (module), _nameProxy (new QGraphicsProxyWidget()), _nameEdit (nullptr) {
-//-- : QGraphicsPathItem(parent) {
+QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem (parent), _module (module), _label (nullptr) {
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
 
-        QPainterPath p;
-        QPolygonF polygon;
+    // shape of the block's body
+    QPainterPath p;
+    QPolygonF polygon;
+    polygon = QRectF (0, 0, 32, 32);
+    setPen (QPen (CalenhadServices::preferences() -> calenhad_handle_text_color_normal, CalenhadServices::preferences() -> calenhad_port_border_weight));
+    setBrush (CalenhadServices::preferences() -> calenhad_handle_brush_color_normal);
+    p.addPolygon (polygon);
+    setPath (p);
+    setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
+    setCursor (Qt::OpenHandCursor);
 
+    // name label
+    _label = new EditableLabel (this);
+    _label -> setText (_module -> name());
+    _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_handle_text_color_normal);
+    _label -> setPos (16 - (_label -> boundingRect().width() / 2 ), 38);
 
-        polygon = QRectF (0, 0, 32, 32);
-        setPen (QPen (CalenhadServices::preferences() -> calenhad_handle_text_color_normal, CalenhadServices::preferences() -> calenhad_port_border_weight));
-        setBrush (CalenhadServices::preferences() -> calenhad_handle_brush_color_normal);
-        p.addPolygon (polygon);
-        setPath (p);
-        setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
+    connect (_label, &EditableLabel::textEdited, this, [=] () {
+        if (_module -> name() != _label -> toPlainText()) {
+            _module->propertyChangeRequested ("name", _label->toPlainText ());
+        }
+    });
+    connect (_module, &QNode::nameChanged, this, [=] () { _label -> setText (_module -> name()); });
+
 }
 
+void QNEBlock::initialise() {
+
+}
+
+void QNEBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    Q_UNUSED (option)
+
+    _brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_handle_brush_color_selected : CalenhadServices::preferences() -> calenhad_handle_brush_color_normal);
+    painter -> setBrush (_brush);
+    _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_handle_text_color_selected : CalenhadServices::preferences() -> calenhad_handle_text_color_normal);
+    painter -> setPen (_pen);
+
+
+    painter -> drawPath (path());
+
+}
 
 QNEPort* QNEBlock::addPort (QNEPort* port) {
     port -> setParentItem (this);
 
-    int horzMargin = 20;
-    int vertMargin = 25;
+    int vertMargin = 2;
     QFontMetrics fm (scene() -> font());
     int yInput = port -> radius();
     int yOutput = yInput;
     int w = fm.width (port -> portName());
     int h = fm.height();
-
-            foreach (QGraphicsItem* port_, childItems()) {
-            if (port_ -> type() == QNEPort::Type) {
-                QNEPort* port = (QNEPort*) port_;
-                if (port -> portType() == QNEPort::OutputPort) {
-                    port -> setPos (port -> radius (), yOutput + vertMargin);
-                    yOutput += h;
-                } else {
-                    port -> setPos ( - port -> radius (), yInput + vertMargin);
-                    yInput += h;
-                }
+    foreach (QGraphicsItem* port_, childItems()) {
+        if (port_->type () == QNEPort::Type) {
+            QNEPort* port = (QNEPort*) port_;
+            if (port -> portType () == QNEPort::OutputPort) {
+                port -> setPos (32 + port -> radius (), yOutput + vertMargin);
+                yOutput += h;
+            } else {
+                port -> setPos (-port -> radius (), yInput + vertMargin);
+                yInput += h;
             }
         }
+    }
 
     port -> setBlock (this);
     port -> initialise();
@@ -94,8 +121,7 @@ QVariant QNEBlock::itemChange (GraphicsItemChange change, const QVariant& value)
 
 QVector<QNEPort*> QNEBlock::inputs() {
     QVector<QNEPort*> res;
-            QGraphicsItem* p = parentItem();
-            foreach (QGraphicsItem* port_, parentItem() -> childItems()) {
+            foreach (QGraphicsItem* port_, childItems()) {
             if (port_ -> type() == QNEPort::Type) {
                 QNEPort* port = (QNEPort*) port_;
                 if (port -> portType() != QNEPort::InputPort) {
@@ -108,7 +134,7 @@ QVector<QNEPort*> QNEBlock::inputs() {
 
 QVector<QNEPort*> QNEBlock::outputs() {
     QVector<QNEPort*> res;
-            foreach (QGraphicsItem* port_, parentItem() -> childItems()) {
+            foreach (QGraphicsItem* port_, childItems()) {
             if (port_ -> type () == QNEPort::Type) {
                 QNEPort* port = (QNEPort*) port_;
                 if (port -> portType() != QNEPort::OutputPort) {
@@ -118,34 +144,6 @@ QVector<QNEPort*> QNEBlock::outputs() {
         }
     return res;
 }
-
-
-void QNEBlock::editModuleName() {
-    if (! _nameEdit) {
-        createNameEditor ();
-        scene() -> addItem (_nameProxy);
-        _nameEdit -> setFixedHeight (16);
-    }
-    _nameProxy -> setPos (pos ().x () + 2, pos ().y () + 2);
-    QString name = _module -> name();
-    _nameEdit -> setText (name);
-    _nameEdit -> selectAll ();
-    _nameEdit -> setFocus();
-    _nameEdit -> show();
-}
-
-
-void QNEBlock::createNameEditor() {
-    _nameEdit = new QLineEdit();
-    _nameProxy -> setWidget (_nameEdit);
-    connect (_nameEdit, &QLineEdit::editingFinished, this, &QNEBlock::setName);
-}
-
-void QNEBlock::setName() {
-    _nameEdit -> hide();
-    _module -> setName (_nameEdit -> text());
-}
-
 
 QVector<QNEPort*> QNEBlock::controls() {
     QVector<QNEPort*> res;
@@ -161,10 +159,14 @@ QVector<QNEPort*> QNEBlock::controls() {
 }
 
 void QNEBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
+
     QGraphicsItem::mouseMoveEvent (event);
-    if (_nameProxy) {
-        _nameProxy->setPos (pos ().x () + 2, pos ().y () + 2);
+    if (event->buttons() | Qt::LeftButton) {
+        setCursor (Qt::ClosedHandCursor);
+    } else {
+        setCursor (Qt::OpenHandCursor);
     }
+    event -> accept();
 }
 
 void QNEBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
@@ -178,17 +180,6 @@ void QNEBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     QGraphicsItem::mouseReleaseEvent (event);
 }
 
-void QNEBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    QGraphicsPathItem::paint (painter, option);
-    QPen pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_handle_text_color_selected : CalenhadServices::preferences() -> calenhad_handle_text_color_normal);
-    QBrush brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_handle_brush_color_selected : CalenhadServices::preferences() -> calenhad_handle_brush_color_normal);
-    painter -> setBrush (brush);
-    QRect rect (38, 0, 38, 0);
-    rect.setWidth (rect.width() - 4);
-    rect.moveTo (5, 3);
-    painter -> drawText (rect, Qt::AlignLeft, _module -> name());
-}
-
 QRectF QNEBlock::boundingRect() const {
     QRectF r = QGraphicsPathItem::boundingRect();
         foreach (QGraphicsItem* port_, childItems ()) {
@@ -196,15 +187,20 @@ QRectF QNEBlock::boundingRect() const {
                 r = r.united (port_ -> boundingRect());
             }
         }
+    r = r.united (_label -> boundingRect());
     return r;
 }
-
-
 
 QModule* QNEBlock::module () {
     return _module;
 }
 
 void QNEBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
-    editModuleName();
+    _module -> showParameters (true);
+}
+
+void QNEBlock::moduleChanged () {
+    _label -> setPlainText (_module -> name());
+    _label -> setPos (32 - (_label -> boundingRect().width() / 2 ), 38);
+    _module -> invalidate();
 }

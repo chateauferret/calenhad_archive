@@ -51,20 +51,20 @@ double QScaleModule::scaleZ() {
 
 void QScaleModule::setScaleX (double value) {
     module() -> SetXScale (value);
-    emit (nodeChanged ("dX", value));
+    emit (nodeChanged());
     scaleXSpin -> setValue (value);
 }
 
 
 void QScaleModule::setScaleY (double value) {
     module() -> SetYScale (value);
-    emit (nodeChanged ("dY", value));
+    emit (nodeChanged());
     scaleYSpin -> setValue (value);
 }
 
 void QScaleModule::setScaleZ (double value) {
     module() -> SetZScale (value);
-    emit (nodeChanged ("xAngle", value));
+    emit (nodeChanged());
     scaleZSpin -> setValue (value);
 }
 

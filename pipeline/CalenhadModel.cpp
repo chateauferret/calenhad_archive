@@ -7,10 +7,7 @@
 #include "../nodeedit/qneconnection.h"
 #include "../nodeedit/qneblock.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
 #include "../icosphere/icosphere.h"
-#include "../messagefactory.h"
-
 
 using namespace icosphere;
 
@@ -23,7 +20,6 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _date (QDateTime::currentDateTime()),
     _controller (nullptr) {
     installEventFilter (this);
-
 }
 
 // determine whether connection from given input to given output is allowed
@@ -302,19 +298,12 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     QModule* module = _moduleFactory.createModule (type, this);
     if (type != QString::null) {
-//        ComponentProxyWidget* proxy = new ComponentProxyWidget ();
-//        QNEBlockHandle* handle = new QNEBlockHandle (module);
-//        proxy -> setWidget (module);
-//        module -> setHandle (handle);
-//        proxy -> setParentItem (handle);
         QNEBlock* b = new QNEBlock (module);
+        module -> setHandle (b);
         addItem (b);
         b -> setPos (initPos.x (), initPos.y ());
-//        proxy -> setPos (0, 20);
-
-//        setFocusItem (proxy);
-//        module -> nextInFocusChain() -> setFocus ();
-        connect (module, &QNode::nameChanged, this, [=] () { b -> update(); });
+        b -> initialise();
+        connect (module, &QNode::nameChanged, b, &QNEBlock::moduleChanged);
         for (QNEPort* port : module->ports ()) {
             b -> addPort (port);
         }
@@ -373,7 +362,7 @@ QList<QModule*> CalenhadModel::modules() {
     QList<QModule*> modules;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
-            if (type == QGraphicsItem::UserType + 5) {  // is a QNEBlockHandle
+            if (type == QGraphicsItem::UserType + 3) {  // is a QNEBlock
                 QNEBlock* handle = (QNEBlock*) item;
                 QModule* qm = handle -> module();
                 modules.append (qm);

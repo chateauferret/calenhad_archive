@@ -33,6 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 class QNEPort;
 class QModule;
+class EditableLabel;
 
 class QNEBlock : public QObject, public QGraphicsPathItem {
 	Q_OBJECT
@@ -41,32 +42,30 @@ public:
     QNEBlock (QModule* module, QGraphicsItem *parent = 0);
 	QNEPort* addPort (QNEPort* port);
 
-	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+	void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 	QVector<QNEPort*> ports();
 	int type() const { return Type; }
 	QVector<QNEPort*> inputs();
 	QVector<QNEPort*> outputs();
     QVector<QNEPort*> controls();
     virtual QRectF boundingRect() const;
-public slots:
+    void initialise();
     QModule* module();
+
+public slots:
+    void moduleChanged();
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent (QGraphicsSceneMouseEvent* event) override;
     void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) override;
+    //void showParameters ();
 
 protected:
 	QVariant itemChange (GraphicsItemChange change, const QVariant &value);
     QModule* _module;
-    QGraphicsProxyWidget* _nameProxy;
-    QRectF rect;
-    QLineEdit* _nameEdit;
-    void createNameEditor ();
-
-    void editModuleName ();
-
-    void setName ();
-
+    EditableLabel* _label;
+    QBrush _brush;
+    QPen _pen;
 };
 
 #endif // QNEBLOCK_H

@@ -34,12 +34,12 @@ void QIcosphereMap::initialise() {
     setBounds (_bounds);
     setIcosphereDepth (_depth);
 
-    emit nodeChanged ("Initialised", 0);
+    emit nodeChanged();
 }
 
 
 void QIcosphereMap::generateMap() {
-    emit nodeChanged ("Generating", 0);
+    //emit nodeChanged();
     IcosphereMap* map = new IcosphereMap();
     _module = map;
     QNEPort* port = _ports [0];
@@ -92,7 +92,7 @@ void QIcosphereMap::setIcosphereDepth (const unsigned& depth) {
         if (_depthSpin -> value () != depth) {
             _depthSpin -> setValue (depth);
         }
-        emit nodeChanged ("Depth", depth);
+        emit nodeChanged();
     }
 }
 
@@ -101,13 +101,13 @@ void QIcosphereMap::icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosph
         _icosphere = icosphere;
     }
     _vertexCountLabel -> setText (QString::number (_icosphere -> vertexCount ()) + " vertices generated");
-    emit nodeChanged ("Updated", 0);
+    emit nodeChanged();
 }
 
 void QIcosphereMap::setBounds (const icosphere::Bounds& bounds) {
     _bounds = bounds;
     generateMap();
-    emit nodeChanged ("Bounds", 0);
+    emit nodeChanged();
 }
 
 

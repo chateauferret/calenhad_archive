@@ -74,7 +74,7 @@ void QAltitudeMap::editAltitudeMap() {
 // retrieve parameters from the curve editing dialog: control points and curve type (function)
 // based on those assign the relevant module and set tbe control points on it,
 void QAltitudeMap::updateEntries() {
-    preserve();
+
     CurveType curveType = _editor -> curveType();
     _module = _modules.find (curveType).value();
     clearMap();
@@ -83,7 +83,7 @@ void QAltitudeMap::updateEntries() {
     for (QPointF point : entries) {
         addEntry (point.x (), point.y ());
     }
-    emit nodeChanged ("entries", entries.size ());
+    emit nodeChanged();
     editingFinished();
 }
 
@@ -152,7 +152,7 @@ void QAltitudeMap::resetMap () {
     addEntry (0.0, 0.0);
     addEntry (-0.5, -0.5);
     addEntry (0.5, 0.5);
-    emit nodeChanged ("entries", 2);
+    emit nodeChanged();
 }
 
 void QAltitudeMap::clearMap() {

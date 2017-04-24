@@ -26,22 +26,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneport.h"
 #include "qneblock.h"
 #include <QGraphicsScene>
-#include <QFontMetrics>
+#include "EditableLabel.h"
 #include "qneconnection.h"
 #include "../CalenhadServices.h"
 #include "../qmodule/QModule.h"
+#include "../actions/ChangeModuleCommand.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/CalenhadController.h"
 
-QNEPort::QNEPort (int type, int index, const QString& name, QGraphicsItem* parent) :
+QNEPort::QNEPort (int type, int index, const QString& name, QNEBlock* parent) :
         QGraphicsPathItem (parent),
         _radius (CalenhadServices::preferences() -> calenhad_port_radius),
         _margin (CalenhadServices::preferences() -> calenhad_port_margin),
         _index (index),
         _portType (type),
-        _name (name) {
+        _portName (name) {
 
     QPainterPath p;
     QPolygonF polygon;
-
+    _label = new EditableLabel (this);
+    _label->setDefaultTextColor (CalenhadServices::preferences ()->calenhad_port_text_color);
+    connect (_label, SIGNAL (textEdited (const QString&)), this, SLOT (nameChangeRequested (const QString&)));
 
     if (type == OutputPort) {
         polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);
@@ -72,20 +77,22 @@ void QNEPort::setBlock (QNEBlock* b) {
     _block = b;
 }
 
-void QNEPort::setName (const QString& n) {
-    if (! (_label)) {
-        _label = new QGraphicsTextItem (this);
+void QNEPort::nameChangeRequested (const QString& value) {
+    if (portName() != value) {
+        ChangeModuleCommand* c = new ChangeModuleCommand (module(), "name", portName (), value, _index, _portType);
+        CalenhadModel* model = module() -> model();
+        if (model) {
+            model -> controller() -> doCommand (c);
+        }
     }
-    _name = n;
-    _label -> setPlainText (n);
-    _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_port_text_color);
 }
 
+void QNEPort::setName (const QString& n) {
+    _portName = n;
 
-void QNEPort::setPortType (const unsigned& o) {
-    _portType = o;
-    if (scene ()) {
-        initialise ();
+    // if we are setting the name from outside, we need to update the display too
+    if (_label -> toPlainText() != n) {
+        _label -> setText (n);
     }
 }
 
@@ -97,17 +104,8 @@ QVector<QNEConnection*>& QNEPort::connections () {
     return m_connections;
 }
 
-
 QNEBlock* QNEPort::block () const {
     return _block;
-}
-
-quint64 QNEPort::ptr () {
-    return _ptr;
-}
-
-void QNEPort::setPtr (quint64 p) {
-    _ptr = p;
 }
 
 bool QNEPort::isConnected (QNEPort* other) {
@@ -130,23 +128,13 @@ QVariant QNEPort::itemChange (GraphicsItemChange change, const QVariant& value) 
 }
 
 void QNEPort::initialise () {
-    QGraphicsScene* s = scene();
-    if (s) {
-        QFontMetrics fm (scene ()->font ());
-        QRect r = fm.boundingRect (_name);
-        if (!(_label)) {
-            _label = new QGraphicsTextItem (this);
-        }
-
-        _label->setPlainText (_name);
-
-        _label->setDefaultTextColor (CalenhadServices::preferences() -> calenhad_port_text_color);
+        _label -> setPlainText (_portName);
+        _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_port_text_color);
         if (_portType == OutputPort) {
-            _label->setPos (_radius, -2 * (_radius + 1));
+            _label -> setPos (_radius, -2 * (_radius + 1));
         } else {
-            _label->setPos (-(_label->boundingRect ().width () + 4), -2 * (_radius + 1));
+            _label -> setPos (-(_label -> boundingRect ().width () + 4), -2 * (_radius + 1));
         }
-    }
 }
 
 bool QNEPort::hasConnection() {
@@ -154,7 +142,7 @@ bool QNEPort::hasConnection() {
 }
 
 QRectF QNEPort::boundingRect() const {
-    QRectF r = QRectF (-(_radius + 5), -(_radius + 5),  2 * (_radius + 5), 2 * (_radius + 5));
+    QRectF r = QRectF (- (_radius + 5), -(_radius + 5),  2 * (_radius + 5), 2 * (_radius + 5));
     return  r;
 }
 
@@ -163,11 +151,14 @@ int QNEPort::index() {
 }
 
 QModule* QNEPort::module()  {
-    QNEBlock* b = ((QNEBlock*) _block -> parentItem());
-    return (QModule*) b -> module();
+    return _block -> module();
 }
 
 void QNEPort::invalidateRenders() {
-    QNEBlock* b = ((QNEBlock*) _block -> parentItem());
-    b -> module() -> invalidate();
+    _block -> module() -> invalidate();
+}
+
+QString& QNEPort::portName() {
+    std::cout << _portName.toStdString () << "\n";
+    return _portName;
 }

@@ -36,7 +36,7 @@ double QExponentModule::exponent() {
 
 void QExponentModule::setExponent (double value) {
     module() -> SetExponent (value);
-    emit (nodeChanged ("exponent", value));
+    emit (nodeChanged());
     exponentSpin -> setValue (value);
 }
 

@@ -25,10 +25,9 @@ void QConstModule::initialise() {
 }
 
 void QConstModule::setConstValue (double value) {
-    preserve();
     module() -> SetConstValue (value);
     constValueSpin -> setValue (value);
-    emit nodeChanged ("constValue", value);
+    emit nodeChanged();
 }
 
 double QConstModule::constValue () {

@@ -47,7 +47,7 @@ void QSelectModule::setBounds (double lowerBound, double upperBound) {
 
 void QSelectModule::setFalloff (double value) {
     module() -> SetEdgeFalloff (value);
-    emit (nodeChanged ("falloff", value));
+    emit (nodeChanged());
     falloffSpin -> setValue (value);
 }
 

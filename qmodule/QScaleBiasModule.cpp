@@ -43,13 +43,13 @@ double QScaleBiasModule::bias() {
 
 void QScaleBiasModule::setScale (double value) {
     module() -> SetScale (value);
-    emit (nodeChanged ("scale", value));
+    emit (nodeChanged());
     scaleSpin -> setValue (value);
 }
 
 void QScaleBiasModule::setBias (double value) {
     module() -> SetBias (value);
-    emit (nodeChanged ("bias", value));
+    emit (nodeChanged());
     biasSpin -> setValue (value);
 }
 

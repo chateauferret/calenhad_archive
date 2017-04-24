@@ -49,7 +49,6 @@ double QClampModule::lowerBound() {
 }
 
 void QClampModule::setBounds (double lowerBound, double upperBound) {
-    preserve();
     module() -> SetBounds (lowerBound, upperBound);
 }
 

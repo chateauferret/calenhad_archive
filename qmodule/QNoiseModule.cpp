@@ -29,25 +29,23 @@ void QNoiseModule::initialise() {
     frequencySpin = logParameterControl ("Frequency");
     frequencySpin -> setValue (getFrequency());
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
-    connect (frequencySpin, SIGNAL (valueChanged (const double&)), this, SLOT (frequencyChangeRequested (const double&)));
 
     lacunaritySpin = logParameterControl ("Lacunarity");
     lacunaritySpin -> setValue (getLacunarity());
     _contentLayout -> addRow (tr ("Lacunarity"), lacunaritySpin);
-    connect (lacunaritySpin, SIGNAL (valueChanged (const double&)), this, SLOT (lacunarityChangeRequested (const double&)));
+
 
     if (hasPersistence()) {
         persistenceSpin = logParameterControl ("Persistence");
         persistenceSpin -> setValue (getPersistence());
         _contentLayout -> addRow (tr ("Persistence"), persistenceSpin);
-        connect (persistenceSpin, SIGNAL (valueChanged (const double&)), this, SLOT (persistenceChangeRequested (const double&)));
+
     }
 
     octaveSpin = countParameterControl ("Number of octaves");
     octaveSpin -> setValue (getOctaveCount());
-    connect (octaveSpin, SIGNAL (valueChanged (const int&)), this, SLOT (octaveCountChangeRequested (const int&)));
+
     _contentLayout -> addRow (tr ("Octaves"), octaveSpin);
-    _isInitialised = true;
 
     setFrequency (getFrequency ());
     setLacunarity (getLacunarity ());
@@ -55,44 +53,6 @@ void QNoiseModule::initialise() {
     setPersistence (getPersistence ());
 
     emit initialised();
-}
-
-void QNoiseModule::frequencyChangeRequested (const double& value) {
-    if (_model && (getFrequency () != value)) {
-        ChangeModuleCommand* c = new ChangeModuleCommand (this, "frequency", getFrequency (), value);
-        if (_model) {
-            _model->controller() -> doCommand (c);
-        }
-    }
-    frequencySpin -> setValue (value);
-    _model -> update();
-}
-
-void QNoiseModule::lacunarityChangeRequested (const double& value) {
-    if (_model && (getLacunarity () != value)) {
-        ChangeModuleCommand* c = new ChangeModuleCommand (this, "lacunarity", getLacunarity (), value);
-        if (_model) {
-            _model->controller() -> doCommand (c);
-        }
-    }
-}
-
-void QNoiseModule::persistenceChangeRequested (const double& value) {
-    if (_model && (getPersistence () != value)) {
-        ChangeModuleCommand* c = new ChangeModuleCommand (this, "persistence", getPersistence (), value);
-        if (_model) {
-            _model->controller() -> doCommand (c);
-        }
-    }
-}
-
-void QNoiseModule::octaveCountChangeRequested (const int& value) {
-    if (_model && (getOctaveCount() != value)) {
-        ChangeModuleCommand* c = new ChangeModuleCommand (this, "octaveCount", getOctaveCount (), value);
-        if (_model) {
-            _model->controller() -> doCommand (c);
-        }
-    }
 }
 
 double QNoiseModule::getFrequency () {
@@ -119,11 +79,10 @@ void QNoiseModule::setFrequency (const double& value) {
     RidgedMulti* rm = dynamic_cast<RidgedMulti*> (_module);
     if (rm) { rm -> SetFrequency (value); }
     if (perlin || billow || rm) {
-        emit (nodeChanged ("getFrequency", value));
-        //frequencySpin -> setValue (value);
-        std::cout << "Set value " << value << "\n";
-        return;
+        emit (nodeChanged());
+        frequencySpin -> setValue (value);
     }
+
 }
 
 double QNoiseModule::getLacunarity() {
@@ -150,9 +109,8 @@ void QNoiseModule::setLacunarity (const double& value) {
     RidgedMulti* rm = dynamic_cast<RidgedMulti*> (_module);
     if (rm) { rm -> SetLacunarity (value); }
     if (perlin || billow || rm) {
-        emit (nodeChanged ("getLacunarity", value));
-        //lacunaritySpin -> setValue (value);
-        return;
+        emit (nodeChanged());
+        lacunaritySpin -> setValue (value);
     }
 }
 
@@ -169,7 +127,8 @@ void QNoiseModule::setPersistence (const double& value) {
     if (perlin) {
         perlin -> SetPersistence (value);
         //persistenceSpin -> setValue (value);
-        emit (nodeChanged ("getPersistence", value));
+        emit (nodeChanged());
+        persistenceSpin -> setValue (value);
         return;
     }
 }
@@ -187,7 +146,8 @@ void QNoiseModule::setOctaveCount (const int& value) {
     if (perlin) {
         perlin -> SetOctaveCount (value);
         //octaveSpin -> setValue (value);
-        emit (nodeChanged ("getOctaveCount", value));
+        emit (nodeChanged());
+        octaveSpin -> setValue (value);
         return;
     }
 }
@@ -254,27 +214,27 @@ void QNoiseModule::inflate (const QDomElement& element) {
     QModule::inflate (element);
     bool ok;
 
-    double frequency = _model -> readParameter (element, "getFrequency").toDouble (&ok);
+    double frequency = _model -> readParameter (element, "frequency").toDouble (&ok);
     if (ok) { setFrequency (frequency); }
 
-    double lacunarity = _model -> readParameter (element, "getLacunarity").toDouble (&ok);
+    double lacunarity = _model -> readParameter (element, "lacunarity").toDouble (&ok);
     if (ok) { setLacunarity (lacunarity); }
 
     int octaves = _model -> readParameter (element, "octaves").toInt (&ok);
     if (ok) { setOctaveCount (octaves); }
 
     if (hasPersistence()) {
-        double persistence = _model -> readParameter (element, "getPersistence").toDouble (&ok);
+        double persistence = _model -> readParameter (element, "persistence").toDouble (&ok);
         if (ok) { setPersistence (persistence); }
     }
 }
 
 void QNoiseModule::serialise (QDomDocument& doc) {
     QModule::serialise (doc);
-    _model -> writeParameter (_element, "getFrequency", QString::number (getFrequency ()));
-    _model -> writeParameter (_element, "getLacunarity", QString::number (getLacunarity ()));
+    _model -> writeParameter (_element, "frequency", QString::number (getFrequency ()));
+    _model -> writeParameter (_element, "lacunarity", QString::number (getLacunarity ()));
     _model -> writeParameter (_element, "octaves", QString::number (getOctaveCount ()));
     if (hasPersistence ()) {
-        _model -> writeParameter (_element, "getPersistence", QString::number (getPersistence ()));
+        _model -> writeParameter (_element, "persistence", QString::number (getPersistence ()));
     }
 }

@@ -36,7 +36,7 @@ double QSpheresModule::frequency() {
 
 void QSpheresModule::setFrequency (double value) {
     module() -> SetFrequency (value);
-    emit (nodeChanged ("getFrequency", value));
+    emit (nodeChanged());
     frequencySpin -> setValue (value);
 }
 

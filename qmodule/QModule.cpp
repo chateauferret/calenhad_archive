@@ -16,11 +16,10 @@ int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
 QModule::QModule (noise::module::Module* m, QWidget* parent) : QNode (parent), _module (m) {
-
-    // for noe
+    // for now
     GradientLegend* gl = new GradientLegend ("default");
     _legend = gl;
-
+    connect (this, &QNode::initialised, this, &QModule::setupPreview);
 }
 
 QModule::~QModule () {
@@ -34,6 +33,9 @@ void QModule::initialise() {
     QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
     addPort (output);
 
+}
+
+void QModule::setupPreview() {
     // preview panel
 
     _previewLayout = new QFormLayout();
@@ -46,7 +48,6 @@ void QModule::initialise() {
     _preview -> initialise();
     connect (this, &QNode::nodeChanged, _preview, &QNoiseMapViewer::render);
 }
-
 
 void QModule::changeBounds (const GeoDataLatLonBox& bounds) {
     _preview->setBounds (bounds);
@@ -111,7 +112,6 @@ void QModule::serialise (QDomDocument& doc) {
     positionElement.setAttribute ("y", handle() -> scenePos().y());
     positionElement.setAttribute ("x", handle() -> scenePos().x());
     _element.setAttribute ("type", moduleType());
-
 }
 
 void QModule::invalidate() {
@@ -124,7 +124,7 @@ void QModule::setModel (CalenhadModel* model) {
 
 void QModule::setLegend (icosphere::Legend* legend) {
     _legend = legend;
-    emit nodeChanged ("legend", 0);
+    emit nodeChanged();
 }
 
 icosphere::Legend* QModule::legend () {
