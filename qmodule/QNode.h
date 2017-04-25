@@ -21,6 +21,7 @@
 
 class CalenhadModel;
 class MessageFactory;
+class QToolBar;
 
 class QNode : public QWidget {
 Q_OBJECT
@@ -35,6 +36,9 @@ public:
     virtual void serialise (QDomDocument& doc);
     virtual void setUniqueName() = 0;
     virtual void setModel (CalenhadModel* model);
+    virtual QString moduleType () = 0;
+
+
 
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QNode* addCopy (CalenhadModel* model) = 0;
@@ -45,6 +49,7 @@ public:
     QList<QNEPort*> ports();
     bool isInitialised();
     void showEvent (QShowEvent *event) override;
+    void closeEvent (QCloseEvent* event) override;
     CalenhadModel* model();
 
     Q_PROPERTY (QString name READ name WRITE setName MEMBER _name NOTIFY nameChanged);
@@ -70,7 +75,7 @@ signals:
 protected:
 
     CalenhadModel* _model;
-    QDialog* _dialog;
+    QToolBar* _dialog;
     QString _name;
     QString _notes;
     QLineEdit* _nameEdit;

@@ -3,21 +3,16 @@
 //
 
 #include "QNode.h"
-#include <QLineEdit>
-#include <QTextStream>
-#include <QVariant>
 #include <iostream>
 #include "../nodeedit/qneconnection.h"
 #include <QMenu>
 #include "../nodeedit/CalenhadController.h"
 #include "QModule.h"
-#include "../nodeedit/Calenhad.h"
-#include "../messagefactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../actions/ChangeModuleCommand.h"
 
 
-QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitialised (false) {
+QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitialised (false), _dialog (nullptr) {
     connect (this, &QNode::initialised, this, [=] () { _isInitialised = true; });
 }
 
@@ -58,16 +53,16 @@ void QNode::initialise() {
     QLayout* l = new QVBoxLayout();
     l -> setSpacing (0);
     l -> setMargin (5);
-    l -> addWidget (_expander);
-    _dialog = new QDialog();
-    _dialog -> setModal (false);
-    _dialog -> setWindowTitle (name());
-    _dialog -> setLayout (l);
-
+    _dialog = new QToolBar();
+    _dialog -> addWidget (_expander);
     _contentLayout = new QFormLayout();
-    _content = new QWidget (QNode::_expander);
+    _content = new QWidget (_expander);
     _content -> setLayout (_contentLayout);
     QNode::addPanel (tr ("Parameters"), _content);
+
+    // when we change panels, move the fsocus to the newly-shown panel - this removes the focus from the parameter controls and causes their
+    // values to be updated to the underlying noise module data
+    connect (_expander, &QToolBox::currentChanged, this, [=] () { _expander -> currentWidget() -> findChild<QWidget*>() -> setFocus(); });
 }
 
 QString QNode::name() {
@@ -79,6 +74,9 @@ void QNode::setName (const QString& name) {
         _name = name;
         _nameEdit -> setText (name);
         update();
+        if (_dialog) {
+            _dialog -> setWindowTitle (_name + " (" + moduleType () + ")");
+        }
         emit (nameChanged (name));
     }
 }
@@ -137,7 +135,7 @@ QDoubleSpinBox* QNode::noiseValueParamControl (const QString& text, const QStrin
     spin -> setRange (-1.0, 1.0);
     spin -> setSingleStep (0.1);
     spin -> setToolTip (text);
-    connect (spin, static_cast<void(QDoubleSpinBox::*)(double)> (&QDoubleSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
+    connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
 
@@ -147,7 +145,7 @@ QSpinBox* QNode::countParameterControl (const QString& text, const QString& prop
     QSpinBox* spin = new QSpinBox (_content);
     spin -> setRange (1, 12);
     spin -> setToolTip (text);
-    connect (spin, static_cast<void(QSpinBox::*)(int)> (&QSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
+    connect (spin, &QSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
 
@@ -158,14 +156,14 @@ QDoubleSpinBox* QNode::angleParameterControl (const QString& text, const QString
     spin -> setRange (-179.0, 180.0);
     spin -> setSingleStep (1.0);
     spin -> setToolTip (text);
-    connect (spin, static_cast<void(QDoubleSpinBox::*)(double)> (&QDoubleSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
+    connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
 
 QLogSpinBox* QNode::logParameterControl (const QString& text, const QString& property) {
     if (property == QString::null) { return logParameterControl (text, propertyName (text)); }
     QLogSpinBox* spin = new QLogSpinBox (_content);
-    connect (spin, static_cast<void(QDoubleSpinBox::*)(double)>  (&QDoubleSpinBox::valueChanged), this, [=] () { propertyChangeRequested (property, spin -> value()); });
+    connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
 
@@ -178,6 +176,7 @@ void QNode::setModel (CalenhadModel* model) {
     if (! _model) {
         _model = model;
         emit nodeChanged();
+        _model -> controller () -> addParamsWidget (_dialog, this);
     } else {
         std::cout << "Can't reassign module to another model";
     }
@@ -185,9 +184,14 @@ void QNode::setModel (CalenhadModel* model) {
 
 void QNode::showParameters (const bool& visible) {
     if (visible) {
-        _dialog -> exec();
+        _dialog = new QToolBar ();
+        _dialog -> addWidget (_expander);
+        _dialog -> setWindowTitle (name() + " (" + moduleType() + ")");
+        _model -> controller () -> addParamsWidget (_dialog, this);
     } else {
-        _dialog -> hide();
+        _dialog -> setVisible (false);
+        delete _dialog;
+        _dialog = nullptr;
     }
 }
 
@@ -203,9 +207,9 @@ void QNode::inflate (const QDomElement& element) {
         QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
         QString name = portNameNode.text();
         if (okIndex && okType) {
-            std::cout << "Inflate port " << name.toStdString () << "\n";
+            std::cout << "Inflate port " << name.toStdString() << "\n";
             for (QNEPort* p : _ports) {
-                if (p -> index() == portIndex) {
+                if (p -> index() == portIndex && p -> portType() == portType) {
                     p -> setName (name);
                     std::cout << "Assign port " << name.toStdString () << "\n";
                 }
@@ -280,5 +284,10 @@ QString QNode::propertyName (const QString& name) {
     }
     std::cout << name.toStdString () << " = " << result.toStdString () << "\n";
     return result;
+}
+
+void QNode::closeEvent (QCloseEvent* event) {
+    event -> ignore();
+    showParameters (false);
 }
 

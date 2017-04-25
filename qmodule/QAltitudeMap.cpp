@@ -11,6 +11,8 @@
 #include "../controls/AltitudeMapEditor.h"
 #include "../messagefactory.h"
 #include "../controls/AltitudeMapPlot.h"
+#include "../actions/ChangeAltitudeMapCommand.h"
+#include "../nodeedit/CalenhadController.h"
 
 using noise::module::Module;
 
@@ -61,6 +63,13 @@ void QAltitudeMap::initialise() {
 }
 
 void QAltitudeMap::editAltitudeMap() {
+    // preserve the existing state so that we can undo
+    QDomDocument doc;
+    QDomElement root = doc.createElement ("model");
+    doc.appendChild (root);
+    serialise (doc);
+    _oldXml = doc.toString();
+
     QVector<QPointF> entries = getEntries();
     _editor -> setEntries (entries);
     if (dynamic_cast<Terrace*> (_module)) {
@@ -83,6 +92,17 @@ void QAltitudeMap::updateEntries() {
     for (QPointF point : entries) {
         addEntry (point.x (), point.y ());
     }
+
+    // preserve the change for undo purposes
+    QDomDocument doc;
+    QDomElement root = doc.createElement ("model");
+    doc.appendChild (root);
+    serialise (doc);
+    QString newXml = doc.toString();
+
+    ChangeAltitudeMapCommand* c = new ChangeAltitudeMapCommand (this, _oldXml, newXml);
+    _model -> controller() -> doCommand (c);
+
     emit nodeChanged();
     editingFinished();
 }
@@ -111,7 +131,6 @@ void QAltitudeMap::removeEntry (const double& key) {
     QVector<QPointF> entries = getEntries ();
     clearMap();
     for (Module* module : _modules) {
-
         for (QPointF point : entries) {
             for (QPointF point : entries) {
                 if (point.x() != key) {
@@ -220,8 +239,6 @@ void QAltitudeMap::inflate (const QDomElement& element) {
 
 void QAltitudeMap::serialise (QDomDocument& doc) {
     QModule::serialise (doc);
-
-
     QDomElement mapElement = _document.createElement ("map");
     _element.appendChild (mapElement);
     if (dynamic_cast<Terrace*> (_module)) {

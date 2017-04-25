@@ -42,6 +42,8 @@ protected:
 
 
     void clearMap ();
+
+    QString _oldXml;
 };
 
 

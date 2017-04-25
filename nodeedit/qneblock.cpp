@@ -53,7 +53,7 @@ QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem 
 
     connect (_label, &EditableLabel::textEdited, this, [=] () {
         if (_module -> name() != _label -> toPlainText()) {
-            _module->propertyChangeRequested ("name", _label->toPlainText ());
+            _module -> propertyChangeRequested ("name", _label -> toPlainText ());
         }
     });
     connect (_module, &QNode::nameChanged, this, [=] () { _label -> setText (_module -> name()); });

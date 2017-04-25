@@ -52,11 +52,10 @@ QNEMessageBox > QLabel {
     color: #000000;
 }
 
-ComponentProxyWidget {
-    qproperty-normalColor: #0404c0;
-    qproperty-drawingColor: #0000ff;
-    qproperty-selectedColor: #000000;
-    qproperty-normalWeight: 4;
-    qproperty-drawingWeight: 2;
-    qproperty-selectedWeight: 4
+QToolBox {
+    border: 2px solid black;
+}
+
+QDockWidget {
+    background: transparent;
 }

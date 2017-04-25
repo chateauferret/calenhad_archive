@@ -38,6 +38,7 @@ class CalenhadModel;
 class QNEToolBox;
 class Preferences;
 class MessageFactory;
+class QNode;
 
 namespace icosphere {
     class Legend;
@@ -54,6 +55,7 @@ public:
     void setModel (CalenhadModel* model);
     CalenhadModel* model ();
     void initialiseLegends();
+    void addToolbar (QToolBar* toolbar, QNode* node);
 
 private slots:
 

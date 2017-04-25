@@ -43,7 +43,7 @@ public:
     virtual QModule* addCopy (CalenhadModel* model) = 0;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
-    virtual QString moduleType () = 0;
+    virtual QString moduleType () override = 0;
     static int seed;
     static noise::NoiseQuality noiseQuality;
     virtual Module* module();

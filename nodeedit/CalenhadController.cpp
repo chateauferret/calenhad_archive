@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qnetoolbox.h"
 #include "qneconnection.h"
 
-CalenhadController::CalenhadController (QObject* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
+CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 
     // tool groups - activating a toggle action deactivates all others in the same group (like a radio button)
     _addModuleGroup = new ToolGroup();
@@ -251,4 +251,9 @@ void CalenhadController::doCommand (QUndoCommand* c) {
     double z = _views->at (0)->currentZoom ();
     zoomInAction->setEnabled (z < 4.0);
     zoomOutAction->setEnabled (z > 0.025);
+}
+
+void CalenhadController::addParamsWidget (QToolBar* toolbar, QNode* node) {
+    Calenhad* mainWindow = (Calenhad*) parent();
+    mainWindow -> addToolbar (toolbar, node);
 }

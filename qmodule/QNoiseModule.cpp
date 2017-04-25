@@ -145,7 +145,6 @@ void QNoiseModule::setOctaveCount (const int& value) {
     Perlin* perlin = dynamic_cast<Perlin*> (_module);
     if (perlin) {
         perlin -> SetOctaveCount (value);
-        //octaveSpin -> setValue (value);
         emit (nodeChanged());
         octaveSpin -> setValue (value);
         return;

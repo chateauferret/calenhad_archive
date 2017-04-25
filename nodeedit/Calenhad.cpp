@@ -49,6 +49,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     _view -> centerOn (0, 0);
 
     setCentralWidget (_view);
+    setDockNestingEnabled (true);
 
     // Legends
     initialiseLegends();
@@ -56,6 +57,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     // Tools
 
     QToolBar* modulesToolbar = Calenhad::toolbox -> toolbar ("Modules");
+    modulesToolbar -> setAcceptDrops (false);
     QDockWidget* editToolsDock = new QDockWidget (modulesToolbar -> windowTitle(), this);
     editToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     modulesToolbar -> setParent (this);
@@ -63,6 +65,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     addDockWidget (Qt::RightDockWidgetArea, editToolsDock);
 
     QToolBar* zoomToolbar = Calenhad::toolbox -> toolbar ("View");
+    modulesToolbar -> setAcceptDrops (false);
     QDockWidget* zoomToolsDock = new QDockWidget (zoomToolbar -> windowTitle(), this);
     zoomToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     zoomToolbar -> setParent (this);
@@ -170,6 +173,23 @@ void Calenhad::closeEvent (QCloseEvent* event) {
 }
 
 void Calenhad::initialiseLegends() {
+
+}
+
+bool Calenhad::readXml (const QString& fname, QDomDocument& doc) {
+    return false;
+}
+
+void Calenhad::addToolbar (QToolBar* toolbar, QNode* node) {
+    QDockWidget* paramsDock = new QDockWidget (node -> name(), this);
+    paramsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
+    paramsDock -> setParent (this);
+    //paramsDock -> setFeatures (QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    paramsDock -> setFixedSize (220, 220);
+    addDockWidget (Qt::LeftDockWidgetArea, paramsDock);
+    paramsDock -> setWidget (toolbar);
+    paramsDock -> setFloating (true);
+    connect (node, SIGNAL (nameChanged (const QString&)), paramsDock, SLOT (setWindowTitle (const QString&)));
 
 }
 

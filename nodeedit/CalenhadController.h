@@ -7,7 +7,7 @@
 #include <QToolBar>
 #include <iostream>
 #include <QUndoStack>
-
+#include "Calenhad.h"
 
 
 class QGraphicsScene;
@@ -26,13 +26,14 @@ Q_OBJECT
 public:
 
 
-	explicit CalenhadController (QObject* parent = 0);
+	explicit CalenhadController (Calenhad* parent = 0);
 	virtual ~CalenhadController();
 	void setModel (CalenhadModel* scene);
     CalenhadModel* model();
     QList<CalenhadView*>* views();
     void addView (CalenhadView* view);
 	void doCommand (QUndoCommand* c);
+	void addParamsWidget (QToolBar* toolbar, QNode* node);
 
     QMenu* getContextMenu (QGraphicsItem* item);
     QMenu* getContextMenu();
