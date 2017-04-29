@@ -7,6 +7,7 @@
 #include "../libnoiseutils/diff.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QBasicModule::QBasicModule (Module* m, QWidget* parent) : QModule (m, parent) {
 
@@ -36,12 +37,8 @@ QBasicModule* QBasicModule::newInstance (const QString& type) {
     return qm;
 }
 
-QBasicModule* QBasicModule::addCopy (CalenhadModel* model) {
-    QBasicModule* qm = newInstance (moduleType ());
-    if (qm) {
-        qm -> setModel (model);
-    }
-    return qm;
+QBasicModule* QBasicModule::clone () {
+    return newInstance (moduleType ());
 }
 
 
@@ -76,4 +73,8 @@ void QBasicModule::serialise (QDomDocument& doc) {
 void QBasicModule::inflate (const QDomElement& element) {
     QModule::inflate (element);
     // element moduleType is done in Node class - to do
+}
+
+bool QBasicModule::hasParameters () {
+    return false;
 }

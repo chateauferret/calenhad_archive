@@ -13,6 +13,7 @@
 #include "../nodeedit/CalenhadView.h"
 #include "../actions/ChangeModuleCommand.h"
 #include "../nodeedit/CalenhadController.h"
+#include "../CalenhadServices.h"
 
 
 QNoiseModule::QNoiseModule (noise::module::Module* m, QWidget* parent) : QModule (m, parent) {
@@ -193,13 +194,12 @@ QString QNoiseModule::moduleType () {
     return QString::null;
 }
 
-QNoiseModule* QNoiseModule::addCopy (CalenhadModel* model)  {
+QNoiseModule* QNoiseModule::clone() {
     QNoiseModule* qm = nullptr;
     if (moduleType() == CalenhadServices::preferences() -> calenhad_module_perlin) { qm = newPerlinInstance(); }
     if (moduleType() == CalenhadServices::preferences() -> calenhad_module_billow) { qm = newBillowInstance(); }
     if (moduleType() == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) { qm = newRidgedMultiInstance(); }
     if (qm) {
-        qm -> setModel (model);
         qm -> setFrequency (getFrequency ());
         qm -> setLacunarity (getLacunarity ());
         qm -> setOctaveCount (getOctaveCount ());

@@ -11,16 +11,13 @@
 #include "../icosphere/Bounds.h"
 #include <memory>
 #include <QPushButton>
+#include "../libnoiseutils/icospheremap.h"
+
 
 namespace icosphere {
     class Icosphere;
 }
 
-namespace noise {
-    namespace module {
-        class IcosphereMap;
-    }
-}
 
 class QModule;
 
@@ -35,7 +32,7 @@ public:
     void initialise() override;
     bool isRenderable() override;
     IcosphereMap* module() override;
-    QIcosphereMap* addCopy (CalenhadModel* model) override;
+    QIcosphereMap* clone () override;
     QString moduleType () override;
     void setIcosphereDepth (const unsigned& depth);
     virtual void inflate (const QDomElement& element) override;

@@ -23,7 +23,7 @@ public:
     double bias();
 
     ScaleBias* module () override;
-    QScaleBiasModule* addCopy (CalenhadModel* model);
+    QScaleBiasModule* clone ();
     virtual QString moduleType () override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;

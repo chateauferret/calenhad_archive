@@ -31,8 +31,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 class QNEBlock;
 class QNEConnection;
-class QModule;
 class EditableLabel;
+class QNode;
+
+enum PortHighlight { NONE, CAN_CONNECT, CONNECTED };
 
 class QNEPort : public QObject, public QGraphicsPathItem {
     Q_OBJECT
@@ -57,9 +59,9 @@ public:
 
     virtual QRectF boundingRect() const;
 	bool isConnected (QNEPort*);
-	QModule* module ();
+	QNode* owner ();
 	void invalidateRenders ();
-
+	void setHighlight (const PortHighlight& highlight);
     Q_PROPERTY (QString name READ portName WRITE setName MEMBER _portName);
 
 public slots:
@@ -80,6 +82,7 @@ private:
 	int _portType;
 	int _index;
 	quint64 _ptr;
+
 
 };
 

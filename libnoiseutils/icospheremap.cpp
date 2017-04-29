@@ -17,13 +17,13 @@ IcosphereMap::IcosphereMap (std::shared_ptr<Icosphere> icosphere) :  Module (Get
 }
 
 double IcosphereMap::GetValue (double x, double y, double z) const {
-    assert (m_pSourceModule[0] != NULL);
+    assert (m_pSourceModule [0] != NULL);
     if (_icosphere) {
         std::experimental::optional<double> value = _icosphere -> getDatum (geoutils::Cartesian (x, y, z), "");
         if (value) {
             return value.value ();
         } else {
-            // if the icosphere holds no value for that location, i.e. it is out of icosphere's bounds or is not filled, consult the source module instead
+            // if the icosphere holds no value for that location, i.e. it is out of icosphere's bounds or is not filled, consult the source owner instead
             return m_pSourceModule[0]->GetValue (x, y, z);
         }
     } else {

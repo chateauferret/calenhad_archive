@@ -15,11 +15,11 @@ void QRangeModule::initialise() {
     QModule::initialise();
     lowerBoundSpin = QNode::noiseValueParamControl ("Lower bound");
     _contentLayout -> addRow (tr ("Lower bound"), lowerBoundSpin);
-    connect (lowerBoundSpin, SIGNAL (valueChanged (double)), this, SLOT (setLowerBound (double)));
+    //connect (lowerBoundSpin, SIGNAL (valueChanged (double)), this, SLOT (setLowerBound (double)));
 
     upperBoundSpin = QNode::noiseValueParamControl ("Upper bound");
     _contentLayout -> addRow (tr ("Upper bound"), upperBoundSpin);
-    connect (upperBoundSpin, SIGNAL (valueChanged (double)), this, SLOT (setUpperBound (double)));
+    //connect (upperBoundSpin, SIGNAL (valueChanged (double)), this, SLOT (setUpperBound (double)));
 
 
 }

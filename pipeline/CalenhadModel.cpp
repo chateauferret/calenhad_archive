@@ -8,6 +8,7 @@
 #include "../nodeedit/qneblock.h"
 #include "../nodeedit/Calenhad.h"
 #include "../icosphere/icosphere.h"
+#include "../CalenhadServices.h"
 
 using namespace icosphere;
 
@@ -23,27 +24,41 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
 }
 
 // determine whether connection from given input to given output is allowed
-bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input) {
+bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& verbose) {
     //To do: externalise message strings
     if (output && input) {
 
         // can't connect a block to itself
         if (output -> block() == input -> block()) {
-            emit showMessage ("Cannot connect module to itself");
+            if (verbose) {
+                emit showMessage ("Cannot connect owner to itself");
+            }
             return false;
         }
 
         // can only connect an output port to an input port
         if (input -> portType() ==  QNEPort::OutputPort) {
-            emit showMessage ("Cannot make connection to another module output");
+            if (verbose) {
+                emit showMessage ("Cannot make connection to another owner output");
+            }
             return false;
         }
 
         // can't create circular paths so reject if a path already exists from proposed output back to proposed input
         // (in which case this connection would complete a circle)
         if (existsPath (input -> block(), output -> block())) {
-            emit showMessage ("Connection would form a circuit within the network");
+            if (verbose) {
+                emit showMessage ("Connection would form a circuit within the network");
+            }
             return false;
+        }
+
+        // can't connect to a port that's already connected to another output
+        if (! (input -> connections().empty ())) {
+            if (verbose) {
+                emit showMessage ("Port is already connected");
+                return false;
+            }
         }
 
         // if survived all that, connection is OK
@@ -84,8 +99,8 @@ bool CalenhadModel::existsPath (QNEBlock* from, QNEBlock* to) {
     return false;
 }
 
-void CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
-    if (canConnect (output, input)) {
+bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
+    if (canConnect (output, input, true)) {
         QNEConnection* c = new QNEConnection (0);
         addItem (c);
         c -> setPort1 (output);
@@ -93,36 +108,57 @@ void CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         c -> updatePosFromPorts();
         c -> updatePath();
         update();
-        noise::module::Module* source, *target;
-        source = output -> module() -> module();
-        target = input -> module() -> module();
 
-        // tell the target module to declare change requiring rerender
-        output -> module() -> invalidate();
-
-        // this propogates changes on the source module to the target so that the target can update any visible views when its inputs change
-        connect (output -> module(), SIGNAL (nodeChanged (const QString&, const QVariant&)), input -> module(), SLOT (invalidate()));
-
-        if (target) {
-            target -> SetSourceModule (input -> index (), *source);
-        } else {
-            CalenhadServices::messages() -> message ("", "No target module");
+        // if we are connecting QModules, we need to link the underlying noise modules too
+        if ((input -> portType() == QNEPort::InputPort || input -> portType() == QNEPort::ControlPort) && output -> portType() == QNEPort::OutputPort) {
+            noise::module::Module* source, * target;
+            source = ((QModule*) output -> owner()) -> module ();
+            target = ((QModule*) input -> owner()) -> module ();
+            if (target) {
+                target -> SetSourceModule (input -> index (), *source);
+            } else {
+                CalenhadServices::messages() -> message ("", "No target owner");
+            }
         }
 
-        // tell the target module to declare change requiring rerender
-        output -> module() -> invalidate();
+        // tell the target owner to declare change requiring rerender
+        output->owner () -> invalidate();
+
+        // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
+        connect (output -> owner (), SIGNAL (nodeChanged()), input -> owner (), SLOT (invalidate()));
+
+        // colour the input to show its connected status
+        input -> setHighlight (PortHighlight::CONNECTED);
+
+        // tell the target owner to declare change requiring rerender
+        output->owner () -> invalidate();
         input -> invalidateRenders();
+        return true;
+    } else {
+        return false;
     }
 }
 
 void CalenhadModel::disconnectPorts (QNEConnection* connection) {
     if (connection -> port1()) { connection -> port1() -> initialise (); }
     if (connection -> port2()) { connection -> port2() -> initialise (); }
-    noise::module::Module* m = connection -> port2() -> module () -> module();
 
-    m -> SetSourceModule (connection -> port2 () -> index (), *nullModule);
-    removeItem (connection);
+    if (connection -> port2() -> portType() == QNEPort::InputPort || connection -> port2() -> portType() == QNEPort::OutputPort) {
+        noise::module::Module* m = ((QModule*) connection -> port2() -> owner()) -> module ();
+
+        // disconnect the modules in the libnoise engine
+        m->SetSourceModule (connection->port2 ()->index (), *nullModule);
+    }
+
+    // colour the input port to show its availability
+    if (connection -> port1() -> type() != QNEPort::OutputPort) { connection -> port1() -> setHighlight (PortHighlight::NONE); }
+    if (connection -> port2() -> type() != QNEPort::OutputPort) { connection -> port2() -> setHighlight (PortHighlight::NONE); }
+
+    // reproduce the renders to reflect the change
     connection -> port2() -> invalidateRenders();
+
+    // update the model
+    removeItem (connection);
     delete connection;
     update();
 
@@ -162,7 +198,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                         }
                     }
 
-                    // click on an output port - create a connection which we can connect to another module's input or control port
+                    // click on an output port - create a connection which we can connect to another owner's input or control port
                     if (item && item -> type () == QNEPort::Type) {
                         // only allow connections from output ports to input ports
                         QNEPort* port = ((QNEPort*) item);
@@ -224,21 +260,14 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     if (port != conn -> port1() && ! (port -> hasConnection())) {
                         if (canConnect (conn -> port1(), port)) {
                             // Change colour of a port if we mouse over it and can make a connection to it
-                            QBrush brush = QBrush (CalenhadServices::preferences() -> calenhad_port_in_fill_color_drop);
-                            QPen pen = QPen (CalenhadServices::preferences() -> calenhad_port_in_border_color_drop, CalenhadServices::preferences() -> calenhad_port_border_weight);
-                            port -> setBrush (brush);
-                            port -> setPen (pen);
-                            conn -> canDrop = true;
+                            port -> setHighlight (PortHighlight::CAN_CONNECT);
                             _port = port;
                         }
                     }
                 } else {
-                    if (_port && ! item) {
-                        // If we moved off a port without making a connection to it, set it back to its normal colour
-                        QBrush brush = QBrush (CalenhadServices::preferences() -> calenhad_port_in_fill_color);
-                        QPen pen = QPen (CalenhadServices::preferences() -> calenhad_port_in_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight);
-                        _port -> setBrush (brush);
-                        _port -> setPen (pen);
+                    if (_port) {
+                        // If we moved off a port without making a connection to it, set it back to its unoccupied colour
+                        _port -> setHighlight (PortHighlight::NONE);
                         _port = nullptr;
                     }
                 }
@@ -268,10 +297,11 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     if (item && item -> type () == QNEPort::Type) {
                         QNEPort* port1 = conn -> port1();
                         QNEPort* port2 = (QNEPort*) item;
-
-                        if (conn -> canDrop) {
-                            removeItem (conn);
-                            connectPorts (port1, port2);
+                        removeItem (conn);
+                        if (!connectPorts (port1, port2)) {
+                            // if connection successful, clear the connection to avoid starting a new one immediately
+                            delete conn;
+                            conn = nullptr;
                             return true;
                         }
                     }
@@ -296,33 +326,36 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 }
 
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
-    QModule* module = _moduleFactory.createModule (type, this);
     if (type != QString::null) {
-        QNEBlock* b = new QNEBlock (module);
-        module -> setHandle (b);
-        addItem (b);
-        b -> setPos (initPos.x (), initPos.y ());
-        b -> initialise();
-        connect (module, &QNode::nameChanged, b, &QNEBlock::moduleChanged);
-        for (QNEPort* port : module->ports ()) {
-            b -> addPort (port);
-        }
-        module -> setModel (this);
-        if (name.isNull () || name.isEmpty()) {
-            module -> setUniqueName();
-        } else {
-            module -> setName (name); // to do - make sure this is unique
-        }
-        module -> invalidate ();
-        return module;
+        QModule* module = _moduleFactory.createModule (type, this);
+        module -> setName (name);
+        return addModule (module, initPos);
     } else {
-        CalenhadServices::messages() -> message ("", "Couldn't create module of type " + type + "\n");
+        CalenhadServices::messages() -> message ("", "Couldn't create owner of type " + type + "\n");
         return nullptr;
     }
 }
 
+QModule* CalenhadModel::addModule (QModule* module, const QPointF& initPos) {
+    QNEBlock* b = new QNEBlock (module);
+    module -> setHandle (b);
+    addItem (b);
+    b -> setPos (initPos.x (), initPos.y ());
+    b -> initialise();
+    connect (module, &QNode::nameChanged, b, &QNEBlock::moduleChanged);
+    for (QNEPort* port : module->ports ()) {
+        b -> addPort (port);
+    }
+    module -> setModel (this);
+    if (module -> name().isNull () || module -> name().isEmpty()) {
+        module -> setUniqueName();
+    }
+    module -> invalidate ();
+    return module;
+}
+
 void CalenhadModel::deleteModule (QModule* module) {
-    // first delete any connections to or from the doomed module
+    // first delete any connections to or from the doomed owner
     for (QGraphicsItem* item : items()) {
         if (item -> type() == QNEConnection::Type) {
             for (QNEPort* p : module -> ports ()) {
@@ -348,7 +381,7 @@ void CalenhadModel::deleteModule (QModule* module) {
     }
     update();
 
-    // now delete the underlying libnoise module
+    // now delete the underlying libnoise owner
     if (m) { delete m; }
 
     _port = nullptr; // otherwise it keeps trying to do stuff to the deleted port
@@ -465,7 +498,7 @@ void CalenhadModel::readMetadata (const QDomDocument& doc) {
 
 void CalenhadModel::inflate (const QDomDocument& doc) {
     readMetadata (doc);
-    QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("module");
+    QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("owner");
     for (int i = 0; i < moduleNodes.count(); i++) {
         QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");
         int x = positionElement.attributes().namedItem ("x").nodeValue().toInt();
@@ -474,7 +507,6 @@ void CalenhadModel::inflate (const QDomDocument& doc) {
         QString type = moduleNodes.at(i).attributes().namedItem ("type").nodeValue();
         QDomElement nameNode = moduleNodes.at (i).firstChildElement ("name");
         QString name = nameNode.text();
-        std::cout << "Name " << name.toStdString () << "\n";
         QModule* qm = addModule (pos, type, name);
         qm -> inflate (moduleNodes.at (i).toElement());
     }
@@ -487,8 +519,8 @@ void CalenhadModel::inflate (const QDomDocument& doc) {
     for (int i = 0; i < connectionNodes.count(); i++) {
         QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
         QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-        QModule* fromModule = findModule (fromElement.attributes().namedItem ("module").nodeValue());
-        QModule* toModule = findModule (toElement.attributes().namedItem ("module").nodeValue());
+        QModule* fromModule = findModule (fromElement.attributes().namedItem ("owner").nodeValue());
+        QModule* toModule = findModule (toElement.attributes().namedItem ("owner").nodeValue());
         if (fromModule && toModule) {
             QNEPort* fromPort = nullptr, * toPort = nullptr;
             for (QNEPort* port : fromModule -> ports()) {
@@ -540,7 +572,6 @@ void CalenhadModel::writeParameter (QDomElement& element, const QString& param, 
 }
 
 void CalenhadModel::redraw() {
-    std::cout << "Redraw model\n";
     update();
     for (QGraphicsView* view : views ()) {
         view -> update();

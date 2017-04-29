@@ -6,7 +6,7 @@
 #include "../nodeedit/qneconnection.h"
 
 DeleteConnectionCommand::DeleteConnectionCommand (QNEConnection* connection, CalenhadModel* model) : _connection (connection), _model (model) {
-    setText ("Delete connection"); // to do - identify connection by module/port names
+    setText ("Delete connection"); // to do - identify connection by owner/port names
 }
 
 DeleteConnectionCommand::~DeleteConnectionCommand() {

@@ -24,7 +24,7 @@ public:
     double upperBound();
 
     Select* module () override;
-    QSelectModule* addCopy (CalenhadModel* model) override;
+    QSelectModule* clone () override;
     virtual QString moduleType() override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;

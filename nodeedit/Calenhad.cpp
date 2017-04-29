@@ -33,6 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadView.h"
 #include "../nodeedit/qnetoolbox.h"
 #include "../icosphere/legend.h"
+#include "../CalenhadServices.h"
 
 using namespace icosphere;
 
@@ -72,7 +73,6 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     zoomToolsDock -> setWidget (zoomToolbar);
     addDockWidget (Qt::RightDockWidgetArea, zoomToolsDock);
 
-
     // Actions
 
     QAction* quitAction = new QAction (tr ("&Quit"), this);
@@ -97,6 +97,10 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     fileMenu -> addAction (saveAction);
     fileMenu -> addSeparator();
     fileMenu -> addAction (quitAction);
+
+    QMenu* editMenu = menuBar() -> addMenu (tr ("&Edit"));
+    editMenu -> setObjectName ("editMenu");
+
     QMenu* toolMenu = toolbox -> menu ("Modules");
     menuBar() -> addMenu (toolMenu);
     QMenu* viewMenu = toolbox -> menu ("View");
@@ -111,6 +115,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     resize (settings -> value("size", QSize(400, 400)).toSize());
     move (settings -> value("pos", QPoint(200, 200)).toPoint());
     settings -> endGroup();
+    _controller -> addMenus (menuBar());
 }
 
 Calenhad::~Calenhad() {
@@ -125,7 +130,6 @@ void Calenhad::setModel (CalenhadModel* model) {
     _view -> setController (_controller);
     _controller -> addView (_view);
     _view -> setScene (_model);
-
 }
 
 CalenhadModel* Calenhad::model() {
@@ -185,11 +189,15 @@ void Calenhad::addToolbar (QToolBar* toolbar, QNode* node) {
     paramsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     paramsDock -> setParent (this);
     //paramsDock -> setFeatures (QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-    paramsDock -> setFixedSize (220, 220);
+    paramsDock -> setFixedSize (300, 200);
     addDockWidget (Qt::LeftDockWidgetArea, paramsDock);
     paramsDock -> setWidget (toolbar);
     paramsDock -> setFloating (true);
     connect (node, SIGNAL (nameChanged (const QString&)), paramsDock, SLOT (setWindowTitle (const QString&)));
 
+}
+
+CalenhadController* Calenhad::controller () {
+    return _controller;
 }
 

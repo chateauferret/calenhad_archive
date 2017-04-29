@@ -26,15 +26,14 @@ void DeleteModuleCommand::redo() {
     doc.appendChild (root);
     _module -> serialise (doc);
 
-    // serialise also any connections to or from the deleted module
-    // don't delete them here - the model will do that for us when we delete the module
+    // serialise also any connections to or from the deleted owner
+    // don't delete them here - the model will do that for us when we delete the owner
     for (QNEConnection* c : _model -> connections()) {
-        if (c -> port1() -> module() == _module || c -> port2() -> module() == _module) {
+        if (c->port1 ()->owner () == _module || c->port2 ()->owner () == _module) {
             c -> serialise (doc);
         }
     }
 
     _xml = doc.toString ();
-    std::cout << _xml.toStdString () << "\n";
     _model -> deleteModule (_module);
 }

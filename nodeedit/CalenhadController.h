@@ -23,6 +23,8 @@ class ToolGroup;
 
 class CalenhadController : public QObject {
 Q_OBJECT
+
+
 public:
 
 
@@ -34,16 +36,17 @@ public:
     void addView (CalenhadView* view);
 	void doCommand (QUndoCommand* c);
 	void addParamsWidget (QToolBar* toolbar, QNode* node);
-
+    void addMenus (QMenuBar* menuBar);
     QMenu* getContextMenu (QGraphicsItem* item);
     QMenu* getContextMenu();
     QMenu* getContextMenu (QModule* module);
-
+    void setSelectionActionsEnabled (const bool& enabled);
 public slots:
     void toolSelected (bool);
     void showMessage (QString message);
     void clearTools();
     void actionTriggered();
+
 
 private:
     QList<CalenhadView*>* _views;
@@ -74,8 +77,12 @@ private:
     QAction* zoomSelectionAction;
     QAction* deleteConnectionAction;
     QAction* deleteModuleAction;
+	QAction* deleteSelectionAction;
+    QAction* duplicateModuleAction;
 
     QAction* createTool (const QString& caption, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false);
+
+
 };
 
 #endif // QNODESEDITOR_H

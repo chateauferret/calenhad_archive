@@ -10,6 +10,11 @@
 #include "QModule.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../actions/ChangeModuleCommand.h"
+#include "qwt/qwt_dial.h"
+#include "qwt/qwt_dial_needle.h"
+#include "qwt/qwt_counter.h"
+#include "../controls/QLogSpinBox.h"
+#include "../CalenhadServices.h"
 
 
 QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitialised (false), _dialog (nullptr) {
@@ -43,6 +48,7 @@ void QNode::initialise() {
     _notesEdit = new QTextEdit (about);
     _notesEdit -> setFixedHeight (100);
     layout -> addWidget (_notesEdit);
+    layout -> addStretch (0);
 
     connect (_notesEdit, &QTextEdit::textChanged, this, [=] () {
         propertyChangeRequested ("notes", _notesEdit -> document() -> toPlainText());
@@ -53,15 +59,22 @@ void QNode::initialise() {
     QLayout* l = new QVBoxLayout();
     l -> setSpacing (0);
     l -> setMargin (5);
-    _dialog = new QToolBar();
-    _dialog -> addWidget (_expander);
-    _contentLayout = new QFormLayout();
-    _content = new QWidget (_expander);
-    _content -> setLayout (_contentLayout);
-    QNode::addPanel (tr ("Parameters"), _content);
+    _dialog = new QDialog (this);
+    _dialog -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint | Qt::WindowMinimizeButtonHint);
+    _dialog -> setSizePolicy (QSizePolicy (QSizePolicy::Fixed, QSizePolicy::Fixed));
+    _dialog -> setLayout (new QVBoxLayout());
+    _dialog -> layout() -> addWidget (_expander);
 
-    // when we change panels, move the fsocus to the newly-shown panel - this removes the focus from the parameter controls and causes their
-    // values to be updated to the underlying noise module data
+    if (hasParameters()) {
+        _contentLayout = new QFormLayout ();
+        _contentLayout->setMargin (0);
+        _contentLayout->setVerticalSpacing (0);
+        _content = new QWidget (_expander);
+        _content->setLayout (_contentLayout);
+        QNode::addPanel (tr ("Parameters"), _content);
+    }
+    // when we change panels, move the focus to the newly-shown panel - this removes the focus from the parameter controls and causes their
+    // values to be updated to the underlying noise owner data
     connect (_expander, &QToolBox::currentChanged, this, [=] () { _expander -> currentWidget() -> findChild<QWidget*>() -> setFocus(); });
 }
 
@@ -100,7 +113,6 @@ int QNode::addPanel (const QString& title, QWidget* widget) {
 }
 
 void QNode::addPort (QNEPort* port) {
-    std::cout << port -> portName ().toStdString () << "\n";
     _ports.append (port);
 }
 
@@ -135,6 +147,7 @@ QDoubleSpinBox* QNode::noiseValueParamControl (const QString& text, const QStrin
     spin -> setRange (-1.0, 1.0);
     spin -> setSingleStep (0.1);
     spin -> setToolTip (text);
+
     connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
@@ -150,14 +163,29 @@ QSpinBox* QNode::countParameterControl (const QString& text, const QString& prop
 }
 
 // Spin box which selects an angle between + / - 180 degrees
-QDoubleSpinBox* QNode::angleParameterControl (const QString& text, const QString& property) {
-    if (property == QString::null) { return angleParameterControl (text, propertyName (text)); }
-    QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
-    spin -> setRange (-179.0, 180.0);
-    spin -> setSingleStep (1.0);
-    spin -> setToolTip (text);
-    connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
-    return spin;
+QwtCounter* QNode::angleParameterControl (const QString& text, const QString& p) {
+    if (p == QString::null) { return angleParameterControl (text, propertyName (text)); }
+    QwtCounter *counter = new QwtCounter (this);
+    counter -> setWrapping (true);
+    counter -> setRange (-180.0, 180.0);
+    counter -> setSingleStep (1.0);
+    counter -> setNumButtons (3);
+    counter -> setIncSteps (QwtCounter::Button1, 1);
+    counter -> setIncSteps (QwtCounter::Button2, 15);
+    counter -> setIncSteps (QwtCounter::Button3, 45);
+
+    counter -> setToolTip (text);
+    connect (counter, &QwtCounter::valueChanged, this, [=] () {
+        double value = counter -> value();
+        if (value == counter -> maximum()) { value = counter -> minimum(); }
+        else if (value == counter -> minimum()) { value = counter -> maximum(); }
+        if (! ((property (p.toStdString().c_str())  == counter -> minimum() && value == counter -> maximum()) ||
+                property (p.toStdString().c_str()) == counter -> maximum () && value == counter -> minimum())) {
+            propertyChangeRequested (p, value);
+        }
+    });
+
+    return counter;
 }
 
 QLogSpinBox* QNode::logParameterControl (const QString& text, const QString& property) {
@@ -176,22 +204,19 @@ void QNode::setModel (CalenhadModel* model) {
     if (! _model) {
         _model = model;
         emit nodeChanged();
-        _model -> controller () -> addParamsWidget (_dialog, this);
+        //_model -> controller () -> addParamsWidget (_dialog, this);
     } else {
-        std::cout << "Can't reassign module to another model";
+        std::cout << "Can't reassign owner to another model";
     }
 }
 
 void QNode::showParameters (const bool& visible) {
     if (visible) {
-        _dialog = new QToolBar ();
-        _dialog -> addWidget (_expander);
-        _dialog -> setWindowTitle (name() + " (" + moduleType() + ")");
-        _model -> controller () -> addParamsWidget (_dialog, this);
+        _dialog -> setWindowTitle (name () + " (" + moduleType () + ")");
+        _dialog -> setAttribute (Qt::WA_DeleteOnClose, false);
+        _dialog -> show();
     } else {
-        _dialog -> setVisible (false);
-        delete _dialog;
-        _dialog = nullptr;
+        _dialog -> hide();
     }
 }
 
@@ -207,30 +232,27 @@ void QNode::inflate (const QDomElement& element) {
         QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
         QString name = portNameNode.text();
         if (okIndex && okType) {
-            std::cout << "Inflate port " << name.toStdString() << "\n";
             for (QNEPort* p : _ports) {
                 if (p -> index() == portIndex && p -> portType() == portType) {
                     p -> setName (name);
-                    std::cout << "Assign port " << name.toStdString () << "\n";
                 }
             }
         } else {
-            QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue() + " port with index " + portNodes.at (i).attributes ().namedItem ("index").nodeValue() + " in module " + _name;
+            QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue() + " port with index " + portNodes.at (i).attributes ().namedItem ("index").nodeValue() + " in owner " + _name;
             CalenhadServices::messages() -> message ("Reverting to default port names", m);
         }
     }
 }
 
 void QNode::serialise (QDomDocument& doc) {
-    _element = doc.createElement ("module");
-
+    _element = doc.createElement ("owner");
     doc.documentElement().appendChild (_element);
     QDomElement nameElement = doc.createElement ("name");
     QDomText nameText = doc.createTextNode (_name);
     nameElement.appendChild (nameText);
     _element.appendChild (nameElement);
 
-    if (! _notes.isEmpty ()) {
+    if (! _notes.isEmpty()) {
         QDomElement notesElement = doc.createElement ("notes");
         _element.appendChild (notesElement);
         QDomText notesContent = doc.createTextNode (_notes);
@@ -282,12 +304,15 @@ QString QNode::propertyName (const QString& name) {
             }
         }
     }
-    std::cout << name.toStdString () << " = " << result.toStdString () << "\n";
     return result;
 }
 
 void QNode::closeEvent (QCloseEvent* event) {
     event -> ignore();
     showParameters (false);
+}
+
+bool QNode::hasParameters () {
+    return true;
 }
 

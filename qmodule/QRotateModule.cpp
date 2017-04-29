@@ -2,15 +2,11 @@
 // Created by martin on 26/11/16.
 //
 
-#include <libnoise/module/modulebase.h>
-#include <QtWidgets/QFormLayout>
-#include <QtWidgets/QDoubleSpinBox>
 #include "QRotateModule.h"
-#include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "qwt/qwt_counter.h"
+#include "../CalenhadServices.h"
 
 QRotateModule::QRotateModule (noise::module::RotatePoint* m, QWidget* parent) : QModule (m, parent) {
 
@@ -23,15 +19,17 @@ QRotateModule::~QRotateModule() {
 void QRotateModule::initialise() {
     QModule::initialise();
     _name = "New Rotation";
+    QWidget* w = new QWidget();
+    _contentLayout -> setMargin (0);
+    _contentLayout -> addWidget (w);
 
-    xAngleSpin = angleParameterControl ("Rotate X");
-    connect (xAngleSpin, SIGNAL (valueChanged (double)), this, SLOT (setXAngle (double)));
-    _contentLayout -> addRow (tr ("around X"), xAngleSpin);
-    yAngleSpin = angleParameterControl ("Rotate Y");
-    connect (yAngleSpin, SIGNAL (valueChanged (double)), this, SLOT (setYAngle (double)));
-    _contentLayout -> addRow (tr ("around Y"), yAngleSpin);
-    zAngleSpin = angleParameterControl ("Rotate Z");
-    _contentLayout -> addRow (tr ("around Z"), zAngleSpin);
+    xAngleSpin = angleParameterControl ("Rotate X", "xAngle");
+    _contentLayout -> addRow ("X axis", xAngleSpin);
+    yAngleSpin = angleParameterControl ("Rotate Y", "yAngle");
+    _contentLayout -> addRow ("Y axis", yAngleSpin);
+    zAngleSpin = angleParameterControl ("Rotate Z", "zAngle");
+    _contentLayout -> addRow ("Z axis", zAngleSpin);
+
     _isInitialised = true;
     emit initialised();
 
@@ -85,10 +83,9 @@ QRotateModule* QRotateModule::newInstance () {
     return qm;
 }
 
-QRotateModule* QRotateModule::addCopy (CalenhadModel* model){
+QRotateModule* QRotateModule::clone () {
     QRotateModule* qm = QRotateModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setXAngle (xAngle());
         qm -> setYAngle (yAngle());
         qm -> setZAngle (zAngle());

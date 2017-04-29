@@ -31,6 +31,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneblock.h"
 #include "qnetoolbox.h"
 #include "qneconnection.h"
+#include "../qmodule/QModule.h"
+#include "../actions/CommandGroup.h"
+#include "../actions/DuplicateModuleCommand.h"
+#include "../CalenhadServices.h"
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 
@@ -52,7 +56,7 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     _outputPortContextMenu = new QMenu ("Output");
     _inputPortContextMenu = new QMenu ("Input");
     _defaultContextMenu = new QMenu ("Menu");
-    _addModuleMenu = new QMenu ("Add module");
+    _addModuleMenu = new QMenu ("Add owner");
     _addModuleMenu -> addMenu (_viewDrawer -> menu());
     _zoomMenu = new QMenu ("Zoom");
     _defaultContextMenu -> addMenu (_addModuleMenu);
@@ -115,10 +119,15 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     deleteConnectionAction = createTool (tr ("Delete connection"), "Delete connection", CalenhadAction::DeleteConnectionAction, _editDrawer);
     _connectionContextMenu -> addAction (deleteConnectionAction);
 
-    // other module actions
+    // other owner actions
     deleteModuleAction = createTool (tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, _editDrawer);
+    deleteSelectionAction = createTool (tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
+    deleteSelectionAction -> setEnabled (false);
     _moduleContextMenu -> addAction (deleteModuleAction);
-//    _moduleContextMenu -> addAction (duplicateModuleAction);
+    _moduleContextMenu -> addAction (deleteSelectionAction);
+
+    duplicateModuleAction = createTool (tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, _editDrawer);
+    _moduleContextMenu -> addAction (duplicateModuleAction);
 //    _moduleContextMenu -> addAction (renderModuleAction);
 //    _moduleContextMenu -> addAction (connectInputMenu());
 //    _moduleContextMenu -> addMenu (connectOutputMenu());
@@ -167,6 +176,10 @@ void CalenhadController::addModuleTool (const QString& name, const QString& tool
 
 void CalenhadController::setModel (CalenhadModel* s) {
     _model = s;
+    connect (s, &QGraphicsScene::selectionChanged, this, [=] () {
+        setSelectionActionsEnabled (! (s -> selectedItems().isEmpty()));
+    });
+
     connect (s, SIGNAL (showMessage (QString)), this, SLOT (showMessage (QString)));
 }
 
@@ -241,9 +254,25 @@ void CalenhadController::actionTriggered () {
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<QNEConnection*> (_contextItem), _model)); }
+
+    // to do - delete other kinds of node
     if (action -> data() == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteModuleCommand (_contextModule,  _model)); }
+    if (action -> data() == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateModuleCommand (_contextModule,  _model)); }
+    if (action -> data() == CalenhadAction::DeleteSelectionAction) {
+        CommandGroup* group = new CommandGroup ();
+        for (QGraphicsItem* item : _model->selectedItems ()) {
+            // to do - delete other kinds of node
+            if (item->type () == QGraphicsItem::UserType + 3) { // block
+                DeleteModuleCommand* command = new DeleteModuleCommand (((QNEBlock*) item)->module (), _model);
+                group->addCommand (command);
+            }
+        }
+        doCommand (group);
+    }
+
     if (action -> data() == CalenhadAction::UndoAction) { _undoStack -> undo(); }
     if (action -> data() == CalenhadAction::RedoAction) { _undoStack -> redo(); }
+
 }
 
 void CalenhadController::doCommand (QUndoCommand* c) {
@@ -256,4 +285,19 @@ void CalenhadController::doCommand (QUndoCommand* c) {
 void CalenhadController::addParamsWidget (QToolBar* toolbar, QNode* node) {
     Calenhad* mainWindow = (Calenhad*) parent();
     mainWindow -> addToolbar (toolbar, node);
+}
+
+void CalenhadController::addMenus (QMenuBar* menuBar) {
+    QMenu* editMenu = menuBar -> findChild<QMenu*>("editMenu");
+    if (editMenu) {
+        editMenu -> addAction (deleteSelectionAction);
+        editMenu -> addSeparator();
+        editMenu -> addAction (undoAction);
+        editMenu -> addAction (redoAction);
+    }
+
+}
+
+void CalenhadController::setSelectionActionsEnabled (const bool& enabled) {
+    deleteSelectionAction -> setEnabled (enabled);
 }

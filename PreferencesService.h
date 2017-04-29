@@ -20,14 +20,14 @@ class PreferencesService {
     QColor calenhad_handle_brush_color_selected;
     QColor calenhad_handle_brush_color_normal;
     QColor calenhad_handle_brush_color_bg;
-    unsigned calenhad_port_radius;
-    unsigned calenhad_port_margin;
     QColor calenhad_port_in_border_color;
     QColor calenhad_port_in_fill_color;
+    QColor calenhad_port_in_fill_color_drop;
+    QColor calenhad_port_in_border_color_drop;
+    QColor calenhad_port_in_fill_color_connected;
+    QColor calenhad_port_in_border_color_connected;
     QColor calenhad_port_out_border_color;
     QColor calenhad_port_out_fill_color;
-    QColor calenhad_port_control_border_color;
-    QColor calenhad_port_control_fill_color;
     unsigned calenhad_port_border_weight;
     QColor calenhad_port_text_color;
     QColor calenhad_connector_normal_color;
@@ -38,12 +38,16 @@ class PreferencesService {
     unsigned calenhad_connector_drawing_weight;
     QColor calenhad_connector_inactive_color;
     unsigned calenhad_connector_inactive_weight;
-    QColor calenhad_port_in_fill_color_drop;
-    QColor calenhad_port_in_border_color_drop;
     QColor calenhad_handle_text_color_selected;
     QColor calenhad_handle_text_color_normal;
     unsigned calenhad_altitudemap_deletemargin;
     QString calenhad_legends_filename;
+
+    // geometry
+    unsigned calenhad_port_radius;
+    unsigned calenhad_port_margin;
+    unsigned calenhad_module_duplicate_offset_x;
+    unsigned calenhad_module_duplicate_offset_y;
 
     // modules
 

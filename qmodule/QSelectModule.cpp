@@ -10,6 +10,7 @@
 #include "QNode.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QSelectModule::QSelectModule (QWidget* parent) : QRangeModule (new noise::module::Select(), parent) {
 
@@ -23,7 +24,7 @@ void QSelectModule::initialise() {
     QRangeModule::initialise();
     _name = "New Select";
     falloffSpin = noiseValueParamControl ("Falloff");
-    connect (falloffSpin, SIGNAL (valueChanged (double)), this, SLOT (setFalloff (double)));
+    //connect (falloffSpin, SIGNAL (valueChanged (double)), this, SLOT (setFalloff (double)));
     _contentLayout -> addRow (tr ("Falloff"), falloffSpin);
     _isInitialised = true;
     emit initialised();
@@ -66,10 +67,9 @@ QString QSelectModule::moduleType() {
     return CalenhadServices::preferences() -> calenhad_module_select;
 }
 
-QSelectModule* QSelectModule::addCopy (CalenhadModel* model) {
+QSelectModule* QSelectModule::clone () {
     QSelectModule* qm = QSelectModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setFalloff (falloff());
         qm -> setLowerBound (lowerBound());
         qm -> setUpperBound (upperBound());

@@ -24,7 +24,7 @@ void TerraceMapFitter::attachPlot (QwtPlot* plot) {
 }
 
 /*
-Fit the points to the same curve as is used by the noise module to interpolate values
+Fit the points to the same curve as is used by the noise owner to interpolate values
 \param points Series of data points
 \return Fitted Curve
 \sa fitCurvePath()
@@ -55,9 +55,9 @@ double TerraceMapFitter::getY (const double& x, const QPolygonF& points) const {
     // this stuff all comes from libnoise terrace.cpp and interp.cpp
 
     // Find the first element in the control point array that has an input value
-    // larger than the output value from the source module.
+    // larger than the output value from the source owner.
     // Find the first element in the control point array that has a value
-    // larger than the output value from the source module.
+    // larger than the output value from the source owner.
 
     // y-axis is oriented inversely on the screen from on the logical canvas so we need to do some maths.
 
@@ -74,7 +74,7 @@ double TerraceMapFitter::getY (const double& x, const QPolygonF& points) const {
     int index1 = noise::ClampValue (indexPos, 0, points.size() - 1);
 
     // If some control points are missing (which occurs if the output value from
-    // the source module is greater than the largest value or less than the
+    // the source owner is greater than the largest value or less than the
     // smallest value of the control point array), get the value of the nearest
     // control point and exit now.
     if (index0 == index1) {

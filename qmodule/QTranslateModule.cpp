@@ -11,6 +11,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QTranslateModule::QTranslateModule (QWidget* parent) : QModule (new TranslatePoint(), parent) {
 
@@ -23,14 +24,14 @@ QTranslateModule::~QTranslateModule() {
 void QTranslateModule::initialise() {
     QModule::initialise();
     _name = "New Translation";
-    dXSpin = logParameterControl ("Translate X");
-    connect (dXSpin, SIGNAL (valueChanged (double)), this, SLOT (setDX (double)));
+    dXSpin = logParameterControl ("Translate X", "dX");
+    //connect (dXSpin, SIGNAL (valueChanged (double)), this, SLOT (setDX (double)));
     _contentLayout -> addRow (tr ("X"), dXSpin);
-    dYSpin = logParameterControl ("Translate Y");
-    connect (dYSpin, SIGNAL (valueChanged (double)), this, SLOT (setDY (double)));
+    dYSpin = logParameterControl ("Translate Y", "dY");
+    //connect (dYSpin, SIGNAL (valueChanged (double)), this, SLOT (setDY (double)));
     _contentLayout -> addRow (tr ("Y"), dYSpin);
-    dZSpin = logParameterControl ("Translate Z");
-    connect (dZSpin, SIGNAL (valueChanged (double)), this, SLOT (setDZ (double)));
+    dZSpin = logParameterControl ("Translate Z", "dZ");
+    //connect (dZSpin, SIGNAL (valueChanged (double)), this, SLOT (setDZ (double)));
     _contentLayout -> addRow (tr ("Z"), dZSpin);
     _isInitialised = true;
     emit initialised();
@@ -83,10 +84,9 @@ QString QTranslateModule::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_translate;
 }
 
-QTranslateModule* QTranslateModule::addCopy (CalenhadModel* model) {
+QTranslateModule* QTranslateModule::clone () {
     QTranslateModule* qm = QTranslateModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setDX (dX());
         qm -> setDY (dY());
         qm -> setDZ (dZ());

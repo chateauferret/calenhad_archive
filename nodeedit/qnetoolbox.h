@@ -51,7 +51,7 @@ protected:
 enum CalenhadAction {
     UndoAction, RedoAction,
     ZoomInAction, ZoomOutAction, ZoomToFitAction, ZoomToSelectionAction,
-     DeleteConnectionAction, DeleteModuleAction
+     DeleteConnectionAction, DeleteModuleAction, DeleteSelectionAction, DuplicateModuleAction
 };
 
 Q_DECLARE_METATYPE (CalenhadAction)

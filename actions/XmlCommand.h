@@ -10,16 +10,16 @@
 #include <QtWidgets/QUndoCommand>
 #include "../qmodule/QAltitudeMap.h"
 
-class ChangeAltitudeMapCommand : public QUndoCommand {
+class XmlCommand : public QUndoCommand {
 public:
-    ChangeAltitudeMapCommand (QAltitudeMap* node, const QString& oldXml, const QString& newXml);
-    virtual ~ChangeAltitudeMapCommand();
+    XmlCommand (QNode* node, const QString& oldXml, const QString& newXml);
+    virtual ~XmlCommand();
     virtual void redo() override;
     virtual void undo() override;
 
 protected:
     QString _oldXml, _newXml;
-    QAltitudeMap* _node;
+    QNode* _node;
 };
 
 

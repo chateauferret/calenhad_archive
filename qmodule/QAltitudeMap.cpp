@@ -11,8 +11,9 @@
 #include "../controls/AltitudeMapEditor.h"
 #include "../messagefactory.h"
 #include "../controls/AltitudeMapPlot.h"
-#include "../actions/ChangeAltitudeMapCommand.h"
+#include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"
+#include "../CalenhadServices.h"
 
 using noise::module::Module;
 
@@ -50,7 +51,7 @@ void QAltitudeMap::initialise() {
     resetMap ();
     _isInitialised = true;
 
-    // see to it that changes to the input module are propogated to all the modules we might use
+    // see to it that changes to the input owner are propogated to all the modules we might use
     connect (this, &QNode::nodeChanged, this, [=] () {
         for (Module* module : _modules.values ()) {
             try {
@@ -81,7 +82,7 @@ void QAltitudeMap::editAltitudeMap() {
 }
 
 // retrieve parameters from the curve editing dialog: control points and curve type (function)
-// based on those assign the relevant module and set tbe control points on it,
+// based on those assign the relevant owner and set tbe control points on it,
 void QAltitudeMap::updateEntries() {
 
     CurveType curveType = _editor -> curveType();
@@ -100,7 +101,7 @@ void QAltitudeMap::updateEntries() {
     serialise (doc);
     QString newXml = doc.toString();
 
-    ChangeAltitudeMapCommand* c = new ChangeAltitudeMapCommand (this, _oldXml, newXml);
+    XmlCommand* c = new XmlCommand (this, _oldXml, newXml);
     _model -> controller() -> doCommand (c);
 
     emit nodeChanged();
@@ -197,13 +198,9 @@ QString QAltitudeMap::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_altitudemap;
 }
 
-QAltitudeMap* QAltitudeMap::addCopy (CalenhadModel* model) {
-    QAltitudeMap* qm = QAltitudeMap::newInstance();
-    if (qm) {
-        qm -> setModel (model);
-
-    }
-    return qm;
+QAltitudeMap* QAltitudeMap::clone () {
+    return QAltitudeMap::newInstance();
+    // to do - copy out the altitude map content ...
 }
 
 void QAltitudeMap::inflate (const QDomElement& element) {
@@ -232,7 +229,7 @@ void QAltitudeMap::inflate (const QDomElement& element) {
             addEntry (x, y);
         } else {
             CalenhadServices::messages() -> message ("", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
-                    + " for " + moduleType() + " module " + name());
+                    + " for " + moduleType() + " owner " + name());
         }
     }
 }

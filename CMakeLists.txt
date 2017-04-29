@@ -150,7 +150,23 @@ set(SOURCE_FILES
         controls/AltitudeMapEditor.cpp
         controls/AltitudeMapEditor.h
         controls/AltitudeMapPlot.cpp
-        controls/AltitudeMapPlot.h)
+        controls/AltitudeMapPlot.h
+        controls/AltitudeMapFitter.cpp
+        controls/AltitudeMapFitter.h
+        controls/TerraceMapFitter.cpp
+        controls/TerraceMapFitter.h
+        CalenhadServices.cpp
+        CalenhadServices.h
+        PreferencesService.h
+        MessageService.h
+        LegendService.h
+        actions/ChangeModuleCommand.cpp
+        actions/ChangeModuleCommand.h
+        nodeedit/EditableLabel.cpp
+        nodeedit/EditableLabel.h
+        actions/XmlCommand.cpp
+        actions/XmlCommand.h
+        )
 
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
@@ -167,8 +183,8 @@ find_package(GeographicLib 1.34 REQUIRED)
 find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
-add_library (core ${SOURCE_FILES} PreferencesService.h MessageService.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} controls/AltitudeMapFitter.cpp controls/AltitudeMapFitter.h controls/TerraceMapFitter.cpp controls/TerraceMapFitter.h CalenhadServices.cpp CalenhadServices.h PreferencesService.h MessageService.h LegendService.h actions/ChangeModuleCommand.cpp actions/ChangeModuleCommand.h nodeedit/EditableLabel.cpp nodeedit/EditableLabel.h actions/ChangeAltitudeMapCommand.cpp actions/ChangeAltitudeMapCommand.h)
+add_library (core ${SOURCE_FILES} PreferencesService.h MessageService.h actions/DuplicateModuleCommand.cpp actions/DuplicateModuleCommand.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} controls/QxtGlobal.h controls/AngleDial.cpp controls/AngleDial.h actions/CommandGroup.cpp actions/CommandGroup.h actions/DuplicateModuleCommand.cpp actions/DuplicateModuleCommand.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

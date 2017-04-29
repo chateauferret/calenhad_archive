@@ -11,6 +11,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QExponentModule::QExponentModule (QWidget* parent) : QModule (new noise::module::Exponent(), parent) {
 
@@ -24,7 +25,8 @@ void QExponentModule::initialise() {
     QModule::initialise();
     _name = "New Exponent";
     exponentSpin = logParameterControl ("Exponent");
-    connect (exponentSpin, SIGNAL (valueChanged (double)), this, SLOT (setExponent (double)));
+    //connect (exponentSpin, SIGNAL (valueChanged (double)), this, SLOT (setExponent (double)));
+    exponentSpin -> setValue (1.0);
     _contentLayout -> addRow (tr ("Exponent"), exponentSpin);
     _isInitialised = true;
     emit initialised();
@@ -55,10 +57,9 @@ QString QExponentModule::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_exponent;
 }
 
-QExponentModule* QExponentModule::addCopy (CalenhadModel* model) {
+QExponentModule* QExponentModule::clone () {
     QExponentModule* qm = QExponentModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setExponent (exponent());
     }
     return qm;

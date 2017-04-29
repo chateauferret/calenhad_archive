@@ -22,8 +22,8 @@ public:
     Const* module() override;
     Q_PROPERTY (double constantValue READ constValue WRITE setConstValue());
     static QConstModule* newInstance();
-    QConstModule* addCopy (CalenhadModel* model)  override;
-    QString moduleType () override;
+    QConstModule* clone() override;
+    QString moduleType() override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
 

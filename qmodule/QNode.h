@@ -14,14 +14,16 @@
 #include <QtCore/QSet>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
-#include "../nodeedit/qneport.h"
+#include <QtWidgets/QGraphicsItem>
 #include "../controls/QLogSpinBox.h"
-#include "../libnoiseutils/icospheremap.h"
-#include "../CalenhadServices.h"
 
 class CalenhadModel;
 class MessageFactory;
 class QToolBar;
+class QwtCounter;
+class QModule;
+class QNEPort;
+
 
 class QNode : public QWidget {
 Q_OBJECT
@@ -41,7 +43,7 @@ public:
 
 
     // don't want a copy constructor because subclass implementations will have to call initialise()
-    virtual QNode* addCopy (CalenhadModel* model) = 0;
+    virtual QNode* clone () = 0;
     QString name();
     void setNotes (const QString& notes);
     QString notes();
@@ -51,6 +53,7 @@ public:
     void showEvent (QShowEvent *event) override;
     void closeEvent (QCloseEvent* event) override;
     CalenhadModel* model();
+    virtual bool hasParameters();
 
     Q_PROPERTY (QString name READ name WRITE setName MEMBER _name NOTIFY nameChanged);
     Q_PROPERTY (QString notes READ notes WRITE setNotes MEMBER _notes NOTIFY notesChanged);
@@ -75,7 +78,7 @@ signals:
 protected:
 
     CalenhadModel* _model;
-    QToolBar* _dialog;
+    QDialog* _dialog;
     QString _name;
     QString _notes;
     QLineEdit* _nameEdit;
@@ -87,7 +90,7 @@ protected:
     int addPanel (const QString& name, QWidget* widget);
     QDoubleSpinBox* noiseValueParamControl (const QString& text, const QString& property = QString::null);
     QSpinBox* countParameterControl (const QString& text, const QString& property = QString::null);
-    QDoubleSpinBox* angleParameterControl (const QString& text, const QString& property = QString::null);
+    QwtCounter* angleParameterControl (const QString& text, const QString& property = QString::null);
     QLogSpinBox* logParameterControl (const QString& text, const QString& property = QString::null);
     QFormLayout* _contentLayout;
     bool _isInitialised;

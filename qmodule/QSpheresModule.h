@@ -23,7 +23,7 @@ public:
     virtual void serialise (QDomDocument& doc) override;
     Spheres* module () override;
     QString moduleType () override;
-    QSpheresModule* addCopy (CalenhadModel* model) override;
+    QSpheresModule* clone () override;
 
     public slots:
     void setFrequency (double value);

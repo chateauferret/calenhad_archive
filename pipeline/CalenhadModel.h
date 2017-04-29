@@ -25,9 +25,10 @@ public:
     virtual ~CalenhadModel();
     QModule* findModule (const QString& name);
     QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
+    QModule* addModule (QModule* module, const QPointF& initPos);
     void deleteModule (QModule* module);
-    bool canConnect (QNEPort* output, QNEPort* input);
-    void connectPorts (QNEPort* output, QNEPort* input);
+    bool canConnect (QNEPort* output, QNEPort* input, const bool& verbose = false);
+    bool connectPorts (QNEPort* output, QNEPort* input);
     void disconnectPorts (QNEConnection* connection);
     bool eventFilter (QObject* o, QEvent* e);
     void setActiveTool (QAction* tool);
@@ -66,7 +67,6 @@ protected:
 
     void writeMetadata (QDomDocument& doc);
     void readMetadata (const QDomDocument& doc);
-
 
 };
 

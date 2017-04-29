@@ -11,6 +11,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QSpheresModule::QSpheresModule (QWidget* parent) : QModule (new noise::module::Spheres(), parent) {
 
@@ -24,7 +25,7 @@ void QSpheresModule::initialise() {
     QModule::initialise();
     _name = "New Spheres";
     frequencySpin = logParameterControl ("Frequency");
-    connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
+    //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
     _isInitialised = true;
     emit initialised();
@@ -55,10 +56,9 @@ QString QSpheresModule::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_spheres;
 }
 
-QSpheresModule* QSpheresModule::addCopy (CalenhadModel* model) {
+QSpheresModule* QSpheresModule::clone () {
     QSpheresModule* qm = QSpheresModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setFrequency (frequency());
     }
     return qm;

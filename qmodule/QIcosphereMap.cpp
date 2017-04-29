@@ -8,6 +8,7 @@
 #include "../nodeedit/qneconnection.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 using namespace noise::module;
 using namespace noise::utils;
@@ -29,7 +30,7 @@ void QIcosphereMap::initialise() {
     _contentLayout -> addRow (tr ("Depth"), _depthSpin);
     _isInitialised = true;
 
-    connect (this, SIGNAL (nodeChanged (const QString&, const QVariant&)), this, SLOT (resetUI (const QString&)));
+    connect (this, SIGNAL (nodeChanged()), this, SLOT (resetUI()));
 
     setBounds (_bounds);
     setIcosphereDepth (_depth);
@@ -46,7 +47,7 @@ void QIcosphereMap::generateMap() {
     if (! (port -> connections().isEmpty ())) {
         QNEConnection* c = port -> connections() [0];
         QNEPort* p = c -> port1 () == _ports[0] ? c -> port2() : c -> port1();
-        Module* source = p -> module() -> module();
+        Module* source = ((QModule*) p -> owner()) -> module();
         if (source) {
             map -> SetSourceModule (0, *source);
             connect (map, SIGNAL (available (std::shared_ptr<icosphere::Icosphere>)), this, SLOT (icosphereBuilt (std::shared_ptr<icosphere::Icosphere>)));
@@ -130,10 +131,9 @@ QString QIcosphereMap::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_icospheremap;
 }
 
-QIcosphereMap* QIcosphereMap::addCopy (CalenhadModel* model)  {
+QIcosphereMap* QIcosphereMap::clone () {
     QIcosphereMap* qm = QIcosphereMap::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setIcosphereDepth (_depth);
     }
     return qm;

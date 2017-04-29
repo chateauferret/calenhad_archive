@@ -22,14 +22,14 @@ QVoronoiModule::~QVoronoiModule() {
 void QVoronoiModule::initialise() {
     QModule::initialise();
     frequencySpin = logParameterControl ("Frequency");
-    connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
+    //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
     displacementSpin = logParameterControl ("Displacement");
-    connect (displacementSpin, SIGNAL (valueChanged (double)), this, SLOT (setDisplacement (double)));
+    //connect (displacementSpin, SIGNAL (valueChanged (double)), this, SLOT (setDisplacement (double)));
     _contentLayout -> addRow (tr ("Power"), displacementSpin);
     enableDistanceCheck = new QCheckBox();
     enableDistanceCheck -> setChecked (false);
-    connect (enableDistanceCheck, SIGNAL (toggled (bool)), this, SLOT (setEnableDistance (bool)));
+    //connect (enableDistanceCheck, SIGNAL (toggled (bool)), this, SLOT (setEnableDistance (bool)));
     module() -> EnableDistance (false);
     enableDistanceCheck -> setToolTip ("Enable distance");
     _contentLayout -> addRow (tr ("Enable distance"), enableDistanceCheck);
@@ -85,10 +85,9 @@ QString QVoronoiModule::moduleType () {
 }
 
 
-QVoronoiModule* QVoronoiModule::addCopy (CalenhadModel* model) {
+QVoronoiModule* QVoronoiModule::clone () {
     QVoronoiModule* qm = QVoronoiModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setFrequency (frequency());
         qm -> setDisplacement (displacement());
         qm -> setEnableDistance (enableDistance());

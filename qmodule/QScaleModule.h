@@ -9,8 +9,6 @@
 #include <QtWidgets/QWidget>
 #include "QModule.h"
 #include <libnoise/module/module.h>
-
-using namespace noise::module;
 class QScaleModule : public QModule {
 Q_OBJECT
 public:
@@ -25,7 +23,7 @@ public:
     double scaleZ();
 
     ScalePoint* module () override;
-    QScaleModule* addCopy (CalenhadModel* model) override;
+    QScaleModule* clone () override;
     virtual QString moduleType () override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;

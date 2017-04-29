@@ -74,7 +74,7 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
         return;
     }
 
-    // obtain the module whose output is to be served
+    // obtain the owner whose output is to be served
     QString moduleName = params.at (CalenhadRequestPart::ModuleName);
     noise::module::Module* module = findModule (moduleName);
     if (! (module)) {
@@ -102,7 +102,6 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
     }
     if (ok) { z = params.at (CalenhadRequestPart::TileZ).toInt (&ok); }
     if (z < 0 || z > RenderJob::MAX_ZOOM) {
-        std::cout << z << "\n";
         message = "Zoom out of range.\n Available zoom is 0 to 24";
         statusCode = 400;
         statusMessage = "Bad request";

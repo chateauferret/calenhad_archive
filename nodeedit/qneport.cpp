@@ -41,7 +41,6 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNEBlock* parent) :
         _index (index),
         _portType (type),
         _portName (name) {
-
     QPainterPath p;
     QPolygonF polygon;
     _label = new EditableLabel (this);
@@ -56,13 +55,11 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNEBlock* parent) :
     }
     if (type == InputPort) {
         polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);
-        setPen (QPen (CalenhadServices::preferences() -> calenhad_port_in_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight));
-        setBrush (CalenhadServices::preferences() -> calenhad_port_in_fill_color);
+        setHighlight (PortHighlight::NONE);
     }
     if (type == ControlPort) {
         polygon = QRectF (-_radius, -_radius, _radius * 2, _radius * 2);
-        setPen (QPen (CalenhadServices::preferences() -> calenhad_port_control_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight));
-        setBrush (CalenhadServices::preferences() -> calenhad_port_control_fill_color);
+        setHighlight (PortHighlight::NONE);
     }
     p.addPolygon (polygon);
     setPath (p);
@@ -79,8 +76,8 @@ void QNEPort::setBlock (QNEBlock* b) {
 
 void QNEPort::nameChangeRequested (const QString& value) {
     if (portName() != value) {
-        ChangeModuleCommand* c = new ChangeModuleCommand (module(), "name", portName (), value, _index, _portType);
-        CalenhadModel* model = module() -> model();
+        ChangeModuleCommand* c = new ChangeModuleCommand (owner (), "name", portName (), value, _index, _portType);
+        CalenhadModel* model = owner () -> model();
         if (model) {
             model -> controller() -> doCommand (c);
         }
@@ -137,6 +134,30 @@ void QNEPort::initialise () {
         }
 }
 
+void QNEPort::setHighlight (const PortHighlight& highlight) {
+    if (highlight == PortHighlight::NONE) {
+        QBrush brush = QBrush (CalenhadServices::preferences ()->calenhad_port_in_fill_color);
+        QPen pen = QPen (CalenhadServices::preferences ()->calenhad_port_in_border_color, CalenhadServices::preferences ()->calenhad_port_border_weight);
+        setBrush (brush);
+        setPen (pen);
+    }
+
+    if (highlight == PortHighlight::CAN_CONNECT) {
+        QBrush brush = QBrush (CalenhadServices::preferences ()->calenhad_port_in_fill_color_drop);
+        QPen pen = QPen (CalenhadServices::preferences ()->calenhad_port_in_border_color_drop, CalenhadServices::preferences ()->calenhad_port_border_weight);
+        setBrush (brush);
+        setPen (pen);
+    }
+
+    if (highlight == PortHighlight::CONNECTED) {
+        QBrush brush = QBrush (CalenhadServices::preferences ()->calenhad_port_in_fill_color_connected);
+        QPen pen = QPen (CalenhadServices::preferences ()->calenhad_port_in_border_color_connected, CalenhadServices::preferences ()->calenhad_port_border_weight);
+        setBrush (brush);
+        setPen (pen);
+    }
+
+}
+
 bool QNEPort::hasConnection() {
     return (! (m_connections.isEmpty()));
 }
@@ -150,7 +171,7 @@ int QNEPort::index() {
     return _index;
 }
 
-QModule* QNEPort::module()  {
+QNode* QNEPort::owner ()  {
     return _block -> module();
 }
 
@@ -159,6 +180,5 @@ void QNEPort::invalidateRenders() {
 }
 
 QString& QNEPort::portName() {
-    std::cout << _portName.toStdString () << "\n";
     return _portName;
 }

@@ -66,7 +66,7 @@ void AltitudeMapPlot::setEntries (const QVector<QPointF>& entries) {
 
 }
 
-// for a terrace, the points always fall on the line x = y, but the module computes values between the points such that the gradient
+// for a terrace, the points always fall on the line x = y, but the owner computes values between the points such that the gradient
 // from each point increases (or decreases) with the square of the distance from the point with the nearest lower x. This method remaps
 // the y value to match the x in that case, but without destroying any y values already held, in case we want to revert to an altitude curve.
 QVector<QPointF> AltitudeMapPlot::remapTerrace() {
@@ -78,7 +78,6 @@ QVector<QPointF> AltitudeMapPlot::remapTerrace() {
 }
 
 QVector<QPointF> AltitudeMapPlot::getEntries () {
-    std::cout << "Found " << _entries.size () << " entries" << "\n";
     if (_curveType == CurveType::AltitudeCurve) {
         return _entries;
     } else {
@@ -189,7 +188,7 @@ void AltitudeMapPlot::updatePoint (QPointF point) {
         point.setX (1);
     }
 
-    // no two points are to have the same X value - if they do, libnoise module will throw an exception
+    // no two points are to have the same X value - if they do, libnoise owner will throw an exception
     if (_index > 0) {
         if (point.x () == _entries.at (_index - 1).x ()) {
             point.setX (_entries.at (_index - 1).x () + (2.0d / _resolution));

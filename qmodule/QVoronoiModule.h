@@ -24,7 +24,7 @@ public:
     double displacement();
     bool enableDistance();
     Voronoi* module() override;
-    QVoronoiModule* addCopy (CalenhadModel* model) override;
+    QVoronoiModule* clone () override;
     QVoronoiModule (QWidget* parent = 0);
     QDoubleSpinBox* frequencySpin, * displacementSpin;
     QCheckBox* enableDistanceCheck;

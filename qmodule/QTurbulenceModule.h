@@ -26,7 +26,7 @@ public:
 
     Turbulence* module() override;
     QString moduleType () override;
-    QTurbulenceModule* addCopy (CalenhadModel* model) override;
+    QTurbulenceModule* clone () override;
 
     public slots:
     void setFrequency (double value);

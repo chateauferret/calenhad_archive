@@ -13,7 +13,6 @@ ChangeModuleCommand::ChangeModuleCommand (QNode* node,  const QString& property,
     _newValue (newValue),
     _portIndex (portIndex),
     _portType (portType) {
-    std::cout << oldValue.toString ().toStdString () << " " << newValue.toString ().toStdString () << "\n";
     if (portIndex < 0) {
         setText ("Change parameter " + property + " from " + oldValue.toString () + " to " + newValue.toString ());
     } else {
@@ -27,28 +26,32 @@ ChangeModuleCommand::~ChangeModuleCommand () {
 
 void ChangeModuleCommand::redo() {
     if (_portIndex < 0) {
-        _node -> setProperty (_property.toStdString ().c_str (), _newValue);
+        if (_node -> property (_property.toStdString ().c_str ()) != _newValue) {
+            _node->setProperty (_property.toStdString ().c_str (), _newValue);
+        }
     } else {
         for (QNEPort* port : _node -> ports()) {
-            std::cout << "Port " << port -> index () << " : " << _portIndex << " type " << port -> type () << " : " << _portType << "\n";
             if (port->index() == _portIndex && port -> portType() == _portType) {
-                port->setProperty (_property.toStdString ().c_str (), _newValue);
+                if (port -> property (_property.toStdString ().c_str ()) != _newValue) {
+                    port->setProperty (_property.toStdString ().c_str (), _newValue);
+                }
             }
         }
     }
-    //std::cout << "Redo " << text().toStdString () << "\n";
 }
 
 void ChangeModuleCommand::undo () {
     if (_portIndex < 0) {
-        _node -> setProperty (_property.toStdString().c_str(), _oldValue);
+        if (_node -> property (_property.toStdString ().c_str ()) != _oldValue) {
+            _node->setProperty (_property.toStdString ().c_str (), _oldValue);
+        }
     } else {
         for (QNEPort* port : _node -> ports()) {
-
             if (port->index () == _portIndex && port -> portType() == _portType) {
-                port->setProperty (_property.toStdString ().c_str (), _oldValue);
+                if (port -> property (_property.toStdString ().c_str ()) != _oldValue) {
+                    port->setProperty (_property.toStdString ().c_str (), _oldValue);
+                }
             }
         }
     }
-    //std::cout << "Undo " << text().toStdString () << "\n";
 }

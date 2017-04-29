@@ -25,7 +25,7 @@ public:
     double dZ();
 
     TranslatePoint* module () override;
-    QTranslateModule* addCopy (CalenhadModel* model) override;
+    QTranslateModule* clone () override;
     virtual QString moduleType () override;
 
     virtual void inflate (const QDomElement& element) override;

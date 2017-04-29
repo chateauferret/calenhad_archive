@@ -44,7 +44,7 @@ public:
     RenderJob (const GeoDataLatLonBox& box, noise::module::Module* source, icosphere::Legend* legend);
     virtual ~RenderJob ();
     void setImage (std::shared_ptr<QImage>& image);
-    bool canRender ();
+    bool canRender (const noise::module::Module* source);
     void render ();
     std::shared_ptr<QImage> image ();
     bool isAbandoned();

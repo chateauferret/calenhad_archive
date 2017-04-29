@@ -1,11 +1,11 @@
-# This module defines
+# This owner defines
 
 # OSGEARTH_LIBRARY
 # OSGEARTH_FOUND, if false, do not try to link to osg
 # OSGEARTH_INCLUDE_DIRS, where to find the headers
 # OSGEARTH_INCLUDE_DIR, where to find the source headers
 
-# to use this module, set variables to point to the osg build
+# to use this owner, set variables to point to the osg build
 # directory, and source directory, respectively
 # OSGEARTHDIR or OSGEARTH_SOURCE_DIR: osg source directory, typically OpenSceneGraph
 # OSGEARTH_DIR or OSGEARTH_BUILD_DIR: osg build directory, place in which you've

@@ -1,5 +1,5 @@
 ###############################################################################
-# CMake module to search for PROJ.4 library
+# CMake owner to search for PROJ.4 library
 #
 # On success, the macro sets the following variables:
 # PROJ4_FOUND       = if the library found

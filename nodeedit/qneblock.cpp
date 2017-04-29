@@ -28,6 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "Calenhad.h"
 #include "../qmodule/QModule.h"
 #include "EditableLabel.h"
+#include "../CalenhadServices.h"
 
 
 QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem (parent), _module (module), _label (nullptr) {

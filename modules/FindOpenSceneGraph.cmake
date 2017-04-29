@@ -1,16 +1,16 @@
 # - Find OpenSceneGraph
-# This module searches for the OpenSceneGraph core "osg" library as well as
+# This owner searches for the OpenSceneGraph core "osg" library as well as
 # OpenThreads, and whatever additional COMPONENTS (nodekits) that you specify.
 #    See http://www.openscenegraph.org
 #
-# NOTE: To use this module effectively you must either require CMake >= 2.6.3
+# NOTE: To use this owner effectively you must either require CMake >= 2.6.3
 # with cmake_minimum_required(VERSION 2.6.3) or download and place
 # FindOpenThreads.cmake, Findosg_functions.cmake, Findosg.cmake,
 # and Find<etc>.cmake files into your CMAKE_MODULE_PATH.
 #
 #==================================
 #
-# This module accepts the following variables (note mixed case)
+# This owner accepts the following variables (note mixed case)
 #
 #    OpenSceneGraph_DEBUG - Enable debugging output
 #
@@ -26,7 +26,7 @@
 #    OSGDIR
 #    OSG_ROOT
 #
-# This module defines the following output variables:
+# This owner defines the following output variables:
 #
 #    OPENSCENEGRAPH_FOUND - Was the OSG and all of the specified components found?
 #
@@ -237,7 +237,7 @@ elseif(_osg_version_not_exact)
 else()
 
     #
-    # Check each module to see if it's found
+    # Check each owner to see if it's found
     #
     if(OpenSceneGraph_FIND_REQUIRED)
         set(_osg_missing_message)

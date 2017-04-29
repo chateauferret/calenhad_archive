@@ -10,6 +10,8 @@
 #include "QModule.h"
 #include <libnoise/module/module.h>
 
+class QwtDial;
+
 using namespace noise::module;
 class QRotateModule : public QModule {
 Q_OBJECT
@@ -23,7 +25,7 @@ public:
     double xAngle();
     double yAngle();
     double zAngle();
-    QRotateModule* addCopy (CalenhadModel* model) override;
+    QRotateModule* clone () override;
     RotatePoint* module () override;
     QString moduleType () override;
 
@@ -37,7 +39,7 @@ public slots:
 
 protected:
     QRotateModule (noise::module::RotatePoint* m, QWidget* parent = 0);
-    QDoubleSpinBox* xAngleSpin, * yAngleSpin, * zAngleSpin;
+    QwtCounter* xAngleSpin, * yAngleSpin, * zAngleSpin;
 
 
 };

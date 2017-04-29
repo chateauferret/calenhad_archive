@@ -56,7 +56,7 @@ public:
     CalenhadModel* model ();
     void initialiseLegends();
     void addToolbar (QToolBar* toolbar, QNode* node);
-
+    CalenhadController* controller();
 private slots:
 
     void saveFile();

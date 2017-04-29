@@ -17,7 +17,7 @@ AltitudeMapFitter::~AltitudeMapFitter() {
 }
 
 /*
-Fit the points to the same curve as is used by the noise module to interpolate values
+Fit the points to the same curve as is used by the noise owner to interpolate values
 \param points Series of data points
 \return Fitted Curve
 \sa fitCurvePath()
@@ -48,7 +48,7 @@ double AltitudeMapFitter::getY (const double& x, const QPolygonF& points) const 
     // this stuff all comes from libnoise interp.cpp
 
     // Find the first element in the control point array that has an input value
-    // larger than the output value from the source module.
+    // larger than the output value from the source owner.
     int indexPos;
     for (indexPos = 0; indexPos < points.size(); indexPos++) {
         if (x < points.at (indexPos).x()) {
@@ -64,7 +64,7 @@ double AltitudeMapFitter::getY (const double& x, const QPolygonF& points) const 
     int index3 = noise::ClampValue (indexPos + 1, 0, points.size() - 1);
 
     // If some control points are missing (which occurs if the value from the
-    // source module is greater than the largest input value or less than the
+    // source owner is greater than the largest input value or less than the
     // smallest input value of the control point array), get the corresponding
     // output value of the nearest control point and exit now.
     if (index1 == index2) {

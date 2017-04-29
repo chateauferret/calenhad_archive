@@ -8,6 +8,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 using namespace noise::module;
 QConstModule::QConstModule (QWidget* parent) : QModule (new Const(), parent) {
@@ -18,7 +19,7 @@ void QConstModule::initialise() {
     QModule::initialise();
     _name = "New Constant Value";
     constValueSpin = noiseValueParamControl ("Constant value");
-    connect (constValueSpin, SIGNAL (valueChanged (double)), this, SLOT (setConstValue (double)));
+    //connect (constValueSpin, SIGNAL (valueChanged (double)), this, SLOT (setConstValue (double)));
     _contentLayout -> addRow (tr ("Constant value"), constValueSpin);
     _isInitialised = true;
     emit initialised();
@@ -48,10 +49,9 @@ QString QConstModule::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_constant;
 }
 
-QConstModule* QConstModule::addCopy (CalenhadModel* model)  {
+QConstModule* QConstModule::clone () {
     QConstModule* qm = QConstModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setConstValue (constValue ());
     }
     return qm;

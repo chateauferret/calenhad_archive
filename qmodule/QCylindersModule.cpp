@@ -11,6 +11,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QCylindersModule::QCylindersModule (QWidget* parent) : QModule (new noise::module::Cylinders(), parent) {
 
@@ -23,9 +24,10 @@ QCylindersModule::~QCylindersModule () {
 void QCylindersModule::initialise() {
     QModule::initialise();
     _name = "New Cylinders";
-    frequencySpin = logParameterControl ("Constant value");
-    connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
+    frequencySpin = logParameterControl ("Frequency");
+    //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
+    frequencySpin -> setValue (1.0);
     _isInitialised = true;
     emit initialised();
 }
@@ -59,10 +61,9 @@ QString QCylindersModule::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_cylinders;
 }
 
-QCylindersModule* QCylindersModule::addCopy (CalenhadModel* model)  {
+QCylindersModule* QCylindersModule::clone () {
     QCylindersModule* qm = QCylindersModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setFrequency (frequency());
     }
     return qm;

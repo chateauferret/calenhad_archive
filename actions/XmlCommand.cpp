@@ -2,22 +2,22 @@
 // Created by martin on 25/04/17.
 //
 
-#include "ChangeAltitudeMapCommand.h"
+#include "XmlCommand.h"
 
-ChangeAltitudeMapCommand::ChangeAltitudeMapCommand (QAltitudeMap* node, const QString& oldXml, const QString& newXml) :
+XmlCommand::XmlCommand (QNode* node, const QString& oldXml, const QString& newXml) :
     _node (node), _oldXml (oldXml), _newXml (newXml) {
 }
 
-ChangeAltitudeMapCommand::~ChangeAltitudeMapCommand () {
+XmlCommand::~XmlCommand () {
 
 }
 
-void ChangeAltitudeMapCommand::redo () {
+void XmlCommand::redo () {
     // populate the new state
     QDomDocument doc;
     doc.setContent (_newXml);
     QDomElement element = doc.documentElement().firstChildElement ("model");
-    QDomNodeList list = element.elementsByTagName ("module");
+    QDomNodeList list = element.elementsByTagName ("owner");
     for (int i = 0; i < list.size(); i++) {
         QDomNode nameNode = list.at (i).firstChildElement ("name");
         if (_node -> name() == nameNode.toElement().text()) {
@@ -27,12 +27,11 @@ void ChangeAltitudeMapCommand::redo () {
 
 }
 
-void ChangeAltitudeMapCommand::undo() {
+void XmlCommand::undo() {
     QDomDocument doc;
     doc.setContent (_oldXml);
-    std::cout << _oldXml.toStdString () << "\n";
     QDomElement element = doc.documentElement();
-    QDomNodeList list = element.elementsByTagName ("module");
+    QDomNodeList list = element.elementsByTagName ("owner");
     for (int i = 0; i < list.size(); i++) {
         QDomNode nameNode = list.at (i).firstChildElement ("name");
         if (_node -> name() == nameNode.toElement().text()) {

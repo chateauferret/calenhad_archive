@@ -20,7 +20,7 @@ public:
     virtual ~QAltitudeMap();
     void initialise() override;
 
-    QAltitudeMap* addCopy (CalenhadModel* model) override;
+    QAltitudeMap* clone () override;
     virtual QString moduleType () override;
     QVector<QPointF> getEntries() const;
     virtual void inflate (const QDomElement& element) override;

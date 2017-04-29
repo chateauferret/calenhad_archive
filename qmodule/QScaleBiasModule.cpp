@@ -11,6 +11,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QScaleBiasModule::QScaleBiasModule (QWidget* parent) : QModule (new noise::module::ScaleBias(), parent) {
 
@@ -24,10 +25,10 @@ void QScaleBiasModule::initialise() {
     QModule::initialise();
     _name = "New Scale and Bias";
     scaleSpin = logParameterControl ("Scale");
-    connect (scaleSpin, SIGNAL (valueChanged (double)), this, SLOT (setScale (double)));
+    //connect (scaleSpin, SIGNAL (valueChanged (double)), this, SLOT (setScale (double)));
     _contentLayout -> addRow (tr ("Scale"), scaleSpin);
     biasSpin = logParameterControl ("Bias");
-    connect (biasSpin, SIGNAL (valueChanged (double)), this, SLOT (setBias (double)));
+    //connect (biasSpin, SIGNAL (valueChanged (double)), this, SLOT (setBias (double)));
     _contentLayout -> addRow (tr ("Bias"), biasSpin);
     _isInitialised = true;
     emit initialised();
@@ -69,10 +70,9 @@ QString QScaleBiasModule::moduleType () {
 }
 
 
-QScaleBiasModule* QScaleBiasModule::addCopy (CalenhadModel* model) {
+QScaleBiasModule* QScaleBiasModule::clone () {
     QScaleBiasModule* qm = QScaleBiasModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setScale (scale());
         qm -> setBias (bias());
     }

@@ -67,7 +67,7 @@ noise::module::Module* QModule::module () {
 }
 
 void QModule::addInputPorts() {
-    // find the input configuration from the libnoiseutils module and create ports to match
+    // find the input configuration from the libnoiseutils owner and create ports to match
     // Rules: if there are < 3 inputs none of them are controls,
     // if there are 3 inputs, 0 and 1 are data and 2 is control,
     // if there are > 3 inputs, 1 is data and the rest are controls
@@ -82,7 +82,7 @@ void QModule::addInputPorts() {
             name = "Control " + QString::number (i - 1);
             portType = QNEPort::ControlPort;
         }
-        QNEPort* input = new QNEPort (portType, 0, name);
+        QNEPort* input = new QNEPort (portType, i, name);
         addPort (input);
     }
 }

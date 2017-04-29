@@ -40,13 +40,13 @@ public:
 
     void setUniqueName() override;
     // don't want a copy constructor because subclass implementations will have to call initialise()
-    virtual QModule* addCopy (CalenhadModel* model) = 0;
+    virtual QModule* clone () = 0;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
     virtual QString moduleType () override = 0;
     static int seed;
     static noise::NoiseQuality noiseQuality;
-    virtual Module* module();
+    virtual noise::module::Module* module();
     void setHandle (QNEBlock* h);
     void setModel (CalenhadModel* model) override;
     QNEBlock* handle();

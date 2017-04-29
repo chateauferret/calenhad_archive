@@ -1,5 +1,5 @@
 # Locate libnoise.
-# This module defines
+# This owner defines
 # LIBNOISE_LIBRARIES
 # LIBNOISE_FOUND, if false, do not try to link to libnoise
 # LIBNOISE_INCLUDE_DIR, where to find the headers

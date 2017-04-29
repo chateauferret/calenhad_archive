@@ -9,7 +9,6 @@
 #include <QtWidgets/QWidget>
 #include "QModule.h"
 #include "libnoise/module/module.h"
-#include <libnoise/module/module.h>
 
 using namespace noise::module;
 class QNoiseModule : public QModule {
@@ -20,7 +19,7 @@ public:
     static QNoiseModule* newRidgedMultiInstance();
     virtual ~QNoiseModule();
     void initialise() override;
-    QNoiseModule* addCopy (CalenhadModel* model)  override;
+    QNoiseModule* clone () override;
     QString moduleType () override;
     double getFrequency ();
     double getLacunarity ();

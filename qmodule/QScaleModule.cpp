@@ -11,6 +11,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 QScaleModule::QScaleModule (QWidget* parent) : QModule (new noise::module::ScalePoint(), parent) {
 
@@ -23,14 +24,14 @@ QScaleModule::~QScaleModule() {
 void QScaleModule::initialise() {
     QModule::initialise();
     _name = "New Scale";
-    scaleXSpin = logParameterControl ("Scale X");
-    connect (scaleXSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleX (double)));
+    scaleXSpin = logParameterControl ("Scale X", "scaleX");
+    //connect (scaleXSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleX (double)));
     _contentLayout -> addRow ("Scale X", scaleXSpin);
-    scaleYSpin = logParameterControl ("Scale Y");
-    connect (scaleYSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleY (double)));
+    scaleYSpin = logParameterControl ("Scale Y", "scaleY");
+    //connect (scaleYSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleY (double)));
     _contentLayout -> addRow ("Scale Y", scaleYSpin);
-    scaleZSpin = logParameterControl ("Scale Z");
-    connect (scaleZSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleZ (double)));
+    scaleZSpin = logParameterControl ("Scale Z", "scaleZ");
+    //connect (scaleZSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleZ (double)));
     _contentLayout -> addRow ("Scale Z", scaleZSpin);
     _isInitialised = true;
     emit initialised();
@@ -83,10 +84,9 @@ QScaleModule* QScaleModule::newInstance() {
     return sm;
 }
 
-QScaleModule* QScaleModule::addCopy (CalenhadModel* model) {
+QScaleModule* QScaleModule::clone () {
     QScaleModule* qm = QScaleModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setScaleX (scaleX());
         qm -> setScaleY (scaleY());
         qm -> setScaleZ (scaleZ());

@@ -22,7 +22,7 @@ public:
     QString moduleType() override;
     double upperBound() override;
     double lowerBound() override;
-    QClampModule* addCopy (CalenhadModel* model)  override;
+    QClampModule* clone() override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
 

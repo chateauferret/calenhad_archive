@@ -23,6 +23,7 @@
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
 #include "../qmodule/QAltitudeMap.h"
+#include "../CalenhadServices.h"
 
 
 using namespace noise::module;
@@ -45,7 +46,7 @@ QModule* ModuleFactory::createModule (const QString& type, CalenhadModel* model)
     Curve			1	0	    1	controlpoints           ControlPoint* controlPoints { double inputValue, double outputValue }
     Terrace			1	0	    1	controlpoints           ControlPoint* controlPoints { double inputValue, double outputValue }, bool isTerracesInverted
 
-    Populate the default module name
+    Populate the default owner name
 
 */
     if (type == CalenhadServices::preferences() -> calenhad_module_abs ||

@@ -9,6 +9,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 
 using namespace noise::module;
@@ -30,10 +31,9 @@ QString QClampModule::moduleType() {
     return CalenhadServices::preferences() -> calenhad_module_clamp;
 }
 
-QClampModule* QClampModule::addCopy (CalenhadModel* model)  {
+QClampModule* QClampModule::clone () {
     QClampModule* qm = QClampModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setUpperBound (upperBound());
         qm -> setLowerBound (lowerBound());
     }

@@ -11,6 +11,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
+#include "../CalenhadServices.h"
 
 
 QTurbulenceModule::QTurbulenceModule (QWidget* parent)  : QModule (new Turbulence(), parent) {
@@ -26,13 +27,13 @@ void QTurbulenceModule::initialise() {
     _name = "New Turbulence";
     module() -> SetSeed (seed);
     frequencySpin = logParameterControl ("Frequency");
-    connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
+    //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
     powerSpin = logParameterControl ("Power");
-    connect (powerSpin, SIGNAL (valueChanged (double)), this, SLOT (setPower (double)));
+    //connect (powerSpin, SIGNAL (valueChanged (double)), this, SLOT (setPower (double)));
     _contentLayout -> addRow (tr ("Power"), powerSpin);
     roughnessSpin = logParameterControl ("Roughness");
-    connect (roughnessSpin, SIGNAL (valueChanged (double)), this, SLOT (setRoughness (double)));
+    //connect (roughnessSpin, SIGNAL (valueChanged (double)), this, SLOT (setRoughness (double)));
     _contentLayout -> addRow (tr ("Roughness"), roughnessSpin);
     _isInitialised = true;
     emit initialised();
@@ -84,10 +85,9 @@ QString QTurbulenceModule::moduleType () {
     return CalenhadServices::preferences() -> calenhad_module_turbulence;
 }
 
-QTurbulenceModule* QTurbulenceModule::addCopy (CalenhadModel* model) {
+QTurbulenceModule* QTurbulenceModule::clone () {
     QTurbulenceModule* qm = QTurbulenceModule::newInstance();
     if (qm) {
-        qm -> setModel (model);
         qm -> setFrequency (frequency());
         qm -> setPower (power());
         qm -> setRoughness (roughness());
