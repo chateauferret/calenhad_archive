@@ -47,12 +47,11 @@ public:
 	void updatePath();
 	QNEPort* port1() const;
 	QNEPort* port2() const;
-	void save(QDataStream&);
-	void load(QDataStream&, const QMap<quint64, QNEPort*> &portMap);
     bool canDrop;
 	int type() const { return Type; }
 	void serialise (QDomDocument& doc);
 	void inflate (const QDomDocument& doc);
+	QNEPort* otherEnd (QNEPort* port);
 
 private:
 

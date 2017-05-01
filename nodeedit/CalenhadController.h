@@ -67,8 +67,7 @@ private:
 	QMenu* _defaultContextMenu;
 	QMenu* _zoomMenu;
 	QMenu* _addModuleMenu;
-
-	void makeContextMenus ();
+	//void makeContextMenus ();
 
 	QAction* undoAction, * redoAction;
     QAction* zoomInAction;

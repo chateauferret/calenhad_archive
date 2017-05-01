@@ -13,7 +13,6 @@
 #include "qwt/qwt_dial.h"
 #include "qwt/qwt_dial_needle.h"
 #include "qwt/qwt_counter.h"
-#include "../controls/QLogSpinBox.h"
 #include "../CalenhadServices.h"
 
 
@@ -196,7 +195,6 @@ QLogSpinBox* QNode::logParameterControl (const QString& text, const QString& pro
 }
 
 void QNode::invalidate() {
-    setEnabled (true);
     emit nodeChanged();
 }
 

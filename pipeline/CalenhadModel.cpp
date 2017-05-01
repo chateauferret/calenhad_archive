@@ -122,7 +122,7 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         }
 
         // tell the target owner to declare change requiring rerender
-        output->owner () -> invalidate();
+        output -> owner () -> invalidate();
 
         // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
         connect (output -> owner (), SIGNAL (nodeChanged()), input -> owner (), SLOT (invalidate()));
@@ -131,8 +131,8 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         input -> setHighlight (PortHighlight::CONNECTED);
 
         // tell the target owner to declare change requiring rerender
-        output->owner () -> invalidate();
-        input -> invalidateRenders();
+        output -> owner () -> invalidate();
+        //input -> invalidateRenders();
         return true;
     } else {
         return false;
@@ -155,7 +155,7 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
     if (connection -> port2() -> type() != QNEPort::OutputPort) { connection -> port2() -> setHighlight (PortHighlight::NONE); }
 
     // reproduce the renders to reflect the change
-    connection -> port2() -> invalidateRenders();
+//    connection -> port2() -> invalidateRenders();
 
     // update the model
     removeItem (connection);

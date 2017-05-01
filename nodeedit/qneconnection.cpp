@@ -38,10 +38,10 @@ QNEConnection::QNEConnection (QGraphicsItem* parent) : QGraphicsPathItem (parent
 
 QNEConnection::~QNEConnection() {
     if (m_port1) {
-        m_port1 -> connections().remove (m_port1 -> connections().indexOf (this));
+        m_port1 -> removeConnection (this);
     }
     if (m_port2) {
-        m_port2 -> connections().remove (m_port2 -> connections().indexOf (this));
+        m_port2 -> removeConnection (this);
     }
 }
 
@@ -55,12 +55,12 @@ void QNEConnection::setPos2 (const QPointF& p) {
 
 void QNEConnection::setPort1 (QNEPort* p) {
     m_port1 = p;
-    m_port1 -> connections().append ((QNEConnection*&&) this);
+    m_port1 -> addConnection (this);
 }
 
 void QNEConnection::setPort2 (QNEPort* p) {
     m_port2 = p;
-    m_port2 -> connections().append ((QNEConnection*&&) this);
+    m_port2 -> addConnection (this);
 }
 
 void QNEConnection::updatePosFromPorts () {
@@ -101,23 +101,6 @@ QNEPort* QNEConnection::port2 () const {
     return m_port2;
 }
 
-void QNEConnection::save (QDataStream& ds) {
-    ds << (quint64) m_port1;
-    ds << (quint64) m_port2;
-}
-
-void QNEConnection::load (QDataStream& ds, const QMap<quint64, QNEPort*>& portMap) {
-    quint64 ptr1;
-    quint64 ptr2;
-    ds >> ptr1;
-    ds >> ptr2;
-
-    setPort1 (portMap[ptr1]);
-    setPort2 (portMap[ptr2]);
-    updatePosFromPorts();
-    updatePath();
-}
-
 void QNEConnection::serialise (QDomDocument& doc) {
     QDomElement connectionElement = doc.createElement ("connection");
     doc.documentElement().appendChild (connectionElement);
@@ -132,6 +115,11 @@ void QNEConnection::serialise (QDomDocument& doc) {
 }
 
 void QNEConnection::inflate (const QDomDocument& doc) {
-    // to do - handle name here. Connecting the ports is dealt with in CalenhadModel::inflate.
+    // to do - handle name and geometry here. Connecting the ports is dealt with in CalenhadModel::inflate.
 }
 
+QNEPort* QNEConnection::otherEnd (QNEPort* port) {
+    if (port == m_port1) { return m_port2; }
+    if (port == m_port2) { return m_port1; }
+    return nullptr;
+}

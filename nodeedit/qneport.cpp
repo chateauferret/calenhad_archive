@@ -175,8 +175,16 @@ QNode* QNEPort::owner ()  {
     return _block -> module();
 }
 
-void QNEPort::invalidateRenders() {
+void QNEPort::addConnection (QNEConnection* c) {
+    m_connections.append (c);
     _block -> module() -> invalidate();
+    emit connected (c);
+}
+
+void QNEPort::removeConnection (QNEConnection* c) {
+    m_connections.remove (m_connections.indexOf (c));
+    _block -> module() -> invalidate();
+    emit disconnected (c -> otherEnd (this));
 }
 
 QString& QNEPort::portName() {

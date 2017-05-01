@@ -14,7 +14,9 @@ using namespace noise::module;
 using namespace noise::utils;
 using namespace icosphere;
 
-QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule (nullptr), _depth (5), _bounds (Bounds()) { }
+QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule (nullptr), _depth (5), _bounds (Bounds()), _icosphere (nullptr) {
+
+}
 
 QIcosphereMap::~QIcosphereMap () { }
 
@@ -30,39 +32,40 @@ void QIcosphereMap::initialise() {
     _contentLayout -> addRow (tr ("Depth"), _depthSpin);
     _isInitialised = true;
 
-    connect (this, SIGNAL (nodeChanged()), this, SLOT (resetUI()));
-
+    connect (this, SIGNAL (icosphereChangeRequested()), this, SLOT (buildIcosphere()));
+    connect (this, SIGNAL (initialised()), this, SLOT (buildIcosphere()));
+    connect (_ports [0], &QNEPort::connected, this, &QIcosphereMap::generateMap);
     setBounds (_bounds);
     setIcosphereDepth (_depth);
 
-    emit nodeChanged();
+    emit initialised();
 }
 
-
 void QIcosphereMap::generateMap() {
-    //emit nodeChanged();
-    IcosphereMap* map = new IcosphereMap();
-    _module = map;
+    if (! _module) {
+        IcosphereMap* map = new IcosphereMap ();
+        _module = map;
+    }
     QNEPort* port = _ports [0];
     if (! (port -> connections().isEmpty ())) {
         QNEConnection* c = port -> connections() [0];
         QNEPort* p = c -> port1 () == _ports[0] ? c -> port2() : c -> port1();
         Module* source = ((QModule*) p -> owner()) -> module();
         if (source) {
-            map -> SetSourceModule (0, *source);
-            connect (map, SIGNAL (available (std::shared_ptr<icosphere::Icosphere>)), this, SLOT (icosphereBuilt (std::shared_ptr<icosphere::Icosphere>)));
-            connect (this, SIGNAL (nodeChanged (const QString&, const QVariant&)), map, SLOT (cancelBuild()));
-            map -> buildIcosphere (_depth, _bounds);
+            _module -> SetSourceModule (0, *source);
+            connect ((IcosphereMap*) _module, SIGNAL (available (std::shared_ptr<icosphere::Icosphere>)), this, SLOT (icosphereBuilt (std::shared_ptr<icosphere::Icosphere>)));
+            connect (this, SIGNAL (nodeChanged()), (IcosphereMap*) _module, SLOT (cancelBuild()));
+            ((IcosphereMap*) _module) -> buildIcosphere (_depth, _bounds);
         }
     }
 }
 
-void QIcosphereMap::resetUI (const QString& type) {
-    if (type == "Updated") {
-        _vertexCountLabel -> setText (QString::number (_icosphere -> vertexCount ()) + " vertices generated");
-    }
-    if (type == "Bounds" || type == "Inputs" || type == "Depth") {
-        generateMap();
+void QIcosphereMap::buildIcosphere () {
+    generateMap ();
+    if (_icosphere) {
+        _vertexCountLabel -> setText (QString::number (_icosphere->vertexCount ()) + " vertices generated");
+    } else {
+        _vertexCountLabel -> setText ("No vertices generated");
     }
 }
 
@@ -93,7 +96,7 @@ void QIcosphereMap::setIcosphereDepth (const unsigned& depth) {
         if (_depthSpin -> value () != depth) {
             _depthSpin -> setValue (depth);
         }
-        emit nodeChanged();
+        emit icosphereChangeRequested();
     }
 }
 
@@ -108,7 +111,7 @@ void QIcosphereMap::icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosph
 void QIcosphereMap::setBounds (const icosphere::Bounds& bounds) {
     _bounds = bounds;
     generateMap();
-    emit nodeChanged();
+    emit icosphereChangeRequested();
 }
 
 

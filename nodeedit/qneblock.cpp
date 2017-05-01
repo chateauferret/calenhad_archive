@@ -29,6 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../qmodule/QModule.h"
 #include "EditableLabel.h"
 #include "../CalenhadServices.h"
+#include "qneconnection.h"
 
 
 QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem (parent), _module (module), _label (nullptr) {
@@ -102,6 +103,8 @@ QNEPort* QNEBlock::addPort (QNEPort* port) {
 
     port -> setBlock (this);
     port -> initialise();
+    connect (port, &QNEPort::connected, _module, &QNode::invalidate);
+    connect (port, &QNEPort::disconnected, _module, &QNode::invalidate);
     return port;
 }
 

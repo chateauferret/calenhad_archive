@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef QNEBLOCK_H
 #define QNEBLOCK_H
 
-#include <QGraphicsItem>
+#include <QGraphicsPathItem>
 #include <QRectF>
 #include <QVector>
 #include <QtWidgets/QLineEdit>

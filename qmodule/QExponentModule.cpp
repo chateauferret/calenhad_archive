@@ -25,7 +25,6 @@ void QExponentModule::initialise() {
     QModule::initialise();
     _name = "New Exponent";
     exponentSpin = logParameterControl ("Exponent");
-    //connect (exponentSpin, SIGNAL (valueChanged (double)), this, SLOT (setExponent (double)));
     exponentSpin -> setValue (1.0);
     _contentLayout -> addRow (tr ("Exponent"), exponentSpin);
     _isInitialised = true;

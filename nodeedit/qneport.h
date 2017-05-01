@@ -56,7 +56,8 @@ public:
 	bool hasConnection();
 	int type() const { return Type; }
 	QNEBlock* block() const;
-
+	void addConnection (QNEConnection* c);
+	void removeConnection(QNEConnection* c);
     virtual QRectF boundingRect() const;
 	bool isConnected (QNEPort*);
 	QNode* owner ();
@@ -67,6 +68,10 @@ public:
 public slots:
     void setName (const QString &n);
 	void nameChangeRequested (const QString& value);
+
+    signals:
+    void connected (QNEConnection* c);
+    void disconnected (QNEPort* port);
 
 protected:
 	QVariant itemChange (GraphicsItemChange change, const QVariant &value);

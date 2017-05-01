@@ -56,11 +56,8 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     _outputPortContextMenu = new QMenu ("Output");
     _inputPortContextMenu = new QMenu ("Input");
     _defaultContextMenu = new QMenu ("Menu");
-    _addModuleMenu = new QMenu ("Add owner");
-    _addModuleMenu -> addMenu (_viewDrawer -> menu());
-    _zoomMenu = new QMenu ("Zoom");
-    _defaultContextMenu -> addMenu (_addModuleMenu);
-    _defaultContextMenu -> addMenu (_zoomMenu);
+    _addModuleMenu = new QMenu ("Add module");
+
 //    _connectionContextMenu -> addMenu (connectInputMenu());
 //    _connectionContextMenu -> addMenu (connectOutputMenu());
 //    _outputPortContextMenu -> addMenu (connectInputMenu());
@@ -94,16 +91,9 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
 
-    // undo/redo apparatus
-    _undoStack = new QUndoStack();
-    undoAction = createTool (tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
-    redoAction = createTool (tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
-    undoAction -> setEnabled (_undoStack -> canUndo());
-    redoAction -> setEnabled (_undoStack -> canRedo());
-    _defaultContextMenu -> addAction (undoAction);
-    _defaultContextMenu -> addAction (redoAction);
-    connect (_undoStack, &QUndoStack::canUndoChanged, this, [=] () { undoAction -> setEnabled (_undoStack -> canUndo()); });
-    connect (_undoStack, &QUndoStack::canRedoChanged, this, [=] () { redoAction -> setEnabled (_undoStack -> canRedo()); });
+    _zoomMenu = new QMenu ("Zoom");
+    _defaultContextMenu -> addMenu (parent -> toolbox -> menu ("Modules"));
+    _defaultContextMenu -> addMenu (_zoomMenu);
 
     // zoom actions
     zoomInAction = createTool (tr ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
@@ -115,11 +105,22 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     _zoomMenu -> addAction (zoomToFitAction);
     _zoomMenu -> addAction (zoomSelectionAction);
 
+    // undo/redo apparatus
+    _undoStack = new QUndoStack();
+    undoAction = createTool (tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
+    redoAction = createTool (tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
+    undoAction -> setEnabled (_undoStack -> canUndo());
+    redoAction -> setEnabled (_undoStack -> canRedo());
+    _defaultContextMenu -> addAction (undoAction);
+    _defaultContextMenu -> addAction (redoAction);
+    connect (_undoStack, &QUndoStack::canUndoChanged, this, [=] () { undoAction -> setEnabled (_undoStack -> canUndo()); });
+    connect (_undoStack, &QUndoStack::canRedoChanged, this, [=] () { redoAction -> setEnabled (_undoStack -> canRedo()); });
+
     // connection actions
     deleteConnectionAction = createTool (tr ("Delete connection"), "Delete connection", CalenhadAction::DeleteConnectionAction, _editDrawer);
     _connectionContextMenu -> addAction (deleteConnectionAction);
 
-    // other owner actions
+    // other module actions
     deleteModuleAction = createTool (tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, _editDrawer);
     deleteSelectionAction = createTool (tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
     deleteSelectionAction -> setEnabled (false);
@@ -128,9 +129,6 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
 
     duplicateModuleAction = createTool (tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, _editDrawer);
     _moduleContextMenu -> addAction (duplicateModuleAction);
-//    _moduleContextMenu -> addAction (renderModuleAction);
-//    _moduleContextMenu -> addAction (connectInputMenu());
-//    _moduleContextMenu -> addMenu (connectOutputMenu());
 }
 
 

@@ -44,7 +44,10 @@ public slots:
     void setIcosphereDepth();
     void setBounds (const icosphere::Bounds&);
     void generateMap();
-    void resetUI (const QString&);
+    void buildIcosphere ();
+
+signals:
+    void icosphereChangeRequested();
 
 protected:
     QIcosphereMap (QWidget* parent = 0);
