@@ -16,12 +16,18 @@ using namespace Marble;
 using namespace noise::utils;
 using namespace noise::model;
 
-CalenhadLayer::CalenhadLayer (QModule* source) : _source (source), _gradient (new GradientLegend ("default")), _sphere (new Sphere (*source -> module ())), _step (INITIAL_STEP) {
+CalenhadLayer::CalenhadLayer (QModule* source) :
+        _source (source),
+        _gradient (new GradientLegend ("default")),
+        _sphere (new Sphere (*source -> module ())),
+        _step (INITIAL_STEP),
+        _overview (new QImage (210, 105, QImage::Format_ARGB32)) {
 
 }
 
 CalenhadLayer::~CalenhadLayer() {
     if (_gradient) { delete _gradient; }
+    if (_overview) { delete _overview; }
 }
 
 void CalenhadLayer::setGradient (GradientLegend* gradient) {
@@ -41,43 +47,67 @@ int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
 
 int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const int& offset) {
     _sphere -> SetModule (* (_source -> module()));
-    GeoDataLatLonAltBox box = viewport -> viewLatLonAltBox();
-    QColor color;
-    std::time_t start = std::clock();
-        double lat;
-        double lon = box.west();
-        bool finished = false;
-
-        while (! finished) {
-            lon += _angularResolution * _step;
-            if (box.east() > box.west()) {
-                if (lon > box.east()) {
-                    finished = true;
-                }
-            } else {
-                if (lon > box.east() && lon < box.west()) {
-                    finished = true;
-                }
-            }
-            if (lon > M_PI) {
-                lon -= 2 * M_PI;
-            }
-            lat = box.south();
-            while (lat < box.north()) {
-                lat += _angularResolution * _step;
-                double value = _sphere -> GetValue (radiansToDegrees (lat), radiansToDegrees (lon));
-                color = _gradient -> lookup (value);
-                painter -> setPen (color);
-                painter -> drawPoint (GeoDataCoordinates ((qreal) lon, (qreal) lat));
-            }
-        }
+    renderMainMap (painter, viewport);
+    renderOverview();
     if (_step > 1) {
         _step /= 2;
+        emit imageRefreshed();
     }
-    emit imageRefreshed();
+
     return 0;
 }
 
+void CalenhadLayer::renderOverview() {
+    QColor c;
+    double dLat = 360.0 / _overview -> width() * _step;
+    double dLon = 180.0 / _overview -> height() * _step;
+    double lat, lon;
+    for (int px = 0; px < _overview -> width(); px += _step) {
+        for (int py = 0; py < _overview -> height(); py += _step) {
+            lon = -180.0 + (dLon * px);
+            lat = 90.0 - (dLat * py);
+            double value = _sphere -> GetValue (lat, lon);
+            c = _gradient -> lookup (value);
+            _overview -> setPixelColor (px, py, c);
+        }
+    }
+    if (_overview) {
+        emit overviewRendered (*_overview);
+    }
+}
+
+void CalenhadLayer::renderMainMap (GeoPainter* painter, ViewportParams* viewport) {
+    GeoDataLatLonAltBox box = viewport -> viewLatLonAltBox();
+    QColor color;
+    std::time_t start = std::clock();
+    double lat;
+    double lon = box.west();
+    bool finished = false;
+
+    while (! finished) {
+        lon += _angularResolution * _step;
+        if (box.east() > box.west()) {
+            if (lon > box.east()) {
+                finished = true;
+            }
+        } else {
+            if (lon > box.east() && lon < box.west()) {
+                finished = true;
+            }
+        }
+        if (lon > M_PI) {
+            lon -= 2 * M_PI;
+        }
+        lat = box.south();
+        while (lat < box.north()) {
+            lat += _angularResolution * _step;
+            double value = _sphere -> GetValue (radiansToDegrees (lat), radiansToDegrees (lon));
+            color = _gradient -> lookup (value);
+            painter -> setPen (color);
+            painter -> drawPoint (GeoDataCoordinates ((qreal) lon, (qreal) lat));
+        }
+    }
+}
 
 bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
     _angularResolution = viewport -> angularResolution() / 4;
@@ -86,4 +116,8 @@ bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const
 
 void CalenhadLayer::rescale() {
     _step = INITIAL_STEP;
+}
+
+QImage* CalenhadLayer::overview () {
+    return _overview;
 }

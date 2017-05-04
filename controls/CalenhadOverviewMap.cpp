@@ -1,0 +1,218 @@
+//
+// This file is part of the Marble Virtual Globe.
+//
+// This program is free software licensed under the GNU LGPL. You can
+// find a copy of this license in LICENSE.txt in the top directory of
+// the source code.
+//
+// Copyright 2008 Torsten Rahn <tackat@kde.org>
+//
+
+#include "CalenhadOverviewMap.h"
+
+#include <QMouseEvent>
+#include <QFileDialog>
+#include <QIcon>
+#include <QtCore/QThread>
+#include <iostream>
+#include <marble/MarbleMap.h>
+
+#include "marble/MarbleDirs.h"
+#include "marble/MarbleDebug.h"
+// #include "OverviewMapConfigWidget.h"
+
+#include "marble/ViewportParams.h"
+#include "marble/MarbleWidget.h"
+#include "marble/Planet.h"
+#include "marble/PlanetFactory.h"
+#include "../mapping/CalenhadLayer.h"
+
+
+
+
+CalenhadOverviewMap::CalenhadOverviewMap ()
+        : CalenhadPreview (nullptr),
+          m_configDialog (nullptr) {
+}
+
+CalenhadOverviewMap::CalenhadOverviewMap (QModule* module, MarbleWidget* widget)
+        : CalenhadPreview (module, widget),
+          ui_configWidget (nullptr),
+          m_configDialog (nullptr) {
+}
+
+CalenhadOverviewMap::~CalenhadOverviewMap () {
+
+}
+
+/*
+    QDialog* CalenhadOverviewMap::configDialog () {
+       /* if (!m_configDialog) {
+            // Initializing configuration dialog
+            m_configDialog = new QDialog ();
+            ui_configWidget = new OverviewMapConfigWidget();
+            ui_configWidget->setupUi (m_configDialog);
+
+            connect (ui_configWidget->m_buttonBox, SIGNAL(accepted ()),
+                     SLOT(writeSettings ()));
+            connect (ui_configWidget->m_buttonBox, SIGNAL(rejected ()),
+                     SLOT(readSettings ()));
+            connect (ui_configWidget->m_buttonBox->button (QDialogButtonBox::Reset), SIGNAL(clicked ()),
+                     SLOT(restoreDefaultSettings ()));
+            QPushButton* applyButton = ui_configWidget->m_buttonBox->button (QDialogButtonBox::Apply);
+            connect (applyButton, SIGNAL(clicked ()),
+                     SLOT(writeSettings ()));
+        }
+        return m_configDialog;
+
+
+        return new QDialog(); // for now
+    }
+*/
+void CalenhadOverviewMap::paintEvent (QPaintEvent* e) {
+    QPainter painter (this);
+    painter.drawPixmap (0, 0, _pixmap);
+    drawBoundingBox();
+    drawGrid();
+}
+
+void CalenhadOverviewMap::drawBoundingBox () {
+    // Now draw the latitude longitude bounding box
+    QPainter painter (this);
+    _renderWidth = renderSize().width();
+    _renderHeight = renderSize().height();
+    qreal xWest = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * _bounds.west ();
+    qreal xEast = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * _bounds.east ();
+    qreal xNorth = _renderHeight / 2.0 - _renderHeight / M_PI * _bounds.north ();
+    qreal xSouth = _renderHeight / 2.0 - _renderHeight / M_PI * _bounds.south ();
+
+    qreal lon = m_centerLon;
+    qreal lat = m_centerLat;
+    GeoDataCoordinates::normalizeLonLat (lon, lat);
+    qreal x = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * lon;
+    qreal y = _renderHeight / 2.0 - _renderHeight / M_PI * lat;
+
+    painter.setPen (QPen (Qt::white));
+    painter.setBrush (QBrush (Qt::transparent));
+    painter.setRenderHint (QPainter::Antialiasing, false);
+
+    qreal boxWidth = xEast - xWest;
+    qreal boxHeight = xSouth - xNorth;
+
+    qreal minBoxSize = 2.0;
+    if (boxHeight < minBoxSize) { boxHeight = minBoxSize; }
+
+    if (_bounds.west () <= _bounds.east ()) {
+        // Make sure the latLonBox is still visible
+        if (boxWidth < minBoxSize) { boxWidth = minBoxSize; }
+
+        painter.drawRect (QRectF (xWest, xNorth, boxWidth, boxHeight));
+    } else {
+        // If the dateline is shown in the viewport  and if the poles are not
+        // then there are two boxes that represent the latLonBox of the view.
+
+        boxWidth = xEast;
+
+        // Make sure the latLonBox is still visible
+        if (boxWidth < minBoxSize) { boxWidth = minBoxSize; }
+
+        painter.drawRect (QRectF (0, xNorth, boxWidth, boxHeight));
+
+        boxWidth = _renderWidth - xWest;
+
+        // Make sure the latLonBox is still visible
+        if (boxWidth < minBoxSize) { boxWidth = minBoxSize; }
+
+        painter.drawRect (QRectF (xWest, xNorth, boxWidth, boxHeight));
+    }
+
+    painter.setPen (QPen (Qt::white));
+    painter.setBrush (QBrush (Qt::yellow));
+
+    qreal circleRadius = 2.5;
+    painter.setRenderHint (QPainter::Antialiasing, true);
+    painter.drawEllipse (QRectF (x - circleRadius, y - circleRadius, 2 * circleRadius, 2 * circleRadius));
+}
+
+void CalenhadOverviewMap::drawGrid() {
+    QPainter painter (this);
+    painter.setPen (QPen (Qt::DashLine));
+    painter.drawRect (QRectF (QPoint (0, 0), size ()));
+
+    for (int y = 1; y < 4; ++y) {
+        if (y == 2) {
+            painter.setPen (QPen (Qt::DashLine));
+        } else {
+            painter.setPen (QPen (Qt::DotLine));
+        }
+
+        painter.drawLine (0, (int) (0.25 * y * _renderHeight), _renderWidth, (int) (0.25 * y * _renderHeight));
+    }
+    for (int x = 1; x < 8; ++x) {
+        if (x == 4) {
+            painter.setPen (QPen (Qt::DashLine));
+        } else {
+            painter.setPen (QPen (Qt::DotLine));
+        }
+
+        painter.drawLine ((int) (0.125 * x * _renderWidth), 0, (int) (0.125 * x * _renderWidth), _renderHeight);
+    }
+}
+
+void CalenhadOverviewMap::setBounds (const GeoDataLatLonAltBox& bounds) {
+    if (bounds != _bounds) {
+        _bounds = bounds;
+        render ();
+    }
+}
+
+void CalenhadOverviewMap::jobComplete (std::shared_ptr<QImage> image) {
+    _pixmap = QPixmap::fromImage (*image); //-> mirrored (true, true));
+    _isRendered = true;
+    emit renderComplete (image);
+
+
+}
+
+bool CalenhadOverviewMap::eventFilter (QObject* object, QEvent* e) {
+    if (! isEnabled() || ! isVisible()) {
+        return false;
+    }
+
+    if (e->type () == QEvent::MouseButtonDblClick || e->type () == QEvent::MouseMove) {
+        QMouseEvent* event = static_cast<QMouseEvent*>(e);
+
+        // Double click triggers recentering the map at the specified position
+        if (e->type () == QEvent::MouseButtonDblClick) {
+
+            QPointF pos = event->pos () - rect().topLeft ();
+
+            qreal lon = (pos.x () - width () / 2.0) / width () * 360.0;
+            qreal lat = (height () / 2.0 - pos.y ()) / height () * 180.0;
+            _widget -> centerOn (lon, lat, true);
+
+            return true;
+
+        }
+
+        if (e -> type () == QEvent::MouseMove
+            && !(event->buttons () & Qt::LeftButton)) {
+            // Cross hair cursor when moving above the float item without pressing a button
+            _widget -> setCursor (QCursor (Qt::CrossCursor));
+            return true;
+        }
+    }
+}
+
+RenderJob* CalenhadOverviewMap::prepareRender() {
+    RenderJob* job = new RenderJob (GeoDataLatLonBox (-M_PI_2, M_PI_2, 0, M_2_PI), _source -> module(), _source -> legend());
+    int width = (int) (height() * 2.0);
+    std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height(), QImage::Format_ARGB32);
+    job -> setImage (image);
+    _image = image;
+    return job;
+}
+
+
+
+

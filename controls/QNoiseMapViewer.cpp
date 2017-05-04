@@ -11,124 +11,50 @@
 using namespace geoutils;
 using namespace Marble;
 
-QNoiseMapViewer::QNoiseMapViewer (QModule* parent) : QWidget (parent),
-    _isRendered (false),
-    _bounds (GeoDataLatLonBox (-M_PI_2, M_PI_2, -M_PI, M_PI)),
-    _source (nullptr), _image (nullptr), _explorer (nullptr), _previewType (NoiseMapPreviewType::WholeWorld) {
-}
 
-void QNoiseMapViewer::initialise() {
-    _scene = new QGraphicsScene();
-    _view = new QGraphicsView (this);
-    _view -> setScene (_scene);
-    _view -> setRenderHint (QPainter::Antialiasing, true);
-    layout() -> setContentsMargins (0, 0, 0, 0);
-    layout() -> setMargin (0);
-    _content = new QWidget();
-    _layout = new QVBoxLayout();
-    _layout -> setContentsMargins (0, 0, 0, 0);
-    _content -> setLayout (_layout);
-    layout() -> addWidget (_content);
-    layout() -> setSpacing (0);
-    _layout -> addWidget (_view);
-    _label = new QLabel();
-    _label -> setText ("Label");
-    _layout -> addWidget (_label);
-    _scene -> installEventFilter (this);
-    _progressBar = new QProgressBar (this);
-    _layout -> addWidget (_progressBar);
-    setSize (105);
-    render();
+QNoiseMapViewer::QNoiseMapViewer (QModule* module, QWidget* parent) : CalenhadPreview (module, parent), _explorer (nullptr) {
 
 }
+
 
 QNoiseMapViewer::~QNoiseMapViewer() {
-
-    if (_item) {
-        delete _item;
-    }
-
     if (_explorer) {
         delete _explorer;
     }
+    if (_item) {
+        delete _item;
+    }
 }
 
-void QNoiseMapViewer::setBounds (const GeoDataLatLonBox& bounds) {
-    if (bounds != _bounds) {
-        _bounds = bounds;
-        if (_previewType == NoiseMapPreviewType::ExplorerBounds) {
-            render ();
+void QNoiseMapViewer::initialise() {
+    CalenhadPreview::initialise();
+    _scene = new QGraphicsScene();
+    _scene -> installEventFilter (this);
+    _view = new QGraphicsView (this);
+    _view -> setScene (_scene);
+    _view -> setRenderHint (QPainter::Antialiasing, true);
+    setLayout (new QVBoxLayout());
+    layout() -> setMargin (5);
+    _content = new QWidget();
+    _view -> setFixedSize (250, 125);
+    _contentLayout = new QVBoxLayout();
+    _contentLayout -> setMargin (5);
+    _content -> setLayout (_contentLayout);
+    layout() -> addWidget (_content);
+    layout() -> setSpacing (0);
+    _contentLayout -> addWidget (_view);
+    _label = new QLabel();
+    _label -> setText ("Label");
+    _contentLayout -> addWidget (_label);
+    _progressBar = new QProgressBar (this);
+    _contentLayout -> addWidget (_progressBar);
+    connect (this, &CalenhadPreview::renderComplete, this, [=] () {
+        if (_explorer) {
+            _explorer -> changeView();
         }
-    }
+    });
 
-}
-
-GeoDataLatLonBox QNoiseMapViewer::bounds () {
-    return _bounds;
-}
-
-void QNoiseMapViewer::setSize (const int& height) {
-    _view -> setFixedHeight (height);
-}
-
-int QNoiseMapViewer::height () {
-    return _view -> height();
-}
-
-int QNoiseMapViewer::width () {
-    return _view -> width();
-}
-
-bool QNoiseMapViewer::isRendered () {
-    return _isRendered;
-}
-
-void QNoiseMapViewer::showEvent (QShowEvent *) {
-
-}
-
-void QNoiseMapViewer::render() {
-
-    QModule* module = (QModule*) parent ();
-        if (_source -> legend()) {
-            RenderJob* job = new RenderJob (_bounds, _source -> module(), _source -> legend());
-            QThread* thread = new QThread();
-            int width = _previewType == NoiseMapPreviewType::WholeWorld ? 2 * height() : height();
-            std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height(), QImage::Format_ARGB32);
-            job -> setImage (image);
-            _image = image;
-            job -> moveToThread (thread);
-            connect (thread, SIGNAL (started ()), job, SLOT (startJob()));
-            connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), this, SLOT (jobComplete (TileId, std::shared_ptr<QImage>)));
-            connect (job, SIGNAL (complete (TileId, std::shared_ptr<QImage>)), thread, SLOT (quit ()));
-            connect (job, SIGNAL (progress (int)), this, SLOT (setProgress (int)));
-            connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
-
-            thread -> start ();
-            _label -> setText (_bounds.toString ());
-       }
-}
-
-void QNoiseMapViewer::jobComplete (TileId, std::shared_ptr<QImage> image) {
-    _pixmap = QPixmap::fromImage (image -> mirrored ());
-    _scene -> clear();
-    _item = _scene -> addPixmap (_pixmap);
-    _scene -> setSceneRect (_item -> boundingRect());
-    _isRendered = true;
-    if (_explorer) {
-        _explorer -> changeView (_bounds);
-    }
-    emit renderComplete();
-    _label -> setText ("Rendered image " + QDateTime::currentDateTime ().toString ());
-    _item -> update();
-}
-
-QModule* QNoiseMapViewer::source() {
-    return _source;
-}
-
-void QNoiseMapViewer::setSource (QModule* qm) {
-    _source = qm;
+    render();
 }
 
 bool QNoiseMapViewer::eventFilter (QObject* o, QEvent* e) {
@@ -138,11 +64,10 @@ bool QNoiseMapViewer::eventFilter (QObject* o, QEvent* e) {
             switch ((int) me -> button ()) {
                 case Qt::LeftButton: {
                     if (_source -> isRenderable()) {
-                        if (_explorer) {
-                            _explorer -> close ();
-                            delete _explorer;
+                        if (! _explorer) {
+                            _explorer = new QNoiseMapExplorer (_source -> name(), _source);
+                            connect (_explorer, SIGNAL (viewChanged (const GeoDataLatLonAltBox&)), this, SLOT (setBounds (const GeoDataLatLonAltBox&)));
                         }
-                        _explorer = new QNoiseMapExplorer (_source -> name(), _source);
                         _explorer -> show ();
                     }
                     break;
@@ -163,7 +88,24 @@ bool QNoiseMapViewer::eventFilter (QObject* o, QEvent* e) {
     }
     return QObject::eventFilter (o, e);
 }
-
+/*
 void QNoiseMapViewer::setProgress (int p) {
     _progressBar -> setValue (p);
+}
+*/
+void QNoiseMapViewer::jobComplete (std::shared_ptr<QImage> image) {
+    CalenhadPreview::jobComplete (image);
+    QNoiseMapViewer::_label -> setText ("Rendered pixmap " + QDateTime::currentDateTime ().toString ());
+    _scene -> clear();
+    _item = _scene -> addPixmap (_pixmap);
+    _scene -> setSceneRect (_item -> boundingRect());
+    _item -> update();
+}
+
+void QNoiseMapViewer::setBounds (const Marble::GeoDataLatLonAltBox& bounds) {
+    CalenhadPreview::setBounds (bounds);
+}
+
+QSize QNoiseMapViewer::renderSize () {
+    return _view -> size();
 }

@@ -52,11 +52,10 @@ public:
     QNEBlock* handle();
     void setLegend (icosphere::Legend* legend);
     icosphere::Legend* legend();
+    std::shared_ptr<QImage> overview();
 
 public slots:
-    void changeBounds (const GeoDataLatLonBox&);
     void invalidate() override;
-
 
 protected:
 

@@ -56,11 +56,11 @@ public slots:
 
 signals:
     void progress (int);
-    void complete (TileId, std::shared_ptr<QImage>);
+    void complete (std::shared_ptr<QImage>);
 
 protected:
     Marble::GeoDataLatLonBox _bounds;
-    // the image is referenced by a shared pointer because we don't know what will be destructed when
+    // the pixmap is referenced by a shared pointer because we don't know what will be destructed when
     std::shared_ptr<QImage> _image = nullptr;
     noise::module::Module* _source;
     int _percentComplete;

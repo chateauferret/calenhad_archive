@@ -55,19 +55,24 @@ public:
     void setGradient (noise::utils::GradientLegend* gradient);
     public slots:
     void rescale();
+    QImage* overview();
 
-    signals:
+signals:
     void imageRefreshed();
+    void overviewRendered (const QImage& image);
 
 protected:
     int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const int& offset);
     double _angularResolution;
     QModule* _source;
+    QImage* _overview;
     noise::utils::GradientLegend* _gradient;
     noise::model::Sphere* _sphere;
     int _step;
 
+    void renderMainMap (GeoPainter* painter, ViewportParams* viewport);
 
+    void renderOverview ();
 };
 
 

@@ -37,20 +37,12 @@ void QModule::initialise() {
 
 void QModule::setupPreview() {
     // preview panel
-
-    _previewLayout = new QFormLayout();
-    _preview = new QNoiseMapViewer();
-
-    _preview -> setLayout (_previewLayout);
+    _preview = new QNoiseMapViewer (this, this);
     _preview -> setSource (this);
     _previewIndex = QNode::addPanel (tr ("Preview"), _preview);
 
     _preview -> initialise();
-    connect (this, &QNode::nodeChanged, _preview, &QNoiseMapViewer::render);
-}
-
-void QModule::changeBounds (const GeoDataLatLonBox& bounds) {
-    _preview->setBounds (bounds);
+    connect (this, &QNode::nodeChanged, _preview, &CalenhadPreview::render);
 }
 
 void QModule::setHandle (QNEBlock* h) {
@@ -61,6 +53,9 @@ QNEBlock* QModule::handle() {
     return _handle;
 }
 
+std::shared_ptr<QImage> QModule::overview() {
+    return _preview -> image();
+}
 
 noise::module::Module* QModule::module () {
     return _module;

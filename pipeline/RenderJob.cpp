@@ -71,13 +71,13 @@ void RenderJob::startJob() {
 
         if (! QThread::currentThread() -> isInterruptionRequested()) {
             if (_image) {
-                emit complete (_id, _image);
+                emit complete (_image);
             } else {
                 std::cout << "Interrupted";
             }
 
         } else {
-            std::cout << "No image for render target\n";
+            std::cout << "No pixmap for render target\n";
         }
     }
 }

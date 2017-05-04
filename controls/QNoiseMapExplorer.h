@@ -20,6 +20,7 @@
 class QColorGradient;
 class TileProducer;
 class QModule;
+class CalenhadOverviewMap;
 namespace Marble {
     class GeoDataLatLonAltBox;
 }
@@ -36,13 +37,11 @@ public:
     virtual ~QNoiseMapExplorer();
 
 public slots:
-    void changeView (const GeoDataLatLonBox&);
-    void changeView (const GeoDataLatLonAltBox&);
-    void changeBounds();
+    void changeView();
     void invalidate ();
 
     signals:
-    void boundsChanged (const GeoDataLatLonBox&);
+    void viewChanged (const GeoDataLatLonAltBox&);
 
 protected:
     QString _title, _name;
@@ -53,6 +52,8 @@ protected:
     std::shared_ptr<QImage> _image;
     QTimer timer;
     GeoDataLatLonBox _bounds;
+    CalenhadOverviewMap* _overview;
+
 };
 
 #endif //CALENHAD_QNOISEMAPEXPLORER_H

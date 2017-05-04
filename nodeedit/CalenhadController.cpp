@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 #include "../actions/ZoomCommand.h"
 #include "../actions/DeleteConnectionCommand.h"
-#include "../actions/DeleteModuleCommand.h"
+#include "../actions/AddModuleCommand.h"
 #include "Calenhad.h"
 #include "qneblock.h"
 #include "qnetoolbox.h"
@@ -35,6 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../actions/CommandGroup.h"
 #include "../actions/DuplicateModuleCommand.h"
 #include "../CalenhadServices.h"
+#include "../actions/DeleteModuleCommand.h"
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 

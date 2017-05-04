@@ -18,6 +18,7 @@ using namespace noise::utils;
 
 NoiseMapBuilderSphere::NoiseMapBuilderSphere (RenderJob* job) :
         _job (job) {
+
 }
 
 void NoiseMapBuilderSphere::build () {
@@ -32,6 +33,7 @@ void NoiseMapBuilderSphere::build () {
         for (int y = 0; y < _destHeight; y++) {
             float* pDest = _destNoiseMap -> GetSlabPtr (y);
             _curLon = _bounds.west (GeoDataCoordinates::Degree);
+
             for (int x = 0; x < _destWidth; x++) {
                 // if thread is being interrupted, terminate the loops gracefully
                 if (_job->isAbandoned ()) {

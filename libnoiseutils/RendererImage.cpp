@@ -187,12 +187,12 @@ void RendererImage::render () {
 
                 } else {
 
-                    // These values will apply no lighting to the destination image.
+                    // These values will apply no lighting to the destination pixmap.
                     lightIntensity = 1.0;
                 }
 
                 // Blend the destination color and the light
-                // intensity together, then invalidate the destination image with that color.
+                // intensity together, then invalidate the destination pixmap with that color.
                 QColor c = findDestinationColor (destColor, lightIntensity);
                 _pDestImage->setPixelColor (x, y, c);
                 // Go to the next point.

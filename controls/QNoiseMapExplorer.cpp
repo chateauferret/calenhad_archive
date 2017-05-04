@@ -9,7 +9,9 @@
 #include <marble/GeoDataTreeModel.h>
 #include <marble/GeoDataGroundOverlay.h>
 #include <marble/GeoDataDocument.h>
+#include <marble/PluginManager.h>
 #include "../mapping/GeoSceneEquirectTileProjection.h"
+#include "CalenhadOverviewMap.h"
 #include <QThread>
 
 
@@ -30,28 +32,46 @@ QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, QModule* source, con
         _source (source) {
 
     _mapWidget = new CalenhadMarbleWidget (this);
-    _mapWidget->setMapThemeId ("earth/calenhad/calenhad.dgml");
+    _mapWidget->setShowBackground (false);
+
+    // add our own overview map
+    _overview = new CalenhadOverviewMap (_source, _mapWidget);
+    _overview -> initialise();
+    _overview -> setFixedSize (210, 105);
+
+
+    // remove the map components we don't want - scale and overviewmap both relate to Earth
+            foreach (AbstractFloatItem* item, _mapWidget -> floatItems()) {
+            if (item && (item -> nameId() == "overviewmap" || item -> nameId() == "scalebar")) {
+                item->setVisible (false);
+            }
+        }
+
     std::cout << _mapWidget->mapThemeId ().toStdString () << "\n";
     _mapWidget->setWindowTitle (title);
     _layer = new CalenhadLayer (source);
-    connect (_layer, SIGNAL (imageRefreshed()), this, SLOT (invalidate ()));
     _mapWidget -> addLayer (_layer);
+    //connect (_layer, SIGNAL (overviewRendered (const QImage&)), _overview, SLOT (setImage (const QImage&)));
+    connect (_layer, SIGNAL (imageRefreshed()), this, SLOT (invalidate ()));
+
     QVBoxLayout* layout = new QVBoxLayout ();
-    layout->addWidget (_mapWidget);
+    layout -> addWidget (_mapWidget);
     setLayout (layout);
+
     _mapWidget->setZoom (1000);
+
     setGeometry (200, 200, 640, 480);
 
-
-    connect (_mapWidget, SIGNAL (visibleLatLonAltBoxChanged (const GeoDataLatLonAltBox&)), this, SLOT (changeView (const GeoDataLatLonAltBox&)));
+    connect (_mapWidget, &MarbleWidget::visibleLatLonAltBoxChanged, this, &QNoiseMapExplorer::changeView);
     connect (_mapWidget, SIGNAL (resized (const QSize&)), _layer, SLOT (rescale()));
-    connect (&timer, SIGNAL (timeout()), this, SLOT (changeBounds()));
-    connect (this, SIGNAL (boundsChanged  (const GeoDataLatLonBox&)), _source, SLOT (changeBounds (const GeoDataLatLonBox&)));
+    connect (&timer, SIGNAL (timeout()), this, SLOT (invalidate()));
     connect (_source, SIGNAL (nodeChanged()), this, SLOT (invalidate()));
 
 }
 
+
 QNoiseMapExplorer::~QNoiseMapExplorer() {
+    if (_overview) { delete _overview; }
     if (_mapWidget) { delete _mapWidget; }
     if (_layer) { delete _layer; }
     if (_gradient) { delete _gradient; }
@@ -60,23 +80,19 @@ QNoiseMapExplorer::~QNoiseMapExplorer() {
 
 void QNoiseMapExplorer::invalidate () {
     _mapWidget -> update();
+    _overview -> update();
 }
 
-void QNoiseMapExplorer::changeView (const GeoDataLatLonAltBox& bounds) {
-    changeView ((GeoDataLatLonBox) bounds);
-}
-
-void QNoiseMapExplorer::changeView (const GeoDataLatLonBox& bounds) {
+void QNoiseMapExplorer::changeView() {
+    GeoDataLatLonAltBox bounds = _mapWidget -> viewport() -> viewLatLonAltBox();
+    _overview -> setBounds (bounds);
+    _overview -> render();
+    emit viewChanged (bounds);
     _bounds = bounds;
     _layer -> rescale();
     timer.setSingleShot (true);
     timer.start();
 }
-
-void QNoiseMapExplorer::changeBounds () {
-    emit boundsChanged (_bounds);
-}
-
 
 // return 2 to the power of the given index
 int TileProducer::powers (int index) {

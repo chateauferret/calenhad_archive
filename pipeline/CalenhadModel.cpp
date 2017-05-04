@@ -9,6 +9,8 @@
 #include "../nodeedit/Calenhad.h"
 #include "../icosphere/icosphere.h"
 #include "../CalenhadServices.h"
+#include "../actions/DuplicateModuleCommand.h"
+#include "../actions/AddModuleCommand.h"
 
 using namespace icosphere;
 
@@ -310,6 +312,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             if (_activeTool) {
                 QString type = _activeTool -> data().toString();
                 if (! type.isNull ()) {
+
                     addModule (me -> scenePos(), type);
                 }
                 _controller -> clearTools();
@@ -329,7 +332,9 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
     if (type != QString::null) {
         QModule* module = _moduleFactory.createModule (type, this);
         module -> setName (name);
-        return addModule (module, initPos);
+        AddModuleCommand* command = new AddModuleCommand (module, initPos, this);
+        _controller -> doCommand (command);
+       //return addModule (module, initPos);
     } else {
         CalenhadServices::messages() -> message ("", "Couldn't create owner of type " + type + "\n");
         return nullptr;

@@ -9,61 +9,44 @@
 #include <QLabel>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QProgressBar>
-#include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include "../pipeline/RenderJob.h"
 #include <memory>
+#include <marble/GeoDataLatLonAltBox.h>
 #include "../geoutils.h"
-#include <marble/GeoDataLatLonBox.h>
+#include "CalenhadPreview.h"
 
 
 class QModule;
 class QNoiseMapExplorer;
 
-enum NoiseMapPreviewType { WholeWorld, ExplorerBounds };
 
-class QNoiseMapViewer : public QWidget {
+class QNoiseMapViewer : public CalenhadPreview {
 Q_OBJECT
 public:
-    QNoiseMapViewer (QModule* parent = 0);
-    virtual ~QNoiseMapViewer ();
-    void setBounds (const Marble::GeoDataLatLonBox& bounds);
-    Marble::GeoDataLatLonBox bounds ();
-    void setSize (const int& height);
-    int height ();
-    int width ();
-    bool isRendered ();
-    QModule* source ();
-    void setSource (QModule* qm);
-    void initialise ();
-    void showEvent (QShowEvent*) override;
+    QNoiseMapViewer (QModule* module, QWidget* parent);
+    virtual ~QNoiseMapViewer();
+    void jobComplete (std::shared_ptr<QImage> image) override;
+    void initialise();
     bool eventFilter (QObject*, QEvent*);
-
-    signals:
-    void renderComplete();
+    QSize renderSize() override;
 
 public slots:
+    void setBounds (const Marble::GeoDataLatLonAltBox& bounds) override;
+   // void setProgress (int p);
 
-    void jobComplete (TileId, std::shared_ptr<QImage> image);
-    void render ();
-    void setProgress (int p);
 
 
 protected:
-    Marble::GeoDataLatLonBox _bounds;
+    QLabel* _label;
+    QNoiseMapExplorer* _explorer;
+    QProgressBar* _progressBar;
     QGraphicsView* _view;
     QGraphicsScene* _scene;
     QGraphicsPixmapItem* _item = nullptr;
-    bool _isRendered;
-    QLabel* _label;
-    QModule* _source;
-    QVBoxLayout* _layout;
     QWidget* _content;
-    QNoiseMapExplorer* _explorer;
-    QProgressBar* _progressBar;
-    std::shared_ptr<QImage> _image;
-    NoiseMapPreviewType _previewType;
-    QPixmap _pixmap;
+    QVBoxLayout* _contentLayout;
+
 };
 
 

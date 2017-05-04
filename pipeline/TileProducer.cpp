@@ -41,7 +41,7 @@ std::shared_ptr<QImage> TileProducer::fetchTile (const int& x, const int& y, con
 }
 
 std::shared_ptr<QImage> TileProducer::fetchTile (const TileId& id) {
-    // tile is a bare pointer to a shared pointer. If the cache deletes the bare pointer the shared pointer still provides access to the image.
+    // tile is a bare pointer to a shared pointer. If the cache deletes the bare pointer the shared pointer still provides access to the pixmap.
     // try and find the requested tile in the cache
     //tile = _cache -> object (id);
     //if (! tile) {
@@ -66,7 +66,7 @@ std::shared_ptr<QImage> TileProducer::fetchTile (const TileId& id) {
     //    std::cout << "Found tile in cache: " << id.x() << ", " << id.y() << " zoom level " << id.zoomLevel () << "\n";
     //}
     //std::cout << "emit signal\n";
-    //std::shared_ptr<QImage> image = *tile;
+    //std::shared_ptr<QImage> pixmap = *tile;
 
 
     //std::cout << " ... complete\n";

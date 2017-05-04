@@ -97,8 +97,8 @@ set(SOURCE_FILES
         actions/ZoomCommand.h
         actions/DeleteConnectionCommand.cpp
         actions/DeleteConnectionCommand.h
-        actions/DeleteModuleCommand.cpp
-        actions/DeleteModuleCommand.h
+        actions/AddModuleCommand.cpp
+        actions/AddModuleCommand.h
         mapping/CalenhadLayer.cpp
         mapping/CalenhadLayer.h
         libnoiseutils/NoiseMap.cpp
@@ -166,6 +166,23 @@ set(SOURCE_FILES
         nodeedit/EditableLabel.h
         actions/XmlCommand.cpp
         actions/XmlCommand.h
+        controls/QxtGlobal.h
+        controls/AngleDial.cpp
+        controls/AngleDial.h
+        actions/CommandGroup.cpp
+        actions/CommandGroup.h
+        actions/DuplicateModuleCommand.cpp
+        actions/DuplicateModuleCommand.h
+        actions/DeleteModuleCommand.cpp
+        actions/DeleteModuleCommand.h
+        controls/CalenhadOverviewMap.cpp
+        controls/CalenhadOverviewMap.h
+        PreferencesService.h
+        MessageService.h
+        actions/DuplicateModuleCommand.cpp
+        actions/DuplicateModuleCommand.h
+        controls/CalenhadPreview.h
+        controls/CalenhadPreview.cpp
         )
 
 
@@ -183,8 +200,8 @@ find_package(GeographicLib 1.34 REQUIRED)
 find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
-add_library (core ${SOURCE_FILES} PreferencesService.h MessageService.h actions/DuplicateModuleCommand.cpp actions/DuplicateModuleCommand.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} controls/QxtGlobal.h controls/AngleDial.cpp controls/AngleDial.h actions/CommandGroup.cpp actions/CommandGroup.h actions/DuplicateModuleCommand.cpp actions/DuplicateModuleCommand.h)
+add_library (core ${SOURCE_FILES})
+add_executable (calenhad main.cpp ${SOURCE_FILES} controls/CalenhadOverviewInterface.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})
