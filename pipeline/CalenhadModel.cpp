@@ -503,7 +503,7 @@ void CalenhadModel::readMetadata (const QDomDocument& doc) {
 
 void CalenhadModel::inflate (const QDomDocument& doc) {
     readMetadata (doc);
-    QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("owner");
+    QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("module");
     for (int i = 0; i < moduleNodes.count(); i++) {
         QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");
         int x = positionElement.attributes().namedItem ("x").nodeValue().toInt();
@@ -524,8 +524,8 @@ void CalenhadModel::inflate (const QDomDocument& doc) {
     for (int i = 0; i < connectionNodes.count(); i++) {
         QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
         QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-        QModule* fromModule = findModule (fromElement.attributes().namedItem ("owner").nodeValue());
-        QModule* toModule = findModule (toElement.attributes().namedItem ("owner").nodeValue());
+        QModule* fromModule = findModule (fromElement.attributes().namedItem ("module").nodeValue());
+        QModule* toModule = findModule (toElement.attributes().namedItem ("module").nodeValue());
         if (fromModule && toModule) {
             QNEPort* fromPort = nullptr, * toPort = nullptr;
             for (QNEPort* port : fromModule -> ports()) {

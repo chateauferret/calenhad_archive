@@ -13,7 +13,7 @@
 CalenhadPreview::CalenhadPreview (QModule* module, QWidget* parent) :
         QWidget (parent),
         _isRendered (false), _ratio (2.0),
-        _bounds (GeoDataLatLonBox (-M_PI_2, M_PI_2, -M_PI, M_PI)),
+        _bounds (GeoDataLatLonBox (-M_PI_2, M_PI_2, 0, M_2_PI)),
         _source (module), _image (nullptr), _previewType (OverviewPreviewType::WholeWorld) {
 }
 
@@ -24,23 +24,15 @@ CalenhadPreview::~CalenhadPreview() {
 void CalenhadPreview::setBounds (const GeoDataLatLonAltBox& bounds) {
     if (bounds != _bounds) {
         _bounds = bounds;
-        if ((GeoDataLatLonBox) bounds == GeoDataLatLonBox (-M_PI_2, M_PI_2, -M_PI, M_PI)) {
-            _previewType = OverviewPreviewType::WholeWorld;
-            _ratio = 2.0;
-        } else {
-            _previewType = OverviewPreviewType::ExplorerBounds;
-            _ratio = bounds.width() / bounds.height();
-        }
-        if (_previewType == OverviewPreviewType::ExplorerBounds) {
-            render ();
-        }
+        _previewType = OverviewPreviewType::ExplorerBounds;
+        _ratio = bounds.width() / bounds.height();
+        render ();
     }
 }
 
 GeoDataLatLonBox CalenhadPreview::bounds () {
     return _bounds;
 }
-
 
 bool CalenhadPreview::isRendered () {
     return _isRendered;
@@ -75,7 +67,10 @@ RenderJob* CalenhadPreview::prepareRender() {
 }
 
 void CalenhadPreview::jobComplete (std::shared_ptr<QImage> image) {
-    _pixmap = QPixmap::fromImage (image -> mirrored ());
+    if (_previewType == OverviewPreviewType::ExplorerBounds) {
+        *image = image -> mirrored (false, true);
+    }
+    _pixmap = QPixmap::fromImage (*image);// (image -> mirrored ());
     _isRendered = true;
     emit renderComplete (image);
 

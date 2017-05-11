@@ -91,8 +91,8 @@ set(SOURCE_FILES
         pipeline/CalenhadModel.h
         pipeline/TileProducer.cpp
         pipeline/TileProducer.h
-        controls/CalenhadMarbleWidget.cpp
-        controls/CalenhadMarbleWidget.h
+        controls/CalenhadGlobe.cpp
+        controls/CalenhadGlobe.h
         actions/ZoomCommand.cpp
         actions/ZoomCommand.h
         actions/DeleteConnectionCommand.cpp
@@ -201,7 +201,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} controls/CalenhadOverviewInterface.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} controls/CalenhadOverviewInterface.h controls/CalenhadNavigator.cpp controls/CalenhadNavigator.h controls/CalenhadGlobeContextMenu.cpp controls/CalenhadGlobeContextMenu.h controls/CalenhadGlobeConfigDialog.cpp controls/CalenhadGlobeConfigDialog.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

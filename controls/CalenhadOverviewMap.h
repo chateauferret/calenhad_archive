@@ -43,12 +43,12 @@ class RenderJob;
 
     public:
         CalenhadOverviewMap();
-        explicit CalenhadOverviewMap (QModule* module, MarbleWidget* widget);
+        explicit CalenhadOverviewMap (QModule* module, QWidget* widget);
         virtual ~CalenhadOverviewMap();
         void paintEvent (QPaintEvent* e);
         public slots:
         void setBounds (const Marble::GeoDataLatLonAltBox& bounds) override;
-
+        QSize renderSize() override;
     protected:
         bool eventFilter( QObject *object, QEvent *e ) override;
         RenderJob* prepareRender() override;

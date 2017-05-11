@@ -7,7 +7,7 @@
 #include <libnoise/module/modulebase.h>
 #include "../qmodule/QNode.h"
 #include "../pipeline/TileProducer.h"
-#include "CalenhadMarbleWidget.h"
+#include "CalenhadGlobe.h"
 #include "../mapping/CalenhadLayer.h"
 #include "../libnoiseutils/GradientLegend.h"
 #include <marble/MarbleWidget.h>
@@ -36,23 +36,22 @@ public:
     QNoiseMapExplorer (const QString& title, QModule* source, const QWidget* parent = 0);
     virtual ~QNoiseMapExplorer();
 
-public slots:
+    public slots:
     void changeView();
-    void invalidate ();
 
     signals:
     void viewChanged (const GeoDataLatLonAltBox&);
 
 protected:
     QString _title, _name;
-    CalenhadMarbleWidget* _mapWidget;
+    CalenhadGlobe* _mapWidget;
     QModule* _source;
-    CalenhadLayer* _layer = nullptr;
+
     noise::utils::GradientLegend* _gradient;
     std::shared_ptr<QImage> _image;
-    QTimer timer;
-    GeoDataLatLonBox _bounds;
-    CalenhadOverviewMap* _overview;
+
+    protected slots:
+    void notifyViewChanged (const GeoDataLatLonAltBox& box);
 
 };
 

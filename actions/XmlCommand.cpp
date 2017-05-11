@@ -17,7 +17,7 @@ void XmlCommand::redo () {
     QDomDocument doc;
     doc.setContent (_newXml);
     QDomElement element = doc.documentElement().firstChildElement ("model");
-    QDomNodeList list = element.elementsByTagName ("owner");
+    QDomNodeList list = element.elementsByTagName ("module");
     for (int i = 0; i < list.size(); i++) {
         QDomNode nameNode = list.at (i).firstChildElement ("name");
         if (_node -> name() == nameNode.toElement().text()) {
@@ -31,7 +31,7 @@ void XmlCommand::undo() {
     QDomDocument doc;
     doc.setContent (_oldXml);
     QDomElement element = doc.documentElement();
-    QDomNodeList list = element.elementsByTagName ("owner");
+    QDomNodeList list = element.elementsByTagName ("module");
     for (int i = 0; i < list.size(); i++) {
         QDomNode nameNode = list.at (i).firstChildElement ("name");
         if (_node -> name() == nameNode.toElement().text()) {

@@ -243,7 +243,7 @@ void QNode::inflate (const QDomElement& element) {
 }
 
 void QNode::serialise (QDomDocument& doc) {
-    _element = doc.createElement ("owner");
+    _element = doc.createElement ("module");
     doc.documentElement().appendChild (_element);
     QDomElement nameElement = doc.createElement ("name");
     QDomText nameText = doc.createTextNode (_name);

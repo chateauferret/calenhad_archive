@@ -42,7 +42,7 @@ public:
 
 
 
-    // don't want a copy constructor because subclass implementations will have to call initialise()
+    // don't want a copy constructor because subclass implementations will have to call syncMouseMode()
     virtual QNode* clone () = 0;
     QString name();
     void setNotes (const QString& notes);

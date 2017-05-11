@@ -108,8 +108,8 @@ void QNEConnection::serialise (QDomDocument& doc) {
     connectionElement.appendChild (connectionFromElement);
     QDomElement connectionToElement = doc.createElement ("target");
     connectionElement.appendChild (connectionToElement);
-    connectionFromElement.setAttribute ("owner", m_port1->owner () -> name());
-    connectionToElement.setAttribute ("owner", m_port2->owner () -> name());
+    connectionFromElement.setAttribute ("module", m_port1->owner () -> name());
+    connectionToElement.setAttribute ("module", m_port2->owner () -> name());
     connectionFromElement.setAttribute ("output", m_port1 -> index());
     connectionToElement.setAttribute ("input", m_port2 -> index());
 }

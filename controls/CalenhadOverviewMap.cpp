@@ -35,10 +35,11 @@ CalenhadOverviewMap::CalenhadOverviewMap ()
           m_configDialog (nullptr) {
 }
 
-CalenhadOverviewMap::CalenhadOverviewMap (QModule* module, MarbleWidget* widget)
+CalenhadOverviewMap::CalenhadOverviewMap (QModule* module, QWidget* widget)
         : CalenhadPreview (module, widget),
           ui_configWidget (nullptr),
           m_configDialog (nullptr) {
+    setFixedSize (2 * height(), height());
 }
 
 CalenhadOverviewMap::~CalenhadOverviewMap () {
@@ -71,6 +72,7 @@ CalenhadOverviewMap::~CalenhadOverviewMap () {
 */
 void CalenhadOverviewMap::paintEvent (QPaintEvent* e) {
     QPainter painter (this);
+//    _pixmap.scaled (size());
     painter.drawPixmap (0, 0, _pixmap);
     drawBoundingBox();
     drawGrid();
@@ -79,8 +81,6 @@ void CalenhadOverviewMap::paintEvent (QPaintEvent* e) {
 void CalenhadOverviewMap::drawBoundingBox () {
     // Now draw the latitude longitude bounding box
     QPainter painter (this);
-    _renderWidth = renderSize().width();
-    _renderHeight = renderSize().height();
     qreal xWest = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * _bounds.west ();
     qreal xEast = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * _bounds.east ();
     qreal xNorth = _renderHeight / 2.0 - _renderHeight / M_PI * _bounds.north ();
@@ -205,14 +205,18 @@ bool CalenhadOverviewMap::eventFilter (QObject* object, QEvent* e) {
 }
 
 RenderJob* CalenhadOverviewMap::prepareRender() {
+    _renderWidth = renderSize().width();
+    _renderHeight = renderSize().height();
     RenderJob* job = new RenderJob (GeoDataLatLonBox (-M_PI_2, M_PI_2, 0, M_2_PI), _source -> module(), _source -> legend());
-    int width = (int) (height() * 2.0);
-    std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height(), QImage::Format_ARGB32);
+    std::shared_ptr<QImage> image = std::make_shared<QImage> (_renderWidth, _renderHeight, QImage::Format_ARGB32);
     job -> setImage (image);
     _image = image;
     return job;
 }
 
 
+QSize CalenhadOverviewMap::renderSize() {
+    return QSize (height() * 2, height());
+}
 
 
