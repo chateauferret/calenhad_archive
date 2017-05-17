@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.6)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 project (calenhad)
 include (CMakeFindDependencyMacro)
 
@@ -10,7 +14,7 @@ include_directories(
 
 add_subdirectory (test)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(CMAKE_AUTOMOC ON)
 set(SOURCE_FILES
         preferences.h
@@ -183,6 +187,15 @@ set(SOURCE_FILES
         actions/DuplicateModuleCommand.h
         controls/CalenhadPreview.h
         controls/CalenhadPreview.cpp
+        controls/QColorRampEditor.h
+        controls/QColorRampEditor.cpp
+        controls/CalenhadOverviewInterface.h
+        controls/CalenhadNavigator.cpp
+        controls/CalenhadNavigator.h
+        controls/CalenhadGlobeContextMenu.cpp
+        controls/CalenhadGlobeContextMenu.h
+        controls/CalenhadGlobeConfigDialog.cpp
+        controls/CalenhadGlobeConfigDialog.h
         )
 
 
@@ -201,7 +214,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} controls/CalenhadOverviewInterface.h controls/CalenhadNavigator.cpp controls/CalenhadNavigator.h controls/CalenhadGlobeContextMenu.cpp controls/CalenhadGlobeContextMenu.h controls/CalenhadGlobeConfigDialog.cpp controls/CalenhadGlobeConfigDialog.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} )
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

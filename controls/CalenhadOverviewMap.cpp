@@ -26,19 +26,17 @@
 #include "marble/Planet.h"
 #include "marble/PlanetFactory.h"
 #include "../mapping/CalenhadLayer.h"
+#include "CalenhadGlobe.h"
 
 
 
 
 CalenhadOverviewMap::CalenhadOverviewMap ()
-        : CalenhadPreview (nullptr),
-          m_configDialog (nullptr) {
+        : CalenhadPreview (nullptr) {
 }
 
-CalenhadOverviewMap::CalenhadOverviewMap (QModule* module, QWidget* widget)
-        : CalenhadPreview (module, widget),
-          ui_configWidget (nullptr),
-          m_configDialog (nullptr) {
+CalenhadOverviewMap::CalenhadOverviewMap (QModule* module, CalenhadGlobe* globe)
+        : CalenhadPreview (module, globe) {
     setFixedSize (2 * height(), height());
 }
 
@@ -86,8 +84,8 @@ void CalenhadOverviewMap::drawBoundingBox () {
     qreal xNorth = _renderHeight / 2.0 - _renderHeight / M_PI * _bounds.north ();
     qreal xSouth = _renderHeight / 2.0 - _renderHeight / M_PI * _bounds.south ();
 
-    qreal lon = m_centerLon;
-    qreal lat = m_centerLat;
+    qreal lon = ((CalenhadGlobe*) parent()) -> centre().longitude ();
+    qreal lat = ((CalenhadGlobe*) parent()) -> centre().longitude ();;
     GeoDataCoordinates::normalizeLonLat (lon, lat);
     qreal x = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * lon;
     qreal y = _renderHeight / 2.0 - _renderHeight / M_PI * lat;
@@ -167,7 +165,15 @@ void CalenhadOverviewMap::setBounds (const GeoDataLatLonAltBox& bounds) {
 }
 
 void CalenhadOverviewMap::jobComplete (std::shared_ptr<QImage> image) {
-    _pixmap = QPixmap::fromImage (*image); //-> mirrored (true, true));
+    _pixmap = QPixmap::fromImage (*image);
+    CalenhadGlobe* globe = (CalenhadGlobe*) parent();
+//    for (int x = _pixmap.width()) {
+//        for (int y = _pixmap.height()) {
+//            if (globe -> isInView (toLatLon (QPoint (x, y)))) {
+
+//            }
+//        }
+//    }
     _isRendered = true;
     emit renderComplete (image);
 
@@ -183,22 +189,15 @@ bool CalenhadOverviewMap::eventFilter (QObject* object, QEvent* e) {
         QMouseEvent* event = static_cast<QMouseEvent*>(e);
 
         // Double click triggers recentering the map at the specified position
-        if (e->type () == QEvent::MouseButtonDblClick) {
+        if (e -> type () == QEvent::MouseButtonDblClick) {
 
-            QPointF pos = event->pos () - rect().topLeft ();
 
-            qreal lon = (pos.x () - width () / 2.0) / width () * 360.0;
-            qreal lat = (height () / 2.0 - pos.y ()) / height () * 180.0;
-            _widget -> centerOn (lon, lat, true);
-
-            return true;
 
         }
 
         if (e -> type () == QEvent::MouseMove
             && !(event->buttons () & Qt::LeftButton)) {
-            // Cross hair cursor when moving above the float item without pressing a button
-            _widget -> setCursor (QCursor (Qt::CrossCursor));
+
             return true;
         }
     }
@@ -217,6 +216,24 @@ RenderJob* CalenhadOverviewMap::prepareRender() {
 
 QSize CalenhadOverviewMap::renderSize() {
     return QSize (height() * 2, height());
+}
+
+
+GeoDataCoordinates CalenhadOverviewMap::toLatLon (QPoint pos) {
+    double lon = ((double) pos.x() / (double) width()) * 360.0 - 180.0;
+    double lat = (180.0 - ((double) pos.y() / (double) height()) * 180.0) - 90.0;
+    GeoDataCoordinates latLon;
+    latLon.setLatitude (lat);
+    latLon.setLongitude (lon);
+    std::cout << lon << " " << lat << "\n";
+    return latLon;
+}
+
+void CalenhadOverviewMap::mouseDoubleClickEvent (QMouseEvent* e) {
+    CalenhadGlobe* globe = (CalenhadGlobe*) parent();
+    GeoDataCoordinates latLon = toLatLon (e -> pos());
+
+    globe -> goTo (latLon);
 }
 
 

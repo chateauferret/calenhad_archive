@@ -18,26 +18,33 @@ public:
     virtual ~CalenhadGlobeContextMenu();
 
 public slots:
-    void setMouseMode (const bool& enable);
+    void setDragMode (const bool& enable);
 
 signals:
     void showOverviewMap (const bool&);
     void showZoomSlider (const bool&);
     void setFloatItemVisible (const bool&);
     void showNavigator (const bool&);
-    void mouseModeSelected (const CalenhadGlobeMouseMode&);
+    void dragModeSelected (const CalenhadGlobeDragMode&);
+    void doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&);
 
 protected:
     CalenhadGlobe* _parent;
-    QMenu* _mouseModeMenu;
-    QAction* _mouseModePanAction;
-    QAction* _mouseModeZoomAction;
-    QAction* _mouseModeDisableAction;
+    QMenu* _mouseDragMenu;
+    QAction* _panAction;
+    QAction* _zoomAction;
+    QAction* _disableDragAction;
+    QMenu* _mouseDoubleClickMenu;
+    QAction* _gotoAction;
+    QAction* _placeAction;
+    QAction* _disableDoubleClickAction;
+
 
 protected slots:
     void syncMouseMode ();
 
 
+    void setDoubleClickMode (const bool& enable);
 };
 
 

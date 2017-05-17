@@ -30,10 +30,13 @@ namespace GeographicLib {
 }
 
 
-enum CalenhadGlobeMouseMode { Disabled, Pan, Zoom };
+enum CalenhadGlobeDragMode { NoDrag, Pan, Zoom };
+enum CalenhadGlobeDoubleClickMode { NoDoubleClick, Goto, Place };
 
 class CalenhadGlobe : public QWidget {//}; Marble::MarbleWidget {
 Q_OBJECT
+
+    //bool isInView (const GeoDataCoordinates& coordinates);
 
 
 public:
@@ -42,21 +45,26 @@ public:
     void resizeEvent (QResizeEvent* e) override;
 
     void mousePressEvent (QMouseEvent* e) override;
+    void mouseDoubleClickEvent (QMouseEvent* event);
     void mouseMoveEvent (QMouseEvent* e) override;
     void mouseReleaseEvent (QMouseEvent* e) override;
     void paintEvent (QPaintEvent* e) override;
 
-    const CalenhadGlobeMouseMode mouseMode() ;
+    const CalenhadGlobeDragMode dragMode();
+    const CalenhadGlobeDoubleClickMode doubleClickMode();
     bool isCompassVisible ();
     bool isZoomBarVisible ();
     bool isOverviewVisible ();
     bool isFloatItemVisible (const QString& nameId);
     void setSensitivity (const double& sensitivity);
     double sensitivity();
-
+    GeoDataCoordinates centre();
+    void zoomInTo (const GeoDataLatLonBox& target);
+    void zoomOutFrom (const GeoDataLatLonBox& target);
 
 public slots:
-    void setMouseMode (const CalenhadGlobeMouseMode& mouseMode);
+    void setMouseDragMode (const CalenhadGlobeDragMode& mouseMode);
+    void setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mouseMode);
     void showContextMenu (const QPoint& pos);
     void showConfigDialog();
     void invalidate ();
@@ -68,6 +76,7 @@ public slots:
     void showNavigator (const bool& show = true);
     void navigate (const NavigationEvent& e);
     void updateConfig();
+    void goTo (const GeoDataCoordinates& target);
 
 signals:
     void resized (const QSize& size);
@@ -85,12 +94,26 @@ protected:
     QPoint _moveFrom;
     GeographicLib::Geodesic* _geodesic;
     double _sensitivity = 0.2;
-    CalenhadGlobeMouseMode _mouseMode;
+    CalenhadGlobeDragMode _mouseDragMode;
+    CalenhadGlobeDoubleClickMode _mouseDoubleClickMode;
     double _zoom;
     CalenhadGlobeConfigDialog* _configDialog;
     double zoom ();
 
     void setFloatItemVisible (const bool& visible, const QString& nameId);
+
+    bool _zoomDrag;
+
+
+
+    GeoDataLatLonBox _zoomBox;
+    QLabel* _positionLabel;
+
+    QString geoLocationString (GeoDataCoordinates pos);
+
+    int zoomFactorToRadius (const double& zoom);
+
+    double radiusToZoomFactor (const int& radius);
 
 };
 

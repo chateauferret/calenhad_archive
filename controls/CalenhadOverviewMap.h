@@ -14,6 +14,7 @@
 #include <QHash>
 #include <QColor>
 #include <QPixmap>
+#include <QMouseEvent>
 #include <memory>
 
 #include "marble/GeoDataLatLonAltBox.h"
@@ -38,33 +39,30 @@ namespace Marble {
 }
 
 class RenderJob;
+class CalenhadGlobe;
 
     class CalenhadOverviewMap : public CalenhadPreview {
 
     public:
         CalenhadOverviewMap();
-        explicit CalenhadOverviewMap (QModule* module, QWidget* widget);
+        explicit CalenhadOverviewMap (QModule* module, CalenhadGlobe* globe);
         virtual ~CalenhadOverviewMap();
         void paintEvent (QPaintEvent* e);
         public slots:
         void setBounds (const Marble::GeoDataLatLonAltBox& bounds) override;
+        void mouseDoubleClickEvent (QMouseEvent* e) override;
+
+
         QSize renderSize() override;
     protected:
         bool eventFilter( QObject *object, QEvent *e ) override;
         RenderJob* prepareRender() override;
-
+        GeoDataCoordinates toLatLon (QPoint pos);
         protected slots:
         virtual void jobComplete (std::shared_ptr<QImage> image) override;
 
 
     private:
-
-        OverviewMapConfigWidget *ui_configWidget;
-        QDialog *m_configDialog;
-        MarbleWidget* _widget;
-        qreal m_centerLat;
-        qreal m_centerLon;
-
 
     //  QDialog* configDialog ();
 

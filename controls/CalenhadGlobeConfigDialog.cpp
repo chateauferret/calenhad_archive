@@ -28,14 +28,21 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Navigator", _compassCheck);
 
     QWidget* mouseTab = new QWidget (tabs);
+    mouseTab -> setLayout (new QFormLayout (mouseTab));
     tabs -> addTab (mouseTab, "&Mouse");
 
-    mouseTab -> setLayout (new QFormLayout (mouseTab));
-    _mouseModeCombo = new QComboBox (mouseTab);
-    _mouseModeCombo -> addItem ("Disabled");
-    _mouseModeCombo -> addItem ("Pan");
-    _mouseModeCombo -> addItem ("Zoom");
-    ((QFormLayout*) mouseTab -> layout()) -> addRow ("Mouse mode", _mouseModeCombo);
+    _doubleClickModeCombo = new QComboBox (mouseTab);
+    _doubleClickModeCombo -> addItem ("Do nothing");
+    _doubleClickModeCombo -> addItem ("Go to");
+    _doubleClickModeCombo -> addItem ("Describe place");
+    ((QFormLayout*) mouseTab -> layout()) -> addRow ("Mouse double-click action", _doubleClickModeCombo);
+
+
+    _dragModeCombo = new QComboBox (mouseTab);
+    _dragModeCombo -> addItem ("Do nothing");
+    _dragModeCombo -> addItem ("Pan");
+    _dragModeCombo -> addItem ("Zoom");
+    ((QFormLayout*) mouseTab -> layout()) -> addRow ("Mouse drag action", _dragModeCombo);
 
     _mouseSensitivitySlider = new QwtSlider (mouseTab);
     _mouseSensitivitySlider -> setGroove (true);
@@ -47,7 +54,8 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     _mouseSensitivitySlider -> setOrientation (Qt::Horizontal);
     ((QFormLayout*) mouseTab -> layout()) -> addRow ("Sensitivity", _mouseSensitivitySlider);
 
-    connect (_mouseModeCombo, &QComboBox::currentTextChanged, this, [=] () { _mouseSensitivitySlider -> setEnabled ( _mouseModeCombo -> currentText() != "Disabled"); });
+    // disable the sensitivity parameter if there is no mouse dragging
+    connect (_dragModeCombo, &QComboBox::currentTextChanged, this, [=] () { _mouseSensitivitySlider -> setEnabled ( _dragModeCombo -> currentText() != "NoDrag"); });
 
     QWidget* legendTab = new QWidget (tabs);
     tabs -> addTab (legendTab, "&Legend");
@@ -62,10 +70,13 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
 
 void CalenhadGlobeConfigDialog::initialise() {
     _mouseSensitivitySlider -> setValue (_parent -> sensitivity());
-    _mouseModeCombo -> setCurrentText ("Disabled");
+    _dragModeCombo -> setCurrentText ("Do nothing");
+    _doubleClickModeCombo -> setCurrentText ("Do nothing");
     _mouseSensitivitySlider -> setEnabled (false);
-    if (_parent -> mouseMode() == CalenhadGlobeMouseMode::Pan) { _mouseModeCombo -> setCurrentText ("Pan"); _mouseSensitivitySlider -> setEnabled (true); }
-    if (_parent -> mouseMode() == CalenhadGlobeMouseMode::Zoom) { _mouseModeCombo -> setCurrentText ("Zoom"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent->dragMode() == CalenhadGlobeDragMode::Pan) { _dragModeCombo -> setCurrentText ("Pan"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent->dragMode() == CalenhadGlobeDragMode::Zoom) { _dragModeCombo -> setCurrentText ("Zoom"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent->doubleClickMode() == CalenhadGlobeDoubleClickMode::Goto) { _doubleClickModeCombo -> setCurrentText ("Go to"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent->doubleClickMode() == CalenhadGlobeDoubleClickMode::Place) { _doubleClickModeCombo -> setCurrentText ("Describe place"); _mouseSensitivitySlider -> setEnabled (true); }
     _overviewCheck -> setChecked (_parent -> isOverviewVisible());
     _scaleCheck -> setChecked (_parent -> isFloatItemVisible ("scalebar"));
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
@@ -84,10 +95,16 @@ bool CalenhadGlobeConfigDialog::zoomBarCheckState() { return _zoomBarCheck -> is
 bool CalenhadGlobeConfigDialog::compassCheckState () { return _compassCheck -> isChecked(); }
 double CalenhadGlobeConfigDialog::mouseSensitivity() { return _mouseSensitivitySlider -> value(); }
 
-CalenhadGlobeMouseMode CalenhadGlobeConfigDialog::mouseMode() {
-    if (_mouseModeCombo->currentText () == "Pan") { return CalenhadGlobeMouseMode::Pan; }
-    if (_mouseModeCombo->currentText () == "Zoom") { return CalenhadGlobeMouseMode::Zoom; }
-    return CalenhadGlobeMouseMode::Disabled;
+CalenhadGlobeDragMode CalenhadGlobeConfigDialog::dragMode () {
+    if (_dragModeCombo->currentText () == "Pan") { return CalenhadGlobeDragMode::Pan; }
+    if (_dragModeCombo->currentText () == "Zoom") { return CalenhadGlobeDragMode::Zoom; }
+    return CalenhadGlobeDragMode::NoDrag;
+}
+
+CalenhadGlobeDoubleClickMode CalenhadGlobeConfigDialog::doubleClickMode () {
+    if (_doubleClickModeCombo->currentText () == "Go to") { return CalenhadGlobeDoubleClickMode::Goto; }
+    if (_doubleClickModeCombo->currentText () == "Place") { return CalenhadGlobeDoubleClickMode::Place; }
+    return CalenhadGlobeDoubleClickMode::NoDoubleClick;
 }
 
 

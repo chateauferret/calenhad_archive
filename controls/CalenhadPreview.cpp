@@ -70,7 +70,7 @@ void CalenhadPreview::jobComplete (std::shared_ptr<QImage> image) {
     if (_previewType == OverviewPreviewType::ExplorerBounds) {
         *image = image -> mirrored (false, true);
     }
-    _pixmap = QPixmap::fromImage (*image);// (image -> mirrored ());
+    _pixmap = QPixmap::fromImage (*image);
     _isRendered = true;
     emit renderComplete (image);
 

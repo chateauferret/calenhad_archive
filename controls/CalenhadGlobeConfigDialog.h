@@ -25,14 +25,16 @@ public:
     QCheckBox* _scaleCheck;
     QCheckBox* _zoomBarCheck;
     QCheckBox* _compassCheck;
-    QComboBox* _mouseModeCombo;
+    QComboBox* _dragModeCombo;
+    QComboBox* _doubleClickModeCombo;
     QwtSlider* _mouseSensitivitySlider;
     void initialise();
     bool overviewCheckState();
     bool scaleCheckState();
     bool zoomBarCheckState();
     bool compassCheckState();
-    CalenhadGlobeMouseMode mouseMode();
+    CalenhadGlobeDragMode dragMode();
+    CalenhadGlobeDoubleClickMode doubleClickMode();
     double mouseSensitivity();
 
 protected:
