@@ -8,7 +8,7 @@
 #include <QFormLayout>
 #include <QtWidgets/QDialogButtonBox>
 #include "CalenhadGlobeConfigDialog.h"
-
+#include "../CalenhadServices.h"
 
 
 CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : QDialog (), _parent (parent) {
@@ -26,6 +26,8 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Zoom bar",_zoomBarCheck);
     _compassCheck = new QCheckBox (widgetsTab);
     ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Navigator", _compassCheck);
+    _graticuleCheck = new QCheckBox (widgetsTab);
+    ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Graticule", _graticuleCheck);
 
     QWidget* mouseTab = new QWidget (tabs);
     mouseTab -> setLayout (new QFormLayout (mouseTab));
@@ -60,6 +62,20 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     QWidget* legendTab = new QWidget (tabs);
     tabs -> addTab (legendTab, "&Legend");
 
+    QWidget* projectionTab = new QWidget (tabs);
+    projectionTab -> setLayout (new QFormLayout (projectionTab));
+    tabs -> addTab (projectionTab, "&Projection");
+
+    _projectionCombo = new QComboBox (projectionTab);
+    QMap<QString, Projection> m = CalenhadServices::projections() -> all();
+    for (QString name : m.keys()) {
+        _projectionCombo -> addItem (name);
+        if (parent -> projection() == m.value (name)) {
+            _projectionCombo -> setCurrentText (name);
+        }
+    }
+    ((QFormLayout*) projectionTab -> layout()) -> addRow ("Projection", _projectionCombo);
+
     layout() -> addWidget (tabs);
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -81,6 +97,7 @@ void CalenhadGlobeConfigDialog::initialise() {
     _scaleCheck -> setChecked (_parent -> isFloatItemVisible ("scalebar"));
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent -> isCompassVisible());
+    _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
 
 }
 
@@ -93,7 +110,9 @@ bool CalenhadGlobeConfigDialog::overviewCheckState() { return _overviewCheck -> 
 bool CalenhadGlobeConfigDialog::scaleCheckState() { return _scaleCheck -> isChecked(); }
 bool CalenhadGlobeConfigDialog::zoomBarCheckState() { return _zoomBarCheck -> isChecked(); }
 bool CalenhadGlobeConfigDialog::compassCheckState () { return _compassCheck -> isChecked(); }
+bool CalenhadGlobeConfigDialog::graticuleCheckState () { return _graticuleCheck -> isChecked(); }
 double CalenhadGlobeConfigDialog::mouseSensitivity() { return _mouseSensitivitySlider -> value(); }
+Projection CalenhadGlobeConfigDialog::selectedProjection() { return CalenhadServices::projections() -> fetch (_projectionCombo -> currentText()); }
 
 CalenhadGlobeDragMode CalenhadGlobeConfigDialog::dragMode () {
     if (_dragModeCombo->currentText () == "Pan") { return CalenhadGlobeDragMode::Pan; }
@@ -106,5 +125,3 @@ CalenhadGlobeDoubleClickMode CalenhadGlobeConfigDialog::doubleClickMode () {
     if (_doubleClickModeCombo->currentText () == "Place") { return CalenhadGlobeDoubleClickMode::Place; }
     return CalenhadGlobeDoubleClickMode::NoDoubleClick;
 }
-
-

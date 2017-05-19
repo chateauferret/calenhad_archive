@@ -21,6 +21,7 @@ CalenhadLayer::CalenhadLayer (QModule* source) :
         _gradient (new GradientLegend ("default")),
         _sphere (new Sphere (*source -> module ())),
         _step (INITIAL_STEP),
+        _toDo (0), _done (0), _finished (false),
         _overview (new QImage (210, 105, QImage::Format_ARGB32)) {
 
 }
@@ -41,17 +42,42 @@ QStringList CalenhadLayer::renderPosition() const {
 }
 
 int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
-       return render (painter, viewport, 0);
-   }
+
+   return render (painter, viewport, 0);
+}
 
 
 int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const int& offset) {
     _sphere -> SetModule (* (_source -> module()));
-    renderMainMap (painter, viewport);
-    renderOverview();
-    if (_step > 1) {
+
+    // If we are starting a fresh render, we perform a "dry run" of the loops without any rendering in order to determine
+    // how much work is to be done. Then we can report progress against this.
+    if (_step == INITIAL_STEP) {
+        renderOverview();
+        _done = 0;
+        for (int i = INITIAL_STEP; i > 1; i /= 2) {
+            _step = i;
+            renderMainMap (painter, viewport, true);
+        }
+        _toDo = _done;
+        _done = 0;
+        _step = INITIAL_STEP;
+        emit renderingStarted();
+        _finished = false;
+    }
+
+    // Now perform the current pass of rendering the main map, for real.
+    if (! _finished) {
+        renderMainMap (painter, viewport);
+    }
+
+    // Set the dither step for the next pass
+    if (_step > 2) {
         _step /= 2;
         emit imageRefreshed();
+    } else {
+        _finished = true;
+        emit renderingFinished();
     }
 
     return 0;
@@ -76,14 +102,13 @@ void CalenhadLayer::renderOverview() {
     }
 }
 
-void CalenhadLayer::renderMainMap (GeoPainter* painter, ViewportParams* viewport) {
+void CalenhadLayer::renderMainMap (GeoPainter* painter, ViewportParams* viewport, bool rehearse) {
     GeoDataLatLonAltBox box = viewport -> viewLatLonAltBox();
     QColor color;
     std::time_t start = std::clock();
     double lat;
     double lon = box.west();
     bool finished = false;
-
     while (! finished) {
         lon += _angularResolution * _step;
         if (box.east() > box.west()) {
@@ -101,16 +126,23 @@ void CalenhadLayer::renderMainMap (GeoPainter* painter, ViewportParams* viewport
         lat = box.south();
         while (lat < box.north()) {
             lat += _angularResolution * _step;
-            double value = _sphere -> GetValue (radiansToDegrees (lat), radiansToDegrees (lon));
-            color = _gradient -> lookup (value);
-            painter -> setPen (color);
-            painter -> drawPoint (GeoDataCoordinates ((qreal) lon, (qreal) lat));
+            if (! rehearse) {
+                double value = _sphere->GetValue (radiansToDegrees (lat), radiansToDegrees (lon));
+                color = _gradient->lookup (value);
+                painter->setPen (color);
+                painter->drawPoint (GeoDataCoordinates ((qreal) lon, (qreal) lat));
+            }
+        }
+        _done++;
+        if (! rehearse) {
+            emit progress (( (double) _done / (double) _toDo) * 100);
+            std::cout << (( (double) _done / (double) _toDo) * 100) << "\n";
         }
     }
 }
 
 bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
-    _angularResolution = viewport -> angularResolution() / 4;
+    _angularResolution = viewport -> angularResolution() / 8;
     return render (painter, viewport) == 0;
 }
 

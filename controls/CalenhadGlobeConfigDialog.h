@@ -21,6 +21,19 @@ public:
 
     virtual ~CalenhadGlobeConfigDialog ();
 
+    void initialise();
+    bool overviewCheckState();
+    bool scaleCheckState();
+    bool zoomBarCheckState();
+    bool compassCheckState();
+    bool graticuleCheckState();
+    CalenhadGlobeDragMode dragMode();
+    CalenhadGlobeDoubleClickMode doubleClickMode();
+    double mouseSensitivity();
+    Projection selectedProjection();
+
+protected:
+    CalenhadGlobe* _parent;
     QCheckBox* _overviewCheck;
     QCheckBox* _scaleCheck;
     QCheckBox* _zoomBarCheck;
@@ -28,17 +41,9 @@ public:
     QComboBox* _dragModeCombo;
     QComboBox* _doubleClickModeCombo;
     QwtSlider* _mouseSensitivitySlider;
-    void initialise();
-    bool overviewCheckState();
-    bool scaleCheckState();
-    bool zoomBarCheckState();
-    bool compassCheckState();
-    CalenhadGlobeDragMode dragMode();
-    CalenhadGlobeDoubleClickMode doubleClickMode();
-    double mouseSensitivity();
+    QCheckBox* _graticuleCheck;
+    QComboBox* _projectionCombo;
 
-protected:
-    CalenhadGlobe* _parent;
 
 };
 

@@ -7,10 +7,12 @@
 #include <QtCore/QFile>
 #include "CalenhadServices.h"
 #include "LegendService.h"
+#include "ProjectionService.h"
 
 
 PreferencesService* CalenhadServices::_preferences;
 MessageService* CalenhadServices::_messages;
+ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 
 PreferencesService* CalenhadServices::preferences () {
@@ -23,6 +25,10 @@ MessageService* CalenhadServices::messages () {
 
 LegendService* CalenhadServices::legends () {
     return _legends;
+}
+
+ProjectionService* CalenhadServices::projections() {
+    return _projections;
 }
 
 void CalenhadServices::providePreferences (PreferencesService* service) {
@@ -55,4 +61,8 @@ bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
         return true;
     }
 
+}
+
+void CalenhadServices::provideProjections (ProjectionService* service) {
+    _projections = service;
 }

@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QSlider>
 #include <qwt/qwt_slider.h>
+#include <qwt/qwt_thermo.h>
 
 class CalenhadOverviewMap;
 class CalenhadLayer;
@@ -52,15 +53,18 @@ public:
 
     const CalenhadGlobeDragMode dragMode();
     const CalenhadGlobeDoubleClickMode doubleClickMode();
-    bool isCompassVisible ();
-    bool isZoomBarVisible ();
-    bool isOverviewVisible ();
+    bool isCompassVisible();
+    bool isZoomBarVisible();
+    bool isOverviewVisible();
+    bool isGraticuleVisible();
     bool isFloatItemVisible (const QString& nameId);
     void setSensitivity (const double& sensitivity);
     double sensitivity();
     GeoDataCoordinates centre();
     void zoomInTo (const GeoDataLatLonBox& target);
     void zoomOutFrom (const GeoDataLatLonBox& target);
+    const Projection& projection();
+    bool isInView (const GeoDataCoordinates& coordinates);
 
 public slots:
     void setMouseDragMode (const CalenhadGlobeDragMode& mouseMode);
@@ -73,10 +77,14 @@ public slots:
     void showOverviewMap (const bool& show = true);
     void showZoomSlider (const bool& show = true);
     void setFloatItemVisible (const bool& visible = true);
+    void setGraticuleVisible (const bool& visible = true);
     void showNavigator (const bool& show = true);
     void navigate (const NavigationEvent& e);
     void updateConfig();
     void goTo (const GeoDataCoordinates& target);
+    void setProjection (const Projection& projection);
+    void setProgress (const int& progress);
+
 
 signals:
     void resized (const QSize& size);
@@ -89,7 +97,8 @@ protected:
     MarbleMap* _map;
     QModule* _source;
     CalenhadLayer* _layer = nullptr;
-    QTimer timer;
+    QTimer _renderTimer;
+    QTimer _progressTimer;
     QwtSlider* _zoomSlider;
     QPoint _moveFrom;
     GeographicLib::Geodesic* _geodesic;
@@ -98,23 +107,25 @@ protected:
     CalenhadGlobeDoubleClickMode _mouseDoubleClickMode;
     double _zoom;
     CalenhadGlobeConfigDialog* _configDialog;
+
     double zoom ();
-
     void setFloatItemVisible (const bool& visible, const QString& nameId);
-
     bool _zoomDrag;
-
-
-
     GeoDataLatLonBox _zoomBox;
     QLabel* _positionLabel;
-
     QString geoLocationString (GeoDataCoordinates pos);
-
     int zoomFactorToRadius (const double& zoom);
-
     double radiusToZoomFactor (const int& radius);
 
+    static QMap<QString, Marble::Projection> projections;
+
+    Projection _projection;
+    QwtThermo* _progressBar;
+    int _progress;
+    QMutex mutex;
+    bool _rendering;
+    int pass = 0;
+    const int& getProgress ();
 };
 
 

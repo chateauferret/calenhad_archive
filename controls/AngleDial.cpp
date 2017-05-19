@@ -19,7 +19,7 @@ AngleDial::~AngleDial() {
 
 void AngleDial::initialise() {
 
-    // editing box
+    // editing _box
     _angleEdit = new QDoubleSpinBox (this);
     _angleEdit -> setMinimum (-180.0);
     _angleEdit -> setMaximum (180.0);

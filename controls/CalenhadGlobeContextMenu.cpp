@@ -4,37 +4,41 @@
 
 #include "CalenhadGlobeContextMenu.h"
 #include "CalenhadGlobe.h"
+#include "../CalenhadServices.h"
 
 CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobe* parent) : QMenu(), _parent (parent) {
 
-    QAction* showOverviewMapAction = new QAction ("Overview map", this);
-    showOverviewMapAction->setStatusTip ("Toggle the display of the overview map");
-    showOverviewMapAction->setCheckable (true);
-    showOverviewMapAction->setChecked (parent -> isOverviewVisible());
-    addAction (showOverviewMapAction);
-    connect (showOverviewMapAction, SIGNAL (toggled (bool)), this, SIGNAL (showOverviewMap (const bool&)));
+    _showOverviewMapAction = new QAction ("Overview map", this);
+    _showOverviewMapAction->setStatusTip ("Toggle the display of the overview map");
+    _showOverviewMapAction->setCheckable (true);
+    addAction (_showOverviewMapAction);
+    connect (_showOverviewMapAction, SIGNAL (toggled (bool)), this, SIGNAL (showOverviewMap (const bool&)));
 
-    QAction* showScaleAction = new QAction ("Scale", this);
-    showScaleAction->setStatusTip ("Toggle the display of the scale");
-    showScaleAction->setCheckable (true);
-    showScaleAction->setChecked (parent -> isFloatItemVisible ("scalebar"));
-    showScaleAction->setData ("scalebar");
-    addAction (showScaleAction);
-    connect (showScaleAction, SIGNAL (toggled (bool)), this, SIGNAL (setFloatItemVisible (const bool&)));
+    _showScaleAction = new QAction ("Scale", this);
+    _showScaleAction->setStatusTip ("Toggle the display of the scale");
+    _showScaleAction->setCheckable (true);
+    _showScaleAction->setData ("scalebar");
+    addAction (_showScaleAction);
+    connect (_showScaleAction, SIGNAL (toggled (bool)), this, SIGNAL (setFloatItemVisible (const bool&)));
 
-    QAction* showZoomSliderAction = new QAction ("Zoom bar", this);
-    showZoomSliderAction->setStatusTip ("Toggle the display of the zoom bar");
-    showZoomSliderAction->setCheckable (true);
-    showZoomSliderAction->setChecked (parent -> isZoomBarVisible());
-    addAction (showZoomSliderAction);
-    connect (showZoomSliderAction, SIGNAL (toggled (bool)), this, SIGNAL (showZoomSlider (const bool&)));
+    _showZoomSliderAction = new QAction ("Zoom bar", this);
+    _showZoomSliderAction->setStatusTip ("Toggle the display of the zoom bar");
+    _showZoomSliderAction->setCheckable (true);
+    addAction (_showZoomSliderAction);
+    connect (_showZoomSliderAction, SIGNAL (toggled (bool)), this, SIGNAL (showZoomSlider (const bool&)));
 
-    QAction* showNavigatorAction = new QAction ("Compass", this);
-    showNavigatorAction->setStatusTip ("Toggle the display of the compass");
-    showNavigatorAction->setCheckable (true);
-    showNavigatorAction->setChecked (parent -> isCompassVisible());
-    addAction (showNavigatorAction);
-    connect (showNavigatorAction, SIGNAL (toggled (bool)), this, SIGNAL (showNavigator (const bool&)));
+    _showNavigatorAction = new QAction ("Navigator", this);
+    _showNavigatorAction->setStatusTip ("Toggle the display of the compass / navigator dial");
+    _showNavigatorAction->setCheckable (true);
+    addAction (_showNavigatorAction);
+    connect (_showNavigatorAction, SIGNAL (toggled (bool)), this, SIGNAL (showNavigator (const bool&)));
+
+    _showGraticuleAction = new QAction ("Graticule", this);
+    _showGraticuleAction->setStatusTip ("Toggle the display of the graticule");
+    _showGraticuleAction->setCheckable (true);
+    addAction (_showGraticuleAction);
+    connect (_showGraticuleAction, SIGNAL (toggled (bool)), this, SIGNAL (showGraticule (const bool&)));
+
 
     // Configure actions for double-clicking with the mouse
 
@@ -103,9 +107,32 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobe* parent) : QMe
     connect (_zoomAction, SIGNAL (toggled (bool)), this, SLOT (setDragMode (const bool&)));
     connect (_disableDragAction, SIGNAL (toggled (bool)), this, SLOT (setDragMode (const bool&)));
 
+    // configure menu for selecting the projection
+
+    _projectionMenu = new QMenu ("Projection", this);
+    _projectionMenu -> setStatusTip ("Change the cartographic projection");
+    addMenu (_projectionMenu);
+
+    _projectionActions = new QActionGroup (this);
+    QMap<QString, Marble::Projection> m = CalenhadServices::projections() -> all ();
+     for (QString key : m.keys()) {
+         QAction* action = new QAction (key, this);
+         action -> setToolTip ("Change projection to " + key);
+         _projectionActions -> addAction (action);
+         action -> setCheckable (true);
+         _projectionMenu -> addAction (action);
+         connect (action, SIGNAL (toggled (bool)), this, SLOT (projectionSelected (const bool&)));
+     }
+
+
+    connect (_panAction, SIGNAL (toggled (bool)), this, SLOT (setDragMode (const bool&)));
+    connect (_zoomAction, SIGNAL (toggled (bool)), this, SLOT (setDragMode (const bool&)));
+    connect (_disableDragAction, SIGNAL (toggled (bool)), this, SLOT (setDragMode (const bool&)));
+
+
     // update the mouse mode actions on showing the menu to reflect the current state
 
-    connect (this, SIGNAL (aboutToShow()), this, SLOT (syncMouseMode ()));
+    connect (this, SIGNAL (aboutToShow()), this, SLOT (initialise ()));
 
     addSeparator();
 
@@ -136,13 +163,32 @@ void CalenhadGlobeContextMenu::setDoubleClickMode (const bool& enable) {
     if (a -> text() == "Do nothing") { emit doubleClickModeSelected (CalenhadGlobeDoubleClickMode::NoDoubleClick); }
 }
 
-void CalenhadGlobeContextMenu::syncMouseMode () {
+void CalenhadGlobeContextMenu::initialise () {
     blockSignals (true);
+    _showOverviewMapAction->setChecked (_parent -> isOverviewVisible());
+    _showScaleAction->setChecked (_parent -> isFloatItemVisible ("scalebar"));
+    _showZoomSliderAction->setChecked (_parent -> isZoomBarVisible());
+    _showNavigatorAction->setChecked (_parent -> isCompassVisible());
+    _showGraticuleAction->setChecked (_parent -> isGraticuleVisible());
     _panAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::Pan);
     _zoomAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::Zoom);
     _disableDragAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::NoDrag);
     _gotoAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Goto);
     _placeAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Place);
     _disableDoubleClickAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::NoDoubleClick);
+    QMap<QString, Projection> m = CalenhadServices::projections() -> all();
+    for (QAction* action : _projectionActions -> actions()) {
+        Projection p = _parent -> projection();
+        QString key =  action -> text();
+        action -> setChecked (p == m.value (key));
+    }
     blockSignals (false);
+}
+
+void CalenhadGlobeContextMenu::projectionSelected (const bool& selected) {
+    QAction* action = (QAction*) sender();
+    if (selected) {
+        Projection p = CalenhadServices::projections () -> fetch (action -> text());
+        emit projectionSelected (p);
+    }
 }

@@ -46,7 +46,7 @@ class CalenhadLayer : public QObject, public Marble::LayerInterface {
     Q_OBJECT
 
 public:
-    static const int INITIAL_STEP = 32;
+    static const int INITIAL_STEP = 64;
     CalenhadLayer (QModule* source);
     virtual ~CalenhadLayer();
     QStringList renderPosition() const override;
@@ -60,6 +60,9 @@ public:
 signals:
     void imageRefreshed();
     void overviewRendered (const QImage& image);
+    void progress (const double&);
+    void renderingStarted();
+    void renderingFinished();
 
 protected:
     int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const int& offset);
@@ -69,10 +72,15 @@ protected:
     noise::utils::GradientLegend* _gradient;
     noise::model::Sphere* _sphere;
     int _step;
+    int _done;
 
-    void renderMainMap (GeoPainter* painter, ViewportParams* viewport);
+    void renderMainMap (GeoPainter* painter, ViewportParams* viewport, bool rehearse = false);
 
     void renderOverview ();
+
+    int _toDo;
+
+    bool _finished;
 };
 
 

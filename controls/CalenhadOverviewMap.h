@@ -71,6 +71,8 @@ class CalenhadGlobe;
 
         int _renderWidth;
         int _renderHeight;
+
+        void recolour ();
     };
 
 #endif

@@ -152,11 +152,11 @@ void QIcosphereMap::inflate (const QDomElement& element) {
     QDomElement latlonElement1 = boundsElement.firstChildElement ("geolocation");
     double lat1 = M_PI, lat2 = -M_PI, lon1 = -M_PI * 2, lon2 = M_PI * 2;
     lat1 = latlonElement1.attributeNode ("lat").value ().toDouble (&ok);
-    if (ok) { lon1 = latlonElement1.attributeNode ("lon").value ().toDouble (&ok); }
+    if (ok) { lon1 = latlonElement1.attributeNode ("_lon").value ().toDouble (&ok); }
 
     QDomElement latlonElement2 = latlonElement1.nextSiblingElement ("geolocation");
     if (ok) { lat2 = latlonElement2.attributeNode ("lat").value ().toDouble (&ok); }
-    if (ok) { lon2 = latlonElement2.attributeNode ("lon").value ().toDouble (&ok); }
+    if (ok) { lon2 = latlonElement2.attributeNode ("_lon").value ().toDouble (&ok); }
     if (ok) {
         bool crossesDateline = boundsElement.attributeNode ("crossesDateline").value ().toLower () == "y";
         Bounds bounds = Bounds (lat1, lat2, lon1, lon2, crossesDateline);
@@ -172,11 +172,11 @@ void QIcosphereMap::serialise (QDomDocument& doc) {
     QDomElement latlonElement = doc.createElement ("geolocation");
     boundsElement.appendChild (latlonElement);
     latlonElement.setAttribute ("lat", _bounds.lat1);
-    latlonElement.setAttribute ("lon", _bounds.lon1);
+    latlonElement.setAttribute ("_lon", _bounds.lon1);
     latlonElement = doc.createElement ("geolocation");
     boundsElement.appendChild (latlonElement);
     latlonElement.setAttribute ("lat", _bounds.lat2);
-    latlonElement.setAttribute ("lon", _bounds.lon2);
+    latlonElement.setAttribute ("_lon", _bounds.lon2);
     boundsElement.setAttribute ("crossesDateline", _bounds._crossesDateline ? "y" : "n");
 }
 

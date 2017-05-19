@@ -14,6 +14,7 @@
 #include <QFileDialog>
 #include <QIcon>
 #include <QtCore/QThread>
+#include <QRgb>
 #include <iostream>
 #include <marble/MarbleMap.h>
 
@@ -70,14 +71,13 @@ CalenhadOverviewMap::~CalenhadOverviewMap () {
 */
 void CalenhadOverviewMap::paintEvent (QPaintEvent* e) {
     QPainter painter (this);
-//    _pixmap.scaled (size());
     painter.drawPixmap (0, 0, _pixmap);
     drawBoundingBox();
     drawGrid();
 }
 
 void CalenhadOverviewMap::drawBoundingBox () {
-    // Now draw the latitude longitude bounding box
+    // Now draw the latitude longitude bounding _box
     QPainter painter (this);
     qreal xWest = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * _bounds.west ();
     qreal xEast = _renderWidth / 2.0 + _renderWidth / (2.0 * M_PI) * _bounds.east ();
@@ -123,13 +123,6 @@ void CalenhadOverviewMap::drawBoundingBox () {
 
         painter.drawRect (QRectF (xWest, xNorth, boxWidth, boxHeight));
     }
-
-    painter.setPen (QPen (Qt::white));
-    painter.setBrush (QBrush (Qt::yellow));
-
-    qreal circleRadius = 2.5;
-    painter.setRenderHint (QPainter::Antialiasing, true);
-    painter.drawEllipse (QRectF (x - circleRadius, y - circleRadius, 2 * circleRadius, 2 * circleRadius));
 }
 
 void CalenhadOverviewMap::drawGrid() {
@@ -165,19 +158,29 @@ void CalenhadOverviewMap::setBounds (const GeoDataLatLonAltBox& bounds) {
 }
 
 void CalenhadOverviewMap::jobComplete (std::shared_ptr<QImage> image) {
+    _image = image;
     _pixmap = QPixmap::fromImage (*image);
-    CalenhadGlobe* globe = (CalenhadGlobe*) parent();
-//    for (int x = _pixmap.width()) {
-//        for (int y = _pixmap.height()) {
-//            if (globe -> isInView (toLatLon (QPoint (x, y)))) {
-
-//            }
-//        }
-//    }
+    recolour();
     _isRendered = true;
     emit renderComplete (image);
+}
 
-
+void CalenhadOverviewMap::recolour() {
+    CalenhadGlobe* globe = (CalenhadGlobe*) parent();
+    QColor grey;
+    QColor rgb;
+    int bw;
+    for (int x = 0; x < _image -> width(); x++) {
+        for (int y = 0; y < _image->height(); y++) {
+            if (! (globe -> isInView (toLatLon (QPoint (x, y))))) {
+                rgb = QColor (_image -> pixel (x, y));
+                bw = (rgb.red() + rgb.green() + rgb.blue()) / 3;
+                grey = QColor (bw, bw, bw);
+                _image->setPixelColor (x, y, grey);
+            }
+        }
+    }
+    _pixmap = QPixmap::fromImage (*_image);
 }
 
 bool CalenhadOverviewMap::eventFilter (QObject* object, QEvent* e) {
@@ -223,9 +226,8 @@ GeoDataCoordinates CalenhadOverviewMap::toLatLon (QPoint pos) {
     double lon = ((double) pos.x() / (double) width()) * 360.0 - 180.0;
     double lat = (180.0 - ((double) pos.y() / (double) height()) * 180.0) - 90.0;
     GeoDataCoordinates latLon;
-    latLon.setLatitude (lat);
-    latLon.setLongitude (lon);
-    std::cout << lon << " " << lat << "\n";
+    latLon.setLatitude (lat, GeoDataCoordinates::Degree);
+    latLon.setLongitude (lon, GeoDataCoordinates::Degree);
     return latLon;
 }
 

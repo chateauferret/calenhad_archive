@@ -369,7 +369,7 @@ bool Icosphere::coversTriangle (const Geolocation& a, const Geolocation& b, cons
         Geolocation c2 = Geolocation (c.longitude < -M_PI_2 ? c.longitude : c.longitude + M_2_PI, c.latitude, Units::Radians);
         return coversTriangle (a2, b2, c2, bounds);
     }
-    // triangle is in bounds if its vertices don't all lie beyond the same side of the box
+    // triangle is in bounds if its vertices don't all lie beyond the same side of the _box
     if (a.latitude < bounds.lat2 && b.latitude < bounds.lat2 && c.latitude < bounds.lat2) { return false; }
     if (a.latitude > bounds.lat1 && b.latitude > bounds.lat1 && c.latitude > bounds.lat1) { return false; }
     if (bounds.lon1 > bounds.lon2) {

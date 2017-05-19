@@ -50,7 +50,11 @@ int main (int argc, char **argv) {
     roster -> provideFromXml (fname);
     CalenhadServices::provideLegends (roster);
 
+    // Gradients service (to do)
 
+    // Projections service
+    ProjectionService* projections = new ProjectionService();
+    CalenhadServices::provideProjections (projections);
 
     // Stylesheet
     QString fileName = CalenhadServices::preferences() -> calenhad_stylesheet;

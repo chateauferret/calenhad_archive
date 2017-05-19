@@ -25,8 +25,10 @@ signals:
     void showZoomSlider (const bool&);
     void setFloatItemVisible (const bool&);
     void showNavigator (const bool&);
+    void showGraticule (const bool&);
     void dragModeSelected (const CalenhadGlobeDragMode&);
     void doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&);
+    void projectionSelected (const Projection&);
 
 protected:
     CalenhadGlobe* _parent;
@@ -38,13 +40,21 @@ protected:
     QAction* _gotoAction;
     QAction* _placeAction;
     QAction* _disableDoubleClickAction;
-
+    QAction* _showOverviewMapAction;
+    QAction* _showScaleAction;
+    QAction* _showZoomSliderAction;
+    QAction* _showNavigatorAction;
+    QAction* _showGraticuleAction;
+    QMenu* _projectionMenu;
+    QActionGroup* _projectionActions;
 
 protected slots:
-    void syncMouseMode ();
-
-
+    void initialise ();
     void setDoubleClickMode (const bool& enable);
+    void projectionSelected (const bool& selected);
+
+
+
 };
 
 

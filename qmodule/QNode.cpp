@@ -139,7 +139,7 @@ bool QNode::isRenderable() {
     // other conditions to do
 }
 
-// Spin box which selects a libnoiseutils level value between -1 and 1
+// Spin _box which selects a libnoiseutils level value between -1 and 1
 QDoubleSpinBox* QNode::noiseValueParamControl (const QString& text, const QString& property) {
     if (property == QString::null) { return noiseValueParamControl (text, propertyName (text)); }
     QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
@@ -151,7 +151,7 @@ QDoubleSpinBox* QNode::noiseValueParamControl (const QString& text, const QStrin
     return spin;
 }
 
-// Spin box which selects an iteration or octave count between 1 and 12
+// Spin _box which selects an iteration or octave count between 1 and 12
 QSpinBox* QNode::countParameterControl (const QString& text, const QString& property) {
     if (property == QString::null) { return countParameterControl (text, propertyName (text)); }
     QSpinBox* spin = new QSpinBox (_content);
@@ -161,7 +161,7 @@ QSpinBox* QNode::countParameterControl (const QString& text, const QString& prop
     return spin;
 }
 
-// Spin box which selects an angle between + / - 180 degrees
+// Spin _box which selects an angle between + / - 180 degrees
 QwtCounter* QNode::angleParameterControl (const QString& text, const QString& p) {
     if (p == QString::null) { return angleParameterControl (text, propertyName (text)); }
     QwtCounter *counter = new QwtCounter (this);
