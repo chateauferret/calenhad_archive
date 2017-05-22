@@ -44,7 +44,7 @@ void CalenhadPreview::showEvent (QShowEvent *) {
 
 void CalenhadPreview::render() {
         if (_source -> legend() && height() > 0) {
-            RenderJob* job = prepareRender();
+            ImageRenderJob* job = prepareRender();
             QThread* thread = new QThread();
             job -> moveToThread (thread);
             connect (thread, SIGNAL (started ()), job, SLOT (startJob()));
@@ -56,8 +56,8 @@ void CalenhadPreview::render() {
        }
 }
 
-RenderJob* CalenhadPreview::prepareRender() {
-    RenderJob* job = new RenderJob (_bounds, _source -> module(), _source -> legend());
+ImageRenderJob* CalenhadPreview::prepareRender() {
+    ImageRenderJob* job = new ImageRenderJob (_bounds, _source -> module(), _source -> legend());
     int height = renderSize().height();
     int width = (int) (renderSize().height() * _ratio);
     std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height, QImage::Format_ARGB32);

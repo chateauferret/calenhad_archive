@@ -6,7 +6,7 @@
 #include <QtCore/QThread>
 #include "NoiseMapBuilderSphere.h"
 #include "libnoise/model/sphere.h"
-#include "../pipeline/RenderJob.h"
+#include "../pipeline/ImageRenderJob.h"
 
 using namespace noise::utils;
 
@@ -16,7 +16,7 @@ using namespace noise::utils;
 /////////////////////////////////////////////////////////////////////////////
 // NoiseMapBuilderSphere class
 
-NoiseMapBuilderSphere::NoiseMapBuilderSphere (RenderJob* job) :
+NoiseMapBuilderSphere::NoiseMapBuilderSphere (ImageRenderJob* job) :
         _job (job) {
 
 }
@@ -35,18 +35,19 @@ void NoiseMapBuilderSphere::build () {
             _curLon = _bounds.west (GeoDataCoordinates::Degree);
 
             for (int x = 0; x < _destWidth; x++) {
-                // if thread is being interrupted, terminate the loops gracefully
-                if (_job->isAbandoned ()) {
+                //if thread is being interrupted, terminate the loops gracefully
+                if (_job -> isAbandoned ()) {
                     x = _destWidth;
                     y = _destHeight;
                 } else {
+
                     float curValue = (float) sphereModel.GetValue (_curLat, _curLon);
                     *pDest++ = curValue;
                     _curLon += _xDelta;
                     if (_curLon >= 180) {
                         _curLon -= 360;
                     }
-                }
+               }
             }
             _curLat += _yDelta;
             if (m_pCallback != NULL) {

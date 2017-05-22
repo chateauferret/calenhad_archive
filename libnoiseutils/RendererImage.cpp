@@ -10,7 +10,7 @@
 #include "NoiseMap.h"
 #include "Interpolation.h"
 #include <QThread>
-#include "../pipeline/RenderJob.h"
+#include "../pipeline/ImageRenderJob.h"
 
 using namespace noise::utils;
 using namespace icosphere;
@@ -18,7 +18,7 @@ using namespace icosphere;
 //////////////////////////////////////////////////////////////////////////////
 // RendererImage class
 
-RendererImage::RendererImage (RenderJob* job):
+RendererImage::RendererImage (ImageRenderJob* job):
         _isLightEnabled    (false),
         _isWrapEnabled     (false),
         _lightAzimuth      (45.0),
@@ -30,6 +30,7 @@ RendererImage::RendererImage (RenderJob* job):
         _pDestImage        (NULL),
         _pSourceNoiseMap   (NULL),
         _recalcLightValues (true) ,
+        _legend (nullptr),
         _job (job) {
 }
 

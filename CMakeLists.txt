@@ -85,8 +85,8 @@ set(SOURCE_FILES
         qmodule/QRangeModule.cpp
         controls/QLogSpinBox.cpp
         controls/QLogSpinBox.h
-        pipeline/RenderJob.cpp
-        pipeline/RenderJob.h
+        pipeline/ImageRenderJob.cpp
+        pipeline/ImageRenderJob.h
         controls/QNoiseMapExplorer.cpp
         controls/QNoiseMapExplorer.h
         httpserver/CalenhadRequestHandler.cpp
@@ -214,7 +214,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES} ProjectionService.cpp ProjectionService.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} ProjectionService.cpp ProjectionService.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} ProjectionService.cpp ProjectionService.h pipeline/RenderJob.cpp pipeline/RenderJob.h pipeline/GlobeRenderJob.cpp pipeline/GlobeRenderJob.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

@@ -32,7 +32,7 @@ namespace Marble {
 
 using namespace Marble;
 
-class RenderJob;
+class ImageRenderJob;
 
 class TileProducer : public QObject {
 Q_OBJECT
@@ -59,7 +59,7 @@ protected:
     QString _name;
     Marble::GeoSceneEquirectTileProjection* _projection;
     static QCache<Marble::TileId, std::shared_ptr<QImage>>* _cache;
-    RenderJob* makeRenderJob (TileId id, GeoSceneAbstractTileProjection* projection);
+    ImageRenderJob* makeRenderJob (TileId id, GeoSceneAbstractTileProjection* projection);
 };
 
 

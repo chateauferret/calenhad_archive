@@ -10,6 +10,7 @@
 #include <libnoise/model/sphere.h>
 #include <ctime>
 #include <QThread>
+#include <QtCore/QQueue>
 
 using namespace geoutils;
 using namespace Marble;
@@ -17,13 +18,13 @@ using namespace noise::utils;
 using namespace noise::model;
 
 CalenhadLayer::CalenhadLayer (QModule* source) :
+        _viewport (nullptr),
         _source (source),
         _gradient (new GradientLegend ("default")),
-        _sphere (new Sphere (*source -> module ())),
-        _step (INITIAL_STEP),
         _toDo (0), _done (0), _finished (false),
+        _globeChanged (true),
+        _buffer (std::make_shared <GlobeBuffer>()),
         _overview (new QImage (210, 105, QImage::Format_ARGB32)) {
-
 }
 
 CalenhadLayer::~CalenhadLayer() {
@@ -42,57 +43,84 @@ QStringList CalenhadLayer::renderPosition() const {
 }
 
 int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
-
-   return render (painter, viewport, 0);
-}
-
-
-int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const int& offset) {
-    _sphere -> SetModule (* (_source -> module()));
-
-    // If we are starting a fresh render, we perform a "dry run" of the loops without any rendering in order to determine
-    // how much work is to be done. Then we can report progress against this.
-    if (_step == INITIAL_STEP) {
-        renderOverview();
-        _done = 0;
-        for (int i = INITIAL_STEP; i > 1; i /= 2) {
-            _step = i;
-            renderMainMap (painter, viewport, true);
-        }
-        _toDo = _done;
-        _done = 0;
-        _step = INITIAL_STEP;
-        emit renderingStarted();
-        _finished = false;
-    }
-
-    // Now perform the current pass of rendering the main map, for real.
-    if (! _finished) {
-        renderMainMap (painter, viewport);
-    }
-
-    // Set the dither step for the next pass
-    if (_step > 2) {
-        _step /= 2;
-        emit imageRefreshed();
+    renderOverview();
+    time_t start = std::clock();
+    _viewport = viewport;
+    if (_globeChanged) {
+        populate();
     } else {
-        _finished = true;
-        emit renderingFinished();
-    }
+        double lon, lat;
+        QColor color;
 
+        QListIterator<QPair<double, Scanline>> i (*_buffer);
+        while (i.hasNext()) {
+            QPair <double, Scanline> p = i.next();
+            QListIterator<QPair<double, QColor>> j (p.second);
+            while (j.hasNext ()) {
+                QPair <double, QColor> q = j.next();
+                lon = p.first;
+                lat = q.first;
+                color = q.second;
+                painter->setPen (color);
+                painter->drawPoint (GeoDataCoordinates (lon, lat, GeoDataCoordinates::Radian));
+            }
+        }
+    }
+    double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+    std::cout << "CalenhadLayer::render " << duration << " sec\n";
     return 0;
 }
 
+void CalenhadLayer::populate() {
+    if (_source -> legend()) {
+        if (_viewport) {
+            emit (abandonJobs());
+            GlobeRenderJob* job = new GlobeRenderJob (_viewport, _source -> module (), _source -> legend ());
+            QThread* thread = new QThread ();
+            job->moveToThread (thread);
+            connect (thread, SIGNAL (started ()), job, SLOT (startJob ()));
+            connect (job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), thread, SLOT (quit ()));
+            connect (job, SIGNAL (progress (const double&)), this, SIGNAL (progress (const double&)));
+            connect (job, SIGNAL (bufferUpdated (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)));
+            connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
+            connect (this, &CalenhadLayer::abandonJobs, job, &RenderJob::abandon);
+
+            thread->start ();
+        }
+    }
+}
+
+void CalenhadLayer::updateBuffer (std::shared_ptr<GlobeBuffer> buffer) {
+    _buffer = buffer;
+    emit imageRefreshed();
+    _globeChanged = false;
+
+}
+
+bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
+    //if (viewport -> viewLatLonAltBox () != _box) {
+        _box = viewport -> viewLatLonAltBox ();
+        return render (painter, viewport) == 0;
+    //}
+    //return false;
+}
+
+void CalenhadLayer::rescale() {
+    refresh (_buffer);
+}
+
 void CalenhadLayer::renderOverview() {
+    Sphere* sphere = new Sphere();
+    sphere -> SetModule (* (_source -> module ()));
     QColor c;
-    double dLat = 360.0 / _overview -> width() * _step;
-    double dLon = 180.0 / _overview -> height() * _step;
+    double dLat = 360.0 / _overview -> width();
+    double dLon = 180.0 / _overview -> height();
     double lat, lon;
-    for (int px = 0; px < _overview -> width(); px += _step) {
-        for (int py = 0; py < _overview -> height(); py += _step) {
+    for (int px = 0; px < _overview -> width(); px ++) {
+        for (int py = 0; py < _overview -> height(); py ++) {
             lon = -180.0 + (dLon * px);
             lat = 90.0 - (dLat * py);
-            double value = _sphere -> GetValue (lat, lon);
+            double value = sphere -> GetValue (lat, lon);
             c = _gradient -> lookup (value);
             _overview -> setPixelColor (px, py, c);
         }
@@ -100,56 +128,10 @@ void CalenhadLayer::renderOverview() {
     if (_overview) {
         emit overviewRendered (*_overview);
     }
+    delete sphere;
 }
 
-void CalenhadLayer::renderMainMap (GeoPainter* painter, ViewportParams* viewport, bool rehearse) {
-    GeoDataLatLonAltBox box = viewport -> viewLatLonAltBox();
-    QColor color;
-    std::time_t start = std::clock();
-    double lat;
-    double lon = box.west();
-    bool finished = false;
-    while (! finished) {
-        lon += _angularResolution * _step;
-        if (box.east() > box.west()) {
-            if (lon > box.east()) {
-                finished = true;
-            }
-        } else {
-            if (lon > box.east() && lon < box.west()) {
-                finished = true;
-            }
-        }
-        if (lon > M_PI) {
-            lon -= 2 * M_PI;
-        }
-        lat = box.south();
-        while (lat < box.north()) {
-            lat += _angularResolution * _step;
-            if (! rehearse) {
-                double value = _sphere->GetValue (radiansToDegrees (lat), radiansToDegrees (lon));
-                color = _gradient->lookup (value);
-                painter->setPen (color);
-                painter->drawPoint (GeoDataCoordinates ((qreal) lon, (qreal) lat));
-            }
-        }
-        _done++;
-        if (! rehearse) {
-            emit progress (( (double) _done / (double) _toDo) * 100);
-            std::cout << (( (double) _done / (double) _toDo) * 100) << "\n";
-        }
-    }
-}
-
-bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
-    _angularResolution = viewport -> angularResolution() / 8;
-    return render (painter, viewport) == 0;
-}
-
-void CalenhadLayer::rescale() {
-    _step = INITIAL_STEP;
-}
-
-QImage* CalenhadLayer::overview () {
-    return _overview;
+void CalenhadLayer::refresh (std::shared_ptr<GlobeBuffer> buffer) {
+   _globeChanged = true;
+    emit imageRefreshed();
 }

@@ -9,7 +9,7 @@
 #include "NoiseMapBuilder.h"
 #include <marble/GeoDataLatLonBox.h>
 
-class RenderJob;
+class ImageRenderJob;
 
 namespace noise {
     namespace utils {
@@ -38,7 +38,7 @@ namespace noise {
         public:
 
             /// Constructor.
-            NoiseMapBuilderSphere (RenderJob* job);
+            NoiseMapBuilderSphere (ImageRenderJob* job);
 
             virtual void build ();
 
@@ -64,7 +64,7 @@ namespace noise {
             Marble::GeoDataLatLonBox _bounds;
 
             double _curLat, _curLon, _xDelta, _yDelta;
-            RenderJob* _job;
+            ImageRenderJob* _job;
             void prepare ();
         };
 

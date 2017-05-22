@@ -10,7 +10,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QProgressBar>
 #include <QGraphicsView>
-#include "../pipeline/RenderJob.h"
+#include "../pipeline/ImageRenderJob.h"
 #include <memory>
 #include <marble/GeoDataLatLonAltBox.h>
 #include "../geoutils.h"

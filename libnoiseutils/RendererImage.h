@@ -12,7 +12,7 @@
 #include "../icosphere/legend.h"
 
 
-class RenderJob;
+class ImageRenderJob;
 
 namespace noise {
     namespace utils {
@@ -120,7 +120,7 @@ namespace noise {
         public:
 
             /// Constructor.
-            RendererImage (RenderJob* job);
+            RendererImage (ImageRenderJob* job);
 
             /// Enables or disables the light source.
             ///
@@ -466,7 +466,7 @@ namespace noise {
 
             mutable icosphere::Legend* _legend;
 
-            RenderJob* _job;
+            ImageRenderJob* _job;
 
         };
 

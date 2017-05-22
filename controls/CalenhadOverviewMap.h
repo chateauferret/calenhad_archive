@@ -38,7 +38,7 @@ namespace Marble {
     class MarbleWidget;
 }
 
-class RenderJob;
+class ImageRenderJob;
 class CalenhadGlobe;
 
     class CalenhadOverviewMap : public CalenhadPreview {
@@ -56,7 +56,7 @@ class CalenhadGlobe;
         QSize renderSize() override;
     protected:
         bool eventFilter( QObject *object, QEvent *e ) override;
-        RenderJob* prepareRender() override;
+        ImageRenderJob* prepareRender() override;
         GeoDataCoordinates toLatLon (QPoint pos);
         protected slots:
         virtual void jobComplete (std::shared_ptr<QImage> image) override;

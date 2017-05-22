@@ -11,6 +11,7 @@
 #include <marble/TileId.h>
 #include <marble/GeoDataLatLonAltBox.h>
 #include "../qmodule/QModule.h"
+#include "../pipeline/GlobeRenderJob.h"
 
 class QColorGradient;
 
@@ -38,7 +39,7 @@ namespace Marble {
     class GeoDataLatLonBox;
 }
 
-class RenderJob;
+class ImageRenderJob;
 
 using namespace Marble;
 
@@ -53,34 +54,40 @@ public:
     virtual bool render	(Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString & renderPos, Marble::GeoSceneLayer* layer) override;
     int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport);
     void setGradient (noise::utils::GradientLegend* gradient);
-    public slots:
+
+public slots:
     void rescale();
-    QImage* overview();
+    void refresh (std::shared_ptr<GlobeBuffer> buffer);
+    void populate();
+    void updateBuffer (std::shared_ptr<GlobeBuffer> buffer);
 
 signals:
     void imageRefreshed();
     void overviewRendered (const QImage& image);
     void progress (const double&);
-    void renderingStarted();
-    void renderingFinished();
+    void abandonJobs();
 
 protected:
-    int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const int& offset);
-    double _angularResolution;
+
     QModule* _source;
     QImage* _overview;
     noise::utils::GradientLegend* _gradient;
-    noise::model::Sphere* _sphere;
-    int _step;
-    int _done;
+    std::shared_ptr<GlobeBuffer> _buffer;
 
-    void renderMainMap (GeoPainter* painter, ViewportParams* viewport, bool rehearse = false);
+    int _done;
 
     void renderOverview ();
 
     int _toDo;
 
     bool _finished;
+
+
+    QMutex mutex;
+    bool _globeChanged;
+    ViewportParams* _viewport;
+
+    GeoDataLatLonAltBox _box;
 };
 
 

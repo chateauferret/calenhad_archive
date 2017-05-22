@@ -13,7 +13,7 @@
 #include "marble/GeoDataLatLonBox.h"
 
 class QModule;
-class RenderJob;
+class ImageRenderJob;
 
 enum OverviewPreviewType { WholeWorld, ExplorerBounds };
 
@@ -41,7 +41,7 @@ public:
     void renderComplete (std::shared_ptr<QImage> image);
 
 protected:
-    virtual RenderJob* prepareRender();
+    virtual ImageRenderJob* prepareRender();
     std::shared_ptr<QImage> _image;
     QPixmap _pixmap;
     GeoDataLatLonBox _bounds;

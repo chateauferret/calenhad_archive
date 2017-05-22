@@ -101,7 +101,7 @@ void CalenhadRequestHandler::parseTilePath (const QByteArray& path, QByteArray& 
         }
     }
     if (ok) { z = params.at (CalenhadRequestPart::TileZ).toInt (&ok); }
-    if (z < 0 || z > RenderJob::MAX_ZOOM) {
+    if (z < 0 || z > MAX_ZOOM) {
         message = "Zoom out of range.\n Available zoom is 0 to 24";
         statusCode = 400;
         statusMessage = "Bad request";

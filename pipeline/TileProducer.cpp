@@ -23,15 +23,16 @@ TileProducer::~TileProducer() {
 
 }
 
-RenderJob* TileProducer::makeRenderJob (TileId id, GeoSceneAbstractTileProjection* projection) {
-    RenderJob* job = new RenderJob (id, _module, projection);
-    return job;
+ImageRenderJob* TileProducer::makeRenderJob (TileId id, GeoSceneAbstractTileProjection* projection) {
+   // ImageRenderJob* job = new ImageRenderJob (id, _module, projection);
+   // return job;
+    return nullptr;
 }
 
 
 std::shared_ptr<QImage> TileProducer::fetchTile (const int& x, const int& y, const int& z) {
     TileId id = TileId (_name, x, y, z);
-    RenderJob* job = makeRenderJob (id, _projection);
+    ImageRenderJob* job = makeRenderJob (id, _projection);
     std::shared_ptr<QImage> image = std::make_shared<QImage> (_size, _size, QImage::Format_ARGB32);
     image -> fill (QColor (0, 0, 255));
     job -> setImage (image);
@@ -49,7 +50,7 @@ std::shared_ptr<QImage> TileProducer::fetchTile (const TileId& id) {
     std::shared_ptr<QImage> image = std::make_shared<QImage> (_size, _size, QImage::Format_ARGB32);
     image -> fill (QColor (0, 0, 255));
         // if tile was not found, make it and save it in the cache
-    RenderJob* job = makeRenderJob (id, _projection);
+    ImageRenderJob* job = makeRenderJob (id, _projection);
 
     QThread* thread = new QThread();
 

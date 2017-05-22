@@ -206,10 +206,10 @@ bool CalenhadOverviewMap::eventFilter (QObject* object, QEvent* e) {
     }
 }
 
-RenderJob* CalenhadOverviewMap::prepareRender() {
+ImageRenderJob* CalenhadOverviewMap::prepareRender() {
     _renderWidth = renderSize().width();
     _renderHeight = renderSize().height();
-    RenderJob* job = new RenderJob (GeoDataLatLonBox (-M_PI_2, M_PI_2, 0, M_2_PI), _source -> module(), _source -> legend());
+    ImageRenderJob* job = new ImageRenderJob (GeoDataLatLonBox (-M_PI_2, M_PI_2, 0, M_2_PI), _source -> module(), _source -> legend());
     std::shared_ptr<QImage> image = std::make_shared<QImage> (_renderWidth, _renderHeight, QImage::Format_ARGB32);
     job -> setImage (image);
     _image = image;

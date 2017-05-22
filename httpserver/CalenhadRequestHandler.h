@@ -27,6 +27,7 @@ public:
     void service (HttpRequest &request, HttpResponse &response);
     void setModel (CalenhadModel* model);
 
+    static constexpr int MAX_ZOOM = 24;
 protected:
     int _size;
     QByteArray* _content = nullptr;

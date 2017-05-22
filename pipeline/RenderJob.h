@@ -1,74 +1,46 @@
 //
-// Created by martin on 30/12/16.
+// Created by martin on 19/05/17.
 //
 
 #ifndef CALENHAD_RENDERJOB_H
 #define CALENHAD_RENDERJOB_H
 
 
-#include <QtGui/QImage>
-#include <QtCore/QRunnable>
-#include <QtCore/QMutex>
-#include "../geoutils.h"
-#include <QMutex>
-#include <memory>
+#include <QtCore/QObject>
+#include <libnoise/module/modulebase.h>
+#include "../icosphere/legend.h"
 #include <marble/GeoDataLatLonBox.h>
-#include <marble/TileId.h>
-
-
-namespace noise {
-    namespace utils {
-        class RendererImage;
-        class Image;
-    }
-    namespace module {
-        class Module;
-    }
-}
-
-namespace Marble {
-    class GeoSceneAbstractTileProjection;
-}
-
-namespace icosphere {
-    class Legend;
-}
-
-using namespace Marble;
+#include <memory>
+#include <QtCore/QMutex>
 
 class RenderJob : public QObject {
 Q_OBJECT
 public:
-    static constexpr int MAX_ZOOM = 24;
-    RenderJob (const TileId& id, noise::module::Module* source, GeoSceneAbstractTileProjection* projection);
-    RenderJob (const GeoDataLatLonBox& box, noise::module::Module* source, icosphere::Legend* legend);
+    RenderJob (const Marble::GeoDataLatLonBox& box, noise::module::Module* source, icosphere::Legend* legend);
     virtual ~RenderJob ();
-    void setImage (std::shared_ptr<QImage>& image);
-    bool canRender (const noise::module::Module* source);
-    void render ();
-    std::shared_ptr<QImage> image ();
+    virtual bool canRender (const noise::module::Module* source);
+    virtual void render () = 0;
     bool isAbandoned();
 
 public slots:
-    void startJob ();
-    void sendProgress (int);
-    void abandon ();
+    virtual void startJob() = 0;
+    void abandon();
+
 
 signals:
-    void progress (int);
-    void complete (std::shared_ptr<QImage>);
+    void progress (const double&);
+
 
 protected:
     Marble::GeoDataLatLonBox _bounds;
-    // the pixmap is referenced by a shared pointer because we don't know what will be destructed when
-    std::shared_ptr<QImage> _image = nullptr;
     noise::module::Module* _source;
     int _percentComplete;
-    Marble::TileId _id;
-    bool _abandoned = false;
-    QMutex _mutex;
+    QMutex _abandonMutex;
     icosphere::Legend* _legend;
+    bool _abandoned;
+
 
 };
+
 
 #endif //CALENHAD_RENDERJOB_H

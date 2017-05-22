@@ -64,7 +64,6 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
         }
     connect (_map, &MarbleMap::visibleLatLonAltBoxChanged, this, &CalenhadGlobe::changeView);
     connect (this, SIGNAL (resized (const QSize&)), _layer, SLOT (rescale()));
-    connect (&_renderTimer, SIGNAL (timeout()), this, SLOT (invalidate()));
     connect (_source, SIGNAL (nodeChanged()), this, SLOT (invalidate()));
 
     // slider to control the zoom
