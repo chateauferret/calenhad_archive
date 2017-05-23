@@ -10,7 +10,6 @@
 #include <libnoise/model/sphere.h>
 #include <ctime>
 #include <QThread>
-#include <QtCore/QQueue>
 
 using namespace geoutils;
 using namespace Marble;
@@ -23,7 +22,7 @@ CalenhadLayer::CalenhadLayer (QModule* source) :
         _gradient (new GradientLegend ("default")),
         _toDo (0), _done (0), _finished (false),
         _globeChanged (true),
-        _buffer (std::make_shared <GlobeBuffer>()),
+        _buffer (nullptr),
         _overview (new QImage (210, 105, QImage::Format_ARGB32)) {
 }
 
@@ -49,23 +48,17 @@ int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
     if (_globeChanged) {
         populate();
     } else {
-        double lon, lat;
-        QColor color;
-
-        QListIterator<QPair<double, Scanline>> i (*_buffer);
-        while (i.hasNext()) {
-            QPair <double, Scanline> p = i.next();
-            QListIterator<QPair<double, QColor>> j (p.second);
-            while (j.hasNext ()) {
-                QPair <double, QColor> q = j.next();
-                lon = p.first;
-                lat = q.first;
-                color = q.second;
-                painter->setPen (color);
-                painter->drawPoint (GeoDataCoordinates (lon, lat, GeoDataCoordinates::Radian));
+        if (_buffer) {
+        QMutexLocker locker (&mutex);
+        QListIterator<RenderPoint> i (*_buffer);
+            while (i.hasNext()) {
+                RenderPoint p = i.next();
+                painter->setPen (p._color);
+                painter->drawPoint (GeoDataCoordinates (p._lon, p._lat, GeoDataCoordinates::Radian));
             }
         }
     }
+
     double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
     std::cout << "CalenhadLayer::render " << duration << " sec\n";
     return 0;
@@ -75,16 +68,18 @@ void CalenhadLayer::populate() {
     if (_source -> legend()) {
         if (_viewport) {
             emit (abandonJobs());
-            GlobeRenderJob* job = new GlobeRenderJob (_viewport, _source -> module (), _source -> legend ());
+            _job = new GlobeRenderJob (_viewport, _source -> module (), _source -> legend ());
             QThread* thread = new QThread ();
-            job->moveToThread (thread);
-            connect (thread, SIGNAL (started ()), job, SLOT (startJob ()));
-            connect (job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), thread, SLOT (quit ()));
-            connect (job, SIGNAL (progress (const double&)), this, SIGNAL (progress (const double&)));
-            connect (job, SIGNAL (bufferUpdated (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)));
-            connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
-            connect (this, &CalenhadLayer::abandonJobs, job, &RenderJob::abandon);
+            _job -> moveToThread (thread);
+            connect (thread, SIGNAL (started ()), _job, SLOT (startJob ()), Qt::QueuedConnection);
+            connect (_job, SIGNAL (bufferUpdated (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
 
+            connect (_job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), thread, SLOT (quit ()), Qt::QueuedConnection);
+            connect (_job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
+            connect (_job, SIGNAL (progress (const double&)), this, SIGNAL (progress (const double&)), Qt::QueuedConnection);
+
+            connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()), Qt::QueuedConnection);
+            connect (this, &CalenhadLayer::abandonJobs, _job, &RenderJob::abandon, Qt::QueuedConnection);
             thread->start ();
         }
     }
@@ -98,11 +93,8 @@ void CalenhadLayer::updateBuffer (std::shared_ptr<GlobeBuffer> buffer) {
 }
 
 bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
-    //if (viewport -> viewLatLonAltBox () != _box) {
-        _box = viewport -> viewLatLonAltBox ();
-        return render (painter, viewport) == 0;
-    //}
-    //return false;
+    _box = viewport -> viewLatLonAltBox ();
+    return render (painter, viewport) == 0;
 }
 
 void CalenhadLayer::rescale() {
@@ -134,4 +126,5 @@ void CalenhadLayer::renderOverview() {
 void CalenhadLayer::refresh (std::shared_ptr<GlobeBuffer> buffer) {
    _globeChanged = true;
     emit imageRefreshed();
+    _buffer = buffer;
 }

@@ -88,6 +88,7 @@ protected:
     ViewportParams* _viewport;
 
     GeoDataLatLonAltBox _box;
+    GlobeRenderJob* _job;
 };
 
 

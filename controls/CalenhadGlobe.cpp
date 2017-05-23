@@ -55,7 +55,7 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
                 item -> nameId() == "GpsInfo" ||
                 item -> nameId() == "license" ||
                 item -> nameId() == "navigation" ||
-                item -> nameId() == "porgress" ||
+                item -> nameId() == "progress" ||
                 item -> nameId() == "routing" ||
                 item -> nameId() == "speedometer" )) {
                 item->setVisible (false);
@@ -64,6 +64,7 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
         }
     connect (_map, &MarbleMap::visibleLatLonAltBoxChanged, this, &CalenhadGlobe::changeView);
     connect (this, SIGNAL (resized (const QSize&)), _layer, SLOT (rescale()));
+    connect (&_renderTimer, SIGNAL (timeout()), this, SLOT (invalidate()));
     connect (_source, SIGNAL (nodeChanged()), this, SLOT (invalidate()));
 
     // slider to control the zoom
@@ -295,6 +296,7 @@ void CalenhadGlobe::changeView() {
     emit viewChanged (bounds);
     _layer -> rescale();
     _renderTimer.setSingleShot (true);
+    //_renderTimer.setInterval (500);
     _renderTimer.start();
 }
 
