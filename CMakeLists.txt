@@ -196,6 +196,7 @@ set(SOURCE_FILES
         controls/CalenhadGlobeContextMenu.h
         controls/CalenhadGlobeConfigDialog.cpp
         controls/CalenhadGlobeConfigDialog.h
+        ProjectionService.cpp ProjectionService.h pipeline/RenderJob.cpp pipeline/RenderJob.h pipeline/GlobeRenderJob.cpp pipeline/GlobeRenderJob.h pipeline/ScanLineRenderer.cpp pipeline/ScanLineRenderer.h
         )
 
 
@@ -213,8 +214,8 @@ find_package(GeographicLib 1.34 REQUIRED)
 find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
-add_library (core ${SOURCE_FILES} ProjectionService.cpp ProjectionService.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} ProjectionService.cpp ProjectionService.h pipeline/RenderJob.cpp pipeline/RenderJob.h pipeline/GlobeRenderJob.cpp pipeline/GlobeRenderJob.h)
+add_library (core ${SOURCE_FILES}  )
+add_executable (calenhad main.cpp ${SOURCE_FILES})
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

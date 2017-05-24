@@ -49,19 +49,18 @@ int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
         populate();
     } else {
         if (_buffer) {
-        QMutexLocker locker (&mutex);
-        QListIterator<RenderPoint> i (*_buffer);
+            QMutexLocker locker (&mutex);
+            QListIterator<RenderPoint> i (*_buffer);
             while (i.hasNext()) {
                 RenderPoint p = i.next();
-                painter->setPen (p._color);
-                painter->drawPoint (GeoDataCoordinates (p._lon, p._lat, GeoDataCoordinates::Radian));
+                painter -> setPen (p._color);
+                painter -> drawPoint (GeoDataCoordinates (p._lon, p._lat, GeoDataCoordinates::Radian));
             }
+            double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+            std::cout << "CalenhadLayer::render " << _buffer -> size() << " points in " << duration << " sec\n";
+            return 0;
         }
     }
-
-    double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-    std::cout << "CalenhadLayer::render " << duration << " sec\n";
-    return 0;
 }
 
 void CalenhadLayer::populate() {
@@ -73,11 +72,9 @@ void CalenhadLayer::populate() {
             _job -> moveToThread (thread);
             connect (thread, SIGNAL (started ()), _job, SLOT (startJob ()), Qt::QueuedConnection);
             connect (_job, SIGNAL (bufferUpdated (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
-
             connect (_job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), thread, SLOT (quit ()), Qt::QueuedConnection);
             connect (_job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
             connect (_job, SIGNAL (progress (const double&)), this, SIGNAL (progress (const double&)), Qt::QueuedConnection);
-
             connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()), Qt::QueuedConnection);
             connect (this, &CalenhadLayer::abandonJobs, _job, &RenderJob::abandon, Qt::QueuedConnection);
             thread->start ();
@@ -89,7 +86,6 @@ void CalenhadLayer::updateBuffer (std::shared_ptr<GlobeBuffer> buffer) {
     _buffer = buffer;
     emit imageRefreshed();
     _globeChanged = false;
-
 }
 
 bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {

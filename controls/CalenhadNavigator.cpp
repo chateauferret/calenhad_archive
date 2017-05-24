@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cmath>
 
-CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (parent), _active (false), _buffer (nullptr) {
+CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (), _active (false), _buffer (nullptr) {
 
     QPalette p;
     for (int c = 0; c < QPalette::NColorRoles; c++) {
@@ -85,7 +85,9 @@ CalenhadNavigator::~CalenhadNavigator () {
 }
 
 void CalenhadNavigator::paintEvent (QPaintEvent* e) {
+
     if (_active) {
+        setAttribute (Qt::WA_OpaquePaintEvent, true);
         QPainter painter (this);
         painter.drawPixmap (0, 0, *_buffer);
         painter.save ();
@@ -94,6 +96,7 @@ void CalenhadNavigator::paintEvent (QPaintEvent* e) {
         painter.drawLine (centre, _mousePos);
         painter.restore ();
     } else {
+        setAttribute (Qt::WA_OpaquePaintEvent, false);
         QwtDial::paintEvent (e);
         if (! _buffer) {
             _buffer = new QPixmap (size());
