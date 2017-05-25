@@ -7,19 +7,19 @@
 #include <marble/ViewportParams.h>
 #include "../libnoiseutils/NoiseContstants.h"
 #include "../libnoiseutils/GradientLegend.h"
+#include "../CalenhadServices.h"
 #include <libnoise/model/sphere.h>
 #include <ctime>
 #include <QThread>
 
 using namespace geoutils;
 using namespace Marble;
-using namespace noise::utils;
+using namespace icosphere;
 using namespace noise::model;
 
 CalenhadLayer::CalenhadLayer (QModule* source) :
         _viewport (nullptr),
         _source (source),
-        _gradient (new GradientLegend ("default")),
         _toDo (0), _done (0), _finished (false),
         _globeChanged (true),
         _buffer (nullptr),
@@ -27,12 +27,12 @@ CalenhadLayer::CalenhadLayer (QModule* source) :
 }
 
 CalenhadLayer::~CalenhadLayer() {
-    if (_gradient) { delete _gradient; }
     if (_overview) { delete _overview; }
 }
 
-void CalenhadLayer::setGradient (GradientLegend* gradient) {
-    _gradient = gradient;
+
+Legend* CalenhadLayer::legend() {
+    return _source -> legend();
 }
 
 QStringList CalenhadLayer::renderPosition() const {
@@ -109,7 +109,7 @@ void CalenhadLayer::renderOverview() {
             lon = -180.0 + (dLon * px);
             lat = 90.0 - (dLat * py);
             double value = sphere -> GetValue (lat, lon);
-            c = _gradient -> lookup (value);
+            c = legend() -> lookup (value);
             _overview -> setPixelColor (px, py, c);
         }
     }

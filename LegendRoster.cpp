@@ -38,6 +38,7 @@ void LegendRoster::provideFromXml (const QString& fname) {
         QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
         for (int i = 0; i < legendNodes.size (); i++) {
             Legend* legend = Legend::fromNode (legendNodes.item (i));
+            std::cout << "Found legend " << legend -> name ().toStdString () << "\n";
             _legends.insert (legend->name (), legend);
         }
     }

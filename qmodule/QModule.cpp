@@ -8,6 +8,7 @@
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../libnoiseutils/GradientLegend.h"
+#include "../CalenhadServices.h"
 
 using namespace icosphere;
 using namespace noise::utils;
@@ -16,8 +17,7 @@ int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
 QModule::QModule (noise::module::Module* m, QWidget* parent) : QNode (parent), _module (m) {
-    // for now
-    GradientLegend* gl = new GradientLegend ("default");
+    Legend* gl = CalenhadServices::legends() -> find ("default");
     _legend = gl;
     connect (this, &QNode::initialised, this, &QModule::setupPreview);
 }
@@ -32,7 +32,6 @@ void QModule::initialise() {
     // all modules have an output
     QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
     addPort (output);
-
 }
 
 void QModule::setupPreview() {

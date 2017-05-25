@@ -13,6 +13,7 @@ namespace icosphere {
 }
 
 class LegendService {
+public:
     virtual icosphere::Legend* find (const QString& name) = 0;
     virtual void provide (const QString& name, icosphere::Legend* legend) = 0;
     virtual void provideFromXml (const QString& fname) = 0;

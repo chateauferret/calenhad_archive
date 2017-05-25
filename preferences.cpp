@@ -40,7 +40,7 @@ void Preferences::loadSettings() {
     calenhad_handle_text_color_selected = _settings -> value ("calenhad/handle/text/color/selected", "#000000").value<QColor>();
     calenhad_handle_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
     calenhad_altitudemap_deletemargin = _settings -> value ("calenhad/altitude/deletemargin", 0.2).toUInt();
-    calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/.config/calenhad/legends.xml").toString ();
+    calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/ClionProjects/calenhad/config/legends.xml").toString ();
 
     // Geometry
 

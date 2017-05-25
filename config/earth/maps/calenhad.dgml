@@ -38,11 +38,11 @@
       </property>
     </settings>
 
-    <legend>
+    <_legend>
       <section name="coordinate-grid" checkable="true" connect="coordinate-grid" spacing="12">
         <heading>Coordinate Grid</heading>
       </section>
-    </legend>
+    </_legend>
 
   </document>
 </dgml>

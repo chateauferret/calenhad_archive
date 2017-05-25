@@ -1,6 +1,7 @@
 #include <QtXml/QDomNode>
 #include "legend.h"
 #include "../libnoiseutils/GradientLegend.h"
+#include <QVector>
 
 using namespace icosphere;
 using namespace noise::utils;
@@ -32,6 +33,10 @@ QColor Legend::lookup (const std::experimental::optional<double>& value) {
     }
 }
 
+int Legend::size() {
+    return entries().size ();
+}
+
 icosphere::Legend* Legend::fromNode (const QDomNode& n) {
     if (n.isElement()) {
 
@@ -39,7 +44,7 @@ icosphere::Legend* Legend::fromNode (const QDomNode& n) {
         QString legendType = e.attribute ("type");
 
         QDomNode nameNode = e.firstChildElement ("name");
-        QString name = nameNode.nodeValue ();
+        QString name = nameNode.firstChild ().nodeValue ();
         Legend* legend;
         if (legendType == "Gradient") {
             GradientLegend* l = new GradientLegend (name);

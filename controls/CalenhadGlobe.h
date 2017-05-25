@@ -22,6 +22,12 @@ class CalenhadGlobeContextMenu;
 class CalenhadGlobeConfigDialog;
 
 
+namespace noise {
+    namespace utils {
+        class Legend;
+    }
+}
+
 namespace Marble {
     class MarbleMap;
 }
@@ -65,6 +71,8 @@ public:
     void zoomOutFrom (const GeoDataLatLonBox& target);
     const Projection& projection();
     bool isInView (const GeoDataCoordinates& coordinates);
+    void setLegend (icosphere::Legend* legend);
+    icosphere::Legend* legend();
 
 public slots:
     void setMouseDragMode (const CalenhadGlobeDragMode& mouseMode);

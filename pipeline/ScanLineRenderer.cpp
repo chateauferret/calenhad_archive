@@ -3,7 +3,6 @@
 //
 
 #include "ScanLineRenderer.h"
-#include "GlobeRenderJob.h"
 #include "../geoutils.h"
 
 using namespace noise::model;

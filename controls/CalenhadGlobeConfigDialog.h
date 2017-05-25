@@ -13,6 +13,7 @@
 #include "CalenhadGlobe.h"
 
 class CalenhadGlobe;
+class QColorRampEditor;
 
 class CalenhadGlobeConfigDialog : public QDialog {
     Q_OBJECT
@@ -31,6 +32,7 @@ public:
     CalenhadGlobeDoubleClickMode doubleClickMode();
     double mouseSensitivity();
     Projection selectedProjection();
+    icosphere::Legend* selectedLegend();
 
 protected:
     CalenhadGlobe* _parent;
@@ -43,6 +45,7 @@ protected:
     QwtSlider* _mouseSensitivitySlider;
     QCheckBox* _graticuleCheck;
     QComboBox* _projectionCombo;
+    QColorRampEditor* _legendEditor;
 
 
 };

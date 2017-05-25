@@ -9,6 +9,8 @@
 #include <QtWidgets/QDialogButtonBox>
 #include "CalenhadGlobeConfigDialog.h"
 #include "../CalenhadServices.h"
+#include "QColorRampEditor.h"
+#include "../icosphere/legend.h"
 
 
 CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : QDialog (), _parent (parent) {
@@ -60,7 +62,11 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     connect (_dragModeCombo, &QComboBox::currentTextChanged, this, [=] () { _mouseSensitivitySlider -> setEnabled ( _dragModeCombo -> currentText() != "NoDrag"); });
 
     QWidget* legendTab = new QWidget (tabs);
+    legendTab -> setLayout (new QVBoxLayout());
     tabs -> addTab (legendTab, "&Legend");
+    _legendEditor = new QColorRampEditor (this);
+    legendTab -> layout() -> addWidget (_legendEditor);
+
 
     QWidget* projectionTab = new QWidget (tabs);
     projectionTab -> setLayout (new QFormLayout (projectionTab));
@@ -98,6 +104,7 @@ void CalenhadGlobeConfigDialog::initialise() {
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent -> isCompassVisible());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
+    _legendEditor -> setLegend (_parent -> legend());
 
 }
 
@@ -124,4 +131,8 @@ CalenhadGlobeDoubleClickMode CalenhadGlobeConfigDialog::doubleClickMode () {
     if (_doubleClickModeCombo->currentText () == "Go to") { return CalenhadGlobeDoubleClickMode::Goto; }
     if (_doubleClickModeCombo->currentText () == "Place") { return CalenhadGlobeDoubleClickMode::Place; }
     return CalenhadGlobeDoubleClickMode::NoDoubleClick;
+}
+
+icosphere::Legend* CalenhadGlobeConfigDialog::selectedLegend () {
+    return _legendEditor -> legend();
 }

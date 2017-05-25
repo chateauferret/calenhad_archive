@@ -22,6 +22,7 @@ class QwtCompass;
 
 using namespace Marble;
 using namespace GeographicLib;
+using namespace icosphere;
 
 CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (parent),
     _layer (nullptr),
@@ -371,6 +372,8 @@ void CalenhadGlobe::updateConfig () {
     setProjection (_configDialog -> selectedProjection());
     _configDialog -> update();
     _contextMenu -> update();
+    _source -> setLegend (_configDialog -> selectedLegend());
+     update();
 }
 
 void CalenhadGlobe::setSensitivity (const double& sensitivity) {
@@ -487,4 +490,12 @@ void CalenhadGlobe::setProgress (const int& progress) {
 const int& CalenhadGlobe::getProgress() {
     QMutexLocker locker (&mutex);
     return _progress;
+}
+
+void CalenhadGlobe::setLegend (Legend* legend) {
+    _source -> setLegend (legend);
+}
+
+Legend* CalenhadGlobe::legend() {
+    return _layer -> legend();
 }

@@ -7,15 +7,7 @@
 using namespace noise::utils;
 
 GradientLegend::GradientLegend (const QString& name) : IntervalLegend (name) {
-    addEntry (-1.00, QColor (  0,   0, 128, 255));
-    addEntry (-0.20, QColor ( 32,  64, 128, 255));
-    addEntry (-0.04, QColor ( 64,  96, 192, 255));
-    addEntry (-0.02, QColor (192, 192, 128, 255));
-    addEntry ( 0.00, QColor (  0, 192,   0, 255));
-    addEntry ( 0.25, QColor (192, 192,   0, 255));
-    addEntry ( 0.50, QColor (160,  96,  64, 255));
-    addEntry ( 0.75, QColor (128, 255, 255, 255));
-    addEntry ( 1.00, QColor (255, 255, 255, 255));
+
 
 }
 
@@ -24,11 +16,7 @@ GradientLegend::~GradientLegend() {
 }
 
 QColor GradientLegend::lookup (const double& index) {
-    std::map<double, QColor>::iterator i = std::find_if_not (intervals.begin(), intervals.end(), [&index] (std::pair<double, QColor> entry) -> bool { return entry.first <= index; } );
-    //QColor c2 = i -> second;
-    //double p2 = i -> first;
-    //QColor c1 = (--i) -> second;
-    //double p1 = i -> first;
+    std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool { return entry.first <= index; } );
     QColor color = interpolateColors (i, i--, index);
     return color;
 }

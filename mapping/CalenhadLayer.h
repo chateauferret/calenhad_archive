@@ -21,7 +21,7 @@ namespace icosphere {
 
 namespace noise {
     namespace utils {
-        class GradientLegend;
+        class Legend;
     }
     namespace module {
         class Module;
@@ -53,7 +53,7 @@ public:
     QStringList renderPosition() const override;
     virtual bool render	(Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString & renderPos, Marble::GeoSceneLayer* layer) override;
     int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport);
-    void setGradient (noise::utils::GradientLegend* gradient);
+    icosphere::Legend* legend();
 
 public slots:
     void rescale();
@@ -68,23 +68,16 @@ signals:
     void abandonJobs();
 
 protected:
-
+    void renderOverview ();
     QModule* _source;
     QImage* _overview;
-    noise::utils::GradientLegend* _gradient;
     std::shared_ptr<GlobeBuffer> _buffer;
-
     int _done;
-
-    void renderOverview ();
-
     int _toDo;
-
     bool _finished;
-
-
-    QMutex mutex;
     bool _globeChanged;
+    QMutex mutex;
+
     ViewportParams* _viewport;
 
     GeoDataLatLonAltBox _box;

@@ -85,7 +85,6 @@ CalenhadNavigator::~CalenhadNavigator () {
 }
 
 void CalenhadNavigator::paintEvent (QPaintEvent* e) {
-
     if (_active) {
         setAttribute (Qt::WA_OpaquePaintEvent, true);
         QPainter painter (this);
