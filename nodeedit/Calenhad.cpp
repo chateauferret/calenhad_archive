@@ -32,7 +32,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../pipeline/CalenhadModel.h"
 #include "CalenhadView.h"
 #include "../nodeedit/qnetoolbox.h"
-#include "../icosphere/legend.h"
 #include "../CalenhadServices.h"
 
 using namespace icosphere;

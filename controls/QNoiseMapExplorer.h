@@ -9,7 +9,7 @@
 #include "../pipeline/TileProducer.h"
 #include "CalenhadGlobe.h"
 #include "../mapping/CalenhadLayer.h"
-#include "../libnoiseutils/GradientLegend.h"
+#include "../mapping/Legend.h"
 #include <marble/MarbleWidget.h>
 #include <QDialog>
 #include <queue>
@@ -47,7 +47,7 @@ protected:
     CalenhadGlobe* _mapWidget;
     QModule* _source;
 
-    noise::utils::GradientLegend* _gradient;
+    Legend* _gradient;
     std::shared_ptr<QImage> _image;
 
     protected slots:

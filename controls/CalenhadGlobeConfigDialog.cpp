@@ -6,87 +6,110 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QFormLayout>
+#include <QTextEdit>
 #include <QtWidgets/QDialogButtonBox>
 #include "CalenhadGlobeConfigDialog.h"
 #include "../CalenhadServices.h"
-#include "QColorRampEditor.h"
-#include "../icosphere/legend.h"
+#include "../mapping/Legend.h"
+#include "LegendWidget.h"
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QStackedLayout>
 
 
 CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : QDialog (), _parent (parent) {
-    setLayout (new QVBoxLayout());
+    setLayout (new QVBoxLayout ());
 
     QTabWidget* tabs = new QTabWidget (this);
     QWidget* widgetsTab = new QWidget (tabs);
-    widgetsTab -> setLayout (new QFormLayout (widgetsTab));
-    tabs -> addTab (widgetsTab, "&Widgets");
+    widgetsTab->setLayout (new QFormLayout (widgetsTab));
+    tabs->addTab (widgetsTab, "&Widgets");
     _overviewCheck = new QCheckBox (widgetsTab);
-    ((QFormLayout*) widgetsTab ->  layout()) -> addRow ("Overview map", _overviewCheck);
+    ((QFormLayout*) widgetsTab->layout ())->addRow ("Overview map", _overviewCheck);
     _scaleCheck = new QCheckBox (widgetsTab);
-    ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Scale bar", _scaleCheck);
+    ((QFormLayout*) widgetsTab->layout ())->addRow ("Scale bar", _scaleCheck);
     _zoomBarCheck = new QCheckBox (widgetsTab);
-    ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Zoom bar",_zoomBarCheck);
+    ((QFormLayout*) widgetsTab->layout ())->addRow ("Zoom bar", _zoomBarCheck);
     _compassCheck = new QCheckBox (widgetsTab);
-    ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Navigator", _compassCheck);
+    ((QFormLayout*) widgetsTab->layout ())->addRow ("Navigator", _compassCheck);
     _graticuleCheck = new QCheckBox (widgetsTab);
-    ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Graticule", _graticuleCheck);
+    ((QFormLayout*) widgetsTab->layout ())->addRow ("Graticule", _graticuleCheck);
 
     QWidget* mouseTab = new QWidget (tabs);
-    mouseTab -> setLayout (new QFormLayout (mouseTab));
-    tabs -> addTab (mouseTab, "&Mouse");
+    mouseTab->setLayout (new QFormLayout (mouseTab));
+    tabs->addTab (mouseTab, "&Mouse");
 
     _doubleClickModeCombo = new QComboBox (mouseTab);
-    _doubleClickModeCombo -> addItem ("Do nothing");
-    _doubleClickModeCombo -> addItem ("Go to");
-    _doubleClickModeCombo -> addItem ("Describe place");
-    ((QFormLayout*) mouseTab -> layout()) -> addRow ("Mouse double-click action", _doubleClickModeCombo);
+    _doubleClickModeCombo->addItem ("Do nothing");
+    _doubleClickModeCombo->addItem ("Go to");
+    _doubleClickModeCombo->addItem ("Describe place");
+    ((QFormLayout*) mouseTab->layout ())->addRow ("Mouse double-click action", _doubleClickModeCombo);
 
 
     _dragModeCombo = new QComboBox (mouseTab);
-    _dragModeCombo -> addItem ("Do nothing");
-    _dragModeCombo -> addItem ("Pan");
-    _dragModeCombo -> addItem ("Zoom");
-    ((QFormLayout*) mouseTab -> layout()) -> addRow ("Mouse drag action", _dragModeCombo);
+    _dragModeCombo->addItem ("Do nothing");
+    _dragModeCombo->addItem ("Pan");
+    _dragModeCombo->addItem ("Zoom");
+    ((QFormLayout*) mouseTab->layout ())->addRow ("Mouse drag action", _dragModeCombo);
 
     _mouseSensitivitySlider = new QwtSlider (mouseTab);
-    _mouseSensitivitySlider -> setGroove (true);
-    _mouseSensitivitySlider -> setTrough (false);
-    _mouseSensitivitySlider -> setLowerBound (0.0);
-    _mouseSensitivitySlider -> setUpperBound (1.0);
-    _mouseSensitivitySlider -> setSingleSteps (100);
-    _mouseSensitivitySlider -> setPageSteps (10);
-    _mouseSensitivitySlider -> setOrientation (Qt::Horizontal);
-    ((QFormLayout*) mouseTab -> layout()) -> addRow ("Sensitivity", _mouseSensitivitySlider);
+    _mouseSensitivitySlider->setGroove (true);
+    _mouseSensitivitySlider->setTrough (false);
+    _mouseSensitivitySlider->setLowerBound (0.0);
+    _mouseSensitivitySlider->setUpperBound (1.0);
+    _mouseSensitivitySlider->setSingleSteps (100);
+    _mouseSensitivitySlider->setPageSteps (10);
+    _mouseSensitivitySlider->setOrientation (Qt::Horizontal);
+    ((QFormLayout*) mouseTab->layout ())->addRow ("Sensitivity", _mouseSensitivitySlider);
 
     // disable the sensitivity parameter if there is no mouse dragging
-    connect (_dragModeCombo, &QComboBox::currentTextChanged, this, [=] () { _mouseSensitivitySlider -> setEnabled ( _dragModeCombo -> currentText() != "NoDrag"); });
+    connect (_dragModeCombo, &QComboBox::currentTextChanged, this, [=] () {
+        _mouseSensitivitySlider->setEnabled (_dragModeCombo->currentText () != "NoDrag");
+    });
 
-    QWidget* legendTab = new QWidget (tabs);
-    legendTab -> setLayout (new QVBoxLayout());
-    tabs -> addTab (legendTab, "&Legend");
-    _legendEditor = new QColorRampEditor (this);
-    legendTab -> layout() -> addWidget (_legendEditor);
+    _legendTab = new QWidget (tabs);
+    _legendTab->setLayout (new  QVBoxLayout());
+    _legendChooser = new LegendChooser (this);
+    _legendChooser -> setCurrentText (parent -> legend() -> name ());
+    connect (_legendChooser, &LegendChooser::legendSelected, this, &CalenhadGlobeConfigDialog::showLegend);
+    _legendDetailArea = new QWidget (_legendTab);
+    _legendDetailArea -> setLayout (new QStackedLayout());
 
+    _legendTab -> layout() -> addWidget (_legendChooser);
+    _legendTab -> layout() -> addWidget (_legendDetailArea);
+    tabs->addTab (_legendTab, "&Legend");
 
+    // install a widget for each of the available legends
+    for (QString key : CalenhadServices::legends() -> all().keys ()) {
+        Legend* legend = (Legend*) CalenhadServices::legends ()->find (key);
+        LegendWidget* w = legend->widget ();
+        ((QStackedLayout*) _legendDetailArea->layout ())->addWidget (w);
+        connect (w, SIGNAL (nameChanged (QString)), legend, SLOT (setName (const QString&)));
+        connect (w, SIGNAL (iconChanged (QIcon)), _legendChooser, SLOT (setCurrentIcon (const QIcon&)));
+        connect (legend, &Legend::renamed, this, [=] () {
+            std::cout << "Renamed " << legend -> widget() -> name().toStdString () << "\n";
+            _legendChooser -> refresh ();
+            _legendChooser -> setCurrentText (legend -> widget() -> name());
+        });
+    }
     QWidget* projectionTab = new QWidget (tabs);
-    projectionTab -> setLayout (new QFormLayout (projectionTab));
-    tabs -> addTab (projectionTab, "&Projection");
+    projectionTab->setLayout (new QFormLayout (projectionTab));
+    tabs->addTab (projectionTab, "&Projection");
 
     _projectionCombo = new QComboBox (projectionTab);
-    QMap<QString, Projection> m = CalenhadServices::projections() -> all();
-    for (QString name : m.keys()) {
-        _projectionCombo -> addItem (name);
-        if (parent -> projection() == m.value (name)) {
-            _projectionCombo -> setCurrentText (name);
+    QMap<QString, Projection> m = CalenhadServices::projections ()->all ();
+    for (QString name : m.keys ()) {
+        _projectionCombo->addItem (name);
+        if (parent->projection () == m.value (name)) {
+            _projectionCombo->setCurrentText (name);
         }
     }
-    ((QFormLayout*) projectionTab -> layout()) -> addRow ("Projection", _projectionCombo);
+    ((QFormLayout*) projectionTab->layout ())->addRow ("Projection", _projectionCombo);
 
-    layout() -> addWidget (tabs);
-    QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-    layout() -> addWidget (buttonBox);
+    layout ()->addWidget (tabs);
+    QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect (buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    layout ()->addWidget (buttonBox);
 
 }
 
@@ -104,10 +127,16 @@ void CalenhadGlobeConfigDialog::initialise() {
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent -> isCompassVisible());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
-    _legendEditor -> setLegend (_parent -> legend());
+
+    _legendChooser -> refresh();
+
+    // turn up the right widget for the legend currently in use
+    ((QStackedLayout*)_legendDetailArea -> layout()) -> setCurrentWidget (_parent -> legend() -> widget());
+
+    _legendChooser -> setCurrentText (_parent -> legend() -> name ());
+
 
 }
-
 
 CalenhadGlobeConfigDialog::~CalenhadGlobeConfigDialog () {
 
@@ -133,6 +162,15 @@ CalenhadGlobeDoubleClickMode CalenhadGlobeConfigDialog::doubleClickMode () {
     return CalenhadGlobeDoubleClickMode::NoDoubleClick;
 }
 
-icosphere::Legend* CalenhadGlobeConfigDialog::selectedLegend () {
-    return _legendEditor -> legend();
+Legend* CalenhadGlobeConfigDialog::selectedLegend () {
+    return _legendChooser -> selectedLegend();
 }
+
+void CalenhadGlobeConfigDialog::showLegend () {
+    Legend* legend = _legendChooser -> selectedLegend ();
+    if (legend) {
+        _legendWidget = legend -> widget ();
+        ((QStackedLayout*) _legendDetailArea->layout ())->setCurrentWidget (_legendWidget);
+    }
+}
+

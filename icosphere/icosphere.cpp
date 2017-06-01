@@ -12,7 +12,7 @@
 #include "icosphere.h"
 #include "vertex.h"
 #include "triangle.h"
-#include "legend.h"
+#include "../mapping/Legend.h"
 
 using namespace geoutils;
 using namespace icosphere;

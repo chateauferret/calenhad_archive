@@ -17,6 +17,8 @@
 #include <marble/ViewportParams.h>
 #include <GeographicLib/Geodesic.hpp>
 #include "marble/GeoDataPolygon.h"
+#include "../mapping/Legend.h"
+#include "../CalenhadServices.h"
 
 class QwtCompass;
 
@@ -372,6 +374,9 @@ void CalenhadGlobe::updateConfig () {
     setProjection (_configDialog -> selectedProjection());
     _configDialog -> update();
     _contextMenu -> update();
+    for (Legend* legend : CalenhadServices::legends() -> all()) {
+        legend -> widget ()->updateLegend (legend);
+    }
     _source -> setLegend (_configDialog -> selectedLegend());
      update();
 }

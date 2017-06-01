@@ -1,17 +1,17 @@
 #include <limits.h>
 #include <gtest/gtest.h>
-#include "../icosphere/legend.h"
+#include "../mapping/legend.h"
 #include <iostream>
 #include <random>
 #include <QtGui/QtGui>
 #include <libnoise/module/modulebase.h>
 #include <libnoise/module/perlin.h>
 
-#include "../libnoiseutils/intervallegend.h"
+#include "../mapping/intervallegend.h"
 #include "../icosphere/icosphere.h"
 #include "../icosphere/vertex.h"
 #include "../libnoiseutils/IcosphereBuilder.h"
-#include "../libnoiseutils/GradientLegend.h"
+#include "../mapping/Legend.h"
 
 
 using namespace noise::utils;
@@ -161,7 +161,7 @@ public:
 class IcosphereBuilderTest : public ::testing::TestWithParam<IcosphereBuilderTestRow> {
 protected:
 
-    GradientLegend* legend;
+    Legend* legend;
     noise::module::Perlin* perlin;
 
     virtual void SetUp() override {
@@ -217,7 +217,7 @@ public:
 class IcosphereBoundsCheckTest : public ::testing::TestWithParam<IcosphereBoundsCheckTestRow> {
 protected:
 
-    GradientLegend* legend;
+    Legend* legend;
     noise::module::Perlin* perlin;
 
     virtual void SetUp() override {

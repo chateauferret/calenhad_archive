@@ -71,8 +71,8 @@ public:
     void zoomOutFrom (const GeoDataLatLonBox& target);
     const Projection& projection();
     bool isInView (const GeoDataCoordinates& coordinates);
-    void setLegend (icosphere::Legend* legend);
-    icosphere::Legend* legend();
+    void setLegend (Legend* legend);
+    Legend* legend();
 
 public slots:
     void setMouseDragMode (const CalenhadGlobeDragMode& mouseMode);

@@ -13,7 +13,6 @@
 #include "../pipeline/ImageRenderJob.h"
 
 using namespace noise::utils;
-using namespace icosphere;
 
 //////////////////////////////////////////////////////////////////////////////
 // RendererImage class

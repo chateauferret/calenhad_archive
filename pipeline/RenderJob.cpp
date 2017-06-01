@@ -5,7 +5,7 @@
 #include <QtCore/QThread>
 #include "RenderJob.h"
 
-RenderJob::RenderJob (const Marble::GeoDataLatLonBox& bounds, noise::module::Module* source, icosphere::Legend* legend) : QObject(),
+RenderJob::RenderJob (const Marble::GeoDataLatLonBox& bounds, noise::module::Module* source, Legend* legend) : QObject(),
     _bounds (bounds),
     _source (source),
     _legend (legend),

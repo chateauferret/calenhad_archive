@@ -7,7 +7,7 @@
 
 
 #include "LegendService.h"
-#include "icosphere/legend.h"
+#include "mapping/Legend.h"
 #include <QMap>
 
 class LegendRoster : public LegendService {
@@ -15,13 +15,15 @@ class LegendRoster : public LegendService {
 public:
     LegendRoster();
     ~LegendRoster();
-    icosphere::Legend* find (const QString& name) override;
-    void provide (const QString& name, icosphere::Legend* legend) override;
+    Legend* find (const QString& name) override;
+    bool exists (const QString& name) override;
+    void provide (const QString& name, Legend* legend) override;
     void provideFromXml (const QString& fname) override;
     void dispose (const QString& name) override;
-
+    QMap<QString, Legend*> all();
+    void rename (const QString& from, const QString& to) override;
 private:
-    QMap<QString, icosphere::Legend*> _legends;
+    QMap<QString, Legend*> _legends;
 
 };
 

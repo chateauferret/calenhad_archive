@@ -11,9 +11,12 @@
 #include <QComboBox>
 #include <qwt/qwt_slider.h>
 #include "CalenhadGlobe.h"
+#include "LegendChooser.h"
 
 class CalenhadGlobe;
-class QColorRampEditor;
+class LegendEditor;
+class QTextEdit;
+class LegendWidget;
 
 class CalenhadGlobeConfigDialog : public QDialog {
     Q_OBJECT
@@ -32,7 +35,7 @@ public:
     CalenhadGlobeDoubleClickMode doubleClickMode();
     double mouseSensitivity();
     Projection selectedProjection();
-    icosphere::Legend* selectedLegend();
+    Legend* selectedLegend();
 
 protected:
     CalenhadGlobe* _parent;
@@ -45,8 +48,12 @@ protected:
     QwtSlider* _mouseSensitivitySlider;
     QCheckBox* _graticuleCheck;
     QComboBox* _projectionCombo;
-    QColorRampEditor* _legendEditor;
-
+    LegendChooser* _legendChooser;
+    QWidget* _legendTab;
+    QWidget* _legendDetailArea;
+    LegendWidget* _legendWidget;
+protected slots:
+    void showLegend();
 
 };
 

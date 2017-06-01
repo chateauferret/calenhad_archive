@@ -1,8 +1,8 @@
 #include <limits.h>
 #include <gtest/gtest.h>
-#include "../icosphere/legend.h"
+#include "../mapping/legend.h"
 #include <iostream>
-#include "../libnoiseutils/intervallegend.h"
+#include "../mapping/intervallegend.h"
 
 
 class IcosphereTileSourceTest : public ::testing::Test {

@@ -8,7 +8,7 @@
 
 #include <QtCore/QObject>
 #include <libnoise/module/modulebase.h>
-#include "../icosphere/legend.h"
+#include "../mapping/Legend.h"
 #include <marble/GeoDataLatLonBox.h>
 #include <memory>
 #include <QtCore/QMutex>
@@ -16,7 +16,7 @@
 class RenderJob : public QObject {
 Q_OBJECT
 public:
-    RenderJob (const Marble::GeoDataLatLonBox& box, noise::module::Module* source, icosphere::Legend* legend);
+    RenderJob (const Marble::GeoDataLatLonBox& box, noise::module::Module* source, Legend* legend);
     virtual ~RenderJob ();
     virtual bool canRender (const noise::module::Module* source);
     virtual void render () = 0;
@@ -36,7 +36,7 @@ protected:
     noise::module::Module* _source;
     int _percentComplete;
     QMutex _abandonMutex;
-    icosphere::Legend* _legend;
+    Legend* _legend;
     bool _abandoned;
 
 

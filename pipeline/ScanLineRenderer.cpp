@@ -4,9 +4,9 @@
 
 #include "ScanLineRenderer.h"
 #include "../geoutils.h"
+#include "../mapping/Legend.h"
 
 using namespace noise::model;
-using namespace icosphere;
 
 ScanLineRenderer::ScanLineRenderer (const ScanLineRendererParams& params, Sphere* sphere, Legend* legend) : QObject(),
     _lon (params.longitude),

@@ -126,12 +126,8 @@ set(SOURCE_FILES
         libnoiseutils/nullmodule.h
         libnoiseutils/nullmodule.cpp
         libnoiseutils/NoiseContstants.h
-        icosphere/legend.h
-        icosphere/legend.cpp
-        libnoiseutils/intervallegend.h
-        libnoiseutils/intervallegend.cpp
-        libnoiseutils/GradientLegend.cpp
-        libnoiseutils/GradientLegend.h
+        mapping/Legend.cpp
+        mapping/Legend.h
         libnoiseutils/IcosphereBuilder.h
         libnoiseutils/IcosphereBuilder.cpp
         icosphere/vertex.h
@@ -187,8 +183,8 @@ set(SOURCE_FILES
         actions/DuplicateModuleCommand.h
         controls/CalenhadPreview.h
         controls/CalenhadPreview.cpp
-        controls/QColorRampEditor.h
-        controls/QColorRampEditor.cpp
+        controls/LegendEditor.h
+        controls/LegendEditor.cpp
         controls/CalenhadOverviewInterface.h
         controls/CalenhadNavigator.cpp
         controls/CalenhadNavigator.h
@@ -215,7 +211,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES}  )
-add_executable (calenhad main.cpp ${SOURCE_FILES})
+add_executable (calenhad main.cpp ${SOURCE_FILES} controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

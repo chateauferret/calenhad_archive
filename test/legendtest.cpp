@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "../libnoiseutils/intervallegend.h"
+#include "../mapping/intervallegend.h"
 
 using namespace noise::utils;
 

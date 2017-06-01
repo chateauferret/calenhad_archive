@@ -9,7 +9,7 @@
 #include <libnoise/noise.h>
 #include <QtCore/QMutex>
 #include <QtCore/QRunnable>
-#include "../icosphere/legend.h"
+#include "../mapping/Legend.h"
 #include "GlobeRenderJob.h"
 
 namespace noise {
@@ -18,9 +18,8 @@ namespace noise {
     }
 }
 
-namespace icosphere {
-    class Legend;
-}
+class Legend;
+
 
 struct ScanLineRendererParams {
 public:
@@ -35,7 +34,7 @@ class ScanLineRenderer : public QObject, public QRunnable {
     Q_OBJECT
 
 public:
-    ScanLineRenderer (const ScanLineRendererParams& params, noise::model::Sphere* sphere, icosphere::Legend* legend);
+    ScanLineRenderer (const ScanLineRendererParams& params, noise::model::Sphere* sphere, Legend* legend);
     virtual ~ScanLineRenderer();
 
 public slots:
@@ -48,7 +47,7 @@ protected:
     double _lon, _south, _north, _lat, _dLat;
     bool _final;
     noise::model::Sphere* _sphere;
-    icosphere::Legend* _legend;
+    Legend* _legend;
     QMutex mutex;
     std::shared_ptr<GlobeBuffer> _scanline;
     void writeRenderPoint (const RenderPoint& point);

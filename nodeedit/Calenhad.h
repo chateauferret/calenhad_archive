@@ -39,11 +39,7 @@ class QNEToolBox;
 class Preferences;
 class MessageFactory;
 class QNode;
-
-namespace icosphere {
-    class Legend;
-}
-
+class Legend;
 
 class Calenhad : public QMainWindow {
 Q_OBJECT
@@ -68,7 +64,7 @@ private:
     CalenhadView* _view;
     CalenhadModel* _model;
     QString _lastFile;
-    QMap<QString, icosphere::Legend*> _legends;
+    QMap<QString, Legend*> _legends;
 
     //void readMetadata (const QDomDocument& doc, MessageFactory* messages);
 

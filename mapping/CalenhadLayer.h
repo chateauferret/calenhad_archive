@@ -53,7 +53,7 @@ public:
     QStringList renderPosition() const override;
     virtual bool render	(Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString & renderPos, Marble::GeoSceneLayer* layer) override;
     int render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport);
-    icosphere::Legend* legend();
+    Legend* legend();
 
 public slots:
     void rescale();

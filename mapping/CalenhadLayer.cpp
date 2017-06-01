@@ -6,7 +6,7 @@
 #include <marble/GeoPainter.h>
 #include <marble/ViewportParams.h>
 #include "../libnoiseutils/NoiseContstants.h"
-#include "../libnoiseutils/GradientLegend.h"
+#include "Legend.h"
 #include "../CalenhadServices.h"
 #include <libnoise/model/sphere.h>
 #include <ctime>
@@ -57,7 +57,6 @@ int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
                 painter -> drawPoint (GeoDataCoordinates (p._lon, p._lat, GeoDataCoordinates::Radian));
             }
             double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-            std::cout << "CalenhadLayer::render " << _buffer -> size() << " points in " << duration << " sec\n";
             return 0;
         }
     }

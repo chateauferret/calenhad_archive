@@ -7,7 +7,7 @@
 #include "../nodeedit/qneblock.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../libnoiseutils/GradientLegend.h"
+#include "../mapping/Legend.h"
 #include "../CalenhadServices.h"
 
 using namespace icosphere;
@@ -17,8 +17,11 @@ int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
 QModule::QModule (noise::module::Module* m, QWidget* parent) : QNode (parent), _module (m) {
-    Legend* gl = CalenhadServices::legends() -> find ("default");
-    _legend = gl;
+    _legend = CalenhadServices::legends() -> find ("default");
+    for (QString s : CalenhadServices::legends() -> all().keys ()) {
+        std::cout << "Legend " << s.toStdString () << "\n";
+    }
+    std::cout <<
     connect (this, &QNode::initialised, this, &QModule::setupPreview);
 }
 
@@ -116,12 +119,12 @@ void QModule::setModel (CalenhadModel* model) {
     QNode::setModel (model);
 }
 
-void QModule::setLegend (icosphere::Legend* legend) {
+void QModule::setLegend (Legend* legend) {
     _legend = legend;
     emit nodeChanged();
 }
 
-icosphere::Legend* QModule::legend () {
+Legend* QModule::legend () {
     return _legend;
 }
 

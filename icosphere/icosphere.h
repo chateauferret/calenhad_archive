@@ -13,11 +13,11 @@
 #include "../qmodule/QModule.h"
 #include "Bounds.h"
 
+class Legend;
 namespace icosphere {
-
     class Vertex;
     class Triangle;
-    class Legend;
+
 
     class Icosphere : public QObject {
         Q_OBJECT
