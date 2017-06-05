@@ -50,7 +50,7 @@ int main (int argc, char **argv) {
     // Legends service
     QString fname = CalenhadServices::preferences() -> calenhad_legends_filename;
     LegendRoster* roster = new LegendRoster();
-    roster -> provideFromXml (fname);
+    roster->inflate (fname);
     CalenhadServices::provideLegends (roster);
 
     // Gradients service (to do)

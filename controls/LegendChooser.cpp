@@ -6,7 +6,8 @@
 #include "LegendChooser.h"
 #include "../CalenhadServices.h"
 
-LegendChooser::LegendChooser (QWidget* parent) : QComboBox (parent) {
+LegendChooser::LegendChooser (LegendService* service, QWidget* parent) : QComboBox (parent),
+    _service (service) {
     setIconSize (QSize (100, 20));
     connect (this, &QComboBox::currentTextChanged, this, &LegendChooser::legendChosen);
 }
@@ -31,8 +32,8 @@ void LegendChooser::setLabel (const QString& oldLabel, const QString& newLabel) 
 void LegendChooser::refresh() {
     blockSignals (true);
     clear();
-    for (Legend* legend : CalenhadServices::legends() -> all()) {
-        addItem (legend -> widget() -> icon(), legend -> name());
+    for (Legend* legend : _service -> all()) {
+        addItem (legend -> icon(), legend -> name());
     }
     blockSignals (false);
 }
@@ -42,10 +43,11 @@ void LegendChooser::legendChosen() {
 }
 
 Legend* LegendChooser::selectedLegend() {
-    std::cout << "Current text '" << currentText().toStdString () << "'\n";
-    if (! currentText().isNull ()) {
-        return CalenhadServices::legends ()->find (currentText ());
+    if (currentText().isNull ()) {
+        setCurrentText (_service -> all().keys().first());
     }
+
+    return _service -> find (currentText ());
 }
 
 void LegendChooser::setCurrentIcon (const QIcon& icon) {

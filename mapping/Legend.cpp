@@ -7,13 +7,21 @@
 #include "../CalenhadServices.h"
 
 
-Legend::Legend (const QString& name) : _interpolate (true), _widget (nullptr), _name (name) {
+Legend::Legend (const QString& name) : _interpolate (true), _name (name), _notes (QString()) {
+    _widget = new LegendWidget (this);
 
-;
 }
 
-Legend::Legend (const Legend& other) : _interpolate (other._interpolate) {
+Legend::Legend (const Legend& other) : _interpolate (other._interpolate), _notes (other._notes) {
     setEntries (other.entries());
+    QString name;
+    int n = 0;
+    do {
+         name = other._name + "_" + QString::number (n);
+    } while (CalenhadServices::legends() -> exists (name));
+    _name = other._name + "_" + QString::number (n + 1);
+    _widget = new LegendWidget (this);
+    _widget -> focusNameField();
 }
 
 
@@ -28,17 +36,18 @@ int Legend::size() {
 
 QColor Legend::lookup (const double& index) {
 
-
-    //if (_interpolate) {
-        std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin (), _entries.end (), [&index] (std::pair<double, QColor> entry) -> bool {
+    if (_interpolate) {
+        std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
             return entry.first <= index;
         });
         QColor color = interpolateColors (i, i--, index);
         return color;
-    //} else {
-    //    std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool { return entry.first <= index; } );
-    //    return (--i) -> second;
-    //}
+    } else {
+        std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
+            return entry.first <= index;
+        });
+        return (i--) -> second;
+    }
 }
 
 QColor Legend::interpolateColors (std::map<double, QColor>::iterator lower, std::map<double, QColor>::iterator higher, const double& index) {
@@ -67,6 +76,7 @@ void Legend::setInterpolated (const bool& interpolate) {
 }
 
 const bool& Legend::isInterpolated () const {
+    std::cout << "Interpolated " << _interpolate << "\n";
     return _interpolate;
 }
 
@@ -108,15 +118,12 @@ void Legend::clear() {
     _entries.clear ();
 }
 
-LegendWidget* Legend::widget () {
-    if (! _widget) {
-        _widget = new LegendWidget ();
-        _widget -> showLegend (this);
-    }
+LegendWidget* Legend::widget() {
     return _widget;
 }
 
 void Legend::setEntries (const QList<LegendEntry>& entries) {
+    _entries.clear ();
     for (LegendEntry entry : entries) {
         std::pair<qreal, QColor> item = std::make_pair (entry.first, entry.second);
         _entries.insert (item);
@@ -141,37 +148,6 @@ QColor Legend::lookup (const std::experimental::optional<double>& value) {
 }
 
 
-Legend* Legend::fromNode (const QDomNode& n) {
-    if (n.isElement()) {
-
-        QDomElement e = n.toElement ();
-        QString legendType = e.attribute ("type");
-
-        QDomNode nameNode = e.firstChildElement ("name");
-        QString name = nameNode.firstChild ().nodeValue ();
-
-        Legend* l = new Legend (name);
-        l -> setInterpolated (legendType == "Gradient");
-        QDomNode notesNode = e.firstChildElement ("notes");
-        QString notes = notesNode.nodeValue ();
-        l -> setNotes (notes);
-
-        QDomNodeList nodes = e.elementsByTagName ("entry");
-        for (int i = 0; i < nodes.size (); i++) {
-            QDomElement element = nodes.item (i).toElement ();
-            bool ok;
-            double index = element.attribute ("index").toDouble (&ok);
-            if (ok) {
-                QColor c = QColor (element.attribute ("color"));
-                l->addEntry (index, c);
-            }
-        }
-
-        return l;
-    } else return nullptr;
-}
-
-
 void Legend::setName (const QString& name) {
 
     // when we change the name of a legend, we need to tell the LegendService so that it can find it under the new name
@@ -192,3 +168,70 @@ QString Legend::name () {
     return _name;
 }
 
+
+void Legend::inflate (const QDomNode& n) {
+    if (n.isElement()) {
+
+        QDomElement e = n.toElement ();
+        QString legendType = e.attribute ("type");
+
+        QDomNode nameNode = e.firstChildElement ("name");
+        QString name = nameNode.firstChild ().nodeValue ();
+        _name = name;
+        setInterpolated (legendType.toLower () == "gradient");
+        QDomNode notesNode = e.firstChildElement ("notes");
+        QString notes = notesNode.nodeValue ();
+        setNotes (notes);
+
+        QDomNodeList nodes = e.elementsByTagName ("entry");
+        for (int i = 0; i < nodes.size (); i++) {
+            QDomElement element = nodes.item (i).toElement ();
+            bool ok;
+            double index = element.attribute ("index").toDouble (&ok);
+            if (ok) {
+                QColor c = QColor (element.attribute ("color"));
+                addEntry (index, c);
+            }
+        }
+    }
+}
+
+
+
+void Legend::serialise (QDomDocument doc) {
+    QDomElement root = doc.firstChildElement ("legends");
+    QDomElement e = doc.createElement ("legend");
+    e.setAttribute ("type", isInterpolated() ? "gradient" : "stepwise");
+    root.appendChild (e);
+    QDomElement nameNode = doc.createElement ("name");
+    QDomText nameText = doc.createTextNode (name());
+    nameNode.appendChild (nameText);
+    e.appendChild (nameNode);
+    QDomElement notesNode = doc.createElement ("notes");
+    QDomText notesText = doc.createTextNode (notes());
+    notesNode.appendChild (notesText);
+    e.appendChild (notesNode);
+    for (LegendEntry entry : entries()) {
+        QDomElement entryElement = doc.createElement ("entry");
+        entryElement.setAttribute ("index", entry.first);
+        entryElement.setAttribute ("color", entry.second.name());
+        e.appendChild (entryElement);
+    }
+}
+
+QIcon Legend::icon() {
+    QPixmap pixmap (150, 30);
+    QColor color;
+    QPainter painter (&pixmap);
+    double step = 2.0 / pixmap.width();
+    int i = 0;
+    for (double index = -1.0; index < 1.0; index += step) {
+        color = lookup (index);
+        QPen pen = QPen (color);
+        painter.setPen (pen);
+        painter.drawLine (i, 0, i, pixmap.height());
+        i++;
+    }
+    QIcon icon (pixmap);
+    return icon;
+}

@@ -16,8 +16,8 @@
 #include "CalenhadGlobeContextMenu.h"
 #include <marble/ViewportParams.h>
 #include <GeographicLib/Geodesic.hpp>
+#include <QtWidgets/QToolTip>
 #include "marble/GeoDataPolygon.h"
-#include "../mapping/Legend.h"
 #include "../CalenhadServices.h"
 
 class QwtCompass;
@@ -35,6 +35,13 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
     _contextMenu (nullptr),
     _moveFrom (QPoint (0, 0)),
     _geodesic (new Geodesic (Constants::WGS84_a(), Constants::WGS84_f())) {
+
+    // Turn on mouse tracking so that we can keep showing the mouse pointer coordinates.
+    setMouseTracking (true);
+
+    // We need a sphere model to obtain map values for the tooltips.
+    sphereModel.SetModule (*(source -> module()));
+
     _map = new MarbleMap();
     _map -> setMapThemeId (QStringLiteral ("earth/calenhad/calenhad.dgml"));
     std::cout <<  "Marble data path '" << Marble::MarbleDirs::marbleDataPath ().toStdString () << "'\n";
@@ -136,7 +143,6 @@ void CalenhadGlobe::resizeEvent (QResizeEvent* e) {
 }
 
 void CalenhadGlobe::showContextMenu (const QPoint& pos) {
-    std::cout << "showContextMenu dragMode=" << _mouseDragMode << "\n";
     if (! _contextMenu) {
         _contextMenu = new CalenhadGlobeContextMenu (this);
         connect (_contextMenu, SIGNAL (showOverviewMap (const bool&)), this, SLOT (showOverviewMap (const bool&)));
@@ -210,8 +216,12 @@ QString CalenhadGlobe::geoLocationString (GeoDataCoordinates pos) {
 }
 
 void CalenhadGlobe::mousePressEvent (QMouseEvent* e) {
-    if (e -> button() == Qt::LeftButton) {
-        _moveFrom = e->pos ();
+    double east, south;
+    if (e->button () == Qt::LeftButton) {
+        if (_map->viewport ()->geoCoordinates (e->pos ().x (), e->pos ().y (), east, south)) {
+            _moveFrom = e->pos ();
+            setCursor (Qt::OpenHandCursor);
+        }
     }
 }
 
@@ -232,32 +242,53 @@ void CalenhadGlobe::mouseMoveEvent (QMouseEvent* e) {
     double dy = e -> pos().y() - _moveFrom.y();
     double north, south, east, west, temp;
     bool isOnGlobe = _map -> viewport()->geoCoordinates (e -> pos().x(), e -> pos().y(), east, south) && _map -> viewport() -> geoCoordinates (_moveFrom.x(), _moveFrom.y(), west, north);
+    if (e -> buttons() & Qt::LeftButton) {
+        if (cursor().shape () != Qt::ClosedHandCursor) {
+            setCursor (Qt::ClosedHandCursor);
+        }
+        if (south > north) {
+            temp = north;
+            north = south;
+            south = temp;
+        }
+        if (_map->viewport ()->viewLatLonAltBox ().width () > M_PI) {
+            temp = east;
+            east = west;
+            west = temp;
+        }
 
-    if (south > north)  { temp = north; north = south; south = temp; }
-    if (_map -> viewport() -> viewLatLonAltBox().width() > M_PI) {
-        temp = east; east = west; west = temp;
-    }
+        if (_mouseDragMode == CalenhadGlobeDragMode::Pan) {
+            double dLat = (180.0 / _map->radius ()) * dy * _sensitivity;
+            double dLon = (180.0 / _map->radius ()) * dx * _sensitivity;
+            _map->setCenterLatitude (_map->centerLatitude () + dLat);
+            _map->setCenterLongitude (_map->centerLongitude () - dLon);
+            _moveFrom = e->pos ();
 
-    if (_mouseDragMode == CalenhadGlobeDragMode::Pan) {
-        double dLat = (180.0 / _map -> radius()) * dy * _sensitivity;
-        double dLon = (180.0 / _map -> radius()) * dx * _sensitivity;
-        _map->setCenterLatitude (_map -> centerLatitude() + dLat);
-        _map->setCenterLongitude (_map -> centerLongitude() - dLon);
-        _moveFrom = e -> pos();
+            update ();
+        }
 
-        update ();
-    }
+        if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
+            _zoomDrag = true;
 
-    if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
-        _zoomDrag = true;
-
+            if (isOnGlobe) {
+                _positionLabel->setText (geoLocationString (GeoDataCoordinates (west, north)) + " - " + geoLocationString (GeoDataCoordinates (east, south)));
+                _zoomBox = GeoDataLatLonBox (north, south, east, west, GeoDataCoordinates::Degree);
+                update ();
+            } else {
+                _positionLabel->setText (QString::null);
+                _zoomDrag = false;
+            }
+        }
+    } else {
         if (isOnGlobe) {
-            _positionLabel -> setText (geoLocationString (GeoDataCoordinates (west, north)) + " - " + geoLocationString (GeoDataCoordinates (east, south)));
-            _zoomBox = GeoDataLatLonBox (north, south, east, west, GeoDataCoordinates::Degree);
-            update();
+            setCursor (Qt::CrossCursor);
+            _mouseX = e->x ();
+            _mouseY = e->y ();
+            QString geoLocation = QString::number (sphereModel.GetValue (south, east));
+            QToolTip::showText (e -> globalPos (), geoLocationString (GeoDataCoordinates (east, south)) + ": " + geoLocation, this);
         } else {
-            _positionLabel -> setText (QString::null);
-            _zoomDrag = false;
+            setCursor (Qt::ArrowCursor);
+            QToolTip::showText (e -> pos(), "", this);
         }
     }
 }
@@ -265,11 +296,17 @@ void CalenhadGlobe::mouseMoveEvent (QMouseEvent* e) {
 void CalenhadGlobe::mouseReleaseEvent (QMouseEvent* e) {
     _zoomDrag = false;
     if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
-        if (e -> modifiers() & Qt::ControlModifier) {
+        if (e->modifiers () & Qt::ControlModifier) {
             zoomOutFrom (_zoomBox);
         } else {
             zoomInTo (_zoomBox);
         }
+    }
+    double south, east;
+    if (_map->viewport() -> geoCoordinates (e -> pos().x(), e -> pos().y(), east, south)) {
+        setCursor (Qt::CrossCursor);
+    } else {
+        setCursor (Qt::ArrowCursor);
     }
 }
 
@@ -299,7 +336,6 @@ void CalenhadGlobe::changeView() {
     emit viewChanged (bounds);
     _layer -> rescale();
     _renderTimer.setSingleShot (true);
-    //_renderTimer.setInterval (500);
     _renderTimer.start();
 }
 
@@ -356,13 +392,14 @@ void CalenhadGlobe::showConfigDialog() {
     if (!_configDialog) {
         _configDialog = new CalenhadGlobeConfigDialog (this);
         connect (_configDialog, &QDialog::accepted, this, &CalenhadGlobe::updateConfig);
+        connect (_configDialog, &QDialog::rejected, this, &CalenhadGlobe::rollbackConfig);
     }
     _configDialog -> initialise();
     _configDialog -> exec();
 }
 
 void CalenhadGlobe::updateConfig () {
-    std::cout << "CalenhadGlobe -> updateConfig dragMode=" << _mouseDragMode << "\n";
+    _configDialog -> commitChanges();
     setFloatItemVisible (_configDialog -> scaleCheckState(), "scalebar");
     showOverviewMap (_configDialog -> overviewCheckState ());
     showZoomSlider (_configDialog -> zoomBarCheckState ());
@@ -375,7 +412,7 @@ void CalenhadGlobe::updateConfig () {
     _configDialog -> update();
     _contextMenu -> update();
     for (Legend* legend : CalenhadServices::legends() -> all()) {
-        legend -> widget ()->updateLegend (legend);
+        legend -> widget () -> updateLegend();
     }
     _source -> setLegend (_configDialog -> selectedLegend());
      update();
@@ -503,4 +540,8 @@ void CalenhadGlobe::setLegend (Legend* legend) {
 
 Legend* CalenhadGlobe::legend() {
     return _layer -> legend();
+}
+
+void CalenhadGlobe::rollbackConfig () {
+    _configDialog -> rollbackChanges();
 }

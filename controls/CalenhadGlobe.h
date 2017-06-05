@@ -14,6 +14,7 @@
 #include <QSlider>
 #include <qwt/qwt_slider.h>
 #include <qwt/qwt_thermo.h>
+#include "libnoise/model/sphere.h"
 
 class CalenhadOverviewMap;
 class CalenhadLayer;
@@ -89,6 +90,7 @@ public slots:
     void showNavigator (const bool& show = true);
     void navigate (const NavigationEvent& e);
     void updateConfig();
+    void rollbackConfig();
     void goTo (const GeoDataCoordinates& target);
     void setProjection (const Projection& projection);
     void setProgress (const int& progress);
@@ -115,6 +117,7 @@ protected:
     CalenhadGlobeDoubleClickMode _mouseDoubleClickMode;
     double _zoom;
     CalenhadGlobeConfigDialog* _configDialog;
+    noise::model::Sphere sphereModel;
 
     double zoom ();
     void setFloatItemVisible (const bool& visible, const QString& nameId);
@@ -134,6 +137,9 @@ protected:
     bool _rendering;
     int pass = 0;
     const int& getProgress ();
+
+    int _mouseX, _mouseY;
+    QString _pointingAt;
 };
 
 

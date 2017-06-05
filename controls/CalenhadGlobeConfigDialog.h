@@ -12,6 +12,7 @@
 #include <qwt/qwt_slider.h>
 #include "CalenhadGlobe.h"
 #include "LegendChooser.h"
+#include "LegendManager.h"
 
 class CalenhadGlobe;
 class LegendEditor;
@@ -20,6 +21,7 @@ class LegendWidget;
 
 class CalenhadGlobeConfigDialog : public QDialog {
     Q_OBJECT
+
 public:
     CalenhadGlobeConfigDialog (CalenhadGlobe* parent);
 
@@ -36,6 +38,8 @@ public:
     double mouseSensitivity();
     Projection selectedProjection();
     Legend* selectedLegend();
+    void commitChanges();
+    void rollbackChanges();
 
 protected:
     CalenhadGlobe* _parent;
@@ -48,12 +52,9 @@ protected:
     QwtSlider* _mouseSensitivitySlider;
     QCheckBox* _graticuleCheck;
     QComboBox* _projectionCombo;
-    LegendChooser* _legendChooser;
+
     QWidget* _legendTab;
-    QWidget* _legendDetailArea;
-    LegendWidget* _legendWidget;
-protected slots:
-    void showLegend();
+    LegendManager* _legendManager;
 
 };
 

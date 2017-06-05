@@ -19,11 +19,13 @@ typedef QPair<qreal, QColor> LegendEntry;
 
 class Legend : public QObject {
 Q_OBJECT
+
 public:
     Legend (const QString& name = "Legend");
     Legend (const Legend& other);
     virtual ~Legend();
     QColor lookup (const double& value);
+    QColor lookup (const std::experimental::fundamentals_v1::optional<double>& value);
     QColor interpolateColors (std::map<double, QColor>::iterator lower, std::map<double, QColor>::iterator higher, const double& value);
     double interpolateValues (const double& p1, const double& v1, const double& p2, const double& v2, const double& value);
     const bool isValid() const;
@@ -36,14 +38,14 @@ public:
     void clear ();
     void setDefaultColor (const QColor& colour);
 
-
     QString name();
-    void setNotes (const QString& notes);
-
-    static Legend* fromNode (const QDomNode& n);
-
-    QColor lookup (const std::experimental::fundamentals_v1::optional<double>& value);
     const QString& notes () const;
+    void setNotes (const QString& notes);
+    void inflate (const QDomNode& n);
+    void serialise (QDomDocument doc);
+    QIcon icon ();
+
+
     LegendWidget* widget();
 
 public slots:
@@ -59,14 +61,9 @@ protected:
     bool _interpolate;
     std::map<qreal, QColor> _entries;
     LegendWidget* _widget;
-
-
-
     QColor _defaultColor;
-
     QString _notes;
     QString _name;
-
 };
 
 #endif //CALENHAD_GRADIENTLEGEND_H

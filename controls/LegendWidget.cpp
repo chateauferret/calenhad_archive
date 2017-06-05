@@ -11,59 +11,41 @@
 #include "../CalenhadServices.h"
 
 
-LegendWidget::LegendWidget (QWidget* parent) : QWidget (parent)  {
+
+LegendWidget::LegendWidget (Legend* legend, QWidget* parent) : QWidget (parent), _legend (legend) {
     setLayout (new QVBoxLayout ());
 
    _legendNameBox = new QLineEdit (this);
     layout ()->addWidget (_legendNameBox);
-
     // if the text box contains a changed name that's the same as that for another Legend, warn the user
-    connect (_legendNameBox, &QLineEdit::textChanged, this, [=] () {
-        if (CalenhadServices::legends() -> exists (_legendNameBox -> text()) && _legendNameBox -> text() != _name) {
-            QPalette palette;
-            palette.setColor (QPalette::Base, Qt::red);
-            _legendNameBox->setPalette (palette);
-            _legendNameBox -> setToolTip ("Legend with this name already exists");
-        } else {
-            QPalette palette;
-            palette.setColor (QPalette::Base, Qt::white);
-            _legendNameBox -> setPalette (palette);
-            _legendNameBox -> setToolTip (QString::null);
-        }
-    });
+    connect (_legendNameBox, &QLineEdit::textChanged, this, &LegendWidget::checkName);
 
     // when we finish updating the name, change the name in the LegendService, unless it exists already
-    connect (_legendNameBox, &QLineEdit::editingFinished, this, [=] () {
-            if (_legendNameBox -> text() != _name) {
-                if (!CalenhadServices::legends ()->exists (_legendNameBox->text ())) {
-                    _name = _legendNameBox->text ();
-                    emit nameChanged (_name);
-                } else {
-                    CalenhadServices::messages ()->message ("Cannot change legend name", "Legend with name " + _legendNameBox->text () + " already exists");
-                    _legendNameBox->setText (_name);
-                }
-            }
-    });
+    connect (_legendNameBox, &QLineEdit::editingFinished, this, &LegendWidget::updateName);
 
-    _legendEditor = new LegendEditor (this);
+    _legendEditor = new LegendEditor (_legend, this);
     layout ()->addWidget (_legendEditor);
     connect (_legendEditor, &LegendEditor::legendChanged, this, [=] () {
-        _entries = _legendEditor -> legend();
-        emit iconChanged (icon());});
+        emit iconChanged (_legend -> icon());
+        emit legendChanged (_legend -> entries());
+    });
 
     _legendInterpolateCheck = new QCheckBox (this);
     _legendInterpolateCheck->setText ("Interpolate colours");
 
     layout ()->addWidget (_legendInterpolateCheck);
     connect (_legendInterpolateCheck, &QAbstractButton::toggled, this, [=] () {
-        _interpolate = _legendInterpolateCheck ->isChecked();
-        emit iconChanged (icon());
+        _legend -> setInterpolated (_legendInterpolateCheck -> isChecked());
+        _legendEditor -> update();
+        emit iconChanged (_legend -> icon());
+        emit legendChanged (_legend -> entries());
     });
 
     _legendNotesBox = new QTextEdit (this);
     layout ()->addWidget (_legendNotesBox);
     connect (_legendNotesBox, &QTextEdit::textChanged, this, [=] () {
-        _notes = ((QTextEdit*) sender()) -> toPlainText();
+        _legend -> setNotes (_legendNotesBox -> toPlainText());
+        emit notesChanged (_legendNotesBox -> toPlainText());
     });
 }
 
@@ -72,64 +54,61 @@ LegendWidget::~LegendWidget () {
 }
 
 void LegendWidget::showEvent (QShowEvent* event) {
-    _legendNameBox -> setText (_name);
-    _legendEditor -> setLegend (_entries);
-    _legendInterpolateCheck -> setChecked (_interpolate);
-    _legendNotesBox -> setText (_notes);
+    _legendNameBox -> setText (_legend -> name());
+    _legendInterpolateCheck -> setChecked (_legend -> isInterpolated());
+    _legendNotesBox -> setText (_legend -> notes());
 }
 
-void LegendWidget::showLegend (Legend* legend) {
-    _name = legend -> name();
-    _notes = legend -> notes();
-    _entries = legend -> entries();
-    _interpolate = legend -> isInterpolated();
-}
-
-void LegendWidget::updateLegend (Legend* legend) {
-    if (_name != legend -> name()) {
-        legend->setName (_name);
+void LegendWidget::updateLegend() {
+    if (_legendNameBox -> text() != _legend -> name()) {
+        _legend->setName (_legendNameBox -> text());
     }
-    legend -> setNotes (_notes);
-    legend -> setEntries (_entries);
-    legend -> setInterpolated (_interpolate);
+    _legend -> setNotes (_legendNotesBox -> toPlainText());
+    _legend -> setEntries (_legendEditor -> legend() -> entries());
+    _legend -> setInterpolated (_legendInterpolateCheck -> isChecked());
+}
+
+Legend* LegendWidget::legend() {
+    return _legend;
 }
 
 
-QIcon LegendWidget::icon () {
-    QPixmap pixmap (150, 30);
+void LegendWidget::checkName() {
 
-    QLinearGradient grad;
-    QRect crec = pixmap.rect ();
-    grad = QLinearGradient (0, 0, crec.width (), 0);
-
-    if (! _interpolate) {
-        std::cout << "Not interpolated\n";
-        double index = 0.0;
-        QColor lastColor;
-        for (LegendEntry entry : _entries) {
-            grad.setColorAt (index - 1e-10, lastColor);
-            index = entry.first / 2 + 0.5;
-            grad.setColorAt (index, entry.second);
-            lastColor = entry.second;
-        }
-
+    if (CalenhadServices::legends() -> exists (_legendNameBox -> text()) && _legendNameBox -> text() != _legend -> name()) {
+        QPalette palette;
+        palette.setColor (QPalette::Base, Qt::red);
+        _legendNameBox->setPalette (palette);
+        _legendNameBox -> setToolTip ("Legend with this name already exists");
     } else {
-
-        std::cout << "Interpolated\n";
-        for (LegendEntry entry : _entries) {
-            double index = entry.first / 2 + 0.5;
-            grad.setColorAt (index, entry.second);
-        }
+        QPalette palette;
+        palette.setColor (QPalette::Base, Qt::white);
+        _legendNameBox -> setPalette (palette);
+        _legendNameBox -> setToolTip (QString::null);
     }
-    QBrush brush = QBrush (grad);
-    QPainter painter (&pixmap);
-    painter.setBrush (brush);
-    painter.drawRect (crec);
-    QIcon icon (pixmap);
-    return icon;
-
 }
 
-QString LegendWidget::name() {
-    return _name;
+void LegendWidget::updateName() {
+    if (_legendNameBox->text () != _legend -> name()) {
+        if (! CalenhadServices::legends() ->  exists (_legendNameBox->text ())) {
+            _legend -> setName (_legendNameBox->text ());
+            emit nameChanged (_legend -> name());
+        } else {
+            CalenhadServices::messages ()->message ("Cannot change legend name", "Legend with name " + _legendNameBox->text () + " already exists");
+            _legendNameBox->setText (_legend -> name());
+        }
+    }
+}
+
+QList<LegendEntry> LegendWidget::entries () {
+    return _legend -> entries();
+}
+
+void LegendWidget::focusNameField () {
+    _legendNameBox -> setFocus();
+    _legendNameBox -> selectAll();
+}
+
+const bool& LegendWidget::isInterpolated () {
+    return _legend -> isInterpolated();
 }

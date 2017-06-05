@@ -14,7 +14,7 @@ class QShowEvent;
 class LegendChooser : public QComboBox {
     Q_OBJECT
 public:
-    LegendChooser (QWidget* parent);
+    LegendChooser (LegendService* service, QWidget* parent = 0);
     virtual ~LegendChooser();
     void showEvent (QShowEvent* e);
     Legend* selectedLegend();
@@ -29,6 +29,7 @@ signals:
     void legendSelected (const QString& name);
 
 protected:
+    LegendService* _service;
     QStringList _legends;
     QString _name;
     QString _oldName;

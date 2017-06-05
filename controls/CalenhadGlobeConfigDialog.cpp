@@ -10,10 +10,8 @@
 #include <QtWidgets/QDialogButtonBox>
 #include "CalenhadGlobeConfigDialog.h"
 #include "../CalenhadServices.h"
-#include "../mapping/Legend.h"
-#include "LegendWidget.h"
-#include <QtWidgets/QLayout>
-#include <QtWidgets/QStackedLayout>
+#include "LegendManager.h"
+#include <QtWidgets/QMessageBox>
 
 
 CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : QDialog (), _parent (parent) {
@@ -66,31 +64,12 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
         _mouseSensitivitySlider->setEnabled (_dragModeCombo->currentText () != "NoDrag");
     });
 
+    _legendManager = new LegendManager (this);
     _legendTab = new QWidget (tabs);
-    _legendTab->setLayout (new  QVBoxLayout());
-    _legendChooser = new LegendChooser (this);
-    _legendChooser -> setCurrentText (parent -> legend() -> name ());
-    connect (_legendChooser, &LegendChooser::legendSelected, this, &CalenhadGlobeConfigDialog::showLegend);
-    _legendDetailArea = new QWidget (_legendTab);
-    _legendDetailArea -> setLayout (new QStackedLayout());
+    tabs -> addTab (_legendTab, "Legend");
+    _legendTab-> setLayout (new  QVBoxLayout());
+    _legendTab -> layout() -> addWidget (_legendManager);
 
-    _legendTab -> layout() -> addWidget (_legendChooser);
-    _legendTab -> layout() -> addWidget (_legendDetailArea);
-    tabs->addTab (_legendTab, "&Legend");
-
-    // install a widget for each of the available legends
-    for (QString key : CalenhadServices::legends() -> all().keys ()) {
-        Legend* legend = (Legend*) CalenhadServices::legends ()->find (key);
-        LegendWidget* w = legend->widget ();
-        ((QStackedLayout*) _legendDetailArea->layout ())->addWidget (w);
-        connect (w, SIGNAL (nameChanged (QString)), legend, SLOT (setName (const QString&)));
-        connect (w, SIGNAL (iconChanged (QIcon)), _legendChooser, SLOT (setCurrentIcon (const QIcon&)));
-        connect (legend, &Legend::renamed, this, [=] () {
-            std::cout << "Renamed " << legend -> widget() -> name().toStdString () << "\n";
-            _legendChooser -> refresh ();
-            _legendChooser -> setCurrentText (legend -> widget() -> name());
-        });
-    }
     QWidget* projectionTab = new QWidget (tabs);
     projectionTab->setLayout (new QFormLayout (projectionTab));
     tabs->addTab (projectionTab, "&Projection");
@@ -127,15 +106,7 @@ void CalenhadGlobeConfigDialog::initialise() {
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent -> isCompassVisible());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
-
-    _legendChooser -> refresh();
-
-    // turn up the right widget for the legend currently in use
-    ((QStackedLayout*)_legendDetailArea -> layout()) -> setCurrentWidget (_parent -> legend() -> widget());
-
-    _legendChooser -> setCurrentText (_parent -> legend() -> name ());
-
-
+    _legendManager -> setCurrentLegend (_parent -> legend());
 }
 
 CalenhadGlobeConfigDialog::~CalenhadGlobeConfigDialog () {
@@ -163,14 +134,21 @@ CalenhadGlobeDoubleClickMode CalenhadGlobeConfigDialog::doubleClickMode () {
 }
 
 Legend* CalenhadGlobeConfigDialog::selectedLegend () {
-    return _legendChooser -> selectedLegend();
+    return _legendManager -> currentLegend ();
 }
 
-void CalenhadGlobeConfigDialog::showLegend () {
-    Legend* legend = _legendChooser -> selectedLegend ();
-    if (legend) {
-        _legendWidget = legend -> widget ();
-        ((QStackedLayout*) _legendDetailArea->layout ())->setCurrentWidget (_legendWidget);
+void CalenhadGlobeConfigDialog::commitChanges () {
+    _legendManager -> commit();
+}
+
+void CalenhadGlobeConfigDialog::rollbackChanges () {
+    QMessageBox confirm;
+    confirm.setText ("This will lose all changes. Are you sure?");
+    confirm.setStandardButtons (QMessageBox::Ok | QMessageBox::Cancel);
+    confirm.setDefaultButton (QMessageBox::Ok);
+    confirm.setEscapeButton (QMessageBox::Cancel);
+    int result = confirm.exec ();
+    if (result == QMessageBox::Ok) {
+        _legendManager->rollback ();
     }
 }
-

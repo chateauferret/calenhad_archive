@@ -14,36 +14,42 @@
 
 class Legend;
 class LegendEditor;
+class LegendService;
 
 typedef QPair<qreal, QColor> LegendEntry;
 
 class LegendWidget : public QWidget {
     Q_OBJECT
+
+
+
 public:
-    LegendWidget (QWidget* parent = 0);
+    LegendWidget (Legend* legend, QWidget* parent = 0);
     virtual ~LegendWidget ();
 
     QLineEdit* _legendNameBox;
     LegendEditor* _legendEditor;
     QCheckBox* _legendInterpolateCheck;
     QTextEdit* _legendNotesBox;
-    void showLegend (Legend* legend);
-    void updateLegend (Legend* legend);
-    QIcon icon();
+    void updateLegend();
     void showEvent (QShowEvent* event) override;
-    QString name ();
-
+    QList<LegendEntry> entries();
+    void focusNameField();
+    const bool& isInterpolated ();
+    Legend* legend ();
     signals:
     void nameChanged (QString);
+    void notesChanged (QString);
     void iconChanged (QIcon);
+    void legendChanged (QList<LegendEntry>);
 
 protected:
+    LegendService* _service;
+    Legend* _legend;
 
-    QString _name;
-    QList<LegendEntry> _entries;
-    bool _interpolate;
-    QString _notes;
-
+protected slots:
+    void checkName ();
+    void updateName ();
 
 
 };

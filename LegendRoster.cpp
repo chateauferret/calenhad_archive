@@ -4,15 +4,20 @@
 
 #include <QtXml/QDomNodeList>
 #include <iostream>
+#include <QtCore/QFile>
 #include "LegendRoster.h"
 #include "CalenhadServices.h"
+
+QString LegendRoster::_filename;
 
 LegendRoster::LegendRoster () {
 
 }
 
 LegendRoster::~LegendRoster () {
-
+    for (Legend* legend : _legends.values ()) {
+        delete legend;
+    }
 }
 
 Legend* LegendRoster::find (const QString& name) {
@@ -23,27 +28,19 @@ bool LegendRoster::exists (const QString& name) {
     return  _legends.keys().contains (name);
 }
 
-void LegendRoster::provide (const QString& name, Legend* legend) {
-    _legends.insert (name, legend);
+void LegendRoster::provide (Legend* legend) {
+    _legends.insert (legend -> name(), legend);
 }
 
-void LegendRoster::dispose (const QString& name) {
-    QMap<QString, Legend*>::iterator i = _legends.find (name);
-    if (i != _legends.end()) {
-        Legend* legend = i.value();
-        _legends.remove (name);
-        delete legend;
-    }
-}
-
-void LegendRoster::provideFromXml (const QString& fname) {
+void LegendRoster::inflate (const QString& filename) {
+    _filename = filename;
     QDomDocument doc;
-    if (CalenhadServices::readXml (fname, doc)) {
+    if (CalenhadServices::readXml (_filename, doc)) {
         QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
         for (int i = 0; i < legendNodes.size (); i++) {
-            Legend* legend = Legend::fromNode (legendNodes.item (i));
-            std::cout << "Found legend " << legend -> name ().toStdString () << "\n";
-            provide (legend->name (), legend);
+            Legend* legend = new Legend();
+            legend -> inflate (legendNodes.item (i));
+            provide (legend);
         }
     }
 }
@@ -56,4 +53,53 @@ void LegendRoster::rename (const QString& from, const QString& to) {
     Legend* legend = find (from);
     _legends.remove (from);
     _legends.insert (to, legend);
+}
+
+int LegendRoster::legendCount () {
+    return _legends.count();
+}
+
+void LegendRoster::remove (const QString& name) {
+    if (legendCount() > 1) {
+        _legends.remove (name);
+    }
+}
+
+void LegendRoster::commit () {
+    serialise (_filename);
+}
+
+void LegendRoster::rollback () {
+    _legends.clear();
+    inflate (_filename);
+}
+
+void LegendRoster::serialise (QString filename) {
+
+    QFile file (filename);
+    QTextStream ds (&file);
+
+
+    QDomDocument doc;
+    QDomElement root = doc.createElement ("legends");
+    doc.appendChild (root);
+
+    for (Legend* legend : _legends) {
+        legend -> serialise (doc);
+    }
+
+    std::cout << doc.toString().toStdString();
+    std::cout.flush();
+    if (! file.open( QIODevice::WriteOnly | QIODevice::Text )) {
+        CalenhadServices::messages() -> message ("", "Failed to open file for writing");
+        return;
+    }
+
+    ds << doc.toString();
+
+    file.close();
+    MessageService* service = CalenhadServices::messages();
+    CalenhadServices::messages() -> message ("", "Wrote file " + filename);
+    _filename = filename;
+
 }
