@@ -45,9 +45,8 @@ public:
     static int seed;
     static noise::NoiseQuality noiseQuality;
     virtual noise::module::Module* module();
-    void setHandle (QNEBlock* h);
     void setModel (CalenhadModel* model) override;
-    QNEBlock* handle();
+
     void setLegend (Legend* legend);
     Legend* legend();
     std::shared_ptr<QImage> overview();
@@ -62,7 +61,7 @@ protected:
     QFormLayout* _previewLayout;
     QNoiseMapViewer* _preview;
     noise::module::Module* _module;
-    QNEBlock* _handle;
+
     int _previewIndex;
     Legend* _legend;
 

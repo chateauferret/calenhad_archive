@@ -24,7 +24,7 @@ TileProducer::~TileProducer() {
 }
 
 ImageRenderJob* TileProducer::makeRenderJob (TileId id, GeoSceneAbstractTileProjection* projection) {
-   // ImageRenderJob* job = new ImageRenderJob (id, _module, projection);
+   // ImageRenderJob* job = new ImageRenderJob (id, _node, projection);
    // return job;
     return nullptr;
 }

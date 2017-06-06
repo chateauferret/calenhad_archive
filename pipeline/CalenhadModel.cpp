@@ -6,10 +6,11 @@
 #include "../nodeedit/CalenhadController.h"
 #include "../nodeedit/qneconnection.h"
 #include "../nodeedit/qneblock.h"
-#include "../nodeedit/Calenhad.h"
+#include "../qmodule/QNode.h"
+#include "../qmodule/QNodeGroup.h"
 #include "../icosphere/icosphere.h"
 #include "../CalenhadServices.h"
-#include "../actions/DuplicateModuleCommand.h"
+#include "../actions/DuplicateNodeCommand.h"
 #include "../actions/AddModuleCommand.h"
 
 using namespace icosphere;
@@ -341,29 +342,29 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
     }
 }
 
-QModule* CalenhadModel::addModule (QModule* module, const QPointF& initPos) {
-    QNEBlock* b = new QNEBlock (module);
-    module -> setHandle (b);
+QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
+    QNEBlock* b = new QNEBlock (node);
+    node -> setHandle (b);
     addItem (b);
     b -> setPos (initPos.x (), initPos.y ());
     b -> initialise();
-    connect (module, &QNode::nameChanged, b, &QNEBlock::moduleChanged);
-    for (QNEPort* port : module->ports ()) {
+    connect (node, &QNode::nameChanged, b, &QNEBlock::moduleChanged);
+    for (QNEPort* port : node->ports ()) {
         b -> addPort (port);
     }
-    module -> setModel (this);
-    if (module -> name().isNull () || module -> name().isEmpty()) {
-        module -> setUniqueName();
+    node -> setModel (this);
+    if (node -> name().isNull () || node -> name().isEmpty()) {
+        node -> setUniqueName();
     }
-    module -> invalidate ();
-    return module;
+    node -> invalidate ();
+    return node;
 }
 
-void CalenhadModel::deleteModule (QModule* module) {
-    // first delete any connections to or from the doomed owner
+void CalenhadModel::deleteNode (QNode* node) {
+    // first delete any connections to or from the owner
     for (QGraphicsItem* item : items()) {
         if (item -> type() == QNEConnection::Type) {
-            for (QNEPort* p : module -> ports ()) {
+            for (QNEPort* p : node -> ports ()) {
                 if (((QNEConnection*) item) -> port1() == p || ((QNEConnection*) item) -> port2() == p) {
                     removeItem (item);
                     delete item;
@@ -372,14 +373,16 @@ void CalenhadModel::deleteModule (QModule* module) {
         }
     }
 
-
-    noise::module::Module* m = module -> module ();
-
+    noise::module::Module* m = nullptr;
+    QModule* module = dynamic_cast<QModule*> (node);
+    if (module) {
+        noise::module::Module* m = module -> module ();
+    }
 
     // remove the visible appartions from the display
 
     for (QGraphicsItem* item : items()) {
-        if (item -> type () == QNEBlock::Type && ((QNEBlock*) item) -> module() == module) {
+        if (item -> type () == QNEBlock::Type && ((QNEBlock*) item) -> node() == node) {
             removeItem (item -> parentItem());
             delete item;
         }
@@ -396,14 +399,31 @@ CalenhadModel::~CalenhadModel() {
 
 }
 
+QList<QNodeGroup*> CalenhadModel::nodeGroups() {
+    QList<QNodeGroup*> groups;
+            foreach (QGraphicsItem* item, items()) {
+            int type = item -> type();
+            if (type == QGraphicsItem::UserType + 3) {  // is a QNEBlock
+                QNEBlock* handle = (QNEBlock*) item;
+                QNode* node = handle -> node();
+                if (dynamic_cast<QNodeGroup*> (node)) {
+                    groups.append (dynamic_cast<QNodeGroup*> (node));
+                }
+            }
+        }
+    return groups;
+}
+
 QList<QModule*> CalenhadModel::modules() {
     QList<QModule*> modules;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
             if (type == QGraphicsItem::UserType + 3) {  // is a QNEBlock
                 QNEBlock* handle = (QNEBlock*) item;
-                QModule* qm = handle -> module();
-                modules.append (qm);
+                QNode* node = handle -> node();
+                if (dynamic_cast<QModule*> (node)) {
+                    modules.append (dynamic_cast<QModule*> (node));
+                }
             }
         }
     return modules;
@@ -420,6 +440,17 @@ QList<QNEConnection*> CalenhadModel::connections() {
         }
     return connections;
 }
+
+
+QNodeGroup* CalenhadModel::findGroup (const QString& name) {
+    for (QNodeGroup* qm : nodeGroups()) {
+        if ((! qm -> name().isNull ()) && (qm -> name() == name)) {
+            return qm;
+        }
+    }
+    return nullptr;
+}
+
 
 QModule* CalenhadModel::findModule (const QString& name) {
     for (QModule* qm : modules()) {

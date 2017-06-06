@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneconnection.h"
 
 
-QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem (parent), _module (module), _label (nullptr) {
+QNEBlock::QNEBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr) {
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
 
@@ -49,16 +49,16 @@ QNEBlock::QNEBlock (QModule* module, QGraphicsItem* parent) : QGraphicsPathItem 
 
     // name label
     _label = new EditableLabel (this);
-    _label -> setText (_module -> name());
+    _label -> setText (_node -> name());
     _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_handle_text_color_normal);
     _label -> setPos (16 - (_label -> boundingRect().width() / 2 ), 38);
 
     connect (_label, &EditableLabel::textEdited, this, [=] () {
-        if (_module -> name() != _label -> toPlainText()) {
-            _module -> propertyChangeRequested ("name", _label -> toPlainText ());
+        if (_node -> name() != _label -> toPlainText()) {
+            _node -> propertyChangeRequested ("name", _label -> toPlainText ());
         }
     });
-    connect (_module, &QNode::nameChanged, this, [=] () { _label -> setText (_module -> name()); });
+    connect (_node, &QNode::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
 
 }
 
@@ -103,8 +103,8 @@ QNEPort* QNEBlock::addPort (QNEPort* port) {
 
     port -> setBlock (this);
     port -> initialise();
-    connect (port, &QNEPort::connected, _module, &QNode::invalidate);
-    connect (port, &QNEPort::disconnected, _module, &QNode::invalidate);
+    connect (port, &QNEPort::connected, _node, &QNode::invalidate);
+    connect (port, &QNEPort::disconnected, _node, &QNode::invalidate);
     return port;
 }
 
@@ -195,16 +195,16 @@ QRectF QNEBlock::boundingRect() const {
     return r;
 }
 
-QModule* QNEBlock::module () {
-    return _module;
+QNode* QNEBlock::node () {
+    return _node;
 }
 
 void QNEBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
-    _module -> showParameters (true);
+    _node -> showParameters (true);
 }
 
 void QNEBlock::moduleChanged () {
-    _label -> setPlainText (_module -> name());
+    _label -> setPlainText (_node -> name());
     _label -> setPos (32 - (_label -> boundingRect().width() / 2 ), 38);
-    _module -> invalidate();
+    _node -> invalidate();
 }

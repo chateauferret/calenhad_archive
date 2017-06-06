@@ -10,17 +10,17 @@
 #include "../qmodule/QModule.h"
 
 
-class DeleteModuleCommand : public QUndoCommand {
+class DeleteNodeCommand : public QUndoCommand {
 
 public:
-    DeleteModuleCommand (QModule* module, CalenhadModel* model);
-    virtual ~DeleteModuleCommand ();
+    DeleteNodeCommand (QNode* node, CalenhadModel* model);
+    virtual ~DeleteNodeCommand ();
     virtual void undo () override;
     virtual void redo () override;
 
 protected:
     CalenhadModel* _model = nullptr;
-    QModule* _module;
+    QNode* _node;
     QString _xml;
 };
 

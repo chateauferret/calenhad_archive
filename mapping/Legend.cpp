@@ -77,7 +77,6 @@ void Legend::setInterpolated (const bool& interpolate) {
 }
 
 const bool& Legend::isInterpolated () const {
-    std::cout << "Interpolated " << _interpolate << "\n";
     return _interpolate;
 }
 
@@ -86,7 +85,6 @@ const bool& Legend::isInterpolated () const {
 void Legend::addEntry (const double& value, const QColor& colour) {
     _entries [value] = colour;
     CalenhadServices::legends() -> setDirty();
-
 }
 
 unsigned Legend::removeEntries (const double& from, const double& unto) {

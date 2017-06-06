@@ -24,9 +24,10 @@ public:
     CalenhadModel();
     virtual ~CalenhadModel();
     QModule* findModule (const QString& name);
+    QNodeGroup* findGroup (const QString& name);
     QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
-    QModule* addModule (QModule* module, const QPointF& initPos);
-    void deleteModule (QModule* module);
+    QNode* addNode (QNode* node, const QPointF& initPos);
+    void deleteNode (QNode* node);
     bool canConnect (QNEPort* output, QNEPort* input, const bool& verbose = false);
     bool connectPorts (QNEPort* output, QNEPort* input);
     void disconnectPorts (QNEConnection* connection);
@@ -39,6 +40,7 @@ public:
     QDomDocument serialise();
     void inflate (const QDomDocument& doc);
     QList<QModule*> modules();
+    QList<QNodeGroup*> nodeGroups ();
     QList<QNEConnection*> connections ();
     QString readParameter (const QDomElement& element, const QString param);
     void writeParameter (QDomElement& element, const QString& param, const QString& value);

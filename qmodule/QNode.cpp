@@ -16,7 +16,7 @@
 #include "../CalenhadServices.h"
 
 
-QNode::QNode (QWidget* widget) : QWidget (widget), _model (nullptr), _isInitialised (false), _dialog (nullptr) {
+QNode::QNode (QWidget* parent) : QWidget (parent), _model (nullptr), _isInitialised (false), _dialog (nullptr) {
     connect (this, &QNode::initialised, this, [=] () { _isInitialised = true; });
 }
 
@@ -109,6 +109,15 @@ QString QNode::notes() {
 
 int QNode::addPanel (const QString& title, QWidget* widget) {
     return _expander -> addItem (widget, title);
+}
+
+
+void QNode::setHandle (QNEBlock* h) {
+    _handle = h;
+}
+
+QNEBlock* QNode::handle() {
+    return _handle;
 }
 
 void QNode::addPort (QNEPort* port) {
@@ -312,5 +321,13 @@ void QNode::closeEvent (QCloseEvent* event) {
 
 bool QNode::hasParameters () {
     return true;
+}
+
+void QNode::setGroup (QNodeGroup* group) {
+    _group = group;
+}
+
+QNodeGroup* QNode::group () {
+    return _group;
 }
 

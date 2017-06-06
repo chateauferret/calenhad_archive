@@ -23,6 +23,8 @@ class QToolBar;
 class QwtCounter;
 class QModule;
 class QNEPort;
+class QNEBlock;
+class QNodeGroup;
 
 
 class QNode : public QWidget {
@@ -30,7 +32,7 @@ Q_OBJECT
 
 
 public:
-    QNode (QWidget* widget);
+    QNode (QWidget* parent);
     enum { Type = QGraphicsItem::UserType + 6 };
     virtual ~QNode();
     virtual void initialise();
@@ -40,7 +42,11 @@ public:
     virtual void setModel (CalenhadModel* model);
     virtual QString moduleType () = 0;
 
+    void setGroup (QNodeGroup* group);
+    QNodeGroup* group();
 
+    void setHandle (QNEBlock* h);
+    QNEBlock* handle();
 
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QNode* clone () = 0;
@@ -78,7 +84,9 @@ signals:
 protected:
 
     CalenhadModel* _model;
+    QNodeGroup* _group;
     QDialog* _dialog;
+    QNEBlock* _handle;
     QString _name;
     QString _notes;
     QLineEdit* _nameEdit;

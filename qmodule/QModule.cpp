@@ -46,13 +46,6 @@ void QModule::setupPreview() {
     connect (this, &QNode::nodeChanged, _preview, &CalenhadPreview::render);
 }
 
-void QModule::setHandle (QNEBlock* h) {
-    _handle = h;
-}
-
-QNEBlock* QModule::handle() {
-    return _handle;
-}
 
 std::shared_ptr<QImage> QModule::overview() {
     return _preview -> image();

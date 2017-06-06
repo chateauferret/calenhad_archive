@@ -33,9 +33,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneconnection.h"
 #include "../qmodule/QModule.h"
 #include "../actions/CommandGroup.h"
-#include "../actions/DuplicateModuleCommand.h"
+#include "../actions/DuplicateNodeCommand.h"
 #include "../CalenhadServices.h"
-#include "../actions/DeleteModuleCommand.h"
+#include "../actions/DeleteNodeCommand.h"
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 
@@ -221,8 +221,8 @@ QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
     }
     else if (item -> type() == QNEBlock::Type) {
         QNEBlock* handle = (QNEBlock*) item;
-        QModule* module = handle -> module();
-        return getContextMenu (module);
+        QNode* node = handle -> node();
+        return getContextMenu (node);
     }
     else if (item -> type() == QNEPort::Type) {
         QNEPort* port = (QNEPort*) item;
@@ -235,9 +235,13 @@ QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
     return _defaultContextMenu;
 }
 
-QMenu* CalenhadController::getContextMenu (QModule* module) {
-    _contextModule = module;
-    return _moduleContextMenu;
+QMenu* CalenhadController::getContextMenu (QNode* node) {
+    _contextNode = node;
+    if (dynamic_cast<QModule*> (node)) {
+        return _moduleContextMenu;
+    } else {
+        return _defaultContextMenu; // for now
+    }
 }
 
 QMenu* CalenhadController::getContextMenu() {
@@ -255,15 +259,20 @@ void CalenhadController::actionTriggered () {
     if (action -> data() == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<QNEConnection*> (_contextItem), _model)); }
 
     // to do - delete other kinds of node
-    if (action -> data() == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteModuleCommand (_contextModule,  _model)); }
-    if (action -> data() == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateModuleCommand (_contextModule,  _model)); }
+    if (action -> data() == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand (_contextNode,  _model)); }
+    if (action -> data() == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand (_contextNode,  _model)); }
     if (action -> data() == CalenhadAction::DeleteSelectionAction) {
         CommandGroup* group = new CommandGroup ();
         for (QGraphicsItem* item : _model->selectedItems ()) {
             // to do - delete other kinds of node
             if (item->type () == QGraphicsItem::UserType + 3) { // block
-                DeleteModuleCommand* command = new DeleteModuleCommand (((QNEBlock*) item)->module (), _model);
-                group->addCommand (command);
+                QNode* node = ((QNEBlock*) item) -> node();
+                // to do - generalise this to delete groups too
+                QModule* module = dynamic_cast<QModule*> (node);
+                if (module) {
+                    DeleteNodeCommand* command = new DeleteNodeCommand (module, _model);
+                    group->addCommand (command);
+                }
             }
         }
         doCommand (group);

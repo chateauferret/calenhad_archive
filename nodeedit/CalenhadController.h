@@ -39,7 +39,7 @@ public:
     void addMenus (QMenuBar* menuBar);
     QMenu* getContextMenu (QGraphicsItem* item);
     QMenu* getContextMenu();
-    QMenu* getContextMenu (QModule* module);
+    QMenu* getContextMenu (QNode* node);
     void setSelectionActionsEnabled (const bool& enabled);
 public slots:
     void toolSelected (bool);
@@ -57,7 +57,7 @@ private:
     ToolGroup* _addModuleGroup;
 	CalenhadModel* _model;
     QGraphicsItem* _contextItem;
-    QModule* _contextModule;
+    QNode* _contextNode;
 	void addModuleTool (const QString& name, const QString& tooltip);
 
 	QMenu* _moduleContextMenu;

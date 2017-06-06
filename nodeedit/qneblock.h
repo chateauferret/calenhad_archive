@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QRectF>
 #include <QVector>
 #include <QtWidgets/QLineEdit>
+#include "../qmodule/QNode.h"
 
 class QNEPort;
 class QModule;
@@ -39,7 +40,7 @@ class QNEBlock : public QObject, public QGraphicsPathItem {
 	Q_OBJECT
 public:
 	enum { Type = QGraphicsItem::UserType + 3 };
-    QNEBlock (QModule* module, QGraphicsItem *parent = 0);
+    QNEBlock (QNode* node, QGraphicsItem *parent = 0);
 	QNEPort* addPort (QNEPort* port);
 
 	void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -50,7 +51,7 @@ public:
     QVector<QNEPort*> controls();
     virtual QRectF boundingRect() const;
     void initialise();
-    QModule* module();
+    QNode* node();
 
 public slots:
     void moduleChanged();
@@ -62,7 +63,7 @@ public slots:
 
 protected:
 	QVariant itemChange (GraphicsItemChange change, const QVariant &value);
-    QModule* _module;
+    QNode* _node;
     EditableLabel* _label;
     QBrush _brush;
     QPen _pen;

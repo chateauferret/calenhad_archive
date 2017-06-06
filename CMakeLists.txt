@@ -171,16 +171,16 @@ set(SOURCE_FILES
         controls/AngleDial.h
         actions/CommandGroup.cpp
         actions/CommandGroup.h
-        actions/DuplicateModuleCommand.cpp
-        actions/DuplicateModuleCommand.h
-        actions/DeleteModuleCommand.cpp
-        actions/DeleteModuleCommand.h
+        actions/DuplicateNodeCommand.cpp
+        actions/DuplicateNodeCommand.h
+        actions/DeleteNodeCommand.cpp
+        actions/DeleteNodeCommand.h
         controls/CalenhadOverviewMap.cpp
         controls/CalenhadOverviewMap.h
         PreferencesService.h
         MessageService.h
-        actions/DuplicateModuleCommand.cpp
-        actions/DuplicateModuleCommand.h
+        actions/DuplicateNodeCommand.cpp
+        actions/DuplicateNodeCommand.h
         controls/CalenhadPreview.h
         controls/CalenhadPreview.cpp
         controls/LegendEditor.h
@@ -211,7 +211,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES} controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h controls/LegendManager.cpp controls/LegendManager.h controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h StatisticsService.cpp StatisticsService.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h controls/LegendManager.cpp controls/LegendManager.h controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h StatisticsService.cpp StatisticsService.h qmodule/QNodeGroup.cpp qmodule/QNodeGroup.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

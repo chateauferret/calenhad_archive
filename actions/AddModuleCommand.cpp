@@ -16,11 +16,11 @@ AddModuleCommand::~AddModuleCommand () {
 
 void AddModuleCommand::undo() {
     _copy = _module -> clone();
-    _model -> deleteModule (_module);
+    _model->deleteNode (_module);
 }
 
 void AddModuleCommand::redo() {
     _module = _copy;
-    _model -> addModule (_module, _pos);
+    _model -> addNode (_module, _pos);
 
 }

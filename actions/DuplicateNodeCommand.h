@@ -7,19 +7,19 @@
 
 
 #include <QtWidgets/QUndoCommand>
-class QModule;
+class QNode;
 class CalenhadModel;
 
-class DuplicateModuleCommand : public QUndoCommand {
+class DuplicateNodeCommand : public QUndoCommand {
 public:
-    DuplicateModuleCommand (QModule* module, CalenhadModel* model);
-    virtual ~DuplicateModuleCommand();
+    DuplicateNodeCommand (QNode* node, CalenhadModel* model);
+    virtual ~DuplicateNodeCommand();
     virtual void undo() override;
     virtual void redo() override;
 
 protected:
     CalenhadModel* _model = nullptr;
-    QModule* _module, * _copy;
+    QNode* _node, * _copy;
 };
 
 
