@@ -17,6 +17,8 @@
 #include <marble/ViewportParams.h>
 #include <GeographicLib/Geodesic.hpp>
 #include <QtWidgets/QToolTip>
+#include <ostream>
+#include <sstream>
 #include "marble/GeoDataPolygon.h"
 #include "../CalenhadServices.h"
 
@@ -27,6 +29,8 @@ using namespace GeographicLib;
 using namespace icosphere;
 
 CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (parent),
+    _coordinatesFormat (CoordinatesFormat::Traditional),
+    _datumFormat (DatumFormat::Scaled),
     _layer (nullptr),
     _progress (0),
     _zoomDrag (false),
@@ -210,14 +214,18 @@ void CalenhadGlobe::paintEvent (QPaintEvent* e) {
 }
 
 QString CalenhadGlobe::geoLocationString (GeoDataCoordinates pos) {
-    return
-            QString::number (std::abs (pos.latitude ())) + (pos.latitude() > 0 ? " N " : " S ") + ", " +
-            QString::number (std::abs (pos.longitude())) + (pos.longitude() > 0 ? " E" : " W");
+    QString ns = (pos.latitude () > 0 ? " N " : " S ");
+    QString ew = (pos.longitude () > 0 ? " E" : " W");
+    if (_coordinatesFormat == CoordinatesFormat::Decimal) {
+        return
+                QString::number (std::abs (pos.latitude ())) + ns + ", " + QString::number (std::abs (pos.longitude ())) + ew ;
+    } else {
+        return toTraditional (std::abs (pos.latitude())) + ns + ", " + toTraditional (std::abs (pos.longitude())) + ew;
+    }
 }
 
 void CalenhadGlobe::mousePressEvent (QMouseEvent* e) {
-    double east, south;
-    if (e->button () == Qt::LeftButton) {
+    double east, south;    if (e->button () == Qt::LeftButton) {
         if (_map->viewport ()->geoCoordinates (e->pos ().x (), e->pos ().y (), east, south)) {
             _moveFrom = e->pos ();
             setCursor (Qt::OpenHandCursor);
@@ -271,7 +279,10 @@ void CalenhadGlobe::mouseMoveEvent (QMouseEvent* e) {
             _zoomDrag = true;
 
             if (isOnGlobe) {
-                _positionLabel->setText (geoLocationString (GeoDataCoordinates (west, north)) + " - " + geoLocationString (GeoDataCoordinates (east, south)));
+                if (_positionLabel -> isVisible()) {
+                    _positionLabel->setText (geoLocationString (GeoDataCoordinates (west, north)) + " - " + geoLocationString (GeoDataCoordinates (east, south)));
+                }
+
                 _zoomBox = GeoDataLatLonBox (north, south, east, west, GeoDataCoordinates::Degree);
                 update ();
             } else {
@@ -280,12 +291,16 @@ void CalenhadGlobe::mouseMoveEvent (QMouseEvent* e) {
             }
         }
     } else {
+        // If we are not panning or zooming, and if the display of mouse coordinates is not suppressed, show the current mouse position as geolocation coordinates in a tooltip.
         if (isOnGlobe) {
             setCursor (Qt::CrossCursor);
-            _mouseX = e->x ();
-            _mouseY = e->y ();
-            QString geoLocation = QString::number (sphereModel.GetValue (south, east));
-            QToolTip::showText (e -> globalPos (), geoLocationString (GeoDataCoordinates (east, south)) + ": " + geoLocation, this);
+            if  ( _coordinatesFormat != CoordinatesFormat::NoCoordinates) {
+                QString tip = "";
+                if (_datumFormat != DatumFormat::NoDatum) {
+                    tip = ": " + QString::number (sphereModel.GetValue (south, east));
+                }
+                QToolTip::showText (e->globalPos (), geoLocationString (GeoDataCoordinates (east, south)) + tip, this);
+            }
         } else {
             setCursor (Qt::ArrowCursor);
             QToolTip::showText (e -> pos(), "", this);
@@ -303,6 +318,8 @@ void CalenhadGlobe::mouseReleaseEvent (QMouseEvent* e) {
         }
     }
     double south, east;
+
+    // restore cursor for mouse move without buttons
     if (_map->viewport() -> geoCoordinates (e -> pos().x(), e -> pos().y(), east, south)) {
         setCursor (Qt::CrossCursor);
     } else {
@@ -416,6 +433,8 @@ void CalenhadGlobe::updateConfig () {
     }
     _source -> setLegend (_configDialog -> selectedLegend());
      update();
+    _coordinatesFormat = _configDialog -> coordinatesFormat();
+    _datumFormat = _configDialog -> datumFormat();
 }
 
 void CalenhadGlobe::setSensitivity (const double& sensitivity) {
@@ -545,3 +564,110 @@ Legend* CalenhadGlobe::legend() {
 void CalenhadGlobe::rollbackConfig () {
     _configDialog -> rollbackChanges();
 }
+
+CoordinatesFormat CalenhadGlobe::coordinatesFormat () {
+    return _coordinatesFormat;
+}
+
+DatumFormat CalenhadGlobe::datumFormat () {
+    return _datumFormat;
+}
+
+
+/**
+ *  dms.h -- C++ functions to convert between decimal degrees
+ *           and degrees, minutes, and seconds
+ *
+ *  Copyright (C) 2005-2008 by James A. Chappell
+ *
+ *  Permission is hereby granted, free of charge, to any person
+ *  obtaining a copy of this software and associated documentation
+ *  files (the "Software"), to deal in the Software without
+ *  restriction, including without limitation the rights to use,
+ *  copy, modify, merge, publish, distribute, sublicense, and/or
+ *  sell copies of the Software, and to permit persons to whom the
+ *  Software is furnished to do so, subject to the following
+ *  conditions:
+ *
+ *  The above copyright notice and this permission notice shall be
+ *  included in all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ *  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *  OTHER DEALINGS IN THE SOFTWARE.
+ */
+//=================================================================
+/*
+ * dms.h:  Version 0.02
+ * Created by James A. Chappell
+ * Created 23 August 2005
+ *
+ * History:
+ * 23-aug-2005  created
+ * 25-apr-2008  added latitude/longitude conversions
+ *
+ */
+//=================================================================
+
+
+QString CalenhadGlobe::toTraditional (double ang, unsigned int num_dec_places) {
+    bool neg (false);
+    if (ang < 0.0) {
+        neg = true;
+        ang = -ang;
+    }
+
+    int deg = (int) ang;
+    double frac = ang - (double) deg;
+
+    frac *= 60.0;
+
+    int min = (int) frac;
+
+    frac = frac - (double) min;
+
+    // fix the DDD MM 60 case
+    // TODO: nearbyint isn’t alway available (Visual C++, for example)
+    double sec = nearbyint (frac * 600000.0);
+    sec /= 10000.0;
+
+    if (sec >= 60.0) {
+        min++;
+        sec -= 60.0;
+    }
+
+    std::ostringstream oss;
+
+    if (neg) {
+        oss << "-";
+    }
+
+//  TODO: allow user to define delimiters separating degrees, minutes, and seconds.
+    oss.setf (std::ios::fixed, std::ios::floatfield);
+
+    oss << deg << "°";
+    oss.fill ('0');
+    oss.width (2);
+    oss << min << "\'";
+    if (num_dec_places == 0) {
+        oss.width (2);
+        oss.precision (0);
+    } else {
+        oss.width (num_dec_places + 3);
+        oss.precision (num_dec_places);
+    }
+    oss << sec
+        << "\"";
+
+    return QString::fromStdString (oss.str ());
+}
+
+QModule* CalenhadGlobe::module() {
+    return _source;
+}
+

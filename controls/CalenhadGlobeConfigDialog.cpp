@@ -10,7 +10,8 @@
 #include <QtWidgets/QDialogButtonBox>
 #include "CalenhadGlobeConfigDialog.h"
 #include "../CalenhadServices.h"
-#include "LegendManager.h"
+#include "CalenhadStatsTab.h"
+
 #include <QtWidgets/QMessageBox>
 
 
@@ -31,6 +32,19 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     ((QFormLayout*) widgetsTab->layout ())->addRow ("Navigator", _compassCheck);
     _graticuleCheck = new QCheckBox (widgetsTab);
     ((QFormLayout*) widgetsTab->layout ())->addRow ("Graticule", _graticuleCheck);
+    _tooltipOptionCombo = new QComboBox (widgetsTab);
+    _tooltipOptionCombo -> addItem ("None", CoordinatesFormat::NoCoordinates);
+    _tooltipOptionCombo -> addItem ("Decimal", CoordinatesFormat::Decimal);
+    _tooltipOptionCombo -> addItem ("Traditional", CoordinatesFormat::Traditional);
+    ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Coordinates format", _tooltipOptionCombo);
+    _tooltipDatumCombo = new QComboBox (widgetsTab);
+    _tooltipDatumCombo -> addItem ("None", DatumFormat::NoDatum);
+    _tooltipDatumCombo -> addItem ("Native", DatumFormat::Native);
+    _tooltipDatumCombo -> addItem ("Scaled", DatumFormat::Scaled);
+    ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Datum format", _tooltipDatumCombo);
+    connect (_tooltipOptionCombo, &QComboBox::currentTextChanged, this, [=] () {
+        _tooltipDatumCombo-> setEnabled (! (_tooltipOptionCombo -> currentText() == "None"));
+    });
 
     QWidget* mouseTab = new QWidget (tabs);
     mouseTab->setLayout (new QFormLayout (mouseTab));
@@ -84,6 +98,9 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     }
     ((QFormLayout*) projectionTab->layout ())->addRow ("Projection", _projectionCombo);
 
+    CalenhadStatsTab* statsTab = new CalenhadStatsTab (_parent);
+    tabs -> addTab (statsTab, "&Statistics");
+
     layout ()->addWidget (tabs);
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -107,6 +124,16 @@ void CalenhadGlobeConfigDialog::initialise() {
     _compassCheck -> setChecked (_parent -> isCompassVisible());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
     _legendManager -> setCurrentLegend (_parent -> legend());
+    switch (_parent -> coordinatesFormat()) {
+        case (CoordinatesFormat::NoCoordinates) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
+        case (CoordinatesFormat::Decimal) : { _tooltipOptionCombo -> setCurrentText ("Decimal"); break; }
+        case (CoordinatesFormat::Traditional) : { _tooltipOptionCombo -> setCurrentText ("Traditional"); break; }
+    }
+    switch (_parent -> datumFormat()) {
+        case (DatumFormat::NoDatum) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
+        case (DatumFormat::Native) : { _tooltipOptionCombo -> setCurrentText ("Native"); break; }
+        case (DatumFormat::Scaled) : { _tooltipOptionCombo -> setCurrentText ("Scale"); break; }
+    }
 }
 
 CalenhadGlobeConfigDialog::~CalenhadGlobeConfigDialog () {
@@ -151,4 +178,12 @@ void CalenhadGlobeConfigDialog::rollbackChanges () {
     if (result == QMessageBox::Ok) {
         _legendManager->rollback ();
     }
+}
+
+CoordinatesFormat CalenhadGlobeConfigDialog::coordinatesFormat () {
+    return _tooltipOptionCombo -> currentData().value<CoordinatesFormat>();
+}
+
+DatumFormat CalenhadGlobeConfigDialog::datumFormat() {
+    return _tooltipDatumCombo -> currentData().value<DatumFormat>();
 }

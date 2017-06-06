@@ -23,12 +23,6 @@ class CalenhadGlobeContextMenu;
 class CalenhadGlobeConfigDialog;
 
 
-namespace noise {
-    namespace utils {
-        class Legend;
-    }
-}
-
 namespace Marble {
     class MarbleMap;
 }
@@ -41,13 +35,17 @@ namespace GeographicLib {
 enum CalenhadGlobeDragMode { NoDrag, Pan, Zoom };
 enum CalenhadGlobeDoubleClickMode { NoDoubleClick, Goto, Place };
 
+enum CoordinatesFormat { NoCoordinates, Decimal, Traditional };
+enum DatumFormat { NoDatum, Native, Scaled };
+Q_DECLARE_METATYPE (CoordinatesFormat);
+Q_DECLARE_METATYPE (DatumFormat);
+
+
 class CalenhadGlobe : public QWidget {//}; Marble::MarbleWidget {
 Q_OBJECT
 
-    //bool isInView (const GeoDataCoordinates& coordinates);
-
-
 public:
+
     CalenhadGlobe (QModule* source, QWidget* parent);
     virtual ~CalenhadGlobe();
     void resizeEvent (QResizeEvent* e) override;
@@ -74,6 +72,9 @@ public:
     bool isInView (const GeoDataCoordinates& coordinates);
     void setLegend (Legend* legend);
     Legend* legend();
+    CoordinatesFormat coordinatesFormat();
+    DatumFormat datumFormat();
+    QModule* module();
 
 public slots:
     void setMouseDragMode (const CalenhadGlobeDragMode& mouseMode);
@@ -138,8 +139,10 @@ protected:
     int pass = 0;
     const int& getProgress ();
 
-    int _mouseX, _mouseY;
-    QString _pointingAt;
+    CoordinatesFormat _coordinatesFormat;
+    DatumFormat _datumFormat;
+
+    QString toTraditional (double ang, unsigned int num_dec_places = 2);
 };
 
 

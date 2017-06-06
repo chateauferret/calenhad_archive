@@ -12,6 +12,8 @@
 #include <marble/GeoDataLatLonAltBox.h>
 #include "../qmodule/QModule.h"
 #include "../pipeline/GlobeRenderJob.h"
+#include "../controls/CalenhadGlobe.h"
+#include "../StatisticsService.h"
 
 class QColorGradient;
 
@@ -82,6 +84,7 @@ protected:
 
     GeoDataLatLonAltBox _box;
     GlobeRenderJob* _job;
+
 };
 
 

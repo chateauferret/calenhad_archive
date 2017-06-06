@@ -22,6 +22,7 @@ public:
     virtual void remove (const QString& name) = 0;
     virtual void commit() = 0;
     virtual void rollback() = 0;
+    virtual Legend* defaultLegend() = 0;
 };
 
 

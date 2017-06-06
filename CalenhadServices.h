@@ -10,6 +10,7 @@
 #include "messagefactory.h"
 #include "LegendService.h"
 #include "ProjectionService.h"
+#include "StatisticsService.h"
 
 class QDomDocument;
 
@@ -20,6 +21,7 @@ public:
     static MessageService* messages();
     static LegendService* legends();
     static ProjectionService* projections();
+    static StatisticsService* statistics();
 
     static void providePreferences (PreferencesService* service);
     static void provideMessages (MessageService* service);
@@ -33,6 +35,7 @@ private:
     static MessageService* _messages;
     static LegendService* _legends;
     static ProjectionService* _projections;
+    static StatisticsService* _statistics;
 
 
 };

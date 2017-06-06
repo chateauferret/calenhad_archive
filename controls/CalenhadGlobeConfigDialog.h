@@ -40,6 +40,8 @@ public:
     Legend* selectedLegend();
     void commitChanges();
     void rollbackChanges();
+    CoordinatesFormat coordinatesFormat();
+    DatumFormat datumFormat();
 
 protected:
     CalenhadGlobe* _parent;
@@ -56,6 +58,8 @@ protected:
     QWidget* _legendTab;
     LegendManager* _legendManager;
 
+    QComboBox* _tooltipOptionCombo;
+    QComboBox* _tooltipDatumCombo;
 };
 
 

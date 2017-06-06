@@ -7,6 +7,7 @@
 #include <QtCore/QFile>
 #include "LegendRoster.h"
 #include "CalenhadServices.h"
+#include "mapping/Legend.h"
 
 QString LegendRoster::_filename;
 
@@ -25,7 +26,7 @@ Legend* LegendRoster::find (const QString& name) {
 }
 
 bool LegendRoster::exists (const QString& name) {
-    return  _legends.keys().contains (name);
+    return  ! (_legends.find (name) == _legends.end());
 }
 
 void LegendRoster::provide (Legend* legend) {
@@ -103,3 +104,23 @@ void LegendRoster::serialise (QString filename) {
     _filename = filename;
 
 }
+
+Legend* LegendRoster::defaultLegend() {
+  //  if (exists ("default")) {
+  //      return find ("default)");
+  //  }
+
+    if (legendCount() > 0) {
+        return _legends.first();
+    }
+
+    // if there are no legends at all, make one up and add it to the roster
+    Legend* legend = new Legend();
+    legend -> addEntry (-1.0, Qt::black);
+    legend -> addEntry (1.0, Qt::white);
+    legend -> setName ("default");
+    legend -> setNotes ("This legend was added to the roster because no legends were found in the legend file " + _filename + ".");
+    provide (legend);
+    return legend;
+}
+

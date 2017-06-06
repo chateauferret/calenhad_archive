@@ -10,6 +10,7 @@
 #include "CalenhadServices.h"
 #include "LegendRoster.h"
 #include "pipeline/GlobeRenderJob.h"
+#include "controls/CalenhadGlobe.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -23,6 +24,7 @@ Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
 Q_DECLARE_METATYPE (std::shared_ptr<GlobeBuffer>)
 Q_DECLARE_METATYPE (CurveType)
 
+
 int main (int argc, char **argv) {
 
 
@@ -33,6 +35,7 @@ int main (int argc, char **argv) {
     qRegisterMetaType<std::shared_ptr<GlobeBuffer>>();
     qRegisterMetaType<TileId>();
     qRegisterMetaType<CurveType>();
+
 
     // set up application
     QCoreApplication::setOrganizationName("calenhad");

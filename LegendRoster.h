@@ -25,6 +25,7 @@ public:
     void remove (const QString& name) override;
     void commit() override;
     void rollback() override;
+    Legend* defaultLegend() override;
 private:
     QMap<QString, Legend*> _legends;
 

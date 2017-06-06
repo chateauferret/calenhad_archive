@@ -35,7 +35,7 @@ protected:
     LegendService* _service;
     LegendChooser* _chooser;
     QWidget* _legendDetailArea;
-
+    bool _legendsChanged;
 
     QPushButton* _deleteLegendButton;
     QPushButton* _newLegendButton;

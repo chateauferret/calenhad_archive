@@ -8,6 +8,7 @@
 #include "../libnoiseutils/NoiseContstants.h"
 #include "Legend.h"
 #include "../CalenhadServices.h"
+#include "../controls/CalenhadGlobe.h"
 #include <libnoise/model/sphere.h>
 #include <ctime>
 #include <QThread>
@@ -71,8 +72,8 @@ void CalenhadLayer::populate() {
             _job -> moveToThread (thread);
             connect (thread, SIGNAL (started ()), _job, SLOT (startJob ()), Qt::QueuedConnection);
             connect (_job, SIGNAL (bufferUpdated (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
-            connect (_job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), thread, SLOT (quit ()), Qt::QueuedConnection);
-            connect (_job, SIGNAL (complete (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
+            connect (_job, SIGNAL (complete()), thread, SLOT (quit ()), Qt::QueuedConnection);
+            //connect (_job, SIGNAL (complete()), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
             connect (_job, SIGNAL (progress (const double&)), this, SIGNAL (progress (const double&)), Qt::QueuedConnection);
             connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()), Qt::QueuedConnection);
             connect (this, &CalenhadLayer::abandonJobs, _job, &RenderJob::abandon, Qt::QueuedConnection);
@@ -97,6 +98,7 @@ void CalenhadLayer::rescale() {
 }
 
 void CalenhadLayer::renderOverview() {
+    double minimum = 0.0, maximum = 0.0;
     Sphere* sphere = new Sphere();
     sphere -> SetModule (* (_source -> module ()));
     QColor c;
@@ -108,6 +110,8 @@ void CalenhadLayer::renderOverview() {
             lon = -180.0 + (dLon * px);
             lat = 90.0 - (dLat * py);
             double value = sphere -> GetValue (lat, lon);
+            if (value < minimum || minimum == 0.0) { minimum = value; }
+            if (value > maximum || maximum == 0.0) { maximum = value; }
             c = legend() -> lookup (value);
             _overview -> setPixelColor (px, py, c);
         }
@@ -116,6 +120,7 @@ void CalenhadLayer::renderOverview() {
         emit overviewRendered (*_overview);
     }
     delete sphere;
+    CalenhadServices::statistics() -> recordGlobalExtremes (minimum, maximum);
 }
 
 void CalenhadLayer::refresh (std::shared_ptr<GlobeBuffer> buffer) {

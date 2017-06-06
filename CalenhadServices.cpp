@@ -14,6 +14,7 @@ PreferencesService* CalenhadServices::_preferences;
 MessageService* CalenhadServices::_messages;
 ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
+StatisticsService* CalenhadServices::_statistics = new StatisticsService();
 
 PreferencesService* CalenhadServices::preferences () {
     return _preferences;
@@ -29,6 +30,10 @@ LegendService* CalenhadServices::legends () {
 
 ProjectionService* CalenhadServices::projections() {
     return _projections;
+}
+
+StatisticsService* CalenhadServices::statistics() {
+    return _statistics;
 }
 
 void CalenhadServices::providePreferences (PreferencesService* service) {
