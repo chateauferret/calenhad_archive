@@ -5,6 +5,7 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
+#include <QCloseEvent>
 #include <QFormLayout>
 #include <QTextEdit>
 #include <QtWidgets/QDialogButtonBox>
@@ -110,6 +111,7 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
 }
 
 void CalenhadGlobeConfigDialog::initialise() {
+    CalenhadServices::legends() -> setDirty (false);
     _mouseSensitivitySlider -> setValue (_parent -> sensitivity());
     _dragModeCombo -> setCurrentText ("Do nothing");
     _doubleClickModeCombo -> setCurrentText ("Do nothing");
@@ -134,6 +136,7 @@ void CalenhadGlobeConfigDialog::initialise() {
         case (DatumFormat::Native) : { _tooltipOptionCombo -> setCurrentText ("Native"); break; }
         case (DatumFormat::Scaled) : { _tooltipOptionCombo -> setCurrentText ("Scale"); break; }
     }
+
 }
 
 CalenhadGlobeConfigDialog::~CalenhadGlobeConfigDialog () {
@@ -168,15 +171,20 @@ void CalenhadGlobeConfigDialog::commitChanges () {
     _legendManager -> commit();
 }
 
-void CalenhadGlobeConfigDialog::rollbackChanges () {
-    QMessageBox confirm;
-    confirm.setText ("This will lose all changes. Are you sure?");
-    confirm.setStandardButtons (QMessageBox::Ok | QMessageBox::Cancel);
-    confirm.setDefaultButton (QMessageBox::Ok);
-    confirm.setEscapeButton (QMessageBox::Cancel);
-    int result = confirm.exec ();
-    if (result == QMessageBox::Ok) {
-        _legendManager->rollback ();
+void CalenhadGlobeConfigDialog::reject() {
+    if (CalenhadServices::legends() -> isDirty()) {
+        QMessageBox confirm;
+        confirm.setText ("This will discard all changes to legends. Are you sure?");
+        confirm.setStandardButtons (QMessageBox::Yes | QMessageBox::No);
+        confirm.setDefaultButton (QMessageBox::Yes);
+        confirm.setEscapeButton (QMessageBox::No);
+        int result = confirm.exec ();
+        if (result == QMessageBox::Yes) {
+            _legendManager -> rollback ();
+            QDialog::reject();
+        }
+    } else {
+        QDialog::reject();
     }
 }
 

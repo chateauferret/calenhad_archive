@@ -10,8 +10,8 @@
 #include "mapping/Legend.h"
 #include <QMap>
 
-class LegendRoster : public LegendService {
-
+class LegendRoster :public QObject, public LegendService {
+Q_OBJECT
 public:
     LegendRoster();
     ~LegendRoster();
@@ -22,17 +22,18 @@ public:
     QMap<QString, Legend*> all();
     void rename (const QString& from, const QString& to) override;
     int legendCount() override;
-    void remove (const QString& name) override;
+    bool remove (const QString& name) override;
     void commit() override;
     void rollback() override;
     Legend* defaultLegend() override;
+    bool isDirty() override;
+    void setDirty (const bool& dirty = true) override;
 private:
     QMap<QString, Legend*> _legends;
-
-
+    bool _dirty;
     static QString _filename;
-
     void serialise (QString filename);
+
 };
 
 #endif //CALENHAD_LEGENDROSTER_H

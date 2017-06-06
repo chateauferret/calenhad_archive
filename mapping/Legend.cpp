@@ -72,6 +72,7 @@ double Legend::interpolateValues (const double& p1, const double& v1, const doub
 
 void Legend::setInterpolated (const bool& interpolate) {
     _interpolate = interpolate;
+    CalenhadServices::legends() -> setDirty();
     emit legendChanged();
 }
 
@@ -84,6 +85,7 @@ const bool& Legend::isInterpolated () const {
 // Replace the entry if it exists, add it in otherwise.
 void Legend::addEntry (const double& value, const QColor& colour) {
     _entries [value] = colour;
+    CalenhadServices::legends() -> setDirty();
 
 }
 
@@ -97,6 +99,7 @@ unsigned Legend::removeEntries (const double& from, const double& unto) {
             count++;
         }
     }
+    CalenhadServices::legends() -> setDirty();
     return count;
 }
 
@@ -128,6 +131,7 @@ void Legend::setEntries (const QList<LegendEntry>& entries) {
         std::pair<qreal, QColor> item = std::make_pair (entry.first, entry.second);
         _entries.insert (item);
     }
+    CalenhadServices::legends() -> setDirty();
     emit legendChanged();
 }
 

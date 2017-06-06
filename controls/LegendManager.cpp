@@ -11,7 +11,7 @@
 #include "CalenhadGlobeConfigDialog.h"
 
 
-LegendManager::LegendManager (QWidget* parent) : QWidget (parent), _legendsChanged (false) {
+LegendManager::LegendManager (QWidget* parent) : QWidget (parent) {
     _service = CalenhadServices::legends();
     _chooser = new LegendChooser (_service, this);
     connect (_chooser, &LegendChooser::legendSelected, this, &LegendManager::showLegend);
@@ -70,7 +70,6 @@ void LegendManager::newLegend() {
     _chooser -> addItem (legend -> icon(), legend -> name());
     _chooser -> setCurrentText (legend -> name());
     _deleteLegendButton -> setEnabled (true);
-    _legendsChanged = true;
 }
 
 void LegendManager::deleteLegend() {
@@ -89,14 +88,12 @@ void LegendManager::deleteLegend() {
             _legendDetailArea -> layout() -> removeWidget (((QStackedLayout*) _legendDetailArea -> layout()) -> currentWidget());
             _chooser -> removeItem (_chooser -> currentIndex());
         }
-        _legendsChanged = true;
     } else {
         CalenhadServices::messages() -> message ("Cannot delete the last legend", "There must always be at least one legend available");
     }
 }
 
 void LegendManager::showEvent (QShowEvent* e) {
-    _legendsChanged = false;
     _chooser -> refresh();
 
     // turn up the right widget for the legend currently in use
@@ -111,14 +108,14 @@ LegendManager::~LegendManager () {
 }
 
 void LegendManager::commit () {
-    if (_legendsChanged) {
-        _service->commit ();
+    if (_service -> isDirty()) {
+        _service -> commit ();
     }
 }
 
 void LegendManager::rollback () {
-    if (_legendsChanged) {
-        _service->rollback ();
+    if (_service -> isDirty()) {
+        _service -> rollback ();
     }
 }
 
@@ -127,12 +124,9 @@ void LegendManager::addLegendWidget (Legend* legend) {
     ((QStackedLayout*) _legendDetailArea -> layout())->addWidget (w);
     connect (w, SIGNAL (nameChanged (QString)), legend, SLOT (setName (const QString&)));
     connect (w, SIGNAL (iconChanged (QIcon)), _chooser, SLOT (setCurrentIcon (const QIcon&)));
-    connect (legend, &Legend::legendChanged, this, [=] () {
-       _legendsChanged = true;
-    });
+
     connect (legend, &Legend::renamed, this, [=] () {
         _chooser -> setItemText (_chooser -> currentIndex(), legend -> name());
         _chooser -> setCurrentText (legend -> name());
-        _legendsChanged = true;
     });
 }

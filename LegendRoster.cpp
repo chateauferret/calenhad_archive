@@ -11,14 +11,11 @@
 
 QString LegendRoster::_filename;
 
-LegendRoster::LegendRoster () {
-
+LegendRoster::LegendRoster () : _dirty (false) {
 }
 
-LegendRoster::~LegendRoster () {
-    for (Legend* legend : _legends.values ()) {
-        delete legend;
-    }
+LegendRoster::~LegendRoster() {
+
 }
 
 Legend* LegendRoster::find (const QString& name) {
@@ -31,6 +28,7 @@ bool LegendRoster::exists (const QString& name) {
 
 void LegendRoster::provide (Legend* legend) {
     _legends.insert (legend -> name(), legend);
+    _dirty = true;
 }
 
 void LegendRoster::inflate (const QString& filename) {
@@ -43,7 +41,9 @@ void LegendRoster::inflate (const QString& filename) {
             legend -> inflate (legendNodes.item (i));
             provide (legend);
         }
+        _dirty = false;
     }
+
 }
 
 QMap<QString, Legend*> LegendRoster::all () {
@@ -54,16 +54,22 @@ void LegendRoster::rename (const QString& from, const QString& to) {
     Legend* legend = find (from);
     _legends.remove (from);
     _legends.insert (to, legend);
+    _dirty = true;
 }
 
 int LegendRoster::legendCount () {
     return _legends.count();
 }
 
-void LegendRoster::remove (const QString& name) {
+bool LegendRoster::remove (const QString& name) {
     if (legendCount() > 1) {
-        _legends.remove (name);
+        Legend* legend = find (name);
+        if (_legends.remove (name) == 0) {
+            _dirty = true;
+            return true;
+        }
     }
+    return false;
 }
 
 void LegendRoster::commit () {
@@ -102,6 +108,7 @@ void LegendRoster::serialise (QString filename) {
     MessageService* service = CalenhadServices::messages();
     CalenhadServices::messages() -> message ("", "Wrote file " + filename);
     _filename = filename;
+    _dirty = false;
 
 }
 
@@ -124,3 +131,10 @@ Legend* LegendRoster::defaultLegend() {
     return legend;
 }
 
+bool LegendRoster::isDirty() {
+    return _dirty;
+}
+
+void LegendRoster::setDirty (const bool& dirty) {
+    _dirty = dirty;
+}

@@ -39,9 +39,9 @@ public:
     Projection selectedProjection();
     Legend* selectedLegend();
     void commitChanges();
-    void rollbackChanges();
     CoordinatesFormat coordinatesFormat();
     DatumFormat datumFormat();
+    void reject() override;
 
 protected:
     CalenhadGlobe* _parent;
@@ -60,6 +60,7 @@ protected:
 
     QComboBox* _tooltipOptionCombo;
     QComboBox* _tooltipDatumCombo;
+
 };
 
 

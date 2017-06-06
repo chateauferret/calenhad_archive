@@ -19,10 +19,12 @@ public:
     virtual QMap<QString, Legend*> all() = 0;
     virtual void rename (const QString& from, const QString& to) = 0;
     virtual int legendCount() = 0;
-    virtual void remove (const QString& name) = 0;
+    virtual bool remove (const QString& name) = 0;
     virtual void commit() = 0;
     virtual void rollback() = 0;
     virtual Legend* defaultLegend() = 0;
+    virtual bool isDirty() = 0;
+    virtual void setDirty (const bool& dirty = true) = 0;
 };
 
 

@@ -409,7 +409,6 @@ void CalenhadGlobe::showConfigDialog() {
     if (!_configDialog) {
         _configDialog = new CalenhadGlobeConfigDialog (this);
         connect (_configDialog, &QDialog::accepted, this, &CalenhadGlobe::updateConfig);
-        connect (_configDialog, &QDialog::rejected, this, &CalenhadGlobe::rollbackConfig);
     }
     _configDialog -> initialise();
     _configDialog -> exec();
@@ -559,10 +558,6 @@ void CalenhadGlobe::setLegend (Legend* legend) {
 
 Legend* CalenhadGlobe::legend() {
     return _layer -> legend();
-}
-
-void CalenhadGlobe::rollbackConfig () {
-    _configDialog -> rollbackChanges();
 }
 
 CoordinatesFormat CalenhadGlobe::coordinatesFormat () {

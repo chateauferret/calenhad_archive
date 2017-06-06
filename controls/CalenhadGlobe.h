@@ -91,7 +91,6 @@ public slots:
     void showNavigator (const bool& show = true);
     void navigate (const NavigationEvent& e);
     void updateConfig();
-    void rollbackConfig();
     void goTo (const GeoDataCoordinates& target);
     void setProjection (const Projection& projection);
     void setProgress (const int& progress);
