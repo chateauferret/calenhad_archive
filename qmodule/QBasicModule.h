@@ -15,7 +15,7 @@ public:
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
     void initialise();
-    QString moduleType () override;
+    QString nodeType () override;
     static QBasicModule* newInstance (const QString& type);
     bool hasParameters() override;
 private:

@@ -80,7 +80,7 @@ QTranslateModule* QTranslateModule::newInstance () {
     return qm;
 }
 
-QString QTranslateModule::moduleType () {
+QString QTranslateModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_translate;
 }
 

@@ -72,7 +72,7 @@ RotatePoint* QRotateModule::module () {
     return r;
 }
 
-QString QRotateModule::moduleType () {
+QString QRotateModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_rotate;
 }
 

@@ -20,7 +20,7 @@ public:
     virtual ~QNoiseModule();
     void initialise() override;
     QNoiseModule* clone () override;
-    QString moduleType () override;
+    QString nodeType () override;
     double getFrequency ();
     double getLacunarity ();
     double getPersistence ();

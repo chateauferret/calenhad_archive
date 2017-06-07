@@ -80,7 +80,7 @@ QVoronoiModule* QVoronoiModule::newInstance () {
     return qm;
 }
 
-QString QVoronoiModule::moduleType () {
+QString QVoronoiModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_voronoi;
 }
 

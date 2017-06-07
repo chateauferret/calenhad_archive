@@ -33,7 +33,7 @@ public:
     bool isRenderable() override;
     IcosphereMap* module() override;
     QIcosphereMap* clone () override;
-    QString moduleType () override;
+    QString nodeType () override;
     void setIcosphereDepth (const unsigned& depth);
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;

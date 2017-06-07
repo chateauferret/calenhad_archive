@@ -27,7 +27,7 @@ QClampModule* QClampModule::newInstance() {
     return qm;
 }
 
-QString QClampModule::moduleType() {
+QString QClampModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_clamp;
 }
 

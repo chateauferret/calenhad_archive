@@ -187,7 +187,7 @@ QNoiseModule* QNoiseModule::newInstance (Module* m) {
     return qm;
 }
 
-QString QNoiseModule::moduleType () {
+QString QNoiseModule::nodeType () {
     if (dynamic_cast<Perlin*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_perlin; }
     if (dynamic_cast<Billow*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_billow; }
     if (dynamic_cast<RidgedMulti*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_ridgedmulti; }
@@ -196,9 +196,9 @@ QString QNoiseModule::moduleType () {
 
 QNoiseModule* QNoiseModule::clone() {
     QNoiseModule* qm = nullptr;
-    if (moduleType() == CalenhadServices::preferences() -> calenhad_module_perlin) { qm = newPerlinInstance(); }
-    if (moduleType() == CalenhadServices::preferences() -> calenhad_module_billow) { qm = newBillowInstance(); }
-    if (moduleType() == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) { qm = newRidgedMultiInstance(); }
+    if (nodeType () == CalenhadServices::preferences() -> calenhad_module_perlin) { qm = newPerlinInstance(); }
+    if (nodeType () == CalenhadServices::preferences() -> calenhad_module_billow) { qm = newBillowInstance(); }
+    if (nodeType () == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) { qm = newRidgedMultiInstance(); }
     if (qm) {
         qm -> setFrequency (getFrequency ());
         qm -> setLacunarity (getLacunarity ());

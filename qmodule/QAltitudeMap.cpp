@@ -194,7 +194,7 @@ QAltitudeMap* QAltitudeMap::newInstance () {
     return qm;
 }
 
-QString QAltitudeMap::moduleType () {
+QString QAltitudeMap::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_altitudemap;
 }
 
@@ -229,7 +229,7 @@ void QAltitudeMap::inflate (const QDomElement& element) {
             addEntry (x, y);
         } else {
             CalenhadServices::messages() -> message ("", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
-                    + " for " + moduleType() + " owner " + name());
+                    + " for " + nodeType () + " owner " + name());
         }
     }
 }

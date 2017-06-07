@@ -25,7 +25,7 @@ class Legend;
 
 using namespace noise::module;
 
-class QNEBlock;
+class QModuleBlock;
 class MessageFactory;
 
 class QModule : public QNode {
@@ -41,7 +41,7 @@ public:
     virtual QModule* clone () = 0;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
-    virtual QString moduleType () override = 0;
+    virtual QString nodeType () override = 0;
     static int seed;
     static noise::NoiseQuality noiseQuality;
     virtual noise::module::Module* module();

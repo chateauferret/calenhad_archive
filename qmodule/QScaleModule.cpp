@@ -74,7 +74,7 @@ ScalePoint* QScaleModule::module () {
     return t;
 }
 
-QString QScaleModule::moduleType () {
+QString QScaleModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_scalepoint;
 }
 

@@ -21,7 +21,7 @@ public:
     void initialise() override;
 
     QAltitudeMap* clone () override;
-    virtual QString moduleType () override;
+    virtual QString nodeType () override;
     QVector<QPointF> getEntries() const;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;

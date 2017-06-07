@@ -63,7 +63,7 @@ QSelectModule* QSelectModule::newInstance () {
     return qm;
 }
 
-QString QSelectModule::moduleType() {
+QString QSelectModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_select;
 }
 

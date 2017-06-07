@@ -9,19 +9,35 @@
 #include "QNode.h"
 
 class QNodeGroup : public QNode {
+    Q_OBJECT
 public:
-    QNodeGroup (QWidget* parent);
+    QNodeGroup (QWidget* parent = 0);
     virtual ~QNodeGroup();
     enum { Type = QGraphicsItem::UserType + 5 };
     void setRect  (const QRect& rect);
     QRect rect();
     bool isWithin (const QPoint& point);
-    void setUniqueName () override;
+    void setUniqueName() override;
+    QString nodeType() override;
+    QNodeGroup* clone() override;
+    void initialise() override;
+
+    signals:
+    void changedOctaves (const int&);
 
 protected:
     QRect _rect;
     void addInputPorts() override;
 
+
+
+    QSpinBox* _octaveSpin;
+
+    int getOctaveCount ();
+
+    void setOctaveCount (const int& value);
+
+    int _octaves;
 };
 
 

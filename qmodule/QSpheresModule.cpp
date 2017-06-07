@@ -52,7 +52,7 @@ QSpheresModule* QSpheresModule::newInstance () {
     return qm;
 }
 
-QString QSpheresModule::moduleType () {
+QString QSpheresModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_spheres;
 }
 

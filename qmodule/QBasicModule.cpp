@@ -38,11 +38,11 @@ QBasicModule* QBasicModule::newInstance (const QString& type) {
 }
 
 QBasicModule* QBasicModule::clone () {
-    return newInstance (moduleType ());
+    return newInstance (nodeType ());
 }
 
 
-QString QBasicModule::moduleType () {
+QString QBasicModule::nodeType () {
     if (dynamic_cast<Add*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_add; }
     if (dynamic_cast<Abs*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_abs; }
     if (dynamic_cast<Blend*> (_module)) { return CalenhadServices::preferences() -> calenhad_module_blend; }
@@ -66,13 +66,13 @@ void QBasicModule::initialise () {
 
 void QBasicModule::serialise (QDomDocument& doc) {
     QModule::serialise (doc);
-    _element.setAttribute ("moduleType", moduleType ());
+    _element.setAttribute ("nodeType", nodeType ());
 
 }
 
 void QBasicModule::inflate (const QDomElement& element) {
     QModule::inflate (element);
-    // element moduleType is done in Node class - to do
+    // element nodeType is done in Node class - to do
 }
 
 bool QBasicModule::hasParameters () {

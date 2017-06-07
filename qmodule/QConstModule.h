@@ -23,7 +23,7 @@ public:
     Q_PROPERTY (double constantValue READ constValue WRITE setConstValue());
     static QConstModule* newInstance();
     QConstModule* clone() override;
-    QString moduleType() override;
+    QString nodeType () override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
 

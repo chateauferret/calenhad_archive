@@ -22,7 +22,7 @@ public:
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
     Spheres* module () override;
-    QString moduleType () override;
+    QString nodeType () override;
     QSpheresModule* clone () override;
 
     public slots:

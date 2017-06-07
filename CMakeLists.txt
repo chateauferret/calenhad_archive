@@ -21,8 +21,8 @@ set(SOURCE_FILES
         preferences.cpp
         geoutils.h
         geoutils.cpp
-        nodeedit/qneblock.h
-        nodeedit/qneblock.cpp
+        nodeedit/QModuleBlock.h
+        nodeedit/QModuleBlock.cpp
         nodeedit/qneconnection.h
         nodeedit/qneconnection.cpp
         nodeedit/Calenhad.h
@@ -101,8 +101,8 @@ set(SOURCE_FILES
         actions/ZoomCommand.h
         actions/DeleteConnectionCommand.cpp
         actions/DeleteConnectionCommand.h
-        actions/AddModuleCommand.cpp
-        actions/AddModuleCommand.h
+        actions/AddNodeCommand.cpp
+        actions/AddNodeCommand.h
         mapping/CalenhadLayer.cpp
         mapping/CalenhadLayer.h
         libnoiseutils/NoiseMap.cpp
@@ -211,7 +211,7 @@ find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
 add_library (core ${SOURCE_FILES} controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h controls/LegendManager.cpp controls/LegendManager.h controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h StatisticsService.cpp StatisticsService.h qmodule/QNodeGroup.cpp qmodule/QNodeGroup.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h controls/LegendManager.cpp controls/LegendManager.h controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h StatisticsService.cpp StatisticsService.h qmodule/QNodeGroup.cpp qmodule/QNodeGroup.h nodeedit/QNodeGroupBlock.cpp nodeedit/QNodeGroupBlock.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY})

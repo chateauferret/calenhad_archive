@@ -45,7 +45,7 @@ QConstModule* QConstModule::newInstance() {
     return qm;
 }
 
-QString QConstModule::moduleType () {
+QString QConstModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_constant;
 }
 

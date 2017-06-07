@@ -5,7 +5,7 @@
 #include "EditableLabel.h"
 #include <QGraphicsScene>
 #include <iostream>
-#include "qneblock.h"
+#include "QModuleBlock.h"
 
 EditableLabel::EditableLabel (QGraphicsItem* parent) : QGraphicsTextItem (parent), _textEdit (nullptr), _proxy (nullptr) {
     setCursor (Qt::IBeamCursor);

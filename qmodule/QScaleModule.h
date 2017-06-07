@@ -24,7 +24,7 @@ public:
 
     ScalePoint* module () override;
     QScaleModule* clone () override;
-    virtual QString moduleType () override;
+    virtual QString nodeType () override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
 

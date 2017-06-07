@@ -16,8 +16,10 @@ Preferences::~Preferences () {
 
 void Preferences::loadSettings() {
     calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/martin/.config/calenhad/darkorange.css").toString();
-    calenhad_handle_brush_color_selected = _settings -> value ("calenhad/handle/brush/color/selected", "#00F0F0").value<QColor>();
-    calenhad_handle_brush_color_normal = _settings -> value ("calenhad/handle/brush/color/normal", "#00F000").value<QColor>();
+    calenhad_module_brush_color_selected = _settings -> value ("calenhad/module/brush/color/selected", "#00F0F0").value<QColor>();
+    calenhad_module_brush_color_normal = _settings -> value ("calenhad/module/brush/color/normal", "#00F000").value<QColor>();
+    calenhad_nodegroup_brush_color_selected = _settings -> value ("calenhad/nodegroup/brush/color/selected", "#802020").value<QColor>();
+    calenhad_nodegroup_brush_color_normal = _settings -> value ("calenhad/nodegroup/brush/color/normal", "#FF4040").value<QColor>();
     calenhad_handle_brush_color_bg = _settings -> value ("calenhad/handle/brush/color/bg", "#323232").value<QColor>();
     calenhad_port_in_border_color = _settings -> value ("calenhad/port/in/border/color", "#008000").value<QColor>();
     calenhad_port_in_fill_color = _settings -> value ("calenhad/port/in/fill/color", "transparent").value<QColor>();
@@ -37,8 +39,10 @@ void Preferences::loadSettings() {
     calenhad_connector_drawing_weight = _settings -> value ("calenhad/connector/drawing/weight", 1).toUInt();
     calenhad_connector_inactive_color = _settings -> value ("calenhad/connector/inactive/color", "808080").value<QColor>();
     calenhad_connector_inactive_weight = _settings -> value ("calenhad/connector/inactive_weight", 1).toUInt();
-    calenhad_handle_text_color_selected = _settings -> value ("calenhad/handle/text/color/selected", "#000000").value<QColor>();
-    calenhad_handle_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
+    calenhad_module_text_color_selected = _settings -> value ("calenhad/handle/text/color/selected", "#000000").value<QColor>();
+    calenhad_module_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
+    calenhad_nodegroup_text_color_selected = _settings -> value ("calenhad/handle/text/color/selected", "#000000").value<QColor>();
+    calenhad_nodegroup_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
     calenhad_altitudemap_deletemargin = _settings -> value ("calenhad/altitude/deletemargin", 0.2).toUInt();
     calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/ClionProjects/calenhad/config/legends.xml").toString ();
 
@@ -85,8 +89,10 @@ void Preferences::loadSettings() {
 
 void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/stylesheet", calenhad_stylesheet);
-    _settings -> setValue ("calenhad/handle/brush/color/selected", calenhad_handle_brush_color_selected);
-    _settings -> setValue ("calenhad/handle/brush/color/normal", calenhad_handle_brush_color_normal);
+    _settings -> setValue ("calenhad/module/brush/color/selected", calenhad_module_brush_color_selected);
+    _settings -> setValue ("calenhad/module/brush/color/normal", calenhad_module_brush_color_normal);
+    _settings -> setValue ("calenhad/nodegroup/brush/color/selected", calenhad_nodegroup_brush_color_selected);
+    _settings -> setValue ("calenhad/nodegroup/brush/color/normal", calenhad_nodegroup_brush_color_normal);
     _settings -> setValue ("calenhad/handle/brush/color/bg", calenhad_handle_brush_color_bg);
     _settings -> setValue ("calenhad/port/in/border/color", calenhad_port_in_border_color);
     _settings -> setValue ("calenhad/port/in/fill/color", calenhad_port_in_fill_color);
@@ -106,8 +112,10 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/port/in/border/color/connected", calenhad_port_in_border_color_connected);
     _settings -> setValue ("calenhad/port/in/fill/color/connected", calenhad_port_in_fill_color_connected);
     _settings -> setValue ("calenhad/port/in/border/color/drop", calenhad_port_in_border_color_drop);
-    _settings -> setValue ("calenhad/handle/text/color/selected", calenhad_handle_text_color_selected);
-    _settings -> setValue ("calenhad/handle/text/color/normal", calenhad_handle_text_color_normal);
+    _settings -> setValue ("calenhad/module/text/color/selected", calenhad_module_text_color_selected);
+    _settings -> setValue ("calenhad/module/text/color/normal", calenhad_module_text_color_normal);
+    _settings -> setValue ("calenhad/nodegroup/text/color/selected", calenhad_nodegroup_text_color_selected);
+    _settings -> setValue ("calenhad/nodegroup/text/color/normal", calenhad_nodegroup_text_color_normal);
     _settings -> setValue ("calenhad/altitudemap/deletemargin", calenhad_altitudemap_deletemargin);
     _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
 

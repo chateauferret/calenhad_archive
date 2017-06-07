@@ -81,7 +81,7 @@ QTurbulenceModule* QTurbulenceModule::newInstance () {
     return qm;
 }
 
-QString QTurbulenceModule::moduleType () {
+QString QTurbulenceModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_turbulence;
 }
 

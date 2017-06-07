@@ -10,18 +10,20 @@
 #include "../qmodule/QModule.h"
 
 
-class AddModuleCommand : public QUndoCommand {
+class AddNodeCommand : public QUndoCommand {
 
 public:
-    AddModuleCommand (QModule* module, const QPointF pos, CalenhadModel* model);
-    virtual ~AddModuleCommand ();
+    AddNodeCommand (QNode* node, const QPointF pos, CalenhadModel* model);
+    virtual ~AddNodeCommand ();
     virtual void undo () override;
     virtual void redo () override;
-
+    QNode* node ();
 protected:
     CalenhadModel* _model = nullptr;
-    QModule* _module,  * _copy;
+    QNode* _node,  * _copy;
     QPointF _pos;
+
+
 };
 
 

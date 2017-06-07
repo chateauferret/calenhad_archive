@@ -65,7 +65,7 @@ QScaleBiasModule* QScaleBiasModule::newInstance() {
     return sm;
 }
 
-QString QScaleBiasModule::moduleType () {
+QString QScaleBiasModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_scalebias;
 }
 

@@ -52,7 +52,7 @@ QExponentModule* QExponentModule::newInstance() {
     return qm;
 }
 
-QString QExponentModule::moduleType () {
+QString QExponentModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_exponent;
 }
 

@@ -4,7 +4,7 @@
 
 #include <QtWidgets/QFormLayout>
 #include "QModule.h"
-#include "../nodeedit/qneblock.h"
+#include "../nodeedit/QModuleBlock.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
@@ -79,12 +79,12 @@ void QModule::addInputPorts() {
 
 void QModule::setUniqueName() {
     int i = 0;
-    QString type = moduleType ();
-    QString name = "New " + moduleType ();
+    QString type = nodeType ();
+    QString name = "New " + nodeType ();
 
     while (_model -> findModule (name)) {
         i++;
-        name = QString ("New ") + moduleType () + " " + QString::number (i);
+        name = QString ("New ") + nodeType () + " " + QString::number (i);
     }
     setName (name);
 }
@@ -100,7 +100,7 @@ void QModule::serialise (QDomDocument& doc) {
     _element.appendChild (positionElement);
     positionElement.setAttribute ("y", handle() -> scenePos().y());
     positionElement.setAttribute ("x", handle() -> scenePos().x());
-    _element.setAttribute ("type", moduleType());
+    _element.setAttribute ("type", nodeType ());
 }
 
 void QModule::invalidate() {

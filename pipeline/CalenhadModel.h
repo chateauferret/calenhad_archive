@@ -13,7 +13,7 @@
 #include "../pipeline/ModuleFactory.h"
 
 class CalenhadController;
-
+class QNodeGroup;
 namespace icosphere {
     class Icosphere;
 }
@@ -26,6 +26,7 @@ public:
     QModule* findModule (const QString& name);
     QNodeGroup* findGroup (const QString& name);
     QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
+    QNodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
     QNode* addNode (QNode* node, const QPointF& initPos);
     void deleteNode (QNode* node);
     bool canConnect (QNEPort* output, QNEPort* input, const bool& verbose = false);
@@ -54,7 +55,7 @@ signals:
 
 protected:
 
-    bool existsPath (QNEBlock* from, QNEBlock* to);
+    bool existsPath (QModuleBlock* from, QModuleBlock* to);
     NullModule* nullModule = new NullModule();
     ModuleFactory _moduleFactory;
     QPointF lastClick;
@@ -69,7 +70,7 @@ protected:
 
     void writeMetadata (QDomDocument& doc);
     void readMetadata (const QDomDocument& doc);
-
+    QNode* addNode (QNode* node, const QPointF& initPos, QModuleBlock* b);
 };
 
 #endif //CALENHAD_CALENHADMODEL_H

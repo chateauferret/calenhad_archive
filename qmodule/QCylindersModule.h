@@ -22,7 +22,7 @@ public:
 
     Cylinders* module () override;
     QCylindersModule* clone() override;
-    QString moduleType () override;
+    QString nodeType () override;
 
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;

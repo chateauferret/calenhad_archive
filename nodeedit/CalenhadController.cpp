@@ -26,9 +26,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 #include "../actions/ZoomCommand.h"
 #include "../actions/DeleteConnectionCommand.h"
-#include "../actions/AddModuleCommand.h"
+#include "../actions/AddNodeCommand.h"
 #include "Calenhad.h"
-#include "qneblock.h"
+#include "QModuleBlock.h"
 #include "qnetoolbox.h"
 #include "qneconnection.h"
 #include "../qmodule/QModule.h"
@@ -91,6 +91,11 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_turbulence, "Turbulence");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
+
+    // A tool for adding a new node group
+    QAction* tool = createTool ("NodeGroup", "Add a new group", "NodeGroup", _addModuleDrawer, true);
+    tool -> setCheckable (true);
+    _addModuleGroup -> addTool (tool);
 
     _zoomMenu = new QMenu ("Zoom");
     _defaultContextMenu -> addMenu (parent -> toolbox -> menu ("Modules"));
@@ -219,8 +224,8 @@ QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
     else if (item -> type() == QNEConnection::Type) {
         return _connectionContextMenu;
     }
-    else if (item -> type() == QNEBlock::Type) {
-        QNEBlock* handle = (QNEBlock*) item;
+    else if (item -> type() == QModuleBlock::Type) {
+        QModuleBlock* handle = (QModuleBlock*) item;
         QNode* node = handle -> node();
         return getContextMenu (node);
     }
@@ -266,7 +271,7 @@ void CalenhadController::actionTriggered () {
         for (QGraphicsItem* item : _model->selectedItems ()) {
             // to do - delete other kinds of node
             if (item->type () == QGraphicsItem::UserType + 3) { // block
-                QNode* node = ((QNEBlock*) item) -> node();
+                QNode* node = ((QModuleBlock*) item) -> node();
                 // to do - generalise this to delete groups too
                 QModule* module = dynamic_cast<QModule*> (node);
                 if (module) {

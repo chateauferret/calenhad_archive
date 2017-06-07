@@ -24,7 +24,7 @@ public:
 
     ScaleBias* module () override;
     QScaleBiasModule* clone ();
-    virtual QString moduleType () override;
+    virtual QString nodeType () override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
 

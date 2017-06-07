@@ -27,7 +27,7 @@ public:
     double zAngle();
     QRotateModule* clone () override;
     RotatePoint* module () override;
-    QString moduleType () override;
+    QString nodeType () override;
 
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;

@@ -87,7 +87,7 @@ void QNode::setName (const QString& name) {
         _nameEdit -> setText (name);
         update();
         if (_dialog) {
-            _dialog -> setWindowTitle (_name + " (" + moduleType () + ")");
+            _dialog -> setWindowTitle (_name + " (" + nodeType () + ")");
         }
         emit (nameChanged (name));
     }
@@ -112,11 +112,11 @@ int QNode::addPanel (const QString& title, QWidget* widget) {
 }
 
 
-void QNode::setHandle (QNEBlock* h) {
+void QNode::setHandle (QModuleBlock* h) {
     _handle = h;
 }
 
-QNEBlock* QNode::handle() {
+QModuleBlock* QNode::handle() {
     return _handle;
 }
 
@@ -219,7 +219,7 @@ void QNode::setModel (CalenhadModel* model) {
 
 void QNode::showParameters (const bool& visible) {
     if (visible) {
-        _dialog -> setWindowTitle (name () + " (" + moduleType () + ")");
+        _dialog -> setWindowTitle (name () + " (" + nodeType () + ")");
         _dialog -> setAttribute (Qt::WA_DeleteOnClose, false);
         _dialog -> show();
     } else {

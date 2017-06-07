@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsPathItem>
 #include <libnoise/module/modulebase.h>
 
-class QNEBlock;
+class QModuleBlock;
 class QNEConnection;
 class EditableLabel;
 class QNode;
@@ -42,10 +42,10 @@ public:
 	enum { Type = QGraphicsItem::UserType + 1 };
 	enum { ControlPort = 0, InputPort = 1, OutputPort = 2 };
 
-    QNEPort (int type, int index, const QString& name, QNEBlock *parent = 0);
+    QNEPort (int type, int index, const QString& name, QModuleBlock *parent = 0);
 	~QNEPort();
 
-	void setBlock (QNEBlock*);
+	void setBlock (QModuleBlock*);
 
 	int index();
 	int radius();
@@ -55,7 +55,7 @@ public:
 	int portType() const { return _portType; }
 	bool hasConnection();
 	int type() const { return Type; }
-	QNEBlock* block() const;
+	QModuleBlock* block() const;
 	void addConnection (QNEConnection* c);
 	void removeConnection(QNEConnection* c);
     virtual QRectF boundingRect() const;
@@ -77,7 +77,7 @@ protected:
 	QVariant itemChange (GraphicsItemChange change, const QVariant &value);
 
 private:
-	QNEBlock *_block;
+	QModuleBlock *_block;
 	QString _portName;
 	bool isOutput_;
 	EditableLabel*_label = nullptr;

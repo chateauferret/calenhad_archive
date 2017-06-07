@@ -25,7 +25,7 @@ public:
     double roughness();
 
     Turbulence* module() override;
-    QString moduleType () override;
+    QString nodeType () override;
     QTurbulenceModule* clone () override;
 
     public slots:

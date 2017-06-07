@@ -130,7 +130,7 @@ QIcosphereMap* QIcosphereMap::newInstance() {
     return qm;
 }
 
-QString QIcosphereMap::moduleType () {
+QString QIcosphereMap::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_icospheremap;
 }
 

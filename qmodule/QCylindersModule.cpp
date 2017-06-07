@@ -57,7 +57,7 @@ QCylindersModule* QCylindersModule::newInstance () {
     return qm;
 }
 
-QString QCylindersModule::moduleType () {
+QString QCylindersModule::nodeType () {
     return CalenhadServices::preferences() -> calenhad_module_cylinders;
 }
 

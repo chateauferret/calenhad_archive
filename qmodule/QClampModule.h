@@ -19,7 +19,7 @@ public:
     static QClampModule* newInstance();
     void initialise() override;
     Clamp* module() override;
-    QString moduleType() override;
+    QString nodeType () override;
     double upperBound() override;
     double lowerBound() override;
     QClampModule* clone() override;

@@ -28,7 +28,7 @@ public:
     QVoronoiModule (QWidget* parent = 0);
     QDoubleSpinBox* frequencySpin, * displacementSpin;
     QCheckBox* enableDistanceCheck;
-    virtual QString moduleType () override;
+    virtual QString nodeType () override;
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
 
