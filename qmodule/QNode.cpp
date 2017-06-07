@@ -112,11 +112,11 @@ int QNode::addPanel (const QString& title, QWidget* widget) {
 }
 
 
-void QNode::setHandle (QModuleBlock* h) {
+void QNode::setHandle (QNodeBlock* h) {
     _handle = h;
 }
 
-QModuleBlock* QNode::handle() {
+QNodeBlock* QNode::handle() {
     return _handle;
 }
 

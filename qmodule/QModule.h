@@ -25,7 +25,7 @@ class Legend;
 
 using namespace noise::module;
 
-class QModuleBlock;
+class QNodeBlock;
 class MessageFactory;
 
 class QModule : public QNode {

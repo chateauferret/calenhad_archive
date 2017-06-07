@@ -23,7 +23,7 @@ class QToolBar;
 class QwtCounter;
 class QModule;
 class QNEPort;
-class QModuleBlock;
+class QNodeBlock;
 class QNodeGroup;
 
 
@@ -45,8 +45,8 @@ public:
     void setGroup (QNodeGroup* group);
     QNodeGroup* group();
 
-    void setHandle (QModuleBlock* h);
-    QModuleBlock* handle();
+    void setHandle (QNodeBlock* h);
+    QNodeBlock* handle();
 
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QNode* clone () = 0;
@@ -86,7 +86,7 @@ protected:
     CalenhadModel* _model;
     QNodeGroup* _group;
     QDialog* _dialog;
-    QModuleBlock* _handle;
+    QNodeBlock* _handle;
     QString _name;
     QString _notes;
     QLineEdit* _nameEdit;

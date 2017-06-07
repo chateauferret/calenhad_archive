@@ -28,7 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../actions/DeleteConnectionCommand.h"
 #include "../actions/AddNodeCommand.h"
 #include "Calenhad.h"
-#include "QModuleBlock.h"
+#include "QNodeBlock.h"
 #include "qnetoolbox.h"
 #include "qneconnection.h"
 #include "../qmodule/QModule.h"
@@ -224,8 +224,8 @@ QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
     else if (item -> type() == QNEConnection::Type) {
         return _connectionContextMenu;
     }
-    else if (item -> type() == QModuleBlock::Type) {
-        QModuleBlock* handle = (QModuleBlock*) item;
+    else if (item -> type() == QNodeBlock::Type) {
+        QNodeBlock* handle = (QNodeBlock*) item;
         QNode* node = handle -> node();
         return getContextMenu (node);
     }
@@ -271,7 +271,7 @@ void CalenhadController::actionTriggered () {
         for (QGraphicsItem* item : _model->selectedItems ()) {
             // to do - delete other kinds of node
             if (item->type () == QGraphicsItem::UserType + 3) { // block
-                QNode* node = ((QModuleBlock*) item) -> node();
+                QNode* node = ((QNodeBlock*) item) -> node();
                 // to do - generalise this to delete groups too
                 QModule* module = dynamic_cast<QModule*> (node);
                 if (module) {

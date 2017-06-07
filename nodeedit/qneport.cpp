@@ -24,7 +24,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneport.h"
-#include "QModuleBlock.h"
+#include "QNodeBlock.h"
 #include <QGraphicsScene>
 #include "EditableLabel.h"
 #include "qneconnection.h"
@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/CalenhadController.h"
 
-QNEPort::QNEPort (int type, int index, const QString& name, QModuleBlock* parent) :
+QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) :
         QGraphicsPathItem (parent),
         _radius (CalenhadServices::preferences() -> calenhad_port_radius),
         _margin (CalenhadServices::preferences() -> calenhad_port_margin),
@@ -70,7 +70,7 @@ QNEPort::~QNEPort () {
     foreach (QNEConnection* conn, m_connections) delete conn;
 }
 
-void QNEPort::setBlock (QModuleBlock* b) {
+void QNEPort::setBlock (QNodeBlock* b) {
     _block = b;
 }
 
@@ -101,7 +101,7 @@ QVector<QNEConnection*>& QNEPort::connections () {
     return m_connections;
 }
 
-QModuleBlock* QNEPort::block () const {
+QNodeBlock* QNEPort::block () const {
     return _block;
 }
 

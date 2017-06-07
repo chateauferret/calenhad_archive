@@ -36,11 +36,11 @@ class QNEPort;
 class QModule;
 class EditableLabel;
 
-class QModuleBlock : public QObject, public QGraphicsPathItem {
+class QNodeBlock : public QObject, public QGraphicsPathItem {
 	Q_OBJECT
 public:
 	enum { Type = QGraphicsItem::UserType + 3 };
-    QModuleBlock (QNode* node, QGraphicsItem *parent = 0);
+    QNodeBlock (QNode* node, QGraphicsItem *parent = 0);
 	QNEPort* addPort (QNEPort* port);
 
 	void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -50,7 +50,7 @@ public:
 	QVector<QNEPort*> outputs();
     QVector<QNEPort*> controls();
     virtual QRectF boundingRect() const;
-    void initialise();
+    virtual void initialise();
     QNode* node();
 
 public slots:
@@ -69,6 +69,8 @@ protected:
     QPen _pen;
 
     virtual QPainterPath makePath ();
+
+    qreal _oldZ;
 };
 
 #endif // QNEBLOCK_H

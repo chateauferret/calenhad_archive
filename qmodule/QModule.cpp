@@ -4,7 +4,7 @@
 
 #include <QtWidgets/QFormLayout>
 #include "QModule.h"
-#include "../nodeedit/QModuleBlock.h"
+#include "../nodeedit/QNodeBlock.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"

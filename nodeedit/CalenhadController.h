@@ -14,7 +14,7 @@ class QGraphicsScene;
 class QNEConnection;
 class QGraphicsItem;
 class QPointF;
-class QModuleBlock;
+class QNodeBlock;
 class CalenhadView;
 class CalenhadModel;
 class QModule;

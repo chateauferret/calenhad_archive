@@ -55,7 +55,7 @@ signals:
 
 protected:
 
-    bool existsPath (QModuleBlock* from, QModuleBlock* to);
+    bool existsPath (QNodeBlock* from, QNodeBlock* to);
     NullModule* nullModule = new NullModule();
     ModuleFactory _moduleFactory;
     QPointF lastClick;
@@ -70,7 +70,7 @@ protected:
 
     void writeMetadata (QDomDocument& doc);
     void readMetadata (const QDomDocument& doc);
-    QNode* addNode (QNode* node, const QPointF& initPos, QModuleBlock* b);
+    QNode* addNode (QNode* node, const QPointF& initPos, QNodeBlock* b);
 };
 
 #endif //CALENHAD_CALENHADMODEL_H

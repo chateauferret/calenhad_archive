@@ -4,7 +4,7 @@
 
 #include "DuplicateNodeCommand.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../nodeedit/QModuleBlock.h"
+#include "../nodeedit/QNodeBlock.h"
 #include "../CalenhadServices.h"
 
 DuplicateNodeCommand::DuplicateNodeCommand (QNode* node, CalenhadModel* model) : _node (node), _model (model), _copy (nullptr) {

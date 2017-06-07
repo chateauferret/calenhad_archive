@@ -5,8 +5,7 @@
 #include "CalenhadModel.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../nodeedit/qneconnection.h"
-#include "../nodeedit/QModuleBlock.h"
-#include "../qmodule/QNode.h"
+#include "../nodeedit/QNodeBlock.h"
 #include "../qmodule/QNodeGroup.h"
 #include "../icosphere/icosphere.h"
 #include "../CalenhadServices.h"
@@ -75,7 +74,7 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
 
 // Return true if there is a direct or indirect path from one block to another.
 // If there is we can't create a new connection between them as that would complete a circuit.
-bool CalenhadModel::existsPath (QModuleBlock* from, QModuleBlock* to) {
+bool CalenhadModel::existsPath (QNodeBlock* from, QNodeBlock* to) {
     // base case: block with no inputs can't have any paths to it
     if (to -> inputs().isEmpty()) {
         return false;
@@ -357,23 +356,24 @@ QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& 
 
 QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
     if (dynamic_cast<QModule*> (node)) {
-        QModuleBlock* b = new QModuleBlock ((QModule*) node);
+        QNodeBlock* b = new QNodeBlock ((QModule*) node);
+        b -> initialise();
         return addNode (node, initPos, b);
     }
     if (dynamic_cast<QNodeGroup*> (node)) {
-        QModuleBlock* b = new QNodeGroupBlock ((QNodeGroup*) node);
+        QNodeGroupBlock* b = new QNodeGroupBlock ((QNodeGroup*) node);
+        b -> initialise();
         return addNode (node, initPos, b);
     }
     return nullptr;
 }
 
 
-QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QModuleBlock* b) {
+QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* b) {
     node -> setHandle (b);
     addItem (b);
     b -> setPos (initPos.x (), initPos.y ());
-    b -> initialise();
-    connect (node, &QNode::nameChanged, b, &QModuleBlock::nodeChanged);
+    connect (node, &QNode::nameChanged, b, &QNodeBlock::nodeChanged);
     for (QNEPort* port : node->ports ()) {
         b -> addPort (port);
     }
@@ -407,7 +407,7 @@ void CalenhadModel::deleteNode (QNode* node) {
     // remove the visible appartions from the display
 
     for (QGraphicsItem* item : items()) {
-        if (item -> type () == QModuleBlock::Type && ((QModuleBlock*) item) -> node() == node) {
+        if (item -> type () == QNodeBlock::Type && ((QNodeBlock*) item) -> node() == node) {
             removeItem (item -> parentItem());
             delete item;
         }
@@ -428,8 +428,8 @@ QList<QNodeGroup*> CalenhadModel::nodeGroups() {
     QList<QNodeGroup*> groups;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
-            if (type == QGraphicsItem::UserType + 3) {  // is a QModuleBlock
-                QModuleBlock* handle = (QModuleBlock*) item;
+            if (type == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
+                QNodeBlock* handle = (QNodeBlock*) item;
                 QNode* node = handle -> node();
                 if (dynamic_cast<QNodeGroup*> (node)) {
                     groups.append (dynamic_cast<QNodeGroup*> (node));
@@ -443,8 +443,8 @@ QList<QModule*> CalenhadModel::modules() {
     QList<QModule*> modules;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
-            if (type == QGraphicsItem::UserType + 3) {  // is a QModuleBlock
-                QModuleBlock* handle = (QModuleBlock*) item;
+            if (type == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
+                QNodeBlock* handle = (QNodeBlock*) item;
                 QNode* node = handle -> node();
                 if (dynamic_cast<QModule*> (node)) {
                     modules.append (dynamic_cast<QModule*> (node));

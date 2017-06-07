@@ -21,8 +21,8 @@ set(SOURCE_FILES
         preferences.cpp
         geoutils.h
         geoutils.cpp
-        nodeedit/QModuleBlock.h
-        nodeedit/QModuleBlock.cpp
+        nodeedit/QNodeBlock.h
+        nodeedit/QNodeBlock.cpp
         nodeedit/qneconnection.h
         nodeedit/qneconnection.cpp
         nodeedit/Calenhad.h

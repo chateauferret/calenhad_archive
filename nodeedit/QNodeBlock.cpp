@@ -23,20 +23,22 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include "QModuleBlock.h"
+#include "QNodeBlock.h"
 #include <QPainter>
 #include "Calenhad.h"
 #include "../qmodule/QModule.h"
 #include "EditableLabel.h"
 #include "../CalenhadServices.h"
 #include "qneconnection.h"
+#include "QNodeGroupBlock.h"
+#include "../qmodule/QNodeGroup.h"
 
 
-QModuleBlock::QModuleBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr) {
-    initialise();
+QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr) {
+
 }
 
-void QModuleBlock::initialise() {
+void QNodeBlock::initialise() {
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
@@ -46,7 +48,7 @@ void QModuleBlock::initialise() {
     _label = new EditableLabel (this);
     _label -> setText (_node -> name());
     _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
-    _label -> setPos (16 - (_label -> boundingRect().width() / 2 ), 38);
+    _label -> setPos (10 - (_label -> boundingRect().width() / 2 ), 34);
 
     connect (_label, &EditableLabel::textEdited, this, [=] () {
         if (_node -> name() != _label -> toPlainText()) {
@@ -57,7 +59,7 @@ void QModuleBlock::initialise() {
     setPath (makePath ());
 }
 
-QPainterPath QModuleBlock::makePath() {
+QPainterPath QNodeBlock::makePath() {
     // shape of the block's body
     QPainterPath p;
     QPolygonF polygon;
@@ -65,11 +67,10 @@ QPainterPath QModuleBlock::makePath() {
     setPen (QPen (CalenhadServices::preferences() -> calenhad_module_text_color_normal, CalenhadServices::preferences() -> calenhad_port_border_weight));
     setBrush (CalenhadServices::preferences() -> calenhad_module_brush_color_normal);
     p.addPolygon (polygon);
-
     return p;
 }
 
-void QModuleBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED (option)
 
     _brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected : CalenhadServices::preferences() -> calenhad_module_brush_color_normal);
@@ -82,7 +83,7 @@ void QModuleBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* opt
 
 }
 
-QNEPort* QModuleBlock::addPort (QNEPort* port) {
+QNEPort* QNodeBlock::addPort (QNEPort* port) {
     port -> setParentItem (this);
 
     int vertMargin = 2;
@@ -111,7 +112,7 @@ QNEPort* QModuleBlock::addPort (QNEPort* port) {
     return port;
 }
 
-QVector<QNEPort*> QModuleBlock::ports() {
+QVector<QNEPort*> QNodeBlock::ports() {
     QVector<QNEPort*> res;
             foreach(QGraphicsItem* port_, childItems ()) {
                 if (port_ -> type () == QNEPort::Type) {
@@ -121,12 +122,12 @@ QVector<QNEPort*> QModuleBlock::ports() {
     return res;
 }
 
-QVariant QModuleBlock::itemChange (GraphicsItemChange change, const QVariant& value) {
+QVariant QNodeBlock::itemChange (GraphicsItemChange change, const QVariant& value) {
     Q_UNUSED(change);
     return value;
 }
 
-QVector<QNEPort*> QModuleBlock::inputs() {
+QVector<QNEPort*> QNodeBlock::inputs() {
     QVector<QNEPort*> res;
             foreach (QGraphicsItem* port_, childItems()) {
             if (port_ -> type() == QNEPort::Type) {
@@ -139,7 +140,7 @@ QVector<QNEPort*> QModuleBlock::inputs() {
     return res;
 }
 
-QVector<QNEPort*> QModuleBlock::outputs() {
+QVector<QNEPort*> QNodeBlock::outputs() {
     QVector<QNEPort*> res;
             foreach (QGraphicsItem* port_, childItems()) {
             if (port_ -> type () == QNEPort::Type) {
@@ -152,7 +153,7 @@ QVector<QNEPort*> QModuleBlock::outputs() {
     return res;
 }
 
-QVector<QNEPort*> QModuleBlock::controls() {
+QVector<QNEPort*> QNodeBlock::controls() {
     QVector<QNEPort*> res;
             foreach (QGraphicsItem* port_, parentItem() -> childItems()) {
             if (port_ -> type () == QNEPort::Type) {
@@ -165,8 +166,8 @@ QVector<QNEPort*> QModuleBlock::controls() {
     return res;
 }
 
-void QModuleBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
-
+void QNodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
+    setZValue (10000);
     QGraphicsItem::mouseMoveEvent (event);
     if (event->buttons() | Qt::LeftButton) {
         setCursor (Qt::ClosedHandCursor);
@@ -176,18 +177,46 @@ void QModuleBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
     event -> accept();
 }
 
-void QModuleBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
+void QNodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
     setCursor (Qt::ClosedHandCursor);
     QGraphicsItem::mousePressEvent (event);
-
+    _oldZ = zValue();
 }
 
-void QModuleBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
+void QNodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
+    std::cout << "Mouse release \n";
     setCursor (Qt::OpenHandCursor);
+    QNodeGroupBlock* target = nullptr;
+    // find out if the node was dropped on a group and assign to that group if so
+    QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
+    for (QGraphicsItem* item : collidingItems()) {
+        QNodeGroupBlock* block = dynamic_cast<QNodeGroupBlock*> (item);
+        if (block && item != this) {
+            if (!target) {
+                target = (QNodeGroupBlock*) item;
+            } else {
+                // where groups are nested, find out which of the drop targets is the lower level and use that
+                target = target->collidesWithItem (item, Qt::ContainsItemShape) ? (QNodeGroupBlock*) item : target;
+                // if a group is nested within another group, see that they are stacked with subgroups on top of enclosing groups
+                if (zValue () < target->zValue ()) {
+                    setZValue (target->zValue () + 1);
+                }
+            }
+        }
+    }
+
+    // assign this node to the target group, if there is one
+    if (target) {
+        _node -> setGroup ((QNodeGroup*) target -> node());
+        std::cout << "Assigned " << node() -> name ().toStdString () << " to group " << target -> node() -> name().toStdString () << "\n";
+    } else {
+        setZValue (_oldZ);
+    }
+
     QGraphicsItem::mouseReleaseEvent (event);
 }
 
-QRectF QModuleBlock::boundingRect() const {
+QRectF QNodeBlock::boundingRect() const {
     QRectF r = QGraphicsPathItem::boundingRect();
         foreach (QGraphicsItem* port_, childItems ()) {
             if (port_ -> type() == QNEPort::Type) {
@@ -198,15 +227,15 @@ QRectF QModuleBlock::boundingRect() const {
     return r;
 }
 
-QNode* QModuleBlock::node () {
+QNode* QNodeBlock::node () {
     return _node;
 }
 
-void QModuleBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
+void QNodeBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
     _node -> showParameters (true);
 }
 
-void QModuleBlock::nodeChanged () {
+void QNodeBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
     _label -> setPos (32 - (_label -> boundingRect().width() / 2 ), 38);
     _node -> invalidate();
