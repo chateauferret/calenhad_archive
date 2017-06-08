@@ -76,19 +76,6 @@ void QModule::addInputPorts() {
     }
 }
 
-
-void QModule::setUniqueName() {
-    int i = 0;
-    QString type = nodeType ();
-    QString name = "New " + nodeType ();
-
-    while (_model -> findModule (name)) {
-        i++;
-        name = QString ("New ") + nodeType () + " " + QString::number (i);
-    }
-    setName (name);
-}
-
 void QModule::inflate (const QDomElement& element) {
     QNode::inflate (element);
     // position is retrieved in CalenhadModel

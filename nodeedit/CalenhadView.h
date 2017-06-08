@@ -19,6 +19,10 @@ public:
     double currentZoom();
     void setZoom (const qreal& zoom);
 
+    void dropEvent (QDropEvent* event) override;
+    void dragMoveEvent (QDragMoveEvent* event) override;
+    void dragEnterEvent (QDragEnterEvent* event) override;
+
 public slots:
 
 signals:
@@ -30,6 +34,8 @@ private:
     int _steps = 0;
     qreal zoom = 1.0;
     QGraphicsItemGroup* g;
+
+
 };
 
 

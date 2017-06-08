@@ -279,6 +279,9 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (! _activeTool) {
                     for (QGraphicsView* view : views()) {
                         view -> viewport() -> setCursor (Qt::ArrowCursor);
+                        for (QNodeGroup* group : nodeGroups ()) {
+                            group -> handle() -> setCursor (Qt::ClosedHandCursor);
+                        }
                     }
                 }
             }
@@ -332,6 +335,14 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
     return QObject::eventFilter (o, e);
 }
 
+QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
+    if (type == "NodeGroup") {
+        addNodeGroup (initPos, "New Group");
+    } else {
+        addModule (initPos, type, "New " + type);
+    }
+}
+
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     if (type != QString::null) {
         QModule* module = _moduleFactory.createModule (type, this);
@@ -349,6 +360,7 @@ QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& 
     QNodeGroup* group = new QNodeGroup();
     group -> initialise();
     group -> setName (name);
+
     AddNodeCommand* command = new AddNodeCommand (group, initPos, this);
     _controller -> doCommand (command);
     return (QNodeGroup*) command -> node();
@@ -373,14 +385,17 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* 
     node -> setHandle (b);
     addItem (b);
     b -> setPos (initPos.x (), initPos.y ());
+
+
     connect (node, &QNode::nameChanged, b, &QNodeBlock::nodeChanged);
     for (QNEPort* port : node->ports ()) {
         b -> addPort (port);
     }
     node -> setModel (this);
     if (node -> name().isNull () || node -> name().isEmpty()) {
-        node -> setUniqueName();
+        node -> setName ("New " + node -> nodeType());
     }
+    b -> assignGroup();
     node -> invalidate ();
     return node;
 }
@@ -632,9 +647,17 @@ void CalenhadModel::writeParameter (QDomElement& element, const QString& param, 
     child.setAttribute ("name", param);
 }
 
-void CalenhadModel::redraw() {
-    update();
-    for (QGraphicsView* view : views ()) {
-        view -> update();
+
+bool CalenhadModel::hasActiveTool () {
+    return _activeTool != nullptr;
+}
+
+void CalenhadModel::highlightTargetAt (QPointF f) {
+    QGraphicsItem* item = itemAt (f);
+    for (QNodeGroup* group : nodeGroups()) {
+        ((QNodeGroupBlock*) group -> handle()) -> setHighlight (item && group -> handle() == item);
     }
 }
+
+
+

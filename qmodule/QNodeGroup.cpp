@@ -27,19 +27,6 @@ bool QNodeGroup::isWithin (const QPoint& point) {
 }
 
 
-void QNodeGroup::setUniqueName() {
-    int i = 0;
-    if (_name.isNull()) {
-        _name = "New module group";
-    }
-    QString root = _name;
-    QString name = root;
-    do  {
-        name = QString (root + QString::number (++i));
-    } while (_model -> findGroup (name));
-    _name = name;
-}
-
 void QNodeGroup::addInputPorts () {
     // do nothing for now - groups don't have ports
 }
@@ -51,8 +38,7 @@ QString QNodeGroup::nodeType () {
 QNodeGroup* QNodeGroup::clone () {
     QNodeGroup* other = new QNodeGroup ((QWidget*) parent());
     other -> setRect (_rect);
-    other -> setName (_name);
-    other -> setUniqueName();
+    other -> setName ("Copy of " + _name);
     return other;
 }
 

@@ -5,11 +5,13 @@
 #include "QNodeGroupBlock.h"
 #include "../CalenhadServices.h"
 #include "EditableLabel.h"
+#include "../pipeline/CalenhadModel.h"
 #include <QGraphicsSceneMouseEvent>
 
 QNodeGroupBlock::QNodeGroupBlock (QNode* node, QGraphicsItem* parent) : QNodeBlock (node, parent), _margin (6.0) {
     _rect = QRectF (0, 0, 240, 120);
     setAcceptHoverEvents (true);
+    setAcceptDrops (true);
     setZValue (-1000);
 
 }
@@ -28,7 +30,6 @@ void QNodeGroupBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* 
     painter -> drawPath (path());
 
 }
-
 
 QRectF QNodeGroupBlock::boundingRect () const {
     return QNodeBlock::boundingRect ();
@@ -60,6 +61,7 @@ void QNodeGroupBlock::mouseMoveEvent (QGraphicsSceneMouseEvent* e) {
         setPath (makePath());
         scene() -> update();
     } else {
+
         QGraphicsPathItem::mouseMoveEvent (e);
     }
 }
@@ -72,7 +74,11 @@ void QNodeGroupBlock::hoverMoveEvent (QGraphicsSceneHoverEvent* e) {
         if (handle == NodeGroupHandle::TopRight || handle == NodeGroupHandle::BottomLeft) { setCursor (Qt::SizeBDiagCursor); }
         if (handle == NodeGroupHandle::Left || handle == NodeGroupHandle::Right) {setCursor (Qt::SizeHorCursor); }
     } else {
-        setCursor (Qt::OpenHandCursor);
+        if (node() -> model() -> hasActiveTool()) {
+            setCursor (Qt::CrossCursor);
+        } else {
+            setCursor (Qt::OpenHandCursor);
+        }
     }
 }
 
@@ -92,3 +98,21 @@ NodeGroupHandle QNodeGroupBlock::getNodeGroupHandle (QPointF pos) {
     return NodeGroupHandle::NoHandle;
 }
 
+void QNodeGroupBlock::dropEvent (QGraphicsSceneDragDropEvent* event) {
+    QNode* block = dynamic_cast<QNode*> (event -> widget());
+
+}
+
+void QNodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
+    QNodeBlock::mouseReleaseEvent (event);
+    if (parentItem ()) {
+        setZValue (parentItem ()->zValue () + 1);
+    } else {
+        setZValue (-1000);
+    }
+}
+
+void QNodeGroupBlock::setHighlight (bool highlighted) {
+    _highlighted = highlighted;
+
+}

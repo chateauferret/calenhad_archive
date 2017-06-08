@@ -74,17 +74,6 @@ void QIcosphereMap::addInputPorts() {
     addPort (input);
 }
 
-void QIcosphereMap::setUniqueName() {
-    int i = 0;
-    QString name = "New Icosphere";
-    while (_model -> findModule (name)) {
-        i++;
-        name = QString ("New Icosphere " + QString::number (i));
-    }
-    setName (name);
-    _nameEdit -> setText (_name);
-}
-
 void QIcosphereMap::setIcosphereDepth() {
     int depth = _depthSpin -> value();
     setIcosphereDepth (depth);

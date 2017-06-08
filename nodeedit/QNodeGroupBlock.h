@@ -12,6 +12,7 @@ enum NodeGroupHandle { TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, 
 
 class QNodeGroupBlock : public QNodeBlock {
 Q_OBJECT
+
 public:
     enum {
         Type = QGraphicsItem::UserType + 8
@@ -26,8 +27,10 @@ public:
     virtual QRectF boundingRect () const;
 
     void mouseMoveEvent (QGraphicsSceneMouseEvent* e) override;
-
+    void mouseReleaseEvent (QGraphicsSceneMouseEvent* event) override;
     void hoverMoveEvent (QGraphicsSceneHoverEvent* e) override;
+
+    void setHighlight (bool highlighted);
 
 public slots:
 
@@ -42,6 +45,11 @@ protected:
 
     qreal _margin;
 
+    void dropEvent (QGraphicsSceneDragDropEvent* event);
+
+
+
+    bool _highlighted;
 };
 
 

@@ -17,7 +17,6 @@ public:
     void setRect  (const QRect& rect);
     QRect rect();
     bool isWithin (const QPoint& point);
-    void setUniqueName() override;
     QString nodeType() override;
     QNodeGroup* clone() override;
     void initialise() override;

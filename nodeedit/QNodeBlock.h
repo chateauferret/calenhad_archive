@@ -32,9 +32,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtWidgets/QLineEdit>
 #include "../qmodule/QNode.h"
 
+
 class QNEPort;
 class QModule;
 class EditableLabel;
+class QNodeGroupBlock;
 
 class QNodeBlock : public QObject, public QGraphicsPathItem {
 	Q_OBJECT
@@ -52,7 +54,7 @@ public:
     virtual QRectF boundingRect() const;
     virtual void initialise();
     QNode* node();
-
+    void assignGroup ();
 public slots:
     virtual void nodeChanged ();
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -71,6 +73,13 @@ protected:
     virtual QPainterPath makePath ();
 
     qreal _oldZ;
+
+    void detach ();
+
+    void attach (QGraphicsItem* target);
+
+
+    QNodeGroupBlock* findTarget (QNodeGroupBlock* head);
 };
 
 #endif // QNEBLOCK_H

@@ -33,6 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadView.h"
 #include "../nodeedit/qnetoolbox.h"
 #include "../CalenhadServices.h"
+#include "../controls/NodePalette.h"
 
 using namespace icosphere;
 
@@ -58,6 +59,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
     QToolBar* modulesToolbar = Calenhad::toolbox -> toolbar ("Modules");
     modulesToolbar -> setAcceptDrops (false);
+    //modulesToolbar -> addWidget (_controller -> nodeRoster());
     QDockWidget* editToolsDock = new QDockWidget (modulesToolbar -> windowTitle(), this);
     editToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     modulesToolbar -> setParent (this);
@@ -71,6 +73,14 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     zoomToolbar -> setParent (this);
     zoomToolsDock -> setWidget (zoomToolbar);
     addDockWidget (Qt::RightDockWidgetArea, zoomToolsDock);
+
+
+    // for now an icon to drag a new group onto the workspace
+    QDockWidget* iconsDock = new QDockWidget ("Palette", this);
+    iconsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
+    QWidget* iconsPanel = new NodePalette (this);
+    iconsDock -> setWidget (iconsPanel);
+    addDockWidget (Qt::LeftDockWidgetArea, iconsDock);
 
     // Actions
 

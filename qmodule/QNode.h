@@ -38,7 +38,6 @@ public:
     virtual void initialise();
     virtual void inflate (const QDomElement& element);
     virtual void serialise (QDomDocument& doc);
-    virtual void setUniqueName() = 0;
     virtual void setModel (CalenhadModel* model);
     virtual QString nodeType() = 0;
 

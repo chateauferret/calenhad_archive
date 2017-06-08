@@ -41,6 +41,10 @@ public:
     QMenu* getContextMenu();
     QMenu* getContextMenu (QNode* node);
     void setSelectionActionsEnabled (const bool& enabled);
+
+    QWidget* nodeRoster ();
+
+
 public slots:
     void toolSelected (bool);
     void showMessage (QString message);
@@ -81,7 +85,9 @@ private:
 
     QAction* createTool (const QString& caption, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false);
 
-
+    QWidget* _nodeRoster;
 };
+
+
 
 #endif // QNODESEDITOR_H

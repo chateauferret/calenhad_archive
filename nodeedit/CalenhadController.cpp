@@ -26,22 +26,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 #include "../actions/ZoomCommand.h"
 #include "../actions/DeleteConnectionCommand.h"
-#include "../actions/AddNodeCommand.h"
-#include "Calenhad.h"
 #include "QNodeBlock.h"
 #include "qnetoolbox.h"
 #include "qneconnection.h"
-#include "../qmodule/QModule.h"
 #include "../actions/CommandGroup.h"
 #include "../actions/DuplicateNodeCommand.h"
 #include "../CalenhadServices.h"
 #include "../actions/DeleteNodeCommand.h"
+#include "../qmodule/QNodeGroup.h"
+#include <QLabel>
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 
     // tool groups - activating a toggle action deactivates all others in the same group (like a radio button)
     _addModuleGroup = new ToolGroup();
     Calenhad::toolbox -> addGroup (_addModuleGroup);
+
+    _nodeRoster = new QWidget();
+    _nodeRoster -> setLayout (new QGridLayout());
 
     // tool drawers - tools in the same drawer are grouped in the UI
     _addModuleDrawer = new ToolDrawer ("Modules");
@@ -176,6 +178,11 @@ void CalenhadController::addModuleTool (const QString& name, const QString& tool
     QAction* tool = createTool (name, tooltip, name, _addModuleDrawer, true);
     tool -> setCheckable (true);
     _addModuleGroup -> addTool (tool);
+
+    // try drag and drop stuff - for now just for NodeGroup
+    if (name == "NodeGroup") {
+
+    }
 }
 
 void CalenhadController::setModel (CalenhadModel* s) {
@@ -202,6 +209,9 @@ void CalenhadController::toolSelected (bool state) {
         _model -> setActiveTool (tool);
         for (QGraphicsView* view : _model -> views ()) {
             view -> viewport () -> setCursor (Qt::CrossCursor);
+            for (QNodeGroup* group : _model -> nodeGroups ()) {
+                group -> handle() -> setCursor (Qt::CrossCursor);
+            }
             view -> setDragMode (QGraphicsView::NoDrag);
         }
     } else {
@@ -313,4 +323,8 @@ void CalenhadController::addMenus (QMenuBar* menuBar) {
 
 void CalenhadController::setSelectionActionsEnabled (const bool& enabled) {
     deleteSelectionAction -> setEnabled (enabled);
+}
+
+QWidget* CalenhadController::nodeRoster() {
+    return _nodeRoster;
 }

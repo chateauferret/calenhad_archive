@@ -28,7 +28,6 @@ class QIcosphereMap : public QModule {
 public:
     static QIcosphereMap* newInstance();
     virtual ~QIcosphereMap();
-    void setUniqueName() override;
     void initialise() override;
     bool isRenderable() override;
     IcosphereMap* module() override;

@@ -167,53 +167,62 @@ QVector<QNEPort*> QNodeBlock::controls() {
 }
 
 void QNodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
-    setZValue (10000);
+
     QGraphicsItem::mouseMoveEvent (event);
     if (event->buttons() | Qt::LeftButton) {
         setCursor (Qt::ClosedHandCursor);
     } else {
         setCursor (Qt::OpenHandCursor);
     }
-    event -> accept();
+    //event -> accept();
 }
 
 void QNodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
+    detach();
     setCursor (Qt::ClosedHandCursor);
     QGraphicsItem::mousePressEvent (event);
     _oldZ = zValue();
+    std::cout << node() -> name().toStdString () << " z = " << zValue () << "\n";
 }
 
 void QNodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     std::cout << "Mouse release \n";
     setCursor (Qt::OpenHandCursor);
-    QNodeGroupBlock* target = nullptr;
-    // find out if the node was dropped on a group and assign to that group if so
-    QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
-    for (QGraphicsItem* item : collidingItems()) {
-        QNodeGroupBlock* block = dynamic_cast<QNodeGroupBlock*> (item);
-        if (block && item != this) {
-            if (!target) {
-                target = (QNodeGroupBlock*) item;
-            } else {
-                // where groups are nested, find out which of the drop targets is the lower level and use that
-                target = target->collidesWithItem (item, Qt::ContainsItemShape) ? (QNodeGroupBlock*) item : target;
-                // if a group is nested within another group, see that they are stacked with subgroups on top of enclosing groups
-                if (zValue () < target->zValue ()) {
-                    setZValue (target->zValue () + 1);
-                }
-            }
-        }
-    }
-
-    // assign this node to the target group, if there is one
-    if (target) {
-        _node -> setGroup ((QNodeGroup*) target -> node());
-        std::cout << "Assigned " << node() -> name ().toStdString () << " to group " << target -> node() -> name().toStdString () << "\n";
-    } else {
-        setZValue (_oldZ);
-    }
+    assignGroup();
 
     QGraphicsItem::mouseReleaseEvent (event);
+}
+
+void QNodeBlock::assignGroup() {
+    QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
+    QList<QGraphicsItem*>::iterator i = items.begin ();
+    while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+        i++;
+    }
+    QNodeGroupBlock* target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+    // assign this node to the target group, if there is one (and if not already assigned)
+    setZValue (0);
+    if (target) {
+        _node -> setGroup ((QNodeGroup*) target -> node ());
+        attach (target);
+    } else {
+        detach();
+        _node -> setGroup (nullptr);
+    }
+}
+
+void QNodeBlock::detach() {
+    QPointF p = scenePos();
+    setParentItem (nullptr);
+    setPos (p);
+}
+
+void QNodeBlock::attach (QGraphicsItem* target) {
+    if (target -> parentItem() != this && target != parentItem()) {
+        QPointF p = mapToItem (target, pos ());
+        setParentItem (target);
+        setPos (mapFromParent (p));
+    }
 }
 
 QRectF QNodeBlock::boundingRect() const {

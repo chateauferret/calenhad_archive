@@ -20,11 +20,14 @@ namespace icosphere {
 
 class CalenhadModel : public QGraphicsScene {
 Q_OBJECT
+
+
 public:
     CalenhadModel();
     virtual ~CalenhadModel();
     QModule* findModule (const QString& name);
     QNodeGroup* findGroup (const QString& name);
+    QNode* addNode (const QPointF& initPos, const QString& type);
     QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
     QNodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
     QNode* addNode (QNode* node, const QPointF& initPos);
@@ -45,9 +48,9 @@ public:
     QList<QNEConnection*> connections ();
     QString readParameter (const QDomElement& element, const QString param);
     void writeParameter (QDomElement& element, const QString& param, const QString& value);
-
+    bool hasActiveTool();
     public slots:
-    void redraw();
+    void highlightTargetAt (QPointF f);
 
 signals:
     void showMessage (QString);
@@ -71,6 +74,7 @@ protected:
     void writeMetadata (QDomDocument& doc);
     void readMetadata (const QDomDocument& doc);
     QNode* addNode (QNode* node, const QPointF& initPos, QNodeBlock* b);
+
 };
 
 #endif //CALENHAD_CALENHADMODEL_H

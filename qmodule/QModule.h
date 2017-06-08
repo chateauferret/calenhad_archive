@@ -36,7 +36,6 @@ public:
 
     virtual ~QModule();
 
-    void setUniqueName() override;
     // don't want a copy constructor because subclass implementations will have to call initialise()
     virtual QModule* clone () = 0;
     virtual void inflate (const QDomElement& element) override;
