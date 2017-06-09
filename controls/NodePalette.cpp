@@ -60,7 +60,8 @@ NodePalette::NodePalette (QWidget *parent) : QWidget (parent) {
     setAcceptDrops (true);
     setLayout (new QGridLayout ());
     QLabel* groupIcon = new QLabel (this);
-    groupIcon->setPixmap (QPixmap (":/icons/folder.png"));
+    groupIcon->setPixmap (QPixmap ("/home/martin/ClionProjects/calenhad/resources/icons/nodegroup.png").scaled (32, 32));
+
     groupIcon -> setObjectName ("NodeGroup");
     ((QGridLayout*) layout ()) -> addWidget (groupIcon);
     groupIcon->setAttribute (Qt::WA_DeleteOnClose);

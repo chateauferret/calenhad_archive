@@ -7,6 +7,7 @@
 
 
 #include "QNodeBlock.h"
+#include "../controls/SizeGripItem.h"
 
 enum NodeGroupHandle { TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight, NoHandle };
 
@@ -26,11 +27,12 @@ public:
 
     virtual QRectF boundingRect () const;
 
-    void mouseMoveEvent (QGraphicsSceneMouseEvent* e) override;
+
     void mouseReleaseEvent (QGraphicsSceneMouseEvent* event) override;
-    void hoverMoveEvent (QGraphicsSceneHoverEvent* e) override;
+
 
     void setHighlight (bool highlighted);
+    void setRect (const QRectF& rect);
 
 public slots:
 
@@ -38,18 +40,20 @@ public slots:
 
 protected:
     QPainterPath makePath ();
-
     QRectF _rect;
-
-    NodeGroupHandle getNodeGroupHandle (QPointF pos);
-
-    qreal _margin;
-
-    void dropEvent (QGraphicsSceneDragDropEvent* event);
-
-
-
     bool _highlighted;
+
+};
+
+
+class NodeGroupResizer : public SizeGripItem::Resizer {
+public:
+    virtual void operator()(QGraphicsItem* item, const QRectF& rect)     {
+        QNodeGroupBlock* group = dynamic_cast<QNodeGroupBlock*> (item);
+        if (group) {
+            group -> setRect (rect);
+        }
+    }
 };
 
 

@@ -22,7 +22,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _title (""),
     _description (""),
     _date (QDateTime::currentDateTime()),
-    _controller (nullptr) {
+    _controller (nullptr),
+    _highlighted (nullptr) {
     installEventFilter (this);
 }
 
@@ -167,10 +168,11 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
 
 }
 
-
 QGraphicsItem* CalenhadModel::itemAt (const QPointF& pos) {
-    QList<QGraphicsItem*> list = items (QRectF (pos - QPointF (1, 1), QSize (3, 3)));
-    return list.isEmpty () ? nullptr : list.at (0);
+    if (sceneRect().contains (pos)) {
+        std::cout << pos.x() << " " << pos.y() << "\n";
+        return QGraphicsScene::itemAt (pos, QTransform ());
+    } else return nullptr;
 }
 
 // This handler is required to stop a right-click which brings up the context menu from clearing the selection.
@@ -186,6 +188,7 @@ void CalenhadModel::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
     QGraphicsSceneMouseEvent* me = (QGraphicsSceneMouseEvent*) e;
     switch ((int) e -> type ()) {
+
         case QEvent::GraphicsSceneMousePress: {
             switch ((int) me -> button()) {
                 case Qt::LeftButton: {
@@ -326,6 +329,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 setActiveTool (nullptr);
             }
         }
+
         // deactivate any in-progress connection whenever a mouse release occurs
         if (conn) {
             delete conn;
@@ -647,15 +651,17 @@ void CalenhadModel::writeParameter (QDomElement& element, const QString& param, 
     child.setAttribute ("name", param);
 }
 
-
-bool CalenhadModel::hasActiveTool () {
-    return _activeTool != nullptr;
-}
-
-void CalenhadModel::highlightTargetAt (QPointF f) {
-    QGraphicsItem* item = itemAt (f);
-    for (QNodeGroup* group : nodeGroups()) {
-        ((QNodeGroupBlock*) group -> handle()) -> setHighlight (item && group -> handle() == item);
+void CalenhadModel::highlightGroupAt (QPointF pos) {
+    QList<QGraphicsItem*> list = items (pos, Qt::ContainsItemShape);
+    QList<QGraphicsItem*>::iterator i = list.begin ();
+    while ( i != list.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+        i++;
+    }
+    QNodeGroupBlock* target = i == list.end() ? nullptr : (QNodeGroupBlock*) *i;
+    for (QGraphicsItem* item : items()) {
+        if (dynamic_cast<QNodeGroupBlock*> (item)) {
+            ((QNodeGroupBlock*) item) -> setHighlight (item == target);
+        }
     }
 }
 

@@ -48,7 +48,7 @@ void QNodeBlock::initialise() {
     _label = new EditableLabel (this);
     _label -> setText (_node -> name());
     _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
-    _label -> setPos (10 - (_label -> boundingRect().width() / 2 ), 34);
+
 
     connect (_label, &EditableLabel::textEdited, this, [=] () {
         if (_node -> name() != _label -> toPlainText()) {
@@ -60,6 +60,7 @@ void QNodeBlock::initialise() {
 }
 
 QPainterPath QNodeBlock::makePath() {
+    _label -> setPos (10 - (_label -> boundingRect().width() / 2 ), 34);
     // shape of the block's body
     QPainterPath p;
     QPolygonF polygon;
@@ -77,8 +78,6 @@ void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* optio
     painter -> setBrush (_brush);
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_module_text_color_selected : CalenhadServices::preferences() -> calenhad_module_text_color_normal);
     painter -> setPen (_pen);
-
-
     painter -> drawPath (path());
 
 }
@@ -171,6 +170,37 @@ void QNodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
     QGraphicsItem::mouseMoveEvent (event);
     if (event->buttons() | Qt::LeftButton) {
         setCursor (Qt::ClosedHandCursor);
+
+        // highlight a group if we are dragging over it
+        QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
+        QList<QGraphicsItem*>::iterator i = items.begin ();
+        while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+            i++;
+        }
+        QNodeGroupBlock* target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+        for (QGraphicsItem* item : scene ()->items ()) {
+            if (dynamic_cast<QNodeGroupBlock*> (item)) {
+                ((QNodeGroupBlock*) item) -> setHighlight (item == target);
+            }
+        }
+
+        // keep item on top of any group it's being dragged over
+        items = collidingItems (Qt::IntersectsItemShape);
+        i = items.begin ();
+        while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+            i++;
+        }
+        target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+        if (! target) {
+            if (! parent()) { setZValue (-1000); }
+        } else {
+            for (QGraphicsItem* item : scene ()->items ()) {
+                if (dynamic_cast<QNodeGroupBlock*> (item)) {
+                    if (! parent ()) { setZValue (target->zValue() + 1); }
+                }
+            }
+        }
+        scene ()->update ();
     } else {
         setCursor (Qt::OpenHandCursor);
     }
@@ -189,11 +219,17 @@ void QNodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     std::cout << "Mouse release \n";
     setCursor (Qt::OpenHandCursor);
     assignGroup();
+    for (QGraphicsItem* item : scene() -> items()) {
+        if (dynamic_cast<QNodeGroupBlock*> (item)) {
+            ((QNodeGroupBlock*) item) -> setHighlight (false);
+        }
+    }
 
     QGraphicsItem::mouseReleaseEvent (event);
 }
 
 void QNodeBlock::assignGroup() {
+    detach();
     QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
     QList<QGraphicsItem*>::iterator i = items.begin ();
     while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
@@ -206,15 +242,16 @@ void QNodeBlock::assignGroup() {
         _node -> setGroup ((QNodeGroup*) target -> node ());
         attach (target);
     } else {
-        detach();
         _node -> setGroup (nullptr);
     }
+    std::cout << "Assigned group " << (_node -> group() == nullptr ? "Null " : _node -> group() -> name().toStdString ()) << "\n";
 }
 
 void QNodeBlock::detach() {
     QPointF p = scenePos();
     setParentItem (nullptr);
     setPos (p);
+    setSelected (false);
 }
 
 void QNodeBlock::attach (QGraphicsItem* target) {

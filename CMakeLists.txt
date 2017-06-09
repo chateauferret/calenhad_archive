@@ -193,6 +193,7 @@ set(SOURCE_FILES
         controls/CalenhadGlobeConfigDialog.cpp
         controls/CalenhadGlobeConfigDialog.h
         controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h
+        controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h controls/LegendManager.cpp controls/LegendManager.h controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h StatisticsService.cpp StatisticsService.h qmodule/QNodeGroup.cpp qmodule/QNodeGroup.h nodeedit/QNodeGroupBlock.cpp nodeedit/QNodeGroupBlock.h controls/NodePalette.cpp controls/NodePalette.h controls/SizeGripItem.cpp controls/SizeGripItem.h
         ProjectionService.cpp ProjectionService.h pipeline/RenderJob.cpp pipeline/RenderJob.h pipeline/GlobeRenderJob.cpp pipeline/GlobeRenderJob.h pipeline/ScanLineRenderer.cpp pipeline/ScanLineRenderer.h
         )
 
@@ -214,7 +215,7 @@ find_package(Marble REQUIRED)
 qt5_add_resources (resources ${CMAKE_SOURCE_DIR}/resources/resources.qrc)
 
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h controls/LegendManager.cpp controls/LegendManager.h controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h StatisticsService.cpp StatisticsService.h qmodule/QNodeGroup.cpp qmodule/QNodeGroup.h nodeedit/QNodeGroupBlock.cpp nodeedit/QNodeGroupBlock.h controls/NodePalette.cpp controls/NodePalette.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} )
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY} ${resources})

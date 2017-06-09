@@ -78,8 +78,6 @@ protected:
 
     void attach (QGraphicsItem* target);
 
-
-    QNodeGroupBlock* findTarget (QNodeGroupBlock* head);
 };
 
 #endif // QNEBLOCK_H

@@ -14,14 +14,13 @@
 
 class CalenhadController;
 class QNodeGroup;
+class QNodeGroupBlock;
 namespace icosphere {
     class Icosphere;
 }
 
 class CalenhadModel : public QGraphicsScene {
 Q_OBJECT
-
-
 public:
     CalenhadModel();
     virtual ~CalenhadModel();
@@ -48,9 +47,7 @@ public:
     QList<QNEConnection*> connections ();
     QString readParameter (const QDomElement& element, const QString param);
     void writeParameter (QDomElement& element, const QString& param, const QString& value);
-    bool hasActiveTool();
-    public slots:
-    void highlightTargetAt (QPointF f);
+    void highlightGroupAt (QPointF pos);
 
 signals:
     void showMessage (QString);
@@ -74,6 +71,8 @@ protected:
     void writeMetadata (QDomDocument& doc);
     void readMetadata (const QDomDocument& doc);
     QNode* addNode (QNode* node, const QPointF& initPos, QNodeBlock* b);
+
+    QNodeGroupBlock* _highlighted;
 
 };
 

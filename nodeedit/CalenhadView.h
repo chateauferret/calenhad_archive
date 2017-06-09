@@ -22,7 +22,7 @@ public:
     void dropEvent (QDropEvent* event) override;
     void dragMoveEvent (QDragMoveEvent* event) override;
     void dragEnterEvent (QDragEnterEvent* event) override;
-
+    void dragLeaveEvent (QDragLeaveEvent* event) override;
 public slots:
 
 signals:
@@ -30,10 +30,10 @@ signals:
 
 private:
     CalenhadController* _controller;
-    CalenhadModel* _model;
     int _steps = 0;
     qreal zoom = 1.0;
     QGraphicsItemGroup* g;
+
 
 
 };

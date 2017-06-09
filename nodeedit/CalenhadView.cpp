@@ -6,6 +6,8 @@
 #include "Calenhad.h"
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
+#include "../qmodule/QNodeGroup.h"
+#include "../nodeedit/QNodeGroupBlock.h"
 
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
@@ -39,7 +41,7 @@ void CalenhadView::setController (CalenhadController* controller) {
     }
 }
 
-void CalenhadView::dragEnterEvent(QDragEnterEvent *event) {
+void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
@@ -49,27 +51,55 @@ void CalenhadView::dragEnterEvent(QDragEnterEvent *event) {
         }
     } else {
         event->ignore();
+    }
+}
+
+
+void CalenhadView::dragLeaveEvent (QDragLeaveEvent *event) {
+    for (QGraphicsItem* item : scene ()->items ()) {
+        if (dynamic_cast<QNodeGroupBlock*> (item)) {
+            ((QNodeGroupBlock*) item)->setHighlight (false);
+        }
     }
 }
 
 void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
+    QPointF pos = mapToScene (event -> pos());
+    // highlight the group we are moving over
+    CalenhadModel* model = (CalenhadModel*) scene();
+    QList<QGraphicsItem*> items = model -> items (pos);
+    QList<QGraphicsItem*>::iterator i = items.begin ();
+    while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+        i++;
+    }
+    QNodeGroupBlock* target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+    for (QGraphicsItem* item : scene ()->items ()) {
+        if (dynamic_cast<QNodeGroupBlock*> (item)) {
+             ((QNodeGroupBlock*) item)->setHighlight (item == target);
+        }
+    }
+
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
-            event->accept();
-
-            QPointF pos = mapToScene (event -> pos());
-            ((CalenhadModel*) scene()) -> highlightTargetAt (pos);
-
         } else {
             event->acceptProposedAction();
         }
     } else {
         event->ignore();
     }
+    scene ()->update ();
+
 }
 
 void CalenhadView::dropEvent(QDropEvent *event) {
+
+    for (QGraphicsItem* item : scene ()->items ()) {
+        if (dynamic_cast<QNodeGroupBlock*> (item)) {
+            ((QNodeGroupBlock*) item)->setHighlight (false);
+        }
+    }
+
     if (event->mimeData ()->hasFormat ("application/x-dnditemdata")) {
         QByteArray itemData = event -> mimeData () -> data ("application/x-dnditemdata");
         QDataStream dataStream (&itemData, QIODevice::ReadOnly);
@@ -79,11 +109,6 @@ void CalenhadView::dropEvent(QDropEvent *event) {
         //dataStream >> pixmap >> type;
         dataStream >> type;
         std::cout << "Type " << type.toStdString () << "\n";
-        //QLabel* newIcon = new QLabel (this);
-        //newIcon -> setPixmap (pixmap);
-        //newIcon -> move (event -> pos ());
-        //newIcon -> show ();
-        //newIcon -> setAttribute (Qt::WA_DeleteOnClose);
 
         QPointF pos = mapToScene (event -> pos());
         ((CalenhadModel*) scene()) -> addNode (pos, type);

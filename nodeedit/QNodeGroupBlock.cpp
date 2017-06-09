@@ -8,12 +8,13 @@
 #include "../pipeline/CalenhadModel.h"
 #include <QGraphicsSceneMouseEvent>
 
-QNodeGroupBlock::QNodeGroupBlock (QNode* node, QGraphicsItem* parent) : QNodeBlock (node, parent), _margin (6.0) {
+QNodeGroupBlock::QNodeGroupBlock (QNode* node, QGraphicsItem* parent) : QNodeBlock (node, parent) {
     _rect = QRectF (0, 0, 240, 120);
     setAcceptHoverEvents (true);
     setAcceptDrops (true);
     setZValue (-1000);
-
+    SizeGripItem* rectSizeGripItem = new SizeGripItem (new NodeGroupResizer, this);
+    setAcceptDrops (true);
 }
 
 QNodeGroupBlock::~QNodeGroupBlock () {
@@ -24,6 +25,9 @@ QNodeGroupBlock::~QNodeGroupBlock () {
 void QNodeGroupBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED (option);
     _brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_nodegroup_brush_color_selected : CalenhadServices::preferences() -> calenhad_nodegroup_brush_color_normal);
+    if (_highlighted) {
+        _brush.setColor (_brush.color().lighter());
+    }
     painter -> setBrush (_brush);
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_nodegroup_text_color_selected : CalenhadServices::preferences() -> calenhad_nodegroup_text_color_normal);
     painter -> setPen (_pen);
@@ -32,75 +36,23 @@ void QNodeGroupBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* 
 }
 
 QRectF QNodeGroupBlock::boundingRect () const {
-    return QNodeBlock::boundingRect ();
+    return _rect;
 }
 
 QPainterPath QNodeGroupBlock::makePath() {
+
     // shape of the block's body
     QPainterPath p;
     QPolygonF polygon;
     polygon = QRectF (_rect);
     p.addPolygon (polygon);
-    _label -> setPos (4, 4);
+     _label -> setPos (boundingRect().x(), boundingRect().y());
     return p;
 }
 
 void QNodeGroupBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
     _node -> invalidate();
-}
-
-void QNodeGroupBlock::mouseMoveEvent (QGraphicsSceneMouseEvent* e) {
-    NodeGroupHandle handle = getNodeGroupHandle (e -> pos());
-    prepareGeometryChange ();
-    if (handle != NodeGroupHandle::NoHandle) {
-        if (handle == NodeGroupHandle::TopLeft || handle == NodeGroupHandle::Top || handle == NodeGroupHandle::TopRight) { _rect.setTop (e -> pos().y()); }
-        if (handle == NodeGroupHandle::BottomLeft || handle == NodeGroupHandle::Bottom || handle == NodeGroupHandle::BottomRight) { _rect.setBottom (e -> pos().y()); }
-        if (handle == NodeGroupHandle::TopLeft || handle == NodeGroupHandle::Left || handle == NodeGroupHandle::BottomLeft) { _rect.setLeft (e -> pos().x()); }
-        if (handle == NodeGroupHandle::TopRight || handle == NodeGroupHandle::Right || handle == NodeGroupHandle::BottomRight) { _rect.setRight (e -> pos().x()); }
-        setPath (makePath());
-        scene() -> update();
-    } else {
-
-        QGraphicsPathItem::mouseMoveEvent (e);
-    }
-}
-
-void QNodeGroupBlock::hoverMoveEvent (QGraphicsSceneHoverEvent* e) {
-    NodeGroupHandle handle = getNodeGroupHandle (e -> pos());
-    if (handle != NodeGroupHandle::NoHandle) {
-        if (handle == NodeGroupHandle::TopLeft ||  handle == NodeGroupHandle::BottomRight) { setCursor (Qt::SizeFDiagCursor); }
-        if (handle == NodeGroupHandle::Top || handle == NodeGroupHandle::Bottom) { setCursor (Qt::SizeVerCursor); }
-        if (handle == NodeGroupHandle::TopRight || handle == NodeGroupHandle::BottomLeft) { setCursor (Qt::SizeBDiagCursor); }
-        if (handle == NodeGroupHandle::Left || handle == NodeGroupHandle::Right) {setCursor (Qt::SizeHorCursor); }
-    } else {
-        if (node() -> model() -> hasActiveTool()) {
-            setCursor (Qt::CrossCursor);
-        } else {
-            setCursor (Qt::OpenHandCursor);
-        }
-    }
-}
-
-NodeGroupHandle QNodeGroupBlock::getNodeGroupHandle (QPointF pos) {
-    if (pos.y() < _margin) {
-        if (pos.x() < _margin) { return NodeGroupHandle::TopLeft; }
-        if (pos.x() > _rect.width() - _margin) { return NodeGroupHandle::TopRight; }
-        return NodeGroupHandle::Top;
-    }
-    if (pos.y() > _rect.height() - _margin) {
-        if (pos.x() < _margin) { return NodeGroupHandle::BottomLeft; }
-        if (pos.x() > _rect.width() - _margin) { return NodeGroupHandle::BottomRight; }
-        return NodeGroupHandle::Bottom;
-    }
-    if (pos.x() < _margin) { return NodeGroupHandle::Left; }
-    if (pos.x() > _rect.width() - _margin) { return NodeGroupHandle::Right; }
-    return NodeGroupHandle::NoHandle;
-}
-
-void QNodeGroupBlock::dropEvent (QGraphicsSceneDragDropEvent* event) {
-    QNode* block = dynamic_cast<QNode*> (event -> widget());
-
 }
 
 void QNodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
@@ -114,5 +66,11 @@ void QNodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
 
 void QNodeGroupBlock::setHighlight (bool highlighted) {
     _highlighted = highlighted;
+
+}
+
+void QNodeGroupBlock::setRect (const QRectF& rect) {
+    _rect = rect;
+    setPath (makePath());
 
 }
