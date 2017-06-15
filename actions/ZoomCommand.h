@@ -5,8 +5,9 @@
 #ifndef CALENHAD_ZOOMACTION_H
 #define CALENHAD_ZOOMACTION_H
 
-
-#include <QtWidgets/QUndoCommand>
+#include <QUndoCommand>
+#include <QGraphicsItem>
+#include <QList>
 #include "../nodeedit/CalenhadView.h"
 
 class ZoomCommand : public QUndoCommand {

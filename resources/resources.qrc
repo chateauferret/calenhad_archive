@@ -1,5 +1,38 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-        <file>icons/nodegroup.png</file>
+        <file>appicons/tools/nodegroup.png</file>
+        <file>appicons/tools/perlin.png</file>
+        <file>appicons/tools/cylinders.png</file>
+        <file>appicons/tools/spheres.png</file>
+        <file>appicons/tools/exponent.png</file>
+        <file>appicons/tools/translate.png</file>
+        <file>appicons/tools/rotate.png</file>
+        <file>appicons/tools/clamp.png</file>
+        <file>appicons/tools/constant.png</file>
+        <file>appicons/tools/add.png</file>
+        <file>appicons/tools/abs.png</file>
+        <file>appicons/tools/blend.png</file>
+        <file>appicons/tools/cache.png</file>
+        <file>appicons/tools/checkerboard.png</file>
+        <file>appicons/tools/invert.png</file>
+        <file>appicons/tools/max.png</file>
+        <file>appicons/tools/min.png</file>
+        <file>appicons/tools/multiply.png</file>
+        <file>appicons/tools/power.png</file>
+        <file>appicons/tools/displace.png</file>
+        <file>appicons/tools/diff.png</file>
+        <file>appicons/tools/billow.png</file>
+        <file>appicons/tools/ridgedmultifractal.png</file>
+        <file>appicons/tools/scaleandbias.png</file>
+        <file>appicons/tools/select.png</file>
+        <file>appicons/tools/turbulence.png</file>
+        <file>appicons/tools/voronoi.png</file>
+        <file>appicons/tools/scalepoint.png</file>
+        <file>appicons/tools/icospheremap.png</file>
+        <file>appicons/tools/altitudemap.png</file>
+        <file>appicons/controls/arrow_down.png</file>
+        <file>appicons/controls/arrow_up.png</file>
+        <file>appicons/controls/arrow_left.png</file>
+        <file>appicons/controls/arrow_right.png</file>
     </qresource>
 </RCC>

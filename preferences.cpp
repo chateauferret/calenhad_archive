@@ -76,7 +76,7 @@ void Preferences::loadSettings() {
     calenhad_module_displace = _settings -> value ("calenhad/owner/displace", "Displace").toString();
     calenhad_module_diff = _settings -> value ("calenhad/owner/diff", "Diff").toString();
     calenhad_module_billow = _settings -> value ("calenhad/owner/billow", "Billow").toString();
-    calenhad_module_ridgedmulti = _settings -> value ("calenhad/owner/ridgedmulti", "Ridged multiftactal").toString();
+    calenhad_module_ridgedmulti = _settings -> value ("calenhad/owner/ridgedmulti", "Ridged multifractal").toString();
     calenhad_module_scalebias = _settings -> value ("calenhad/owner/scalebias", "Scale and bias").toString();
     calenhad_module_select = _settings -> value ("calenhad/owner/select", "Select").toString();
     calenhad_module_turbulence = _settings -> value ("calenhad/owner/turbulence", "Turbulence").toString();
@@ -84,6 +84,7 @@ void Preferences::loadSettings() {
     calenhad_module_scalepoint = _settings -> value ("calenhad/owner/scalepoint", "Scalepoint").toString();
     calenhad_module_icospheremap = _settings -> value ("calenhad/owner/icospheremap", "Icosphere map").toString();
     calenhad_module_altitudemap = _settings -> value ("calenhad/owner/altitudemap", "Altitude map").toString();
+    calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "NodeGroup").toString();
 
 }
 
@@ -118,6 +119,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/nodegroup/text/color/normal", calenhad_nodegroup_text_color_normal);
     _settings -> setValue ("calenhad/altitudemap/deletemargin", calenhad_altitudemap_deletemargin);
     _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
+    _settings -> setValue ("calenhad/nodegroup", calenhad_nodegroup);
 
     // Geometry
 

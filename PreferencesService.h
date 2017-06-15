@@ -84,6 +84,7 @@ class PreferencesService {
     QString calenhad_module_scalepoint;
     QString calenhad_module_icospheremap;
     QString calenhad_module_altitudemap;
+    QString calenhad_nodegroup;
 
 };
 

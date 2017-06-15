@@ -15,6 +15,7 @@ MessageService* CalenhadServices::_messages;
 ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
+ModuleFactory* CalenhadServices::_modules;
 
 PreferencesService* CalenhadServices::preferences () {
     return _preferences;
@@ -38,6 +39,7 @@ StatisticsService* CalenhadServices::statistics() {
 
 void CalenhadServices::providePreferences (PreferencesService* service) {
     _preferences = service;
+    _modules = new ModuleFactory();
 }
 
 void CalenhadServices::provideMessages (MessageService* service) {
@@ -70,4 +72,8 @@ bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
 
 void CalenhadServices::provideProjections (ProjectionService* service) {
     _projections = service;
+}
+
+ModuleFactory* CalenhadServices::modules () {
+    return _modules;
 }

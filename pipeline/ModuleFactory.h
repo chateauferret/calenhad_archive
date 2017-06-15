@@ -26,12 +26,13 @@ class ModuleFactory : public QObject {
 public:
     ModuleFactory();
     ~ModuleFactory();
-    QModule* createModule (const QString& moduleType, CalenhadModel* model);
+    QNode* createModule (const QString& moduleType, CalenhadModel* model);
     void setSeed (const int& seed);
     void setNoiseQuality (const noise::NoiseQuality& noiseQuality);
     int seed();
     noise::NoiseQuality noiseQuality();
-
+    QPixmap* getIcon (const QString& type);
+    QStringList types ();
 
 signals:
     void seedChanged (const int& seed);
@@ -40,6 +41,7 @@ signals:
 private:
     noise::NoiseQuality _noiseQuality = noise::NoiseQuality::QUALITY_STD;
     int _seed = 0;
+    QMap<QString, QPixmap*> _icons;
 
 };
 

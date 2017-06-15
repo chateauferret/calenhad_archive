@@ -22,7 +22,7 @@ QBasicModule* QBasicModule::newInstance (const QString& type) {
     if (type == CalenhadServices::preferences() -> calenhad_module_add) { Add* m = new Add(); qm = new QBasicModule (m); }
     if (type == CalenhadServices::preferences() -> calenhad_module_abs) { Abs* m = new Abs(); qm = new QBasicModule (m); }
     if (type == CalenhadServices::preferences() -> calenhad_module_blend) { Blend* m = new Blend(); qm = new QBasicModule (m); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_cache) { noise::module::Cache* m = new noise::module::Cache(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_cache) { noise::module::Cache* m = new Cache(); qm = new QBasicModule (m); }
     if (type == CalenhadServices::preferences() -> calenhad_module_checkerboard) { Checkerboard* m = new Checkerboard(); qm = new QBasicModule (m); }
     if (type == CalenhadServices::preferences() -> calenhad_module_invert) { Invert* m = new Invert(); qm = new QBasicModule (m); }
     if (type == CalenhadServices::preferences() -> calenhad_module_max) { Max* m = new Max(); qm = new QBasicModule (m); }

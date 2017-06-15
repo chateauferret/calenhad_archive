@@ -6,203 +6,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project (calenhad)
 include (CMakeFindDependencyMacro)
 
-include_directories(
-        ${LIBNOISE_LIBRARIES_INCLUDE_DIRS}
-        ${GeographicLib_INCLUDE_DIRS}
-        ${QtWebApp_INCLUDE_DIRS}
-)
-
-add_subdirectory (test)
-
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-set(CMAKE_AUTOMOC ON)
-set(SOURCE_FILES
-        preferences.h
-        preferences.cpp
-        geoutils.h
-        geoutils.cpp
-        nodeedit/QNodeBlock.h
-        nodeedit/QNodeBlock.cpp
-        nodeedit/qneconnection.h
-        nodeedit/qneconnection.cpp
-        nodeedit/Calenhad.h
-        nodeedit/Calenhad.cpp
-        nodeedit/qneport.h
-        nodeedit/qneport.cpp
-        nodeedit/CalenhadController.h
-        nodeedit/CalenhadController.cpp
-        nodeedit/ui_qnemainwindow.h
-        messagefactory.cpp
-        messagefactory.h
-        LegendService.h
-        LegendRoster.h
-        LegendRoster.cpp
-        nodeedit/qnemessagebox.cpp
-        nodeedit/qnemessagebox.h
-        nodeedit/CalenhadView.cpp
-        nodeedit/CalenhadView.h
-        nodeedit/qnetoolbox.cpp
-        nodeedit/qnetoolbox.h
-        pipeline/ModuleFactory.cpp
-        pipeline/ModuleFactory.h
-        qmodule/QModule.cpp
-        qmodule/QModule.h
-        controls/QExpander.cpp
-        controls/QExpander.h
-        qmodule/QNoiseModule.h
-        qmodule/QNoiseModule.cpp
-        qmodule/QSpheresModule.cpp
-        qmodule/QSpheresModule.h
-        qmodule/QClampModule.cpp
-        qmodule/QClampModule.h
-        qmodule/QConstModule.cpp
-        qmodule/QConstModule.h
-        qmodule/QCylindersModule.h
-        qmodule/QCylindersModule.cpp
-        qmodule/QExponentModule.h
-        qmodule/QExponentModule.cpp
-        qmodule/QRotateModule.h
-        qmodule/QRotateModule.cpp
-        qmodule/QTranslateModule.h
-        qmodule/QTranslateModule.cpp
-        qmodule/QScaleModule.h
-        qmodule/QScaleModule.cpp
-        qmodule/QScaleBiasModule.h
-        qmodule/QScaleBiasModule.cpp
-        qmodule/QSelectModule.h
-        qmodule/QSelectModule.cpp
-        qmodule/QTurbulenceModule.h
-        qmodule/QTurbulenceModule.cpp
-        qmodule/QVoronoiModule.h
-        qmodule/QVoronoiModule.cpp
-        qmodule/QBasicModule.cpp
-        qmodule/QBasicModule.h
-        controls/QNoiseMapViewer.cpp
-        controls/QNoiseMapViewer.h
-        qmodule/QNode.h
-        qmodule/QNode.cpp
-        qmodule/QRangeModule.h
-        qmodule/QRangeModule.cpp
-        controls/QLogSpinBox.cpp
-        controls/QLogSpinBox.h
-        pipeline/ImageRenderJob.cpp
-        pipeline/ImageRenderJob.h
-        controls/QNoiseMapExplorer.cpp
-        controls/QNoiseMapExplorer.h
-        httpserver/CalenhadRequestHandler.cpp
-        httpserver/CalenhadRequestHandler.h
-        pipeline/CalenhadModel.cpp
-        pipeline/CalenhadModel.h
-        pipeline/TileProducer.cpp
-        pipeline/TileProducer.h
-        controls/CalenhadGlobe.cpp
-        controls/CalenhadGlobe.h
-        actions/ZoomCommand.cpp
-        actions/ZoomCommand.h
-        actions/DeleteConnectionCommand.cpp
-        actions/DeleteConnectionCommand.h
-        actions/AddNodeCommand.cpp
-        actions/AddNodeCommand.h
-        mapping/CalenhadLayer.cpp
-        mapping/CalenhadLayer.h
-        libnoiseutils/NoiseMap.cpp
-        libnoiseutils/NoiseMap.h
-        libnoiseutils/NoiseMapBuilder.cpp
-        libnoiseutils/NoiseMapBuilder.h
-        libnoiseutils/NoiseMapBuilderCylinder.cpp
-        libnoiseutils/NoiseMapBuilderCylinder.h
-        libnoiseutils/NoiseMapBuilderPlane.cpp
-        libnoiseutils/NoiseMapBuilderPlane.h
-        libnoiseutils/NoiseMapBuilderSphere.cpp
-        libnoiseutils/NoiseMapBuilderSphere.h
-        libnoiseutils/RendererImage.cpp
-        libnoiseutils/RendererImage.h
-        libnoiseutils/RendererNormalMap.cpp
-        libnoiseutils/RendererNormalMap.h
-        libnoiseutils/Interpolation.h
-        libnoiseutils/LittleEndian.h
-        libnoiseutils/diff.h
-        libnoiseutils/diff.cpp
-        libnoiseutils/nullmodule.h
-        libnoiseutils/nullmodule.cpp
-        libnoiseutils/NoiseContstants.h
-        mapping/Legend.cpp
-        mapping/Legend.h
-        libnoiseutils/IcosphereBuilder.h
-        libnoiseutils/IcosphereBuilder.cpp
-        icosphere/vertex.h
-        icosphere/vertex.cpp
-        icosphere/triangle.h
-        icosphere/triangle.cpp
-        icosphere/icosphere.h
-        icosphere/icosphere.cpp
-        icosphere/icosphereutils.h
-        qmodule/QIcosphereMap.cpp
-        qmodule/QIcosphereMap.h
-        qmodule/QAltitudeMap.cpp
-        qmodule/QAltitudeMap.h
-        controls/AltitudeMapPlot.cpp
-        controls/AltitudeMapPlot.h
-        libnoiseutils/icospheremap.cpp
-        libnoiseutils/icospheremap.h
-        icosphere/Bounds.cpp
-        icosphere/Bounds.h
-        controls/AltitudeMapEditor.cpp
-        controls/AltitudeMapEditor.h
-        controls/AltitudeMapPlot.cpp
-        controls/AltitudeMapPlot.h
-        controls/AltitudeMapFitter.cpp
-        controls/AltitudeMapFitter.h
-        controls/TerraceMapFitter.cpp
-        controls/TerraceMapFitter.h
-        CalenhadServices.cpp
-        CalenhadServices.h
-        PreferencesService.h
-        MessageService.h
-        LegendService.h
-        actions/ChangeModuleCommand.cpp
-        actions/ChangeModuleCommand.h
-        nodeedit/EditableLabel.cpp
-        nodeedit/EditableLabel.h
-        actions/XmlCommand.cpp
-        actions/XmlCommand.h
-        controls/QxtGlobal.h
-        controls/AngleDial.cpp
-        controls/AngleDial.h
-        actions/CommandGroup.cpp
-        actions/CommandGroup.h
-        actions/DuplicateNodeCommand.cpp
-        actions/DuplicateNodeCommand.h
-        actions/DeleteNodeCommand.cpp
-        actions/DeleteNodeCommand.h
-        controls/CalenhadOverviewMap.cpp
-        controls/CalenhadOverviewMap.h
-        PreferencesService.h
-        MessageService.h
-        actions/DuplicateNodeCommand.cpp
-        actions/DuplicateNodeCommand.h
-        controls/CalenhadPreview.h
-        controls/CalenhadPreview.cpp
-        controls/LegendEditor.h
-        controls/LegendEditor.cpp
-        controls/CalenhadOverviewInterface.h
-        controls/CalenhadNavigator.cpp
-        controls/CalenhadNavigator.h
-        controls/CalenhadGlobeContextMenu.cpp
-        controls/CalenhadGlobeContextMenu.h
-        controls/CalenhadGlobeConfigDialog.cpp
-        controls/CalenhadGlobeConfigDialog.h
-        controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h
-        controls/LegendChooser.cpp controls/LegendChooser.h controls/LegendWidget.cpp controls/LegendWidget.h controls/LegendManager.cpp controls/LegendManager.h controls/CalenhadStatsTab.cpp controls/CalenhadStatsTab.h StatisticsService.cpp StatisticsService.h qmodule/QNodeGroup.cpp qmodule/QNodeGroup.h nodeedit/QNodeGroupBlock.cpp nodeedit/QNodeGroupBlock.h controls/NodePalette.cpp controls/NodePalette.h controls/SizeGripItem.cpp controls/SizeGripItem.h
-        ProjectionService.cpp ProjectionService.h pipeline/RenderJob.cpp pipeline/RenderJob.h pipeline/GlobeRenderJob.cpp pipeline/GlobeRenderJob.h pipeline/ScanLineRenderer.cpp pipeline/ScanLineRenderer.h
-        )
-
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Xml REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Xml)
 find_package(Qwt REQUIRED)
 find_package(Qt5OpenGL)
 find_package(LibProj4 REQUIRED)
@@ -211,12 +17,89 @@ find_package(GeographicLib 1.34 REQUIRED)
 find_package(QtWebApp REQUIRED COMPONENTS HttpServer)
 find_package(Marble REQUIRED)
 
+MESSAGE (STATUS "Current source dir " ${CMAKE_CURRENT_SOURCE_DIR})
+set(FASTNOISE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fastnoise_simd)
+set(QMODULE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/qmodule)
+set(NODEEDIT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nodeedit)
+set(CONTROLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/controls)
+set(PIPELINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pipeline)
+set(HTTPSERVER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/httpserver)
+set(ACTIONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/actions)
+set(MAPPING_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mapping)
+set(LIBNOISEUTILS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libnoiseutils)
+set (ICOSPHERE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/icosphere)
+include_directories(
+        ${LIBNOISE_LIBRARIES_INCLUDE_DIRS}
+        ${GeographicLib_INCLUDE_DIRS}
+        ${QtWebApp_INCLUDE_DIRS}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+)
 
-qt5_add_resources (resources ${CMAKE_SOURCE_DIR}/resources/resources.qrc)
+INCLUDE(${FASTNOISE_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${QMODULE_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${NODEEDIT_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${CONTROLS_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${PIPELINE_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${HTTPSERVER_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${ACTIONS_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${MAPPING_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${LIBNOISEUTILS_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${ICOSPHERE_SOURCE_DIR}/CMakeLists.txt)
 
+add_subdirectory (test)
+
+set(CMAKE_AUTOMOC ON)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Qt5Core_INCLUDE_DIRS})
+include_directories(${Qt5Xml_INCLUDE_DIRS})
+
+
+set(SOURCE_FILES ${SOURCE_FILES}
+        preferences.h
+        preferences.cpp
+        geoutils.h
+        geoutils.cpp
+        messagefactory.cpp
+        messagefactory.h
+        LegendService.h
+        LegendRoster.h
+        LegendRoster.cpp
+        CalenhadServices.cpp
+        CalenhadServices.h
+        PreferencesService.h
+        MessageService.h
+        LegendService.h
+        PreferencesService.h
+        MessageService.h
+        StatisticsService.cpp
+        StatisticsService.h
+        ProjectionService.cpp
+        ProjectionService.h
+        ${FASTNOISE_SIMD_SOURCE_FILES}
+        ${QMODULE_SOURCE_FILES}
+        ${NODEEDIT_SOURCE_FILES}
+        ${CONTROLS_SOURCE_FILES}
+        ${PIPELINE_SOURCE_FILES}
+        ${HTTPSERVER_SOURCE_FILES}
+        ${ACTIONS_SOURCE_FILES}
+        ${MAPPING_SOURCE_FILES}
+        ${LIBNOISEUTILS_SOURCE_FILES}
+        ${ICOSPHERE_SOURCE_FILES}
+        )
+
+set (RESOURCES_DIR resources)
+qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
+MESSAGE (STATUS "Resources dir " ${RESOURCES})
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} )
+add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} controls/FlowLayout.cpp controls/FlowLayout.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
-target_link_libraries (core Marble ${LIBNOISE_LIBRARIES} ${GeographicLib_LIBRARIES} ${QtWebApp_LIBRARIES} ${PROJ4_LIBRARY} ${QWT_LIBRARY} ${resources})
+target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Marble
+        ${LIBNOISE_LIBRARIES}
+        ${GeographicLib_LIBRARIES}
+        ${QtWebApp_LIBRARIES}
+        ${PROJ4_LIBRARY}
+        ${QWT_LIBRARY})
 target_link_libraries (calenhad core)

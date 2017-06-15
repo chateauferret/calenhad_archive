@@ -1,0 +1,21 @@
+
+SET(ACTIONS_SOURCE_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/ZoomCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ZoomCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/AddNodeCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AddNodeCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/ChangeModuleCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ChangeModuleCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/XmlCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/XmlCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/CommandGroup.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CommandGroup.h
+        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/DeleteNodeCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/DeleteNodeCommand.h
+        )

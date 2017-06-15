@@ -78,8 +78,10 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     // for now an icon to drag a new group onto the workspace
     QDockWidget* iconsDock = new QDockWidget ("Palette", this);
     iconsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
-    QWidget* iconsPanel = new NodePalette (this);
+    NodePalette* iconsPanel = new NodePalette (this);
     iconsDock -> setWidget (iconsPanel);
+    connect (iconsDock, SIGNAL (dockLocationChanged (Qt::DockWidgetArea)), iconsPanel, SLOT (moved (Qt::DockWidgetArea)));
+    connect (iconsDock, &QDockWidget::topLevelChanged, this, [=] () { iconsPanel -> moved (Qt::NoDockWidgetArea); });
     addDockWidget (Qt::LeftDockWidgetArea, iconsDock);
 
     // Actions
@@ -160,7 +162,6 @@ void Calenhad::saveFile() {
     }
 
     ds << doc.toString();
-
     file.close();
     MessageService* service = CalenhadServices::messages();
     CalenhadServices::messages() -> message ("", "Wrote file " + fname);

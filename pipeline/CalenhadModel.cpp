@@ -349,7 +349,7 @@ QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
 
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     if (type != QString::null) {
-        QModule* module = _moduleFactory.createModule (type, this);
+        QNode* module = CalenhadServices::modules() -> createModule (type, this);
         module -> setName (name);
         AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
         _controller -> doCommand (command);

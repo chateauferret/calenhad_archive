@@ -20,39 +20,77 @@
 #include "../qmodule/QScaleModule.h"
 #include "../qmodule/QBasicModule.h"
 #include "../qmodule/QIcosphereMap.h"
+#include "../qmodule/QNodeGroup.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
 #include "../qmodule/QAltitudeMap.h"
 #include "../CalenhadServices.h"
+#include <QPixmap>
+#include <QList>
 
 
 using namespace noise::module;
 
 ModuleFactory::ModuleFactory() {
-
+    for (QString type : types()) {
+        QString icon = type.toLower();
+        icon.replace (" ", "");
+        QPixmap* pixmap = new QPixmap (":/appicons/tools/" + icon + ".png");
+        std::cout << pixmap->height () << " " << pixmap->width() << "\n";
+        _icons.insert (type, pixmap);
+    }
 }
 
 ModuleFactory:: ~ModuleFactory() {
+    for (QPixmap* icon : _icons) { delete icon; }
+}
+
+QPixmap* ModuleFactory::getIcon (const QString& type) {
+   return _icons.value (type);
 
 }
 
-QModule* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
+QStringList ModuleFactory::types () {
+    QStringList list;
+    list    << CalenhadServices::preferences() -> calenhad_module_abs
+            << CalenhadServices::preferences() -> calenhad_module_blend
+            << CalenhadServices::preferences() -> calenhad_module_cache
+            << CalenhadServices::preferences() -> calenhad_module_checkerboard
+            << CalenhadServices::preferences() -> calenhad_module_invert
+            << CalenhadServices::preferences() -> calenhad_module_max
+            << CalenhadServices::preferences() -> calenhad_module_min
+            << CalenhadServices::preferences() -> calenhad_module_multiply
+            << CalenhadServices::preferences() -> calenhad_module_power
+            << CalenhadServices::preferences() -> calenhad_module_displace
+            << CalenhadServices::preferences() -> calenhad_module_diff
+            << CalenhadServices::preferences() -> calenhad_module_cylinders
+            << CalenhadServices::preferences() -> calenhad_module_spheres
+            << CalenhadServices::preferences() -> calenhad_module_exponent
+            << CalenhadServices::preferences() -> calenhad_module_translate
+            << CalenhadServices::preferences() -> calenhad_module_rotate
+            << CalenhadServices::preferences() -> calenhad_module_clamp
+            << CalenhadServices::preferences() -> calenhad_module_constant
+            << CalenhadServices::preferences() -> calenhad_module_perlin
+            << CalenhadServices::preferences() -> calenhad_module_billow
+            << CalenhadServices::preferences() -> calenhad_module_ridgedmulti
+            << CalenhadServices::preferences() -> calenhad_module_scalebias
+            << CalenhadServices::preferences() -> calenhad_module_select
+            << CalenhadServices::preferences() -> calenhad_module_turbulence
+            << CalenhadServices::preferences() -> calenhad_module_voronoi
+            << CalenhadServices::preferences() -> calenhad_module_scalepoint
+            << CalenhadServices::preferences() -> calenhad_module_icospheremap
+            << CalenhadServices::preferences() -> calenhad_module_altitudemap
+            << CalenhadServices::preferences() -> calenhad_nodegroup;
 
+    return list;
+}
 
+QNode* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
 
-/*
-    Name		Inputs   Ctrls	Outputs	                    Parameters
-
-    Curve			1	0	    1	controlpoints           ControlPoint* controlPoints { double inputValue, double outputValue }
-    Terrace			1	0	    1	controlpoints           ControlPoint* controlPoints { double inputValue, double outputValue }, bool isTerracesInverted
-
-    Populate the default owner name
-
-*/
     if (type == CalenhadServices::preferences() -> calenhad_module_abs ||
      type == CalenhadServices::preferences() -> calenhad_module_add ||
      type == CalenhadServices::preferences() -> calenhad_module_blend ||
-     type == CalenhadServices::preferences() -> calenhad_module_cache||
+     type == CalenhadServices::preferences() -> calenhad_module_cache ||
      type == CalenhadServices::preferences() -> calenhad_module_checkerboard ||
      type == CalenhadServices::preferences() -> calenhad_module_invert ||
      type == CalenhadServices::preferences() -> calenhad_module_max ||
@@ -80,6 +118,8 @@ QModule* ModuleFactory::createModule (const QString& type, CalenhadModel* model)
     if (type == CalenhadServices::preferences() -> calenhad_module_icospheremap) { return QIcosphereMap::newInstance(); }
     if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { return QAltitudeMap::newInstance(); }
 
+    if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { QNodeGroup* group = new QNodeGroup(); return group; }
+    return nullptr;
 }
 
     void ModuleFactory::setSeed (const int& seed) {

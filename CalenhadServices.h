@@ -6,6 +6,7 @@
 #define CALENHAD_SERVICELOCATOR_H
 
 
+#include <pipeline/ModuleFactory.h>
 #include "preferences.h"
 #include "messagefactory.h"
 #include "LegendService.h"
@@ -22,12 +23,12 @@ public:
     static LegendService* legends();
     static ProjectionService* projections();
     static StatisticsService* statistics();
+    static ModuleFactory* modules();
 
     static void providePreferences (PreferencesService* service);
     static void provideMessages (MessageService* service);
     static void provideLegends (LegendService* service);
     static void provideProjections (ProjectionService* service);
-
     static bool readXml (const QString& fname, QDomDocument& doc);
 
 private:
@@ -36,6 +37,7 @@ private:
     static LegendService* _legends;
     static ProjectionService* _projections;
     static StatisticsService* _statistics;
+    static ModuleFactory* _modules;
 
 
 };

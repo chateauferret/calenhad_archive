@@ -57,7 +57,6 @@ protected:
 
     bool existsPath (QNodeBlock* from, QNodeBlock* to);
     NullModule* nullModule = new NullModule();
-    ModuleFactory _moduleFactory;
     QPointF lastClick;
 
     QAction* _activeTool = nullptr;
