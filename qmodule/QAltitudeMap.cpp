@@ -9,7 +9,7 @@
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
 #include "../controls/AltitudeMapEditor.h"
-#include "../messagefactory.h"
+#include "messages/QNotificationFactory.h"
 #include "../controls/AltitudeMapPlot.h"
 #include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"
@@ -228,7 +228,7 @@ void QAltitudeMap::inflate (const QDomElement& element) {
         if (ok) {
             addEntry (x, y);
         } else {
-            CalenhadServices::messages() -> message ("", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
+            CalenhadServices::messages() -> message ("warning", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
                     + " for " + nodeType () + " owner " + name());
         }
     }

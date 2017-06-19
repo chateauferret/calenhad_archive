@@ -207,10 +207,13 @@ void CalenhadController::toolSelected (bool state) {
     if (state) {
         // activated
         _model -> setActiveTool (tool);
+        int iconSize = CalenhadServices::preferences() -> calenhad_toolpalette_icon_size;
         for (QGraphicsView* view : _model -> views ()) {
-            view -> viewport () -> setCursor (Qt::CrossCursor);
+            QPixmap* pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString ());
+            QCursor cursor = QCursor ((*pixmap).scaled (iconSize, iconSize));
+            view -> viewport () -> setCursor (cursor);
             for (QNodeGroup* group : _model -> nodeGroups ()) {
-                group -> handle() -> setCursor (Qt::CrossCursor);
+                group -> handle() -> setCursor (cursor);
             }
             view -> setDragMode (QGraphicsView::NoDrag);
         }
@@ -223,7 +226,7 @@ void CalenhadController::toolSelected (bool state) {
 }
 
 void CalenhadController::showMessage (QString message) {
-    CalenhadServices::messages() -> message ("", message);
+    CalenhadServices::messages() -> message ("info", message);
 }
 
 QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {

@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtXml/QDomDocument>
 
 class QNEPort;
-class MessageFactory;
+class QNotificationFactory;
 
 class QNEConnection : public QGraphicsPathItem {
 

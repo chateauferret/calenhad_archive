@@ -25,6 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "QNodeBlock.h"
 #include <QPainter>
+#include <controls/QColoredIcon.h>
 #include "Calenhad.h"
 #include "../qmodule/QModule.h"
 #include "EditableLabel.h"
@@ -34,9 +35,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../qmodule/QNodeGroup.h"
 
 
-QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr) {
+QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr) {
+    _pixmap = CalenhadServices::modules() -> getIcon (node -> nodeType());
+    _size = QSize (CalenhadServices::preferences() -> calenhad_handle_module_width, CalenhadServices::preferences() -> calenhad_handle_module_height);
+    _margin = CalenhadServices::preferences() -> calenhad_handle_module_margin;
 
 }
+
+QNodeBlock::~QNodeBlock() {
+    if (_icon) { delete _icon; }
+}
+
 
 void QNodeBlock::initialise() {
     setFlag (QGraphicsItem::ItemIsMovable);
@@ -60,11 +69,12 @@ void QNodeBlock::initialise() {
 }
 
 QPainterPath QNodeBlock::makePath() {
-    _label -> setPos (10 - (_label -> boundingRect().width() / 2 ), 34);
+
+    _label -> setPos (10 - (_label -> boundingRect().width() / 2 ), _size.height() + _margin);
     // shape of the block's body
     QPainterPath p;
     QPolygonF polygon;
-    polygon = QRectF (0, 0, 32, 32);
+    polygon = QRectF (0, 0, _size.width() + 2 * _margin, _size.height() + 2 * _margin);
     setPen (QPen (CalenhadServices::preferences() -> calenhad_module_text_color_normal, CalenhadServices::preferences() -> calenhad_port_border_weight));
     setBrush (CalenhadServices::preferences() -> calenhad_module_brush_color_normal);
     p.addPolygon (polygon);
@@ -79,13 +89,25 @@ void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* optio
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_module_text_color_selected : CalenhadServices::preferences() -> calenhad_module_text_color_normal);
     painter -> setPen (_pen);
     painter -> drawPath (path());
+    _icon -> setColor (isSelected() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark() : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark());
+    painter -> drawPixmap ( _margin, _margin, _icon -> grab());
+}
 
+void QNodeBlock::assignIcon() {
+    if (_icon) { delete _icon; }
+    _icon = new QColoredIcon();
+    _icon->setToolTip (node() -> nodeType());
+    _icon -> setAlignment (Qt::AlignCenter);
+    _icon -> setPixmap (_pixmap -> scaled (32, 32));
+    _icon -> setFixedSize (_pixmap -> size ());
+    _icon -> setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
+    _icon -> setFixedSize (32, 32);
 }
 
 QNEPort* QNodeBlock::addPort (QNEPort* port) {
     port -> setParentItem (this);
 
-    int vertMargin = 2;
+    int vertMargin = _margin;
     QFontMetrics fm (scene() -> font());
     int yInput = port -> radius();
     int yOutput = yInput;
@@ -95,7 +117,7 @@ QNEPort* QNodeBlock::addPort (QNEPort* port) {
         if (port_->type () == QNEPort::Type) {
             QNEPort* port = (QNEPort*) port_;
             if (port -> portType () == QNEPort::OutputPort) {
-                port -> setPos (32 + port -> radius (), yOutput + vertMargin);
+                port -> setPos (_size.width() + 2 * _margin + port -> radius(), yOutput + vertMargin);
                 yOutput += h;
             } else {
                 port -> setPos (-port -> radius (), yInput + vertMargin);
@@ -212,11 +234,9 @@ void QNodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
     setCursor (Qt::ClosedHandCursor);
     QGraphicsItem::mousePressEvent (event);
     _oldZ = zValue();
-    std::cout << node() -> name().toStdString () << " z = " << zValue () << "\n";
 }
 
 void QNodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
-    std::cout << "Mouse release \n";
     setCursor (Qt::OpenHandCursor);
     assignGroup();
     for (QGraphicsItem* item : scene() -> items()) {
@@ -244,7 +264,6 @@ void QNodeBlock::assignGroup() {
     } else {
         _node -> setGroup (nullptr);
     }
-    std::cout << "Assigned group " << (_node -> group() == nullptr ? "Null " : _node -> group() -> name().toStdString ()) << "\n";
 }
 
 void QNodeBlock::detach() {
@@ -264,9 +283,9 @@ void QNodeBlock::attach (QGraphicsItem* target) {
 
 QRectF QNodeBlock::boundingRect() const {
     QRectF r = QGraphicsPathItem::boundingRect();
-        foreach (QGraphicsItem* port_, childItems ()) {
-            if (port_ -> type() == QNEPort::Type) {
-                r = r.united (port_ -> boundingRect());
+        foreach (QGraphicsItem* item, childItems ()) {
+            if (item -> type() == QNEPort::Type) {
+                r = r.united (item -> boundingRect());
             }
         }
     r = r.united (_label -> boundingRect());
@@ -283,6 +302,6 @@ void QNodeBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
 
 void QNodeBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
-    _label -> setPos (32 - (_label -> boundingRect().width() / 2 ), 38);
+    _label -> setPos (_size.width() - (_label -> boundingRect().width() / 2 ), _size.height() + 3 * _margin);
     _node -> invalidate();
 }

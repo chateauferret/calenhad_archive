@@ -11,7 +11,7 @@
 
 
 PreferencesService* CalenhadServices::_preferences;
-MessageService* CalenhadServices::_messages;
+QMessageService* CalenhadServices::_messages;
 ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
@@ -21,7 +21,7 @@ PreferencesService* CalenhadServices::preferences () {
     return _preferences;
 }
 
-MessageService* CalenhadServices::messages () {
+QMessageService* CalenhadServices::messages () {
     return _messages;
 }
 
@@ -42,7 +42,7 @@ void CalenhadServices::providePreferences (PreferencesService* service) {
     _modules = new ModuleFactory();
 }
 
-void CalenhadServices::provideMessages (MessageService* service) {
+void CalenhadServices::provideMessages (QMessageService* service) {
     _messages = service;
 }
 
@@ -54,7 +54,7 @@ void CalenhadServices::provideLegends (LegendService* service) {
 bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
     std::cout << "Opening file " << fname.toStdString() << "\n";
     if (fname.isEmpty()) {
-        CalenhadServices::messages() -> message ("Couldn't read file " + fname, "File not found");
+        CalenhadServices::messages() -> message ("error", "Couldn't read file " + fname);
     }
     QFile f (fname);
     f.open (QFile::ReadOnly);
@@ -62,7 +62,7 @@ bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
     int errLine, errColumn;
 
     if (! doc.setContent (&f, false, &error, &errLine, &errColumn)) {
-        CalenhadServices::messages() -> message ("Couldn't read file " + fname, "Error " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
+        CalenhadServices::messages() -> message ("error", "Couldn't read file " + fname + "\nError " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
         return false;
     } else {
         return true;

@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtWidgets/QLineEdit>
 #include "../qmodule/QNode.h"
 
-
+class QColoredIcon;
 class QNEPort;
 class QModule;
 class EditableLabel;
@@ -43,6 +43,7 @@ class QNodeBlock : public QObject, public QGraphicsPathItem {
 public:
 	enum { Type = QGraphicsItem::UserType + 3 };
     QNodeBlock (QNode* node, QGraphicsItem *parent = 0);
+    virtual ~QNodeBlock();
 	QNEPort* addPort (QNEPort* port);
 
 	void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -55,6 +56,7 @@ public:
     virtual void initialise();
     QNode* node();
     void assignGroup ();
+    void assignIcon ();
 public slots:
     virtual void nodeChanged ();
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -69,15 +71,18 @@ protected:
     EditableLabel* _label;
     QBrush _brush;
     QPen _pen;
-
+	QPixmap* _pixmap;
     virtual QPainterPath makePath ();
-
     qreal _oldZ;
-
-    void detach ();
-
+    void detach();
     void attach (QGraphicsItem* target);
+    QSize _size;
+    int _margin;
+    QGraphicsProxyWidget* _iconProxy;
 
+
+    QColoredIcon* _icon;
+	QPixmap _iconImage;
 };
 
 #endif // QNEBLOCK_H

@@ -46,8 +46,10 @@ SET(CONTROLS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/LegendManager.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.h
-        ${CMAKE_CURRENT_LIST_DIR}/NodePalette.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/NodePalette.h
+        ${CMAKE_CURRENT_LIST_DIR}/QIconPalette.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QIconPalette.h
         ${CMAKE_CURRENT_LIST_DIR}/SizeGripItem.cpp
         ${CMAKE_CURRENT_LIST_DIR}/SizeGripItem.h
+        ${CMAKE_CURRENT_LIST_DIR}/FlowLayout.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/FlowLayout.h
         )

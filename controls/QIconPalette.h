@@ -5,12 +5,14 @@
 #ifndef CALENHAD_NODEPALETTE_H
 #define CALENHAD_NODEPALETTE_H
 
+#include <QColormap>
+
 class QScroller;
 
-class NodePalette : public QWidget {
+class QIconPalette : public QWidget {
 Q_OBJECT
 public:
-    NodePalette (QWidget* parent);
+    QIconPalette (QWidget* parent);
 
     void mousePressEvent (QMouseEvent* event);
     void resizeEvent (QResizeEvent* e) override;
@@ -22,13 +24,13 @@ protected:
 
     QPushButton* _leftScrollButton, * _rightScrollButton, * _topScrollButton, * _bottomScrollButton;
     void layoutIcons ();
-
     Qt::DockWidgetArea _area;
-    QWidget* _horizontalPanel, * _verticalPanel, * _iconsPanel;
+    QWidget* _verticalPanel, * _horizontalPanel, * _horizontalIconPanel, * _verticalIconPanel, * _iconsPanel;
     QScrollArea* _horizontalScrollPanel, * _verticalScrollPanel;
     QStringList _types;
-
     void updateScrollButtons ();
+
+    int _iconSize;
 };
 
 

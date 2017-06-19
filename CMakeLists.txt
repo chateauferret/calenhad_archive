@@ -6,6 +6,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project (calenhad)
 include (CMakeFindDependencyMacro)
 
+
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Xml)
@@ -48,12 +49,14 @@ INCLUDE(${LIBNOISEUTILS_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${ICOSPHERE_SOURCE_DIR}/CMakeLists.txt)
 
 add_subdirectory (test)
+add_subdirectory (messages)
 
 set(CMAKE_AUTOMOC ON)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${Qt5Core_INCLUDE_DIRS})
 include_directories(${Qt5Xml_INCLUDE_DIRS})
+include_directories (messages)
 
 
 set(SOURCE_FILES ${SOURCE_FILES}
@@ -61,18 +64,15 @@ set(SOURCE_FILES ${SOURCE_FILES}
         preferences.cpp
         geoutils.h
         geoutils.cpp
-        messagefactory.cpp
-        messagefactory.h
         LegendService.h
         LegendRoster.h
         LegendRoster.cpp
         CalenhadServices.cpp
         CalenhadServices.h
         PreferencesService.h
-        MessageService.h
+
         LegendService.h
         PreferencesService.h
-        MessageService.h
         StatisticsService.cpp
         StatisticsService.h
         ProjectionService.cpp
@@ -87,19 +87,21 @@ set(SOURCE_FILES ${SOURCE_FILES}
         ${MAPPING_SOURCE_FILES}
         ${LIBNOISEUTILS_SOURCE_FILES}
         ${ICOSPHERE_SOURCE_FILES}
+
         )
 
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 MESSAGE (STATUS "Resources dir " ${RESOURCES})
-add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} controls/FlowLayout.cpp controls/FlowLayout.h)
+add_library (core ${SOURCE_FILES} controls/QColoredIcon.cpp controls/QColoredIcon.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} controls/QColoredIcon.cpp controls/QColoredIcon.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
-target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Marble
+target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Marble messages
         ${LIBNOISE_LIBRARIES}
         ${GeographicLib_LIBRARIES}
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}
         ${QWT_LIBRARY})
+
 target_link_libraries (calenhad core)

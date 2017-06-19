@@ -22,7 +22,6 @@ public:
 private:
     QSettings* _settings;
 
-
 };
 
 

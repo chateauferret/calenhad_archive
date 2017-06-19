@@ -62,7 +62,6 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
 
     // remove the map components we don't want - scale and overviewmap both relate to Earth
             foreach (AbstractFloatItem* item, _map -> floatItems()) {
-            //std::cout << item -> nameId().toStdString () << "\n";
             if (item && (
                 item -> nameId() == "overviewmap" ||
                 item -> nameId() == "compass" ||
@@ -466,14 +465,8 @@ void CalenhadGlobe::zoomOutFrom (const GeoDataLatLonBox& target) {
         double nx, sx, wx, ex;
         v -> screenCoordinates (target.west(), target.north(), wx, nx);
         v -> screenCoordinates (target.east(), target.south(), ex, sx);
-
-        std::cout << nx - sx << " " <<  ex - wx << "\n";
-        std::cout << v -> viewLatLonAltBox ().height() << " " << v -> viewLatLonAltBox ().width() << "\n";
-
-
         int const horizontalRadius = (std::abs (nx - sx) / v -> viewLatLonAltBox ().height()) / ( 0.25 * M_PI );
         int const verticalRadius = (std::abs (ex - wx) / v -> viewLatLonAltBox ().width()) / ( 0.25 * M_PI );
-
         std::cout << horizontalRadius << " " << verticalRadius << "\n";
         newRadius = qMin<int>(horizontalRadius, verticalRadius );
         newRadius = qMax<int> (100, qMin<int>(newRadius, 1e+08));
@@ -481,7 +474,6 @@ void CalenhadGlobe::zoomOutFrom (const GeoDataLatLonBox& target) {
     goTo (GeoDataCoordinates (RAD2DEG * target.center().longitude(), RAD2DEG * target.center().latitude()));
     //_map -> setRadius (newRadius);
     _zoomSlider -> setValue (radiusToZoomFactor (newRadius));
-    std::cout << "Zoom factor " << _zoomSlider -> value () << "\n";
 
 }
 
@@ -495,9 +487,6 @@ void CalenhadGlobe::zoomInTo (const GeoDataLatLonBox& target) {
     ViewportParams* v = _map -> viewport();
 
     if(target.height() && target.width()) {
-        //work out the needed zoom level
-        std::cout << target.height() << " " << target.width() << "\n";
-        std::cout << v -> height() << " " << v -> width() << "\n";
         int const horizontalRadius = ( 0.25 * M_PI ) * (v -> height() / target.height());
         int const verticalRadius = ( 0.25 * M_PI ) * (v -> width() / target.width());
         newRadius = qMin<int>(horizontalRadius, verticalRadius );

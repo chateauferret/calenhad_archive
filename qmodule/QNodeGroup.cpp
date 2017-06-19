@@ -7,7 +7,7 @@
 
 
 QNodeGroup::QNodeGroup (QWidget* parent) : QNode (parent), _rect (QRect (0, 0, 100, 100)) {
-    std::cout << "New QNodeGroup\n";
+
 }
 
 QNodeGroup::~QNodeGroup () {

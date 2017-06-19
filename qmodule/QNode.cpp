@@ -14,6 +14,7 @@
 #include "qwt/qwt_dial_needle.h"
 #include "qwt/qwt_counter.h"
 #include "../CalenhadServices.h"
+#include "../nodeedit/QNodeBlock.h"
 
 
 QNode::QNode (QWidget* parent) : QWidget (parent), _model (nullptr), _isInitialised (false), _dialog (nullptr) {
@@ -246,7 +247,7 @@ void QNode::inflate (const QDomElement& element) {
             }
         } else {
             QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue() + " port with index " + portNodes.at (i).attributes ().namedItem ("index").nodeValue() + " in owner " + _name;
-            CalenhadServices::messages() -> message ("Reverting to default port names", m);
+            CalenhadServices::messages() -> message ("warning", "Reverting to default port names. " + m);
         }
     }
 }

@@ -85,6 +85,16 @@ class PreferencesService {
     QString calenhad_module_icospheremap;
     QString calenhad_module_altitudemap;
     QString calenhad_nodegroup;
+    QColor calenhad_toolpalette_icon_color_normal;
+    QColor calenhad_toolpalette_icon_color_mouseover;
+    QColor calenhad_toolpalette_icon_color_shadow;
+    int calenhad_toolpalette_icon_size;
+    int calenhad_toolpalette_icon_margin;
+    int calenhad_toolpalette_icon_shadow;
+    int calenhad_toolpalette_arrow_size;
+    int calenhad_handle_module_width;
+    int calenhad_handle_module_height;
+    int calenhad_handle_module_margin;
 
 };
 

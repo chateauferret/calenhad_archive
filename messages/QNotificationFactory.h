@@ -6,25 +6,26 @@
 #define CALENHAD_MESSAGEFACTORY_H
 #include <QWidget>
 #include <QVector>
-#include "nodeedit/qnemessagebox.h"
-#include "MessageService.h"
+#include "QNotification.h"
+#include "QNotificationService.h"
 #include <QTextStream>
 
 class CalenhadMessageStream;
 
-class MessageFactory : public MessageService {
+class QNotificationFactory : public QMessageService {
     Q_OBJECT
 public:
-    MessageFactory ();
-    ~MessageFactory();
-    int message (const QString& title, const QString& message) override;
+    QNotificationFactory ();
+    ~QNotificationFactory();
+    int message (const QString& title, const QString& message, const int& duration = 10000) override;
     void setHost (QWidget* host) override;
     public slots:
     void clearMessage (const int& id);
 
 private:
     QWidget* _host = 0;
-    QVector<QNEMessageBox*> messages;
+    QVector<QNotification*> messages;
+
 };
 
 

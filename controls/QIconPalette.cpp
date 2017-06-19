@@ -58,27 +58,28 @@ S INTERRUPTION) HOWEVER CAUSED AND ON ANY
 #include <CalenhadServices.h>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 #include <QtWidgets/QtWidgets>
-#include "NodePalette.h"
+#include "QIconPalette.h"
 #include "FlowLayout.h"
+#include "QColoredIcon.h"
 
 
-NodePalette::NodePalette (QWidget *parent) : QWidget (parent) {
+QIconPalette::QIconPalette (QWidget *parent) : QWidget (parent), _iconSize (CalenhadServices::preferences() -> calenhad_toolpalette_icon_size) {
 
     _topScrollButton = new QPushButton ();
-    _topScrollButton -> setFixedSize (36, 36);
     _topScrollButton -> setIcon (QIcon (":/appicons/controls/arrow_up.png"));
+    _topScrollButton -> setFixedHeight (CalenhadServices::preferences() -> calenhad_toolpalette_arrow_size);
 
     _bottomScrollButton = new QPushButton ();
-    _bottomScrollButton -> setFixedSize (36, 36);
     _bottomScrollButton -> setIcon (QIcon (":/appicons/controls/arrow_down.png"));
+    _bottomScrollButton -> setFixedHeight (CalenhadServices::preferences() -> calenhad_toolpalette_arrow_size);
 
     _leftScrollButton = new QPushButton ();
-    _leftScrollButton -> setFixedSize (36, 36);
     _leftScrollButton -> setIcon (QIcon (":/appicons/controls/arrow_left.png"));
+    _leftScrollButton -> setFixedWidth (CalenhadServices::preferences() -> calenhad_toolpalette_arrow_size);
 
     _rightScrollButton = new QPushButton ();
-    _rightScrollButton -> setFixedSize (36, 36);
     _rightScrollButton -> setIcon (QIcon (":/appicons/controls/arrow_right.png"));
+    _leftScrollButton -> setFixedWidth (CalenhadServices::preferences() -> calenhad_toolpalette_arrow_size);
 
     setAcceptDrops (true);
     setLayout (new QStackedLayout());
@@ -89,98 +90,123 @@ NodePalette::NodePalette (QWidget *parent) : QWidget (parent) {
     _iconsPanel -> setLayout (new FlowLayout());
 
     _horizontalScrollPanel = new QScrollArea();
-    _horizontalPanel = new QWidget();
-    _horizontalPanel -> setLayout (new QHBoxLayout());
-    _horizontalPanel -> layout() -> setSizeConstraint(QLayout::SetMinimumSize);
-    _horizontalScrollPanel -> setWidget (_horizontalPanel);
-    _horizontalScrollPanel -> setHorizontalScrollBarPolicy (Qt::ScrollBarAsNeeded);
+    _horizontalIconPanel = new QWidget();
+    _horizontalIconPanel -> setLayout (new QHBoxLayout());
+    _horizontalIconPanel -> layout() -> setSizeConstraint(QLayout::SetMinimumSize);
+    _horizontalIconPanel -> layout() -> setMargin (0);
+    _horizontalScrollPanel -> setWidget (_horizontalIconPanel);
+    _horizontalScrollPanel -> setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
     _horizontalScrollPanel -> setVerticalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    _horizontalScrollPanel -> setFrameStyle (QFrame::NoFrame);
 
     _verticalScrollPanel = new QScrollArea();
+    _verticalIconPanel = new QWidget();
+    _verticalIconPanel -> setLayout (new QVBoxLayout());
+    _verticalIconPanel -> layout() -> setSizeConstraint(QLayout::SetMinimumSize);
+    _verticalScrollPanel -> setWidget (_verticalIconPanel);
+    _verticalScrollPanel -> setVerticalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    _verticalScrollPanel -> setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    _verticalScrollPanel -> setFrameStyle (QFrame::NoFrame);
+
+    _horizontalIconPanel -> layout() -> setMargin (0);
+    _verticalIconPanel -> layout() -> setMargin (0);
+
     _verticalPanel = new QWidget();
     _verticalPanel -> setLayout (new QVBoxLayout());
-    _verticalPanel -> layout() -> setSizeConstraint(QLayout::SetMinimumSize);
-    _verticalScrollPanel -> setWidget (_verticalPanel);
-    _verticalScrollPanel -> setVerticalScrollBarPolicy (Qt::ScrollBarAsNeeded);
-    _verticalScrollPanel -> setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOff);
+    _verticalPanel -> setMinimumWidth (_iconSize);
+    _verticalPanel -> layout() -> addWidget (_topScrollButton);
+    _verticalPanel -> layout() -> addWidget (_verticalScrollPanel);
+    _verticalPanel -> layout() -> addWidget (_bottomScrollButton);
+
+    _horizontalPanel = new QWidget();
+    _horizontalPanel -> setLayout (new QHBoxLayout());
+    _horizontalPanel -> setMinimumHeight (_iconSize);
+    _horizontalPanel -> layout() -> addWidget (_leftScrollButton);
+    _horizontalPanel -> layout() -> addWidget (_horizontalScrollPanel);
+    _horizontalPanel -> layout() -> addWidget (_rightScrollButton);
 
     _horizontalPanel -> layout() -> setMargin (0);
     _verticalPanel -> layout() -> setMargin (0);
 
-    layout() -> addWidget (_horizontalScrollPanel);
-    layout() -> addWidget (_verticalScrollPanel);
+    layout() -> addWidget (_horizontalPanel);
+    layout() -> addWidget (_verticalPanel);
     layout() -> addWidget (_iconsPanel);
 
     QList<QWidget*> iconPanels;
-    iconPanels.append (_horizontalPanel);
-    iconPanels.append (_verticalPanel);
+    iconPanels.append (_horizontalIconPanel);
+    iconPanels.append (_verticalIconPanel);
     iconPanels.append (_iconsPanel);
 
     _types = CalenhadServices::modules() -> types ();
     for (QString type : _types) {
         for (QWidget* panel : iconPanels) {
-            QLabel* icon = new QLabel (this);
-            QPixmap* pixmap = CalenhadServices::modules ()->getIcon (type);
+            QColoredIcon* icon = new QColoredIcon (this);
+            QPixmap* pixmap = CalenhadServices::modules() -> getIcon (type);
             icon->setToolTip (type);
-            QPixmap p = (*pixmap).scaled (32, 32);
-            icon->setAlignment (Qt::AlignTop | Qt::AlignLeft);
+            QPixmap p = (*pixmap).scaled (_iconSize, _iconSize);
+            icon->setAlignment (Qt::AlignCenter);
             icon->setPixmap (p);
-            icon->setFixedSize (36, 36);
-            QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect ();
-            effect->setOffset (2);
-            effect->setColor (QColor ("#7F7F7F7F"));
-            icon->setGraphicsEffect (effect);
+            icon->setFixedSize (_iconSize, _iconSize);
+            icon -> setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
+            icon -> setMouseOverColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_mouseover);
             icon->setObjectName (type);
             panel->layout ()->addWidget (icon);
-            panel -> layout() -> setSpacing (4);
             icon -> setAttribute (Qt::WA_DeleteOnClose);
         }
     }
 
-
-    connect (_rightScrollButton, &QPushButton::pressed, this, [=] () { _horizontalScrollPanel -> scroll (-36, 0); updateScrollButtons(); });
-    connect (_leftScrollButton, &QPushButton::pressed, this, [=] () { _horizontalScrollPanel -> scroll (36, 0); updateScrollButtons(); });
-    connect (_topScrollButton, &QPushButton::pressed, this, [=] () { _verticalScrollPanel -> scroll (0, 36); updateScrollButtons(); });
-    connect (_bottomScrollButton, &QPushButton::pressed, this, [=] () { _verticalScrollPanel -> scroll (0, -36); updateScrollButtons(); });
+    connect (_rightScrollButton, &QPushButton::pressed, this, [=] () { updateScrollButtons(); });
+    connect (_leftScrollButton, &QPushButton::pressed, this, [=] () { updateScrollButtons(); });
+    connect (_topScrollButton, &QPushButton::pressed, this, [=] () { updateScrollButtons(); });
+    connect (_bottomScrollButton, &QPushButton::pressed, this, [=] () { updateScrollButtons(); });
 }
 
-void NodePalette::updateScrollButtons() {
-    _leftScrollButton -> setEnabled (_horizontalPanel -> findChild<QWidget*> (_types.first()) -> isVisible());
-    _rightScrollButton -> setEnabled (_horizontalPanel -> findChild<QWidget*> (_types.last()) -> isVisible());
-    _topScrollButton -> setEnabled (_verticalPanel -> findChild<QWidget*> (_types.first()) -> isVisible());
-    _bottomScrollButton -> setEnabled (_verticalPanel -> findChild<QWidget*> (_types.last()) -> isVisible());
+void QIconPalette::updateScrollButtons() {
+    QPushButton* s = (QPushButton*) sender();
+    if (s == _rightScrollButton) {
+        _horizontalScrollPanel -> horizontalScrollBar() -> setValue (_horizontalScrollPanel->horizontalScrollBar() -> value() + _horizontalScrollPanel -> horizontalScrollBar() -> singleStep());
+    }
+    if (s == _leftScrollButton) {
+        _horizontalScrollPanel -> horizontalScrollBar() -> setValue (_horizontalScrollPanel->horizontalScrollBar() -> value() - _horizontalScrollPanel -> horizontalScrollBar() -> singleStep());
+    }
+    if (s == _topScrollButton) {
+        _verticalScrollPanel -> verticalScrollBar() -> setValue (_verticalScrollPanel->verticalScrollBar() -> value() - _verticalScrollPanel -> verticalScrollBar() -> singleStep());
+    }
+    if (s == _bottomScrollButton) {
+        _verticalScrollPanel -> verticalScrollBar() -> setValue (_verticalScrollPanel->verticalScrollBar() -> value() + _verticalScrollPanel -> verticalScrollBar() -> singleStep());
+    }
 }
 
-void NodePalette::resizeEvent (QResizeEvent* e) {
+void QIconPalette::resizeEvent (QResizeEvent* e) {
     layoutIcons();
 }
 
-void NodePalette::layoutIcons() {
+void QIconPalette::layoutIcons() {
     if (_area == Qt::NoDockWidgetArea) {
         setMaximumSize (300, 300);
-        setMinimumHeight (36 + 2 * layout() -> margin());
-        setMinimumWidth (36 + 2 * layout() -> margin());
+        setMinimumHeight (_iconSize * 2);
+        setMinimumWidth (_iconSize * 2);
+
         ((QStackedLayout*) layout()) -> setCurrentWidget (_iconsPanel);
     }
     if (_area == Qt::LeftDockWidgetArea || _area == Qt::RightDockWidgetArea) {
-        setFixedWidth (36 + 2 * layout() -> margin());
+       setFixedWidth (_iconSize + 2);
         setMaximumHeight (QWIDGETSIZE_MAX);
-        ((QStackedLayout*) layout()) -> setCurrentWidget (_verticalScrollPanel);
+        ((QStackedLayout*) layout()) -> setCurrentWidget (_verticalPanel);
     }
     if (_area == Qt::TopDockWidgetArea || _area == Qt::BottomDockWidgetArea) {
-        setFixedHeight (36 + layout() -> margin());
+       setFixedHeight (_iconSize + 2);
         setMaximumWidth (QWIDGETSIZE_MAX);
-        ((QStackedLayout*) layout()) -> setCurrentWidget (_horizontalScrollPanel);
+        ((QStackedLayout*) layout()) -> setCurrentWidget (_horizontalPanel);
     }
 }
 
-void NodePalette::mousePressEvent(QMouseEvent *event) {
-    QLabel* child = static_cast<QLabel*>(childAt(event->pos()));
+void QIconPalette::mousePressEvent(QMouseEvent *event) {
+    QColoredIcon* child = static_cast<QColoredIcon*>(childAt(event->pos()));
     if (!child) return;
 
     const QPixmap* pixmap = child -> pixmap();
     QString type = child -> objectName();
-    std::cout << "Type " << type.toStdString () << "\n";
     if ((! type.isNull() && _types.contains (type))) {
         QByteArray itemData;
         QDataStream dataStream (&itemData, QIODevice::WriteOnly);
@@ -205,8 +231,14 @@ void NodePalette::mousePressEvent(QMouseEvent *event) {
     }
 }
 
-void NodePalette::moved (Qt::DockWidgetArea area) {
+void QIconPalette::moved (Qt::DockWidgetArea area) {
     _area = area;
+    QDockWidget* dock = (QDockWidget*) parent();
+    if (_area == Qt::LeftDockWidgetArea || _area == Qt::RightDockWidgetArea) {
+        dock -> setFeatures (QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetVerticalTitleBar);
+    } else {
+        dock -> setFeatures (QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
+    }
     layoutIcons();
     updateGeometry();
     adjustSize();

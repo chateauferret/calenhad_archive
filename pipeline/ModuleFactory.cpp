@@ -36,7 +36,6 @@ ModuleFactory::ModuleFactory() {
         QString icon = type.toLower();
         icon.replace (" ", "");
         QPixmap* pixmap = new QPixmap (":/appicons/tools/" + icon + ".png");
-        std::cout << pixmap->height () << " " << pixmap->width() << "\n";
         _icons.insert (type, pixmap);
     }
 }

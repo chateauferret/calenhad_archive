@@ -89,7 +89,7 @@ void LegendManager::deleteLegend() {
             _chooser -> removeItem (_chooser -> currentIndex());
         }
     } else {
-        CalenhadServices::messages() -> message ("Cannot delete the last legend", "There must always be at least one legend available");
+        CalenhadServices::messages() -> message ("warning", "Cannot delete the last legend. There must always be at least one legend available");
     }
 }
 

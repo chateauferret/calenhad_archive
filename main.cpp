@@ -10,7 +10,6 @@
 #include "CalenhadServices.h"
 #include "LegendRoster.h"
 #include "pipeline/GlobeRenderJob.h"
-#include "controls/CalenhadGlobe.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -74,7 +73,7 @@ int main (int argc, char **argv) {
     Calenhad* window = new Calenhad();
 
     // Message service
-    MessageFactory* factory = new MessageFactory();
+    QNotificationFactory* factory = new QNotificationFactory();
     factory -> setHost (window);
     CalenhadServices::provideMessages (factory);
     window -> setModel (model);

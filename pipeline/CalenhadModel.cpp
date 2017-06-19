@@ -2,6 +2,7 @@
 // Created by martin on 06/01/17.
 //
 
+#include <controls/QColoredIcon.h>
 #include "CalenhadModel.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../nodeedit/qneconnection.h"
@@ -121,7 +122,7 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
             if (target) {
                 target -> SetSourceModule (input -> index (), *source);
             } else {
-                CalenhadServices::messages() -> message ("", "No target owner");
+                CalenhadServices::messages() -> message ("error", "No target owner");
             }
         }
 
@@ -170,7 +171,6 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
 
 QGraphicsItem* CalenhadModel::itemAt (const QPointF& pos) {
     if (sceneRect().contains (pos)) {
-        std::cout << pos.x() << " " << pos.y() << "\n";
         return QGraphicsScene::itemAt (pos, QTransform ());
     } else return nullptr;
 }
@@ -355,7 +355,7 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
         _controller -> doCommand (command);
         return (QModule*) command -> node();
     } else {
-        CalenhadServices::messages() -> message ("", "Couldn't create owner of type " + type + "\n");
+        CalenhadServices::messages() -> message ("error", "Couldn't create owner of type " + type + "\n");
         return nullptr;
     }
 }
@@ -400,6 +400,7 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* 
         node -> setName ("New " + node -> nodeType());
     }
     b -> assignGroup();
+    b -> assignIcon();
     node -> invalidate ();
     return node;
 }
@@ -627,8 +628,8 @@ void CalenhadModel::inflate (const QDomDocument& doc) {
                 connectPorts (fromPort, toPort);
             } else {
                 // to do - message couldn't connect ports - but first need to implement connection names
-                if (! fromPort) { CalenhadServices::messages() -> message ("", "Couldn't connect source"); }
-                if (! toPort) { CalenhadServices::messages() -> message ("", "Couldn't connect target"); }
+                if (! fromPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect source"); }
+                if (! toPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect target"); }
             }
         }
     }

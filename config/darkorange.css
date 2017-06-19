@@ -41,12 +41,40 @@ Component:selected {
 	background-color: #c0c000;
 }
 
-QNEMessageBox {
+QNotification#info {
     border: 2px solid green;
     border-radius: 4px;
     padding: 2px;
-    background-color: #800080;
+    background-color: darkgreen;
 }
+
+QNotification#info > QLabel {
+    color: lightgreen;
+}
+
+QNotification#warning {
+    border: 2px solid orange;
+    border-radius: 4px;
+    padding: 2px;
+    background-color: gold;
+}
+
+QNotification#warning > QLabel {
+    color: black;
+}
+
+QNotification#error {
+    border: 2px solid darkred;
+    border-radius: 4px;
+    padding: 2px;
+    background-color: red;
+    color: yellow;
+}
+
+QNotification#error > QLabel {
+    color: yellow;
+}
+
 
 QNEMessageBox > QLabel {
     color: #000000;

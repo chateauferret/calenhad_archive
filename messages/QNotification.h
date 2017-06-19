@@ -14,25 +14,27 @@
 #include <QObject>
 #include <QtCore/QUuid>
 
-class QNEMessageBox : public QFrame {
+class QNotification : public QFrame {
     Q_OBJECT
 public:
-    QNEMessageBox (const QString& message, QWidget* parent);
-    ~QNEMessageBox();
+    QNotification (const QString& message, QWidget* parent, const QString& style="info");
+    ~QNotification();
     void showEvent (QShowEvent* e);
     void mousePressEvent (QMouseEvent* e);
     void setIndex (const int& index);
+    void setDuration (const int& duration);
     int id();
 
 public slots:
     void dismiss();
 
 signals:
-    void messageDismissed (int id);
+    void dismissed (int id);
 
 private:
     QTimer* _timer;
     QLabel* _message;
+    int _duration;
     int _id;
     static int nextId;
 };

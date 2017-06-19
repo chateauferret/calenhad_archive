@@ -108,7 +108,6 @@ void CalenhadView::dropEvent(QDropEvent *event) {
         QString type;
         //dataStream >> pixmap >> type;
         dataStream >> type;
-        std::cout << "Type " << type.toStdString () << "\n";
 
         QPointF pos = mapToScene (event -> pos());
         ((CalenhadModel*) scene()) -> addNode (pos, type);

@@ -18,7 +18,7 @@
 #include "../controls/QLogSpinBox.h"
 
 class CalenhadModel;
-class MessageFactory;
+class QNotificationFactory;
 class QToolBar;
 class QwtCounter;
 class QModule;

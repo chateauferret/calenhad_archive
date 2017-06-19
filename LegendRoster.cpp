@@ -95,18 +95,17 @@ void LegendRoster::serialise (QString filename) {
         legend -> serialise (doc);
     }
 
-    std::cout << doc.toString().toStdString();
     std::cout.flush();
     if (! file.open( QIODevice::WriteOnly | QIODevice::Text )) {
-        CalenhadServices::messages() -> message ("", "Failed to open file for writing");
+        CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
         return;
     }
 
     ds << doc.toString();
 
     file.close();
-    MessageService* service = CalenhadServices::messages();
-    CalenhadServices::messages() -> message ("", "Wrote file " + filename);
+    QMessageService* service = CalenhadServices::messages();
+    CalenhadServices::messages() -> message ("info", "Wrote file " + filename);
     _filename = filename;
     _dirty = false;
 

@@ -45,13 +45,19 @@ void Preferences::loadSettings() {
     calenhad_nodegroup_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
     calenhad_altitudemap_deletemargin = _settings -> value ("calenhad/altitude/deletemargin", 0.2).toUInt();
     calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/ClionProjects/calenhad/config/legends.xml").toString ();
+    calenhad_toolpalette_icon_color_shadow = _settings -> value ("calenhad/toolpalette/icon/color/shadow", "#505050").value<QColor>();
+    calenhad_toolpalette_icon_color_normal = _settings -> value ("calenhad/toolpalette/icon/color/normal", "#000000").value<QColor>();
+    calenhad_toolpalette_icon_color_mouseover = _settings -> value ("calenhad/toolpalette/icon/color/mouseover", "#0000FF").value<QColor>();
 
-    // Geometry
+            // Geometry
 
     calenhad_port_radius = _settings -> value ("calenhad/port/radius", 5).toUInt();
-    calenhad_port_margin = _settings -> value ("calenhad/port/_margin", 2).toUInt();
+    calenhad_port_margin = _settings -> value ("calenhad/port//margin", 2).toUInt();
     calenhad_module_duplicate_offset_x = _settings -> value ("calenhad/module/duplicate/offset/x", 64).toUInt();
-    calenhad_module_duplicate_offset_y = _settings -> value ("calenhad_module_duplicate_offset_y", 64).toUInt();
+    calenhad_module_duplicate_offset_y = _settings -> value ("calenhad/module/duplicate/offset/y", 64).toUInt();
+    calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 32).toUInt();
+    calenhad_handle_module_height = _settings -> value ("calenhad/handle/module/height", calenhad_handle_module_width).toUInt();
+    calenhad_handle_module_margin = _settings -> value ("calenhad/handle/module/margin", 2).toUInt();
 
     // Module names
 
@@ -85,7 +91,10 @@ void Preferences::loadSettings() {
     calenhad_module_icospheremap = _settings -> value ("calenhad/owner/icospheremap", "Icosphere map").toString();
     calenhad_module_altitudemap = _settings -> value ("calenhad/owner/altitudemap", "Altitude map").toString();
     calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "NodeGroup").toString();
-
+    calenhad_toolpalette_icon_size = _settings -> value ("calenhad/toolpalette/icon/size", 24).toInt();
+    calenhad_toolpalette_icon_margin = _settings -> value ("calenhad/toolpalette/icon/margin", 4).toInt();
+    calenhad_toolpalette_icon_shadow = _settings -> value ("calenhad/toolpalette/icon/shadow", 2).toInt();
+    calenhad_toolpalette_arrow_size = _settings -> value ("calenhad/toolpalette/arrow/size", 16).toInt();
 }
 
 void Preferences::saveSettings() {
@@ -120,13 +129,25 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/altitudemap/deletemargin", calenhad_altitudemap_deletemargin);
     _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
     _settings -> setValue ("calenhad/nodegroup", calenhad_nodegroup);
+    _settings -> setValue ("calenhad/toolpalette/icon/color/shadow", calenhad_toolpalette_icon_color_shadow);
+    _settings -> setValue ("calenhad/toolpalette/icon/color/normal", calenhad_toolpalette_icon_color_normal);
+    _settings -> setValue ("calenhad/toolpalette/icon/color/mouseover", calenhad_toolpalette_icon_color_mouseover);
 
     // Geometry
 
     _settings -> setValue ("calenhad/port/radius", calenhad_port_radius);
-    _settings -> setValue ("calenhad/port/_margin", calenhad_port_margin);
+    _settings -> setValue ("calenhad/port/margin", calenhad_port_margin);
     _settings -> setValue ("calenhad/module/duplicate/offset/x", calenhad_module_duplicate_offset_x);
-    _settings -> setValue ("calenhad_module_duplicate_offset_y", calenhad_module_duplicate_offset_y);
+    _settings -> setValue ("calenhad/module/duplicate/offset/y", calenhad_module_duplicate_offset_y);
+    _settings -> setValue ("calenhad/toolpalette/arrow/size", calenhad_toolpalette_arrow_size);
+    _settings -> setValue ("calenhad/toolpalette/icon/size", calenhad_toolpalette_icon_size);
+    _settings -> setValue ("calenhad/toolpalette/icon/margin", calenhad_toolpalette_icon_margin);
+    _settings -> setValue ("calenhad/toolpalette/icon/shadow", calenhad_toolpalette_icon_shadow);
+    _settings -> setValue ("calenhad/toolpalette/arrow/size", calenhad_toolpalette_arrow_size);
+    _settings -> setValue ("calenhad/handle/module/width",  calenhad_handle_module_width);
+    _settings -> setValue ("calenhad/handle/module/height", calenhad_handle_module_height);
+    _settings -> setValue ("calenhad/handle/module/margin",  calenhad_handle_module_margin);
+
 
     // Modules
 

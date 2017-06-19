@@ -6,10 +6,10 @@
 #define CALENHAD_MESSAGESERVICE_H
 #include <QObject>
 
-class MessageService : public QObject {
+class QMessageService : public QObject {
     Q_OBJECT
 public:
-    virtual int message (const QString& title, const QString& message) = 0;
+    virtual int message (const QString& title, const QString& message, const int& duration = 10000) = 0;
     virtual void setHost (QWidget* host) = 0;
 };
 

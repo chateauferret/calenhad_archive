@@ -94,7 +94,7 @@ void LegendWidget::updateName() {
             _legend -> setName (_legendNameBox->text ());
             emit nameChanged (_legend -> name());
         } else {
-            CalenhadServices::messages ()->message ("Cannot change legend name", "Legend with name " + _legendNameBox->text () + " already exists");
+            CalenhadServices::messages ()->message ("warning", "Cannot change legend name. Legend with name " + _legendNameBox->text () + " already exists");
             _legendNameBox->setText (_legend -> name());
         }
     }

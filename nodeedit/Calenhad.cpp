@@ -27,13 +27,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 
 #include "../preferences.h"
-#include "../messagefactory.h"
+#include "messages/QNotificationFactory.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "CalenhadView.h"
 #include "../nodeedit/qnetoolbox.h"
 #include "../CalenhadServices.h"
-#include "../controls/NodePalette.h"
+#include "controls/QIconPalette.h"
 
 using namespace icosphere;
 
@@ -76,11 +76,14 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
 
     // for now an icon to drag a new group onto the workspace
-    QDockWidget* iconsDock = new QDockWidget ("Palette", this);
+    QDockWidget* iconsDock = new QDockWidget ("Modules", this);
     iconsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
-    NodePalette* iconsPanel = new NodePalette (this);
+    QIconPalette* iconsPanel = new QIconPalette (this);iconsPanel -> show();
+
     iconsDock -> setWidget (iconsPanel);
+    iconsDock -> layout() -> setAlignment (Qt::AlignLeft);
     connect (iconsDock, SIGNAL (dockLocationChanged (Qt::DockWidgetArea)), iconsPanel, SLOT (moved (Qt::DockWidgetArea)));
+    connect (iconsDock, &QDockWidget::topLevelChanged, this, [=] () { iconsPanel -> moved (Qt::NoDockWidgetArea); });
     connect (iconsDock, &QDockWidget::topLevelChanged, this, [=] () { iconsPanel -> moved (Qt::NoDockWidgetArea); });
     addDockWidget (Qt::LeftDockWidgetArea, iconsDock);
 
@@ -157,14 +160,14 @@ void Calenhad::saveFile() {
     std::cout << doc.toString().toStdString();
     std::cout.flush();
     if (! file.open( QIODevice::WriteOnly | QIODevice::Text )) {
-        CalenhadServices::messages() -> message ("", "Failed to open file for writing");
+        CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
         return;
     }
 
     ds << doc.toString();
     file.close();
-    MessageService* service = CalenhadServices::messages();
-    CalenhadServices::messages() -> message ("", "Wrote file " + fname);
+    QMessageService* service = CalenhadServices::messages();
+    CalenhadServices::messages() -> message ("info", "Wrote file " + fname);
     _lastFile = fname;
 }
 

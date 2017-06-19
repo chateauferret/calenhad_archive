@@ -37,7 +37,7 @@ class CalenhadView;
 class CalenhadModel;
 class QNEToolBox;
 class Preferences;
-class MessageFactory;
+class QNotificationFactory;
 class QNode;
 class Legend;
 
@@ -66,7 +66,7 @@ private:
     QString _lastFile;
     QMap<QString, Legend*> _legends;
 
-    //void readMetadata (const QDomDocument& doc, MessageFactory* messages);
+    //void readMetadata (const QDomDocument& doc, QNotificationFactory* messages);
 
     bool readXml (const QString& fname, QDomDocument& doc);
 };
