@@ -87,14 +87,13 @@ set(SOURCE_FILES ${SOURCE_FILES}
         ${MAPPING_SOURCE_FILES}
         ${LIBNOISEUTILS_SOURCE_FILES}
         ${ICOSPHERE_SOURCE_FILES}
-
-        libnoiseutils/IcosphereModule.cpp libnoiseutils/IcosphereModule.h)
+        )
 
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 MESSAGE (STATUS "Resources dir " ${RESOURCES})
 add_library (core ${SOURCE_FILES} controls/QColoredIcon.cpp controls/QColoredIcon.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} controls/QColoredIcon.cpp controls/QColoredIcon.h icosphere/icosphere.cpp icosphere/icosphere.h icosphere/Model.cpp icosphere/Model.h icosphere/Bounds.cpp icosphere/Bounds.h libnoiseutils/Tectonics.cpp libnoiseutils/Tectonics.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} )
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Marble messages

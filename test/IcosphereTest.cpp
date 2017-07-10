@@ -54,6 +54,7 @@ void IcosphereTest::initTestCase() {
     legend -> setEntries (entries);
     roster -> provide (legend);
     _icosphere = std::make_shared<Icosphere> (7);
+    _icosphere -> assemble();
 
 }
 
@@ -82,6 +83,7 @@ void IcosphereTest::buildSpeed() {
     for (int i = 2; i != 7; i++) {
         //QBENCHMARK {
             Icosphere* ico = new Icosphere (i);
+            ico -> assemble();
             delete ico;
         //}
     }
@@ -157,7 +159,8 @@ void IcosphereTest::icosphereBoundsTest() {
     QFETCH (bool, crossesDateline);
 
     icosphere::Bounds bounds (degreesToRadians (n), degreesToRadians (s), degreesToRadians (e), degreesToRadians (w));
-    Icosphere* ico = new Icosphere (8, bounds);
+    Icosphere* ico = new Icosphere (8);
+    ico -> assemble (bounds);
     qDebug() << "Estimate: " << bounds.estimateVertexCount (8);
     QCOMPARE (bounds.crossesDateLine(), crossesDateline);
     QCOMPARE (ico -> vertexCount(), (unsigned) count);

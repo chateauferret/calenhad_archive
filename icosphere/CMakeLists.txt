@@ -12,4 +12,6 @@ SET(ICOSPHERE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/icosphere.h
         ${CMAKE_CURRENT_LIST_DIR}/icosphere.cpp
         ${CMAKE_CURRENT_LIST_DIR}/Model.h
-        ${CMAKE_CURRENT_LIST_DIR}/Model.cpp)
+        ${CMAKE_CURRENT_LIST_DIR}/Model.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/IcosphereDivider.h
+        ${CMAKE_CURRENT_LIST_DIR}/IcosphereDivider.cpp)

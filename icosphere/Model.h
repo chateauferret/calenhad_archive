@@ -18,11 +18,7 @@ namespace icosphere {
 class Model : public QObject {
 Q_OBJECT
 public:
-    static constexpr double X = 0.525731112119133606;
-    static constexpr double Z = 0.850650808352039932;
-    static constexpr double PI = 3.141592653589793;
-    static constexpr double TWO_PI = 6.283185307179586;
-    static constexpr double HALF_PI = 1.570796326794896;
+
 
     Model (const unsigned& depth = 8);
     virtual ~Model();
