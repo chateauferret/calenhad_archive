@@ -104,7 +104,7 @@ void LegendRoster::serialise (QString filename) {
     ds << doc.toString();
 
     file.close();
-    QMessageService* service = CalenhadServices::messages();
+    QNotificationService* service = CalenhadServices::messages();
     CalenhadServices::messages() -> message ("info", "Wrote file " + filename);
     _filename = filename;
     _dirty = false;

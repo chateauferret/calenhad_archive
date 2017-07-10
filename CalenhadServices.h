@@ -8,7 +8,7 @@
 
 #include <pipeline/ModuleFactory.h>
 #include "preferences.h"
-#include "messages/QNotificationFactory.h"
+#include "messages/QNotificationStack.h"
 #include "LegendService.h"
 #include "ProjectionService.h"
 #include "StatisticsService.h"
@@ -19,21 +19,21 @@ class CalenhadServices {
 
 public:
     static PreferencesService* preferences();
-    static QMessageService* messages();
+    static QNotificationService* messages();
     static LegendService* legends();
     static ProjectionService* projections();
     static StatisticsService* statistics();
     static ModuleFactory* modules();
 
     static void providePreferences (PreferencesService* service);
-    static void provideMessages (QMessageService* service);
+    static void provideMessages (QNotificationService* service);
     static void provideLegends (LegendService* service);
     static void provideProjections (ProjectionService* service);
     static bool readXml (const QString& fname, QDomDocument& doc);
 
 private:
     static PreferencesService* _preferences;
-    static QMessageService* _messages;
+    static QNotificationService* _messages;
     static LegendService* _legends;
     static ProjectionService* _projections;
     static StatisticsService* _statistics;

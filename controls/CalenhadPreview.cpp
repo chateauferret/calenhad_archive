@@ -57,7 +57,7 @@ void CalenhadPreview::render() {
 }
 
 ImageRenderJob* CalenhadPreview::prepareRender() {
-    ImageRenderJob* job = new ImageRenderJob (_bounds, _source -> module(), _source -> legend());
+    ImageRenderJob* job = new ImageRenderJob (_bounds, _source, _source -> legend());
     int height = renderSize().height();
     int width = (int) (renderSize().height() * _ratio);
     std::shared_ptr<QImage> image = std::make_shared<QImage> (width, height, QImage::Format_ARGB32);

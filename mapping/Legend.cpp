@@ -7,12 +7,12 @@
 #include "../CalenhadServices.h"
 
 
-Legend::Legend (const QString& name) : _interpolate (true), _name (name), _notes (QString()) {
-    _widget = new LegendWidget (this);
+Legend::Legend (const QString& name) : _interpolate (true), _name (name), _notes (QString()), _widget (nullptr) {
+
 
 }
 
-Legend::Legend (const Legend& other) : _interpolate (other._interpolate), _notes (other._notes) {
+Legend::Legend (const Legend& other) : _interpolate (other._interpolate), _notes (other._notes), _widget (nullptr) {
     setEntries (other.entries());
     QString name;
     int n = 0;
@@ -35,18 +35,17 @@ int Legend::size() {
 }
 
 QColor Legend::lookup (const double& index) {
-
     if (_interpolate) {
         std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
             return entry.first <= index;
         });
-        QColor color = interpolateColors (i, i--, index);
+        QColor color = interpolateColors (i, --i, index);
         return color;
     } else {
         std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
             return entry.first <= index;
         });
-        return (i--) -> second;
+        return (--i) -> second;
     }
 }
 
@@ -120,6 +119,9 @@ void Legend::clear() {
 }
 
 LegendWidget* Legend::widget() {
+    if (! _widget) {
+        _widget = new LegendWidget (this);
+    }
     return _widget;
 }
 

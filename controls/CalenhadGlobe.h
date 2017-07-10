@@ -13,7 +13,6 @@
 #include <QTimer>
 #include <QSlider>
 #include <qwt/qwt_slider.h>
-#include <qwt/qwt_thermo.h>
 #include "libnoise/model/sphere.h"
 
 class CalenhadOverviewMap;
@@ -21,7 +20,6 @@ class CalenhadLayer;
 class CalenhadNavigator;
 class CalenhadGlobeContextMenu;
 class CalenhadGlobeConfigDialog;
-
 
 namespace Marble {
     class MarbleMap;
@@ -93,8 +91,6 @@ public slots:
     void updateConfig();
     void goTo (const GeoDataCoordinates& target);
     void setProjection (const Projection& projection);
-    void setProgress (const int& progress);
-
 
 signals:
     void resized (const QSize& size);
@@ -131,12 +127,9 @@ protected:
     static QMap<QString, Marble::Projection> projections;
 
     Projection _projection;
-    QwtThermo* _progressBar;
-    int _progress;
     QMutex mutex;
     bool _rendering;
     int pass = 0;
-    const int& getProgress ();
 
     CoordinatesFormat _coordinatesFormat;
     DatumFormat _datumFormat;

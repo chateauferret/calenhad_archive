@@ -6,6 +6,7 @@
 #include "TileProducer.h"
 #include "../httpserver/CalenhadRequestHandler.h"
 #include "../mapping/GeoSceneEquirectTileProjection.h"
+#include "../pipeline/ImageRenderJob.h"
 #include <QThread>
 
 

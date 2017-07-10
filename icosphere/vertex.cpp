@@ -126,12 +126,12 @@ Cartesian Vertex::getCartesian() const { return _cartesian; }
 unsigned Vertex::getLevel() const { return _level; }
 
 bool Vertex::isInBounds (const icosphere::Bounds& bounds) {
-    if (bounds.lon2 > bounds.lon1) {
-        if (_geolocation.longitude < bounds.lon1 || _geolocation.longitude > bounds.lon2) {
+    if (bounds.east() > bounds.west()) {
+        if (_geolocation.longitude < bounds.west() || _geolocation.longitude > bounds.east()) {
             return false;
         }
     } else {
-        if (_geolocation.longitude >= bounds.lon1 && _geolocation.longitude <= bounds.lon2) {
+        if (_geolocation.longitude >= bounds.west() && _geolocation.longitude <= bounds.east()) {
             return false;
         }
     }
@@ -140,7 +140,7 @@ bool Vertex::isInBounds (const icosphere::Bounds& bounds) {
         return false;
     }
 
-    return (_geolocation.latitude >= bounds.lat2 && _geolocation.latitude <= bounds.lat1 );
+    return (_geolocation.latitude >= bounds.east() && _geolocation.latitude <= bounds.west() );
 }
 
 

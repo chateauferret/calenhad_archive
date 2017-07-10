@@ -37,7 +37,7 @@ class CalenhadView;
 class CalenhadModel;
 class QNEToolBox;
 class Preferences;
-class QNotificationFactory;
+class QNotificationStack;
 class QNode;
 class Legend;
 

@@ -9,7 +9,7 @@
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
 #include "../controls/AltitudeMapEditor.h"
-#include "messages/QNotificationFactory.h"
+#include "messages/QNotificationStack.h"
 #include "../controls/AltitudeMapPlot.h"
 #include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"

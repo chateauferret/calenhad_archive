@@ -73,11 +73,11 @@ int main (int argc, char **argv) {
     Calenhad* window = new Calenhad();
 
     // Message service
-    QNotificationFactory* factory = new QNotificationFactory();
-    factory -> setHost (window);
-    CalenhadServices::provideMessages (factory);
+    QNotificationStack* notifications = new QNotificationStack (preferences -> calenhad_notifications_width, window);
+    CalenhadServices::provideMessages (notifications);
     window -> setModel (model);
     window -> show();
+    notifications -> show();
 
     // set up web service endpoint
     //QSettings* listenerSettings = new QSettings("/home/martin/.config/calenhad/webapp1.ini", QSettings::IniFormat, &app);

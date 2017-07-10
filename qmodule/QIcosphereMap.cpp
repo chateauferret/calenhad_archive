@@ -5,6 +5,8 @@
 #include "QIcosphereMap.h"
 #include "../pipeline/CalenhadModel.h"
 #include <QThread>
+#include <messages/QProgressNotification.h>
+#include <libnoiseutils/IcosphereBuilder.h>
 #include "../nodeedit/qneconnection.h"
 #include "../nodeedit/Calenhad.h"
 #include "../preferences.h"
@@ -14,7 +16,7 @@ using namespace noise::module;
 using namespace noise::utils;
 using namespace icosphere;
 
-QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule (nullptr), _depth (5), _bounds (Bounds()), _icosphere (nullptr) {
+QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule (new IcosphereModule()), _depth (5), _bounds (Bounds()) {
 
 }
 
@@ -22,6 +24,7 @@ QIcosphereMap::~QIcosphereMap () { }
 
 void QIcosphereMap::initialise() {
     QModule::initialise();
+
     _depthSpin = countParameterControl ("Depth");
     _depthSpin -> setMinimum (3);
     _depthSpin -> setMaximum (13);
@@ -32,40 +35,35 @@ void QIcosphereMap::initialise() {
     _contentLayout -> addRow (tr ("Depth"), _depthSpin);
     _isInitialised = true;
 
-    connect (this, SIGNAL (icosphereChangeRequested()), this, SLOT (buildIcosphere()));
-    connect (this, SIGNAL (initialised()), this, SLOT (buildIcosphere()));
+    connect (this, SIGNAL (icosphereChangeRequested()), this, SLOT (generateMap()));
+    connect (this, SIGNAL (initialised()), this, SLOT (generateMap()));
     connect (_ports [0], &QNEPort::connected, this, &QIcosphereMap::generateMap);
     setBounds (_bounds);
     setIcosphereDepth (_depth);
-
     emit initialised();
 }
 
-void QIcosphereMap::generateMap() {
-    if (! _module) {
-        IcosphereMap* map = new IcosphereMap ();
-        _module = map;
-    }
+bool QIcosphereMap::generateMap() {
+
+    //int estimate = _bounds.estimateVertexCount (_depth);
+
     QNEPort* port = _ports [0];
     if (! (port -> connections().isEmpty ())) {
         QNEConnection* c = port -> connections() [0];
         QNEPort* p = c -> port1 () == _ports[0] ? c -> port2() : c -> port1();
         Module* source = ((QModule*) p -> owner()) -> module();
         if (source) {
-            _module -> SetSourceModule (0, *source);
-            connect ((IcosphereMap*) _module, SIGNAL (available (std::shared_ptr<icosphere::Icosphere>)), this, SLOT (icosphereBuilt (std::shared_ptr<icosphere::Icosphere>)));
-            connect (this, SIGNAL (nodeChanged()), (IcosphereMap*) _module, SLOT (cancelBuild()));
-            ((IcosphereMap*) _module) -> buildIcosphere (_depth, _bounds);
+            ((IcosphereModule*) _module) -> SetSourceModule (0, *source);
+            ((IcosphereModule*) _module) -> setKey (_key);
+            ((IcosphereModule*) _module) -> buildIcosphere (_bounds, _depth);
+            _vertexCountLabel -> setText (QString::number (((IcosphereModule*) _module) -> vertexCount ()) + " vertices generated");
+            emit nodeChanged();
+            return true;
+        } else {
+            return false;
         }
-    }
-}
-
-void QIcosphereMap::buildIcosphere () {
-    generateMap ();
-    if (_icosphere) {
-        _vertexCountLabel -> setText (QString::number (_icosphere->vertexCount ()) + " vertices generated");
     } else {
-        _vertexCountLabel -> setText ("No vertices generated");
+        return false;
     }
 }
 
@@ -89,17 +87,9 @@ void QIcosphereMap::setIcosphereDepth (const unsigned& depth) {
     }
 }
 
-void QIcosphereMap::icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosphere) {
-    if (icosphere != _icosphere) {
-        _icosphere = icosphere;
-    }
-    _vertexCountLabel -> setText (QString::number (_icosphere -> vertexCount ()) + " vertices generated");
-    emit nodeChanged();
-}
-
 void QIcosphereMap::setBounds (const icosphere::Bounds& bounds) {
     _bounds = bounds;
-    generateMap();
+    //generateMap();
     emit icosphereChangeRequested();
 }
 
@@ -108,10 +98,6 @@ bool QIcosphereMap::isRenderable() {
     return _module != nullptr && QNode::isRenderable();
 }
 
-IcosphereMap* QIcosphereMap::module () {
-    IcosphereMap* map = dynamic_cast<IcosphereMap*> (_module);
-    return map;
-}
 
 QIcosphereMap* QIcosphereMap::newInstance() {
     QIcosphereMap* qm = new QIcosphereMap();
@@ -147,8 +133,7 @@ void QIcosphereMap::inflate (const QDomElement& element) {
     if (ok) { lat2 = latlonElement2.attributeNode ("lat").value ().toDouble (&ok); }
     if (ok) { lon2 = latlonElement2.attributeNode ("_lon").value ().toDouble (&ok); }
     if (ok) {
-        bool crossesDateline = boundsElement.attributeNode ("crossesDateline").value ().toLower () == "y";
-        Bounds bounds = Bounds (lat1, lat2, lon1, lon2, crossesDateline);
+        Bounds bounds = Bounds (lat1, lat2, lon1, lon2);
         setBounds (bounds);
     }
 }
@@ -160,15 +145,15 @@ void QIcosphereMap::serialise (QDomDocument& doc) {
     _element.appendChild (boundsElement);
     QDomElement latlonElement = doc.createElement ("geolocation");
     boundsElement.appendChild (latlonElement);
-    latlonElement.setAttribute ("lat", _bounds.lat1);
-    latlonElement.setAttribute ("_lon", _bounds.lon1);
+    latlonElement.setAttribute ("lat", _bounds.south());
+    latlonElement.setAttribute ("_lon", _bounds.west());
     latlonElement = doc.createElement ("geolocation");
     boundsElement.appendChild (latlonElement);
-    latlonElement.setAttribute ("lat", _bounds.lat2);
-    latlonElement.setAttribute ("_lon", _bounds.lon2);
-    boundsElement.setAttribute ("crossesDateline", _bounds._crossesDateline ? "y" : "n");
+    latlonElement.setAttribute ("lat", _bounds.north());
+    latlonElement.setAttribute ("_lon", _bounds.east());
+    boundsElement.setAttribute ("crossesDateline", _bounds.crossesDateLine() ? "y" : "n");
 }
 
-int QIcosphereMap::icosphereDepth () {
-    return _depth;
+IcosphereModule* QIcosphereMap::module () {
+    return (IcosphereModule*) _module;
 }

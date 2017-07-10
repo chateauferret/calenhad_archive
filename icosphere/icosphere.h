@@ -1,86 +1,99 @@
-#ifndef ICOSPHERE_H
-#define ICOSPHERE_H
+#ifndef ICOSPHERE_OLD_H
+#define ICOSPHERE_OLD_H
 #include <iostream>
-#include <QImage>
-#include <QUuid>
-#include <set>
-#include <experimental/optional>
-#include <GeographicLib/Rhumb.hpp>
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/Geodesic.hpp>
+#include <GeographicLib/Rhumb.hpp>
+#include <vector>
+#include <map>
+#include "vertex.h"
 #include "../geoutils.h"
-#include "icosphereutils.h"
-#include "../qmodule/QModule.h"
+#include <QBuffer>
+#include <QImage>
+#include "../mapping/Legend.h"
+#include "triangle.h"
+#include <boost/multiprecision/cpp_int.hpp>
+#include <QtCore/QMutex>
+#include "Model.h"
 #include "Bounds.h"
 
-class Legend;
+using namespace geoutils;
+
+namespace noise {
+    namespace module {
+        class Module;
+    }
+}
+
 namespace icosphere {
-    class Vertex;
-    class Triangle;
 
-
-    class Icosphere : public QObject {
-        Q_OBJECT
+    class Icosphere : public Model {
+    Q_OBJECT
     public:
-        Icosphere();
-        Icosphere (const char& depth, const Bounds& bounds = Bounds());
-        ~Icosphere ();
-        const std::vector<Vertex*> vertices ();
+
+        //--------------------------------------------------------------------------------
+        // icosahedron data
+        //--------------------------------------------------------------------------------
+
+
+        static constexpr double vdata[12][3] = {
+                {-X, 0.0, Z}, {X, 0.0, Z}, {-X, 0.0, -Z}, {X, 0.0, -Z},
+                {0.0, Z, X}, {0.0, Z, -X}, {0.0, -Z, X}, {0.0, -Z, -X},
+                {Z, X, 0.0}, {-Z, X, 0.0}, {Z, -X, 0.0}, {-Z, -X, 0.0}
+        };
+
+        static constexpr unsigned tindices[20][3] = {
+                {0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
+                {8,10,1}, {8,3,10}, {5,3,8}, {5,2,3}, {2,7,3},
+                {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
+                {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11} };
+
+        Icosphere (const int& depth);
+        ~Icosphere();
+        const std::vector<Vertex*> vertices();
         const std::vector<unsigned>& indices (const unsigned int& level);
         unsigned vertexCount();
-        Vertex* operator[] (const unsigned& id);
-        Vertex* nearest (const geoutils::Geolocation& target, const unsigned int& depth = 0) const;
-        Vertex* nearest (const geoutils::Cartesian& target, const unsigned int& depth = 0) const;
+        Vertex* operator [] (const unsigned& id);
+        Vertex* nearest (const Geolocation& target, const unsigned int& depth = 0) const;
+        Vertex* walkTowards (const Geolocation& target, const unsigned int& depth = 0) const;
+        Vertex* walkTowards (const Cartesian& target, const unsigned int& depth = 0) const;
         void visit (Vertex* vertex);
-        double distance (const geoutils::Geolocation& from, const geoutils::Geolocation& unto) const;
-        double loxodrome (const geoutils::Geolocation& from, const geoutils::Geolocation& unto);
-        std::experimental::optional<double> getDatum (const geoutils::Geolocation& g, const QString& key);
-        std::experimental::optional<double> getDatum (const geoutils::Cartesian& c, const QString& key);
-        bool setDatum (const geoutils::Geolocation& g, const QString& key, const double& datum);
-        bool setDatum (const geoutils::Cartesian& c, const QString& key, const double& datum);
-        bool getImage (QImage* image, const icosphere::Bounds& bounds, const QString& key, Legend* legend);
-        bool coversTriangle (const geoutils::Geolocation& a, const geoutils::Geolocation& b, const geoutils::Geolocation& c, const Bounds& bounds) const;
-        bool coversTriangle (const geoutils::Geolocation& a, const geoutils::Geolocation& b, const geoutils::Geolocation& c) const;
-        int getCountInBounds();
-        int getCountMerged();
-        const char& depth();
+        bool getImage (QImage* image, Legend* legend, const Bounds& bounds);
+        // override virtual methods
+        void setDatum (const Geolocation& g, const QString& key, double datum) override;
+        double getDatum (const Geolocation& g, const QString& key) override;
+        std::string getType();
+        const unsigned depth();
         const Bounds& bounds();
+        void lock();
+        void unlock();
+        void assemble (const Bounds& bounds = Bounds());
+
+    signals:
+        void progress (const int&);
 
     protected:
-
-        void subdivide (const unsigned int& level);
-        Vertex* walkTowards (const geoutils::Geolocation& target, const unsigned int& depth = 0) const;
-        Vertex* walkTowards (const geoutils::Cartesian& target, const unsigned int& depth = 0) const;
-        // pointers for temporary use
+        void subdivide (const unsigned int &level);
         std::vector<Vertex*> _vertices;
         std::vector<std::vector<unsigned>*> _indices;
         std::vector<unsigned> _listIds;
+        std::map<boost::uint128_type, Triangle*> _triangles;
         mutable Vertex* _vertex;
         mutable Vertex* _lastVisited;
-
-        std::map<uint128_t, Triangle*> _triangles;
-        Bounds _bounds;
-
-        int _countInBounds, _merged;
         void makeTriangle (std::vector<unsigned>& refinedIndices, const unsigned& a, const unsigned& b, const unsigned& c, const unsigned int& level, Triangle* parent);
-        void addTriangle (const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent);
-        uint128_t triangleKey (unsigned a, unsigned b, unsigned c);
+        void addTriangle (const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* nparent);
+        boost::uint128_type _triangleKey (unsigned a, unsigned b, unsigned c);
         void makeNeighbours (const unsigned& p, const unsigned& q);
-        bool isInBounds (const geoutils::Geolocation& a, const Bounds& bounds) const;
-        bool isInTriangle (const geoutils::Geolocation& p1, const geoutils::Geolocation& p2, const geoutils::Geolocation& p3, double lon, double lat) const;
+        Bounds _bounds = Bounds();
+        bool coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c, const Bounds& bounds) const;
+        bool coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c) const;
+        bool _locked;
+        QMutex _lockMutex;
 
-        void addVertex (Vertex* v);
-        void insertNewVertex (Vertex* v);
-        void deleteTriangle (Triangle* t);
-        char _depth;
-        GeographicLib::Geocentric* _gc;
-        GeographicLib::Rhumb* _rhumb;
-        GeographicLib::Geodesic* _gd;
-    };
 
-    class IllegalIcosphereAccessException : std::runtime_error {
-    public:
-        IllegalIcosphereAccessException (const std::string& msg) : std::runtime_error (msg) {}
+
+        void purge ();
+        double _toDo;
     };
-}
-#endif // ICOSPHERE_H
+} // namespace
+#endif // ICOSPHERE_OLD_H

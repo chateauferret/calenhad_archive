@@ -15,10 +15,10 @@
 #define GEOUTILS_H
 
 // Converts degrees to radians.
-#define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
+#define degreesToRadians(angleDegrees) ((angleDegrees * M_PI) / 180.0)
 
 // Converts radians to degrees.
-#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
+#define radiansToDegrees(angleRadians) ((angleRadians * 180.0) / M_PI)
 
 
 

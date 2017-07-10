@@ -6,16 +6,13 @@
 #define CALENHAD_BOUNDS_H
 
 #include <math.h>
+#include "marble/GeoDataLatLonBox.h"
 namespace icosphere {
-    class Bounds {
+    class Bounds : public Marble::GeoDataLatLonBox {
     public:
-        // in radians
-        Bounds (double n = M_PI, double s = -M_PI, double w = -M_PI * 2, double e = M_PI * 2, bool crossesDateline = false);
-        double lat1, lat2, lon1, lon2;
-        bool _crossesDateline;
-        bool operator== (const Bounds& other);
-        bool operator!= (const Bounds& other);
-        int estimateVertexCount (const int& level);
+        Bounds (double n = M_PI_2, double s = -M_PI_2, double e = M_PI, double w = - M_PI);
+        int estimateVertexCount (const int& level)const;
+
     };
 }
 

@@ -3,11 +3,13 @@
 //
 
 #include <QtCore/QThread>
+#include <iostream>
 #include "RenderJob.h"
+#include "../icosphere/icosphere.h"
 
-RenderJob::RenderJob (const Marble::GeoDataLatLonBox& bounds, noise::module::Module* source, Legend* legend) : QObject(),
+RenderJob::RenderJob (const Marble::GeoDataLatLonBox& bounds, QModule* module, Legend* legend) : QObject(),
     _bounds (bounds),
-    _source (source),
+    _module (module),
     _legend (legend),
     _abandoned (false) {
 
@@ -15,24 +17,24 @@ RenderJob::RenderJob (const Marble::GeoDataLatLonBox& bounds, noise::module::Mod
 
 RenderJob::~RenderJob() { }
 
-bool RenderJob::canRender (const noise::module::Module* source) {
+bool RenderJob::canRender (const Module* module) {
     // Only render if all the inputs to all the upstream noise modules are satisfied. If they are not,
     // attempting to render would cause any owner without an expected input to fail an assertion and crash the application.
-    if (source && _legend) {
-        int inputs = source -> GetSourceModuleCount ();
-        if (inputs == 0) {
-            return true;
-        }
-        for (int i = 0; i < inputs; i++) {
-            try {
-                if (! canRender (& (source -> GetSourceModule (i)))) {
+    if (module && _legend) {
+        // make sure all predecessor modules have inputs
+        int inputs = module-> GetSourceModuleCount();
+        if (inputs != 0) {
+            for (int i = 0; i < inputs; i++) {
+                try {
+                    if (!canRender (&(module->GetSourceModule (i)))) {
+                        return false;
+                    }
+                } catch (noise::ExceptionNoModule e) {
                     return false;
                 }
-            } catch (noise::ExceptionNoModule e) {
-                return false;
             }
         }
-        return true;
+        return true; //_module -> generateMap();
     } else {
         return false;
     }
@@ -41,6 +43,7 @@ bool RenderJob::canRender (const noise::module::Module* source) {
 void RenderJob::abandon() {
     QMutexLocker locker (&_abandonMutex);
     _abandoned = true;
+    emit abandoned();
 }
 
 bool RenderJob::isAbandoned () {

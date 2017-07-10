@@ -10,7 +10,7 @@ QExpander::QExpander (const QString& title, QWidget* parent) : QToolBar (parent)
     _button -> setText (title);
     _button -> setCheckable (true);
     _button -> setChecked (true);
-    addWidget (_button);*/
+    addNotification (_button);*/
     setOrientation (Qt::Vertical);
 }
 

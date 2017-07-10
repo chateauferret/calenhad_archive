@@ -7,12 +7,12 @@
 
 
 #include "QModule.h"
-#include "../icosphere/icosphere.h"
 #include "../icosphere/Bounds.h"
 #include <memory>
 #include <QPushButton>
-#include "../libnoiseutils/icospheremap.h"
-
+#include <QLabel>
+#include <icosphere/icosphere.h>
+#include <libnoiseutils/IcosphereModule.h>
 
 namespace icosphere {
     class Icosphere;
@@ -30,32 +30,35 @@ public:
     virtual ~QIcosphereMap();
     void initialise() override;
     bool isRenderable() override;
-    IcosphereMap* module() override;
+    IcosphereModule* module() override;
     QIcosphereMap* clone () override;
     QString nodeType () override;
     void setIcosphereDepth (const unsigned& depth);
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
-    int icosphereDepth();
+
+    //void icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosphere);
 
 public slots:
-    void icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosphere);
     void setIcosphereDepth();
     void setBounds (const icosphere::Bounds&);
-    void generateMap();
-    void buildIcosphere ();
+    virtual bool generateMap() override;
+    //void buildIcosphere ();
 
 signals:
+    void complete (std::shared_ptr<icosphere::Icosphere>);
     void icosphereChangeRequested();
+    void progress (int done);
 
 protected:
     QIcosphereMap (QWidget* parent = 0);
     unsigned _depth;
     icosphere::Bounds _bounds;
-    std::shared_ptr<icosphere::Icosphere> _icosphere;
     QSpinBox* _depthSpin;
     QLabel* _vertexCountLabel;
     virtual void addInputPorts() override;
+    const QString _key = "altitude";
+
 };
 
 

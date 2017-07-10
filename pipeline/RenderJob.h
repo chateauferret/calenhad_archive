@@ -12,13 +12,14 @@
 #include <marble/GeoDataLatLonBox.h>
 #include <memory>
 #include <QtCore/QMutex>
+#include <qmodule/QModule.h>
 
 class RenderJob : public QObject {
 Q_OBJECT
 public:
-    RenderJob (const Marble::GeoDataLatLonBox& box, noise::module::Module* source, Legend* legend);
+    RenderJob (const Marble::GeoDataLatLonBox& box, QModule* module, Legend* legend);
     virtual ~RenderJob ();
-    virtual bool canRender (const noise::module::Module* source);
+    virtual bool canRender (const Module* module);
     virtual void render () = 0;
     bool isAbandoned();
 
@@ -29,16 +30,16 @@ public slots:
 
 signals:
     void progress (const double&);
+    void abandoned();
 
 
 protected:
     Marble::GeoDataLatLonBox _bounds;
-    noise::module::Module* _source;
+    QModule* _module;
     int _percentComplete;
     QMutex _abandonMutex;
     Legend* _legend;
     bool _abandoned;
-
 
 };
 

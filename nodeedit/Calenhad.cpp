@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 
 #include "../preferences.h"
-#include "messages/QNotificationFactory.h"
+#include "messages/QNotificationStack.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "CalenhadView.h"
@@ -59,7 +59,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
     QToolBar* modulesToolbar = Calenhad::toolbox -> toolbar ("Modules");
     modulesToolbar -> setAcceptDrops (false);
-    //modulesToolbar -> addWidget (_controller -> nodeRoster());
+    //modulesToolbar -> addNotification (_controller -> nodeRoster());
     QDockWidget* editToolsDock = new QDockWidget (modulesToolbar -> windowTitle(), this);
     editToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     modulesToolbar -> setParent (this);
@@ -166,7 +166,7 @@ void Calenhad::saveFile() {
 
     ds << doc.toString();
     file.close();
-    QMessageService* service = CalenhadServices::messages();
+    QNotificationService* service = CalenhadServices::messages();
     CalenhadServices::messages() -> message ("info", "Wrote file " + fname);
     _lastFile = fname;
 }

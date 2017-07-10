@@ -103,3 +103,7 @@ Legend* QModule::legend () {
     return _legend;
 }
 
+bool QModule::generateMap () {
+    return true;
+}
+

@@ -75,6 +75,12 @@ QNotification#error > QLabel {
     color: yellow;
 }
 
+QNotificationStack {
+    border: none;
+    background-color: red;
+    opacity: 50;
+}
+
 
 QNEMessageBox > QLabel {
     color: #000000;

@@ -17,11 +17,12 @@ include_directories(${Qt5Xml_INCLUDE_DIRS})
 
 SET(MESSAGES_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/QNotificationService.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNotificationFactory.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QNotificationFactory.h
+        ${CMAKE_CURRENT_LIST_DIR}/QNotificationStack.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QNotificationStack.h
         ${CMAKE_CURRENT_LIST_DIR}/QNotification.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QNotification.h
-        )
+        ${CMAKE_CURRENT_LIST_DIR}/QProgressNotification.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QProgressNotification.h)
 
 
 #set (RESOURCES_DIR resources)

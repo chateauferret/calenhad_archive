@@ -32,7 +32,6 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
     _coordinatesFormat (CoordinatesFormat::Traditional),
     _datumFormat (DatumFormat::Scaled),
     _layer (nullptr),
-    _progress (0),
     _zoomDrag (false),
     _configDialog (nullptr),
     _source (source),
@@ -111,24 +110,12 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
     _mouseDoubleClickMode = CalenhadGlobeDoubleClickMode::Goto;
     _positionLabel = new QLabel (this);
     layout -> addWidget (_positionLabel, 3, 3, Qt::AlignBottom | Qt::AlignRight);
-
-    // progress bar
-    _progressBar = new QwtThermo();
-    layout -> addWidget (_progressBar, 3, 2, Qt::AlignBottom | Qt::AlignRight);
-    _progressBar -> setLowerBound (0.0);
-    _progressBar -> setUpperBound (100.0);
-    _progressBar -> setValue (0.0);
-    _progressBar -> setOrientation (Qt::Horizontal);
-
-    connect (_layer, SIGNAL (progress (const double&)), _progressBar, SLOT (setValue (double)));
-
 }
 
 CalenhadGlobe::~CalenhadGlobe() {
     if (_layer) { delete _layer; }
     if (_map) { delete _map; }
     if (_configDialog) { delete _configDialog; }
-    if (_progressBar) { delete _progressBar; }
     delete _geodesic;
 }
 
@@ -524,21 +511,6 @@ void CalenhadGlobe::setProjection (const Projection& projection) {
 const Projection& CalenhadGlobe::projection () {
     _projection = _map -> projection ();
     return _projection;
-}
-
-void CalenhadGlobe::setProgress (const int& progress) {
-    QMutexLocker locker (&mutex);
-
-    _progress = std::min (progress, 100);
-    if (_progress != _progressBar -> value ()) {
-        _progressBar -> setValue (_progress);
-        update();
-    }
-}
-
-const int& CalenhadGlobe::getProgress() {
-    QMutexLocker locker (&mutex);
-    return _progress;
 }
 
 void CalenhadGlobe::setLegend (Legend* legend) {

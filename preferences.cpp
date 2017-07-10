@@ -58,6 +58,7 @@ void Preferences::loadSettings() {
     calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 32).toUInt();
     calenhad_handle_module_height = _settings -> value ("calenhad/handle/module/height", calenhad_handle_module_width).toUInt();
     calenhad_handle_module_margin = _settings -> value ("calenhad/handle/module/margin", 2).toUInt();
+    calenhad_notifications_width = _settings -> value ("calenhad/preferences/width", 150).toUInt();
 
     // Module names
 
@@ -147,7 +148,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/handle/module/width",  calenhad_handle_module_width);
     _settings -> setValue ("calenhad/handle/module/height", calenhad_handle_module_height);
     _settings -> setValue ("calenhad/handle/module/margin",  calenhad_handle_module_margin);
-
+    _settings -> setValue ("calenhad/notifications/width", calenhad_notifications_width);
 
     // Modules
 

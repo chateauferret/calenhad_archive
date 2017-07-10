@@ -11,7 +11,7 @@
 
 
 PreferencesService* CalenhadServices::_preferences;
-QMessageService* CalenhadServices::_messages;
+QNotificationService* CalenhadServices::_messages;
 ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
@@ -21,7 +21,7 @@ PreferencesService* CalenhadServices::preferences () {
     return _preferences;
 }
 
-QMessageService* CalenhadServices::messages () {
+QNotificationService* CalenhadServices::messages () {
     return _messages;
 }
 
@@ -42,7 +42,7 @@ void CalenhadServices::providePreferences (PreferencesService* service) {
     _modules = new ModuleFactory();
 }
 
-void CalenhadServices::provideMessages (QMessageService* service) {
+void CalenhadServices::provideMessages (QNotificationService* service) {
     _messages = service;
 }
 

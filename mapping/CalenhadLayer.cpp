@@ -67,7 +67,7 @@ void CalenhadLayer::populate() {
     if (_source -> legend()) {
         if (_viewport) {
             emit (abandonJobs());
-            _job = new GlobeRenderJob (_viewport, _source -> module (), _source -> legend ());
+            _job = new GlobeRenderJob (_viewport, _source, _source -> legend ());
             QThread* thread = new QThread ();
             _job -> moveToThread (thread);
             connect (thread, SIGNAL (started ()), _job, SLOT (startJob ()), Qt::QueuedConnection);

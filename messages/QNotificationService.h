@@ -5,12 +5,15 @@
 #ifndef CALENHAD_MESSAGESERVICE_H
 #define CALENHAD_MESSAGESERVICE_H
 #include <QObject>
+#include "QNotificationStack.h"
 
-class QMessageService : public QObject {
-    Q_OBJECT
+class QNotification;
+class QProgressNotification;
+
+class QNotificationService {
 public:
-    virtual int message (const QString& title, const QString& message, const int& duration = 10000) = 0;
-    virtual void setHost (QWidget* host) = 0;
+    virtual QNotification* message (const QString& title, const QString& message, const int& duration = 10000) = 0;
+    virtual QProgressNotification* progress (const QString& title, const QString& message, const int& duration = 10000, const int& toDo = 100, const int& delay = 500) = 0;
 };
 
 

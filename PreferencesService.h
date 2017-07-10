@@ -95,6 +95,7 @@ class PreferencesService {
     int calenhad_handle_module_width;
     int calenhad_handle_module_height;
     int calenhad_handle_module_margin;
+    int calenhad_notifications_width;
 
 };
 

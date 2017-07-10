@@ -23,6 +23,5 @@ SET(LIBNOISEUTILS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/NoiseContstants.h
         ${CMAKE_CURRENT_LIST_DIR}/IcosphereBuilder.h
         ${CMAKE_CURRENT_LIST_DIR}/IcosphereBuilder.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/icospheremap.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/icospheremap.h)
+        )
 

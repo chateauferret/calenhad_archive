@@ -1,31 +1,37 @@
+
 cmake_minimum_required(VERSION 3.6)
-include(CMakeFindDependencyMacro)
-set (REPO ~/ClionProjects/.repo)
-
-project (test)
-
-include (CTest)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+project (CalenhadTest)
+include (CMakeFindDependencyMacro)
 enable_testing()
 
-#set(gtest_disable_pthreads on) #needed in MinGW
-include (${REPO}/DownloadProject/DownloadProject.cmake)
-download_project(
-        PROJ                googletest
-        GIT_REPOSITORY      https://github.com/google/googletest.git
-        GIT_TAG             master
-        UPDATE_DISCONNECTED 1
-)
+# Tell CMake to run moc when necessary:
+set(CMAKE_AUTOMOC ON)
 
-add_subdirectory (${googletest_SOURCE_DIR} ${googletest_BINARY_DIR} EXCLUDE_FROM_ALL)
+# As moc files are generated in the binary dir, tell CMake
+# to always look for includes there:
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Xml Test)
 
 set (test_SRCS
-        geoutilstest.cpp
-        icospheretest.cpp
-        icospheretilesourcetest.cpp
-        legendtest.cpp
-        vertextest.cpp)
+   #     geoutilstest.cpp
+   #     vertextest.cpp
+        LegendTest.cpp
+        LegendTest.h
+        IcosphereTest.cpp
+        IcosphereTest.h
+        QTestSuite.cpp
+        QTestSuite.h
+        test.cpp
+        test.h)
 
-#qt5_use_modules (runUnitTests Gui Widgets OpenGL)
-add_executable (runUnitTests ${test_SRCS})
-target_link_libraries (runUnitTests gtest_main gmock core)
-add_test (runUnitTests runUnitTests) #included in all tutorials but I don't know what it actually does.
+add_executable(CalenhadTest ${test_SRCS})
+add_test(CalenhadTest
+        LegendTest
+        IcosphereTest)
+
+target_link_libraries(CalenhadTest Qt5::Test Qt5::Core Qt5::Widgets Qt5::Gui core)

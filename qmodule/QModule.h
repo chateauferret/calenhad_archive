@@ -15,7 +15,8 @@
 #include <QUuid>
 #include "../nodeedit/qneport.h"
 #include "QNode.h"
-#include "../controls/QNoiseMapViewer.h"
+#include <memory>
+
 
 namespace Marble {
     class GeoDataLatLonAltBox;
@@ -27,6 +28,7 @@ using namespace noise::module;
 
 class QNodeBlock;
 class QNotificationFactory;
+class QNoiseMapViewer;
 
 class QModule : public QNode {
 Q_OBJECT
@@ -44,8 +46,12 @@ public:
     static int seed;
     static noise::NoiseQuality noiseQuality;
     virtual noise::module::Module* module();
-    void setModel (CalenhadModel* model) override;
 
+    // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.
+    // If it returns false, rendering does not take place.
+    virtual bool generateMap();
+
+    void setModel (CalenhadModel* model) override;
     void setLegend (Legend* legend);
     Legend* legend();
     std::shared_ptr<QImage> overview();

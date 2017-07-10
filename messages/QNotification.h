@@ -16,27 +16,26 @@
 
 class QNotification : public QFrame {
     Q_OBJECT
+
+
 public:
-    QNotification (const QString& message, QWidget* parent, const QString& style="info");
+    QNotification (const QString& message, QWidget* host, const QString& style="info", const int& duration = 10000);
     ~QNotification();
-    void showEvent (QShowEvent* e);
-    void mousePressEvent (QMouseEvent* e);
-    void setIndex (const int& index);
+    virtual void showEvent (QShowEvent* e);
+    virtual void mousePressEvent (QMouseEvent* e) override;
     void setDuration (const int& duration);
-    int id();
 
 public slots:
     void dismiss();
 
 signals:
-    void dismissed (int id);
+    void dismissed (QNotification*);
+    void displayed();
 
-private:
-    QTimer* _timer;
+protected:
+    QNotification ();
     QLabel* _message;
     int _duration;
-    int _id;
-    static int nextId;
 };
 
 
