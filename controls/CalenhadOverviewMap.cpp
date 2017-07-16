@@ -45,30 +45,6 @@ CalenhadOverviewMap::~CalenhadOverviewMap () {
 
 }
 
-/*
-    QDialog* CalenhadOverviewMap::configDialog () {
-       /* if (!m_configDialog) {
-            // Initializing configuration dialog
-            m_configDialog = new QDialog ();
-            ui_configWidget = new OverviewMapConfigWidget();
-            ui_configWidget->setupUi (m_configDialog);
-
-            connect (ui_configWidget->m_buttonBox, SIGNAL(accepted ()),
-                     SLOT(writeSettings ()));
-            connect (ui_configWidget->m_buttonBox, SIGNAL(rejected ()),
-                     SLOT(readSettings ()));
-            connect (ui_configWidget->m_buttonBox->button (QDialogButtonBox::Reset), SIGNAL(clicked ()),
-                     SLOT(restoreDefaultSettings ()));
-            QPushButton* applyButton = ui_configWidget->m_buttonBox->button (QDialogButtonBox::Apply);
-            connect (applyButton, SIGNAL(clicked ()),
-                     SLOT(writeSettings ()));
-        }
-        return m_configDialog;
-
-
-        return new QDialog(); // for now
-    }
-*/
 void CalenhadOverviewMap::paintEvent (QPaintEvent* e) {
     QPainter painter (this);
     painter.drawPixmap (0, 0, _pixmap);

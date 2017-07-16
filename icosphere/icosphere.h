@@ -6,6 +6,7 @@
 #include <GeographicLib/Rhumb.hpp>
 #include <vector>
 #include <map>
+#include <memory>
 #include "vertex.h"
 #include "../geoutils.h"
 #include <QBuffer>
@@ -28,17 +29,18 @@ namespace noise {
 namespace icosphere {
 
     class IcosphereDivider;
-    
+
+    typedef std::vector<Vertex*> VertexList;
+
     class Icosphere : public Model {
     Q_OBJECT
     public:
 
-       
+
 
         Icosphere (const int& depth);
         ~Icosphere();
-        const std::vector<Vertex*> vertices();
-        const std::vector<unsigned>& indices (const unsigned int& level);
+        const std::shared_ptr<VertexList> vertices();
         unsigned vertexCount();
         Vertex* operator [] (const unsigned& id);
         Vertex* nearest (const Geolocation& target, const unsigned int& depth = 0) const;
@@ -48,7 +50,7 @@ namespace icosphere {
         bool getImage (QImage* image, Legend* legend, const Bounds& bounds);
 
         void setDatum (const Geolocation& g, const QString& key, double datum) override;
-        double getDatum (const Geolocation& g, const QString& key) override;
+        std::experimental::optional<double> getDatum (const Geolocation& g, const QString& key) override;
         std::string getType();
         const unsigned depth();
         const Bounds& bounds();
@@ -58,15 +60,19 @@ namespace icosphere {
 
     signals:
         void progress (const int&);
+        void ready();
 
     protected:
-        std::vector<Vertex*> _vertices;
+        std::shared_ptr<VertexList> _vertices;
         mutable Vertex* _vertex;
         mutable Vertex* _lastVisited;
         IcosphereDivider* _divider;
         Bounds _bounds = Bounds();
         bool _locked;
         QMutex _lockMutex;
+
+        private slots:
+        void assembled();
     };
 } // namespace
 #endif // ICOSPHERE_OLD_H

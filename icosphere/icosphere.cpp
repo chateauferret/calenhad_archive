@@ -11,21 +11,30 @@
 #include <libnoise/module/modulebase.h>
 #include "icosphere.h"
 #include "IcosphereDivider.h"
+#include <QThread>
 
 
 using namespace icosphere;
 using namespace Marble;
 
 
-Icosphere::Icosphere (const int& depth) : Model (depth) {
+Icosphere::Icosphere (const int& depth) : Model (depth), _vertices (std::make_shared<std::vector<Vertex*>>()) {
 
 }
 
 void Icosphere::assemble (const Bounds& bounds) {
-   _divider = new IcosphereDivider  (bounds, _depth);
-    _divider -> divide (_depth);
-    _vertices = _divider -> vertices();
-    _lastVisited = _vertices [0];
+    _vertices -> clear();
+   _divider = new IcosphereDivider  (bounds, _depth, _vertices);
+
+    QThread* thread = new QThread();
+    _divider -> moveToThread (thread);
+    connect (thread, SIGNAL (started ()), _divider, SLOT (divide()));
+    connect (_divider, SIGNAL (complete ()), this, SLOT (assembled()));
+    connect (this, &Icosphere::ready, thread, &QThread::quit);
+    connect (_divider, SIGNAL (progress (const int&)), this, SIGNAL (progress (const int&)));
+    connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
+    thread -> start ();
+
 }
 
 Icosphere::~Icosphere() {
@@ -34,19 +43,24 @@ Icosphere::~Icosphere() {
     }
 }
 
-Vertex* Icosphere::operator [] (const unsigned& id) {
-    return _vertices [id];
+void Icosphere::assembled() {
+    _lastVisited = _vertices -> at (0);
+    emit ready();
 }
 
-const std::vector<Vertex*> Icosphere::vertices() { return _vertices; }
-unsigned Icosphere::vertexCount() { return _vertices.size(); }
+Vertex* Icosphere::operator [] (const unsigned& id) {
+    return _vertices -> at (id);
+}
+
+const std::shared_ptr<VertexList> Icosphere::vertices() { return _vertices; }
+unsigned Icosphere::vertexCount() { return _vertices -> size(); }
 
 Vertex* Icosphere::nearest (const Geolocation& target, const unsigned int& depth) const{
     double d, dist;
     Vertex* pV;
-    _lastVisited = _vertices [0];
+    _lastVisited = _vertices -> at (0);
     for (int i = 1; i < 12; i++) {
-        pV = _vertices [i];
+        pV = _vertices -> at (i);
         d = distance (pV -> getGeolocation(), target);
         if (i == 1 || d < dist) {
            _lastVisited = pV;
@@ -96,12 +110,12 @@ Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& dep
 
 
 
-double Icosphere::getDatum (const Geolocation& g, const QString& key) {
+std::experimental::optional<double> Icosphere::getDatum (const Geolocation& g, const QString& key) {
     QMutexLocker locker (&_lockMutex);
     if (! _locked) {
         Vertex* v = walkTowards (Math::toCartesian (g), _depth);
-        return v->getDatum (key).value_or (0.0);
-    } else return 0.0;
+        return v->getDatum (key);
+    } else return std::experimental::optional<double>();
 }
 
 void Icosphere::setDatum (const Geolocation& g, const QString& key, double datum) {

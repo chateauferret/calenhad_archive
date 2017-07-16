@@ -22,22 +22,22 @@ IcosphereBuilder::~IcosphereBuilder () {
 
 void IcosphereBuilder::build() {
     emit status ("Constructing icosphere");
-    if ((! (_icosphere)) || _depth != _icosphere -> depth() || _bounds != _icosphere -> bounds()) {
+    if ((!(_icosphere)) || _depth != _icosphere->depth () || _bounds != _icosphere->bounds ()) {
         _icosphere = std::make_shared<Icosphere> (_depth);
-        connect (_icosphere.get(), SIGNAL (progress (const int&)), this, SIGNAL (progress (const int&)), Qt::QueuedConnection);
-        _icosphere -> assemble (_bounds);
+        connect (_icosphere.get (), SIGNAL (progress (const int&)), this, SIGNAL (progress (const int&)), Qt::QueuedConnection);
+        connect (_icosphere.get (), SIGNAL (ready ()), this, SLOT (fill()), Qt::QueuedConnection);
+        _icosphere -> lock();
+        _icosphere->assemble (_bounds);
     }
-    fill();
-    emit complete();
 }
 
 void IcosphereBuilder::fill() {
     emit status ("Populating vertices");
     emit progress (0);
-    _icosphere -> lock();
+
     int prog = 0, j = 0, p = 0;
     if (_module) {
-        for (Vertex* v : _icosphere -> vertices()) {
+        for (Vertex* v : * (_icosphere -> vertices())) {
             Cartesian c = v -> getCartesian ();
             double value = _module -> GetValue (c.x, c.y, c.z);
             v -> setDatum (_key, value);
@@ -49,6 +49,7 @@ void IcosphereBuilder::fill() {
             }
         }
     }
+    emit complete();
     _icosphere -> unlock();
 }
 

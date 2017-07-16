@@ -24,7 +24,7 @@ public:
     virtual ~Model();
     double distance (const Geolocation& from, const Geolocation& unto) const;
     double loxodrome (const Geolocation& from, const Geolocation& unto);
-    virtual double getDatum (const Geolocation& g, const QString& key) = 0;
+    virtual std::experimental::optional<double> getDatum (const Geolocation& g, const QString& key) = 0;
     virtual void setDatum (const Geolocation& g, const QString& key, double datum) = 0;
     virtual std::string getType() = 0;
     virtual void assemble (const Bounds& bounds) = 0;

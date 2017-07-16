@@ -25,10 +25,10 @@ int IcosphereModule::GetSourceModuleCount () const {
 
 double IcosphereModule::GetValue (double x, double y, double z) const {
     if (_icosphere) {
-        return _icosphere -> getDatum (Math::toGeolocation (Cartesian (x, y, z)), _key);
+        return _icosphere -> getDatum (Math::toGeolocation (Cartesian (x, y, z)), _key).value_or (GetSourceModule (0).GetValue (x, y, z));
     } else {
-        return 0;
-        //return m_pSourceModule[0] -> GetValue (x, y, z);
+        return GetSourceModule (0).GetValue (x, y, z);
+
     }
 }
 

@@ -9,6 +9,7 @@
 #include <GeographicLib/Rhumb.hpp>
 #include <geoutils.h>
 #include "Bounds.h"
+#include "icosphere.h"
 
 namespace icosphere {
     class Vertex;
@@ -37,21 +38,22 @@ namespace icosphere {
                 {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
                 {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11} };
 
-        IcosphereDivider (const Bounds& bounds, const int& depth);
+        IcosphereDivider (const Bounds& bounds, const int& depth, std::shared_ptr<VertexList> vertices );
         virtual ~IcosphereDivider();
-       std::vector<Vertex*>& vertices();
+        std::shared_ptr<VertexList> vertices();
 
         public slots:
-        void divide (const int& depth);
+        void divide();
 
         signals:
         void progress (const int&);
+        void complete();
 
     protected:
         Bounds _bounds;
         int _depth;
 
-        std::vector<Vertex*> _vertices;
+        std::shared_ptr<VertexList> _vertices;
         std::vector<std::vector<unsigned>*> _indices;
         std::vector<unsigned> _listIds;
         std::map<boost::uint128_type, Triangle*> _triangles;

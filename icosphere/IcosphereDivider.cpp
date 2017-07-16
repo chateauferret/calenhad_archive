@@ -17,7 +17,7 @@ using namespace Marble;
 constexpr double IcosphereDivider::vdata[12][3];
 constexpr unsigned IcosphereDivider::tindices[20][3];
 
-IcosphereDivider::IcosphereDivider (const Bounds& bounds, const int& depth) : _bounds (bounds), _depth (depth) {
+IcosphereDivider::IcosphereDivider (const Bounds& bounds, const int& depth, std::shared_ptr<VertexList> vertices) : _bounds (bounds), _depth (depth), _vertices (vertices) {
     _rhumb = new GeographicLib::Rhumb (1.0, 0.0);
     std::cout << "Building icosphere to level " << (int) _depth << "\n";
     purge();
@@ -26,7 +26,7 @@ IcosphereDivider::IcosphereDivider (const Bounds& bounds, const int& depth) : _b
     // init with an icosahedron
     for (int i = 0; i < 12; i++) {
         Cartesian c = Cartesian (vdata [i][0], vdata[i][1], vdata [i][2]);
-        _vertices.push_back (new Vertex (i, c, 0, _rhumb));
+        _vertices -> push_back (new Vertex (i, c, 0, _rhumb));
     }
 
     _indices.push_back (new std::vector<unsigned>);
@@ -53,8 +53,8 @@ IcosphereDivider::~IcosphereDivider() {
 }
 
 void IcosphereDivider::purge() {
-    std::for_each (_vertices.begin(), _vertices.end(), [] (Vertex* p) { delete p; });
-    _vertices.clear();
+    std::for_each (_vertices -> begin(), _vertices -> end(), [] (Vertex* p) { delete p; });
+    _vertices -> clear();
     std::for_each (_triangles.begin(), _triangles.end(), [] (std::pair<boost::uint128_type, Triangle*> t) { delete t.second; });
     _triangles.clear();
     std::for_each (_indices.begin(), _indices.end(), [] (std::vector<unsigned>* v) { v -> clear(); delete v; });
@@ -63,10 +63,11 @@ void IcosphereDivider::purge() {
 
 }
 
-void IcosphereDivider::divide (const int& depth) {
+void IcosphereDivider::divide() {
     while (_indices.size () < _depth) {
        subdivide (_indices.size ());
     }
+    emit complete();
 }
 
 void IcosphereDivider::subdivide (const unsigned int& level) {
@@ -80,7 +81,7 @@ void IcosphereDivider::subdivide (const unsigned int& level) {
     int temp;
 
     for (unsigned i = 0; i < end; i += 3) {
-        if (coversTriangle (_vertices [indices [i]] -> getGeolocation(), _vertices [indices [i + 1]] -> getGeolocation(), _vertices [indices [i + 2]] -> getGeolocation())) {
+        if (coversTriangle (_vertices -> at (indices [i]) -> getGeolocation(), _vertices -> at (indices [i + 1]) -> getGeolocation(), _vertices -> at (indices [i + 2]) -> getGeolocation())) {
             unsigned ids0[3];  // indices of outer vertices
             unsigned ids1[3];  // indices of edge vertices
             for (int k = 0; k < 3; ++k) {
@@ -96,16 +97,16 @@ void IcosphereDivider::subdivide (const unsigned int& level) {
                 Key edgeKey = Key (e0) | (Key (e1) << 32);
                 std::map<Key, unsigned>::iterator it = edgeMap.find (edgeKey);
                 if (it == edgeMap.end ()) {
-                    ids1[k] = _vertices.size ();
+                    ids1[k] = _vertices -> size ();
                     edgeMap[edgeKey] = ids1[k];
-                    Vertex* mid = _vertices[e0];
-                    Cartesian c = (mid->getCartesian ()) + (_vertices[e1]->getCartesian ());
+                    Vertex* mid = _vertices -> at (e0);
+                    Cartesian c = (mid->getCartesian ()) + (_vertices -> at (e1) -> getCartesian ());
                     _vertex = new Vertex (ids1[k], c, level, _rhumb);
-                    _vertices.push_back (_vertex);
+                    _vertices -> push_back (_vertex);
                 } else {
                     ids1[k] = it->second;
                 }
-                _vertex = _vertices[ids1[k]];
+                _vertex = _vertices -> at (ids1[k]);
             }
             Triangle* parent = _triangles.find (_triangleKey (ids0[0], ids0[1], ids0[2]))->second;
             makeTriangle (refinedIndices, ids0[0], ids1[0], ids1[2], level, parent);
@@ -114,7 +115,7 @@ void IcosphereDivider::subdivide (const unsigned int& level) {
             makeTriangle (refinedIndices, ids1[0], ids1[1], ids1[2], level, parent);
             count++;
         }
-        int p  = (int) (((double) _vertices.size() / _toDo) * 100);
+        int p  = (int) (((double) _vertices -> size() / _toDo) * 100);
         if (p != prog) {
             emit progress (p);
             prog = p;
@@ -135,16 +136,16 @@ void IcosphereDivider::makeTriangle (std::vector<unsigned>& refinedIndices, cons
 
 void IcosphereDivider::addTriangle (const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {
     boost::uint128_type tkey = _triangleKey (a, b, c);
-    Triangle* t = new Triangle (_vertices [a], _vertices [b], _vertices [c], level);
+    Triangle* t = new Triangle (_vertices -> at (a), _vertices -> at (b), _vertices -> at (c), level);
     if (level > 0) {
         t -> setParent (parent);
         parent -> addChild (t);
     }
     _triangles.insert (std::make_pair (tkey, t));
 
-    _vertices [a] -> addTriangle (t);
-    _vertices [b] -> addTriangle (t);
-    _vertices [c] -> addTriangle (t);
+    _vertices -> at (a) -> addTriangle (t);
+    _vertices -> at (b) -> addTriangle (t);
+    _vertices -> at (c) -> addTriangle (t);
 
 }
 
@@ -158,8 +159,8 @@ boost::uint128_type IcosphereDivider::_triangleKey (unsigned a, unsigned b, unsi
 }
 
 void IcosphereDivider::makeNeighbours (const unsigned& p, const unsigned& q) {
-    _vertices [p] -> addNeighbour (_vertices [q]);
-    _vertices [q] -> addNeighbour (_vertices [p]);
+    _vertices -> at (p) -> addNeighbour (_vertices -> at (q));
+    _vertices -> at (q) -> addNeighbour (_vertices -> at (p));
 }
 
 bool IcosphereDivider::coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c, const Bounds& bounds) const {
@@ -187,6 +188,7 @@ bool IcosphereDivider::coversTriangle (const geoutils::Geolocation& a, const geo
     return coversTriangle (a, b, c, _bounds);
 }
 
-std::vector<Vertex*>& IcosphereDivider::vertices () {
+std::shared_ptr<VertexList> IcosphereDivider::vertices () {
     return _vertices;
 }
+

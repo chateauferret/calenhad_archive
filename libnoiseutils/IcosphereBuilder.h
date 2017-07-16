@@ -29,7 +29,7 @@ namespace noise {
             virtual ~IcosphereBuilder();
             
             virtual std::shared_ptr<icosphere::Icosphere> icosphere();
-            void fill();
+
             int vertexCount();
             void setDepth (const int& depth);
             void setBounds (const icosphere::Bounds& bounds);
@@ -56,6 +56,9 @@ namespace noise {
             bool isAbandoned();
             noise::module::Module* _module;
             QString _key;
+
+            protected slots:
+            void fill();
         };
 
     }

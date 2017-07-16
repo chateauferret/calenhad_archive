@@ -24,6 +24,8 @@ Q_DECLARE_METATYPE (std::shared_ptr<GlobeBuffer>)
 Q_DECLARE_METATYPE (CurveType)
 
 
+
+
 int main (int argc, char **argv) {
 
 
