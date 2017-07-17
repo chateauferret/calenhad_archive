@@ -5,10 +5,10 @@
 # OSGEARTH_INCLUDE_DIRS, where to find the headers
 # OSGEARTH_INCLUDE_DIR, where to find the source headers
 
-# to use this owner, set variables to point to the osg build
+# to use this owner, set variables to point to the osg buildAsync
 # directory, and source directory, respectively
 # OSGEARTHDIR or OSGEARTH_SOURCE_DIR: osg source directory, typically OpenSceneGraph
-# OSGEARTH_DIR or OSGEARTH_BUILD_DIR: osg build directory, place in which you've
+# OSGEARTH_DIR or OSGEARTH_BUILD_DIR: osg buildAsync directory, place in which you've
 #    built osg via cmake
 
 # Header files are presumed to be included like

@@ -10,6 +10,7 @@
 #include "CalenhadGlobe.h"
 #include "../mapping/CalenhadLayer.h"
 #include "../mapping/Legend.h"
+#include "../icosphere/Bounds.h"
 #include <marble/MarbleWidget.h>
 #include <QDialog>
 #include <queue>
@@ -26,7 +27,7 @@ namespace Marble {
 }
 
 using namespace Marble;
-
+using namespace icosphere;
 
 
 class QNoiseMapExplorer : public QDialog {
@@ -40,7 +41,7 @@ public:
     void changeView();
 
     signals:
-    void viewChanged (const GeoDataLatLonAltBox&);
+    void viewChanged (const Bounds&);
 
 protected:
     QString _title, _name;
@@ -51,7 +52,8 @@ protected:
     std::shared_ptr<QImage> _image;
 
     protected slots:
-    void notifyViewChanged (const GeoDataLatLonAltBox& box);
+    void updateView (const Bounds&);
+
 
 };
 

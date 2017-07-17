@@ -47,16 +47,17 @@ namespace icosphere {
         Vertex* walkTowards (const Geolocation& target, const unsigned int& depth = 0) const;
         Vertex* walkTowards (const Cartesian& target, const unsigned int& depth = 0) const;
         void visit (Vertex* vertex);
-        bool getImage (QImage* image, Legend* legend, const Bounds& bounds);
+        bool getImage (QImage* image, Legend* legend, const Bounds& bounds, const QString& key = "");
 
         void setDatum (const Geolocation& g, const QString& key, double datum) override;
-        std::experimental::optional<double> getDatum (const Geolocation& g, const QString& key) override;
+        double getDatum (const Geolocation& g, const QString& key) override;
         std::string getType();
         const unsigned depth();
         const Bounds& bounds();
         void lock();
         void unlock();
-        void assemble (const Bounds& bounds = Bounds());
+        void assembleAsync (const Bounds& bounds = Bounds ());
+        void assemble (const Bounds& bounds);
 
     signals:
         void progress (const int&);
@@ -73,6 +74,8 @@ namespace icosphere {
 
         private slots:
         void assembled();
+
+
     };
 } // namespace
 #endif // ICOSPHERE_OLD_H

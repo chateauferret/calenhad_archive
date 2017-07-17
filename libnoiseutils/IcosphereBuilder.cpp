@@ -20,15 +20,19 @@ IcosphereBuilder::~IcosphereBuilder () {
 
 }
 
-void IcosphereBuilder::build() {
+void IcosphereBuilder::buildAsync () {
     emit status ("Constructing icosphere");
     if ((!(_icosphere)) || _depth != _icosphere->depth () || _bounds != _icosphere->bounds ()) {
         _icosphere = std::make_shared<Icosphere> (_depth);
         connect (_icosphere.get (), SIGNAL (progress (const int&)), this, SIGNAL (progress (const int&)), Qt::QueuedConnection);
         connect (_icosphere.get (), SIGNAL (ready ()), this, SLOT (fill()), Qt::QueuedConnection);
         _icosphere -> lock();
-        _icosphere->assemble (_bounds);
+        _icosphere->assembleAsync (_bounds);
     }
+}
+
+void IcosphereBuilder::build() {
+    _icosphere -> assemble (_bounds);
 }
 
 void IcosphereBuilder::fill() {
@@ -49,8 +53,9 @@ void IcosphereBuilder::fill() {
             }
         }
     }
-    emit complete();
     _icosphere -> unlock();
+    emit complete (_icosphere);
+
 }
 
 void IcosphereBuilder::cancel() {

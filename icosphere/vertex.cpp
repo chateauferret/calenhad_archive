@@ -72,21 +72,21 @@ std::pair <std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> Vertex::get
 }
 
 bool Vertex::setDatum (const QString& dataset, const double& value) {
-    std::map<QString, std::experimental::optional<double>>::iterator i = _data.find (dataset);
+    std::map<QString, double>::iterator i = _data.find (dataset);
     if (i == _data.end()) {
-        _data.insert (make_pair (dataset, std::experimental::make_optional (value)));
+        _data.insert (std::make_pair (dataset, value));
         return true;
     } else {
-        bool result = ! ((bool) (*i -> second));
+        bool result = ! ((bool) (i -> second));
         _data [dataset] = value;
         return result;
     }
 }
 
-std::experimental::optional<double> Vertex::getDatum (const QString& dataset) {
-    std::map<QString, std::experimental::optional<double>>::iterator i = _data.find (dataset);
+double Vertex::getDatum (const QString& dataset) {
+    std::map<QString, double>::iterator i = _data.find (dataset);
     if (i == _data.end()) {
-        return std::experimental::optional<double>(); // no value
+        return 0.0; // no value
     } else {
         return (i -> second);
     }

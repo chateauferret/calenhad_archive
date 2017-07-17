@@ -18,3 +18,7 @@ int Bounds::estimateVertexCount (const int& level)const {
 Bounds::Bounds (double n, double s, double e, double w) : GeoDataLatLonBox (n, s, e, w){
 
 }
+
+Bounds::Bounds (const Marble::GeoDataLatLonBox& box) : Bounds (box.north(), box.south(), box.east(), box.west()) {
+
+}

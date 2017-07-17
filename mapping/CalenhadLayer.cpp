@@ -12,6 +12,7 @@
 #include <libnoise/model/sphere.h>
 #include <ctime>
 #include <QThread>
+#include <messages/QProgressNotification.h>
 
 using namespace geoutils;
 using namespace Marble;
@@ -64,10 +65,18 @@ int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
 }
 
 void CalenhadLayer::populate() {
+
     if (_source -> legend()) {
         if (_viewport) {
             emit (abandonJobs());
+
             _job = new GlobeRenderJob (_viewport, _source, _source -> legend ());
+            // progress bar
+            QProgressNotification* _progressBar = CalenhadServices::messages() -> progress ("info", "Rendering map", 500, _toDo, 10000);
+            connect (_job, &RenderJob::progress, _progressBar, &QProgressNotification::setProgress, Qt::QueuedConnection);
+            connect (_job, &RenderJob::abandoned, _progressBar, &QProgressNotification::kill, Qt::QueuedConnection);
+            connect (_job, SIGNAL (complete()), _progressBar, SLOT (setComplete()));
+
             QThread* thread = new QThread ();
             _job -> moveToThread (thread);
             connect (thread, SIGNAL (started ()), _job, SLOT (startJob ()), Qt::QueuedConnection);
@@ -77,7 +86,7 @@ void CalenhadLayer::populate() {
             connect (_job, SIGNAL (progress (const double&)), this, SIGNAL (progress (const double&)), Qt::QueuedConnection);
             connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()), Qt::QueuedConnection);
             connect (this, &CalenhadLayer::abandonJobs, _job, &RenderJob::abandon, Qt::QueuedConnection);
-            thread->start ();
+            thread -> start ();
         }
     }
 }

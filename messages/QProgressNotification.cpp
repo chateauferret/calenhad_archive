@@ -31,7 +31,13 @@ void QProgressNotification::setProgress (const int& progress) {
         emit complete();
     }
     _progressBar -> setValue (progress);
-    std::cout << "Progress: " << progress << "\n";
+    //std::cout << "Progress: " << progress << "\n";
+}
+
+void QProgressNotification::setComplete() {
+    _progress = _toDo;
+    emit complete();
+    _progressBar -> setValue (_progress);
 }
 
 void QProgressNotification::kill() {
@@ -45,9 +51,8 @@ void QProgressNotification::setToDo (const int& toDo) {
 }
 
 void QProgressNotification::mousePressEvent (QMouseEvent* e) {
-    if (_progress >= _toDo) {
-        dismiss();
-    }
+    dismiss();
+
 }
 
 void QProgressNotification::setMessage (const QString& message) {

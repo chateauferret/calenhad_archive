@@ -25,10 +25,10 @@ int IcosphereModule::GetSourceModuleCount () const {
 
 double IcosphereModule::GetValue (double x, double y, double z) const {
     if (_icosphere) {
-        return _icosphere -> getDatum (Math::toGeolocation (Cartesian (x, y, z)), _key).value_or (GetSourceModule (0).GetValue (x, y, z));
+        return _icosphere -> getDatum (Math::toGeolocation (Cartesian (x, y, z)), _key);
     } else {
-        return GetSourceModule (0).GetValue (x, y, z);
-
+        //return GetSourceModule (0).GetValue (x, y, z);
+        return -1.0;
     }
 }
 
@@ -38,7 +38,8 @@ void IcosphereModule::setKey (const QString& key) {
 
 void IcosphereModule::buildIcosphere (const Bounds& bounds, const int& depth) {
     IcosphereBuilder* builder = new IcosphereBuilder (_icosphere);
-
+    _bounds = bounds;
+    _depth = depth;
     if (depth > 6) {
         int estimate = bounds.estimateVertexCount (depth);
         if (_notification) { delete _notification; }
@@ -55,16 +56,26 @@ void IcosphereModule::buildIcosphere (const Bounds& bounds, const int& depth) {
         timer -> start();
         connect (timer, &QTimer::timeout, _notification, &QWidget::show);
     }
-
+    connect (builder, SIGNAL (complete (std::shared_ptr<Icosphere>)), this, SLOT (built (std::shared_ptr<Icosphere>)));
     builder -> setDepth (depth);
     builder -> setBounds (bounds);
     builder->setModule (const_cast<noise::module::Module*> (&(GetSourceModule (0))));
     builder -> setKey (_key);
-    builder -> build ();
-    _icosphere = builder -> icosphere();
+    builder->buildAsync ();
+
     setKey (_key);
 }
 
+void IcosphereModule::built (std::shared_ptr<Icosphere> icosphere) {
+    _icosphere = icosphere;
+    _icosphere -> unlock();
+
+
+}
 int IcosphereModule::vertexCount() {
-    return _icosphere -> vertexCount();
+    if (_icosphere) {
+        return _icosphere->vertexCount ();
+    } else {
+        return _bounds.estimateVertexCount (_depth);
+    }
 }

@@ -47,7 +47,7 @@ QNoiseMapExplorer::QNoiseMapExplorer (const QString& title, QModule* source, con
 
     setGeometry (200, 200, 640, 480);
 
-    connect (_mapWidget, SIGNAL (viewChanged (const GeoDataLatLonAltBox&)), this, SLOT (notifyViewChanged (const GeoDataLatLonAltBox&)));
+    connect (_mapWidget, SIGNAL (viewChanged (const Bounds&)), this, SLOT (updateView (const Bounds&)));
 
 }
 
@@ -61,8 +61,8 @@ void QNoiseMapExplorer::changeView () {
     _mapWidget -> changeView();
 }
 
-void QNoiseMapExplorer::notifyViewChanged (const GeoDataLatLonAltBox& box) {
-    emit viewChanged (box);
+void QNoiseMapExplorer::updateView (const Bounds& bounds) {
+    emit viewChanged (bounds);
 }
 
 

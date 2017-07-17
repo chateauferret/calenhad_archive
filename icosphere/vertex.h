@@ -20,7 +20,6 @@
 #include <map>
 #include <GeographicLib/Rhumb.hpp>
 #include "icosphereutils.h"
-#include <experimental/optional>
 
 namespace icosphere {
     class Triangle;
@@ -52,7 +51,7 @@ namespace icosphere {
         void addNeighbour (Vertex* pV);
         std::pair<std::set<Vertex*>::iterator, std::set<Vertex*>::iterator> getNeighbours () const;
         int countNeighbours (const unsigned int& depth = 0);
-        std::experimental::optional<double> getDatum (const QString& dataset);
+        double getDatum (const QString& dataset);
         bool setDatum (const QString& dataset, const double& value);
         void erase (const QString& key);
         unsigned getId () const;
@@ -67,7 +66,7 @@ namespace icosphere {
         geoutils::Cartesian _cartesian;
         geoutils::Geolocation _geolocation;
         double _a1, _a2, _length;
-        std::map<QString, std::experimental::optional<double>> _data = std::map<QString, std::experimental::optional<double>>();
+        std::map<QString,double> _data = std::map<QString, double>();
         // map dataset names to the datum of that dataset for this vertex
 
         std::set<Vertex*> _neighbours;              // neighbouring vertices

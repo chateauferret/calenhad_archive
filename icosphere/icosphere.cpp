@@ -22,7 +22,7 @@ Icosphere::Icosphere (const int& depth) : Model (depth), _vertices (std::make_sh
 
 }
 
-void Icosphere::assemble (const Bounds& bounds) {
+void Icosphere::assembleAsync (const Bounds& bounds) {
     _vertices -> clear();
    _divider = new IcosphereDivider  (bounds, _depth, _vertices);
 
@@ -35,6 +35,13 @@ void Icosphere::assemble (const Bounds& bounds) {
     connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()));
     thread -> start ();
 
+}
+
+void Icosphere::assemble (const Bounds& bounds) {
+    _vertices -> clear();
+    _divider = new IcosphereDivider (bounds, _depth, _vertices);
+    _divider -> divide();
+    assembled();
 }
 
 Icosphere::~Icosphere() {
@@ -108,14 +115,13 @@ Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& dep
     }
 }
 
-
-
-std::experimental::optional<double> Icosphere::getDatum (const Geolocation& g, const QString& key) {
+double Icosphere::getDatum (const Geolocation& g, const QString& key) {
     QMutexLocker locker (&_lockMutex);
     if (! _locked) {
         Vertex* v = walkTowards (Math::toCartesian (g), _depth);
-        return v->getDatum (key);
-    } else return std::experimental::optional<double>();
+        return v -> getDatum (key);
+    }
+    else return -1.0;
 }
 
 void Icosphere::setDatum (const Geolocation& g, const QString& key, double datum) {
@@ -138,7 +144,7 @@ const Bounds& Icosphere::bounds () {
 
 
 // for now, images can't cross the dateline - this is OK in a tiling arrangement
-bool Icosphere::getImage (QImage* image, Legend* legend, const Bounds& bounds) {
+bool Icosphere::getImage (QImage* image, Legend* legend, const Bounds& bounds, const QString& key) {
     for (int i = 0; i < image -> width(); i++) {
         double lon = bounds.east () + (bounds.east () - bounds.west ()) / image->height () * i;
         if (lon < -M_PI_2) { lon += M_PI_2; }
@@ -148,7 +154,7 @@ bool Icosphere::getImage (QImage* image, Legend* legend, const Bounds& bounds) {
             if (lat < -M_PI) { lat += M_PI; }
             if (lat > M_PI) { lat -= M_PI; }
             Vertex* v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Radians)));
-            image->setPixel (i, j, legend->lookup (v->getDatum ("")).rgb ());
+            image->setPixel (i, j, legend->lookup (v->getDatum (key)).rgb ());
         }
     }
     return true;
@@ -156,6 +162,7 @@ bool Icosphere::getImage (QImage* image, Legend* legend, const Bounds& bounds) {
 
 void Icosphere::lock () {
     QMutexLocker locker (&_lockMutex);
+    std::cout << "Locked\n";
     _locked = true;
 }
 
@@ -163,4 +170,5 @@ void Icosphere::lock () {
 void Icosphere::unlock () {
     QMutexLocker locker (&_lockMutex);
     _locked = false;
+    std::cout << "Unlocked\n";
 }

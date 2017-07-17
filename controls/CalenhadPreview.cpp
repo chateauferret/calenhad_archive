@@ -10,10 +10,12 @@
 #include <QtWidgets/QLabel>
 #include "CalenhadPreview.h"
 
+using namespace icosphere;
+
 CalenhadPreview::CalenhadPreview (QModule* module, QWidget* parent) :
         QWidget (parent),
         _isRendered (false), _ratio (2.0),
-        _bounds (GeoDataLatLonBox (-M_PI_2, M_PI_2, 0, M_2_PI)),
+        _bounds (Bounds (-M_PI_2, M_PI_2, 0, M_2_PI)),
         _source (module), _image (nullptr), _previewType (OverviewPreviewType::WholeWorld) {
 }
 
@@ -21,7 +23,7 @@ CalenhadPreview::~CalenhadPreview() {
 
 }
 
-void CalenhadPreview::setBounds (const GeoDataLatLonAltBox& bounds) {
+void CalenhadPreview::setBounds (const Bounds& bounds) {
     if (bounds != _bounds) {
         _bounds = bounds;
         _previewType = OverviewPreviewType::ExplorerBounds;
@@ -30,7 +32,7 @@ void CalenhadPreview::setBounds (const GeoDataLatLonAltBox& bounds) {
     }
 }
 
-GeoDataLatLonBox CalenhadPreview::bounds () {
+Bounds CalenhadPreview::bounds () {
     return _bounds;
 }
 

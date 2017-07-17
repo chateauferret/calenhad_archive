@@ -20,6 +20,7 @@
 class QModule;
 class QNoiseMapExplorer;
 
+using namespace icosphere;
 
 class QNoiseMapViewer : public CalenhadPreview {
 Q_OBJECT
@@ -32,7 +33,7 @@ public:
     QSize renderSize() override;
 
 public slots:
-    void setBounds (const Marble::GeoDataLatLonAltBox& bounds) override;
+    void setBounds (const Bounds& bounds) override;
    // void setProgress (int p);
 
 

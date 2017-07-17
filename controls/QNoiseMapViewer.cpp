@@ -10,6 +10,7 @@
 
 using namespace geoutils;
 using namespace Marble;
+using namespace icosphere;
 
 
 QNoiseMapViewer::QNoiseMapViewer (QModule* module, QWidget* parent) : CalenhadPreview (module, parent), _explorer (nullptr) {
@@ -66,7 +67,7 @@ bool QNoiseMapViewer::eventFilter (QObject* o, QEvent* e) {
                     if (_source -> isRenderable()) {
                         if (! _explorer) {
                             _explorer = new QNoiseMapExplorer (_source -> name(), _source);
-                            connect (_explorer, SIGNAL (viewChanged (const GeoDataLatLonAltBox&)), this, SLOT (setBounds (const GeoDataLatLonAltBox&)));
+                            connect (_explorer, SIGNAL (viewChanged (const Bounds&)), this, SLOT (setBounds (const Bounds&)));
                         }
                         _explorer -> show ();
                     }
@@ -102,7 +103,7 @@ void QNoiseMapViewer::jobComplete (std::shared_ptr<QImage> image) {
     _item -> update();
 }
 
-void QNoiseMapViewer::setBounds (const Marble::GeoDataLatLonAltBox& bounds) {
+void QNoiseMapViewer::setBounds (const icosphere::Bounds& bounds) {
     CalenhadPreview::setBounds (bounds);
 }
 

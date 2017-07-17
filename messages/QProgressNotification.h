@@ -22,6 +22,7 @@ public slots:
     void setMessage (const QString& message);
     void setProgress (const int& progress);
     void kill();
+    void setComplete ();
 
 signals:
     void complete();
@@ -30,6 +31,7 @@ signals:
 protected:
     QProgressBar* _progressBar;
     double _progress, _toDo;
+
 
 
 };

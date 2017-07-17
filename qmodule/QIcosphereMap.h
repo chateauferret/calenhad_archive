@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <icosphere/icosphere.h>
 #include <libnoiseutils/IcosphereModule.h>
+#include <QtWidgets/QAction>
 
 namespace icosphere {
     class Icosphere;
@@ -36,14 +37,15 @@ public:
     void setIcosphereDepth (const unsigned& depth);
     virtual void inflate (const QDomElement& element) override;
     virtual void serialise (QDomDocument& doc) override;
-
+    QMenu* boundsMenu();
     //void icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosphere);
 
 public slots:
     void setIcosphereDepth();
     void setBounds (const icosphere::Bounds&);
     virtual bool generateMap() override;
-    //void buildIcosphere ();
+    void boundsMenuRequested();
+    void boundsChangeRequested();
 
 signals:
     void complete (std::shared_ptr<icosphere::Icosphere>);
@@ -58,6 +60,11 @@ protected:
     QLabel* _vertexCountLabel;
     virtual void addInputPorts() override;
     const QString _key = "altitude";
+
+    QLabel* _boundsLabel;
+    QPushButton* _boundsButton;
+    QMenu* _boundsMenu;
+    QAction* _displayedBoundsAction, * _wholeWorldBoundsAction; // to do - list previous bounds used and select one or step back/forwards; enter geocoordinates for custom bounds
 
 };
 

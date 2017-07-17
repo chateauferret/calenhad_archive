@@ -333,7 +333,7 @@ double CalenhadGlobe::zoom() {
 }
 
 void CalenhadGlobe::changeView() {
-    GeoDataLatLonAltBox bounds = _map -> viewport() -> viewLatLonAltBox();
+    Bounds bounds = Bounds (_map -> viewport() -> viewLatLonAltBox());
     _overview -> setBounds (bounds);
     _overview -> render();
     emit viewChanged (bounds);

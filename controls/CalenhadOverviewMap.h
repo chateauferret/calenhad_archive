@@ -49,7 +49,7 @@ class CalenhadGlobe;
         virtual ~CalenhadOverviewMap();
         void paintEvent (QPaintEvent* e);
         public slots:
-        void setBounds (const Marble::GeoDataLatLonAltBox& bounds) override;
+        void setBounds (const icosphere::Bounds& bounds) override;
         void mouseDoubleClickEvent (QMouseEvent* e) override;
 
 

@@ -11,6 +11,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include "marble/GeoDataLatLonBox.h"
+#include "../icosphere/Bounds.h"
 
 class QModule;
 class ImageRenderJob;
@@ -32,11 +33,11 @@ public:
     std::shared_ptr<QImage> image();
     virtual void initialise();
     virtual QSize renderSize();
-    GeoDataLatLonBox bounds ();
+    icosphere::Bounds bounds ();
 
     public slots:
     void render();
-    virtual void setBounds (const GeoDataLatLonAltBox& bounds);
+    virtual void setBounds (const icosphere::Bounds& bounds);
     signals:
     void renderComplete (std::shared_ptr<QImage> image);
 
@@ -44,7 +45,7 @@ protected:
     virtual ImageRenderJob* prepareRender();
     std::shared_ptr<QImage> _image;
     QPixmap _pixmap;
-    GeoDataLatLonBox _bounds;
+    icosphere::Bounds _bounds;
     OverviewPreviewType _previewType;
     bool _isRendered;
     double _ratio;

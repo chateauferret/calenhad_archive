@@ -39,7 +39,7 @@ void IcosphereTest::initTestCase() {
     legend = new Legend();
     legend -> setInterpolated (false);
     QList<LegendEntry> entries;
-    entries.append (LegendEntry (-1.0, QColor (Qt::black)));
+    entries.append (LegendEntry (-2.0, QColor (Qt::black)));
     entries.append (LegendEntry (-0.8, QColor (Qt::red)));
     entries.append (LegendEntry (-0.6, QColor (Qt::green)));
     entries.append (LegendEntry (-0.4, QColor (Qt::yellow)));
@@ -49,12 +49,12 @@ void IcosphereTest::initTestCase() {
     entries.append (LegendEntry (0.4, QColor (Qt::darkBlue)));
     entries.append (LegendEntry (0.6, QColor (Qt::darkRed)));
     entries.append (LegendEntry (0.8, QColor (Qt::darkGreen)));
-    entries.append (LegendEntry (1.0, QColor (Qt::white)));
+    entries.append (LegendEntry (2.0, QColor (Qt::white)));
     legend -> setName ("default");
     legend -> setEntries (entries);
     roster -> provide (legend);
     _icosphere = std::make_shared<Icosphere> (7);
-    _icosphere -> assemble();
+    _icosphere->assemble (Bounds());
 
 }
 
@@ -83,15 +83,28 @@ void IcosphereTest::buildSpeed() {
     for (int i = 2; i != 7; i++) {
         //QBENCHMARK {
             Icosphere* ico = new Icosphere (i);
-            ico -> assemble();
+        ico->assemble (Bounds());
             delete ico;
         //}
     }
 }
 
 void IcosphereTest::imageSpeed() {
+    /*
+    std::shared_ptr<Icosphere> ico = std::make_shared<Icosphere> (8);
 
-    Legend legend = Legend();
+    Perlin* perlin = new Perlin ();
+    IcosphereModule* module = new IcosphereModule();
+    module -> SetSourceModule (0, *perlin);
+    IcosphereBuilder* builder = new IcosphereBuilder (ico);
+
+    builder->setDepth (8);
+    builder->setBounds (Bounds());
+    builder -> setKey ("altitude");
+    builder -> setModule (perlin);
+    builder->build ();
+    builder -> fill();
+
 
     QBENCHMARK {
         QImage* image = new QImage (256, 256, QImage::Format_RGB888);
@@ -99,10 +112,11 @@ void IcosphereTest::imageSpeed() {
         Geolocation se (60, 0, Units::Degrees);
         int i;
         for (i = 0; i < 10; i++) {
-            _icosphere -> getImage (image, &legend, Bounds (se.latitude, nw.latitude, se.longitude, se.latitude));
+//            ico -> getImage (image, legend, Bounds (se.latitude, nw.latitude, se.longitude, se.latitude), "altitude");
         }
         delete image;
     }
+     */
 }
 
 void IcosphereTest::searchTimes() {
@@ -160,7 +174,7 @@ void IcosphereTest::icosphereBoundsTest() {
 
     icosphere::Bounds bounds (degreesToRadians (n), degreesToRadians (s), degreesToRadians (e), degreesToRadians (w));
     Icosphere* ico = new Icosphere (8);
-    ico -> assemble (bounds);
+    ico->assemble (bounds);
     qDebug() << "Estimate: " << bounds.estimateVertexCount (8);
     QCOMPARE (bounds.crossesDateLine(), crossesDateline);
     QCOMPARE (ico -> vertexCount(), (unsigned) count);
@@ -193,23 +207,25 @@ void IcosphereTest::icosphereBuilderTest() {
     QFETCH (double, s);
     QFETCH (double, e);
     QFETCH (double, w);
+    std::shared_ptr<Icosphere> ico = std::make_shared<Icosphere> (8);
     Perlin* perlin = new Perlin ();
     IcosphereModule* module = new IcosphereModule();
     module -> SetSourceModule (0, *perlin);
-    IcosphereBuilder* builder = new IcosphereBuilder (nullptr);
+    IcosphereBuilder* builder = new IcosphereBuilder (ico);
 
     builder->setDepth (8);
     builder->setBounds (Bounds (degreesToRadians (n), degreesToRadians (s), degreesToRadians (e), degreesToRadians (w)));
     builder -> setKey ("altitude");
     builder -> setModule (perlin);
-    builder -> build();
-    std::shared_ptr<Icosphere> ico = builder -> icosphere();
+    builder->build();
+    builder -> fill();
+
 
     for (int i = 1000; i < ico -> vertexCount(); i += 100) {
         Vertex* v = (*ico) [i];
         Cartesian c = v -> getCartesian();
         Vertex* found = ico -> nearest (Math::toGeolocation (c));
-        double foundValue = found -> getDatum ("altitude").value ();
+        double foundValue = found -> getDatum ("altitude");
         QCOMPARE (v -> getId (), found -> getId ());
         QVERIFY (std::abs (Math::toGeolocation (c).latDegrees - found -> getGeolocation ().latDegrees) < 0.00001);
         QVERIFY (std::abs (Math::toGeolocation (c).lonDegrees - found -> getGeolocation ().lonDegrees) < 0.00001);

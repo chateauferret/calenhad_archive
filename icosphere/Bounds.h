@@ -7,10 +7,12 @@
 
 #include <math.h>
 #include "marble/GeoDataLatLonBox.h"
+
 namespace icosphere {
     class Bounds : public Marble::GeoDataLatLonBox {
     public:
         Bounds (double n = M_PI_2, double s = -M_PI_2, double e = M_PI, double w = - M_PI);
+        Bounds (const Marble::GeoDataLatLonBox& box);
         int estimateVertexCount (const int& level)const;
 
     };

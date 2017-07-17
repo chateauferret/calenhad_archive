@@ -30,7 +30,7 @@
 #include "CalenhadGlobe.h"
 
 
-
+using namespace icosphere;
 
 CalenhadOverviewMap::CalenhadOverviewMap ()
         : CalenhadPreview (nullptr) {
@@ -126,7 +126,7 @@ void CalenhadOverviewMap::drawGrid() {
     }
 }
 
-void CalenhadOverviewMap::setBounds (const GeoDataLatLonAltBox& bounds) {
+void CalenhadOverviewMap::setBounds (const Bounds& bounds) {
     if (bounds != _bounds) {
         _bounds = bounds;
         render ();

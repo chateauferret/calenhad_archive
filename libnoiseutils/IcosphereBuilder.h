@@ -16,6 +16,8 @@ namespace icosphere {
 
 class QModule;
 
+using namespace icosphere;
+
 namespace noise {
     namespace module {
         class Module;
@@ -35,13 +37,16 @@ namespace noise {
             void setBounds (const icosphere::Bounds& bounds);
             void setModule (noise::module::Module* module);
             void setKey (const QString& key);
+            void build ();
+
 
         public slots:
-            void build();
+            void buildAsync ();
             void cancel();
+            void fill();
 
         signals:
-            void complete();
+            void complete (std::shared_ptr<Icosphere>);
             void abandoned();
             void progress (const int&);
             void status (const QString&);
@@ -57,8 +62,6 @@ namespace noise {
             noise::module::Module* _module;
             QString _key;
 
-            protected slots:
-            void fill();
         };
 
     }

@@ -29,6 +29,7 @@ namespace GeographicLib {
     class Geodesic;
 }
 
+using namespace icosphere;
 
 enum CalenhadGlobeDragMode { NoDrag, Pan, Zoom };
 enum CalenhadGlobeDoubleClickMode { NoDoubleClick, Goto, Place };
@@ -94,7 +95,7 @@ public slots:
 
 signals:
     void resized (const QSize& size);
-    void viewChanged (const GeoDataLatLonAltBox&);
+    void viewChanged (const Bounds&);
 
 protected:
     CalenhadOverviewMap* _overview;

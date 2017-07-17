@@ -35,6 +35,26 @@ void QIcosphereMap::initialise() {
     _contentLayout -> addRow (tr ("Depth"), _depthSpin);
     _isInitialised = true;
 
+    _boundsLabel = new QLabel();
+     _boundsButton = new QPushButton ("...");
+    QHBoxLayout* boundsLayout = new QHBoxLayout (this);
+    boundsLayout -> addWidget (_boundsLabel);
+    boundsLayout -> addWidget (_boundsButton);
+    _contentLayout -> addRow (tr ("Bounds"), boundsLayout);
+    connect (_boundsButton, SIGNAL (pressed()), this, SLOT (boundsMenuRequested()));
+
+    _boundsMenu = new QMenu (this);
+    _wholeWorldBoundsAction = new QAction ("Whole world");
+    _wholeWorldBoundsAction -> setEnabled (false);
+    connect (_wholeWorldBoundsAction, &QAction::triggered, this, &QIcosphereMap::boundsChangeRequested);
+    _displayedBoundsAction = new QAction ("Currently displayed map");
+    _displayedBoundsAction -> setEnabled (false);
+    connect (_displayedBoundsAction, &QAction::triggered, this, &QIcosphereMap::boundsChangeRequested);
+    _boundsMenu -> addAction (_wholeWorldBoundsAction);
+    _boundsMenu -> addAction (_displayedBoundsAction);
+
+
+
     connect (this, SIGNAL (icosphereChangeRequested()), this, SLOT (generateMap()));
     connect (this, SIGNAL (initialised()), this, SLOT (generateMap()));
     connect (_ports [0], &QNEPort::connected, this, &QIcosphereMap::generateMap);
@@ -87,9 +107,18 @@ void QIcosphereMap::setIcosphereDepth (const unsigned& depth) {
     }
 }
 
+void QIcosphereMap::boundsChangeRequested() {
+    QAction* action = (QAction*) sender();
+    if (action == _wholeWorldBoundsAction) {
+        setBounds (Bounds());
+    }
+    if (action == _displayedBoundsAction) {
+        setBounds (_preview -> bounds());
+    }
+}
+
 void QIcosphereMap::setBounds (const icosphere::Bounds& bounds) {
     _bounds = bounds;
-    //generateMap();
     emit icosphereChangeRequested();
 }
 
@@ -156,4 +185,12 @@ void QIcosphereMap::serialise (QDomDocument& doc) {
 
 IcosphereModule* QIcosphereMap::module () {
     return (IcosphereModule*) _module;
+}
+
+QMenu* QIcosphereMap::boundsMenu () {
+    return _boundsMenu;
+}
+
+void QIcosphereMap::boundsMenuRequested () {
+    _boundsMenu -> show();
 }
