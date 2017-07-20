@@ -22,6 +22,7 @@
 #include "marble/GeoDataPolygon.h"
 #include "../CalenhadServices.h"
 
+
 class QwtCompass;
 
 using namespace Marble;
@@ -55,7 +56,12 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
 
     // add a layer for the module
     _layer = new CalenhadLayer (source);
+
+    connect (_layer, &CalenhadLayer::renderingStart, this, &CalenhadGlobe::renderingStart);
+    connect (_layer, &CalenhadLayer::renderingFinished, this, &CalenhadGlobe::renderingFinished);
+
     _map -> addLayer (_layer);
+    //_map -> setShowRuntimeTrace (true);
 
     connect (_layer, SIGNAL (imageRefreshed()), this, SLOT (invalidate ()));
 
@@ -627,3 +633,11 @@ QModule* CalenhadGlobe::module() {
     return _source;
 }
 
+void CalenhadGlobe::renderingStart () {
+
+
+}
+
+void CalenhadGlobe::renderingFinished() {
+
+}

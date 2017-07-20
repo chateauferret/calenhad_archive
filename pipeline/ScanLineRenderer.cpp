@@ -8,41 +8,37 @@
 
 using namespace noise::model;
 
-ScanLineRenderer::ScanLineRenderer (const ScanLineRendererParams& params, Sphere* sphere, Legend* legend) : QObject(),
-    _lon (params.longitude),
-    _south (params.south),
-    _north (params.north),
-    _dLat (params.dLatitude),
-    _final (false),
+ScanLineRenderer::ScanLineRenderer (const RenderBuffer::iterator& index, Sphere* sphere, Legend* legend) : QObject(),
     _sphere (sphere),
-    _legend (legend) {
+    _legend (legend),
+    _item (index -> begin()),
+    _end (index -> end()) {
+
 }
+
 
 ScanLineRenderer::~ScanLineRenderer() {
 }
 
 void ScanLineRenderer::run() {
-    _scanLine = std::make_shared <GlobeBuffer>();
+    QMutexLocker locker (&_mutex);
+    double lat, lon;
     QColor color;
-    _lat = _south;
-    while (_lat < _north) {
-        double value = _sphere -> GetValue (radiansToDegrees (_lat), radiansToDegrees (_lon));
+    while (_item != _end) {
+        lat = _item -> _latDegrees;
+        lon = _item -> _lonDegrees;
+        double value = _sphere -> GetValue (lat, lon);
         color = _legend -> lookup (value);
-        _lat += _dLat;
-        writeRenderPoint (RenderPoint (_lon, _lat, value, color));
+        _item -> populate (value, color);
+        _item++;
     }
-    emit scanline (_scanLine);
+    emit scanline();
     if (_final) {
-        emit complete (_scanLine);
+        emit complete();
     }
 }
 
 void ScanLineRenderer::setFinalScanLine (const bool& f) {
     _final = f;
-}
-
-void ScanLineRenderer::writeRenderPoint (const RenderPoint& point) {
-    QMutexLocker locker (&mutex);
-    _scanLine -> append (point);
 }
 

@@ -16,7 +16,7 @@
       </zoom>
     </head>
 
-    <map bgcolor="#8888FF">
+    <map bgcolor="#000000">
       <canvas/>
       <target/>
       <!--layer name="empty" backend="geodata">

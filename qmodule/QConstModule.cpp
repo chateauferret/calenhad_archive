@@ -21,6 +21,7 @@ void QConstModule::initialise() {
     constValueSpin = noiseValueParamControl ("Constant value");
     //connect (constValueSpin, SIGNAL (valueChanged (double)), this, SLOT (setConstValue (double)));
     _contentLayout -> addRow (tr ("Constant value"), constValueSpin);
+    setConstValue (0.01);
     _isInitialised = true;
     emit initialised();
 }

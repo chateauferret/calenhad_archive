@@ -1,18 +1,16 @@
-//
+    //
 // Created by martin on 26/01/17.
 //
 
 #include "CalenhadLayer.h"
 #include <marble/GeoPainter.h>
-#include <marble/ViewportParams.h>
 #include "../libnoiseutils/NoiseContstants.h"
-#include "Legend.h"
 #include "../CalenhadServices.h"
-#include "../controls/CalenhadGlobe.h"
-#include <libnoise/model/sphere.h>
 #include <ctime>
 #include <QThread>
 #include <messages/QProgressNotification.h>
+#include <pipeline/ScanLineRenderer.h>
+#include <QtCore/QThreadPool>
 
 using namespace geoutils;
 using namespace Marble;
@@ -22,14 +20,42 @@ using namespace noise::model;
 CalenhadLayer::CalenhadLayer (QModule* source) :
         _viewport (nullptr),
         _source (source),
-        _toDo (0), _done (0), _finished (false),
-        _globeChanged (true),
-        _buffer (nullptr),
-        _overview (new QImage (210, 105, QImage::Format_ARGB32)) {
+        _buffer (std::make_shared<RenderBuffer>()),
+        _sphere (new Sphere()),
+        _overview (new QImage (210, 105, QImage::Format_ARGB32)),
+        _timer (new QTimer()) {
+    _sphere -> SetModule (*(_source -> module()));
+    _timer -> setInterval (0);
+    connect (_timer, &QTimer::timeout, this, &CalenhadLayer::populate);
+
 }
 
 CalenhadLayer::~CalenhadLayer() {
     if (_overview) { delete _overview; }
+    if (_sphere) { delete _sphere; }
+    if (_timer) { delete _timer; }
+}
+
+void CalenhadLayer::makeBuffer (ViewportParams* viewport) {
+    _viewport = viewport;
+    _buffer -> clear();
+
+    _minimum = _maximum = 0.0;
+    for (int x = 0; x < viewport -> width(); x++) {
+        RenderLine line;
+        for (int y = 0; y < viewport -> height(); y++) {
+            RenderPoint rp (QPoint(x, y), viewport);
+            if (rp.isValid ()) {
+                line.push_back (rp);
+            }
+        }
+        if (! line.empty()) {
+            _buffer -> push_back (line);
+        }
+    }
+    i = _buffer -> begin();
+    _scanline = _buffer -> begin();
+    _timer -> start();
 }
 
 
@@ -43,73 +69,81 @@ QStringList CalenhadLayer::renderPosition() const {
     return list;
 }
 
-int CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport) {
+int CalenhadLayer::render (GeoPainter* painter) {
     renderOverview();
     time_t start = std::clock();
-    _viewport = viewport;
-    if (_globeChanged) {
-        populate();
-    } else {
-        if (_buffer) {
-            QMutexLocker locker (&mutex);
-            QListIterator<RenderPoint> i (*_buffer);
-            while (i.hasNext()) {
-                RenderPoint p = i.next();
-                painter -> setPen (p._color);
-                painter -> drawPoint (GeoDataCoordinates (p._lon, p._lat, GeoDataCoordinates::Radian));
+    emit renderingStart();
+    if (_buffer) {
+        _count = 0;
+        QMutexLocker locker (&_mutex);
+        RenderLine::iterator j;
+        i = _buffer -> begin();
+        while (i != _buffer -> end()) {
+            j = i -> begin ();
+            while (j != i -> end ()) {
+                RenderPoint p = *j;
+                if (p.isReady ()) {
+                    painter -> setPen (p.getColor ());
+                    painter -> drawPoint (GeoDataCoordinates (p._lonRadians, p._latRadians));
+                    std::cout << p.getValue () << " " << p.getColor ().name ().toStdString () << "\n";
+                    if (p.getValue () < _minimum || _minimum == 0.0) { _minimum = p.getValue (); }
+                    if (p.getValue () > _maximum || _maximum == 0.0) { _maximum = p.getValue (); }
+                    _count++;
+                } else {
+                    break; // stop if one isn't ready because any subsequent won't be either
+                }
+                j++;
             }
-            double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-            return 0;
+            i++;
         }
+        double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+        //std::cout << "Render " << _count << " in " << duration << " seconds\n";
+        return 0;
     }
+
+    return -1;
 }
 
 void CalenhadLayer::populate() {
-
-    if (_source -> legend()) {
-        if (_viewport) {
-            emit (abandonJobs());
-
-            _job = new GlobeRenderJob (_viewport, _source, _source -> legend ());
-            // progress bar
-            QProgressNotification* _progressBar = CalenhadServices::messages() -> progress ("info", "Rendering map", 500, _toDo, 10000);
-            connect (_job, &RenderJob::progress, _progressBar, &QProgressNotification::setProgress, Qt::QueuedConnection);
-            connect (_job, &RenderJob::abandoned, _progressBar, &QProgressNotification::kill, Qt::QueuedConnection);
-            connect (_job, SIGNAL (complete()), _progressBar, SLOT (setComplete()));
-
-            QThread* thread = new QThread ();
-            _job -> moveToThread (thread);
-            connect (thread, SIGNAL (started ()), _job, SLOT (startJob ()), Qt::QueuedConnection);
-            connect (_job, SIGNAL (bufferUpdated (std::shared_ptr<GlobeBuffer>)), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
-            connect (_job, SIGNAL (complete()), thread, SLOT (quit ()), Qt::QueuedConnection);
-            //connect (_job, SIGNAL (complete()), this, SLOT (updateBuffer (std::shared_ptr<GlobeBuffer>)), Qt::QueuedConnection);
-            connect (_job, SIGNAL (progress (const double&)), this, SIGNAL (progress (const double&)), Qt::QueuedConnection);
-            connect (thread, SIGNAL (finished ()), thread, SLOT (deleteLater ()), Qt::QueuedConnection);
-            connect (this, &CalenhadLayer::abandonJobs, _job, &RenderJob::abandon, Qt::QueuedConnection);
-            thread -> start ();
+    if (_scanline != _buffer -> end()) {
+        ScanLineRenderer* renderer = new ScanLineRenderer (_scanline, _sphere, _source -> legend());
+        if (_scanline + 1 == _buffer -> end()) {
+            renderer -> setFinalScanLine (true);
+            connect (renderer, &ScanLineRenderer::complete, this, &CalenhadLayer::gatherStats);
+            _timer -> stop();
         }
+        connect (renderer, &ScanLineRenderer::scanline, this, &CalenhadLayer::refresh, Qt::QueuedConnection);
+
+        QThreadPool::globalInstance() -> start (renderer);
+        _scanline++;
     }
 }
 
-void CalenhadLayer::updateBuffer (std::shared_ptr<GlobeBuffer> buffer) {
-    _buffer = buffer;
-    emit imageRefreshed();
-    _globeChanged = false;
+void CalenhadLayer::gatherStats() {
+    time_t finish = std::clock();
+    CalenhadServices::statistics() -> recordMapExtremes (_minimum, _maximum);
+    double secs = double (finish - _start) / CLOCKS_PER_SEC;
+    CalenhadServices::statistics() -> recordRenderMetrics (QDateTime::currentDateTime(), _count, (int) (secs * 1000));
+    emit complete();
 }
 
 bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
-    _box = viewport -> viewLatLonAltBox ();
-    return render (painter, viewport) == 0;
+    if ((! _viewport) ||
+        _box != viewport -> viewLatLonAltBox()) {
+        makeBuffer (viewport);
+        _viewport = viewport;
+        _box = viewport -> viewLatLonAltBox();
+        std::cout << "Viewport changed\n";
+    }
+    return render (painter) == 0;
 }
 
 void CalenhadLayer::rescale() {
-    refresh (_buffer);
+    refresh();
 }
 
 void CalenhadLayer::renderOverview() {
     double minimum = 0.0, maximum = 0.0;
-    Sphere* sphere = new Sphere();
-    sphere -> SetModule (* (_source -> module ()));
     QColor c;
     double dLat = 360.0 / _overview -> width();
     double dLon = 180.0 / _overview -> height();
@@ -118,7 +152,7 @@ void CalenhadLayer::renderOverview() {
         for (int py = 0; py < _overview -> height(); py ++) {
             lon = -180.0 + (dLon * px);
             lat = 90.0 - (dLat * py);
-            double value = sphere -> GetValue (lat, lon);
+            double value = _sphere -> GetValue (lat, lon);
             if (value < minimum || minimum == 0.0) { minimum = value; }
             if (value > maximum || maximum == 0.0) { maximum = value; }
             c = legend() -> lookup (value);
@@ -128,12 +162,9 @@ void CalenhadLayer::renderOverview() {
     if (_overview) {
         emit overviewRendered (*_overview);
     }
-    delete sphere;
     CalenhadServices::statistics() -> recordGlobalExtremes (minimum, maximum);
 }
 
-void CalenhadLayer::refresh (std::shared_ptr<GlobeBuffer> buffer) {
-   _globeChanged = true;
+void CalenhadLayer::refresh() {
     emit imageRefreshed();
-    _buffer = buffer;
 }

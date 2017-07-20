@@ -390,7 +390,6 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* 
     addItem (b);
     b -> setPos (initPos.x (), initPos.y ());
 
-
     connect (node, &QNode::nameChanged, b, &QNodeBlock::nodeChanged);
     for (QNEPort* port : node->ports ()) {
         b -> addPort (port);

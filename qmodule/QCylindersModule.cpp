@@ -42,7 +42,6 @@ void QCylindersModule::setFrequency (double value) {
         emit (nodeChanged());
         frequencySpin->setValue (value);
     }
-
 }
 
 

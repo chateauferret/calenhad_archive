@@ -92,6 +92,8 @@ public slots:
     void updateConfig();
     void goTo (const GeoDataCoordinates& target);
     void setProjection (const Projection& projection);
+    void renderingStart();
+    void renderingFinished();
 
 signals:
     void resized (const QSize& size);

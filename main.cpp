@@ -20,7 +20,7 @@ using namespace Marble;
 Q_DECLARE_METATYPE (TileId)
 Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
 Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
-Q_DECLARE_METATYPE (std::shared_ptr<GlobeBuffer>)
+//Q_DECLARE_METATYPE (std::shared_ptr<GlobeBuffer>)
 Q_DECLARE_METATYPE (CurveType)
 
 
@@ -33,7 +33,7 @@ int main (int argc, char **argv) {
     qRegisterMetaType<QImage>();
     qRegisterMetaType<std::shared_ptr<QImage>>();
     qRegisterMetaType<std::shared_ptr<icosphere::Icosphere>>();
-    qRegisterMetaType<std::shared_ptr<GlobeBuffer>>();
+    //qRegisterMetaType<std::shared_ptr<GlobeBuffer>>();
     qRegisterMetaType<TileId>();
     qRegisterMetaType<CurveType>();
 
