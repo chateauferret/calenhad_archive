@@ -11,7 +11,7 @@
 #include "../geoutils.h"
 #include <QBuffer>
 #include <QImage>
-#include "../mapping/Legend.h"
+#include "legend/Legend.h"
 #include "triangle.h"
 #include <boost/multiprecision/cpp_int.hpp>
 #include <QtCore/QMutex>
@@ -23,6 +23,12 @@ using namespace geoutils;
 namespace noise {
     namespace module {
         class Module;
+    }
+}
+
+namespace calenhad {
+    namespace legend {
+        class Legend;
     }
 }
 
@@ -47,7 +53,7 @@ namespace icosphere {
         Vertex* walkTowards (const Geolocation& target, const unsigned int& depth = 0) const;
         Vertex* walkTowards (const Cartesian& target, const unsigned int& depth = 0) const;
         void visit (Vertex* vertex);
-        bool getImage (QImage* image, Legend* legend, const Bounds& bounds, const QString& key = "");
+        bool getImage (QImage* image, calenhad::legend::Legend* legend, const Bounds& bounds, const QString& key = "");
 
         void setDatum (const Geolocation& g, const QString& key, double datum) override;
         double getDatum (const Geolocation& g, const QString& key) override;

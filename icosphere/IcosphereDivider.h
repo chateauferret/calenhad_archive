@@ -60,7 +60,7 @@ namespace icosphere {
         void purge ();
         void makeTriangle (std::vector<unsigned>& refinedIndices, const unsigned& a, const unsigned& b, const unsigned& c, const unsigned int& level, Triangle* parent);
         void addTriangle (const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* nparent);
-        boost::uint128_type _triangleKey (unsigned a, unsigned b, unsigned c);
+        boost::uint128_type triangleKey (unsigned a, unsigned b, unsigned c);
         void makeNeighbours (const unsigned& p, const unsigned& q);
         GeographicLib::Rhumb* _rhumb;
         double _toDo;

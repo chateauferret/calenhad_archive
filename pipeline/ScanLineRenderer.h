@@ -9,42 +9,53 @@
 #include <libnoise/noise.h>
 #include <QtCore/QMutex>
 #include <QtCore/QRunnable>
-#include "../mapping/Legend.h"
-#include "GlobeRenderJob.h"
+#include <mapping/RenderPoint.h>
 
 namespace noise {
     namespace model {
         class Sphere;
     }
 }
+namespace calenhad {
+    namespace legend {
+        class Legend;
+    }
 
-class Legend;
+    namespace pipeline {
+        typedef std::vector<calenhad::mapping::RenderPoint> RenderLine;
+        typedef std::vector<RenderLine> RenderBuffer;
 
-class ScanLineRenderer : public QObject, public QRunnable {
-    Q_OBJECT
-public:
-    ScanLineRenderer (const RenderBuffer::iterator& index, noise::model::Sphere* sphere, Legend* legend);
-    //ScanLineRenderer (const ScanLineRendererParams& params, noise::model::Sphere* sphere, Legend* legend);
-    virtual ~ScanLineRenderer();
-    void setFinalScanLine (const bool&);
+        class ScanLineRenderer : public QObject, public QRunnable {
+        Q_OBJECT
+        public:
+            ScanLineRenderer (const RenderBuffer::iterator& index, noise::model::Sphere* sphere, calenhad::legend::Legend* legend);
 
-public slots:
-    void run() override;
+            //ScanLineRenderer (const ScanLineRendererParams& params, noise::model::Sphere* sphere, Legend* legend);
+            virtual ~ScanLineRenderer ();
 
-signals:
-    void scanline();
-    void complete();
+            void setFinalScanLine (const bool&);
+
+        public slots:
+
+            void run () override;
+
+        signals:
+
+            void scanline ();
+
+            void complete ();
 
 
-protected:
-    bool _final;
-    noise::model::Sphere* _sphere;
-    Legend* _legend;
-    QMutex _mutex;
+        protected:
+            bool _final;
+            noise::model::Sphere* _sphere;
+            calenhad::legend::Legend* _legend;
+            QMutex _mutex;
 
-    RenderLine::iterator _item;
-    RenderLine::iterator _end;
-};
-
+            RenderLine::iterator _item;
+            RenderLine::iterator _end;
+        };
+    }
+}
 
 #endif //CALENHAD_SCANLINERENDERER_H

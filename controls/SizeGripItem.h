@@ -30,85 +30,93 @@
 #include <QGraphicsRectItem>
 #include <QTimer>
 
-class SizeGripItem : public QObject, public QGraphicsItem {
-    Q_OBJECT
-private:
-    enum {
-        Top = 0x1,
-        Bottom = 0x2,
-        Left = 0x4,
-        TopLeft = Top | Left,
-        BottomLeft = Bottom | Left,
-        Right = 0x8,
-        TopRight = Top | Right,
-        BottomRight = Bottom | Right
-    };
+namespace calenhad {
+    namespace controls {
 
-    class HandleItem : public QGraphicsRectItem {
-    public:
-        HandleItem (int positionFlags, SizeGripItem* parent);
+        class SizeGripItem : public QObject, public QGraphicsItem {
+        Q_OBJECT
+        private:
+            enum {
+                Top = 0x1,
+                Bottom = 0x2,
+                Left = 0x4,
+                TopLeft = Top | Left,
+                BottomLeft = Bottom | Left,
+                Right = 0x8,
+                TopRight = Top | Right,
+                BottomRight = Bottom | Right
+            };
 
-        int positionFlags () const;
+            class HandleItem : public QGraphicsRectItem {
+            public:
+                HandleItem (int positionFlags, SizeGripItem* parent);
 
-    protected:
-        virtual QVariant itemChange (GraphicsItemChange change,
-                                     const QVariant& value);
+                int positionFlags () const;
 
-    private:
-        QPointF restrictPosition (const QPointF& newPos);
+            protected:
+                virtual QVariant itemChange (GraphicsItemChange change,
+                                             const QVariant& value);
 
-        int positionFlags_;
-        SizeGripItem* parent_;
-    };
+            private:
+                QPointF restrictPosition (const QPointF& newPos);
 
-public:
-    class Resizer {
-    public:
-        virtual void operator() (QGraphicsItem* item,
-                                 const QRectF& rect) = 0;
-    };
+                int positionFlags_;
+                SizeGripItem* parent_;
+            };
 
-    SizeGripItem (Resizer* resizer = 0, QGraphicsItem* parent = 0);
+        public:
+            class Resizer {
+            public:
+                virtual void operator() (QGraphicsItem* item,
+                                         const QRectF& rect) = 0;
+            };
 
-    virtual ~SizeGripItem ();
+            SizeGripItem (Resizer* resizer = 0, QGraphicsItem* parent = 0);
 
-    virtual QRectF boundingRect () const;
+            virtual ~SizeGripItem ();
 
-    virtual void paint (QPainter* painter,
-                        const QStyleOptionGraphicsItem* option,
-                        QWidget* widget = 0);
+            virtual QRectF boundingRect () const;
 
-    void setTopLeft (const QPointF& pos);
+            virtual void paint (QPainter* painter,
+                                const QStyleOptionGraphicsItem* option,
+                                QWidget* widget = 0);
 
-    void setTop (qreal y);
+            void setTopLeft (const QPointF& pos);
 
-    void setTopRight (const QPointF& pos);
+            void setTop (qreal y);
 
-    void setRight (qreal x);
+            void setTopRight (const QPointF& pos);
 
-    void setBottomRight (const QPointF& pos);
+            void setRight (qreal x);
 
-    void setBottom (qreal y);
+            void setBottomRight (const QPointF& pos);
 
-    void setBottomLeft (const QPointF& pos);
+            void setBottom (qreal y);
 
-    void setLeft (qreal x);
+            void setBottomLeft (const QPointF& pos);
 
-    void hoverEnterEvent (QGraphicsSceneHoverEvent* event) override;
-    void hoverLeaveEvent (QGraphicsSceneHoverEvent* event) override;
-    void hoverMoveEvent (QGraphicsSceneHoverEvent* event);
-private:
-    void doResize ();
+            void setLeft (qreal x);
 
-    void updateHandleItemPositions ();
+            void hoverEnterEvent (QGraphicsSceneHoverEvent* event) override;
 
-    QList<HandleItem*> handleItems_;
-    QRectF _rect;
-    Resizer* resizer_;
-    QTimer timer;
+            void hoverLeaveEvent (QGraphicsSceneHoverEvent* event) override;
+
+            void hoverMoveEvent (QGraphicsSceneHoverEvent* event);
+
+        private:
+            void doResize ();
+
+            void updateHandleItemPositions ();
+
+            QList<HandleItem*> handleItems_;
+            QRectF _rect;
+            Resizer* resizer_;
+            QTimer timer;
 
 
-    const double _margin = 8.0;
-};
+            const double _margin = 8.0;
+        };
+    }
+}
 
 #endif // SIZEGRIPITEM_H

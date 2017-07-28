@@ -5,7 +5,7 @@
 #ifndef CALENHAD_NOISEMAPBUILDERCYLINDER_H
 #define CALENHAD_NOISEMAPBUILDERCYLINDER_H
 
-#include "NoiseContstants.h"
+#include "NoiseConstants.h"
 #include "NoiseMapBuilder.h"
 namespace noise {
     namespace utils {

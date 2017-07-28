@@ -1,13 +1,9 @@
 
 SET(QMODULE_SOURCE_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QSpheresModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QSpheresModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QClampModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QClampModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QConstModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QConstModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/QNode.h
+        ${CMAKE_CURRENT_LIST_DIR}/QNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QModule.h
         ${CMAKE_CURRENT_LIST_DIR}/QCylindersModule.h
         ${CMAKE_CURRENT_LIST_DIR}/QCylindersModule.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QExponentModule.h
@@ -28,8 +24,6 @@ SET(QMODULE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/QVoronoiModule.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QBasicModule.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QBasicModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNode.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QRangeModule.h
         ${CMAKE_CURRENT_LIST_DIR}/QRangeModule.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QIcosphereMap.cpp
@@ -38,5 +32,12 @@ SET(QMODULE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/QAltitudeMap.h
         ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.h
-        ${CMAKE_CURRENT_LIST_DIR}/QModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QModule.h)
+        ${CMAKE_CURRENT_LIST_DIR}/QNoiseModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/QNoiseModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QSpheresModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QSpheresModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/QClampModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QClampModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/QConstModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/QConstModule.h)
+

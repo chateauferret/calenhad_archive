@@ -12,61 +12,82 @@
 #include <QPushButton>
 #include <QLabel>
 #include <icosphere/icosphere.h>
-#include <libnoiseutils/IcosphereModule.h>
+#include <icosphere/IcosphereModule.h>
 #include <QtWidgets/QAction>
+
 
 namespace icosphere {
     class Icosphere;
 }
 
+namespace calenhad {
+    namespace qmodule {
 
-class QModule;
 
-using namespace noise::module;
+        class QIcosphereMap : public QModule {
+        Q_OBJECT
+        public:
+            static QIcosphereMap* newInstance ();
 
-class QIcosphereMap : public QModule {
-    Q_OBJECT
-public:
-    static QIcosphereMap* newInstance();
-    virtual ~QIcosphereMap();
-    void initialise() override;
-    bool isRenderable() override;
-    IcosphereModule* module() override;
-    QIcosphereMap* clone () override;
-    QString nodeType () override;
-    void setIcosphereDepth (const unsigned& depth);
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
-    QMenu* boundsMenu();
-    //void icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosphere);
+            virtual ~QIcosphereMap ();
 
-public slots:
-    void setIcosphereDepth();
-    void setBounds (const icosphere::Bounds&);
-    virtual bool generateMap() override;
-    void boundsMenuRequested();
-    void boundsChangeRequested();
+            void initialise () override;
 
-signals:
-    void complete (std::shared_ptr<icosphere::Icosphere>);
-    void icosphereChangeRequested();
-    void progress (int done);
+            noise::module::IcosphereModule* module () override;
 
-protected:
-    QIcosphereMap (QWidget* parent = 0);
-    unsigned _depth;
-    icosphere::Bounds _bounds;
-    QSpinBox* _depthSpin;
-    QLabel* _vertexCountLabel;
-    virtual void addInputPorts() override;
-    const QString _key = "altitude";
+            QIcosphereMap* clone () override;
 
-    QLabel* _boundsLabel;
-    QPushButton* _boundsButton;
-    QMenu* _boundsMenu;
-    QAction* _displayedBoundsAction, * _wholeWorldBoundsAction; // to do - list previous bounds used and select one or step back/forwards; enter geocoordinates for custom bounds
+            QString nodeType () override;
 
-};
+            void setIcosphereDepth (const unsigned& depth);
 
+            virtual void inflate (const QDomElement& element) override;
+
+            virtual void serialize (QDomDocument& doc) override;
+
+            QMenu* boundsMenu ();
+            //void icosphereBuilt (std::shared_ptr<icosphere::Icosphere> icosphere);
+
+        public slots:
+
+            void setIcosphereDepth ();
+
+            void setBounds (const icosphere::Bounds&);
+
+            virtual bool generateMap () override;
+
+            void boundsMenuRequested ();
+
+            void boundsChangeRequested ();
+
+            bool isComplete() override;
+        signals:
+
+            void complete (std::shared_ptr<icosphere::Icosphere>);
+
+            void icosphereChangeRequested ();
+
+            void progress (int done);
+
+        protected:
+            QIcosphereMap (QWidget* parent = 0);
+
+            unsigned _depth;
+            icosphere::Bounds _bounds;
+            QSpinBox* _depthSpin;
+            QLabel* _vertexCountLabel;
+
+            virtual void addInputPorts () override;
+
+            const QString _key = "altitude";
+
+            QLabel* _boundsLabel;
+            QPushButton* _boundsButton;
+            QMenu* _boundsMenu;
+            QAction* _displayedBoundsAction, * _wholeWorldBoundsAction; // to do - list previous bounds used and select one or step back/forwards; enter geocoordinates for custom bounds
+
+        };
+    }
+}
 
 #endif //CALENHAD_QICOSPHERENODE_H

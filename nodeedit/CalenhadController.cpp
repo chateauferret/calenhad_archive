@@ -34,7 +34,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../CalenhadServices.h"
 #include "../actions/DeleteNodeCommand.h"
 #include "../qmodule/QNodeGroup.h"
-#include <QLabel>
+#include "Calenhad.h"
+#include "../preferences/PreferencesService.h"
+#include <QGraphicsScene>
+#include "../nodeedit/CalenhadView.h"
+#include "../pipeline/CalenhadModel.h"
+#include "../pipeline/ModuleFactory.h"
+#include "../messages/QNotificationService.h"
+#include "../nodeedit/qneport.h"
+#include "../qmodule/QModule.h"
+#include <QGraphicsScene>
+
+using namespace calenhad::pipeline;
+using namespace calenhad::nodeedit;
+using namespace calenhad::qmodule;
+using namespace calenhad::actions;
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
 
@@ -239,7 +253,7 @@ QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
     }
     else if (item -> type() == QNodeBlock::Type) {
         QNodeBlock* handle = (QNodeBlock*) item;
-        QNode* node = handle -> node();
+        calenhad::qmodule::QNode* node = handle -> node();
         return getContextMenu (node);
     }
     else if (item -> type() == QNEPort::Type) {
@@ -303,7 +317,7 @@ void CalenhadController::actionTriggered () {
 
 void CalenhadController::doCommand (QUndoCommand* c) {
     _undoStack->push (c);
-    double z = _views->at (0)->currentZoom ();
+    double z = _views->at (0) -> currentZoom ();
     zoomInAction->setEnabled (z < 4.0);
     zoomOutAction->setEnabled (z > 0.025);
 }

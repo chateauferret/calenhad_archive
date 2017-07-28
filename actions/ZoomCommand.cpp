@@ -2,8 +2,13 @@
 // Created by martin on 23/01/17.
 //
 
+#include "../nodeedit/CalenhadView.h"
 #include "ZoomCommand.h"
-#include <QGraphicsItem>
+
+using namespace calenhad::actions;
+using namespace calenhad::pipeline;
+using namespace calenhad::nodeedit;
+
 
 ZoomCommand::ZoomCommand (double delta, CalenhadView* view) {
     _delta = delta;

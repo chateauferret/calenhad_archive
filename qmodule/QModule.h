@@ -6,75 +6,98 @@
 #define CALENHAD_QMODULE_H
 
 
-#include <libnoise/module/modulebase.h>
+#include <libnoise/module/module.h>
 #include <QWidget>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QToolBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QTextEdit>
 #include <QUuid>
-#include "../nodeedit/qneport.h"
-#include "QNode.h"
-#include <memory>
 
+#include <memory>
+#include "QNode.h"
 
 namespace Marble {
     class GeoDataLatLonAltBox;
 }
 
-class Legend;
+namespace calenhad {
+    namespace legend {
+        class Legend;
+    }
+    namespace nodeedit {
+        class QNodeBlock;
+        class QNEPort;
+    }
+    namespace notification {
+        class QNotificationFactory;
+    }
+    namespace controls {
+        class QNoiseMapViewer;
+    }
+    namespace qmodule {
 
-using namespace noise::module;
+        class QModule : public QNode {
+        Q_OBJECT
+        Q_ENUMS (ModuleType)
+        public:
+            QModule (noise::module::Module* m, QWidget* parent = 0);
 
-class QNodeBlock;
-class QNotificationFactory;
-class QNoiseMapViewer;
+            virtual ~QModule ();
 
-class QModule : public QNode {
-Q_OBJECT
-    Q_ENUMS (ModuleType)
-public:
-    QModule (noise::module::Module* m, QWidget* parent = 0);
+            // don't want a copy constructor because subclass implementations will have to call initialise()
+            virtual QModule* clone () = 0;
 
-    virtual ~QModule();
+            virtual void inflate (const QDomElement& element) override;
 
-    // don't want a copy constructor because subclass implementations will have to call initialise()
-    virtual QModule* clone () = 0;
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
-    virtual QString nodeType () override = 0;
-    static int seed;
-    static noise::NoiseQuality noiseQuality;
-    virtual noise::module::Module* module();
+            virtual void serialize (QDomDocument& doc) override;
 
-    // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.
-    // If it returns false, rendering does not take place.
-    virtual bool generateMap();
+            virtual QString nodeType () override = 0;
 
-    void setModel (CalenhadModel* model) override;
-    void setLegend (Legend* legend);
-    Legend* legend();
-    std::shared_ptr<QImage> overview();
+            static int seed;
+            static noise::NoiseQuality noiseQuality;
 
-public slots:
-    void invalidate() override;
+            virtual noise::module::Module* module ();
 
-protected:
+            // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.
+            // If it returns false, rendering does not take place.
+            virtual bool generateMap ();
 
-    virtual void addInputPorts();
-    void initialise() override;
-    QFormLayout* _previewLayout;
-    QNoiseMapViewer* _preview;
-    noise::module::Module* _module;
+            void setModel (calenhad::pipeline::CalenhadModel* model) override;
 
-    int _previewIndex;
-    Legend* _legend;
+            void setLegend (calenhad::legend::Legend* legend);
 
-    bool _renderRequested;
+            calenhad::legend::Legend* legend ();
 
-protected slots:
-    void setupPreview ();
-};
+            std::shared_ptr<QImage> overview ();
+            bool isComplete() override;
+        public slots:
+
+            void invalidate () override;
+
+        protected:
+
+            virtual void addInputPorts ();
+
+            void initialise () override;
+
+            QFormLayout* _previewLayout;
+            calenhad::controls::QNoiseMapViewer* _preview;
+            noise::module::Module* _module;
+
+            int _previewIndex;
+            calenhad::legend::Legend* _legend;
+
+            bool _renderRequested;
+
+        protected slots:
+
+            void setupPreview ();
+
+
+        };
+    }
+}
 
 
 #endif //CALENHAD_QMODULE_H

@@ -8,19 +8,28 @@
 
 #include <QtCore/QString>
 #include <QtWidgets/QUndoCommand>
-#include "../qmodule/QAltitudeMap.h"
 
-class XmlCommand : public QUndoCommand {
-public:
-    XmlCommand (QNode* node, const QString& oldXml, const QString& newXml);
-    virtual ~XmlCommand();
-    virtual void redo() override;
-    virtual void undo() override;
+namespace calenhad {
+    namespace qmodule {
+        class QNode;
+    }
+    namespace actions {
 
-protected:
-    QString _oldXml, _newXml;
-    QNode* _node;
-};
+        class XmlCommand : public QUndoCommand {
+        public:
+            XmlCommand (calenhad::qmodule::QNode* node, const QString& oldXml, const QString& newXml);
 
+            virtual ~XmlCommand ();
+
+            virtual void redo () override;
+
+            virtual void undo () override;
+
+        protected:
+            QString _oldXml, _newXml;
+            calenhad::qmodule::QNode* _node;
+        };
+    }
+}
 
 #endif //CALENHAD_CHANGEALTITUDEMAPCOMMAND_H

@@ -11,10 +11,10 @@
 #include <vector>
 #include <marble/TileId.h>
 #include <marble/GeoDataLatLonAltBox.h>
+#include <QtCore/QMutex>
 #include "../qmodule/QModule.h"
 //#include "../pipeline/GlobeRenderJob.h"
-#include "../controls/CalenhadGlobe.h"
-#include "../StatisticsService.h"
+
 #include "RenderPoint.h"
 
 class QColorGradient;
@@ -42,65 +42,94 @@ namespace Marble {
     class GeoSceneLayer;
     class GeoDataLatLonBox;
 }
+namespace calenhad {
+    namespace qmodule {
+        class QModule;
+    }
+    namespace legend {
+        class Legend;
+    }
+    namespace pipeline {
+        class ImageRenderJob;
+    }
+    namespace mapping {
+        using namespace Marble;
+        typedef std::vector<RenderPoint> RenderLine;
+        typedef std::vector<RenderLine> RenderBuffer;
 
-class ImageRenderJob;
+        class CalenhadLayer : public QObject, public Marble::LayerInterface {
+        Q_OBJECT
 
-using namespace Marble;
-typedef std::vector<RenderPoint> RenderLine;
-typedef std::vector<RenderLine> RenderBuffer;
+        public:
+            static const int INITIAL_STEP = 64;
 
-class CalenhadLayer : public QObject, public Marble::LayerInterface {
-    Q_OBJECT
+            CalenhadLayer (calenhad::qmodule::QModule* source);
 
-public:
-    static const int INITIAL_STEP = 64;
-    CalenhadLayer (QModule* source);
-    virtual ~CalenhadLayer();
-    QStringList renderPosition() const override;
-    virtual bool render	(Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString & renderPos, Marble::GeoSceneLayer* layer) override;
-    int render (Marble::GeoPainter* painter);
-    Legend* legend();
+            virtual ~CalenhadLayer ();
 
-public slots:
-    void rescale();
-    void refresh();
-    void populate();
+            QStringList renderPosition () const override;
 
-signals:
-    void imageRefreshed();
-    void overviewRendered (const QImage& image);
-    void progress (const double&);
-    void complete();
-    void abandonJobs();
-    void renderingStart();
-    void renderingFinished();
+            virtual bool
+            render (Marble::GeoPainter* painter, Marble::ViewportParams* viewport, const QString& renderPos, Marble::GeoSceneLayer* layer) override;
 
-protected:
-    void renderOverview ();
-    QModule* _source;
-    QImage* _overview;
-    std::shared_ptr<RenderBuffer> _buffer;
-    QTimer* _timer;
-    QMutex _mutex;
-    RenderBuffer::iterator _scanline, _renderline;
-    noise::model::Sphere* _sphere;
-    ViewportParams* _viewport;
+            int render (Marble::GeoPainter* painter);
 
-    // these fields are used to populate the statistics tab on the CalenhadGlobe properties dialog
-    double _minimum;
-    double _maximum;
-    time_t _start;
-    int _count;
+            calenhad::legend::Legend* legend ();
 
-    // remember the scope of the viewport so that we can tell whether the view has changed
-    GeoDataLatLonBox _box;
-    RenderBuffer::iterator i;
-    void makeBuffer (ViewportParams* viewport);
+        public slots:
 
-protected slots:
-    void gatherStats ();
+            void rescale ();
 
-};
+            void refresh ();
 
+            void populate ();
+
+        signals:
+
+            void imageRefreshed ();
+
+            void overviewRendered (const QImage& image);
+
+            void progress (const double&);
+
+            void complete ();
+
+            void abandonJobs ();
+
+            void renderingStart ();
+
+            void renderingFinished ();
+
+        protected:
+            void renderOverview ();
+
+            calenhad::qmodule::QModule* _source;
+            QImage* _overview;
+            std::shared_ptr<RenderBuffer> _buffer;
+            QTimer* _timer;
+            QMutex _mutex;
+            RenderBuffer::iterator _scanline, _renderline;
+            noise::model::Sphere* _sphere;
+            ViewportParams* _viewport;
+
+            // these fields are used to populate the statistics tab on the CalenhadGlobe properties dialog
+            double _minimum;
+            double _maximum;
+            time_t _start;
+            int _count;
+
+            // remember the scope of the viewport so that we can tell whether the view has changed
+            GeoDataLatLonBox _box;
+            RenderBuffer::iterator i;
+
+            void makeBuffer (ViewportParams* viewport);
+
+        protected slots:
+
+            void gatherStats ();
+
+        };
+    }
+}
 
 #endif //CALENHAD_CALENHADLAYER_H

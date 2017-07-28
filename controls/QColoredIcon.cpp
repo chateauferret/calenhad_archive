@@ -5,6 +5,8 @@
 #include <QtWidgets/QGraphicsColorizeEffect>
 #include "QColoredIcon.h"
 
+using namespace calenhad::controls;
+
 QColoredIcon::QColoredIcon (QWidget* parent) : QLabel (parent), _colorizer (new QGraphicsColorizeEffect()) {
     setGraphicsEffect (_colorizer);
     setAttribute (Qt::WA_Hover, true);

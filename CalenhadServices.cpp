@@ -6,9 +6,20 @@
 #include <iostream>
 #include <QtCore/QFile>
 #include "CalenhadServices.h"
-#include "LegendService.h"
-#include "ProjectionService.h"
-
+#include "pipeline/ModuleFactory.h"
+#include "exprtk/CalculatorService.h"
+#include "preferences/PreferencesService.h"
+#include "messages/QNotificationStack.h"
+#include "legend/LegendService.h"
+#include "controls/globe/ProjectionService.h"
+#include "controls/globe/StatisticsService.h"
+using namespace calenhad;
+using namespace calenhad::preferences;
+using namespace calenhad::notification;
+using namespace calenhad::controls::globe;
+using namespace calenhad::legend;
+using namespace calenhad::pipeline;
+using namespace calenhad::expressions;
 
 PreferencesService* CalenhadServices::_preferences;
 QNotificationService* CalenhadServices::_messages;
@@ -16,6 +27,7 @@ ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
 ModuleFactory* CalenhadServices::_modules;
+CalculatorService* CalenhadServices::_calculator;
 
 PreferencesService* CalenhadServices::preferences () {
     return _preferences;
@@ -76,4 +88,12 @@ void CalenhadServices::provideProjections (ProjectionService* service) {
 
 ModuleFactory* CalenhadServices::modules () {
     return _modules;
+}
+
+void CalenhadServices::provideCalculator (CalculatorService* calculator) {
+    _calculator = calculator;
+}
+
+CalculatorService* CalenhadServices::calculator () {
+    return _calculator;
 }

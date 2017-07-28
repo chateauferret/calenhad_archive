@@ -5,11 +5,14 @@
 #ifndef CALENHAD_NOISEMAPBUILDERSPHERE_H
 #define CALENHAD_NOISEMAPBUILDERSPHERE_H
 
-#include "NoiseContstants.h"
+#include "NoiseConstants.h"
 #include "NoiseMapBuilder.h"
 #include <marble/GeoDataLatLonBox.h>
-
-class ImageRenderJob;
+namespace calenhad {
+    namespace pipeline {
+        class ImageRenderJob;
+    }
+}
 
 namespace noise {
     namespace utils {
@@ -33,12 +36,12 @@ namespace noise {
         ///
         /// The application must provide the southern, northern, western, and
         /// eastern bounds of the noise map, in degrees.
-        class NoiseMapBuilderSphere: public QObject, public NoiseMapBuilder {
+        class NoiseMapBuilderSphere: public QObject, public noise::utils::NoiseMapBuilder {
         Q_OBJECT
         public:
 
             /// Constructor.
-            NoiseMapBuilderSphere (ImageRenderJob* job);
+            NoiseMapBuilderSphere (calenhad::pipeline::ImageRenderJob* job);
 
             virtual void build ();
 
@@ -64,7 +67,7 @@ namespace noise {
             Marble::GeoDataLatLonBox _bounds;
 
             double _curLat, _curLon, _xDelta, _yDelta;
-            ImageRenderJob* _job;
+            calenhad::pipeline::ImageRenderJob* _job;
             void prepare ();
         };
 

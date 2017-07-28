@@ -5,6 +5,11 @@
 #include "AddNodeCommand.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/qneconnection.h"
+#include "../qmodule/QModule.h"
+
+using namespace calenhad::actions;
+using namespace calenhad::qmodule;
+using namespace calenhad::pipeline;
 
 AddNodeCommand::AddNodeCommand (QNode* node, const QPointF pos, CalenhadModel* model) : QUndoCommand(), _model (model), _pos (pos), _copy (node) {
 

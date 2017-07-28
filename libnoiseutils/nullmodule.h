@@ -44,7 +44,6 @@ namespace noise {
         /// @image html moduleadd.png
         ///
         /// This noise module requires two source modules.
-        using namespace noise::module;
 
         class NullModule : public Module {
 
@@ -60,12 +59,6 @@ namespace noise {
             virtual double GetValue (double x, double y, double z) const;
 
         };
-
-        /// @}
-
-        /// @}
-
-        /// @}
     }
 }
 

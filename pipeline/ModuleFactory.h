@@ -17,33 +17,51 @@
 #include <libnoise/noise.h>
 #include <libnoise/module/abs.h>
 #include <QtCore/QSet>
-#include "../qmodule/QModule.h"
 
 
-class ModuleFactory : public QObject {
-    Q_OBJECT
-    Q_ENUMS (ModuleType)
-public:
-    ModuleFactory();
-    ~ModuleFactory();
-    QNode* createModule (const QString& moduleType, CalenhadModel* model);
-    void setSeed (const int& seed);
-    void setNoiseQuality (const noise::NoiseQuality& noiseQuality);
-    int seed();
-    noise::NoiseQuality noiseQuality();
-    QPixmap* getIcon (const QString& type);
-    QStringList types ();
+namespace calenhad {
+    namespace qmodule {
+        class QNode;
+    }
 
-signals:
-    void seedChanged (const int& seed);
-    void noiseQualityChanged (const noise::NoiseQuality& noiseQuality);
+    namespace pipeline {
+        class CalenhadModel;
 
-private:
-    noise::NoiseQuality _noiseQuality = noise::NoiseQuality::QUALITY_STD;
-    int _seed = 0;
-    QMap<QString, QPixmap*> _icons;
+        class ModuleFactory : public QObject {
+        Q_OBJECT
+            Q_ENUMS (ModuleType)
+        public:
+            ModuleFactory ();
 
-};
+            ~ModuleFactory ();
 
+            calenhad::qmodule::QNode* createModule (const QString& moduleType, CalenhadModel* model);
+
+            void setSeed (const int& seed);
+
+            void setNoiseQuality (const noise::NoiseQuality& noiseQuality);
+
+            int seed ();
+
+            noise::NoiseQuality noiseQuality ();
+
+            QPixmap* getIcon (const QString& type);
+
+            QStringList types ();
+
+        signals:
+
+            void seedChanged (const int& seed);
+
+            void noiseQualityChanged (const noise::NoiseQuality& noiseQuality);
+
+        private:
+            noise::NoiseQuality _noiseQuality = noise::NoiseQuality::QUALITY_STD;
+            int _seed = 0;
+            QMap<QString, QPixmap*> _icons;
+
+        };
+    }
+}
 
 #endif //CALENHAD_MODULEFACTORY_H

@@ -2,16 +2,16 @@
 // Created by martin on 26/11/16.
 //
 
-#include <libnoise/module/modulebase.h>
-#include <QtWidgets/QFormLayout>
-#include <QtWidgets/QDoubleSpinBox>
-#include "QSpheresModule.h"
-#include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
+#include <libnoise/module/spheres.h>
+#include "../CalenhadServices.h"
+#include "../preferences/PreferencesService.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
-#include "../CalenhadServices.h"
+#include "QSpheresModule.h"
+
+
+using namespace noise::module;
+using namespace calenhad::qmodule;
 
 QSpheresModule::QSpheresModule (QWidget* parent) : QModule (new noise::module::Spheres(), parent) {
 
@@ -24,7 +24,7 @@ QSpheresModule::~QSpheresModule() {
 void QSpheresModule::initialise() {
     QModule::initialise();
     _name = "New Spheres";
-    frequencySpin = logParameterControl ("Frequency");
+    frequencySpin = parameterControl ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
     _isInitialised = true;
@@ -74,7 +74,7 @@ void QSpheresModule::inflate (const QDomElement& element) {
     if (ok) { setFrequency (frequency); }
 }
 
-void QSpheresModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QSpheresModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "getFrequency", QString::number (frequency()));
 }

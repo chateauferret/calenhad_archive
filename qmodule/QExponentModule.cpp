@@ -1,17 +1,16 @@
 //
 // Created by martin on 26/11/16.
 //
-
-#include <libnoise/module/modulebase.h>
-#include <QtWidgets/QFormLayout>
-#include <QtWidgets/QDoubleSpinBox>
 #include "QExponentModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+
+using namespace calenhad::qmodule;
+using namespace calenhad::controls;
+using namespace noise::module;
 
 QExponentModule::QExponentModule (QWidget* parent) : QModule (new noise::module::Exponent(), parent) {
 
@@ -24,7 +23,7 @@ QExponentModule::~QExponentModule() {
 void QExponentModule::initialise() {
     QModule::initialise();
     _name = "New Exponent";
-    exponentSpin = logParameterControl ("Exponent");
+    exponentSpin = parameterControl ("Exponent", "exponent");
     exponentSpin -> setValue (1.0);
     _contentLayout -> addRow (tr ("Exponent"), exponentSpin);
     _isInitialised = true;
@@ -73,7 +72,7 @@ void QExponentModule::inflate (const QDomElement& element) {
     if (ok) { setExponent (exp); }
 }
 
-void QExponentModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QExponentModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "exponent", QString::number (exponent()));
 }

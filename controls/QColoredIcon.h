@@ -9,23 +9,32 @@
 #include <QtWidgets/QLabel>
 #include <QGraphicsColorizeEffect>
 
-class QColoredIcon : public QLabel {
+namespace calenhad {
+    namespace controls {
 
-public:
-    QColoredIcon (QWidget* parent = 0);
-    virtual ~QColoredIcon();
-    void setColor (const QColor& color);
-    void setMouseOverColor (const QColor& color);
+        class QColoredIcon : public QLabel {
 
-protected:
-    QColor _color, _mouseOverColor;
-    QGraphicsColorizeEffect* _colorizer;
+        public:
+            QColoredIcon (QWidget* parent = 0);
 
-    void enterEvent (QEvent* event) override;
-    void leaveEvent (QEvent* event) override;
+            virtual ~QColoredIcon ();
+
+            void setColor (const QColor& color);
+
+            void setMouseOverColor (const QColor& color);
+
+        protected:
+            QColor _color, _mouseOverColor;
+            QGraphicsColorizeEffect* _colorizer;
+
+            void enterEvent (QEvent* event) override;
+
+            void leaveEvent (QEvent* event) override;
 
 
-};
+        };
+    }
+}
 
 
 #endif //CALENHAD_QDRAGGABLEICON_H

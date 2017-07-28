@@ -22,7 +22,7 @@
 /// To make a tileable noise map with no seams at the edges, call the
 /// EnableSeamless() method.
 
-#include "NoiseContstants.h"
+#include "NoiseConstants.h"
 #include "NoiseMapBuilder.h"
 
 namespace noise {

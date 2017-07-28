@@ -7,6 +7,8 @@
 #include <iostream>
 #include "QNodeBlock.h"
 
+using namespace calenhad::nodeedit;
+
 EditableLabel::EditableLabel (QGraphicsItem* parent) : QGraphicsTextItem (parent), _textEdit (nullptr), _proxy (nullptr) {
     setCursor (Qt::IBeamCursor);
 }

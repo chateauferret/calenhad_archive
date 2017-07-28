@@ -7,15 +7,17 @@
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
-#include "../controls/AltitudeMapEditor.h"
+#include "preferences/preferences.h"
+#include "../controls/altitudemap/AltitudeMapEditor.h"
 #include "messages/QNotificationStack.h"
-#include "../controls/AltitudeMapPlot.h"
 #include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../CalenhadServices.h"
 
-using noise::module::Module;
+using namespace noise::module;
+using namespace calenhad::qmodule;
+using namespace calenhad::controls::altitudemap;
+using namespace calenhad::actions;
 
 QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (new TranslatePoint(), parent), _editor (nullptr) {
 
@@ -68,7 +70,7 @@ void QAltitudeMap::editAltitudeMap() {
     QDomDocument doc;
     QDomElement root = doc.createElement ("model");
     doc.appendChild (root);
-    serialise (doc);
+    serialize (doc);
     _oldXml = doc.toString();
 
     QVector<QPointF> entries = getEntries();
@@ -98,7 +100,7 @@ void QAltitudeMap::updateEntries() {
     QDomDocument doc;
     QDomElement root = doc.createElement ("model");
     doc.appendChild (root);
-    serialise (doc);
+    serialize (doc);
     QString newXml = doc.toString();
 
     XmlCommand* c = new XmlCommand (this, _oldXml, newXml);
@@ -234,8 +236,8 @@ void QAltitudeMap::inflate (const QDomElement& element) {
     }
 }
 
-void QAltitudeMap::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QAltitudeMap::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     QDomElement mapElement = _document.createElement ("map");
     _element.appendChild (mapElement);
     if (dynamic_cast<Terrace*> (_module)) {

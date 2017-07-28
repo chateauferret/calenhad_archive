@@ -5,6 +5,11 @@
 #include <QtXml/QDomDocument>
 #include "ChangeModuleCommand.h"
 #include "../qmodule/QModule.h"
+#include "../nodeedit/qneport.h"
+
+using namespace calenhad::actions;
+using namespace calenhad::qmodule;
+using namespace calenhad::nodeedit;
 
 ChangeModuleCommand::ChangeModuleCommand (QNode* node,  const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex, const int& portType) :
     _node (node),

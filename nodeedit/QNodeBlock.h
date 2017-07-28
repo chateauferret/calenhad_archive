@@ -30,59 +30,97 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QRectF>
 #include <QVector>
 #include <QtWidgets/QLineEdit>
-#include "../qmodule/QNode.h"
 
-class QColoredIcon;
-class QNEPort;
-class QModule;
-class EditableLabel;
-class QNodeGroupBlock;
+namespace calenhad {
+	namespace qmodule {
+        class QNode;
+	}
+	namespace controls {
+		class QColoredIcon;
+	}
+	namespace nodeedit {
+		class QNEPort;
 
-class QNodeBlock : public QObject, public QGraphicsPathItem {
-	Q_OBJECT
-public:
-	enum { Type = QGraphicsItem::UserType + 3 };
-    QNodeBlock (QNode* node, QGraphicsItem *parent = 0);
-    virtual ~QNodeBlock();
-	QNEPort* addPort (QNEPort* port);
+		class EditableLabel;
 
-	void paint (QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-	QVector<QNEPort*> ports();
-	int type() const { return Type; }
-	QVector<QNEPort*> inputs();
-	QVector<QNEPort*> outputs();
-    QVector<QNEPort*> controls();
-    virtual QRectF boundingRect() const;
-    virtual void initialise();
-    QNode* node();
-    void assignGroup ();
-    void assignIcon ();
-public slots:
-    virtual void nodeChanged ();
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-    void mouseMoveEvent (QGraphicsSceneMouseEvent* event) override;
-    void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) override;
-    //void showParameters ();
+		class QNodeGroupBlock;
 
-protected:
-	QVariant itemChange (GraphicsItemChange change, const QVariant &value);
-    QNode* _node;
-    EditableLabel* _label;
-    QBrush _brush;
-    QPen _pen;
-	QPixmap* _pixmap;
-    virtual QPainterPath makePath ();
-    qreal _oldZ;
-    void detach();
-    void attach (QGraphicsItem* target);
-    QSize _size;
-    int _margin;
-    QGraphicsProxyWidget* _iconProxy;
+		class QNodeBlock : public QObject, public QGraphicsPathItem {
+		Q_OBJECT
+		public:
+			enum {
+				Type = QGraphicsItem::UserType + 3
+			};
+
+			QNodeBlock (calenhad::qmodule::QNode* node, QGraphicsItem* parent = 0);
+
+			virtual ~QNodeBlock ();
+
+			QNEPort* addPort (QNEPort* port);
+
+			void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
+			QVector<QNEPort*> ports ();
+
+			int type () const { return Type; }
+
+			QVector<QNEPort*> inputs ();
+
+			QVector<QNEPort*> outputs ();
+
+			QVector<QNEPort*> controls ();
+
+			virtual QRectF boundingRect () const;
+
+			virtual void initialise ();
+
+			calenhad::qmodule::QNode* node ();
+
+			void assignGroup ();
+
+			void assignIcon ();
+
+		public slots:
+
+			virtual void nodeChanged ();
+
+			void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
+
+			void mouseReleaseEvent (QGraphicsSceneMouseEvent* event) override;
+
+			void mouseMoveEvent (QGraphicsSceneMouseEvent* event) override;
+
+			void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) override;
+			//void showParameters ();
+
+		protected:
+			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
+
+			calenhad::qmodule::QNode* _node;
+			EditableLabel* _label;
+			QBrush _brush;
+			QPen _pen;
+			QPixmap* _pixmap;
+
+			virtual QPainterPath makePath ();
+
+			qreal _oldZ;
+
+			void detach ();
+
+			void attach (QGraphicsItem* target);
+
+			QSize _size;
+			int _margin;
+			QGraphicsProxyWidget* _iconProxy;
 
 
-    QColoredIcon* _icon;
-	QPixmap _iconImage;
-};
+			calenhad::controls::QColoredIcon* _icon;
+			QPixmap _iconImage;
+            const QPixmap _endorsementOrright, _endorsementGoosed;
+
+		};
+	}
+}
 
 #endif // QNEBLOCK_H

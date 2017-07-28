@@ -33,6 +33,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../actions/ChangeModuleCommand.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/CalenhadController.h"
+#include "../preferences/PreferencesService.h"
+
+using namespace calenhad::nodeedit;
+using namespace calenhad::qmodule;
+using namespace calenhad::actions;
+using namespace calenhad::pipeline;
 
 QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) :
         QGraphicsPathItem (parent),

@@ -29,38 +29,59 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsPathItem>
 #include <QtXml/QDomDocument>
 
-class QNEPort;
-class QNotificationFactory;
+namespace calenhad {
+	namespace notification {
+		class QNotificationFactory;
+	}
+	namespace nodeedit {
+		class QNEPort;
+		class QNEConnection : public QGraphicsPathItem {
 
-class QNEConnection : public QGraphicsPathItem {
+		public:
+			enum {
+				Type = QGraphicsItem::UserType + 2
+			};
 
-public:
-	enum { Type = QGraphicsItem::UserType + 2 };
+			QNEConnection (QGraphicsItem* parent = 0);
 
-    QNEConnection (QGraphicsItem *parent = 0);
-	~QNEConnection();
-	void setPos1(const QPointF &p);
-	void setPos2(const QPointF &p);
-	void setPort1(QNEPort *p);
-	void setPort2(QNEPort *p);
-	void updatePosFromPorts();
-	void updatePath();
-	QNEPort* port1() const;
-	QNEPort* port2() const;
-    bool canDrop;
-	int type() const { return Type; }
-	void serialise (QDomDocument& doc);
-	void inflate (const QDomDocument& doc);
-	QNEPort* otherEnd (QNEPort* port);
+			~QNEConnection ();
 
-private:
+			void setPos1 (const QPointF& p);
 
-	QPointF pos1;
-	QPointF pos2;
-	QNEPort *m_port1;
-	QNEPort *m_port2;
+			void setPos2 (const QPointF& p);
+
+			void setPort1 (QNEPort* p);
+
+			void setPort2 (QNEPort* p);
+
+			void updatePosFromPorts ();
+
+			void updatePath ();
+
+			QNEPort* port1 () const;
+
+			QNEPort* port2 () const;
+
+			bool canDrop;
+
+			int type () const { return Type; }
+
+			void serialise (QDomDocument& doc);
+
+			void inflate (const QDomDocument& doc);
+
+			QNEPort* otherEnd (QNEPort* port);
+
+		private:
+
+			QPointF pos1;
+			QPointF pos2;
+			QNEPort* m_port1;
+			QNEPort* m_port2;
 
 
-};
+		};
+	}
+}
 
 #endif // QNECONNECTION_H

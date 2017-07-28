@@ -9,8 +9,10 @@
 #include "../pipeline/ImageRenderJob.h"
 
 using namespace noise::utils;
+using namespace calenhad::pipeline;
+using namespace Marble;
 
-#include "NoiseContstants.h"
+#include "NoiseConstants.h"
 #include "NoiseMap.h"
 
 /////////////////////////////////////////////////////////////////////////////

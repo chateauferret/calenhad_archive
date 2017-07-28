@@ -108,7 +108,7 @@ void IcosphereDivider::subdivide (const unsigned int& level) {
                 }
                 _vertex = _vertices -> at (ids1[k]);
             }
-            Triangle* parent = _triangles.find (_triangleKey (ids0[0], ids0[1], ids0[2]))->second;
+            Triangle* parent = _triangles.find (triangleKey (ids0[0], ids0[1], ids0[2]))->second;
             makeTriangle (refinedIndices, ids0[0], ids1[0], ids1[2], level, parent);
             makeTriangle (refinedIndices, ids0[1], ids1[1], ids1[0], level, parent);
             makeTriangle (refinedIndices, ids0[2], ids1[2], ids1[1], level, parent);
@@ -135,13 +135,14 @@ void IcosphereDivider::makeTriangle (std::vector<unsigned>& refinedIndices, cons
 }
 
 void IcosphereDivider::addTriangle (const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {
-    boost::uint128_type tkey = _triangleKey (a, b, c);
+    boost::uint128_type tkey = triangleKey (a, b, c);
     Triangle* t = new Triangle (_vertices -> at (a), _vertices -> at (b), _vertices -> at (c), level);
     if (level > 0) {
         t -> setParent (parent);
         parent -> addChild (t);
     }
-    _triangles.insert (std::make_pair (tkey, t));
+    std::pair<boost::uint128_type, Triangle*> pair = std::make_pair (tkey, t);
+    _triangles.insert (pair);
 
     _vertices -> at (a) -> addTriangle (t);
     _vertices -> at (b) -> addTriangle (t);
@@ -149,7 +150,7 @@ void IcosphereDivider::addTriangle (const unsigned& a, const unsigned& b, const 
 
 }
 
-boost::uint128_type IcosphereDivider::_triangleKey (unsigned a, unsigned b, unsigned c) {
+boost::uint128_type IcosphereDivider::triangleKey (unsigned a, unsigned b, unsigned c) {
     unsigned temp;
     if (a > b) { temp = a; a = b; b = temp; }
     if (a > c) { temp = a; a = c; c = temp; }

@@ -3,7 +3,7 @@
 //
 
 #include "CommandGroup.h"
-
+using namespace calenhad::actions;
 CommandGroup::CommandGroup() {
 
 }

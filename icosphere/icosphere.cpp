@@ -12,10 +12,12 @@
 #include "icosphere.h"
 #include "IcosphereDivider.h"
 #include <QThread>
+#include "../legend/Legend.h"
 
 
 using namespace icosphere;
 using namespace Marble;
+using namespace calenhad::legend;
 
 
 Icosphere::Icosphere (const int& depth) : Model (depth), _vertices (std::make_shared<std::vector<Vertex*>>()) {

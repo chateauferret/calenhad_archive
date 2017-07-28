@@ -9,17 +9,19 @@
 #include <QtTest/qtestdata.h>
 #include <memory>
 #include <QtTest/QTest>
-#include <libnoiseutils/IcosphereModule.h>
+#include <icosphere/IcosphereModule.h>
 #include "IcosphereTest.h"
 #include "icosphere/icosphere.h"
 #include "../icosphere/icosphere.h"
-#include "../libnoiseutils/IcosphereBuilder.h"
+#include "icosphere/IcosphereBuilder.h"
 
 using namespace icosphere;
 using namespace geoutils;
 using namespace noise::utils;
 using namespace noise::module;
-
+using namespace icosphere::test;
+using namespace calenhad;
+using namespace calenhad::legend;
 IcosphereTest::IcosphereTest() {
 
 }

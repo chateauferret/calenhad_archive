@@ -8,6 +8,11 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../qmodule/QNodeGroup.h"
 #include "../nodeedit/QNodeGroupBlock.h"
+#include <QDragEnterEvent>
+#include <QMimeData>
+using namespace calenhad::pipeline;
+using namespace calenhad::nodeedit;
+
 
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);

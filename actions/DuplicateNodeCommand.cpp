@@ -1,11 +1,18 @@
-//
+
 // Created by martin on 28/04/17.
 //
 
 #include "DuplicateNodeCommand.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/QNodeBlock.h"
+#include "../preferences/preferences.h"
 #include "../CalenhadServices.h"
+#include "../qmodule/QModule.h"
+
+using namespace calenhad::actions;
+using namespace calenhad::qmodule;
+using namespace calenhad::pipeline;
+
 
 DuplicateNodeCommand::DuplicateNodeCommand (QNode* node, CalenhadModel* model) : _node (node), _model (model), _copy (nullptr) {
 

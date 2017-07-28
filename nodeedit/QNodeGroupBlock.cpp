@@ -7,6 +7,14 @@
 #include "EditableLabel.h"
 #include "../pipeline/CalenhadModel.h"
 #include <QGraphicsSceneMouseEvent>
+#include "../preferences/PreferencesService.h"
+#include <QPainter>
+#include "../qmodule/QNode.h"
+
+using namespace calenhad::nodeedit;
+using namespace calenhad::qmodule;
+using namespace calenhad::controls;
+
 
 QNodeGroupBlock::QNodeGroupBlock (QNode* node, QGraphicsItem* parent) : QNodeBlock (node, parent) {
     _rect = QRectF (0, 0, 240, 120);

@@ -4,9 +4,12 @@
 
 #include "ScanLineRenderer.h"
 #include "../geoutils.h"
-#include "../mapping/Legend.h"
+#include "legend/Legend.h"
 
 using namespace noise::model;
+using namespace calenhad::pipeline;
+using namespace calenhad::mapping;
+using namespace calenhad::legend;
 
 ScanLineRenderer::ScanLineRenderer (const RenderBuffer::iterator& index, Sphere* sphere, Legend* legend) : QObject(),
     _sphere (sphere),

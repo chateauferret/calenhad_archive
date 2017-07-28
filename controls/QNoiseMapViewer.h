@@ -10,45 +10,55 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QProgressBar>
 #include <QGraphicsView>
-#include "../pipeline/ImageRenderJob.h"
 #include <memory>
 #include <marble/GeoDataLatLonAltBox.h>
 #include "../geoutils.h"
-#include "CalenhadPreview.h"
+#include "../icosphere/Bounds.h"
+#include "../controls/globe/CalenhadPreview.h"
 
 
-class QModule;
-class QNoiseMapExplorer;
+namespace calenhad {
+    namespace qmodule {
+        class QModule;
+    }
+    namespace controls {
+        namespace globe {
+            class QNoiseMapExplorer;
+        }
 
-using namespace icosphere;
+        class QNoiseMapViewer : public calenhad::controls::globe::CalenhadPreview {
+        Q_OBJECT
+        public:
+            QNoiseMapViewer (calenhad::qmodule::QModule* module, QWidget* parent);
 
-class QNoiseMapViewer : public CalenhadPreview {
-Q_OBJECT
-public:
-    QNoiseMapViewer (QModule* module, QWidget* parent);
-    virtual ~QNoiseMapViewer();
-    void jobComplete (std::shared_ptr<QImage> image) override;
-    void initialise();
-    bool eventFilter (QObject*, QEvent*);
-    QSize renderSize() override;
+            virtual ~QNoiseMapViewer ();
 
-public slots:
-    void setBounds (const Bounds& bounds) override;
-   // void setProgress (int p);
+            void jobComplete (std::shared_ptr<QImage> image) override;
 
+            void initialise ();
 
+            bool eventFilter (QObject*, QEvent*);
 
-protected:
-    QLabel* _label;
-    QNoiseMapExplorer* _explorer;
-    QProgressBar* _progressBar;
-    QGraphicsView* _view;
-    QGraphicsScene* _scene;
-    QGraphicsPixmapItem* _item = nullptr;
-    QWidget* _content;
-    QVBoxLayout* _contentLayout;
+            QSize renderSize () override;
 
-};
+        public slots:
+
+            void setBounds (const icosphere::Bounds& bounds) override;
+            // void setProgress (int p);
+
+        protected:
+            QLabel* _label;
+            calenhad::controls::globe::QNoiseMapExplorer* _explorer;
+            QProgressBar* _progressBar;
+            QGraphicsView* _view;
+            QGraphicsScene* _scene;
+            QGraphicsPixmapItem* _item = nullptr;
+            QWidget* _content;
+            QVBoxLayout* _contentLayout;
+
+        };
+    }
+}
 
 
 #endif //CALENHAD_QSPHERICALVIEWER_H

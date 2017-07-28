@@ -7,20 +7,33 @@
 
 
 #include <QtWidgets/QUndoCommand>
-class QNode;
-class CalenhadModel;
 
-class DuplicateNodeCommand : public QUndoCommand {
-public:
-    DuplicateNodeCommand (QNode* node, CalenhadModel* model);
-    virtual ~DuplicateNodeCommand();
-    virtual void undo() override;
-    virtual void redo() override;
+namespace calenhad {
+    namespace qmodule {
+        class QNode;
+    }
+    namespace pipeline {
+        class CalenhadModel;
+    }
 
-protected:
-    CalenhadModel* _model = nullptr;
-    QNode* _node, * _copy;
-};
+    namespace actions {
+
+        class DuplicateNodeCommand : public QUndoCommand {
+        public:
+            DuplicateNodeCommand (calenhad::qmodule::QNode* node, calenhad::pipeline::CalenhadModel* model);
+
+            virtual ~DuplicateNodeCommand ();
+
+            virtual void undo () override;
+
+            virtual void redo () override;
+
+        protected:
+            calenhad::pipeline::CalenhadModel* _model = nullptr;
+            calenhad::qmodule::QNode* _node, * _copy;
+        };
+    }
+}
 
 
 #endif //CALENHAD_DUPLICATEMODULECOMMAND_H

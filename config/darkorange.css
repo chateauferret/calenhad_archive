@@ -10,7 +10,7 @@ CalenhadView {
 
 QPushButton
 {
-    background-color: #00007f;
+    background-color: #7f7f7f;
 }
 
 QPushButton:hover{
@@ -82,7 +82,7 @@ QNotificationStack {
 }
 
 
-QNEMessageBox > QLabel {
+QNotification > QLabel {
     color: #000000;
 }
 

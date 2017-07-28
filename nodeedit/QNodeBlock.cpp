@@ -33,9 +33,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneconnection.h"
 #include "QNodeGroupBlock.h"
 #include "../qmodule/QNodeGroup.h"
+#include "../pipeline/ModuleFactory.h"
+#include "../preferences/PreferencesService.h"
+#include "../nodeedit/CalenhadView.h"
+#include "../nodeedit/qneport.h"
+#include <QGraphicsSceneMouseEvent>
 
 
-QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr) {
+using namespace calenhad::controls;
+using namespace calenhad::nodeedit;
+using namespace calenhad::qmodule;
+
+
+
+QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr),
+   _endorsementOrright (QPixmap (":/appicons/status/orright.png")),
+   _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
     _pixmap = CalenhadServices::modules() -> getIcon (node -> nodeType());
     _size = QSize (CalenhadServices::preferences() -> calenhad_handle_module_width, CalenhadServices::preferences() -> calenhad_handle_module_height);
     _margin = CalenhadServices::preferences() -> calenhad_handle_module_margin;
@@ -91,6 +104,9 @@ void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* optio
     painter -> drawPath (path());
     _icon -> setColor (isSelected() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark() : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark());
     painter -> drawPixmap ( _margin, _margin, _icon -> grab());
+    QPixmap _endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
+    painter -> drawPixmap (0, 0, _endorsement);
+
 }
 
 void QNodeBlock::assignIcon() {

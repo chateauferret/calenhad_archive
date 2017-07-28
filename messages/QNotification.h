@@ -14,29 +14,44 @@
 #include <QObject>
 #include <QtCore/QUuid>
 
-class QNotification : public QFrame {
-    Q_OBJECT
 
+namespace calenhad {
+    namespace notification {
 
-public:
-    QNotification (const QString& message, QWidget* host, const QString& style="info", const int& duration = 10000);
-    ~QNotification();
-    virtual void showEvent (QShowEvent* e);
-    virtual void mousePressEvent (QMouseEvent* e) override;
-    void setDuration (const int& duration);
+        class QNotification : public QFrame {
+        Q_OBJECT
+        public:
 
-public slots:
-    void dismiss();
+            QNotification (const QString& message, QWidget* host, const QString& style = "info", const int& duration = 10000);
 
-signals:
-    void dismissed (QNotification*);
-    void displayed();
+            ~QNotification ();
 
-protected:
-    QNotification ();
-    QLabel* _message;
-    int _duration;
-};
+            virtual void showEvent (QShowEvent* e);
+
+            virtual void mousePressEvent (QMouseEvent* e) override;
+
+            void setDuration (const int& duration);
+
+        public slots:
+
+            void dismiss ();
+
+        signals:
+
+            void dismissed (QNotification*);
+
+            void displayed ();
+
+        protected:
+
+            QNotification ();
+
+            QLabel* _message;
+            int _duration;
+        };
+    }
+}
+
 
 
 #endif //CALENHAD_QNEMESSAGEBOX_H

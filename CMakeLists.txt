@@ -24,11 +24,12 @@ set(QMODULE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/qmodule)
 set(NODEEDIT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nodeedit)
 set(CONTROLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/controls)
 set(PIPELINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pipeline)
-set(HTTPSERVER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/httpserver)
 set(ACTIONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/actions)
 set(MAPPING_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mapping)
 set(LIBNOISEUTILS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libnoiseutils)
 set (ICOSPHERE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/icosphere)
+set (EXPRTK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/exprtk)
+set (LEGEND_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/legend)
 include_directories(
         ${LIBNOISE_LIBRARIES_INCLUDE_DIRS}
         ${GeographicLib_INCLUDE_DIRS}
@@ -42,11 +43,12 @@ INCLUDE(${QMODULE_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${NODEEDIT_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${CONTROLS_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${PIPELINE_SOURCE_DIR}/CMakeLists.txt)
-INCLUDE(${HTTPSERVER_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${ACTIONS_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${MAPPING_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${LIBNOISEUTILS_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${ICOSPHERE_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${EXPRTK_SOURCE_DIR}/CMakeLists.txt)
+INCLUDE(${LEGEND_SOURCE_DIR}/CMakeLists.txt)
 
 add_subdirectory (test)
 add_subdirectory (messages)
@@ -60,23 +62,14 @@ include_directories (messages)
 
 
 set(SOURCE_FILES ${SOURCE_FILES}
-        preferences.h
-        preferences.cpp
+        preferences/preferences.h
+        preferences/preferences.cpp
         geoutils.h
         geoutils.cpp
-        LegendService.h
-        LegendRoster.h
-        LegendRoster.cpp
         CalenhadServices.cpp
         CalenhadServices.h
-        PreferencesService.h
-
-        LegendService.h
-        PreferencesService.h
-        StatisticsService.cpp
-        StatisticsService.h
-        ProjectionService.cpp
-        ProjectionService.h
+        preferences/PreferencesService.h
+        Serializable.h
         ${FASTNOISE_SIMD_SOURCE_FILES}
         ${QMODULE_SOURCE_FILES}
         ${NODEEDIT_SOURCE_FILES}
@@ -87,13 +80,16 @@ set(SOURCE_FILES ${SOURCE_FILES}
         ${MAPPING_SOURCE_FILES}
         ${LIBNOISEUTILS_SOURCE_FILES}
         ${ICOSPHERE_SOURCE_FILES}
+        ${EXPRTK_SOURCE_FILES}
+        ${LEGEND_SOURCE_FILES}
         )
+MESSAGE ("Legend source " ${LEGEND_SOURCE_FILES})
 
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 MESSAGE (STATUS "Resources dir " ${RESOURCES})
-add_library (core ${SOURCE_FILES} controls/QColoredIcon.cpp controls/QColoredIcon.h)
-add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} mapping/RenderPoint.cpp mapping/RenderPoint.h)
+add_library (core ${SOURCE_FILES})
+add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES})
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Marble messages

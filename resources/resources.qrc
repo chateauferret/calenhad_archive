@@ -35,5 +35,7 @@
         <file>appicons/controls/arrow_up.png</file>
         <file>appicons/controls/arrow_left.png</file>
         <file>appicons/controls/arrow_right.png</file>
+        <file>appicons/status/goosed.png</file>
+        <file>appicons/status/orright.png</file>
     </qresource>
 </RCC>

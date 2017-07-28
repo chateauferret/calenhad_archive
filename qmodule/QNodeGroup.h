@@ -8,36 +8,52 @@
 
 #include "QNode.h"
 
-class QNodeGroup : public QNode {
-    Q_OBJECT
-public:
-    QNodeGroup (QWidget* parent = 0);
-    virtual ~QNodeGroup();
-    enum { Type = QGraphicsItem::UserType + 5 };
-    void setRect  (const QRect& rect);
-    QRect rect();
-    bool isWithin (const QPoint& point);
-    QString nodeType() override;
-    QNodeGroup* clone() override;
-    void initialise() override;
+namespace calenhad {
+    namespace qmodule {
 
-    signals:
-    void changedOctaves (const int&);
+        class QNodeGroup : public QNode {
+        Q_OBJECT
+        public:
+            QNodeGroup (QWidget* parent = 0);
 
-protected:
-    QRect _rect;
-    void addInputPorts() override;
+            virtual ~QNodeGroup ();
+
+            enum {
+                Type = QGraphicsItem::UserType + 5
+            };
+
+            void setRect (const QRect& rect);
+
+            QRect rect ();
+
+            bool isWithin (const QPoint& point);
+
+            QString nodeType () override;
+
+            QNodeGroup* clone () override;
+
+            void initialise () override;
+
+        signals:
+
+            void changedOctaves (const int&);
+
+        protected:
+            QRect _rect;
+
+            void addInputPorts () override;
 
 
+            QSpinBox* _octaveSpin;
 
-    QSpinBox* _octaveSpin;
+            int getOctaveCount ();
 
-    int getOctaveCount ();
+            void setOctaveCount (const int& value);
 
-    void setOctaveCount (const int& value);
-
-    int _octaves;
-};
+            int _octaves;
+        };
+    }
+}
 
 
 #endif //CALENHAD_QWIDGETGROUP_H

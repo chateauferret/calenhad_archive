@@ -1,55 +1,23 @@
-
+INCLUDE (${CMAKE_CURRENT_LIST_DIR}/globe/CMakeLists.txt)
+INCLUDE (${CMAKE_CURRENT_LIST_DIR}/altitudemap/CMakeLists.txt)
 SET(CONTROLS_SOURCE_FILES
+        ${GLOBE_SOURCE_FILES}
+        ${ALTITUDEMAP_SOURCE_FILES}
         ${CMAKE_CURRENT_LIST_DIR}/QExpander.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QExpander.h
         ${CMAKE_CURRENT_LIST_DIR}/QNoiseMapViewer.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QNoiseMapViewer.h
-        ${CMAKE_CURRENT_LIST_DIR}/QLogSpinBox.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QLogSpinBox.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseMapExplorer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseMapExplorer.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobe.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobe.h
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.h
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapEditor.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapEditor.h
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.h
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapFitter.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapFitter.h
-        ${CMAKE_CURRENT_LIST_DIR}/TerraceMapFitter.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/TerraceMapFitter.h
+        ${CMAKE_CURRENT_LIST_DIR}/globe/QNoiseMapExplorer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/globe/QNoiseMapExplorer.h
+        ${CMAKE_CURRENT_LIST_DIR}/globe/CalenhadGlobe.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/globe/CalenhadGlobe.h
         ${CMAKE_CURRENT_LIST_DIR}/QxtGlobal.h
-        ${CMAKE_CURRENT_LIST_DIR}/AngleDial.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AngleDial.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadOverviewMap.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadOverviewMap.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadPreview.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadPreview.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/LegendEditor.h
-        ${CMAKE_CURRENT_LIST_DIR}/LegendEditor.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadOverviewInterface.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadNavigator.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadNavigator.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeContextMenu.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeContextMenu.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConfigDialog.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConfigDialog.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.h
-        ${CMAKE_CURRENT_LIST_DIR}/LegendChooser.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/LegendChooser.h
-        ${CMAKE_CURRENT_LIST_DIR}/LegendWidget.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/LegendWidget.h
-        ${CMAKE_CURRENT_LIST_DIR}/LegendManager.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/LegendManager.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.h
         ${CMAKE_CURRENT_LIST_DIR}/QIconPalette.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QIconPalette.h
         ${CMAKE_CURRENT_LIST_DIR}/SizeGripItem.cpp
         ${CMAKE_CURRENT_LIST_DIR}/SizeGripItem.h
         ${CMAKE_CURRENT_LIST_DIR}/FlowLayout.cpp
         ${CMAKE_CURRENT_LIST_DIR}/FlowLayout.h
+        ${CMAKE_CURRENT_LIST_DIR}/QColoredIcon.h
+        ${CMAKE_CURRENT_LIST_DIR}/QColoredIcon.cpp
         )

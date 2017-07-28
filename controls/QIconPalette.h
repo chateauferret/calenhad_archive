@@ -6,32 +6,42 @@
 #define CALENHAD_NODEPALETTE_H
 
 #include <QColormap>
+#include <QScrollArea>
+#include <QScroller>
 
-class QScroller;
 
-class QIconPalette : public QWidget {
-Q_OBJECT
-public:
-    QIconPalette (QWidget* parent);
+namespace calenhad {
+    namespace controls {
 
-    void mousePressEvent (QMouseEvent* event);
-    void resizeEvent (QResizeEvent* e) override;
+        class QIconPalette : public QWidget {
+        Q_OBJECT
+        public:
+            QIconPalette (QWidget* parent);
 
-    public slots:
-    void moved (Qt::DockWidgetArea area);
+            void mousePressEvent (QMouseEvent* event);
 
-protected:
+            void resizeEvent (QResizeEvent* e) override;
 
-    QPushButton* _leftScrollButton, * _rightScrollButton, * _topScrollButton, * _bottomScrollButton;
-    void layoutIcons ();
-    Qt::DockWidgetArea _area;
-    QWidget* _verticalPanel, * _horizontalPanel, * _horizontalIconPanel, * _verticalIconPanel, * _iconsPanel;
-    QScrollArea* _horizontalScrollPanel, * _verticalScrollPanel;
-    QStringList _types;
-    void updateScrollButtons ();
+        public slots:
 
-    int _iconSize;
-};
+            void moved (Qt::DockWidgetArea area);
 
+        protected:
+
+            QPushButton* _leftScrollButton, * _rightScrollButton, * _topScrollButton, * _bottomScrollButton;
+
+            void layoutIcons ();
+
+            Qt::DockWidgetArea _area;
+            QWidget* _verticalPanel, * _horizontalPanel, * _horizontalIconPanel, * _verticalIconPanel, * _iconsPanel;
+            QScrollArea* _horizontalScrollPanel, * _verticalScrollPanel;
+            QStringList _types;
+
+            void updateScrollButtons ();
+
+            int _iconSize;
+        };
+    }
+}
 
 #endif //CALENHAD_NODEPALETTE_H

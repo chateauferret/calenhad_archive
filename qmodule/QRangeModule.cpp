@@ -2,10 +2,11 @@
 // Created by martin on 19/12/16.
 //
 
-#include "QClampModule.h"
 #include "QRangeModule.h"
 #include "../pipeline/CalenhadModel.h"
 
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QRangeModule::QRangeModule (Module* module, QWidget* parent) : QModule (module, parent){
 
@@ -56,8 +57,8 @@ void QRangeModule::inflate (const QDomElement& element) {
 
 }
 
-void QRangeModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QRangeModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "lowerBound", QString::number (lowerBound()));
     _model -> writeParameter (_element, "upperBound", QString::number (upperBound()));
 }

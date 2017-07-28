@@ -5,6 +5,7 @@
 #include <QtWidgets/QGraphicsView>
 #include "qnetoolbox.h"
 
+using namespace calenhad::nodeedit;
 
 QNEToolBox::QNEToolBox() : QObject(),
     _drawers  (QMap<QString, ToolDrawer*>()),

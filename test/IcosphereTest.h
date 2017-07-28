@@ -6,49 +6,62 @@
 #define CALENHAD_ICOSPHERETEST_H
 
 
-#include <mapping/Legend.h>
-#include <preferences.h>
-#include <LegendRoster.h>
+#include <legend/Legend.h>
+#include <preferences/preferences.h>
+#include <legend/LegendRoster.h>
 #include <random>
 #include "QTestSuite.h"
 #include <memory>
 
 namespace icosphere {
     class Icosphere;
-}
+ namespace test {
 
-class IcosphereTest : public QTestSuite {
-Q_OBJECT
-public:
+     class IcosphereTest : public QTestSuite {
+     Q_OBJECT
+     public:
 
-    IcosphereTest();
-    ~IcosphereTest();
-    Legend* legend;
-    Preferences* preferences;
-    LegendRoster* roster;
-    QList<LegendEntry> entries;
-    unsigned points;
-    double maxdist, totaldist;
-    long timeEnd, timeStart;
-    time_t seed;
-    std::default_random_engine e;
-    std::uniform_real_distribution<double> random;
-    std::shared_ptr<icosphere::Icosphere> _icosphere;
+         IcosphereTest ();
 
-private slots:
-    void initTestCase();
-    void init();
-    void cleanUp();
-    void cleanUpTestCase();
-    void buildSpeed();
-    void imageSpeed();
-    void searchTimes();
-    void icosphereBoundsTest_data();
-    void icosphereBoundsTest();
-    void icosphereBuilderTest_data();
-    void icosphereBuilderTest();
+         ~IcosphereTest ();
 
-};
+         Legend* legend;
+         calenhad::preferences::Preferences* preferences;
+         calenhad::legend::LegendRoster* roster;
+         QList<calenhad::legend::LegendEntry> entries;
+         unsigned points;
+         double maxdist, totaldist;
+         long timeEnd, timeStart;
+         time_t seed;
+         std::default_random_engine e;
+         std::uniform_real_distribution<double> random;
+         std::shared_ptr<icosphere::Icosphere> _icosphere;
 
+     private slots:
+
+         void initTestCase ();
+
+         void init ();
+
+         void cleanUp ();
+
+         void cleanUpTestCase ();
+
+         void buildSpeed ();
+
+         void imageSpeed ();
+
+         void searchTimes ();
+
+         void icosphereBoundsTest_data ();
+
+         void icosphereBoundsTest ();
+
+         void icosphereBuilderTest_data ();
+
+         void icosphereBuilderTest ();
+
+     };
+ }
 
 #endif //CALENHAD_ICOSPHERETEST_H

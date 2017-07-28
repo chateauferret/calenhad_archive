@@ -7,11 +7,13 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "QTranslateModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QTranslateModule::QTranslateModule (QWidget* parent) : QModule (new TranslatePoint(), parent) {
 
@@ -24,13 +26,13 @@ QTranslateModule::~QTranslateModule() {
 void QTranslateModule::initialise() {
     QModule::initialise();
     _name = "New Translation";
-    dXSpin = logParameterControl ("Translate X", "dX");
+    dXSpin = parameterControl ("Translate X", "dX");
     //connect (dXSpin, SIGNAL (valueChanged (double)), this, SLOT (setDX (double)));
     _contentLayout -> addRow (tr ("X"), dXSpin);
-    dYSpin = logParameterControl ("Translate Y", "dY");
+    dYSpin = parameterControl ("Translate Y", "dY");
     //connect (dYSpin, SIGNAL (valueChanged (double)), this, SLOT (setDY (double)));
     _contentLayout -> addRow (tr ("Y"), dYSpin);
-    dZSpin = logParameterControl ("Translate Z", "dZ");
+    dZSpin = parameterControl ("Translate Z", "dZ");
     //connect (dZSpin, SIGNAL (valueChanged (double)), this, SLOT (setDZ (double)));
     _contentLayout -> addRow (tr ("Z"), dZSpin);
     _isInitialised = true;
@@ -108,8 +110,8 @@ void QTranslateModule::inflate (const QDomElement& element) {
     if (ok) { setDZ (z); }
 }
 
-void QTranslateModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QTranslateModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "x", QString::number (dX()));
     _model -> writeParameter (_element, "y", QString::number (dY()));
     _model -> writeParameter (_element, "z", QString::number (dZ()));

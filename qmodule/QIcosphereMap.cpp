@@ -6,15 +6,21 @@
 #include "../pipeline/CalenhadModel.h"
 #include <QThread>
 #include <messages/QProgressNotification.h>
-#include <libnoiseutils/IcosphereBuilder.h>
+#include <icosphere/IcosphereBuilder.h>
 #include "../nodeedit/qneconnection.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+#include "../nodeedit/qneport.h"
+#include "../controls/QNoiseMapViewer.h"
+#include <QMenu>
 
 using namespace noise::module;
 using namespace noise::utils;
 using namespace icosphere;
+using namespace calenhad::qmodule;
+using namespace calenhad::nodeedit;
+using namespace calenhad::controls;
 
 QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule (new IcosphereModule()), _depth (5), _bounds (Bounds()) {
 
@@ -122,9 +128,8 @@ void QIcosphereMap::setBounds (const icosphere::Bounds& bounds) {
     emit icosphereChangeRequested();
 }
 
-
-bool QIcosphereMap::isRenderable() {
-    return _module != nullptr && QNode::isRenderable();
+bool QIcosphereMap::isComplete() {
+    return QModule::isComplete() && _module != nullptr;
 }
 
 
@@ -167,8 +172,8 @@ void QIcosphereMap::inflate (const QDomElement& element) {
     }
 }
 
-void QIcosphereMap::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QIcosphereMap::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "depth", QString::number (_depth));
     QDomElement boundsElement = doc.createElement ("bounds");
     _element.appendChild (boundsElement);

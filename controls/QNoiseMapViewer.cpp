@@ -1,17 +1,20 @@
 //
 // Created by martin on 16/12/16.
 //
-
+#include <QGraphicsSceneMouseEvent>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QGraphicsView>
+#include <QtCore/QDateTime>
+#include "globe/QNoiseMapExplorer.h"
 #include "QNoiseMapViewer.h"
 #include "../nodeedit/Calenhad.h"
-#include "QNoiseMapExplorer.h"
-
+#include "../qmodule/QModule.h"
 using namespace geoutils;
 using namespace Marble;
 using namespace icosphere;
-
+using namespace calenhad::qmodule;
+using namespace calenhad::controls;
+using namespace calenhad::controls::globe;
 
 QNoiseMapViewer::QNoiseMapViewer (QModule* module, QWidget* parent) : CalenhadPreview (module, parent), _explorer (nullptr) {
 
@@ -64,10 +67,10 @@ bool QNoiseMapViewer::eventFilter (QObject* o, QEvent* e) {
         case QEvent::GraphicsSceneMousePress:
             switch ((int) me -> button ()) {
                 case Qt::LeftButton: {
-                    if (_source -> isRenderable()) {
+                    if (_source -> isComplete()) {
                         if (! _explorer) {
                             _explorer = new QNoiseMapExplorer (_source -> name(), _source);
-                            connect (_explorer, SIGNAL (viewChanged (const Bounds&)), this, SLOT (setBounds (const Bounds&)));
+                            connect (_explorer, &QNoiseMapExplorer::viewChanged, this, &QNoiseMapViewer::setBounds);
                         }
                         _explorer -> show ();
                     }

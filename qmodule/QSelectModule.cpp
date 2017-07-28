@@ -7,10 +7,13 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "QSelectModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+
+
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QSelectModule::QSelectModule (QWidget* parent) : QRangeModule (new noise::module::Select(), parent) {
 
@@ -83,6 +86,6 @@ void QSelectModule::inflate (const QDomElement& element) {
     QRangeModule::inflate (element);
 }
 
-void QSelectModule::serialise (QDomDocument& doc) {
-    QRangeModule::serialise (doc);
+void QSelectModule::serialize (QDomDocument& doc) {
+    QRangeModule::serialize (doc);
 }

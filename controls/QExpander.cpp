@@ -5,6 +5,8 @@
 #include "QExpander.h"
 #include <iostream>
 
+using namespace calenhad::controls;
+
 QExpander::QExpander (const QString& title, QWidget* parent) : QToolBar (parent) {
     /*_button = new QButton (this);
     _button -> setText (title);

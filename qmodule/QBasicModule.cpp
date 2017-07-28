@@ -6,8 +6,11 @@
 #include "QBasicModule.h"
 #include "../libnoiseutils/diff.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QBasicModule::QBasicModule (Module* m, QWidget* parent) : QModule (m, parent) {
 
@@ -64,8 +67,8 @@ void QBasicModule::initialise () {
     emit initialised();
 }
 
-void QBasicModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QBasicModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _element.setAttribute ("nodeType", nodeType ());
 
 }

@@ -8,43 +8,62 @@
 #include <QtCore/QString>
 #include <QtXml/QDomElement>
 #include "QModule.h"
+#include "../controls/altitudemap/AltitudeMapConstants.h"
 
-class AltitudeMapEditor;
+namespace calenhad {
+    namespace controls {
+        namespace altitudemap {
+            class AltitudeMapEditor;
+        }
+    }
+    namespace qmodule {
 
-enum CurveType { AltitudeCurve=1, TerraceCurve=2, InvertedTerraceCurve=3 };
+        class QAltitudeMap : public QModule {
+        Q_OBJECT
+        public:
+            static QAltitudeMap* newInstance ();
 
-class QAltitudeMap : public QModule {
-    Q_OBJECT
-public:
-    static QAltitudeMap* newInstance();
-    virtual ~QAltitudeMap();
-    void initialise() override;
+            virtual ~QAltitudeMap ();
 
-    QAltitudeMap* clone () override;
-    virtual QString nodeType () override;
-    QVector<QPointF> getEntries() const;
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
-    void addEntry (const double& in, const double& out = 0);
-    void removeEntry (const double& key);
+            void initialise () override;
 
-public slots:
+            QAltitudeMap* clone () override;
 
-    void updateEntries();
-    void editingFinished();
-    void resetMap ();
-    void editAltitudeMap();
+            virtual QString nodeType () override;
 
-protected:
-    QAltitudeMap (QWidget* parent = 0);
-    AltitudeMapEditor* _editor;
-    QMap<CurveType, noise::module::Module*> _modules;
+            QVector<QPointF> getEntries () const;
+
+            virtual void inflate (const QDomElement& element) override;
+
+            virtual void serialize (QDomDocument& doc) override;
+
+            void addEntry (const double& in, const double& out = 0);
+
+            void removeEntry (const double& key);
+
+        public slots:
+
+            void updateEntries ();
+
+            void editingFinished ();
+
+            void resetMap ();
+
+            void editAltitudeMap ();
+
+        protected:
+            QAltitudeMap (QWidget* parent = 0);
+
+            calenhad::controls::altitudemap::AltitudeMapEditor* _editor;
+            QMap<calenhad::controls::altitudemap::CurveType, noise::module::Module*> _modules;
 
 
-    void clearMap ();
+            void clearMap ();
 
-    QString _oldXml;
-};
+            QString _oldXml;
+        };
+    }
+}
 
 
 #endif //CALENHAD_QALTITUDEMAP_H

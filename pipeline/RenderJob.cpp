@@ -3,9 +3,14 @@
 //
 
 #include <QtCore/QThread>
-#include <iostream>
+#include "../qmodule/QModule.h"
 #include "RenderJob.h"
 #include "../icosphere/icosphere.h"
+
+using namespace noise::module;
+using namespace calenhad::pipeline;
+using namespace calenhad::qmodule;
+using namespace calenhad::legend;
 
 RenderJob::RenderJob (const Marble::GeoDataLatLonBox& bounds, QModule* module, Legend* legend) : QObject(),
     _bounds (bounds),

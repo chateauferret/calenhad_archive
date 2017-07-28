@@ -13,6 +13,7 @@
 #include "../pipeline/ImageRenderJob.h"
 
 using namespace noise::utils;
+using namespace calenhad::pipeline;
 
 //////////////////////////////////////////////////////////////////////////////
 // RendererImage class
@@ -202,6 +203,6 @@ void RendererImage::render () {
     }
 }
 
-void RendererImage::setLegend (Legend* legend) {
+void RendererImage::setLegend (calenhad::legend::Legend* legend) {
     _legend = legend;
 }

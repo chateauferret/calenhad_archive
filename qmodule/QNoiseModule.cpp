@@ -6,15 +6,13 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QDomElement>
-
+#include "preferences/preferences.h"
 #include "QNoiseModule.h"
-#include "../pipeline/CalenhadModel.h"
-#include "../nodeedit/Calenhad.h"
-#include "../nodeedit/CalenhadView.h"
-#include "../actions/ChangeModuleCommand.h"
-#include "../nodeedit/CalenhadController.h"
 #include "../CalenhadServices.h"
+#include "../pipeline/CalenhadModel.h"
 
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QNoiseModule::QNoiseModule (noise::module::Module* m, QWidget* parent) : QModule (m, parent) {
 
@@ -27,17 +25,17 @@ QNoiseModule::~QNoiseModule () {
 void QNoiseModule::initialise() {
     QModule::initialise();
 
-    frequencySpin = logParameterControl ("Frequency");
+    frequencySpin = parameterControl ("Frequency", "frequency");
     frequencySpin -> setValue (getFrequency());
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
 
-    lacunaritySpin = logParameterControl ("Lacunarity");
+    lacunaritySpin = parameterControl ("Lacunarity", "lacunarity");
     lacunaritySpin -> setValue (getLacunarity());
     _contentLayout -> addRow (tr ("Lacunarity"), lacunaritySpin);
 
 
     if (hasPersistence()) {
-        persistenceSpin = logParameterControl ("Persistence");
+        persistenceSpin = parameterControl ("Persistence", "persistence");
         persistenceSpin -> setValue (getPersistence());
         _contentLayout -> addRow (tr ("Persistence"), persistenceSpin);
 
@@ -83,7 +81,6 @@ void QNoiseModule::setFrequency (const double& value) {
         emit (nodeChanged());
         frequencySpin -> setValue (value);
     }
-
 }
 
 double QNoiseModule::getLacunarity() {
@@ -208,7 +205,6 @@ QNoiseModule* QNoiseModule::clone() {
     return qm;
 }
 
-
 void QNoiseModule::inflate (const QDomElement& element) {
     QModule::inflate (element);
     bool ok;
@@ -228,8 +224,8 @@ void QNoiseModule::inflate (const QDomElement& element) {
     }
 }
 
-void QNoiseModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QNoiseModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "frequency", QString::number (getFrequency ()));
     _model -> writeParameter (_element, "lacunarity", QString::number (getLacunarity ()));
     _model -> writeParameter (_element, "octaves", QString::number (getOctaveCount ()));

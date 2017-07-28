@@ -7,12 +7,14 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "QTurbulenceModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
 
+
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QTurbulenceModule::QTurbulenceModule (QWidget* parent)  : QModule (new Turbulence(), parent) {
 
@@ -26,13 +28,13 @@ void QTurbulenceModule::initialise() {
     QModule::initialise();
     _name = "New Turbulence";
     module() -> SetSeed (seed);
-    frequencySpin = logParameterControl ("Frequency");
+    frequencySpin = parameterControl ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
-    powerSpin = logParameterControl ("Power");
+    powerSpin = parameterControl ("Power", "power");
     //connect (powerSpin, SIGNAL (valueChanged (double)), this, SLOT (setPower (double)));
     _contentLayout -> addRow (tr ("Power"), powerSpin);
-    roughnessSpin = logParameterControl ("Roughness");
+    roughnessSpin = parameterControl ("Roughness", "roughness");
     //connect (roughnessSpin, SIGNAL (valueChanged (double)), this, SLOT (setRoughness (double)));
     _contentLayout -> addRow (tr ("Roughness"), roughnessSpin);
     _isInitialised = true;
@@ -109,8 +111,8 @@ void QTurbulenceModule::inflate (const QDomElement& element) {
     if (ok) { setRoughness (roughness); }
 }
 
-void QTurbulenceModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QTurbulenceModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "getFrequency", QString::number (frequency()));
     _model -> writeParameter (_element, "power", QString::number (power()));
     _model -> writeParameter (_element, "roughness", QString::number (roughness()));

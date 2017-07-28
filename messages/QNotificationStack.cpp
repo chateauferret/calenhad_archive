@@ -10,6 +10,7 @@
 #include <memory>
 #include "QNotificationStack.h"
 #include "QProgressNotification.h"
+using namespace calenhad::notification;
 
 QNotificationStack::QNotificationStack (int width, QWidget* parent) : QWidget (parent), _parent (parent), _width (width) {
     setLayout (new QVBoxLayout());

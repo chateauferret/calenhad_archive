@@ -5,7 +5,7 @@
 #ifndef CALENHAD_RENDERERNORMALMAP_H
 #define CALENHAD_RENDERERNORMALMAP_H
 
-#include "NoiseContstants.h"
+#include "NoiseConstants.h"
 #include <QImage>
 
 namespace noise {

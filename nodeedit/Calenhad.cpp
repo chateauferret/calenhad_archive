@@ -23,19 +23,34 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+#include <QtCore/QCoreApplication>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QFileDialog>
+#include <QCloseEvent>
+#include <QtCore/QTextStream>
+#include <QLayout>
 #include "Calenhad.h"
 #include "CalenhadController.h"
-
-#include "../preferences.h"
-#include "messages/QNotificationStack.h"
-#include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
+#include "preferences/preferences.h"
+#include "messages/QNotificationService.h"
 #include "CalenhadView.h"
 #include "../nodeedit/qnetoolbox.h"
 #include "../CalenhadServices.h"
 #include "controls/QIconPalette.h"
+#include "../exprtk/VariablesDialog.h"
+#include "../qmodule/QNode.h"
 
 using namespace icosphere;
+using namespace calenhad;
+using namespace calenhad::controls;
+using namespace calenhad::nodeedit;
+using namespace calenhad::pipeline;
+using namespace calenhad::qmodule;
+using namespace calenhad::legend;
+using namespace calenhad::expressions;
+using namespace calenhad::notification;
 
 QNEToolBox* Calenhad::toolbox = new QNEToolBox();
 
@@ -57,7 +72,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
     // Tools
 
-    QToolBar* modulesToolbar = Calenhad::toolbox -> toolbar ("Modules");
+    QToolBar* modulesToolbar = toolbox -> toolbar ("Modules");
     modulesToolbar -> setAcceptDrops (false);
     //modulesToolbar -> addNotification (_controller -> nodeRoster());
     QDockWidget* editToolsDock = new QDockWidget (modulesToolbar -> windowTitle(), this);
@@ -66,7 +81,7 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     editToolsDock -> setWidget (modulesToolbar);
     addDockWidget (Qt::RightDockWidgetArea, editToolsDock);
 
-    QToolBar* zoomToolbar = Calenhad::toolbox -> toolbar ("View");
+    QToolBar* zoomToolbar = toolbox -> toolbar ("View");
     modulesToolbar -> setAcceptDrops (false);
     QDockWidget* zoomToolsDock = new QDockWidget (zoomToolbar -> windowTitle(), this);
     zoomToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
@@ -130,6 +145,14 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     move (settings -> value("pos", QPoint(200, 200)).toPoint());
     settings -> endGroup();
     _controller -> addMenus (menuBar());
+
+    // Dialogs
+
+    _variablesDialog = new VariablesDialog();
+    QAction* variablesAction = new QAction (tr ("&Variables"));
+    saveAction -> setStatusTip (tr ("Variables used in the script"));
+    editMenu -> addAction (variablesAction);
+    connect (variablesAction, &QAction::triggered, this, [=] () { _variablesDialog -> exec(); });
 }
 
 Calenhad::~Calenhad() {
@@ -155,7 +178,7 @@ void Calenhad::saveFile() {
 
     QFile file (fname);
     QTextStream ds (&file);
-    QDomDocument doc = _model -> serialise();
+    QDomDocument doc = _model->serialize ();
 
     std::cout << doc.toString().toStdString();
     std::cout.flush();

@@ -8,71 +8,121 @@
 
 #include <QtWidgets/QGraphicsScene>
 #include <QtCore/QDateTime>
-#include "../qmodule/QModule.h"
-#include "../libnoiseutils/nullmodule.h"
-#include "../pipeline/ModuleFactory.h"
+#include <QtXml/QDomDocument>
+#include <QAction>
+#include <libnoise/module/modulebase.h>
+#include <Serializable.h>
 
-class CalenhadController;
-class QNodeGroup;
-class QNodeGroupBlock;
 namespace icosphere {
     class Icosphere;
 }
 
-class CalenhadModel : public QGraphicsScene {
-Q_OBJECT
-public:
-    CalenhadModel();
-    virtual ~CalenhadModel();
-    QModule* findModule (const QString& name);
-    QNodeGroup* findGroup (const QString& name);
-    QNode* addNode (const QPointF& initPos, const QString& type);
-    QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
-    QNodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
-    QNode* addNode (QNode* node, const QPointF& initPos);
-    void deleteNode (QNode* node);
-    bool canConnect (QNEPort* output, QNEPort* input, const bool& verbose = false);
-    bool connectPorts (QNEPort* output, QNEPort* input);
-    void disconnectPorts (QNEConnection* connection);
-    bool eventFilter (QObject* o, QEvent* e);
-    void setActiveTool (QAction* tool);
-    QGraphicsItem* itemAt (const QPointF& pos);
-    void setController (CalenhadController* controller);
-    CalenhadController* controller();
-    void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
-    QDomDocument serialise();
-    void inflate (const QDomDocument& doc);
-    QList<QModule*> modules();
-    QList<QNodeGroup*> nodeGroups ();
-    QList<QNEConnection*> connections ();
-    QString readParameter (const QDomElement& element, const QString param);
-    void writeParameter (QDomElement& element, const QString& param, const QString& value);
-    void highlightGroupAt (QPointF pos);
+namespace noise {
+    namespace module {
+        class NullModule;
+    }
+}
 
-signals:
-    void showMessage (QString);
-    void moduleAdded (QModule*);
+namespace calenhad {
+    namespace qmodule {
+        class QNode;
+        class QModule;
+        class QNodeGroup;
+    }
+    namespace nodeedit {
+        class CalenhadController;
+        class QNodeGroupBlock;
+        class QNEConnection;
+        class QNEPort;
+        class QNodeBlock;
+    }
+    namespace pipeline {
 
-protected:
+        class CalenhadModel : public QGraphicsScene {
+        Q_OBJECT
+        public:
+            CalenhadModel ();
 
-    bool existsPath (QNodeBlock* from, QNodeBlock* to);
-    NullModule* nullModule = new NullModule();
-    QPointF lastClick;
+            virtual ~CalenhadModel ();
 
-    QAction* _activeTool = nullptr;
-    QNEConnection* conn;
-    QNEPort* _port = nullptr; // last port we coloured in as dropping on
-    CalenhadController* _controller = nullptr;
+            calenhad::qmodule::QModule* findModule (const QString& name);
 
-    QString _title, _author, _description;
-    QDateTime _date;
+            calenhad::qmodule::QNodeGroup* findGroup (const QString& name);
 
-    void writeMetadata (QDomDocument& doc);
-    void readMetadata (const QDomDocument& doc);
-    QNode* addNode (QNode* node, const QPointF& initPos, QNodeBlock* b);
+            calenhad::qmodule::QNode* addNode (const QPointF& initPos, const QString& type);
 
-    QNodeGroupBlock* _highlighted;
+            calenhad::qmodule::QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
 
-};
+            calenhad::qmodule::QNodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
 
+            calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos);
+
+            void deleteNode (calenhad::qmodule::QNode* node);
+
+            bool canConnect (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input, const bool& verbose = false);
+
+            bool connectPorts (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input);
+
+            void disconnectPorts (calenhad::nodeedit::QNEConnection* connection);
+
+            bool eventFilter (QObject* o, QEvent* e);
+
+            void setActiveTool (QAction* tool);
+
+            QGraphicsItem* itemAt (const QPointF& pos);
+
+            void setController (calenhad::nodeedit::CalenhadController* controller);
+
+            calenhad::nodeedit::CalenhadController* controller ();
+
+            void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
+
+            QDomDocument serialize ();
+
+            void inflate (const QDomDocument& doc);
+
+            QList<calenhad::qmodule::QModule*> modules ();
+
+            QList<calenhad::qmodule::QNodeGroup*> nodeGroups ();
+
+            QList<calenhad::nodeedit::QNEConnection*> connections ();
+
+            QString readParameter (const QDomElement& element, const QString param);
+
+            void writeParameter (QDomElement& element, const QString& param, const QString& value);
+
+            void highlightGroupAt (QPointF pos);
+
+        signals:
+
+            void showMessage (QString);
+
+            void moduleAdded (calenhad::qmodule::QModule*);
+
+        protected:
+
+            bool existsPath (calenhad::nodeedit::QNodeBlock* from, calenhad::nodeedit::QNodeBlock* to);
+
+            const noise::module::Module* _nullModule;
+            QPointF lastClick;
+
+            QAction* _activeTool = nullptr;
+            calenhad::nodeedit::QNEConnection* conn;
+            calenhad::nodeedit::QNEPort* _port = nullptr; // last port we coloured in as dropping on
+            calenhad::nodeedit::CalenhadController* _controller = nullptr;
+
+            QString _title, _author, _description;
+            QDateTime _date;
+
+            void writeMetadata (QDomDocument& doc);
+
+            void readMetadata (const QDomDocument& doc);
+
+            calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos, calenhad::nodeedit::QNodeBlock* b);
+
+            calenhad::nodeedit::QNodeGroupBlock* _highlighted;
+
+        };
+    }
+}
 #endif //CALENHAD_CALENHADMODEL_H

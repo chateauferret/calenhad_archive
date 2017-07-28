@@ -9,17 +9,26 @@
 #include <QtWidgets/QUndoCommand>
 #include <QtCore/QStack>
 
-class CommandGroup : public QUndoCommand {
-public:
-    CommandGroup();
-    virtual ~CommandGroup();
-    virtual void undo () override;
-    virtual void redo () override;
-    void addCommand (QUndoCommand* command);
+namespace calenhad {
+    namespace actions {
 
-protected:
-    QStack<QUndoCommand*> _commands;
-};
+        class CommandGroup : public QUndoCommand {
+        public:
+            CommandGroup ();
+
+            virtual ~CommandGroup ();
+
+            virtual void undo () override;
+
+            virtual void redo () override;
+
+            void addCommand (QUndoCommand* command);
+
+        protected:
+            QStack<QUndoCommand*> _commands;
+        };
+    }
+}
 
 
 #endif //CALENHAD_COMMANDGROUP_H

@@ -7,11 +7,13 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "QScaleBiasModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QScaleBiasModule::QScaleBiasModule (QWidget* parent) : QModule (new noise::module::ScaleBias(), parent) {
 
@@ -24,10 +26,10 @@ QScaleBiasModule::~QScaleBiasModule() {
 void QScaleBiasModule::initialise() {
     QModule::initialise();
     _name = "New Scale and Bias";
-    scaleSpin = logParameterControl ("Scale");
+    scaleSpin = parameterControl ("Scale", "scale");
     //connect (scaleSpin, SIGNAL (valueChanged (double)), this, SLOT (setScale (double)));
     _contentLayout -> addRow (tr ("Scale"), scaleSpin);
-    biasSpin = logParameterControl ("Bias");
+    biasSpin = parameterControl ("Bias", "bias");
     //connect (biasSpin, SIGNAL (valueChanged (double)), this, SLOT (setBias (double)));
     _contentLayout -> addRow (tr ("Bias"), biasSpin);
     _isInitialised = true;
@@ -92,8 +94,8 @@ void QScaleBiasModule::inflate (const QDomElement& element) {
 
 }
 
-void QScaleBiasModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QScaleBiasModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "scale", QString::number (scale()));
     _model -> writeParameter (_element, "bias", QString::number (bias()));
 }

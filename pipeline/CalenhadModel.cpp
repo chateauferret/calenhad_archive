@@ -4,17 +4,31 @@
 
 #include <controls/QColoredIcon.h>
 #include "CalenhadModel.h"
+#include "../CalenhadServices.h"
 #include "../nodeedit/CalenhadController.h"
+#include "../nodeedit/CalenhadView.h"
 #include "../nodeedit/qneconnection.h"
 #include "../nodeedit/QNodeBlock.h"
 #include "../qmodule/QNodeGroup.h"
 #include "../icosphere/icosphere.h"
-#include "../CalenhadServices.h"
+#include "../pipeline/ModuleFactory.h"
 #include "../actions/DuplicateNodeCommand.h"
 #include "../actions/AddNodeCommand.h"
 #include "../nodeedit/QNodeGroupBlock.h"
+#include "../nodeedit/qneport.h"
+#include "../qmodule/QModule.h"
+#include "../exprtk/CalculatorService.h"
+#include "../libnoiseutils/nullmodule.h"
+#include "../messages/QNotificationService.h"
+#include <QGraphicsSceneMouseEvent>
 
 using namespace icosphere;
+using namespace calenhad;
+using namespace calenhad::pipeline;
+using namespace calenhad::nodeedit;
+using namespace calenhad::qmodule;
+using namespace calenhad::actions;
+using namespace calenhad::expressions;
 
 CalenhadModel::CalenhadModel() : QGraphicsScene(),
     conn (nullptr),
@@ -24,6 +38,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _description (""),
     _date (QDateTime::currentDateTime()),
     _controller (nullptr),
+    _nullModule (new noise::module::NullModule ()),
     _highlighted (nullptr) {
     installEventFilter (this);
 }
@@ -133,7 +148,7 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         connect (output -> owner (), SIGNAL (nodeChanged()), input -> owner (), SLOT (invalidate()));
 
         // colour the input to show its connected status
-        input -> setHighlight (PortHighlight::CONNECTED);
+        input -> setHighlight (QNEPort::PortHighlight::CONNECTED);
 
         // tell the target owner to declare change requiring rerender
         output -> owner () -> invalidate();
@@ -152,12 +167,12 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
         noise::module::Module* m = ((QModule*) connection -> port2() -> owner()) -> module ();
 
         // disconnect the modules in the libnoise engine
-        m->SetSourceModule (connection->port2 ()->index (), *nullModule);
+        m->SetSourceModule (connection->port2 ()->index (), *_nullModule);
     }
 
     // colour the input port to show its availability
-    if (connection -> port1() -> type() != QNEPort::OutputPort) { connection -> port1() -> setHighlight (PortHighlight::NONE); }
-    if (connection -> port2() -> type() != QNEPort::OutputPort) { connection -> port2() -> setHighlight (PortHighlight::NONE); }
+    if (connection -> port1() -> type() != QNEPort::OutputPort) { connection -> port1() -> setHighlight (QNEPort::PortHighlight::NONE); }
+    if (connection -> port2() -> type() != QNEPort::OutputPort) { connection -> port2() -> setHighlight (QNEPort::PortHighlight::NONE); }
 
     // reproduce the renders to reflect the change
 //    connection -> port2() -> invalidateRenders();
@@ -266,14 +281,14 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     if (port != conn -> port1() && ! (port -> hasConnection())) {
                         if (canConnect (conn -> port1(), port)) {
                             // Change colour of a port if we mouse over it and can make a connection to it
-                            port -> setHighlight (PortHighlight::CAN_CONNECT);
+                            port -> setHighlight (QNEPort::PortHighlight::CAN_CONNECT);
                             _port = port;
                         }
                     }
                 } else {
                     if (_port) {
                         // If we moved off a port without making a connection to it, set it back to its unoccupied colour
-                        _port -> setHighlight (PortHighlight::NONE);
+                        _port -> setHighlight (QNEPort::PortHighlight::NONE);
                         _port = nullptr;
                     }
                 }
@@ -521,13 +536,14 @@ CalenhadController* CalenhadModel::controller () {
     return _controller;
 }
 
-QDomDocument CalenhadModel::serialise() {
+QDomDocument CalenhadModel::serialize () {
     QDomDocument doc;
     QDomElement root = doc.createElement ("model");
     doc.appendChild (root);
+    CalenhadServices::calculator() -> serialize (doc);
     writeMetadata (doc);
     for (QModule* qm : modules()) {
-        qm -> serialise (doc);
+        qm -> serialize (doc);
     }
     for (QNEConnection* c : connections()) {
         c -> serialise (doc);
@@ -578,6 +594,8 @@ void CalenhadModel::readMetadata (const QDomDocument& doc) {
 
 void CalenhadModel::inflate (const QDomDocument& doc) {
     readMetadata (doc);
+    QDomElement variablesElement = doc.documentElement().firstChildElement ("variables");
+    CalenhadServices::calculator() -> inflate (variablesElement);
     QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("module");
     for (int i = 0; i < moduleNodes.count(); i++) {
         QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");

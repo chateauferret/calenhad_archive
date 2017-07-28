@@ -22,7 +22,7 @@
 #include "../qmodule/QIcosphereMap.h"
 #include "../qmodule/QNodeGroup.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../qmodule/QAltitudeMap.h"
 #include "../CalenhadServices.h"
 #include <QPixmap>
@@ -30,6 +30,9 @@
 
 
 using namespace noise::module;
+using namespace calenhad;
+using namespace calenhad::pipeline;
+using namespace calenhad::qmodule;
 
 ModuleFactory::ModuleFactory() {
     for (QString type : types()) {
@@ -52,34 +55,35 @@ QPixmap* ModuleFactory::getIcon (const QString& type) {
 QStringList ModuleFactory::types () {
     QStringList list;
     list    << CalenhadServices::preferences() -> calenhad_module_abs
+            << CalenhadServices::preferences() -> calenhad_module_add
+            << CalenhadServices::preferences() -> calenhad_module_altitudemap
+            << CalenhadServices::preferences() -> calenhad_module_billow
             << CalenhadServices::preferences() -> calenhad_module_blend
             << CalenhadServices::preferences() -> calenhad_module_cache
             << CalenhadServices::preferences() -> calenhad_module_checkerboard
+            << CalenhadServices::preferences() -> calenhad_module_clamp
+            << CalenhadServices::preferences() -> calenhad_module_constant
+            << CalenhadServices::preferences() -> calenhad_module_cylinders
+            << CalenhadServices::preferences() -> calenhad_module_diff
+            << CalenhadServices::preferences() -> calenhad_module_displace
+            << CalenhadServices::preferences() -> calenhad_module_exponent
+            << CalenhadServices::preferences() -> calenhad_module_icospheremap
             << CalenhadServices::preferences() -> calenhad_module_invert
             << CalenhadServices::preferences() -> calenhad_module_max
             << CalenhadServices::preferences() -> calenhad_module_min
             << CalenhadServices::preferences() -> calenhad_module_multiply
+            << CalenhadServices::preferences() -> calenhad_nodegroup
             << CalenhadServices::preferences() -> calenhad_module_power
-            << CalenhadServices::preferences() -> calenhad_module_displace
-            << CalenhadServices::preferences() -> calenhad_module_diff
-            << CalenhadServices::preferences() -> calenhad_module_cylinders
-            << CalenhadServices::preferences() -> calenhad_module_spheres
-            << CalenhadServices::preferences() -> calenhad_module_exponent
-            << CalenhadServices::preferences() -> calenhad_module_translate
-            << CalenhadServices::preferences() -> calenhad_module_rotate
-            << CalenhadServices::preferences() -> calenhad_module_clamp
-            << CalenhadServices::preferences() -> calenhad_module_constant
             << CalenhadServices::preferences() -> calenhad_module_perlin
-            << CalenhadServices::preferences() -> calenhad_module_billow
+            << CalenhadServices::preferences() -> calenhad_module_scalepoint
+            << CalenhadServices::preferences() -> calenhad_module_spheres
             << CalenhadServices::preferences() -> calenhad_module_ridgedmulti
+            << CalenhadServices::preferences() -> calenhad_module_rotate
             << CalenhadServices::preferences() -> calenhad_module_scalebias
             << CalenhadServices::preferences() -> calenhad_module_select
+            << CalenhadServices::preferences() -> calenhad_module_translate
             << CalenhadServices::preferences() -> calenhad_module_turbulence
-            << CalenhadServices::preferences() -> calenhad_module_voronoi
-            << CalenhadServices::preferences() -> calenhad_module_scalepoint
-            << CalenhadServices::preferences() -> calenhad_module_icospheremap
-            << CalenhadServices::preferences() -> calenhad_module_altitudemap
-            << CalenhadServices::preferences() -> calenhad_nodegroup;
+            << CalenhadServices::preferences() -> calenhad_module_voronoi;
 
     return list;
 }
@@ -121,20 +125,20 @@ QNode* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
     return nullptr;
 }
 
-    void ModuleFactory::setSeed (const int& seed) {
-        _seed = seed;
-        emit seedChanged (seed);
-    }
+void ModuleFactory::setSeed (const int& seed) {
+    _seed = seed;
+    emit seedChanged (seed);
+}
 
-    void ModuleFactory::setNoiseQuality (const noise::NoiseQuality& noiseQuality) {
-        _noiseQuality = noiseQuality;
-        emit noiseQualityChanged (noiseQuality);
-    }
+void ModuleFactory::setNoiseQuality (const noise::NoiseQuality& noiseQuality) {
+    _noiseQuality = noiseQuality;
+    emit noiseQualityChanged (noiseQuality);
+}
 
-    int ModuleFactory::seed () {
-        return _seed;
-    }
+int ModuleFactory::seed () {
+    return _seed;
+}
 
-    noise::NoiseQuality ModuleFactory::noiseQuality () {
-        return _noiseQuality;
-    }
+noise::NoiseQuality ModuleFactory::noiseQuality () {
+    return _noiseQuality;
+}

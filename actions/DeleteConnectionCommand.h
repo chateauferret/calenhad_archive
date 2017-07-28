@@ -7,25 +7,43 @@
 
 
 #include <QtWidgets/QUndoCommand>
-#include "../nodeedit/qneport.h"
-#include "../pipeline/CalenhadModel.h"
-
-class DeleteConnectionCommand : public QUndoCommand {
 
 
-public:
-    DeleteConnectionCommand (QNEConnection* connection, CalenhadModel* model);
-    virtual ~DeleteConnectionCommand ();
-    virtual void undo () override;
-    virtual void redo () override;
+namespace calenhad {
+    namespace qmodule {
+        class QNode;
+    }
+    namespace pipeline {
+        class CalenhadModel;
+    }
+    namespace nodeedit {
+        class QNEConnection;
+        class QNEPort;
+    }
 
-protected:
-    QNEConnection* _connection = nullptr;
-    CalenhadModel* _model = nullptr;
-    QNEPort* _from = nullptr;
-    QNEPort* _to = nullptr;
+    namespace actions {
 
-};
+        class DeleteConnectionCommand : public QUndoCommand {
+
+
+        public:
+            DeleteConnectionCommand (calenhad::nodeedit::QNEConnection* connection, calenhad::pipeline::CalenhadModel* model);
+
+            virtual ~DeleteConnectionCommand ();
+
+            virtual void undo () override;
+
+            virtual void redo () override;
+
+        protected:
+            calenhad::nodeedit::QNEConnection* _connection = nullptr;
+            calenhad::pipeline::CalenhadModel* _model = nullptr;
+            calenhad::nodeedit::QNEPort* _from = nullptr;
+            calenhad::nodeedit::QNEPort* _to = nullptr;
+
+        };
+    }
+}
 
 
 #endif //CALENHAD_DELETECONNECTIONCOMMAND_H

@@ -1,28 +1,38 @@
 #include <iostream>
 #include <QApplication>
 #include "nodeedit/Calenhad.h"
+#include "pipeline/CalenhadModel.h"
 #include "httplistener.h"
-#include "httpserver/CalenhadRequestHandler.h"
-
-#include <memory>
-#include "preferences.h"
-#include "controls/AltitudeMapPlot.h"
+#include "icosphere/icosphere.h"
+#include "exprtk/CalculatorService.h"
+#include "messages/QNotificationStack.h"
+#include "nodeedit/qnetoolbox.h"
+#include "preferences/preferences.h"
+#include "controls/altitudemap/AltitudeMapPlot.h"
 #include "CalenhadServices.h"
-#include "LegendRoster.h"
-#include "pipeline/GlobeRenderJob.h"
+#include "legend/LegendRoster.h"
+#include "controls/globe/ProjectionService.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #endif
 
 using namespace Marble;
+using namespace calenhad;
+using namespace calenhad::nodeedit;
+using namespace calenhad::preferences;
+using namespace calenhad::controls;
+using namespace calenhad::controls::globe;
+using namespace calenhad::controls::altitudemap;
+using namespace calenhad::legend;
+using namespace calenhad::pipeline;
+using namespace calenhad::expressions;
+using namespace calenhad::notification;
 
-Q_DECLARE_METATYPE (TileId)
 Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
 Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
-//Q_DECLARE_METATYPE (std::shared_ptr<GlobeBuffer>)
-Q_DECLARE_METATYPE (CurveType)
-
+Q_DECLARE_METATYPE (calenhad::controls::altitudemap::CurveType)
+Q_DECLARE_METATYPE (calenhad::nodeedit::CalenhadAction)
 
 
 
@@ -33,10 +43,8 @@ int main (int argc, char **argv) {
     qRegisterMetaType<QImage>();
     qRegisterMetaType<std::shared_ptr<QImage>>();
     qRegisterMetaType<std::shared_ptr<icosphere::Icosphere>>();
-    //qRegisterMetaType<std::shared_ptr<GlobeBuffer>>();
-    qRegisterMetaType<TileId>();
     qRegisterMetaType<CurveType>();
-
+    qRegisterMetaType<CalenhadAction>();
 
     // set up application
     QCoreApplication::setOrganizationName("calenhad");
@@ -63,12 +71,18 @@ int main (int argc, char **argv) {
     ProjectionService* projections = new ProjectionService();
     CalenhadServices::provideProjections (projections);
 
+    // Calculator service
+    CalculatorService* calculator = new CalculatorService();
+    CalenhadServices::provideCalculator (calculator);
+
+
     // Stylesheet
     QString fileName = CalenhadServices::preferences() -> calenhad_stylesheet;
     QFile file (fileName);
     file.open(QFile::ReadOnly);
     QString styleSheet = QLatin1String (file.readAll());
-    app.setStyleSheet (styleSheet);;
+    app.setStyleSheet (styleSheet);
+    std::cout << "Stylesheet: " << file.fileName().toStdString() << "\n";
 
     // Calenhad model - the arrangement of modules and connections between them
     CalenhadModel* model = new CalenhadModel();
@@ -81,16 +95,5 @@ int main (int argc, char **argv) {
     window -> show();
     notifications -> show();
 
-    // set up web service endpoint
-    //QSettings* listenerSettings = new QSettings("/home/martin/.config/calenhad/webapp1.ini", QSettings::IniFormat, &app);
-    //qDebug("config file loaded");
-    //listenerSettings -> beginGroup("listener");
-
-    // Start the HTTP server
-    //CalenhadRequestHandler* handler = new CalenhadRequestHandler (&app);
-    //handler -> setModel (model);
-    //HttpListener* listener = new HttpListener (listenerSettings, handler, &app);
-
-    // done
     return app.exec();
 }

@@ -54,14 +54,17 @@ S INTERRUPTION) HOWEVER CAUSED AND ON ANY
 #include <QtGui/QDrag>
 #include <QtGui/QPainter>
 #include <QtWidgets/QGridLayout>
-#include <iostream>
+#include "../preferences/PreferencesService.h"
 #include <CalenhadServices.h>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 #include <QtWidgets/QtWidgets>
 #include "QIconPalette.h"
 #include "FlowLayout.h"
 #include "QColoredIcon.h"
+#include "../pipeline/ModuleFactory.h"
 
+using namespace calenhad;
+using namespace calenhad::controls;
 
 QIconPalette::QIconPalette (QWidget *parent) : QWidget (parent), _iconSize (CalenhadServices::preferences() -> calenhad_toolpalette_icon_size) {
 

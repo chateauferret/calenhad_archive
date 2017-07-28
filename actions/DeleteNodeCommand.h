@@ -7,22 +7,34 @@
 
 
 #include <QtWidgets/QUndoCommand>
-#include "../qmodule/QModule.h"
 
+namespace calenhad {
+    namespace qmodule {
+        class QNode;
+    }
+    namespace pipeline {
+        class CalenhadModel;
+    }
 
-class DeleteNodeCommand : public QUndoCommand {
+    namespace actions {
 
-public:
-    DeleteNodeCommand (QNode* node, CalenhadModel* model);
-    virtual ~DeleteNodeCommand ();
-    virtual void undo () override;
-    virtual void redo () override;
+        class DeleteNodeCommand : public QUndoCommand {
 
-protected:
-    CalenhadModel* _model = nullptr;
-    QNode* _node;
-    QString _xml;
-};
+        public:
+            DeleteNodeCommand (calenhad::qmodule::QNode* node, calenhad::pipeline::CalenhadModel* model);
 
+            virtual ~DeleteNodeCommand ();
+
+            virtual void undo () override;
+
+            virtual void redo () override;
+
+        protected:
+            calenhad::pipeline::CalenhadModel* _model = nullptr;
+            calenhad::qmodule::QNode* _node;
+            QString _xml;
+        };
+    }
+}
 
 #endif //CALENHAD_DELETEMODULECOMMAND_H

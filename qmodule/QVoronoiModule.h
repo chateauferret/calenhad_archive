@@ -10,33 +10,64 @@
 #include <libnoise/module/module.h>
 #include <QtWidgets/QCheckBox>
 
-using namespace noise::module;
-class QVoronoiModule : public QModule {
-Q_OBJECT
-public:
-    static QVoronoiModule* newInstance();
-    virtual ~QVoronoiModule();
-    void initialise() override;
-    Q_PROPERTY (double frequency READ frequency WRITE setFrequency);
-    Q_PROPERTY (double displacement READ displacement WRITE setDisplacement);
-    Q_PROPERTY (bool enableDistance READ enableDistance WRITE setEnableDistance);
-    double frequency();
-    double displacement();
-    bool enableDistance();
-    Voronoi* module() override;
-    QVoronoiModule* clone () override;
-    QVoronoiModule (QWidget* parent = 0);
-    QDoubleSpinBox* frequencySpin, * displacementSpin;
-    QCheckBox* enableDistanceCheck;
-    virtual QString nodeType () override;
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
+namespace calenhad {
+    namespace qmodule {
+        class QVoronoiModule : public QModule {
+        Q_OBJECT
+        public:
+            static QVoronoiModule* newInstance ();
 
-public slots:
-    void setEnableDistance (bool value);
-    void setDisplacement (double value);
-    void setFrequency (double value);
-};
+            virtual ~QVoronoiModule ();
+
+            void initialise () override;
+
+            Q_PROPERTY (double frequency
+                                READ
+                                        frequency
+                                WRITE
+                                setFrequency);
+            Q_PROPERTY (double displacement
+                                READ
+                                        displacement
+                                WRITE
+                                setDisplacement);
+            Q_PROPERTY (bool enableDistance
+                                READ
+                                        enableDistance
+                                WRITE
+                                setEnableDistance);
+
+            double frequency ();
+
+            double displacement ();
+
+            bool enableDistance ();
+
+            noise::module::Voronoi* module () override;
+
+            QVoronoiModule* clone () override;
+
+            QVoronoiModule (QWidget* parent = 0);
+
+            QDoubleSpinBox* frequencySpin, * displacementSpin;
+            QCheckBox* enableDistanceCheck;
+
+            virtual QString nodeType () override;
+
+            virtual void inflate (const QDomElement& element) override;
+
+            virtual void serialize (QDomDocument& doc) override;
+
+        public slots:
+
+            void setEnableDistance (bool value);
+
+            void setDisplacement (double value);
+
+            void setFrequency (double value);
+        };
+    }
+}
 
 
 #endif //CALENHAD_QVORONOIMODULE_H

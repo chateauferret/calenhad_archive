@@ -20,10 +20,10 @@ SET(LIBNOISEUTILS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/diff.cpp
         ${CMAKE_CURRENT_LIST_DIR}/nullmodule.h
         ${CMAKE_CURRENT_LIST_DIR}/nullmodule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/NoiseContstants.h
-        ${CMAKE_CURRENT_LIST_DIR}/IcosphereBuilder.h
-        ${CMAKE_CURRENT_LIST_DIR}/IcosphereBuilder.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/IcosphereModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/IcosphereModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/NoiseConstants.h
+        ../icosphere/IcosphereBuilder.h
+        ../icosphere/IcosphereBuilder.cpp
+        ../icosphere/IcosphereModule.h
+        ../icosphere/IcosphereModule.cpp
         )
 

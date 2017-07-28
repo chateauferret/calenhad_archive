@@ -5,6 +5,7 @@
 #include "RenderPoint.h"
 
 using namespace Marble;
+using namespace calenhad::mapping;
 
 RenderPoint::RenderPoint (const QPoint& p, Marble::ViewportParams* viewport) : _point (p), _value (0.0), _color (Qt::black), _viewport (viewport), _ready (false) {
     double lat, lon;

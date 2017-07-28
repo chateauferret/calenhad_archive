@@ -10,29 +10,47 @@
 #include "QModule.h"
 #include <libnoise/module/module.h>
 
-using namespace noise::module;
-class QExponentModule : public QModule {
-Q_OBJECT
-public:
-    static QExponentModule* newInstance();
-    virtual ~QExponentModule();
-    void initialise() override;
-    Q_PROPERTY (double exponent READ exponent WRITE setExponent);
-    double exponent();
 
-    Exponent* module () override;
-    QExponentModule* clone () override;
-    QString nodeType () override;
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
+namespace calenhad {
+    namespace qmodule {
 
-public slots:
-    void setExponent (double value);
+        class QExponentModule : public QModule {
+        Q_OBJECT
+        public:
+            static QExponentModule* newInstance ();
 
-protected:
-    QExponentModule (QWidget* parent = 0);
-    QDoubleSpinBox* exponentSpin;
-};
+            virtual ~QExponentModule ();
 
+            void initialise () override;
+
+            Q_PROPERTY (double exponent
+                                READ
+                                        exponent
+                                WRITE
+                                setExponent);
+
+            double exponent ();
+
+            noise::module::Exponent* module () override;
+
+            QExponentModule* clone () override;
+
+            QString nodeType () override;
+
+            virtual void inflate (const QDomElement& element) override;
+
+            virtual void serialize (QDomDocument& doc) override;
+
+        public slots:
+
+            void setExponent (double value);
+
+        protected:
+            QExponentModule (QWidget* parent = 0);
+
+            QDoubleSpinBox* exponentSpin;
+        };
+    }
+}
 
 #endif //CALENHAD_QEXPONENTMODULE_H

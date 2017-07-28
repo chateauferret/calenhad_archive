@@ -11,26 +11,40 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QToolBar>
 
-class QExpander: public QToolBar {
 
-Q_OBJECT
-public:
-    QExpander (const QString& title, QWidget* parent);
-    ~QExpander();
-    void setTitle (const QString& title);
-    bool isExpanded() const;
-    void setExpanded (const bool& expanded);
-    void showEvent (QShowEvent* event) override;
+namespace calenhad {
+    namespace controls {
 
-    signals:
-    void expansionChanged (const bool& expanded);
 
-    public slots:
-    void toggle ();
+        class QExpander : public QToolBar {
 
-protected:
-    QPushButton* _button;
-};
+        Q_OBJECT
+        public:
+            QExpander (const QString& title, QWidget* parent);
+
+            ~QExpander ();
+
+            void setTitle (const QString& title);
+
+            bool isExpanded () const;
+
+            void setExpanded (const bool& expanded);
+
+            void showEvent (QShowEvent* event) override;
+
+        signals:
+
+            void expansionChanged (const bool& expanded);
+
+        public slots:
+
+            void toggle ();
+
+        protected:
+            QPushButton* _button;
+        };
+    }
+}
 
 
 #endif //CALENHAD_QEXPANDER_H

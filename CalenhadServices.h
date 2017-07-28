@@ -5,42 +5,71 @@
 #ifndef CALENHAD_SERVICELOCATOR_H
 #define CALENHAD_SERVICELOCATOR_H
 
+#include <QString>
+#include <QDomDocument>
+namespace calenhad {
+    namespace pipeline {
+        class ModuleFactory;
+    }
+    namespace expressions {
+        class CalculatorService;
+    }
+    namespace preferences {
+        class PreferencesService;
+    }
+    namespace notification {
+        class QNotificationService;
+    }
+    namespace legend {
+        class LegendService;
+    }
+    namespace controls {
+        namespace globe {
+            class ProjectionService;
+            class StatisticsService;
+        }
+    }
 
-#include <pipeline/ModuleFactory.h>
-#include "preferences.h"
-#include "messages/QNotificationStack.h"
-#include "LegendService.h"
-#include "ProjectionService.h"
-#include "StatisticsService.h"
+    class CalenhadServices {
 
-class QDomDocument;
+    public:
+        static calenhad::preferences::PreferencesService* preferences ();
 
-class CalenhadServices {
+        static calenhad::notification::QNotificationService* messages ();
 
-public:
-    static PreferencesService* preferences();
-    static QNotificationService* messages();
-    static LegendService* legends();
-    static ProjectionService* projections();
-    static StatisticsService* statistics();
-    static ModuleFactory* modules();
+        static calenhad::legend::LegendService* legends ();
 
-    static void providePreferences (PreferencesService* service);
-    static void provideMessages (QNotificationService* service);
-    static void provideLegends (LegendService* service);
-    static void provideProjections (ProjectionService* service);
-    static bool readXml (const QString& fname, QDomDocument& doc);
+        static calenhad::controls::globe::ProjectionService* projections ();
 
-private:
-    static PreferencesService* _preferences;
-    static QNotificationService* _messages;
-    static LegendService* _legends;
-    static ProjectionService* _projections;
-    static StatisticsService* _statistics;
-    static ModuleFactory* _modules;
+        static calenhad::controls::globe::StatisticsService* statistics ();
 
+        static calenhad::pipeline::ModuleFactory* modules ();
 
-};
+        static calenhad::expressions::CalculatorService* calculator ();
+
+        static void providePreferences (calenhad::preferences::PreferencesService* service);
+
+        static void provideMessages (calenhad::notification::QNotificationService* service);
+
+        static void provideLegends (calenhad::legend::LegendService* service);
+
+        static void provideProjections (calenhad::controls::globe::ProjectionService* service);
+
+        static bool readXml (const QString& fname, QDomDocument& doc);
+
+        static void provideCalculator (calenhad::expressions::CalculatorService* calculator);
+
+    private:
+        static calenhad::preferences::PreferencesService* _preferences;
+        static calenhad::notification::QNotificationService* _messages;
+        static calenhad::legend::LegendService* _legends;
+        static calenhad::controls::globe::ProjectionService* _projections;
+        static calenhad::controls::globe::StatisticsService* _statistics;
+        static calenhad::pipeline::ModuleFactory* _modules;
+        static calenhad::expressions::CalculatorService* _calculator;
+
+    };
+}
 
 
 #endif //CALENHAD_SERVICELOCATOR_H

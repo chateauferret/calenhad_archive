@@ -2,7 +2,8 @@
 // Created by martin on 25/06/17.
 //
 #include "LegendTest.h"
-
+using namespace calenhad;
+using namespace calenhad::legend;
     LegendTest::LegendTest() {
 
 

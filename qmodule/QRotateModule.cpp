@@ -7,6 +7,9 @@
 #include "../nodeedit/Calenhad.h"
 #include "qwt/qwt_counter.h"
 #include "../CalenhadServices.h"
+#include "../preferences/PreferencesService.h"
+
+using namespace calenhad::qmodule;
 
 QRotateModule::QRotateModule (noise::module::RotatePoint* m, QWidget* parent) : QModule (m, parent) {
 
@@ -108,8 +111,8 @@ void QRotateModule::inflate (const QDomElement& element) {
     if (ok) { setZAngle (z); }
 }
 
-void QRotateModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QRotateModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "x", QString::number (xAngle()));
     _model -> writeParameter (_element, "y", QString::number (yAngle()));
     _model -> writeParameter (_element, "z", QString::number (zAngle()));

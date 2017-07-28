@@ -1,17 +1,16 @@
 //
 // Created by martin on 26/11/16.
 //
-
-#include <libnoise/module/modulebase.h>
-#include <QtWidgets/QFormLayout>
-#include <QtWidgets/QDoubleSpinBox>
 #include "QCylindersModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+
+using namespace calenhad::qmodule;
+using namespace calenhad::controls;
+using namespace noise::module;
 
 QCylindersModule::QCylindersModule (QWidget* parent) : QModule (new noise::module::Cylinders(), parent) {
 
@@ -24,7 +23,7 @@ QCylindersModule::~QCylindersModule () {
 void QCylindersModule::initialise() {
     QModule::initialise();
     _name = "New Cylinders";
-    frequencySpin = logParameterControl ("Frequency");
+    frequencySpin = parameterControl ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
     frequencySpin -> setValue (1.0);
@@ -77,7 +76,7 @@ void QCylindersModule::inflate (const QDomElement& element) {
     if (ok) { setFrequency (frequency); }
 }
 
-void QCylindersModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QCylindersModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "getFrequency", QString::number (frequency()));
 }

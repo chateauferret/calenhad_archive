@@ -9,7 +9,7 @@
 #include "../geoutils.h"
 #include <QBuffer>
 #include <QImage>
-#include "../mapping/Legend.h"
+#include "legend/Legend.h"
 #include "Bounds.h"
 
 using namespace geoutils;

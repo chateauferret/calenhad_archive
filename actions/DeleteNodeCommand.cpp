@@ -5,6 +5,13 @@
 #include "DeleteNodeCommand.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/qneconnection.h"
+#include "../nodeedit/qneport.h"
+#include "../qmodule/QNode.h"
+
+using namespace calenhad::actions;
+using namespace calenhad::qmodule;
+using namespace calenhad::pipeline;
+using namespace calenhad::nodeedit;
 
 DeleteNodeCommand::DeleteNodeCommand (QNode* node, CalenhadModel* model) : QUndoCommand(), _model (model), _node (node) {
 
@@ -24,9 +31,9 @@ void DeleteNodeCommand::redo() {
     QDomDocument doc;
     QDomElement root = doc.createElement ("model");
     doc.appendChild (root);
-    _node -> serialise (doc);
+    _node -> serialize (doc);
 
-    // serialise also any connections to or from the deleted owner
+    // serialize also any connections to or from the deleted owner
     // don't delete them here - the model will do that for us when we delete the owner
     for (QNEConnection* c : _model -> connections()) {
         if (c->port1 ()->owner () == _node || c->port2 ()->owner () == _node) {

@@ -9,29 +9,38 @@
 #include <QtWidgets/QGraphicsTextItem>
 #include <QtWidgets/QGraphicsProxyWidget>
 #include <QtWidgets/QLineEdit>
+namespace calenhad {
+    namespace nodeedit {
+        class EditableLabel : public QGraphicsTextItem {
+        Q_OBJECT
 
-class EditableLabel : public QGraphicsTextItem {
-    Q_OBJECT
+        public:
+            EditableLabel (QGraphicsItem* parent = 0);
 
-public:
-    EditableLabel (QGraphicsItem* parent = 0);
-    virtual ~EditableLabel();
-    void setText (const QString& text);
-    void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
+            virtual ~EditableLabel ();
 
-    public slots:
-    void finishedEditing ();
+            void setText (const QString& text);
 
-    signals:
-    void editingStateChanged (const bool& state);
-    void textChanged (const QString& text);
-    void textEdited (const QString& text);
+            void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
 
-protected:
-    QGraphicsProxyWidget* _proxy;
-    QLineEdit* _textEdit;
+        public slots:
 
-};
+            void finishedEditing ();
 
+        signals:
+
+            void editingStateChanged (const bool& state);
+
+            void textChanged (const QString& text);
+
+            void textEdited (const QString& text);
+
+        protected:
+            QGraphicsProxyWidget* _proxy;
+            QLineEdit* _textEdit;
+
+        };
+    }
+}
 
 #endif //CALENHAD_EDITABLELABEL_H

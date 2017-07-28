@@ -6,6 +6,7 @@
 #include <iostream>
 #include "QProgressNotification.h"
 
+using namespace calenhad::notification;
 
 QProgressNotification::QProgressNotification (const QString& message, QWidget* host) : QNotification (message, host)  {
     _progressBar = new QProgressBar (this);

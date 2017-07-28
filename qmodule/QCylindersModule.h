@@ -9,33 +9,50 @@
 #include <QtWidgets/QWidget>
 #include "QModule.h"
 #include <libnoise/module/module.h>
+#include <QDoubleSpinBox>
 
-using namespace noise::module;
-class QCylindersModule : public QModule {
-Q_OBJECT
-public:
-    static QCylindersModule* newInstance();
-    virtual ~QCylindersModule();
-    void initialise() override;
-    Q_PROPERTY (double frequency READ frequency WRITE setFrequency);
-    double frequency();
+namespace calenhad {
+    namespace qmodule {
 
-    Cylinders* module () override;
-    QCylindersModule* clone() override;
-    QString nodeType () override;
+        class QCylindersModule : public QModule {
+        Q_OBJECT
+        public:
+            static QCylindersModule* newInstance ();
 
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
+            virtual ~QCylindersModule ();
 
-public slots:
-    void setFrequency (double value);
+            void initialise () override;
 
-protected:
-    QLogSpinBox* frequencySpin;
-    QCylindersModule (QWidget* parent = 0);
+            Q_PROPERTY (double frequency
+                                READ
+                                        frequency
+                                WRITE
+                                setFrequency);
+
+            double frequency ();
+
+            noise::module::Cylinders* module () override;
+
+            QCylindersModule* clone () override;
+
+            QString nodeType () override;
+
+            virtual void inflate (const QDomElement& element) override;
+
+            virtual void serialize (QDomDocument& doc) override;
+
+        public slots:
+
+            void setFrequency (double value);
+
+        protected:
+            QDoubleSpinBox* frequencySpin;
+
+            QCylindersModule (QWidget* parent = 0);
 
 
-};
+        };
 
-
+    }
+}
 #endif //CALENHAD_QCYLINDERSMODULE_H

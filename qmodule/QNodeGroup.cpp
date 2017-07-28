@@ -5,6 +5,7 @@
 #include "QNodeGroup.h"
 #include "../pipeline/CalenhadModel.h"
 
+using namespace calenhad::qmodule;
 
 QNodeGroup::QNodeGroup (QWidget* parent) : QNode (parent), _rect (QRect (0, 0, 100, 100)) {
 

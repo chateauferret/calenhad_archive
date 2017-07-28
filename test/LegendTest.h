@@ -10,9 +10,9 @@
 //
 
 #include <QTest>
-#include <mapping/Legend.h>
-#include <preferences.h>
-#include "../LegendRoster.h"
+#include <legend/Legend.h>
+#include <preferences/preferences.h>
+#include "legend/LegendRoster.h"
 #include "../CalenhadServices.h"
 #include "QTestSuite.h"
 
@@ -23,9 +23,9 @@ public:
     LegendTest();
     ~LegendTest();
     Legend* legend;
-    Preferences* preferences;
-    LegendRoster* roster;
-    QList<LegendEntry> entries;
+    calenhad::preferences::Preferences* preferences;
+    calenhad::legend::LegendRoster* roster;
+    QList<calenhad::legend::LegendEntry> entries;
 private slots:
 
     void initTestCase();

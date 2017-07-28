@@ -24,7 +24,6 @@
 #include <QtWidgets>
 
 QT_BEGIN_NAMESPACE
-
 class Ui_QNEMainWindow
 {
 public:

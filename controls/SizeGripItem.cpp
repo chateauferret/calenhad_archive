@@ -29,6 +29,8 @@
 #include <QGraphicsSceneHoverEvent>
 #include <cmath>
 
+using namespace calenhad::controls;
+
 SizeGripItem::HandleItem::HandleItem (int positionFlags, SizeGripItem* parent)
         : QGraphicsRectItem (-4, -4, 8, 8, parent),
           positionFlags_ (positionFlags),

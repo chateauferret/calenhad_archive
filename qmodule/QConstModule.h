@@ -4,38 +4,54 @@
 
 #ifndef CALENHAD_QCONSTANTMODULE_H
 #define CALENHAD_QCONSTANTMODULE_H
-
-
-
-#include <QtCore/QString>
-#include <libnoise/module/modulebase.h>
 #include "QModule.h"
 #include <libnoise/module/const.h>
-#include <QtWidgets/QDoubleSpinBox>
 
-using namespace noise::module;
-class QConstModule : public QModule {
-    Q_OBJECT
-public:
-    void initialise();
-    double constValue ();
-    Const* module() override;
-    Q_PROPERTY (double constantValue READ constValue WRITE setConstValue());
-    static QConstModule* newInstance();
-    QConstModule* clone() override;
-    QString nodeType () override;
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
+namespace calenhad {
+    namespace expressions {
+        class ExpressionWidget;
+    }
+    namespace qmodule {
+        class QConstModule : public QModule {
+        Q_OBJECT
+        public:
+            void initialise ();
+
+            double constValue ();
+
+            noise::module::Const* module () override;
+
+            Q_PROPERTY (QString constantValue
+                                READ
+                                        constValue
+                                WRITE
+                                setConstValue ());
+
+            static QConstModule* newInstance ();
+
+            QConstModule* clone () override;
+
+            QString nodeType () override;
+
+            virtual void inflate (const QDomElement& element) override;
+
+            virtual void serialize (QDomDocument& doc) override;
 
 
-public slots:
-    void setConstValue (double value);
+        public slots:
+            void valueReady (const double& value) override;
+            void setConstValue (QString exp);
 
-private:
-    QDoubleSpinBox* constValueSpin;
-    QConstModule (QWidget* parent = 0);
+        private:
+            calenhad::expressions::ExpressionWidget* _constValueWidget;
 
-};
+            QConstModule (QWidget* parent = 0);
+
+        };
+    }
+}
+
+
 
 
 #endif //CALENHAD_QCONSTANTMODULE_H

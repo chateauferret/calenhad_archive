@@ -26,6 +26,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneconnection.h"
 #include "../qmodule/QModule.h"
 #include "../CalenhadServices.h"
+#include "qneport.h"
+#include "../preferences/PreferencesService.h"
+
+using namespace calenhad::notification;
+using namespace calenhad::nodeedit;
 
 QNEConnection::QNEConnection (QGraphicsItem* parent) : QGraphicsPathItem (parent) {
     setFlag (QGraphicsItem::ItemIsSelectable);

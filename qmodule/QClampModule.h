@@ -6,30 +6,40 @@
 #define CALENHAD_QCOMBINERMODULE_H
 
 
-#include <QtCore/QString>
-#include <libnoise/module/modulebase.h>
-#include "QModule.h"
+#include <QString>
 #include "QRangeModule.h"
 #include <libnoise/module/clamp.h>
 
-using namespace noise::module;
-class QClampModule : public QRangeModule {
-    Q_OBJECT
-public:
-    static QClampModule* newInstance();
-    void initialise() override;
-    Clamp* module() override;
-    QString nodeType () override;
-    double upperBound() override;
-    double lowerBound() override;
-    QClampModule* clone() override;
-    virtual void inflate (const QDomElement& element) override;
-    virtual void serialise (QDomDocument& doc) override;
+namespace calenhad {
+    namespace qmodule {
+        class QClampModule : public QRangeModule {
+        Q_OBJECT
+        public:
+            static QClampModule* newInstance ();
 
-private:
-    QClampModule (QWidget* parent = 0);
-    void setBounds (double lowerBound, double upperBound) override;
-};
+            void initialise () override;
+
+            noise::module::Clamp* module () override;
+
+            QString nodeType () override;
+
+            double upperBound () override;
+
+            double lowerBound () override;
+
+            QClampModule* clone () override;
+
+            virtual void inflate (const QDomElement& element) override;
+
+            virtual void serialize (QDomDocument& doc) override;
+
+        private:
+            QClampModule (QWidget* parent = 0);
+
+            void setBounds (double lowerBound, double upperBound) override;
+        };
+    }
+}
 
 
 #endif //CALENHAD_QCOMBINERMODULE_H

@@ -7,11 +7,13 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "QScaleModule.h"
 #include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
+#include "preferences/preferences.h"
 #include "../CalenhadServices.h"
+
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QScaleModule::QScaleModule (QWidget* parent) : QModule (new noise::module::ScalePoint(), parent) {
 
@@ -24,13 +26,13 @@ QScaleModule::~QScaleModule() {
 void QScaleModule::initialise() {
     QModule::initialise();
     _name = "New Scale";
-    scaleXSpin = logParameterControl ("Scale X", "scaleX");
+    scaleXSpin = parameterControl ("Scale X", "scaleX");
     //connect (scaleXSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleX (double)));
     _contentLayout -> addRow ("Scale X", scaleXSpin);
-    scaleYSpin = logParameterControl ("Scale Y", "scaleY");
+    scaleYSpin = parameterControl ("Scale Y", "scaleY");
     //connect (scaleYSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleY (double)));
     _contentLayout -> addRow ("Scale Y", scaleYSpin);
-    scaleZSpin = logParameterControl ("Scale Z", "scaleZ");
+    scaleZSpin = parameterControl ("Scale Z", "scaleZ");
     //connect (scaleZSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleZ (double)));
     _contentLayout -> addRow ("Scale Z", scaleZSpin);
     _isInitialised = true;
@@ -109,8 +111,8 @@ void QScaleModule::inflate (const QDomElement& element) {
     if (ok) { setScaleZ (z); }
 }
 
-void QScaleModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QScaleModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "x", QString::number (scaleX()));
     _model -> writeParameter (_element, "y", QString::number (scaleY()));
     _model -> writeParameter (_element, "z", QString::number (scaleZ()));

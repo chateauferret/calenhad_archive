@@ -9,7 +9,10 @@
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
+#include "../preferences/PreferencesService.h"
 
+using namespace calenhad::qmodule;
+using namespace noise::module;
 
 QVoronoiModule::QVoronoiModule (QWidget* parent)  : QModule (new Voronoi(), parent) {
 
@@ -21,10 +24,10 @@ QVoronoiModule::~QVoronoiModule() {
 
 void QVoronoiModule::initialise() {
     QModule::initialise();
-    frequencySpin = logParameterControl ("Frequency");
+    frequencySpin = parameterControl ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
-    displacementSpin = logParameterControl ("Displacement");
+    displacementSpin = parameterControl ("Displacement", "displacement");
     //connect (displacementSpin, SIGNAL (valueChanged (double)), this, SLOT (setDisplacement (double)));
     _contentLayout -> addRow (tr ("Power"), displacementSpin);
     enableDistanceCheck = new QCheckBox();
@@ -109,8 +112,8 @@ void QVoronoiModule::inflate (const QDomElement& element) {
     setEnableDistance (enableDistance);
 }
 
-void QVoronoiModule::serialise (QDomDocument& doc) {
-    QModule::serialise (doc);
+void QVoronoiModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
     _model -> writeParameter (_element, "getFrequency", QString::number (frequency()));
     _model -> writeParameter (_element, "displacement", QString::number (displacement()));
     _model -> writeParameter (_element, "enableDistance", enableDistance() ? "y" : "n");

@@ -2,15 +2,25 @@
 // Created by martin on 16/11/16.
 //
 
-#include <QtWidgets/QFormLayout>
+
 #include "QModule.h"
 #include "../nodeedit/QNodeBlock.h"
+#include "../nodeedit/qneport.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
+#include "../controls/globe/CalenhadPreview.h"
+#include "../controls/QNoiseMapViewer.h"
 #include "../CalenhadServices.h"
+#include "../legend/LegendService.h"
 
 using namespace icosphere;
-using namespace noise::utils;
+using namespace calenhad::qmodule;
+using namespace calenhad::nodeedit;
+using namespace calenhad::controls;
+using namespace calenhad::controls::globe;
+using namespace calenhad::pipeline;
+using namespace calenhad::legend;
+
 
 int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
@@ -37,7 +47,6 @@ void QModule::setupPreview() {
     _preview = new QNoiseMapViewer (this, this);
     _preview -> setSource (this);
     _previewIndex = QNode::addPanel (tr ("Preview"), _preview);
-
     _preview -> initialise();
     connect (this, &QNode::nodeChanged, _preview, &CalenhadPreview::render);
 }
@@ -77,8 +86,8 @@ void QModule::inflate (const QDomElement& element) {
     // position is retrieved in CalenhadModel
 }
 
-void QModule::serialise (QDomDocument& doc) {
-    QNode::serialise (doc);
+void QModule::serialize (QDomDocument& doc) {
+    QNode::serialize (doc);
     QDomElement positionElement = doc.createElement ("position");
     _element.appendChild (positionElement);
     positionElement.setAttribute ("y", handle() -> scenePos().y());
@@ -107,3 +116,8 @@ bool QModule::generateMap () {
     return true;
 }
 
+bool QModule::isComplete() {
+    bool complete = QNode::isComplete();
+    _expander -> setItemEnabled (_previewIndex, complete);
+    return complete;
+}

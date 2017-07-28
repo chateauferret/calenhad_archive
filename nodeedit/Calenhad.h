@@ -27,48 +27,77 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define QNEMAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtWidgets>
 #include <QPushButton>
 #include <QDockWidget>
 #include <QtXml/QDomDocument>
+#include <QtCore/QMap>
 
-class CalenhadController;
-class CalenhadView;
-class CalenhadModel;
-class QNEToolBox;
-class Preferences;
-class QNotificationStack;
-class QNode;
-class Legend;
+namespace calenhad {
+    namespace preferences {
+        class Preferences;
+    }
+    namespace pipeline {
+        class CalenhadModel;
+    }
+    namespace legend {
+        class Legend;
+    }
+    namespace expressions {
+        class VariablesDialog;
+    }
+    namespace notifications {
+        class QNotificationStack;
+    }
+    namespace qmodule {
+        class QNode;
+    }
+    namespace nodeedit {
+        class CalenhadController;
+        class CalenhadView;
+        class QNEToolBox;
 
-class Calenhad : public QMainWindow {
-Q_OBJECT
 
-public:
-    explicit Calenhad (QWidget* parent = 0);
-    ~Calenhad ();
-    static QNEToolBox* toolbox;
-    void setModel (CalenhadModel* model);
-    CalenhadModel* model ();
-    void initialiseLegends();
-    void addToolbar (QToolBar* toolbar, QNode* node);
-    CalenhadController* controller();
-private slots:
+        class Calenhad : public QMainWindow {
+        Q_OBJECT
 
-    void saveFile();
-    void loadFile();
-    void closeEvent (QCloseEvent* event);
+        public:
+            explicit Calenhad (QWidget* parent = 0);
 
-private:
-    CalenhadController* _controller;
-    CalenhadView* _view;
-    CalenhadModel* _model;
-    QString _lastFile;
-    QMap<QString, Legend*> _legends;
+            ~Calenhad ();
 
-    //void readMetadata (const QDomDocument& doc, QNotificationFactory* messages);
+            static QNEToolBox* toolbox;
 
-    bool readXml (const QString& fname, QDomDocument& doc);
-};
+            void setModel (calenhad::pipeline::CalenhadModel* model);
+
+            calenhad::pipeline::CalenhadModel* model ();
+
+            void initialiseLegends ();
+
+            void addToolbar (QToolBar* toolbar, calenhad::qmodule::QNode* node);
+
+            CalenhadController* controller ();
+
+        private slots:
+
+            void saveFile ();
+
+            void loadFile ();
+
+            void closeEvent (QCloseEvent* event);
+
+        private:
+            CalenhadController* _controller;
+            CalenhadView* _view;
+            calenhad::pipeline::CalenhadModel* _model;
+            calenhad::expressions::VariablesDialog* _variablesDialog;
+            QString _lastFile;
+            QMap<QString, calenhad::legend::Legend*> _legends;
+
+            //void readMetadata (const QDomDocument& doc, QNotificationFactory* messages);
+
+            bool readXml (const QString& fname, QDomDocument& doc);
+        };
+    }
+}
 
 #endif // QNEMAINWINDOW_H

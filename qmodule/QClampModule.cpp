@@ -1,18 +1,15 @@
 //
 // Created by martin on 26/11/16.
-//
 
-#include <iostream>
-#include "QClampModule.h"
-#include "../pipeline/ModuleFactory.h"
-#include "QNode.h"
+#include "../preferences/PreferencesService.h"
+#include "../CalenhadServices.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
-#include "../preferences.h"
-#include "../CalenhadServices.h"
-
+#include "QClampModule.h"
 
 using namespace noise::module;
+using namespace calenhad::qmodule;
+
 QClampModule::QClampModule (QWidget* parent) : QRangeModule (new Clamp(), parent) {
 
 }
@@ -63,6 +60,6 @@ void QClampModule::inflate (const QDomElement& element) {
     QRangeModule::inflate (element);
 }
 
-void QClampModule::serialise (QDomDocument& doc) {
-    QRangeModule::serialise (doc);
+void QClampModule::serialize (QDomDocument& doc) {
+    QRangeModule::serialize (doc);
 }

@@ -1,0 +1,12 @@
+SET(ALTITUDEMAP_SOURCE_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapConstants.h
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.h
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapEditor.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapEditor.h
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.h
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapFitter.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapFitter.h
+        ${CMAKE_CURRENT_LIST_DIR}/TerraceMapFitter.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/TerraceMapFitter.h)

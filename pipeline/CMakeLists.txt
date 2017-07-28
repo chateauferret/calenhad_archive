@@ -6,14 +6,10 @@ SET(PIPELINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/ImageRenderJob.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadModel.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadModel.h
-        ${CMAKE_CURRENT_LIST_DIR}/TileProducer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/TileProducer.h
         ${CMAKE_CURRENT_LIST_DIR}/RenderJob.cpp
         ${CMAKE_CURRENT_LIST_DIR}/RenderJob.h
         ${CMAKE_CURRENT_LIST_DIR}/ScanLineRenderer.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScanLineRenderer.h
         ${CMAKE_CURRENT_LIST_DIR}/RenderJob.cpp
         ${CMAKE_CURRENT_LIST_DIR}/RenderJob.h
-        #${CMAKE_CURRENT_LIST_DIR}/GlobeRenderJob.cpp
-        #${CMAKE_CURRENT_LIST_DIR}/GlobeRenderJob.h
         )

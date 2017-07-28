@@ -6,7 +6,7 @@
 #define CALENHAD_NOISEMAP_H
 
 #include <cstdlib>
-#include "NoiseContstants.h"
+#include "NoiseConstants.h"
 
 namespace noise {
     namespace utils {

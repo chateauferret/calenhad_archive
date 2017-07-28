@@ -1,24 +1,38 @@
 //
 // Created by martin on 16/12/16.
 //
-
 #include "QNode.h"
+#include <QDialog>
+#include <QCloseEvent>
 #include <iostream>
 #include "../nodeedit/qneconnection.h"
 #include <QMenu>
+#include <QVBoxLayout>
+#include <QLineEdit>
+#include <sys/socket.h>
 #include "../nodeedit/CalenhadController.h"
-#include "QModule.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../actions/ChangeModuleCommand.h"
-#include "qwt/qwt_dial.h"
-#include "qwt/qwt_dial_needle.h"
-#include "qwt/qwt_counter.h"
 #include "../CalenhadServices.h"
+
+#include "../nodeedit/qneport.h"
+#include "../messages/QNotificationService.h"
+#include "../exprtk/ExpressionWidget.h"
 #include "../nodeedit/QNodeBlock.h"
+#include "QConstModule.h"
 
 
-QNode::QNode (QWidget* parent) : QWidget (parent), _model (nullptr), _isInitialised (false), _dialog (nullptr) {
+using namespace calenhad::qmodule;
+using namespace calenhad::nodeedit;
+using namespace calenhad::controls;
+using namespace calenhad::pipeline;
+using namespace calenhad::expressions;
+//using namespace calenhad::actions;
+
+
+QNode::QNode (QWidget* parent) : QWidget (parent), _model (nullptr), _isInitialised (false), _dialog (nullptr), _handle (nullptr) {
     connect (this, &QNode::initialised, this, [=] () { _isInitialised = true; });
+    _statusOrright = QPixmap (":/appicons/status/orright.png");
+    _statusGoosed = QPixmap (":/appicons/status/goosed.png");
 }
 
 QNode::~QNode () {
@@ -134,19 +148,27 @@ bool QNode::isInitialised() {
 }
 
 bool QNode::isComplete() {
-    for (QNEPort* p : _ports) {
-        if (p -> portType() != QNEPort::OutputPort) {
-            if (! (p -> hasConnection ())) {
-                return false;
+    bool complete = true;
+    QList<ExpressionWidget *> widgets = findChildren<ExpressionWidget*>();
+    for (ExpressionWidget* ew: widgets) {
+        if (! ew -> isValid()) {
+            complete = false;
+            break;
+        }
+    }
+    if (complete) {
+        for (QNEPort* p : _ports) {
+            if (p->portType () != QNEPort::OutputPort) {
+                if (!(p->hasConnection ())) {
+                    complete = false;
+                    break;
+                }
             }
         }
     }
-    return true;
-}
 
-bool QNode::isRenderable() {
-    return isComplete();
-    // other conditions to do
+
+    return complete;
 }
 
 // Spin _box which selects a libnoiseutils level value between -1 and 1
@@ -197,9 +219,9 @@ QwtCounter* QNode::angleParameterControl (const QString& text, const QString& p)
     return counter;
 }
 
-QLogSpinBox* QNode::logParameterControl (const QString& text, const QString& property) {
-    if (property == QString::null) { return logParameterControl (text, propertyName (text)); }
-    QLogSpinBox* spin = new QLogSpinBox (_content);
+QDoubleSpinBox* QNode::parameterControl (const QString& text, const QString& property) {
+    if (property == QString::null) { return parameterControl (text, propertyName (text)); }
+    QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
     connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
 }
@@ -252,7 +274,7 @@ void QNode::inflate (const QDomElement& element) {
     }
 }
 
-void QNode::serialise (QDomDocument& doc) {
+void QNode::serialize (QDomDocument& doc) {
     _element = doc.createElement ("module");
     doc.documentElement().appendChild (_element);
     QDomElement nameElement = doc.createElement ("name");
@@ -280,9 +302,9 @@ void QNode::serialise (QDomDocument& doc) {
 
 void QNode::propertyChangeRequested (const QString& p, const QVariant& value) {
     if (_model && (property (p.toStdString ().c_str ()) != value)) {
-        ChangeModuleCommand* c = new ChangeModuleCommand (this, p, property (p.toStdString ().c_str ()), value);
+       // ChangeModuleCommand* c = new ChangeModuleCommand (this, p, property (p.toStdString ().c_str ()), value);
         if (_model) {
-            _model -> controller() -> doCommand (c);
+        //    _model -> controller() -> doCommand (c);
         }
         _model -> update();
     }
@@ -332,3 +354,15 @@ QNodeGroup* QNode::group () {
     return _group;
 }
 
+ExpressionWidget* QNode::addParameter (const QString& label) {
+    ExpressionWidget* widget = new ExpressionWidget (this);
+    _contentLayout -> addRow (label, widget);
+    connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
+    connect (widget, &ExpressionWidget::compiled, this, &QNode::valueReady);
+    connect (widget, &ExpressionWidget::errorFound, this, [=] () { emit nodeChanged(); });
+    return widget;
+}
+
+void QNode::valueReady (const double& value) {
+
+}

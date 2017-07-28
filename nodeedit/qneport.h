@@ -27,68 +27,108 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define QNEPORT_H
 
 #include <QGraphicsPathItem>
-#include <libnoise/module/modulebase.h>
 
-class QNodeBlock;
-class QNEConnection;
-class EditableLabel;
-class QNode;
-
-enum PortHighlight { NONE, CAN_CONNECT, CONNECTED };
-
-class QNEPort : public QObject, public QGraphicsPathItem {
-    Q_OBJECT
-public:
-	enum { Type = QGraphicsItem::UserType + 1 };
-	enum { ControlPort = 0, InputPort = 1, OutputPort = 2 };
-
-    QNEPort (int type, int index, const QString& name, QNodeBlock *parent = 0);
-	~QNEPort();
-
-	void setBlock (QNodeBlock*);
-
-	int index();
-	int radius();
-	QVector<QNEConnection*>& connections();
-	void initialise ();
-	QString& portName();
-	int portType() const { return _portType; }
-	bool hasConnection();
-	int type() const { return Type; }
-	QNodeBlock* block() const;
-	void addConnection (QNEConnection* c);
-	void removeConnection(QNEConnection* c);
-    virtual QRectF boundingRect() const;
-	bool isConnected (QNEPort*);
-	QNode* owner ();
-	void invalidateRenders ();
-	void setHighlight (const PortHighlight& highlight);
-    Q_PROPERTY (QString name READ portName WRITE setName MEMBER _portName);
-
-public slots:
-    void setName (const QString &n);
-	void nameChangeRequested (const QString& value);
-
-    signals:
-    void connected (QNEConnection* c);
-    void disconnected (QNEPort* port);
-
-protected:
-	QVariant itemChange (GraphicsItemChange change, const QVariant &value);
-
-private:
-	QNodeBlock *_block;
-	QString _portName;
-	bool isOutput_;
-	EditableLabel*_label = nullptr;
-	int _radius;
-	int _margin;
-	QVector<QNEConnection*> m_connections;
-	int _portType;
-	int _index;
-	quint64 _ptr;
+namespace calenhad {
+	namespace qmodule {
+		class QNode;
+	}
+	namespace nodeedit {
+		class QNodeBlock;
+		class QNEConnection;
+		class EditableLabel;
 
 
-};
+
+		class QNEPort : public QObject, public QGraphicsPathItem {
+		Q_OBJECT
+		public:
+
+            enum PortHighlight {
+                NONE, CAN_CONNECT, CONNECTED
+            };
+			enum {
+				Type = QGraphicsItem::UserType + 1
+			};
+			enum {
+				ControlPort = 0, InputPort = 1, OutputPort = 2
+			};
+
+			QNEPort (int type, int index, const QString& name, QNodeBlock* parent = 0);
+
+			~QNEPort ();
+
+			void setBlock (QNodeBlock*);
+
+			int index ();
+
+			int radius ();
+
+			QVector<QNEConnection*>& connections ();
+
+			void initialise ();
+
+			QString& portName ();
+
+			int portType () const { return _portType; }
+
+			bool hasConnection ();
+
+			int type () const { return Type; }
+
+			QNodeBlock* block () const;
+
+			void addConnection (QNEConnection* c);
+
+			void removeConnection (QNEConnection* c);
+
+			virtual QRectF boundingRect () const;
+
+			bool isConnected (QNEPort*);
+
+			calenhad::qmodule::QNode* owner ();
+
+			void invalidateRenders ();
+
+			void setHighlight (const PortHighlight& highlight);
+
+			Q_PROPERTY (QString name
+								READ
+										portName
+								WRITE
+										setName
+								MEMBER
+								_portName);
+
+		public slots:
+
+			void setName (const QString& n);
+
+			void nameChangeRequested (const QString& value);
+
+		signals:
+
+			void connected (QNEConnection* c);
+
+			void disconnected (QNEPort* port);
+
+		protected:
+			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
+
+		private:
+			QNodeBlock* _block;
+			QString _portName;
+			bool isOutput_;
+			EditableLabel* _label = nullptr;
+			int _radius;
+			int _margin;
+			QVector<QNEConnection*> m_connections;
+			int _portType;
+			int _index;
+			quint64 _ptr;
+
+
+		};
+	}
+}
 
 #endif // QNEPORT_H

@@ -11,28 +11,39 @@
 #include <marble/ViewportParams.h>
 #include <marble/GeoDataCoordinates.h>
 
-class RenderPoint {
-public:
-    RenderPoint (const QPoint& p, Marble::ViewportParams* viewport);
-    const QPoint& point();
-    void populate (const double& value, const QColor& color);
-    double _latDegrees, _lonDegrees, _latRadians, _lonRadians;
+namespace calenhad {
+    namespace mapping {
 
-protected:
-    QPoint _point;
 
-    QColor _color;
-    double _value;
-public:
-    const QColor& getColor () const;
-    double getValue () const;
-    bool isValid () const;
-    bool isReady () const;
+        class RenderPoint {
+        public:
+            RenderPoint (const QPoint& p, Marble::ViewportParams* viewport);
 
-protected:
-    bool _valid, _ready;
-    Marble::ViewportParams* _viewport;
-};
+            const QPoint& point ();
 
+            void populate (const double& value, const QColor& color);
+
+            double _latDegrees, _lonDegrees, _latRadians, _lonRadians;
+
+        protected:
+            QPoint _point;
+
+            QColor _color;
+            double _value;
+        public:
+            const QColor& getColor () const;
+
+            double getValue () const;
+
+            bool isValid () const;
+
+            bool isReady () const;
+
+        protected:
+            bool _valid, _ready;
+            Marble::ViewportParams* _viewport;
+        };
+    }
+}
 
 #endif //CALENHAD_RENDERPOINT_H

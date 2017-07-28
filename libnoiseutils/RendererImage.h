@@ -8,11 +8,14 @@
 #include <libnoise/exception.h>
 #include <QtGui/QImage>
 #include <memory>
-#include "NoiseContstants.h"
-#include "../mapping/Legend.h"
+#include "NoiseConstants.h"
+#include "legend/Legend.h"
 
-
-class ImageRenderJob;
+namespace calenhad {
+    namespace pipeline {
+        class ImageRenderJob;
+    }
+}
 
 namespace noise {
     namespace utils {
@@ -120,7 +123,7 @@ namespace noise {
         public:
 
             /// Constructor.
-            RendererImage (ImageRenderJob* job);
+            RendererImage (calenhad::pipeline::ImageRenderJob* job);
 
             /// Enables or disables the light source.
             ///
@@ -382,7 +385,7 @@ namespace noise {
                 _pSourceNoiseMap = &sourceNoiseMap;
             }
 
-            void setLegend (Legend* legend);
+            void setLegend (calenhad::legend::Legend* legend);
 
         private:
 
@@ -464,9 +467,9 @@ namespace noise {
             /// The sine of the elevation of the light source.
             mutable double _sinElev;
 
-            mutable Legend* _legend;
+            mutable calenhad::legend::Legend* _legend;
 
-            ImageRenderJob* _job;
+            calenhad::pipeline::ImageRenderJob* _job;
 
         };
 

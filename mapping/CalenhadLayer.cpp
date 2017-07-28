@@ -4,18 +4,25 @@
 
 #include "CalenhadLayer.h"
 #include <marble/GeoPainter.h>
-#include "../libnoiseutils/NoiseContstants.h"
+
+#include "../legend/Legend.h"
+#include "libnoiseutils/NoiseConstants.h"
 #include "../CalenhadServices.h"
+#include "../controls/globe/StatisticsService.h"
 #include <ctime>
 #include <QThread>
 #include <messages/QProgressNotification.h>
 #include <pipeline/ScanLineRenderer.h>
 #include <QtCore/QThreadPool>
+#include <iostream>
 
-using namespace geoutils;
 using namespace Marble;
 using namespace icosphere;
 using namespace noise::model;
+using namespace calenhad::mapping;
+using namespace calenhad::pipeline;
+using namespace calenhad::qmodule;
+using namespace calenhad::legend;
 
 CalenhadLayer::CalenhadLayer (QModule* source) :
         _viewport (nullptr),
@@ -85,7 +92,6 @@ int CalenhadLayer::render (GeoPainter* painter) {
                 if (p.isReady ()) {
                     painter -> setPen (p.getColor ());
                     painter -> drawPoint (GeoDataCoordinates (p._lonRadians, p._latRadians));
-                    std::cout << p.getValue () << " " << p.getColor ().name ().toStdString () << "\n";
                     if (p.getValue () < _minimum || _minimum == 0.0) { _minimum = p.getValue (); }
                     if (p.getValue () > _maximum || _maximum == 0.0) { _maximum = p.getValue (); }
                     _count++;

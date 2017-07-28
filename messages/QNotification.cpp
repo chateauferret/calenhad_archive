@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "QNotification.h"
+using namespace calenhad::notification;
 
 QNotification::QNotification (const QString& message, QWidget* host, const QString& style, const int& duration) : QFrame (host), _duration (duration) {
     setObjectName (style.toLower());
