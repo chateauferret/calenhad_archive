@@ -23,11 +23,9 @@ QExponentModule::~QExponentModule() {
 void QExponentModule::initialise() {
     QModule::initialise();
     _name = "New Exponent";
-    exponentSpin = parameterControl ("Exponent", "exponent");
+    exponentSpin = addParameter ("Exponent", "exponent");
     exponentSpin -> setValue (1.0);
     _contentLayout -> addRow (tr ("Exponent"), exponentSpin);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QExponentModule::exponent() {

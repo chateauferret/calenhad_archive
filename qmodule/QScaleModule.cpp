@@ -26,17 +26,15 @@ QScaleModule::~QScaleModule() {
 void QScaleModule::initialise() {
     QModule::initialise();
     _name = "New Scale";
-    scaleXSpin = parameterControl ("Scale X", "scaleX");
+    scaleXSpin = addParameter ("Scale X", "scaleX");
     //connect (scaleXSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleX (double)));
     _contentLayout -> addRow ("Scale X", scaleXSpin);
-    scaleYSpin = parameterControl ("Scale Y", "scaleY");
+    scaleYSpin = addParameter ("Scale Y", "scaleY");
     //connect (scaleYSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleY (double)));
     _contentLayout -> addRow ("Scale Y", scaleYSpin);
-    scaleZSpin = parameterControl ("Scale Z", "scaleZ");
+    scaleZSpin = addParameter ("Scale Z", "scaleZ");
     //connect (scaleZSpin, SIGNAL (valueChanged (double)), this, SLOT (setScaleZ (double)));
     _contentLayout -> addRow ("Scale Z", scaleZSpin);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QScaleModule::scaleX() {

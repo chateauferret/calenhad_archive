@@ -41,18 +41,16 @@ namespace calenhad {
         Q_OBJECT
         Q_ENUMS (ModuleType)
         public:
-            QModule (noise::module::Module* m, QWidget* parent = 0);
-
+            QModule (const QString& nodeType, noise::module::Module* m, QWidget* parent = 0);
+            QModule (noise::module::Module* m, QWidget* parent) : QNode ("Perlin", parent) { }
             virtual ~QModule ();
 
             // don't want a copy constructor because subclass implementations will have to call initialise()
-            virtual QModule* clone () = 0;
+            virtual QModule* clone () {};
 
             virtual void inflate (const QDomElement& element) override;
 
             virtual void serialize (QDomDocument& doc) override;
-
-            virtual QString nodeType () override = 0;
 
             static int seed;
             static noise::NoiseQuality noiseQuality;
@@ -72,7 +70,7 @@ namespace calenhad {
             std::shared_ptr<QImage> overview ();
             bool isComplete() override;
         public slots:
-
+            void setupPreview ();
             void invalidate () override;
 
         protected:
@@ -92,7 +90,7 @@ namespace calenhad {
 
         protected slots:
 
-            void setupPreview ();
+
 
 
         };

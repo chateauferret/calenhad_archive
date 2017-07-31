@@ -30,6 +30,9 @@ namespace calenhad {
         class QNEPort;
         class QNodeBlock;
     }
+    namespace expressions {
+        class ExpressionWidget;
+    }
     namespace qmodule {
         class QModule;
         class QNodeGroup;
@@ -38,8 +41,10 @@ namespace calenhad {
         Q_OBJECT
 
         public:
-            QNode (QWidget* parent);
-
+            QNode (const QString& nodeType, QWidget* parent);
+            QNode (QWidget* parent) {
+                 // just for now
+            }
             enum {
                 Type = QGraphicsItem::UserType + 6
             };
@@ -54,7 +59,7 @@ namespace calenhad {
 
             virtual void setModel (calenhad::pipeline::CalenhadModel* model);
 
-            virtual QString nodeType () = 0;
+            virtual QString nodeType();
 
             void setGroup (QNodeGroup* group);
 
@@ -77,14 +82,12 @@ namespace calenhad {
 
             QList<calenhad::nodeedit::QNEPort*> ports ();
 
-            bool isInitialised ();
-
             void showEvent (QShowEvent* event) override;
 
             void closeEvent (QCloseEvent* event) override;
 
             calenhad::pipeline::CalenhadModel* model ();
-
+            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate );
             virtual bool hasParameters ();
 
             Q_PROPERTY (QString name READ name WRITE setName MEMBER _name NOTIFY nameChanged);
@@ -94,9 +97,10 @@ namespace calenhad {
 
             void propertyChangeRequested (const QString& p, const QVariant& value);
 
+            QStringList parameters();
             void showParameters (const bool& visible);
-
-
+            void setParameter (const QString& label, const QString& value);
+            QString parameter (const QString& label);
         public slots:
 
             virtual void invalidate ();
@@ -111,7 +115,7 @@ namespace calenhad {
 
             void nodeChanged ();
 
-            void initialised ();
+
 
         protected:
 
@@ -127,6 +131,7 @@ namespace calenhad {
             QList<calenhad::nodeedit::QNEPort*> _ports;
             QWidget* _content;
 
+            QMap<QString, calenhad::expressions::ExpressionWidget*> _parameters;
             virtual void addInputPorts () = 0;
 
             int addPanel (const QString& name, QWidget* widget);
@@ -138,18 +143,13 @@ namespace calenhad {
             QwtCounter* angleParameterControl (const QString& text, const QString& property = QString::null);
 
             QFormLayout* _contentLayout;
-            bool _isInitialised;
             QDomElement _element;
             QDomDocument _document;
-
+            QString _nodeType;
             static QString propertyName (const QString& text);
 
-            QDoubleSpinBox* parameterControl (const QString& text, const QString& property);
+            QDoubleSpinBox* addParameter (const QString& text, const QString& property);
 
-            QPixmap _statusOrright;
-            QPixmap _statusGoosed;
-
-            calenhad::expressions::ExpressionWidget* addParameter (const QString& name);
         };
 
     } // namespace qmodule

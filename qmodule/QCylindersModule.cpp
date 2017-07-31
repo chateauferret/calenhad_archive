@@ -23,12 +23,10 @@ QCylindersModule::~QCylindersModule () {
 void QCylindersModule::initialise() {
     QModule::initialise();
     _name = "New Cylinders";
-    frequencySpin = parameterControl ("Frequency", "frequency");
+    frequencySpin = addParameter ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
     frequencySpin -> setValue (1.0);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QCylindersModule::frequency() {

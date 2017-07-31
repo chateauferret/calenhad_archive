@@ -26,17 +26,15 @@ QTranslateModule::~QTranslateModule() {
 void QTranslateModule::initialise() {
     QModule::initialise();
     _name = "New Translation";
-    dXSpin = parameterControl ("Translate X", "dX");
+    dXSpin = addParameter ("Translate X", "dX");
     //connect (dXSpin, SIGNAL (valueChanged (double)), this, SLOT (setDX (double)));
     _contentLayout -> addRow (tr ("X"), dXSpin);
-    dYSpin = parameterControl ("Translate Y", "dY");
+    dYSpin = addParameter ("Translate Y", "dY");
     //connect (dYSpin, SIGNAL (valueChanged (double)), this, SLOT (setDY (double)));
     _contentLayout -> addRow (tr ("Y"), dYSpin);
-    dZSpin = parameterControl ("Translate Z", "dZ");
+    dZSpin = addParameter ("Translate Z", "dZ");
     //connect (dZSpin, SIGNAL (valueChanged (double)), this, SLOT (setDZ (double)));
     _contentLayout -> addRow (tr ("Z"), dZSpin);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QTranslateModule::dX() {

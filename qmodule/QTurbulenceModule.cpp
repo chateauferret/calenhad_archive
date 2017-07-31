@@ -28,17 +28,15 @@ void QTurbulenceModule::initialise() {
     QModule::initialise();
     _name = "New Turbulence";
     module() -> SetSeed (seed);
-    frequencySpin = parameterControl ("Frequency", "frequency");
+    frequencySpin = addParameter ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
-    powerSpin = parameterControl ("Power", "power");
+    powerSpin = addParameter ("Power", "power");
     //connect (powerSpin, SIGNAL (valueChanged (double)), this, SLOT (setPower (double)));
     _contentLayout -> addRow (tr ("Power"), powerSpin);
-    roughnessSpin = parameterControl ("Roughness", "roughness");
+    roughnessSpin = addParameter ("Roughness", "roughness");
     //connect (roughnessSpin, SIGNAL (valueChanged (double)), this, SLOT (setRoughness (double)));
     _contentLayout -> addRow (tr ("Roughness"), roughnessSpin);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QTurbulenceModule::frequency() {

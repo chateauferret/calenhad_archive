@@ -122,7 +122,6 @@ void ExpressionWidget::reportErrors () {
 }
 
 void ExpressionWidget::setText (QString text) {
-    std::cout << text.toStdString () << "\n";
     _expressionShortBox -> setText (text);
 }
 

@@ -63,8 +63,6 @@ QString QBasicModule::nodeType () {
 
 void QBasicModule::initialise () {
     QModule::initialise ();
-    _isInitialised = true;
-    emit initialised();
 }
 
 void QBasicModule::serialize (QDomDocument& doc) {

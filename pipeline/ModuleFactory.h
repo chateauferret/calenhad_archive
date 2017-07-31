@@ -49,6 +49,8 @@ namespace calenhad {
 
             QStringList types ();
 
+            qmodule::QNode* clone (qmodule::QNode* other);
+
         signals:
 
             void seedChanged (const int& seed);

@@ -25,17 +25,17 @@ QNoiseModule::~QNoiseModule () {
 void QNoiseModule::initialise() {
     QModule::initialise();
 
-    frequencySpin = parameterControl ("Frequency", "frequency");
+    frequencySpin = addParameter ("Frequency", "frequency");
     frequencySpin -> setValue (getFrequency());
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
 
-    lacunaritySpin = parameterControl ("Lacunarity", "lacunarity");
+    lacunaritySpin = addParameter ("Lacunarity", "lacunarity");
     lacunaritySpin -> setValue (getLacunarity());
     _contentLayout -> addRow (tr ("Lacunarity"), lacunaritySpin);
 
 
     if (hasPersistence()) {
-        persistenceSpin = parameterControl ("Persistence", "persistence");
+        persistenceSpin = addParameter ("Persistence", "persistence");
         persistenceSpin -> setValue (getPersistence());
         _contentLayout -> addRow (tr ("Persistence"), persistenceSpin);
 
@@ -50,8 +50,6 @@ void QNoiseModule::initialise() {
     setLacunarity (getLacunarity ());
     setOctaveCount (getOctaveCount ());
     setPersistence (getPersistence ());
-
-    emit initialised();
 }
 
 double QNoiseModule::getFrequency () {

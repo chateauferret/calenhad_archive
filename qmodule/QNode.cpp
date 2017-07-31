@@ -13,13 +13,12 @@
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
-
+#include "../pipeline/ModuleFactory.h"
 #include "../nodeedit/qneport.h"
 #include "../messages/QNotificationService.h"
 #include "../exprtk/ExpressionWidget.h"
 #include "../nodeedit/QNodeBlock.h"
 #include "QConstModule.h"
-
 
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
@@ -29,11 +28,13 @@ using namespace calenhad::expressions;
 //using namespace calenhad::actions;
 
 
-QNode::QNode (QWidget* parent) : QWidget (parent), _model (nullptr), _isInitialised (false), _dialog (nullptr), _handle (nullptr) {
-    connect (this, &QNode::initialised, this, [=] () { _isInitialised = true; });
-    _statusOrright = QPixmap (":/appicons/status/orright.png");
-    _statusGoosed = QPixmap (":/appicons/status/goosed.png");
+QNode::QNode (const QString& nodeType, QWidget* parent) : QWidget (parent),
+    _model (nullptr), _dialog (nullptr), _handle (nullptr), _content (nullptr), _contentLayout (nullptr),
+    _nodeType (nodeType),
+    _name ("New " + nodeType) {
+
 }
+
 
 QNode::~QNode () {
     if (_dialog) { delete _dialog; }
@@ -79,14 +80,6 @@ void QNode::initialise() {
     _dialog -> setLayout (new QVBoxLayout());
     _dialog -> layout() -> addWidget (_expander);
 
-    if (hasParameters()) {
-        _contentLayout = new QFormLayout ();
-        _contentLayout->setMargin (0);
-        _contentLayout->setVerticalSpacing (0);
-        _content = new QWidget (_expander);
-        _content->setLayout (_contentLayout);
-        QNode::addPanel (tr ("Parameters"), _content);
-    }
     // when we change panels, move the focus to the newly-shown panel - this removes the focus from the parameter controls and causes their
     // values to be updated to the underlying noise owner data
     connect (_expander, &QToolBox::currentChanged, this, [=] () { _expander -> currentWidget() -> findChild<QWidget*>() -> setFocus(); });
@@ -141,10 +134,6 @@ void QNode::addPort (QNEPort* port) {
 
 QList<QNEPort*> QNode::ports() {
     return _ports;
-}
-
-bool QNode::isInitialised() {
-    return _isInitialised;
 }
 
 bool QNode::isComplete() {
@@ -219,8 +208,8 @@ QwtCounter* QNode::angleParameterControl (const QString& text, const QString& p)
     return counter;
 }
 
-QDoubleSpinBox* QNode::parameterControl (const QString& text, const QString& property) {
-    if (property == QString::null) { return parameterControl (text, propertyName (text)); }
+QDoubleSpinBox* QNode::addParameter (const QString& text, const QString& property) {
+    if (property == QString::null) { return addParameter (text, propertyName (text)); }
     QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
     connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
     return spin;
@@ -272,6 +261,12 @@ void QNode::inflate (const QDomElement& element) {
             CalenhadServices::messages() -> message ("warning", "Reverting to default port names. " + m);
         }
     }
+    QDomNodeList paramNodes = element.elementsByTagName ("parameter");
+    for (int i = 0; i < paramNodes.count(); i++) {
+        QString paramName = paramNodes.at (i).attributes().namedItem ("name").nodeValue();
+        QString paramValue = paramNodes.at (i).attributes().namedItem ("value").nodeValue();
+        setParameter (paramName, paramValue);
+    }
 }
 
 void QNode::serialize (QDomDocument& doc) {
@@ -297,6 +292,14 @@ void QNode::serialize (QDomDocument& doc) {
         QDomText portNameText = doc.createTextNode (p -> portName());
         portNameElement.appendChild (portNameText);
         portElement.appendChild (portNameElement);
+    }
+    if (! _parameters.isEmpty()) {
+        for (QString key : _parameters.keys()) {
+            QDomElement paramElement = doc.createElement ("parameter");
+            paramElement.setAttribute ("name", key);
+            paramElement.setAttribute ("value", _parameters.value (key) -> text ());
+            _element.appendChild (paramElement);
+        }
     }
 }
 
@@ -343,26 +346,57 @@ void QNode::closeEvent (QCloseEvent* event) {
 }
 
 bool QNode::hasParameters () {
-    return true;
+    return ! (_parameters.isEmpty());
 }
 
 void QNode::setGroup (QNodeGroup* group) {
     _group = group;
 }
 
+QString QNode::nodeType() {
+    return _nodeType;
+}
+
 QNodeGroup* QNode::group () {
     return _group;
 }
 
-ExpressionWidget* QNode::addParameter (const QString& label) {
+ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate) {
+
+
+    // create a panel to hold the parameter widgets, if we haven't done this already
+    if (! (_content)) {
+        _contentLayout = new QFormLayout ();
+        _contentLayout->setMargin (0);
+        _contentLayout->setVerticalSpacing (0);
+        _content = new QWidget (_expander);
+        _content->setLayout (_contentLayout);
+        QNode::addPanel (tr ("Parameters"), _content);
+    }
+
     ExpressionWidget* widget = new ExpressionWidget (this);
     _contentLayout -> addRow (label, widget);
     connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
-    connect (widget, &ExpressionWidget::compiled, this, &QNode::valueReady);
+    connect (widget, &ExpressionWidget::compiled, [=] (const double& v) { onUpdate (v); emit nodeChanged(); });
     connect (widget, &ExpressionWidget::errorFound, this, [=] () { emit nodeChanged(); });
+    _parameters.insert (name, widget);
+    widget -> setText (QString::number (initial));
     return widget;
 }
 
 void QNode::valueReady (const double& value) {
 
+}
+
+void QNode::setParameter (const QString& name, const QString& text) {
+    _parameters.find (name).value() -> setText (text);
+}
+
+QString QNode::parameter (const QString& name) {
+    return _parameters.value (name) -> text();
+}
+
+
+QStringList QNode::parameters () {
+    return _parameters.keys();
 }

@@ -33,9 +33,6 @@ void QRotateModule::initialise() {
     zAngleSpin = angleParameterControl ("Rotate Z", "zAngle");
     _contentLayout -> addRow ("Z axis", zAngleSpin);
 
-    _isInitialised = true;
-    emit initialised();
-
 }
 
 double QRotateModule::xAngle() {

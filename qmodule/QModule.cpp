@@ -25,9 +25,10 @@ using namespace calenhad::legend;
 int QModule::seed = 0;
 noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
-QModule::QModule (noise::module::Module* m, QWidget* parent) : QNode (parent), _module (m) {
+QModule::QModule (const QString& nodeType, noise::module::Module* m, QWidget* parent) : QNode (nodeType, parent), _module (m) {
     _legend = CalenhadServices::legends() -> defaultLegend();
-    connect (this, &QNode::initialised, this, &QModule::setupPreview);
+    initialise();
+    setupPreview();
 }
 
 QModule::~QModule () {

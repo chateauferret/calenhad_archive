@@ -22,7 +22,7 @@ using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 using namespace calenhad::controls;
 
-QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule (new IcosphereModule()), _depth (5), _bounds (Bounds()) {
+QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule ("Icosphere map", new IcosphereModule()), _depth (5), _bounds (Bounds()) {
 
 }
 
@@ -39,7 +39,6 @@ void QIcosphereMap::initialise() {
     _contentLayout -> addRow (tr ("Vertices"), _vertexCountLabel);
     connect (_depthSpin, SIGNAL (editingFinished()), this, SLOT (setIcosphereDepth()));
     _contentLayout -> addRow (tr ("Depth"), _depthSpin);
-    _isInitialised = true;
 
     _boundsLabel = new QLabel();
      _boundsButton = new QPushButton ("...");

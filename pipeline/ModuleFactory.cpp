@@ -25,6 +25,7 @@
 #include "preferences/preferences.h"
 #include "../qmodule/QAltitudeMap.h"
 #include "../CalenhadServices.h"
+#include "../exprtk/ExpressionWidget.h"
 #include <QPixmap>
 #include <QList>
 
@@ -33,6 +34,7 @@ using namespace noise::module;
 using namespace calenhad;
 using namespace calenhad::pipeline;
 using namespace calenhad::qmodule;
+using namespace calenhad::expressions;
 
 ModuleFactory::ModuleFactory() {
     for (QString type : types()) {
@@ -109,7 +111,13 @@ QNode* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
     if (type == CalenhadServices::preferences() -> calenhad_module_translate) { return QTranslateModule::newInstance(); }
     if (type == CalenhadServices::preferences() -> calenhad_module_rotate) { return QRotateModule::newInstance(); }
     if (type == CalenhadServices::preferences() -> calenhad_module_clamp) { return QClampModule::newInstance(); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_constant) { return QConstModule::newInstance(); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_constant) {
+        QModule* qm = new QModule (CalenhadServices::preferences() -> calenhad_module_constant, new Const());
+        qm -> addParameter ("Constant value", "constValue", 0.01, [=] (const double& value) {
+            ((Const*) qm -> module()) -> SetConstValue (value);
+        });
+        return qm;
+    }
     if (type == CalenhadServices::preferences() -> calenhad_module_perlin) { return QNoiseModule::newPerlinInstance(); }
     if (type == CalenhadServices::preferences() -> calenhad_module_billow) { return QNoiseModule::newBillowInstance(); }
     if (type == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) { return QNoiseModule::newRidgedMultiInstance(); }
@@ -120,9 +128,15 @@ QNode* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
     if (type == CalenhadServices::preferences() -> calenhad_module_scalepoint) { return QScaleModule::newInstance(); }
     if (type == CalenhadServices::preferences() -> calenhad_module_icospheremap) { return QIcosphereMap::newInstance(); }
     if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { return QAltitudeMap::newInstance(); }
-
     if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { QNodeGroup* group = new QNodeGroup(); return group; }
     return nullptr;
+}
+
+QNode* ModuleFactory::clone (QNode* other) {
+    QNode* n = createModule (other -> nodeType(), other -> model());
+    for (QString key : n -> parameters()) {
+        n -> setParameter (key, other -> parameter (key));
+    }
 }
 
 void ModuleFactory::setSeed (const int& seed) {

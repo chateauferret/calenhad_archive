@@ -51,8 +51,6 @@ void QClampModule::setBounds (double lowerBound, double upperBound) {
 
 void QClampModule::initialise () {
     QRangeModule::initialise ();
-    _isInitialised = true;
-    emit initialised();
 }
 
 

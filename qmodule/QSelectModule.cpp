@@ -29,8 +29,6 @@ void QSelectModule::initialise() {
     falloffSpin = noiseValueParamControl ("Falloff");
     //connect (falloffSpin, SIGNAL (valueChanged (double)), this, SLOT (setFalloff (double)));
     _contentLayout -> addRow (tr ("Falloff"), falloffSpin);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QSelectModule::falloff() {

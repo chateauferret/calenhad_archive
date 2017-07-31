@@ -24,10 +24,10 @@ QVoronoiModule::~QVoronoiModule() {
 
 void QVoronoiModule::initialise() {
     QModule::initialise();
-    frequencySpin = parameterControl ("Frequency", "frequency");
+    frequencySpin = addParameter ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
-    displacementSpin = parameterControl ("Displacement", "displacement");
+    displacementSpin = addParameter ("Displacement", "displacement");
     //connect (displacementSpin, SIGNAL (valueChanged (double)), this, SLOT (setDisplacement (double)));
     _contentLayout -> addRow (tr ("Power"), displacementSpin);
     enableDistanceCheck = new QCheckBox();
@@ -36,8 +36,6 @@ void QVoronoiModule::initialise() {
     module() -> EnableDistance (false);
     enableDistanceCheck -> setToolTip ("Enable distance");
     _contentLayout -> addRow (tr ("Enable distance"), enableDistanceCheck);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QVoronoiModule::frequency() {

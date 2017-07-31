@@ -26,14 +26,12 @@ QScaleBiasModule::~QScaleBiasModule() {
 void QScaleBiasModule::initialise() {
     QModule::initialise();
     _name = "New Scale and Bias";
-    scaleSpin = parameterControl ("Scale", "scale");
+    scaleSpin = addParameter ("Scale", "scale");
     //connect (scaleSpin, SIGNAL (valueChanged (double)), this, SLOT (setScale (double)));
     _contentLayout -> addRow (tr ("Scale"), scaleSpin);
-    biasSpin = parameterControl ("Bias", "bias");
+    biasSpin = addParameter ("Bias", "bias");
     //connect (biasSpin, SIGNAL (valueChanged (double)), this, SLOT (setBias (double)));
     _contentLayout -> addRow (tr ("Bias"), biasSpin);
-    _isInitialised = true;
-    emit initialised();
 }
 
 double QScaleBiasModule::scale() {

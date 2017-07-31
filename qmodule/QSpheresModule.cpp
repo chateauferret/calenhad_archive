@@ -24,11 +24,10 @@ QSpheresModule::~QSpheresModule() {
 void QSpheresModule::initialise() {
     QModule::initialise();
     _name = "New Spheres";
-    frequencySpin = parameterControl ("Frequency", "frequency");
+    frequencySpin = addParameter ("Frequency", "frequency");
     //connect (frequencySpin, SIGNAL (valueChanged (double)), this, SLOT (setFrequency (double)));
     _contentLayout -> addRow (tr ("Frequency"), frequencySpin);
-    _isInitialised = true;
-    emit initialised();
+
 }
 
 double QSpheresModule::frequency() {

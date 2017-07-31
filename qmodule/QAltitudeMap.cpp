@@ -51,7 +51,6 @@ void QAltitudeMap::initialise() {
     connect (editButton, SIGNAL (pressed()), this, SLOT (editAltitudeMap()));
     _contentLayout -> addRow ("", editButton);
     resetMap ();
-    _isInitialised = true;
 
     // see to it that changes to the input owner are propogated to all the modules we might use
     connect (this, &QNode::nodeChanged, this, [=] () {
@@ -61,7 +60,6 @@ void QAltitudeMap::initialise() {
             } catch (...) {}
         }
     });
-    emit initialised();
 
 }
 

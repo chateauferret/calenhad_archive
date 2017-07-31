@@ -62,7 +62,7 @@ namespace calenhad {
 
             bool isComplete() override;
         signals:
-
+            void initialised ();
             void complete (std::shared_ptr<icosphere::Icosphere>);
 
             void icosphereChangeRequested ();
