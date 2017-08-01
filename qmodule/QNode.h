@@ -70,7 +70,7 @@ namespace calenhad {
             calenhad::nodeedit::QNodeBlock* handle ();
 
             // don't want a copy constructor because subclass implementations will have to call initialise()
-            virtual QNode* clone () = 0;
+            virtual QNode* clone();
 
             QString name ();
 
@@ -104,7 +104,6 @@ namespace calenhad {
         public slots:
 
             virtual void invalidate ();
-            virtual void valueReady (const double& value);
             void setName (const QString& name);
 
         signals:
@@ -150,6 +149,7 @@ namespace calenhad {
 
             QDoubleSpinBox* addParameter (const QString& text, const QString& property);
 
+            void addContentPanel ();
         };
 
     } // namespace qmodule

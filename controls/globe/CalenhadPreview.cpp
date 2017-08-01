@@ -7,13 +7,14 @@
 #include "controls/QNoiseMapViewer.h"
 #include <QThread>
 #include "../../qmodule/QModule.h"
-#include "CalenhadPreview.h"
+#include "../../legend/Legend.h"
 #include "../../pipeline/ImageRenderJob.h"
 
 using namespace icosphere;
 using namespace calenhad::pipeline;
 using namespace calenhad::qmodule;
 using namespace calenhad::controls::globe;
+using namespace calenhad::legend;
 
 
 CalenhadPreview::CalenhadPreview (QModule* module, QWidget* parent) :

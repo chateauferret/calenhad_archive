@@ -7,18 +7,13 @@
 #include <iostream>
 #include "../nodeedit/qneconnection.h"
 #include <QMenu>
-#include <QVBoxLayout>
-#include <QLineEdit>
-#include <sys/socket.h>
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../nodeedit/qneport.h"
 #include "../messages/QNotificationService.h"
-#include "../exprtk/ExpressionWidget.h"
 #include "../nodeedit/QNodeBlock.h"
-#include "QConstModule.h"
 
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
@@ -41,6 +36,7 @@ QNode::~QNode () {
 }
 
 void QNode::initialise() {
+    std::cout << "QNode::initalise\n";
     _ports.clear();
     addInputPorts();
 
@@ -216,6 +212,7 @@ QDoubleSpinBox* QNode::addParameter (const QString& text, const QString& propert
 }
 
 void QNode::invalidate() {
+    std::cout << "QNode::invalidate\n";
     emit nodeChanged();
 }
 
@@ -366,12 +363,7 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
 
     // create a panel to hold the parameter widgets, if we haven't done this already
     if (! (_content)) {
-        _contentLayout = new QFormLayout ();
-        _contentLayout->setMargin (0);
-        _contentLayout->setVerticalSpacing (0);
-        _content = new QWidget (_expander);
-        _content->setLayout (_contentLayout);
-        QNode::addPanel (tr ("Parameters"), _content);
+        addContentPanel();
     }
 
     ExpressionWidget* widget = new ExpressionWidget (this);
@@ -382,10 +374,6 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
     _parameters.insert (name, widget);
     widget -> setText (QString::number (initial));
     return widget;
-}
-
-void QNode::valueReady (const double& value) {
-
 }
 
 void QNode::setParameter (const QString& name, const QString& text) {
@@ -399,4 +387,18 @@ QString QNode::parameter (const QString& name) {
 
 QStringList QNode::parameters () {
     return _parameters.keys();
+}
+
+QNode* QNode::clone () {
+    return CalenhadServices::modules() -> clone (this);
+}
+
+void QNode::addContentPanel() {
+    _contentLayout = new QFormLayout ();
+    _contentLayout->setMargin (0);
+    _contentLayout->setVerticalSpacing (0);
+    _content = new QWidget (_expander);
+    _content->setLayout (_contentLayout);
+    addPanel (tr ("Parameters"), _content);
+    std::cout << "QNode::addContentPanel content " << _expander -> indexOf (_content) << "\n";
 }

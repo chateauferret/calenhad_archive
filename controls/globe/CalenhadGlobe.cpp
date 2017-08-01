@@ -89,9 +89,9 @@ CalenhadGlobe::CalenhadGlobe (QModule* source, QWidget* parent) : QWidget (paren
             }
         }
     connect (_map, &MarbleMap::visibleLatLonAltBoxChanged, this, &CalenhadGlobe::changeView);
+    connect (_source, &QNode::nodeChanged, _layer, &CalenhadLayer::restart);
     connect (this, SIGNAL (resized (const QSize&)), _layer, SLOT (rescale()));
     connect (&_renderTimer, SIGNAL (timeout()), this, SLOT (invalidate()));
-    connect (_source, SIGNAL (nodeChanged()), this, SLOT (invalidate()));
 
     // slider to control the zoom
     QGridLayout* layout = new QGridLayout (this);
@@ -351,7 +351,6 @@ void CalenhadGlobe::changeView() {
     _overview -> render();
     emit viewChanged (bounds);
     _layer -> rescale();
-    _renderTimer.setSingleShot (true);
     _renderTimer.start();
 }
 

@@ -22,15 +22,15 @@ using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 using namespace calenhad::controls;
 
-QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule ("Icosphere map", new IcosphereModule()), _depth (5), _bounds (Bounds()) {
-
+QIcosphereMap::QIcosphereMap (QWidget* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_icospheremap, new IcosphereModule()), _depth (5), _bounds (Bounds()) {
+    makeContentPanel();
 }
 
 QIcosphereMap::~QIcosphereMap () { }
 
-void QIcosphereMap::initialise() {
-    QModule::initialise();
-
+void QIcosphereMap::makeContentPanel() {
+    addContentPanel();
+    std::cout << "Content " << _expander -> indexOf (_content) << "\n";
     _depthSpin = countParameterControl ("Depth");
     _depthSpin -> setMinimum (3);
     _depthSpin -> setMaximum (13);
@@ -58,18 +58,17 @@ void QIcosphereMap::initialise() {
     _boundsMenu -> addAction (_wholeWorldBoundsAction);
     _boundsMenu -> addAction (_displayedBoundsAction);
 
-
-
     connect (this, SIGNAL (icosphereChangeRequested()), this, SLOT (generateMap()));
     connect (this, SIGNAL (initialised()), this, SLOT (generateMap()));
     connect (_ports [0], &QNEPort::connected, this, &QIcosphereMap::generateMap);
+
     setBounds (_bounds);
     setIcosphereDepth (_depth);
+    connect ((IcosphereModule*) _module, &IcosphereModule::available, this, &QNode::invalidate);
     emit initialised();
 }
 
 bool QIcosphereMap::generateMap() {
-
     //int estimate = _bounds.estimateVertexCount (_depth);
 
     QNEPort* port = _ports [0];
@@ -131,23 +130,10 @@ bool QIcosphereMap::isComplete() {
     return QModule::isComplete() && _module != nullptr;
 }
 
-
-QIcosphereMap* QIcosphereMap::newInstance() {
-    QIcosphereMap* qm = new QIcosphereMap();
-    qm -> initialise();
-    return qm;
-}
-
-QString QIcosphereMap::nodeType () {
-    return CalenhadServices::preferences() -> calenhad_module_icospheremap;
-}
-
 QIcosphereMap* QIcosphereMap::clone () {
-    QIcosphereMap* qm = QIcosphereMap::newInstance();
-    if (qm) {
-        qm -> setIcosphereDepth (_depth);
-    }
-    return qm;
+    QIcosphereMap* n = (QIcosphereMap*) QNode::clone();
+    n -> setIcosphereDepth (_depth);
+    return n;
 }
 
 void QIcosphereMap::inflate (const QDomElement& element) {

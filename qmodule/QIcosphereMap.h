@@ -27,17 +27,14 @@ namespace calenhad {
         class QIcosphereMap : public QModule {
         Q_OBJECT
         public:
-            static QIcosphereMap* newInstance ();
-
+            QIcosphereMap (QWidget* parent = 0);
             virtual ~QIcosphereMap ();
 
-            void initialise () override;
+            void makeContentPanel();
 
             noise::module::IcosphereModule* module () override;
 
             QIcosphereMap* clone () override;
-
-            QString nodeType () override;
 
             void setIcosphereDepth (const unsigned& depth);
 
@@ -70,7 +67,7 @@ namespace calenhad {
             void progress (int done);
 
         protected:
-            QIcosphereMap (QWidget* parent = 0);
+
 
             unsigned _depth;
             icosphere::Bounds _bounds;

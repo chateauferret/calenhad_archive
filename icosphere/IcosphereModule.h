@@ -19,6 +19,8 @@ namespace calenhad {
     }
 }
 
+using namespace icosphere;
+
 namespace noise {
     namespace module {
 
@@ -37,7 +39,10 @@ namespace noise {
 
             void setKey (const QString& key);
 
-            void buildIcosphere (const icosphere::Bounds& bounds, const int& depth);
+            void buildIcosphere (const Bounds& bounds, const int& depth);
+
+        signals:
+            void available();
 
         protected:
             std::shared_ptr<icosphere::Icosphere> _icosphere;
@@ -48,7 +53,7 @@ namespace noise {
 
         protected slots:
 
-            void built (std::shared_ptr<icosphere::Icosphere> icosphere);
+            void built (std::shared_ptr<Icosphere> icosphere);
         };
     }
 }

@@ -4,40 +4,11 @@ SET(QMODULE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/QNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QModule.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QCylindersModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QCylindersModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QExponentModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QExponentModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QRotateModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QRotateModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QTranslateModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QTranslateModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QScaleModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QScaleModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QScaleBiasModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QScaleBiasModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QSelectModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QSelectModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QTurbulenceModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QTurbulenceModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QVoronoiModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QVoronoiModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QBasicModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QBasicModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QRangeModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QRangeModule.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QIcosphereMap.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QIcosphereMap.h
         ${CMAKE_CURRENT_LIST_DIR}/QAltitudeMap.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QAltitudeMap.h
         ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QSpheresModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QSpheresModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QClampModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QClampModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QConstModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QConstModule.h)
+        )
 

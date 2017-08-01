@@ -3,13 +3,13 @@
 //
 
 #include "QAltitudeMap.h"
-#include "QTranslateModule.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
 #include "../controls/altitudemap/AltitudeMapEditor.h"
 #include "messages/QNotificationStack.h"
+#include "../nodeedit/qneport.h"
 #include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../CalenhadServices.h"
@@ -18,19 +18,19 @@ using namespace noise::module;
 using namespace calenhad::qmodule;
 using namespace calenhad::controls::altitudemap;
 using namespace calenhad::actions;
+using namespace calenhad::nodeedit;
 
-QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (new TranslatePoint(), parent), _editor (nullptr) {
-
+QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_altitudemap, nullptr, parent), _editor (nullptr) {
+    makeContentPanel();
 }
 
 QAltitudeMap::~QAltitudeMap() {
     if (_editor) { delete _editor; }
 }
 
-void QAltitudeMap::initialise() {
-    QModule::initialise();
-    _name = "New Altitude Map";
+void QAltitudeMap::makeContentPanel() {
 
+    addContentPanel();
     // prepare the editor
     _editor = new AltitudeMapEditor ();
     connect (_editor, SIGNAL (accepted()), this, SLOT (updateEntries()));
@@ -65,11 +65,7 @@ void QAltitudeMap::initialise() {
 
 void QAltitudeMap::editAltitudeMap() {
     // preserve the existing state so that we can undo
-    QDomDocument doc;
-    QDomElement root = doc.createElement ("model");
-    doc.appendChild (root);
-    serialize (doc);
-    _oldXml = doc.toString();
+    preserve();
 
     QVector<QPointF> entries = getEntries();
     _editor -> setEntries (entries);
@@ -188,19 +184,13 @@ void QAltitudeMap::clearMap() {
     }
 }
 
-QAltitudeMap* QAltitudeMap::newInstance () {
-    QAltitudeMap* qm = new QAltitudeMap();
-    qm -> initialise();
-    return qm;
-}
-
-QString QAltitudeMap::nodeType () {
-    return CalenhadServices::preferences() -> calenhad_module_altitudemap;
-}
-
 QAltitudeMap* QAltitudeMap::clone () {
-    return QAltitudeMap::newInstance();
-    // to do - copy out the altitude map content ...
+    QAltitudeMap* n = (QAltitudeMap*) QNode::clone();
+    QDomDocument doc;
+    QDomElement root = doc.createElement ("model");
+    doc.appendChild (root);
+    serialize (doc);
+    inflate (root.firstChildElement ("map"));
 }
 
 void QAltitudeMap::inflate (const QDomElement& element) {
@@ -252,4 +242,12 @@ void QAltitudeMap::serialize (QDomDocument& doc) {
         entryElement .setAttribute ("y", entry.y());
         mapElement.appendChild (entryElement);
     }
+}
+
+void QAltitudeMap::preserve () {
+    QDomDocument doc;
+    QDomElement root = doc.createElement ("model");
+    doc.appendChild (root);
+    serialize (doc);
+    _oldXml = doc.toString();
 }

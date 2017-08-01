@@ -26,6 +26,7 @@ using namespace calenhad::legend;
 
 CalenhadLayer::CalenhadLayer (QModule* source) :
         _viewport (nullptr),
+        _restart (true),
         _source (source),
         _buffer (std::make_shared<RenderBuffer>()),
         _sphere (new Sphere()),
@@ -134,12 +135,12 @@ void CalenhadLayer::gatherStats() {
 }
 
 bool CalenhadLayer::render (GeoPainter* painter, ViewportParams* viewport, const QString& renderPos, GeoSceneLayer* layer) {
-    if ((! _viewport) ||
-        _box != viewport -> viewLatLonAltBox()) {
+    if ((! _viewport) || _restart ||
+        _box != viewport -> viewLatLonAltBox())  {
+        _restart = false;
         makeBuffer (viewport);
         _viewport = viewport;
         _box = viewport -> viewLatLonAltBox();
-        std::cout << "Viewport changed\n";
     }
     return render (painter) == 0;
 }
@@ -173,4 +174,11 @@ void CalenhadLayer::renderOverview() {
 
 void CalenhadLayer::refresh() {
     emit imageRefreshed();
+}
+
+void CalenhadLayer::restart () {
+    if (_source -> isComplete()) {
+        _restart = true;
+        refresh ();
+    }
 }

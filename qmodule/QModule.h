@@ -45,9 +45,6 @@ namespace calenhad {
             QModule (noise::module::Module* m, QWidget* parent) : QNode ("Perlin", parent) { }
             virtual ~QModule ();
 
-            // don't want a copy constructor because subclass implementations will have to call initialise()
-            virtual QModule* clone () {};
-
             virtual void inflate (const QDomElement& element) override;
 
             virtual void serialize (QDomDocument& doc) override;

@@ -70,10 +70,10 @@ void IcosphereModule::buildIcosphere (const Bounds& bounds, const int& depth) {
 
 void IcosphereModule::built (std::shared_ptr<Icosphere> icosphere) {
     _icosphere = icosphere;
-    _icosphere -> unlock();
-
-
+    _icosphere->unlock ();
+    emit available();
 }
+
 int IcosphereModule::vertexCount() {
     if (_icosphere) {
         return _icosphere->vertexCount ();

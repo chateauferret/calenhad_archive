@@ -21,15 +21,14 @@ namespace calenhad {
         class QAltitudeMap : public QModule {
         Q_OBJECT
         public:
-            static QAltitudeMap* newInstance ();
+
+            QAltitudeMap (QWidget* parent = 0);
 
             virtual ~QAltitudeMap ();
 
-            void initialise () override;
+            void makeContentPanel();
 
             QAltitudeMap* clone () override;
-
-            virtual QString nodeType () override;
 
             QVector<QPointF> getEntries () const;
 
@@ -52,8 +51,6 @@ namespace calenhad {
             void editAltitudeMap ();
 
         protected:
-            QAltitudeMap (QWidget* parent = 0);
-
             calenhad::controls::altitudemap::AltitudeMapEditor* _editor;
             QMap<calenhad::controls::altitudemap::CurveType, noise::module::Module*> _modules;
 
@@ -61,6 +58,9 @@ namespace calenhad {
             void clearMap ();
 
             QString _oldXml;
+
+            void preserve ();
+
         };
     }
 }

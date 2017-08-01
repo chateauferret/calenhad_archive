@@ -32,7 +32,7 @@ QModule::QModule (const QString& nodeType, noise::module::Module* m, QWidget* pa
 }
 
 QModule::~QModule () {
-
+    if (_module) { delete _module; _module = nullptr; }
 }
 
 void QModule::initialise() {
@@ -47,7 +47,8 @@ void QModule::setupPreview() {
     // preview panel
     _preview = new QNoiseMapViewer (this, this);
     _preview -> setSource (this);
-    _previewIndex = QNode::addPanel (tr ("Preview"), _preview);
+    _previewIndex = addPanel (tr ("Preview"), _preview);
+    std::cout << "Preview " << _previewIndex << "\n";
     _preview -> initialise();
     connect (this, &QNode::nodeChanged, _preview, &CalenhadPreview::render);
 }
@@ -68,7 +69,8 @@ void QModule::addInputPorts() {
     // if there are > 3 inputs, 1 is data and the rest are controls
     int portType;
     QString name;
-    int inputs = _module -> GetSourceModuleCount();
+    // if there is no module (yet), assume one input port (this fits AltitudeMap, may be bollocks in new cases where module selection is dynamic)
+    int inputs = _module ? _module -> GetSourceModuleCount() : 1;
     for (int i = 0; i < inputs; i++) {
         if (inputs < 3 || i == 0 || (i == 1 && inputs == 3)) {
             name = "Input " + QString::number (i + 1);

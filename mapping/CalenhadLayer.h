@@ -79,7 +79,7 @@ namespace calenhad {
         public slots:
 
             void rescale ();
-
+            void restart();
             void refresh ();
 
             void populate ();
@@ -123,10 +123,11 @@ namespace calenhad {
             RenderBuffer::iterator i;
 
             void makeBuffer (ViewportParams* viewport);
-
+            bool _restart;
         protected slots:
 
             void gatherStats ();
+
 
         };
     }
