@@ -395,7 +395,7 @@ QNode* QNode::clone () {
 
 void QNode::addContentPanel() {
     _contentLayout = new QFormLayout ();
-    _contentLayout->setMargin (0);
+    _contentLayout->setContentsMargins (5, 0, 5, 0);
     _contentLayout->setVerticalSpacing (0);
     _content = new QWidget (_expander);
     _content->setLayout (_contentLayout);

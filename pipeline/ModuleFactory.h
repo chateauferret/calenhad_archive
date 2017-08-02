@@ -35,7 +35,7 @@ namespace calenhad {
 
             ~ModuleFactory ();
 
-            calenhad::qmodule::QNode* createModule (const QString& moduleType, CalenhadModel* model);
+            calenhad::qmodule::QNode* createModule (const QString& moduleType);
 
             void setSeed (const int& seed);
 

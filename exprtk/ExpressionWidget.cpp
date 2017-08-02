@@ -15,7 +15,10 @@ using namespace calenhad;
 using namespace calenhad::expressions;
 
 ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser (new parser<double>()), _goosed (false) {
-    setLayout (new QHBoxLayout());
+    QLayout* l = new QHBoxLayout();
+    l -> setContentsMargins (5, 0, 5, 0);
+    setLayout (l);
+
     _statusLabel = new QLabel (this);
 
     _statusOrright = QPixmap (":/appicons/status/orright.png");
