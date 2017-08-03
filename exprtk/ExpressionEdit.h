@@ -9,12 +9,13 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QTextEdit>
 #include <QLineEdit>
+#include "../controls/TextEdit.h"
 
 
 namespace calenhad {
     namespace expressions {
 
-        class ExpressionEdit : public QTextEdit {
+        class ExpressionEdit : public calenhad::controls::TextEdit {
             Q_OBJECT
         public:
             ExpressionEdit (QLineEdit* shortBox);

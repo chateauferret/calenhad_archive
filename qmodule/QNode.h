@@ -18,6 +18,8 @@
 #include <QtXml/QDomElement>
 #include <exprtk/ExpressionWidget.h>
 #include "Serializable.h"
+#include "ParamValidator.h"
+#include <limits>
 
 namespace calenhad {
     namespace pipeline {
@@ -69,7 +71,6 @@ namespace calenhad {
 
             calenhad::nodeedit::QNodeBlock* handle ();
 
-            // don't want a copy constructor because subclass implementations will have to call initialise()
             virtual QNode* clone();
 
             QString name ();
@@ -87,7 +88,7 @@ namespace calenhad {
             void closeEvent (QCloseEvent* event) override;
 
             calenhad::pipeline::CalenhadModel* model ();
-            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate );
+            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate, ParamValidator* validator = new AcceptAnyRubbish());
             virtual bool hasParameters ();
 
             Q_PROPERTY (QString name READ name WRITE setName MEMBER _name NOTIFY nameChanged);

@@ -91,7 +91,9 @@ int CalenhadLayer::render (GeoPainter* painter) {
             while (j != i -> end ()) {
                 RenderPoint p = *j;
                 if (p.isReady ()) {
-                    painter -> setPen (p.getColor ());
+                    if (painter -> pen().color() != p.getColor()) {
+                        painter -> setPen (p.getColor ());
+                    }
                     painter -> drawPoint (GeoDataCoordinates (p._lonRadians, p._latRadians));
                     if (p.getValue () < _minimum || _minimum == 0.0) { _minimum = p.getValue (); }
                     if (p.getValue () > _maximum || _maximum == 0.0) { _maximum = p.getValue (); }

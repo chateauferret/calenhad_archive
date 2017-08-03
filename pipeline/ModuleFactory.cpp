@@ -37,7 +37,6 @@ ModuleFactory:: ~ModuleFactory() {
 
 QPixmap* ModuleFactory::getIcon (const QString& type) {
    return _icons.value (type);
-
 }
 
 QStringList ModuleFactory::types () {
@@ -93,111 +92,112 @@ QNode* ModuleFactory::createModule (const QString& type) {
 
     if (type == CalenhadServices::preferences() -> calenhad_module_cylinders) {
         QModule* qm = new QModule (type, new Cylinders());
-        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_CYLINDERS_FREQUENCY, [=] (const double& value) { ((Cylinders*) qm -> module()) -> SetFrequency (value); });
+        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_CYLINDERS_FREQUENCY, [=] (const double& value) { ((Cylinders*) qm -> module()) -> SetFrequency (value); }, new AcceptPositive());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_spheres) {
         QModule* qm = new QModule (type, new Spheres());
-        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_SPHERES_FREQUENCY, [=] (const double& value) { ((Spheres*) qm -> module()) -> SetFrequency (value); });
+        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_SPHERES_FREQUENCY, [=] (const double& value) { ((Spheres*) qm -> module()) -> SetFrequency (value); }, new AcceptPositive());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_exponent) {
         QModule* qm = new QModule (type, new Exponent());
-        qm -> addParameter ("Exponent", "exponent", noise::module::DEFAULT_EXPONENT, [=] (const double& value) { ((Exponent*) qm -> module()) -> SetExponent (value); });
+        qm -> addParameter ("Exponent", "exponent", noise::module::DEFAULT_EXPONENT, [=] (const double& value) { ((Exponent*) qm -> module()) -> SetExponent (value); }, new AcceptAnyRubbish());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_translate) {
         QModule* qm = new QModule (type, new TranslatePoint());
-        qm -> addParameter ("X", "x", noise::module::DEFAULT_TRANSLATE_POINT_X, [=] (const double& value) { ((TranslatePoint*) qm -> module()) -> SetXTranslation (value); });
-        qm -> addParameter ("Y", "y", noise::module::DEFAULT_TRANSLATE_POINT_Y, [=] (const double& value) { ((TranslatePoint*) qm -> module()) -> SetYTranslation (value); });
-        qm -> addParameter ("Z", "z", noise::module::DEFAULT_TRANSLATE_POINT_Z, [=] (const double& value) { ((TranslatePoint*) qm -> module()) -> SetZTranslation (value); });
+        qm -> addParameter ("X", "x", noise::module::DEFAULT_TRANSLATE_POINT_X, [=] (const double& value) { ((TranslatePoint*) qm -> module()) -> SetXTranslation (value); }, new PreferNoiseValue());
+        qm -> addParameter ("Y", "y", noise::module::DEFAULT_TRANSLATE_POINT_Y, [=] (const double& value) { ((TranslatePoint*) qm -> module()) -> SetYTranslation (value); }, new PreferNoiseValue());
+        qm -> addParameter ("Z", "z", noise::module::DEFAULT_TRANSLATE_POINT_Z, [=] (const double& value) { ((TranslatePoint*) qm -> module()) -> SetZTranslation (value); }, new PreferNoiseValue());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_rotate) {
         QModule* qm = new QModule (type, new RotatePoint());
-        qm -> addParameter ("X", "x", noise::module::DEFAULT_ROTATE_X, [=] (const double& value) { ((RotatePoint*) qm -> module()) -> SetXAngle (value); });
-        qm -> addParameter ("Y", "y", noise::module::DEFAULT_ROTATE_Y, [=] (const double& value) { ((RotatePoint*) qm -> module()) -> SetYAngle (value); });
-        qm -> addParameter ("Z", "z", noise::module::DEFAULT_ROTATE_Z, [=] (const double& value) { ((RotatePoint*) qm -> module()) -> SetZAngle (value); });
+        qm -> addParameter ("X", "x", noise::module::DEFAULT_ROTATE_X, [=] (const double& value) { ((RotatePoint*) qm -> module()) -> SetXAngle (value); }, new AcceptAngleDegrees());
+        qm -> addParameter ("Y", "y", noise::module::DEFAULT_ROTATE_Y, [=] (const double& value) { ((RotatePoint*) qm -> module()) -> SetYAngle (value); }, new AcceptAngleDegrees());
+        qm -> addParameter ("Z", "z", noise::module::DEFAULT_ROTATE_Z, [=] (const double& value) { ((RotatePoint*) qm -> module()) -> SetZAngle (value); }, new AcceptAngleDegrees());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_clamp) {
         QModule* qm = new QModule (type, new Clamp());
-        qm -> addParameter ("Lower bound", "lowerBound", noise::module::DEFAULT_CLAMP_LOWER_BOUND, [=] (const double& value) { Clamp* m = (Clamp*) qm -> module(); m -> SetBounds (value, m -> GetUpperBound()); });
-        qm -> addParameter ("Upper bound", "upperBound", noise::module::DEFAULT_CLAMP_UPPER_BOUND, [=] (const double& value) { Clamp* m = (Clamp*) qm -> module(); m -> SetBounds (m -> GetLowerBound(), value); });
+        qm -> addParameter ("Lower bound", "lowerBound", noise::module::DEFAULT_CLAMP_LOWER_BOUND, [=] (const double& value) { Clamp* m = (Clamp*) qm -> module(); m -> SetBounds (value, m -> GetUpperBound()); }, new AcceptNoiseValue());
+        qm -> addParameter ("Upper bound", "upperBound", noise::module::DEFAULT_CLAMP_UPPER_BOUND, [=] (const double& value) { Clamp* m = (Clamp*) qm -> module(); m -> SetBounds (m -> GetLowerBound(), value); }, new AcceptNoiseValue());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_constant) {
         QModule* qm = new QModule (type, new Const());
-        qm -> addParameter ("Constant value", "constValue", noise::module::DEFAULT_CONST_VALUE, [=] (const double& value) { ((Const*) qm -> module()) -> SetConstValue (value); });
+        qm -> addParameter ("Constant value", "constValue", noise::module::DEFAULT_CONST_VALUE, [=] (const double& value) { ((Const*) qm -> module()) -> SetConstValue (value); }, new AcceptNoiseValue());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_perlin) {
         QModule* qm = new QModule (type, new Perlin());
-        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_PERLIN_FREQUENCY, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetFrequency (value); });
-        qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_PERLIN_LACUNARITY, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetLacunarity (value); });
-        qm -> addParameter ("Persistence", "persistence", noise::module::DEFAULT_PERLIN_PERSISTENCE, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetPersistence (value); });
-        qm -> addParameter ("Octaves", "octaves", noise::module::DEFAULT_PERLIN_OCTAVE_COUNT, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetOctaveCount ((int) (std::round (value))); });
+        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_PERLIN_FREQUENCY, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetFrequency (value); }, new AcceptPositive());
+        qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_PERLIN_LACUNARITY, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetLacunarity (value); }, new AcceptRange (1.5, 3.5));
+        qm -> addParameter ("Persistence", "persistence", noise::module::DEFAULT_PERLIN_PERSISTENCE, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetPersistence (value); }, new AcceptRange (0, 1));
+        qm -> addParameter ("Octaves", "octaves", noise::module::DEFAULT_PERLIN_OCTAVE_COUNT, [=] (const double& value) { ((Perlin*) qm -> module()) -> SetOctaveCount ((int) (std::round (value))); }, new PreferInteger());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_billow) {
         QModule* qm = new QModule (type, new Billow());
-        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_BILLOW_FREQUENCY, [=] (const double& value) { ((Billow*) qm -> module()) -> SetFrequency (value); });
-        qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_BILLOW_LACUNARITY, [=] (const double& value) { ((Billow*) qm -> module()) -> SetLacunarity (value); });
-        qm -> addParameter ("Persistence", "persistence", noise::module::DEFAULT_BILLOW_PERSISTENCE, [=] (const double& value) { ((Billow*) qm -> module()) -> SetPersistence (value); });
-        qm -> addParameter ("Octaves", "octaves", noise::module::DEFAULT_BILLOW_OCTAVE_COUNT, [=] (const double& value) { ((Billow*) qm -> module()) -> SetOctaveCount ((int) (std::round (value))); });
+        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_BILLOW_FREQUENCY, [=] (const double& value) { ((Billow*) qm -> module()) -> SetFrequency (value); }, new AcceptPositive());
+        qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_BILLOW_LACUNARITY, [=] (const double& value) { ((Billow*) qm -> module()) -> SetLacunarity (value); }, new AcceptRange (1.5, 3.5));
+        qm -> addParameter ("Persistence", "persistence", noise::module::DEFAULT_BILLOW_PERSISTENCE, [=] (const double& value) { ((Billow*) qm -> module()) -> SetPersistence (value); }, new AcceptRange (0, 1));
+        qm -> addParameter ("Octaves", "octaves", noise::module::DEFAULT_BILLOW_OCTAVE_COUNT, [=] (const double& value) { ((Billow*) qm -> module()) -> SetOctaveCount ((int) (std::round (value))); }, new PreferInteger());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) {
         QModule* qm = new QModule (type, new RidgedMulti());
-        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_RIDGED_FREQUENCY, [=] (const double& value) { ((RidgedMulti*) qm -> module()) -> SetFrequency (value); });
-        qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_RIDGED_LACUNARITY, [=] (const double& value) { ((RidgedMulti*) qm -> module()) -> SetLacunarity (value); });
-        qm -> addParameter ("Octaves", "octaves", noise::module::DEFAULT_RIDGED_OCTAVE_COUNT, [=] (const double& value) { ((RidgedMulti*) qm -> module()) -> SetOctaveCount ((int) (std::round (value))); });
+        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_RIDGED_FREQUENCY, [=] (const double& value) { ((RidgedMulti*) qm -> module()) -> SetFrequency (value); }, new AcceptPositive());
+        qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_RIDGED_LACUNARITY, [=] (const double& value) { ((RidgedMulti*) qm -> module()) -> SetLacunarity (value); }, new AcceptRange (1.5, 3.5));
+        qm -> addParameter ("Octaves", "octaves", noise::module::DEFAULT_RIDGED_OCTAVE_COUNT, [=] (const double& value) { ((RidgedMulti*) qm -> module()) -> SetOctaveCount ((int) (std::round (value))); }, new PreferInteger());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_scalebias) {
         QModule* qm = new QModule (type, new ScaleBias());
-        qm -> addParameter ("Scale", "scale", noise::module::DEFAULT_SCALE, [=] (const double& value) { ((ScaleBias*) qm -> module()) -> SetScale (value); });
-        qm -> addParameter ("Bias", "bias", noise::module::DEFAULT_BIAS, [=] (const double& value) { ((ScaleBias*) qm -> module()) -> SetBias (value); });
+        qm -> addParameter ("Scale", "scale", noise::module::DEFAULT_SCALE, [=] (const double& value) { ((ScaleBias*) qm -> module()) -> SetScale (value); }, new PreferNoiseValue());
+        qm -> addParameter ("Bias", "bias", noise::module::DEFAULT_BIAS, [=] (const double& value) { ((ScaleBias*) qm -> module()) -> SetBias (value); }, new PreferNoiseValue());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_select) {
         QModule* qm = new QModule (type, new Select());
-        qm -> addParameter ("Lower bound", "lowerBound", noise::module::DEFAULT_SELECT_LOWER_BOUND, [=] (const double& value) { Select* m = (Select*) qm -> module(); m -> SetBounds (value, m -> GetUpperBound()); });
-        qm -> addParameter ("Upper bound", "upperBound", noise::module::DEFAULT_SELECT_UPPER_BOUND, [=] (const double& value) { Select* m = (Select*) qm -> module(); m -> SetBounds (m -> GetLowerBound(), value); });
+        qm -> addParameter ("Lower bound", "lowerBound", noise::module::DEFAULT_SELECT_LOWER_BOUND, [=] (const double& value) { Select* m = (Select*) qm -> module(); m -> SetBounds (value, m -> GetUpperBound()); }, new AcceptNoiseValue());
+        qm -> addParameter ("Upper bound", "upperBound", noise::module::DEFAULT_SELECT_UPPER_BOUND, [=] (const double& value) { Select* m = (Select*) qm -> module(); m -> SetBounds (m -> GetLowerBound(), value); }, new AcceptNoiseValue());
         qm -> addParameter ("Falloff", "falloff", noise::module::DEFAULT_SELECT_EDGE_FALLOFF, [=] (const double& value) { ((Select*) qm -> module()) -> SetEdgeFalloff (value); });
         return qm;
     }
     if (type == CalenhadServices::preferences() -> calenhad_module_turbulence) {
         QModule* qm = new QModule (type, new Turbulence());
-        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_TURBULENCE_FREQUENCY, [=] (const double& value) { ((Turbulence*) qm -> module()) -> SetFrequency (value); });
-        qm -> addParameter ("Power", "power", noise::module::DEFAULT_TURBULENCE_POWER, [=] (const double& value) { ((Turbulence*) qm -> module()) -> SetPower (value); });
-        qm -> addParameter ("Power", "power", noise::module::DEFAULT_TURBULENCE_ROUGHNESS, [=] (const double& value) { ((Turbulence*) qm -> module()) -> SetRoughness (value); });
+        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_TURBULENCE_FREQUENCY, [=] (const double& value) { ((Turbulence*) qm -> module()) -> SetFrequency (value); }, new AcceptPositive());
+        qm -> addParameter ("Power", "power", noise::module::DEFAULT_TURBULENCE_POWER, [=] (const double& value) { ((Turbulence*) qm -> module()) -> SetPower (value); }, new AcceptAnyRubbish());
+        qm -> addParameter ("Power", "power", noise::module::DEFAULT_TURBULENCE_ROUGHNESS, [=] (const double& value) { ((Turbulence*) qm -> module()) -> SetRoughness (value); }, new AcceptAnyRubbish());
+        return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_voronoi) {
         QModule* qm = new QModule (type, new Voronoi());
-        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_VORONOI_FREQUENCY, [=] (const double& value) { ((Voronoi*) qm -> module()) -> SetFrequency (value); });
-        qm -> addParameter ("Displacement", "displacement", noise::module::DEFAULT_VORONOI_DISPLACEMENT, [=] (const double& value) { ((Voronoi*) qm -> module()) -> SetDisplacement (value); });
-        qm -> addParameter ("Enable distance", "enableDistance", 1.0, [=] (const double& value) { ((Voronoi*) qm -> module()) -> EnableDistance (value > 0.0); });
+        qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_VORONOI_FREQUENCY, [=] (const double& value) { ((Voronoi*) qm -> module()) -> SetFrequency (value); }, new AcceptPositive());
+        qm -> addParameter ("Displacement", "displacement", noise::module::DEFAULT_VORONOI_DISPLACEMENT, [=] (const double& value) { ((Voronoi*) qm -> module()) -> SetDisplacement (value); }, new PreferNoiseValue());
+        qm -> addParameter ("Enable distance", "enableDistance", 1.0, [=] (const double& value) { ((Voronoi*) qm -> module()) -> EnableDistance (value > 0.0); }, new AcceptAnyRubbish);
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_scalepoint) {
         QModule* qm = new QModule (type, new ScalePoint());
-        qm -> addParameter ("X", "x", noise::module::DEFAULT_SCALE_POINT_X, [=] (const double& value) { ((ScalePoint*) qm -> module()) -> SetXScale (value); });
-        qm -> addParameter ("Y", "y", noise::module::DEFAULT_SCALE_POINT_Y, [=] (const double& value) { ((ScalePoint*) qm -> module()) -> SetYScale (value); });
-        qm -> addParameter ("Z", "z", noise::module::DEFAULT_SCALE_POINT_Z, [=] (const double& value) { ((ScalePoint*) qm -> module()) -> SetZScale (value); });
+        qm -> addParameter ("X", "x", noise::module::DEFAULT_SCALE_POINT_X, [=] (const double& value) { ((ScalePoint*) qm -> module()) -> SetXScale (value); }, new PreferNoiseValue());
+        qm -> addParameter ("Y", "y", noise::module::DEFAULT_SCALE_POINT_Y, [=] (const double& value) { ((ScalePoint*) qm -> module()) -> SetYScale (value); }, new PreferNoiseValue());
+        qm -> addParameter ("Z", "z", noise::module::DEFAULT_SCALE_POINT_Z, [=] (const double& value) { ((ScalePoint*) qm -> module()) -> SetZScale (value); }, new PreferNoiseValue());
         return qm;
     }
 
@@ -212,11 +212,6 @@ QNode* ModuleFactory::clone (QNode* other) {
     for (QString key : n -> parameters()) {
         n -> setParameter (key, other -> parameter (key));
     }
-}
-
-void ModuleFactory::setSeed (const int& seed) {
-    _seed = seed;
-    emit seedChanged (seed);
 }
 
 void ModuleFactory::setNoiseQuality (const noise::NoiseQuality& noiseQuality) {

@@ -11,9 +11,16 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QLabel>
+#include <float.h>
 #include "exprtk.hpp"
 
 namespace calenhad {
+    namespace qmodule {
+        class ParamValidator;
+    }
+    namespace controls {
+        class TextEdit;
+    }
     namespace expressions {
         class ExpressionEdit;
 
@@ -30,9 +37,10 @@ namespace calenhad {
             bool isValid ();
         public slots:
 
-            bool prepare (const QString& text);
+            bool prepare();
             void openLongBox ();
             void editText ();
+            void setValidator (calenhad::qmodule::ParamValidator* validator);
 
         signals:
             void compiled (const double& value);
@@ -40,9 +48,10 @@ namespace calenhad {
             void errorFound();
 
         protected:
+            QCompleter* _completer;
             QLineEdit* _expressionShortBox;
-            QPushButton* _longBoxButton, * _variablesButton;
-            QPixmap _statusOrright, _statusGoosed;
+            QPushButton* _longBoxButton;
+            QPixmap _statusOrright, _statusGoosed,  _statusQuery;
             exprtk::expression<double>* _expression;
             QStringList _errors;
             exprtk::parser<double>* _parser;
@@ -53,7 +62,7 @@ namespace calenhad {
             QString _text;
             ExpressionEdit* _expressionLongBox;
             QLabel* _statusLabel;
-
+            calenhad::qmodule::ParamValidator* _validator;
 
         };
     }

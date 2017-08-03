@@ -37,5 +37,6 @@
         <file>appicons/controls/arrow_right.png</file>
         <file>appicons/status/goosed.png</file>
         <file>appicons/status/orright.png</file>
+        <file>appicons/status/query.png</file>
     </qresource>
 </RCC>

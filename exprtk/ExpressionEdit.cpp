@@ -6,10 +6,12 @@
 
 
 
+
 using namespace calenhad::expressions;
+using namespace calenhad::controls;
 
 // never set a parent, because the text box always appears free
-ExpressionEdit::ExpressionEdit (QLineEdit* shortBox) : QTextEdit(), _shortBox (shortBox) {
+ExpressionEdit::ExpressionEdit (QLineEdit* shortBox) : TextEdit(), _shortBox (shortBox) {
 
 }
 

@@ -37,8 +37,6 @@ namespace calenhad {
 
             calenhad::qmodule::QNode* createModule (const QString& moduleType);
 
-            void setSeed (const int& seed);
-
             void setNoiseQuality (const noise::NoiseQuality& noiseQuality);
 
             int seed ();

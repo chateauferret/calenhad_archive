@@ -95,6 +95,7 @@ double RendererImage::findLightIntensity (double center, double left, double rig
 }
 
 void RendererImage::render () {
+    // to do: include detail of the problem in the exception object
     if ( _pSourceNoiseMap == nullptr
          || _pDestImage == nullptr
          || _pSourceNoiseMap -> GetWidth  () <= 0

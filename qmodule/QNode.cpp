@@ -14,6 +14,7 @@
 #include "../nodeedit/qneport.h"
 #include "../messages/QNotificationService.h"
 #include "../nodeedit/QNodeBlock.h"
+#include "ParamValidator.h"
 
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
@@ -358,8 +359,7 @@ QNodeGroup* QNode::group () {
     return _group;
 }
 
-ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate) {
-
+ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate, ParamValidator* validator) {
 
     // create a panel to hold the parameter widgets, if we haven't done this already
     if (! (_content)) {
@@ -372,6 +372,7 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
     connect (widget, &ExpressionWidget::compiled, [=] (const double& v) { onUpdate (v); emit nodeChanged(); });
     connect (widget, &ExpressionWidget::errorFound, this, [=] () { emit nodeChanged(); });
     _parameters.insert (name, widget);
+    widget -> setValidator (validator);
     widget -> setText (QString::number (initial));
     return widget;
 }

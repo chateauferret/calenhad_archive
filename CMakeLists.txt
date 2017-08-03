@@ -30,6 +30,7 @@ set(LIBNOISEUTILS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libnoiseutils)
 set (ICOSPHERE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/icosphere)
 set (EXPRTK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/exprtk)
 set (LEGEND_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/legend)
+
 include_directories(
         ${LIBNOISE_LIBRARIES_INCLUDE_DIRS}
         ${GeographicLib_INCLUDE_DIRS}
@@ -82,14 +83,14 @@ set(SOURCE_FILES ${SOURCE_FILES}
         ${ICOSPHERE_SOURCE_FILES}
         ${EXPRTK_SOURCE_FILES}
         ${LEGEND_SOURCE_FILES}
-        )
+        qmodule/ParamValidator.h)
 MESSAGE ("Legend source " ${LEGEND_SOURCE_FILES})
 
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 MESSAGE (STATUS "Resources dir " ${RESOURCES})
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES})
+add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} controls/TextEdit.cpp controls/TextEdit.h)
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Marble messages

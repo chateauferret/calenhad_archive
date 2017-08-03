@@ -6,15 +6,21 @@
 #include "../CalenhadServices.h"
 #include "CalculatorService.h"
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
+#include "../qmodule/ParamValidator.h"
 #include <iostream>
+#include <QtCore/QEvent>
+#include <QKeyEvent>
+#include <QtWidgets/QCompleter>
+#include <QtCore/QStringListModel>
 #include "ExpressionEdit.h"
 
 using namespace exprtk;
 using namespace calenhad;
 using namespace calenhad::expressions;
+using namespace calenhad::qmodule;
+using namespace calenhad::controls;
 
-ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser (new parser<double>()), _goosed (false) {
+ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser (new parser<double>()), _goosed (false), _validator (nullptr) {
     QLayout* l = new QHBoxLayout();
     l -> setContentsMargins (5, 0, 5, 0);
     setLayout (l);
@@ -23,22 +29,36 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
 
     _statusOrright = QPixmap (":/appicons/status/orright.png");
     _statusGoosed = QPixmap (":/appicons/status/goosed.png");
+    _statusQuery = QPixmap (":/appicons/status/query.png");
     _statusLabel -> setPixmap (_statusOrright);
 
     _expressionShortBox = new QLineEdit (this);
     _expressionShortBox -> setText ("0.0");
-
+    QFontMetrics m (_expressionShortBox -> font()) ;
+    int rowHeight = m.lineSpacing() ;
+    _expressionShortBox -> setFixedHeight  (rowHeight + 6) ;
     _expressionLongBox = new ExpressionEdit (_expressionShortBox);
     _expressionLongBox -> setText ("0.0");
 
     _longBoxButton = new QPushButton (this);
     _longBoxButton -> setText ("...");
 
+
+    _completer = new QCompleter (this);
+    QAbstractItemModel* words =  new QStringListModel (CalenhadServices::calculator () -> reservedWords, _completer);
+    _completer->setModel (words);
+    _completer -> setCompletionMode (QCompleter::PopupCompletion);
+    _completer->setModelSorting (QCompleter::CaseInsensitivelySortedModel);
+    _completer->setCaseSensitivity (Qt::CaseInsensitive);
+    _completer->setWrapAround  (false);
+    _expressionShortBox->setCompleter (_completer);
+    _expressionLongBox->setCompleter (_completer);
     connect (_longBoxButton, &QPushButton::pressed, this, &ExpressionWidget::openLongBox);
     connect (_expressionShortBox, &QLineEdit::textChanged, this, &ExpressionWidget::editText);
 
     // whenever the text of the expression is changed, try to recompile it
     connect (_expressionShortBox, &QLineEdit::textChanged, this, &ExpressionWidget::prepare);
+
 
     // if the _expressionLongBox is finished with, copy its text back and dismiss it
     connect (_expressionLongBox, &ExpressionEdit::dismissed, this, [=] () {
@@ -47,9 +67,6 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
         _expressionShortBox -> setCursorPosition (c);
         _expressionLongBox -> hide();
     });
-
-
-    prepare (_expressionShortBox -> text());
 
     layout() -> addWidget (_statusLabel);
     layout() -> addWidget (_expressionShortBox);
@@ -60,6 +77,8 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
 
 ExpressionWidget::~ExpressionWidget() {
     delete _parser;
+    delete _completer;
+    if (_validator) { delete _validator; }
 }
 
 bool ExpressionWidget::isValid() {
@@ -67,19 +86,43 @@ bool ExpressionWidget::isValid() {
 }
 
 void ExpressionWidget::editText() {
-    _text = _expressionShortBox -> text();
-    if (! (_expressionLongBox -> isVisible())) {
-        if (_expressionLongBox->toPlainText () != _expressionShortBox->text ()) {
-            QFont f = _expressionShortBox->font ();
-            QFontMetrics fm (f);
-            int textWidth = fm.width (_expressionShortBox->text ());
-            if (textWidth > _expressionShortBox->width () * 0.9) {
-                openLongBox();
+    // If text in the short box is close to its capacity, bring up the long box
+    if (sender() == _expressionShortBox) {
+        _text = _expressionShortBox->text ();
+        if (!(_expressionLongBox->isVisible ())) {
+            if (_expressionLongBox->toPlainText () != _expressionShortBox->text ()) {
+                QFont f = _expressionShortBox->font ();
+                QFontMetrics fm (f);
+                int textWidth = fm.width (_expressionShortBox->text ());
+                if (textWidth > _expressionShortBox->width () * 0.9) {
+                    openLongBox ();
+                }
             }
         }
     }
 }
-
+/*
+bool ExpressionWidget::eventFilter (QObject* o, QEvent* e) {
+    if (e -> type() == QEvent::KeyPress) {
+        QKeyEvent* ke = (QKeyEvent*) e;
+        if (ke -> key() == Qt::Key_Space && ke -> modifiers() == Qt::ControlModifier) {
+            // get word under the cursor
+            QString word;
+            if (o == _expressionLongBox) {
+                QTextCursor tc = _expressionLongBox->textCursor ();
+                tc.select (QTextCursor::WordUnderCursor);
+                word = tc.selectedText ();
+            }
+            if (o == _expressionShortBox) {
+                _expressionShortBox -> cursorWordBackward (true);
+                _expressionShortBox -> cursorWordForward (true);
+                word = _expressionShortBox -> selectedText();
+            }
+            std::cout << word.toStdString () << "\n";
+        }
+    }
+}
+*/
 void ExpressionWidget::openLongBox() {
     // move editing to _expressionLongBox when the smaller box is nearly full
     _expressionLongBox -> setText (_expressionShortBox -> text());
@@ -88,28 +131,43 @@ void ExpressionWidget::openLongBox() {
     _expressionLongBox -> show();
 }
 
-bool ExpressionWidget::prepare (const QString& text) {
+bool ExpressionWidget::prepare() {
+    QString text = _expressionShortBox -> text();
     _errors.clear();
     _expression = CalenhadServices::calculator() -> makeExpression();
     const std::string s = text.toStdString();
-    bool ok = _parser -> compile (s, *_expression);
-    if (! ok) {
-        for (std::size_t i = 0; i < _parser -> error_count(); ++i)         {
-            exprtk::parser_error::type error = _parser -> get_error (i);
-            _errors.append (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
-            _goosed = true;
+    if (! (_parser -> compile (s, *_expression))) {
+        for (std::size_t i = 0; i < _parser -> error_count(); ++i) {
+            exprtk::parser_error::type error = _parser->get_error (i);
+             _errors.append (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
+             _goosed = true;
             _statusLabel -> setPixmap (_statusGoosed);
             reportErrors();
             emit errorFound();
         }
     } else {
-        setToolTip (QString::number (_expression -> value()));
-        _goosed = false;
-        _statusLabel -> setPixmap (_statusOrright);
-        emit compiled (_expression -> value());
+        double v = _expression -> value();
+        if (! (_validator -> isInValidSet (v))) {
+            _errors.append (_validator->toString (v));
+            _goosed = true;
+            _statusLabel->setPixmap (_statusGoosed);
+            reportErrors ();
+        } else {
+
+            _goosed = false;
+            if (_validator -> isInBestSet (v)) {
+                _statusLabel->setPixmap (_statusOrright);
+                setToolTip (QString::number (_expression->value ()));
+            } else {
+                _statusLabel->setPixmap (_statusQuery);
+                setToolTip (_validator->toString (v));
+            }
+
+            emit compiled (_expression->value ());
+        }
     }
     emit expressionChanged();
-    return ok;
+    return ! _goosed;
 }
 
 exprtk::expression<double>* ExpressionWidget::expression () {
@@ -126,8 +184,16 @@ void ExpressionWidget::reportErrors () {
 
 void ExpressionWidget::setText (QString text) {
     _expressionShortBox -> setText (text);
+    prepare();
+
 }
 
 const QString& ExpressionWidget::text () {
     return _text;
 }
+
+void ExpressionWidget::setValidator (calenhad::qmodule::ParamValidator* validator) {
+    if (_validator) { delete _validator; }
+    _validator = validator;
+}
+
