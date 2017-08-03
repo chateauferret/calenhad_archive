@@ -9,6 +9,7 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QTextEdit>
 #include <QLineEdit>
+#include <QWidget>
 #include "../controls/TextEdit.h"
 
 
@@ -36,6 +37,13 @@ namespace calenhad {
         protected:
             QLineEdit* _shortBox;
         };
+
+        class ExpressionLineEdit : public QLineEdit {
+        public:
+            ExpressionLineEdit (QWidget* parent);
+            void focusInEvent (QFocusEvent* e) override;
+        };
+
     }
 }
 

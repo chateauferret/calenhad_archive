@@ -23,6 +23,7 @@ namespace calenhad {
     }
     namespace expressions {
         class ExpressionEdit;
+        class ExpressionLineEdit;
 
         class ExpressionWidget : public QWidget {
             Q_OBJECT
@@ -49,7 +50,7 @@ namespace calenhad {
 
         protected:
             QCompleter* _completer;
-            QLineEdit* _expressionShortBox;
+            ExpressionLineEdit* _expressionShortBox;
             QPushButton* _longBoxButton;
             QPixmap _statusOrright, _statusGoosed,  _statusQuery;
             exprtk::expression<double>* _expression;

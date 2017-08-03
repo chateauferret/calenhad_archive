@@ -32,7 +32,7 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
     _statusQuery = QPixmap (":/appicons/status/query.png");
     _statusLabel -> setPixmap (_statusOrright);
 
-    _expressionShortBox = new QLineEdit (this);
+    _expressionShortBox = new ExpressionLineEdit (this);
     _expressionShortBox -> setText ("0.0");
     QFontMetrics m (_expressionShortBox -> font()) ;
     int rowHeight = m.lineSpacing() ;
@@ -45,8 +45,6 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
 
 
     _completer = new QCompleter (this);
-    QAbstractItemModel* words =  new QStringListModel (CalenhadServices::calculator () -> reservedWords, _completer);
-    _completer->setModel (words);
     _completer -> setCompletionMode (QCompleter::PopupCompletion);
     _completer->setModelSorting (QCompleter::CaseInsensitivelySortedModel);
     _completer->setCaseSensitivity (Qt::CaseInsensitive);
@@ -86,8 +84,9 @@ bool ExpressionWidget::isValid() {
 }
 
 void ExpressionWidget::editText() {
-    // If text in the short box is close to its capacity, bring up the long box
+
     if (sender() == _expressionShortBox) {
+        // If text in the short box is close to its capacity, bring up the long box
         _text = _expressionShortBox->text ();
         if (!(_expressionLongBox->isVisible ())) {
             if (_expressionLongBox->toPlainText () != _expressionShortBox->text ()) {
@@ -101,28 +100,7 @@ void ExpressionWidget::editText() {
         }
     }
 }
-/*
-bool ExpressionWidget::eventFilter (QObject* o, QEvent* e) {
-    if (e -> type() == QEvent::KeyPress) {
-        QKeyEvent* ke = (QKeyEvent*) e;
-        if (ke -> key() == Qt::Key_Space && ke -> modifiers() == Qt::ControlModifier) {
-            // get word under the cursor
-            QString word;
-            if (o == _expressionLongBox) {
-                QTextCursor tc = _expressionLongBox->textCursor ();
-                tc.select (QTextCursor::WordUnderCursor);
-                word = tc.selectedText ();
-            }
-            if (o == _expressionShortBox) {
-                _expressionShortBox -> cursorWordBackward (true);
-                _expressionShortBox -> cursorWordForward (true);
-                word = _expressionShortBox -> selectedText();
-            }
-            std::cout << word.toStdString () << "\n";
-        }
-    }
-}
-*/
+
 void ExpressionWidget::openLongBox() {
     // move editing to _expressionLongBox when the smaller box is nearly full
     _expressionLongBox -> setText (_expressionShortBox -> text());

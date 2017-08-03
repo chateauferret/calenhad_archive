@@ -2,9 +2,13 @@
 // Created by martin on 26/07/17.
 //
 
+#include <QtCore/QAbstractItemModel>
+#include <QtCore/QStringListModel>
+#include "CalenhadServices.h"
+#include "CalculatorService.h"
 #include "ExpressionEdit.h"
-
-
+#include <QCompleter>
+#include <iostream>
 
 
 using namespace calenhad::expressions;
@@ -32,4 +36,16 @@ void ExpressionEdit::showEvent (QShowEvent* e) {
 // when the editor loses focus we dismiss it and send the text off in a signal
 void ExpressionEdit::focusOutEvent (QFocusEvent* e) {
     emit dismissed (toPlainText ());
+}
+
+ExpressionLineEdit::ExpressionLineEdit (QWidget* parent) : QLineEdit (parent) { }
+
+void ExpressionLineEdit::focusInEvent (QFocusEvent* e) {
+    QLineEdit::focusInEvent (e);
+    // update the completer with the current variables list
+    QStringList words = CalenhadServices::calculator () -> reservedWords;
+    words.append (CalenhadServices::calculator() -> variables().keys());
+    words.sort (Qt::CaseInsensitive);
+    QAbstractItemModel* model = new QStringListModel (words, completer());
+    completer() -> setModel (model);
 }
