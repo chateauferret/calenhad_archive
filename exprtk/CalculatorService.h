@@ -14,6 +14,16 @@
 namespace calenhad {
     namespace expressions {
 
+        struct CalenhadVariable {
+        public:
+            CalenhadVariable (const QString& name, const QString& notes, const double& value);
+            CalenhadVariable (const CalenhadVariable& other);
+            CalenhadVariable () {}
+            QString _name;
+            QString _notes;
+            double _value;
+        };
+
         class CalculatorService : public Serializable {
 
         public:
@@ -31,13 +41,13 @@ namespace calenhad {
 
             virtual ~CalculatorService ();
 
-            QMap<QString, double> variables ();
+            QMap<QString, CalenhadVariable> variables ();
 
-            void updateVariable (const QString& name, double& value);
+            void updateVariable (const QString& name, const QString& notes, double& value);
 
             bool prepare (const QString& expression, exprtk::expression<double>& exp);
 
-            void insertVariable (const QString& name, double& value);
+            void insertVariable (const QString& name, const QString& notes, double& value);
 
             void deleteVariable (const QString& name);
 
@@ -55,7 +65,7 @@ namespace calenhad {
 
         protected:
             exprtk::symbol_table<double> _symbols;
-            QMap<QString, double> _variables;
+            QMap<QString, CalenhadVariable> _variables;
 
 
             bool isReservedWord (const QString& term);

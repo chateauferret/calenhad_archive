@@ -14,13 +14,14 @@ using namespace calenhad::expressions;
 
 VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()) {
 
-    _table -> setColumnCount (2);
+    _table -> setColumnCount (3);
 
     QTableWidgetItem* nameHeader = new QTableWidgetItem (tr ("Name"));
     QTableWidgetItem* valueHeader = new QTableWidgetItem (tr ("Value"));
+    QTableWidgetItem* notesHeader = new QTableWidgetItem (tr ("Notes"));
     _table -> setHorizontalHeaderItem (0, nameHeader);
     _table -> setHorizontalHeaderItem (1, valueHeader);
-
+    _table -> setHorizontalHeaderItem (2, notesHeader);
     setLayout (new QVBoxLayout());
     layout() -> addWidget (_table);
 
@@ -76,10 +77,12 @@ void VariablesDialog::deleteSelected() {
 void VariablesDialog::insertItem() {
     int i = _table -> selectedItems().isEmpty() ? 0 : _table -> selectedItems().first() -> row();
     _table -> insertRow (i);
-    QTableWidgetItem* item = new QTableWidgetItem ("New variable");
+    QTableWidgetItem* item = new QTableWidgetItem ("New_variable");
     QTableWidgetItem* value = new QTableWidgetItem (QString::number ((double) 0.0));
+    QTableWidgetItem* notes = new QTableWidgetItem ("");
     _table -> setItem (i, 0, item);
     _table -> setItem (i, 1, value);
+    _table -> setItem (i, 2, notes);
     _table -> itemActivated (item);
 }
 
@@ -91,25 +94,26 @@ void VariablesDialog::selectionChanged() {
 }
 
 void VariablesDialog::resizeEvent (QResizeEvent* e) {
-    _table -> setColumnWidth (0, _table -> width() * 0.3);
-    _table -> setColumnWidth (1, _table -> width() - _table -> columnWidth (0));
+    _table -> setColumnWidth (0, _table -> width() * 0.15);
+    _table -> setColumnWidth (1, _table -> width() * 0.15);
+    _table -> setColumnWidth (2, _table -> width() - (_table -> columnWidth (0) + _table -> columnWidth (1)));
 }
 
 void VariablesDialog::commit () {
     CalenhadServices::calculator() -> clear();
     for (int i = 0; i < _table -> rowCount(); i++) {
         QString name = _table -> item (i, 0) -> text();
-        bool ok;
-        double v = value (_table -> item (i, 1), ok);
-        if (ok) {
-            std::cout << name.toStdString () << " = " << v << "\n";
-            CalenhadServices::calculator() -> insertVariable (name, v);
-        }
+        QString notes = _table -> item (i, 2) -> text();
+        double v = value (_table -> item (i, 1));
+        std::cout << "Variable: " << name.toStdString () << " = " << v << "\n";
+        CalenhadServices::calculator() -> insertVariable (name, notes, v);
     }
 }
 
-double VariablesDialog::value (QTableWidgetItem* item, bool ok) {
+double VariablesDialog::value (QTableWidgetItem* item) {
+    bool ok;
     double value = item -> text().toDouble (&ok);
+    std::cout << "'" << item -> text().toStdString () << "' = " << value << "\n";
     if (ok) {
         return value;
     } else {
@@ -124,9 +128,12 @@ void VariablesDialog::rollback() {
 
     for (QString key : _oldVariables.keys()) {
         QTableWidgetItem* item = new QTableWidgetItem (key);
-        QTableWidgetItem* value = new QTableWidgetItem (QString::number (_oldVariables.value (key)));
+        CalenhadVariable cv (_oldVariables.value (key));
+        QTableWidgetItem* value = new QTableWidgetItem (QString::number (cv._value));
+        QTableWidgetItem* notes = new QTableWidgetItem (cv._notes);
         _table -> setItem (row, 0, item);
         _table -> setItem (row, 1, value);
+        _table -> setItem (row, 2, notes);
         row++;
     }
 };
@@ -159,10 +166,12 @@ bool VariablesDialog::validate (int row) {
         if (nameOk) {
             // name must be unique
             for (int i = 0; i < _table->rowCount (); i++) {
-                if (i != row && name.toLower() == _table -> item (i, 0) -> text().toLower()) {
-                    nameTooltip += "Name is not unique\n";
-                    nameOk = false;
-                    break;
+                if (_table->item (i, 0)) {
+                    if (i != row && name.toLower () == _table->item (i, 0)->text ().toLower ()) {
+                        nameTooltip += "Name is not unique\n";
+                        nameOk = false;
+                        break;
+                    }
                 }
             }
         }

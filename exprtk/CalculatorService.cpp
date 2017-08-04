@@ -18,20 +18,22 @@ CalculatorService::~CalculatorService () {
 
 }
 
-QMap<QString, double> CalculatorService::variables () {
+QMap<QString, CalenhadVariable> CalculatorService::variables () {
     return _variables;
 }
 
-void CalculatorService::insertVariable (const QString& name, double& value) {
-    _variables.insert (name, value);
-    _symbols.add_variable (name.toStdString(), _variables [name]);
+void CalculatorService::insertVariable (const QString& name, const QString& notes, double& value) {
+    CalenhadVariable cv (name, notes, value);
+    _variables.insert (name, cv);
+    _symbols.add_variable (name.toStdString(), cv._value);
 }
 
-void CalculatorService::updateVariable (const QString& name, double& value) {
+void CalculatorService::updateVariable (const QString& name, const QString& notes, double& value) {
     if (_variables.keys().contains (name)) {
-        _variables.find (name).value() = value;
+        _variables.find (name).value()._value = value;
+        _variables.find (name).value()._notes = notes;
     } else {
-        insertVariable (name, value);
+        insertVariable (name, notes, value);
     }
 }
 
@@ -119,8 +121,10 @@ void CalculatorService::inflate (const QDomElement& element) {
         bool ok;
         QString name = items.at (i).attributes().namedItem ("name").nodeValue();
         double value = items.at (i).attributes().namedItem ("value").nodeValue().toDouble (&ok);
+        QDomNode notesNode = items.at (i).firstChildElement ("notes");
+        QString notes = notesNode.firstChild().toText().nodeValue ();
         if (ok) {
-            _variables.insert (name, value);
+            _variables.insert (name, CalenhadVariable (name, notes, value));
         } else {
             CalenhadServices::messages() -> message ("Error", "Failed to parse value of variable " + name + " = " + value);
         }
@@ -133,9 +137,21 @@ void CalculatorService::serialize (QDomDocument& doc) {
     for (QString key : _variables.keys()) {
         QDomElement itemElement = doc.createElement ("variable");
         _element.appendChild (itemElement);
+        QDomElement notesElement = doc.createElement ("notes");
+        CalenhadVariable cv (_variables.value (key));
+        QDomText notesText = doc.createTextNode (cv._notes);
+        notesElement.appendChild (notesText);
+        itemElement.appendChild (notesElement);
         itemElement.setAttribute ("name", key);
-        itemElement.setAttribute ("value", _variables . value (key));
+        itemElement.setAttribute ("value", cv._value);
     }
 }
 
 
+CalenhadVariable::CalenhadVariable (const QString& name, const QString& notes, const double& value) : _name (name), _notes (notes), _value (value) {
+
+}
+
+CalenhadVariable::CalenhadVariable (const CalenhadVariable& other) : _name (other._name), _notes (other._notes), _value (other._value){
+
+}

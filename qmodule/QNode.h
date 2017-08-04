@@ -102,6 +102,8 @@ namespace calenhad {
             void showParameters (const bool& visible);
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
+            int id();
+
         public slots:
 
             virtual void invalidate ();
@@ -118,7 +120,7 @@ namespace calenhad {
 
 
         protected:
-
+            int _id;
             calenhad::pipeline::CalenhadModel* _model;
             QNodeGroup* _group;
             QDialog* _dialog;

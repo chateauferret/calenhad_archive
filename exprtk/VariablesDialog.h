@@ -9,6 +9,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QDialogButtonBox>
+#include "CalculatorService.h"
 
 namespace calenhad {
     namespace expressions {
@@ -41,12 +42,12 @@ namespace calenhad {
 
             void resizeEvent (QResizeEvent* e) override;
 
-            double value (QTableWidgetItem* item, bool ok);
+            double value (QTableWidgetItem* item);
 
             bool validate (int row);
 
             QDialogButtonBox* _buttonBox;
-            QMap<QString, double> _oldVariables;
+            QMap<QString, CalenhadVariable> _oldVariables;
 
             void showEvent (QShowEvent* e) override;
         };

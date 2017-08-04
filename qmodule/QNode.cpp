@@ -239,31 +239,38 @@ void QNode::showParameters (const bool& visible) {
 
 void QNode::inflate (const QDomElement& element) {
     _element = element;
-    QDomElement notesNode = element.firstChildElement ("name");
-    QString name = notesNode.text();
-    QDomNodeList portNodes = element.elementsByTagName ("port");
-    for (int i = 0; i < portNodes.count(); i++) {
-        bool okIndex, okType;
-        int portIndex = portNodes.at (i).attributes ().namedItem ("index").nodeValue ().toInt (&okIndex);
-        int portType = portNodes.at (i).attributes ().namedItem ("type").nodeValue ().toInt (&okType);
-        QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
-        QString name = portNameNode.text();
-        if (okIndex && okType) {
-            for (QNEPort* p : _ports) {
-                if (p -> index() == portIndex && p -> portType() == portType) {
-                    p -> setName (name);
+    bool okId;
+    _id = element.attribute ("id").toInt (&okId);
+    if (okId) {
+        QDomElement notesNode = element.firstChildElement ("name");
+        QString name = notesNode.text ();
+        QDomNodeList portNodes = element.elementsByTagName ("port");
+        for (int i = 0; i < portNodes.count (); i++) {
+            bool okIndex, okType;
+            int portIndex = portNodes.at (i).attributes ().namedItem ("index").nodeValue ().toInt (&okIndex);
+            int portType = portNodes.at (i).attributes ().namedItem ("type").nodeValue ().toInt (&okType);
+            QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
+            QString name = portNameNode.text ();
+            if (okIndex && okType) {
+                for (QNEPort* p : _ports) {
+                    if (p->index () == portIndex && p->portType () == portType) {
+                        p->setName (name);
+                    }
                 }
+            } else {
+                QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue () + " port with index " +
+                            portNodes.at (i).attributes ().namedItem ("index").nodeValue () + " in owner " + _name;
+                CalenhadServices::messages ()->message ("warning", "Reverting to default port names. " + m);
             }
-        } else {
-            QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue() + " port with index " + portNodes.at (i).attributes ().namedItem ("index").nodeValue() + " in owner " + _name;
-            CalenhadServices::messages() -> message ("warning", "Reverting to default port names. " + m);
         }
-    }
-    QDomNodeList paramNodes = element.elementsByTagName ("parameter");
-    for (int i = 0; i < paramNodes.count(); i++) {
-        QString paramName = paramNodes.at (i).attributes().namedItem ("name").nodeValue();
-        QString paramValue = paramNodes.at (i).attributes().namedItem ("value").nodeValue();
-        setParameter (paramName, paramValue);
+        QDomNodeList paramNodes = element.elementsByTagName ("parameter");
+        for (int i = 0; i < paramNodes.count (); i++) {
+            QString paramName = paramNodes.at (i).attributes ().namedItem ("name").nodeValue ();
+            QString paramValue = paramNodes.at (i).attributes ().namedItem ("value").nodeValue ();
+            setParameter (paramName, paramValue);
+        }
+    } else {
+
     }
 }
 
@@ -402,4 +409,8 @@ void QNode::addContentPanel() {
     _content->setLayout (_contentLayout);
     addPanel (tr ("Parameters"), _content);
     std::cout << "QNode::addContentPanel content " << _expander -> indexOf (_content) << "\n";
+}
+
+int QNode::id () {
+    return _id;
 }

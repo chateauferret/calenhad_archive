@@ -30,7 +30,6 @@ void ExpressionEdit::showEvent (QShowEvent* e) {
     QTextCursor c = textCursor();
     c.setPosition (position);
     setTextCursor (c);
-
 }
 
 // when the editor loses focus we dismiss it and send the text off in a signal
