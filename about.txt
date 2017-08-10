@@ -31,4 +31,15 @@ Architecture is C++ with no QML and Qt5.9. We use a handful of libraries:
   - exprtk: parsing and calculating mathematical formulae entered as text)
   - Proj4: cartographic projections - will probably implement inverse projections for creating map images on the GPU, but retain Proj4 for one-off lookups like trying to work out the lat/long currently pointed at by the mouse)
   - QWT: some of the widgets, such as the compass / navigator that appears on the map
+
+It also stands on the shoulders of the following giants:
+   - Icosphere classes were ported from the C# implementation by Andreas Kahler (http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html) to C++
+   - Legend editor: this allows the colour scheme of the map to be editied and managed and is by Richard Steffen (https://store.kde.org/p/1132126/)
+   - FlowLayout is one of the examples that comes with Qt5
+   - TextEdit, which allows the code completion popup for mathematical expressions, is one of the examples that comes with Qt5
+   - SizeGripItem, used to allow the manipulation of module groups, is by Cesar Silveira (https://github.com/cesarbs/sizegripitem)
+   - The FastNoiseSIMD library is included in the tree but I don't use it just now. It's by Jordan Peck (https://github.com/Auburns/FastNoiseSIMD)
+   - The pipeline editor is adapted from code by Stansialw Adaszewski (http://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/)
+   - CalenhadGlobe (the interactive map viewer) includes some code by James Chappell (https://www.storage-b.com/c/16) to write lat/long coordinates out in degrees and minutes and seconds of arc.
+   
   
