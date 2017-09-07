@@ -1,0 +1,45 @@
+# calenhad
+
+Calenhad is GIS and terrain creation for imaginary worlds.
+
+I identified some specific requirements for GIS when dealing with imaginary worlds that are not well catered for by traditional real-world GIS offerings such as QGIS, for all their comprehensiveness and pedigree. For instance:
+
+  - if we are creating a world ourselves instead of describing the one God made, we are generating procedurally or by hand data which in real-world GIS is typically downloaded or produced by some other system. We need tools to generate topographic and other data to describe the world the user is imagining. I think that in general we will want to guide the high-level structure of a planet (say where there will be continents and oceans, what rough shape they will be, where there will be mountain ranges, and so forth) and overlay low-level detail (place specific features, sculpt particular pieces of topography, arrange the landscape to suit his story or game scenario) but let the computer generate realistic and appropriate landscapes for levels of detail between the satellite view and the street-level view. Calenhad uses noise generation (initially libnoise and in due course a port of this to a GPU implementation) and potentially sculpting tools and a tectonics simulator to generate toporgraphy.
+  
+  - real-world GIS raster data is arranged on a latitude - longitude grid in an equirectangular (or Mercator or similar cylindrical) projection and reprojected into any of some thousands of projections to provide the view a user wants. If we generate raster data in two dimensions and show it on a a globe or similar, we will see obvious pinching towards the poles because we have the same number of pixels at any given latitude, but the distance covered by those pixels decreases with the cosine of the latitude. This is OK on the Earth becaue most applications are not interested in high latitudes and those that are are generally interested only in high latitudes. Our application needs to consider the whole planet where our user may regard polar regions as important and indeed may need a view that covers polar and temperate regions together (suppose we want to depict Helcaraxë from Tolkein's Silmarillion). We want a structure for "raster" data which provides and even distribution of data points over the planet, which will allow us to compose maps across all latitudes without pinching in high latitudes. For Calenhad, we select an icosphere model created by recursively subdividing the triangular faces of an icosahedron to progressively approximate a sphere. Libnoise allows us to generate 3D noise which easily maps to a spherical surface.
+  
+  - Representing data points on a subdivided icosahedron surface has a couple of other benefits:
+    * the points (vertices) are constructed in a natural heirarchy so that we can select different levels of detail by selecting only points at a particular level in the heirarchy, corresponding to the iteration which created them: the first iteration has 80 points, the second 320, the third 1,280, and so on.
+    * we obtain  not only the points but also the edges that link them and the triangles those edges form. That means it is easy to walk over the icosphere to quickly find the vertex nearest a given geolocation and at a given level of detail, so we don't need to index points or features using a quadtree or similar. We can also easily export a triangle mesh for the purposes of rendering in a 3D pipeline.
+
+   - When we change the landscape we want pretty quick feedback to see the resulting geography. In real-world GIS it would be OK for the system to take some time to compose maps using a new raster file uploaded because we are not working with rasterised data interactively. Pipeline-based terrain generators such as WorldMachine do this for 2D terrain heightfields, but Calenhad at the moment uses the Marble virtual globe and its GeoPainter object to draw the maps and this is too slow. We also want to remove the dependency on Marble because it is a pain in the posterior to compile against and imports a whole slew of stuff we have no use for - in fact it is typical of real-world geographical applications and exemplifes a lot of what is different about our requirement. I now want to do as much as possible on the GPU and generate the maps in a compute shader for maximum speed.
+   
+   - Earth-based GIS has some difficulty dealing with planets whose astronomical data is different from Earth although it is possible to use geoids that represent the Moon, Mars, etc. On the other hand we do not need to be at all pendantic about the finer points: we don't need geolocations and altitudes down to the nanometre and we don't need a precisely calibrated triaxial geoid with bumps and dents in the right places; indeed it would be quite confusing and complicated to try to. For now at least approximating the planet as a sphere should be fine. Of course an author might want a flat world, or a funny-shaped world, but GIS wouldn't help us there anyway.
+   
+The solution at the moment provides the following, but is awkward to compile because the Marble component requires QtWebKit which has obsolescence problems and it won't compile without it. I don't seem to be able to use new versions of Qt5 (which we will need for the shader handling) at the same time as QtWebKit or to compile the latter against Qt5.9. That problem should go away once I can dump Marble.
+
+  - Pipeline editing for combinations of libnoise modules
+  - (Slow) rendering of the output and interactive visualisation in the Marble virtual globe (eventually)
+  - Serialisation of a libnoise pipeline to and from XML
+  - Calculation of libnoise module parameters from entered mathematical expressions using variables
+  - Rendering of the output of noise modules to the icosphere structure (module type IcosphereMap)
+  - Organisation of libnoise modules into groups
+ 
+Architecture is C++ with no QML and Qt5.9. We use a handful of libraries:
+  - GeographicLib: for calculating distances and azimuths on the sphere when building and traversing the icosphere)
+  - libnoise: for generating terrain)
+  - exprtk: parsing and calculating mathematical formulae entered as text)
+  - Proj4: cartographic projections - will probably implement inverse projections for creating map images on the GPU, but retain Proj4 for one-off lookups like trying to work out the lat/long currently pointed at by the mouse)
+  - QWT: some of the widgets, such as the compass / navigator that appears on the map
+
+It also stands on the shoulders of the following giants:
+   - Icosphere classes were ported from the C# implementation by Andreas Kahler (http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html) to C++
+   - Legend editor: this allows the colour scheme of the map to be editied and managed and is by Richard Steffen (https://store.kde.org/p/1132126/)
+   - FlowLayout is one of the examples that comes with Qt5
+   - TextEdit, which allows the code completion popup for mathematical expressions, is one of the examples that comes with Qt5
+   - SizeGripItem, used to allow the manipulation of module groups, is by Cesar Silveira (https://github.com/cesarbs/sizegripitem)
+   - The FastNoiseSIMD library is included in the tree but I don't use it just now. It's by Jordan Peck (https://github.com/Auburns/FastNoiseSIMD)
+   - The pipeline editor is adapted from code by Stansialw Adaszewski (http://adared.ch/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/)
+   - CalenhadGlobe (the interactive map viewer) includes some code by James Chappell (https://www.storage-b.com/c/16) to write lat/long coordinates out in degrees and minutes and seconds of arc.
+   
+  
