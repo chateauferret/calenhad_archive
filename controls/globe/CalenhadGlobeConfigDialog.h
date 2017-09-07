@@ -11,11 +11,16 @@
 #include <QComboBox>
 #include <QTextEdit>
 #include <qwt/qwt_slider.h>
-#include <marble/MarbleGlobal.h>
+
 #include "CalenhadGlobeConstants.h"
 
 
 namespace calenhad {
+    namespace mapping {
+        namespace projection {
+            class Projection;
+        }
+    }
     namespace legend {
         class Legend;
         class LegendEditor;
@@ -24,13 +29,13 @@ namespace calenhad {
     }
     namespace controls {
         namespace globe {
-            class CalenhadGlobe;
+            class CalenhadGlobeDialog;
 
             class CalenhadGlobeConfigDialog : public QDialog {
             Q_OBJECT
 
             public:
-                CalenhadGlobeConfigDialog (CalenhadGlobe* parent);
+                CalenhadGlobeConfigDialog (CalenhadGlobeDialog* parent);
 
                 virtual ~CalenhadGlobeConfigDialog ();
 
@@ -52,7 +57,7 @@ namespace calenhad {
 
                 double mouseSensitivity ();
 
-                Marble::Projection selectedProjection ();
+                calenhad::mapping::projection::Projection* selectedProjection ();
 
                 calenhad::legend::Legend* selectedLegend ();
 
@@ -65,7 +70,7 @@ namespace calenhad {
                 void reject () override;
 
             protected:
-                CalenhadGlobe* _parent;
+                CalenhadGlobeDialog* _parent;
                 QCheckBox* _overviewCheck;
                 QCheckBox* _scaleCheck;
                 QCheckBox* _zoomBarCheck;

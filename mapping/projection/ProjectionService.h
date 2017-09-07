@@ -6,25 +6,24 @@
 #define CALENHAD_PROJECTIONSERVICE_H
 
 
-#include <marble/MarbleGlobal.h>
 #include <QtCore/QMap>
 
 namespace calenhad {
-    namespace controls {
-        namespace globe {
-
+    namespace mapping {
+        namespace projection {
+            class Projection;
             class ProjectionService {
             public:
                 ProjectionService ();
 
                 virtual ~ProjectionService ();
 
-                Marble::Projection fetch (const QString& name);
+                calenhad::mapping::projection::Projection* fetch (const QString& name);
 
-                const QMap<QString, Marble::Projection>& all () const;
-
+                const QMap<QString, calenhad::mapping::projection::Projection*>& all () const;
+                QString glsl();
             protected:
-                QMap<QString, Marble::Projection> _projections;
+                QMap<QString, calenhad::mapping::projection::Projection*> _projections;
 
             };
         }

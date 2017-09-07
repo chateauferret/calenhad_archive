@@ -49,10 +49,13 @@ namespace calenhad {
             QColor calenhad_nodegroup_text_color_selected;
             QColor calenhad_nodegroup_text_color_normal;
             unsigned calenhad_altitudemap_deletemargin;
+            unsigned calenhad_altitudemap_buffersize;
+            unsigned calenhad_colormap_buffersize;
             QString calenhad_legends_filename;
             int calenhad_variables_name_maxlength;
             QColor calenhad_variables_color_normal;
             QColor calenhad_variables_color_error;
+
 
             // geometry
             unsigned calenhad_port_radius;

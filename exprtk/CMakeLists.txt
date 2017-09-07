@@ -9,4 +9,5 @@ SET(EXPRTK_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/ExpressionWidget.h
         ${CMAKE_CURRENT_LIST_DIR}/ExpressionEdit.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ExpressionEdit.h
+
         )

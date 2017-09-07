@@ -31,4 +31,4 @@ SET(MESSAGES_SOURCE_FILES
 add_library (messages ${MESSAGES_SOURCE_FILES})
 
 
-target_link_libraries (messages Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Marble)
+target_link_libraries (messages Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml)

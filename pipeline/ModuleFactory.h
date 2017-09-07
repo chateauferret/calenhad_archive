@@ -29,6 +29,8 @@ namespace calenhad {
 
         class ModuleFactory : public QObject {
         Q_OBJECT
+
+            int getSourceModuleCount (QString moduleType);
             Q_ENUMS (ModuleType)
         public:
             ModuleFactory ();
@@ -48,6 +50,8 @@ namespace calenhad {
             QStringList types ();
 
             qmodule::QNode* clone (qmodule::QNode* other);
+            QMap<QString, QString>* codes ();
+            QStringList paramNames();
 
         signals:
 
@@ -59,6 +63,11 @@ namespace calenhad {
             noise::NoiseQuality _noiseQuality = noise::NoiseQuality::QUALITY_STD;
             int _seed = 0;
             QMap<QString, QPixmap*> _icons;
+            QMap<QString, QString>* _codes;
+            QStringList _paramNames;
+            void provideCodes ();
+            void provideParamNames();
+
 
         };
     }

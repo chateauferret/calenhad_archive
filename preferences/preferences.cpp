@@ -45,7 +45,9 @@ void Preferences::loadSettings() {
     calenhad_module_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
     calenhad_nodegroup_text_color_selected = _settings -> value ("calenhad/handle/text/color/selected", "#000000").value<QColor>();
     calenhad_nodegroup_text_color_normal = _settings -> value ("calenhad/handle/text/color/normal", "#000000").value<QColor>();
-    calenhad_altitudemap_deletemargin = _settings -> value ("calenhad/altitude/deletemargin", 0.2).toUInt();
+    calenhad_altitudemap_deletemargin = _settings -> value ("calenhad/altitudemap/deletemargin", 0.2).toUInt();
+    calenhad_altitudemap_buffersize = _settings -> value ("calenhad/altitudemap/buffersize", 2048).toUInt();
+    calenhad_colormap_buffersize = _settings -> value ("calenhad/colormap/buffersize", 2048).toUInt();
     calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/ClionProjects/calenhad/config/legends.xml").toString ();
     calenhad_toolpalette_icon_color_shadow = _settings -> value ("calenhad/toolpalette/icon/color/shadow", "#505050").value<QColor>();
     calenhad_toolpalette_icon_color_normal = _settings -> value ("calenhad/toolpalette/icon/color/normal", "#000000").value<QColor>();
@@ -133,6 +135,8 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/nodegroup/text/color/selected", calenhad_nodegroup_text_color_selected);
     _settings -> setValue ("calenhad/nodegroup/text/color/normal", calenhad_nodegroup_text_color_normal);
     _settings -> setValue ("calenhad/altitudemap/deletemargin", calenhad_altitudemap_deletemargin);
+    _settings -> setValue ("calenhad/altitudemap/buffersize", calenhad_altitudemap_buffersize);
+    _settings -> setValue ("calenhad/colormap/buffersize", calenhad_colormap_buffersize);
     _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
     _settings -> setValue ("calenhad/nodegroup", calenhad_nodegroup);
     _settings -> setValue ("calenhad/toolpalette/icon/color/shadow", calenhad_toolpalette_icon_color_shadow);

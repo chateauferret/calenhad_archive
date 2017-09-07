@@ -26,6 +26,9 @@ namespace calenhad {
             void provide (Legend* legend) override;
 
             void inflate (const QString& filename = _filename) override;
+            void serialize (const QString& filename) override;
+            void serialize (QDomDocument& doc) override;
+            void inflate (const QDomDocument& doc) override;
 
             QMap<QString, Legend*> all ();
 
@@ -45,12 +48,13 @@ namespace calenhad {
 
             void setDirty (const bool& dirty = true) override;
 
+
+
+
         private:
             QMap<QString, Legend*> _legends;
             bool _dirty;
             static QString _filename;
-
-            void serialise (QString filename);
 
         };
     }

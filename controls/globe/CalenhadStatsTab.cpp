@@ -5,13 +5,13 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGroupBox>
 #include "CalenhadStatsTab.h"
-#include "CalenhadGlobe.h"
+#include "CalenhadGlobeDialog.h"
 #include "CalenhadServices.h"
 #include "StatisticsService.h"
 
 using namespace calenhad::controls::globe;
 
-CalenhadStatsTab::CalenhadStatsTab (CalenhadGlobe* parent) : QWidget (parent),
+CalenhadStatsTab::CalenhadStatsTab (CalenhadGlobeDialog* parent) : QWidget (parent),
     _globe (parent) {
 
     setLayout (new QFormLayout());

@@ -103,6 +103,29 @@ namespace noise {
                 return (6.0 * a5) - (15.0 * a4) + (10.0 * a3);
             }
 
+            /// Clamps a value onto a clamping range.
+            ///
+            /// @param value The value to clamp.
+            /// @param lowerBound The lower bound of the clamping range.
+            /// @param upperBound The upper bound of the clamping range.
+            ///
+            /// @returns
+            /// - @a value if @a value lies between @a lowerBound and @a upperBound.
+            /// - @a lowerBound if @a value is less than @a lowerBound.
+            /// - @a upperBound if @a value is greater than @a upperBound.
+
+            static inline int ClampValue (int value, int lowerBound, int upperBound)
+            {
+                if (value < lowerBound) {
+                    return lowerBound;
+                } else if (value > upperBound) {
+                    return upperBound;
+                } else {
+                    return value;
+                }
+            }
+
+
         };
 
     }

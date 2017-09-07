@@ -38,15 +38,18 @@ namespace geoutils {
     class Geolocation {                // a point in spherical space
     public:
         Geolocation ();
-        Geolocation (const double& newLat, const double& newLon, const unsigned& units = Units::Radians);
+        Geolocation (const double& newLat, const double& newLon, const Units& units = Units::Radians);
         Geolocation (const Geolocation& other);
         bool operator== (const Geolocation& other) const;
         Geolocation operator+ (const Geolocation& other);
-        QString toString ();
-        double latitude;
-        double longitude;
-        double latDegrees;
-        double lonDegrees;
+        double latitude (const Units& units = Units::Radians) const;
+        double longitude (const Units& units = Units::Radians) const;
+        void setLatitude (const double& lat, const Units& units = Units::Radians);
+        void setLongitude (const double& lon, const Units& units = Units::Radians);
+    private:
+        double _latitude;
+        double _longitude;
+
     };
 
     class Cartesian {                  // a point in three-dimensional space
@@ -69,6 +72,7 @@ namespace geoutils {
         static void normalise (Cartesian& c);
         static double distSquared (const Cartesian& a, const Cartesian& b);
         static bool isNearer (const Cartesian& a, const Cartesian& b, const Cartesian& c);
+        static QString toTraditional (double ang, const unsigned& num_dec_places = 2);
 
 
     };

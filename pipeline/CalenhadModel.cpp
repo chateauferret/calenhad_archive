@@ -21,6 +21,7 @@
 #include "../libnoiseutils/nullmodule.h"
 #include "../messages/QNotificationService.h"
 #include <QGraphicsSceneMouseEvent>
+#include "../legend/LegendService.h"
 
 using namespace icosphere;
 using namespace calenhad;
@@ -34,11 +35,10 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     conn (nullptr),
     _port (nullptr),
     _author (""),
-    _title (""),
+    _title ("New model"),
     _description (""),
     _date (QDateTime::currentDateTime()),
     _controller (nullptr),
-    _nullModule (new noise::module::NullModule ()),
     _highlighted (nullptr) {
     installEventFilter (this);
 }
@@ -129,18 +129,6 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         c -> updatePath();
         update();
 
-        // if we are connecting QModules, we need to link the underlying noise modules too
-        if ((input -> portType() == QNEPort::InputPort || input -> portType() == QNEPort::ControlPort) && output -> portType() == QNEPort::OutputPort) {
-            noise::module::Module* source, * target;
-            source = ((QModule*) output -> owner()) -> module ();
-            target = ((QModule*) input -> owner()) -> module ();
-            if (target) {
-                target -> SetSourceModule (input -> index (), *source);
-            } else {
-                CalenhadServices::messages() -> message ("error", "No target owner");
-            }
-        }
-
         // tell the target owner to declare change requiring rerender
         output -> owner () -> invalidate();
 
@@ -162,13 +150,6 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
 void CalenhadModel::disconnectPorts (QNEConnection* connection) {
     if (connection -> port1()) { connection -> port1() -> initialise (); }
     if (connection -> port2()) { connection -> port2() -> initialise (); }
-
-    if (connection -> port2() -> portType() == QNEPort::InputPort || connection -> port2() -> portType() == QNEPort::OutputPort) {
-        noise::module::Module* m = ((QModule*) connection -> port2() -> owner()) -> module ();
-
-        // disconnect the modules in the libnoise engine
-        m->SetSourceModule (connection->port2 ()->index (), *_nullModule);
-    }
 
     // colour the input port to show its availability
     if (connection -> port1() -> type() != QNEPort::OutputPort) { connection -> port1() -> setHighlight (QNEPort::PortHighlight::NONE); }
@@ -370,7 +351,7 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
         _controller -> doCommand (command);
         return (QModule*) command -> node();
     } else {
-        CalenhadServices::messages() -> message ("error", "Couldn't create owner of type " + type + "\n");
+        CalenhadServices::messages() -> message ("error", "Couldn't create module of type " + type + "\n");
         return nullptr;
     }
 }
@@ -434,9 +415,6 @@ void CalenhadModel::deleteNode (QNode* node) {
 
     noise::module::Module* m = nullptr;
     QModule* module = dynamic_cast<QModule*> (node);
-    if (module) {
-        noise::module::Module* m = module -> module ();
-    }
 
     // remove the visible appartions from the display
 
@@ -447,9 +425,6 @@ void CalenhadModel::deleteNode (QNode* node) {
         }
     }
     update();
-
-    // now delete the underlying libnoise owner
-    if (m) { delete m; }
 
     _port = nullptr; // otherwise it keeps trying to do stuff to the deleted port
 }
@@ -542,6 +517,7 @@ QDomDocument CalenhadModel::serialize () {
     doc.appendChild (root);
     CalenhadServices::calculator() -> serialize (doc);
     writeMetadata (doc);
+    CalenhadServices::legends () -> serialize (doc);
     for (QModule* qm : modules()) {
         qm -> serialize (doc);
     }
@@ -594,6 +570,7 @@ void CalenhadModel::readMetadata (const QDomDocument& doc) {
 
 void CalenhadModel::inflate (const QDomDocument& doc) {
     readMetadata (doc);
+    CalenhadServices::legends() -> inflate (doc);
     QDomElement variablesElement = doc.documentElement().firstChildElement ("variables");
     CalenhadServices::calculator() -> inflate (variablesElement);
     QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("module");

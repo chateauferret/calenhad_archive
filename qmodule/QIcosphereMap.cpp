@@ -116,9 +116,10 @@ void QIcosphereMap::boundsChangeRequested() {
     if (action == _wholeWorldBoundsAction) {
         setBounds (Bounds());
     }
-    if (action == _displayedBoundsAction) {
-        setBounds (_preview -> bounds());
-    }
+//    if (action == _displayedBoundsAction) {
+//        setBounds (_preview -> bounds());
+        // TO DO set bounds from GPU-generated view
+//    }
 }
 
 void QIcosphereMap::setBounds (const icosphere::Bounds& bounds) {
@@ -170,7 +171,7 @@ void QIcosphereMap::serialize (QDomDocument& doc) {
     boundsElement.appendChild (latlonElement);
     latlonElement.setAttribute ("lat", _bounds.north());
     latlonElement.setAttribute ("_lon", _bounds.east());
-    boundsElement.setAttribute ("crossesDateline", _bounds.crossesDateLine() ? "y" : "n");
+    boundsElement.setAttribute ("crossesDateline", _bounds.crossesDateline() ? "y" : "n");
 }
 
 IcosphereModule* QIcosphereMap::module () {

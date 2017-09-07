@@ -1,8 +1,15 @@
+INCLUDE (${CMAKE_CURRENT_LIST_DIR}/projection/CMakeLists.txt)
 
 SET(MAPPING_SOURCE_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadLayer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadLayer.h
-        ${CMAKE_CURRENT_LIST_DIR}/RenderPoint.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/RenderPoint.h
-
+        ${PROJECTION_SOURCE_FILES}
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMap.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMap.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMapWidget.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMapWidget.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/Curve.h
+        ${CMAKE_CURRENT_LIST_DIR}/Curve.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CubicSpline.h
+        ${CMAKE_CURRENT_LIST_DIR}/CubicSpline.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/TerraceCurve.h
+        ${CMAKE_CURRENT_LIST_DIR}/TerraceCurve.cpp
         )

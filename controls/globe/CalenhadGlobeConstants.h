@@ -23,9 +23,7 @@ namespace calenhad {
                 NoDatum, Native, Scaled
             };
 
-            enum OverviewPreviewType {
-                WholeWorld, ExplorerBounds
-            };
+
         }
     }
 }

@@ -107,16 +107,18 @@ QNEPort* QNEConnection::port2 () const {
 }
 
 void QNEConnection::serialise (QDomDocument& doc) {
-    QDomElement connectionElement = doc.createElement ("connection");
-    doc.documentElement().appendChild (connectionElement);
-    QDomElement connectionFromElement = doc.createElement ("source");
-    connectionElement.appendChild (connectionFromElement);
-    QDomElement connectionToElement = doc.createElement ("target");
-    connectionElement.appendChild (connectionToElement);
-    connectionFromElement.setAttribute ("module", m_port1->owner () -> name());
-    connectionToElement.setAttribute ("module", m_port2->owner () -> name());
-    connectionFromElement.setAttribute ("output", m_port1 -> index());
-    connectionToElement.setAttribute ("input", m_port2 -> index());
+    if (m_port1 && m_port2) {
+        QDomElement connectionElement = doc.createElement ("connection");
+        doc.documentElement ().appendChild (connectionElement);
+        QDomElement connectionFromElement = doc.createElement ("source");
+        connectionElement.appendChild (connectionFromElement);
+        QDomElement connectionToElement = doc.createElement ("target");
+        connectionElement.appendChild (connectionToElement);
+        connectionFromElement.setAttribute ("module", m_port1->owner ()->name ());
+        connectionToElement.setAttribute ("module", m_port2->owner ()->name ());
+        connectionFromElement.setAttribute ("output", m_port1->index ());
+        connectionToElement.setAttribute ("input", m_port2->index ());
+    }
 }
 
 void QNEConnection::inflate (const QDomDocument& doc) {

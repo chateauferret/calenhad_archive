@@ -10,11 +10,16 @@
 //
 
 #include <QTest>
-#include <legend/Legend.h>
+#include "../legend/Legend.h"
 #include <preferences/preferences.h>
 #include "legend/LegendRoster.h"
 #include "../CalenhadServices.h"
 #include "QTestSuite.h"
+namespace calenhad {
+    namespace legend {
+        class Legend;
+    }
+}
 
 class LegendTest : public QTestSuite {
 Q_OBJECT
@@ -22,7 +27,7 @@ Q_OBJECT
 public:
     LegendTest();
     ~LegendTest();
-    Legend* legend;
+    calenhad::legend::Legend* legend;
     calenhad::preferences::Preferences* preferences;
     calenhad::legend::LegendRoster* roster;
     QList<calenhad::legend::LegendEntry> entries;

@@ -43,7 +43,7 @@ namespace calenhad {
         Q_OBJECT
 
         public:
-            QNode (const QString& nodeType, QWidget* parent);
+            QNode (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
             QNode (QWidget* parent) {
                  // just for now
             }
@@ -88,7 +88,7 @@ namespace calenhad {
             void closeEvent (QCloseEvent* event) override;
 
             calenhad::pipeline::CalenhadModel* model ();
-            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate, ParamValidator* validator = new AcceptAnyRubbish());
+            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator = new AcceptAnyRubbish());
             virtual bool hasParameters ();
 
             Q_PROPERTY (QString name READ name WRITE setName MEMBER _name NOTIFY nameChanged);
@@ -103,6 +103,8 @@ namespace calenhad {
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
             int id();
+
+            calenhad::nodeedit::QNEPort* output();
 
         public slots:
 
@@ -131,7 +133,9 @@ namespace calenhad {
             QTextEdit* _notesEdit;
             QToolBox* _expander;
             QList<calenhad::nodeedit::QNEPort*> _ports;
+            calenhad::nodeedit::QNEPort* _output;
             QWidget* _content;
+            int _inputCount;
 
             QMap<QString, calenhad::expressions::ExpressionWidget*> _parameters;
             virtual void addInputPorts () = 0;

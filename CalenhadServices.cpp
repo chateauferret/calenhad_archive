@@ -11,7 +11,7 @@
 #include "preferences/PreferencesService.h"
 #include "messages/QNotificationStack.h"
 #include "legend/LegendService.h"
-#include "controls/globe/ProjectionService.h"
+#include "mapping/projection/ProjectionService.h"
 #include "controls/globe/StatisticsService.h"
 using namespace calenhad;
 using namespace calenhad::preferences;
@@ -20,6 +20,7 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::legend;
 using namespace calenhad::pipeline;
 using namespace calenhad::expressions;
+using namespace calenhad::mapping::projection;
 
 PreferencesService* CalenhadServices::_preferences;
 QNotificationService* CalenhadServices::_messages;

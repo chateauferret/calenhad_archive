@@ -174,14 +174,15 @@ bool IcosphereDivider::coversTriangle (const Geolocation& a, const Geolocation& 
         Geolocation c2 = Geolocation (c.longitude < -M_PI_2 ? c.longitude : c.longitude + M_2_PI, c.latitude, Units::Radians);
         return coversTriangle (a2, b2, c2, bounds);
     }
-
-    GeoDataLatLonBox box (bounds.north(), bounds.south(), bounds.east(), bounds.west());
+    /*
     GeoDataLineString ls;
     ls.append (GeoDataCoordinates (a.longitude, a.latitude));
     ls.append (GeoDataCoordinates (b.longitude, b.latitude));
     ls.append (GeoDataCoordinates (c.longitude, c.latitude));
     GeoDataLatLonBox triangleBox = GeoDataLatLonBox::fromLineString (ls);
     return (box.intersects (triangleBox));
+     */
+    return true;
 }
 
 

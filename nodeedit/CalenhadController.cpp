@@ -317,9 +317,11 @@ void CalenhadController::actionTriggered () {
 
 void CalenhadController::doCommand (QUndoCommand* c) {
     _undoStack->push (c);
-    double z = _views->at (0) -> currentZoom ();
-    zoomInAction->setEnabled (z < 4.0);
-    zoomOutAction->setEnabled (z > 0.025);
+    if (! _views -> isEmpty ()) {
+        double z = _views->at (0)->currentZoom ();
+        zoomInAction->setEnabled (z < 4.0);
+        zoomOutAction->setEnabled (z > 0.025);
+    }
 }
 
 void CalenhadController::addParamsWidget (QToolBar* toolbar, QNode* node) {

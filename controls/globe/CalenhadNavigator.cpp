@@ -12,7 +12,7 @@
 
 using namespace calenhad::controls::globe;
 
-CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (), _active (false), _buffer (nullptr) {
+CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (parent), _active (false), _buffer (nullptr) {
 
     QPalette p;
     for (int c = 0; c < QPalette::NColorRoles; c++) {

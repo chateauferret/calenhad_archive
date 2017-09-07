@@ -7,6 +7,8 @@
 
 
 #include <QtCore/QString>
+#include <QtXml/QDomDocument>
+
 namespace calenhad {
     namespace legend {
         class Legend;
@@ -38,6 +40,10 @@ namespace calenhad {
             virtual bool isDirty () = 0;
 
             virtual void setDirty (const bool& dirty = true) = 0;
+
+            virtual void serialize (const QString& filename) = 0;
+            virtual void serialize (QDomDocument& doc) = 0;
+            virtual void inflate (const QDomDocument& doc) = 0;
         };
     }
 }

@@ -38,5 +38,8 @@
         <file>appicons/status/goosed.png</file>
         <file>appicons/status/orright.png</file>
         <file>appicons/status/query.png</file>
+        <file>shaders/map_cs.glsl</file>
+        <file>shaders/map_fs.glsl</file>
+        <file>shaders/map_vs.glsl</file>
     </qresource>
 </RCC>

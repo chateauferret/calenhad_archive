@@ -93,6 +93,8 @@ namespace calenhad {
 
             void highlightGroupAt (QPointF pos);
 
+
+
         signals:
 
             void showMessage (QString);

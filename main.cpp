@@ -1,8 +1,8 @@
 #include <iostream>
 #include <QApplication>
+#include <QtCore/QFile>
 #include "nodeedit/Calenhad.h"
 #include "pipeline/CalenhadModel.h"
-#include "httplistener.h"
 #include "icosphere/icosphere.h"
 #include "exprtk/CalculatorService.h"
 #include "messages/QNotificationStack.h"
@@ -11,13 +11,12 @@
 #include "controls/altitudemap/AltitudeMapPlot.h"
 #include "CalenhadServices.h"
 #include "legend/LegendRoster.h"
-#include "controls/globe/ProjectionService.h"
+#include "mapping/projection/ProjectionService.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #endif
 
-using namespace Marble;
 using namespace calenhad;
 using namespace calenhad::nodeedit;
 using namespace calenhad::preferences;
@@ -28,6 +27,7 @@ using namespace calenhad::legend;
 using namespace calenhad::pipeline;
 using namespace calenhad::expressions;
 using namespace calenhad::notification;
+using namespace calenhad::mapping::projection;
 
 Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
 Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
@@ -64,8 +64,6 @@ int main (int argc, char **argv) {
     LegendRoster* roster = new LegendRoster();
     CalenhadServices::provideLegends (roster);
     roster->inflate (fname);
-
-    // Gradients service (to do)
 
     // Projections service
     ProjectionService* projections = new ProjectionService();

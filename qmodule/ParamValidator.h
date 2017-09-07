@@ -27,13 +27,13 @@ namespace calenhad {
 
         class AcceptPositive : public ParamValidator {
             bool isInValidSet (const double& value) override { return value >= 0; }
-            bool isInBestSet (const double& value) override { return value >= 0; }
+            bool isInBestSet (const double& value) override { return isInValidSet (value);  }
             QString toString (const double& value) { return "Enter any positive value or zero"; }
         };
 
         class AcceptNoiseValue : public ParamValidator {
             bool isInValidSet (const double& value) override { return value >= -1 && value <= 1; }
-            bool isInBestSet (const double& value) override { return value >= -1 && value <= 1; }
+            bool isInBestSet (const double& value) override { return isInValidSet (value);  }
             QString toString (const double& value) { return "Enter any value between -1 and 1 inclusive"; }
         };
 
@@ -45,7 +45,7 @@ namespace calenhad {
 
         class AcceptAngleDegrees : public ParamValidator {
             bool isInValidSet (const double& value) override { return value >= -180 && value <= 180; }
-            bool isInBestSet (const double& value) override { return value >= -180 && value <= 180; }
+            bool isInBestSet (const double& value) override { return isInValidSet (value);  }
             QString toString (const double& value) { return "Enter any value between -1 and 1 inclusive"; }
         };
 
@@ -65,6 +65,12 @@ namespace calenhad {
             }
         protected:
             double _validMin, _validMax, _bestMin, _bestMax;
+        };
+
+        class AcceptInteger : public ParamValidator {
+            bool isInValidSet (const double& value) override { double intpart; return modf (value, &intpart) == 0.0; }
+            bool isInBestSet (const double& value) override { return isInValidSet (value); }
+            QString toString (const double& value) override { return "Only integer part of value will be used"; }
         };
 
         class PreferInteger : public ParamValidator {

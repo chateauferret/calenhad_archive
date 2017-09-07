@@ -196,3 +196,11 @@ void QNEPort::removeConnection (QNEConnection* c) {
 QString& QNEPort::portName() {
     return _portName;
 }
+
+calenhad::qmodule::QNode* QNEPort::source () {
+    if (owner() -> nodeType () == QNEPort::OutputPort) {
+        return nullptr;
+    } else {
+        return m_connections.first() -> otherEnd (this) -> owner();
+    }
+}

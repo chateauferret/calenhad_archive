@@ -19,11 +19,12 @@ find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Xml Test)
 
 set (test_SRCS
    #     geoutilstest.cpp
-   #     vertextest.cpp
         LegendTest.cpp
         LegendTest.h
-        IcosphereTest.cpp
-        IcosphereTest.h
+        ProjectionTest.cpp
+        ProjectionTest.h
+   #     IcosphereTest.cpp
+   #     IcosphereTest.h
         QTestSuite.cpp
         QTestSuite.h
         test.cpp

@@ -23,9 +23,13 @@ namespace calenhad {
     namespace legend {
         class LegendService;
     }
+    namespace mapping {
+        namespace projection {
+            class ProjectionService;
+        }
+    }
     namespace controls {
         namespace globe {
-            class ProjectionService;
             class StatisticsService;
         }
     }
@@ -39,7 +43,7 @@ namespace calenhad {
 
         static calenhad::legend::LegendService* legends ();
 
-        static calenhad::controls::globe::ProjectionService* projections ();
+        static calenhad::mapping::projection::ProjectionService* projections ();
 
         static calenhad::controls::globe::StatisticsService* statistics ();
 
@@ -53,7 +57,7 @@ namespace calenhad {
 
         static void provideLegends (calenhad::legend::LegendService* service);
 
-        static void provideProjections (calenhad::controls::globe::ProjectionService* service);
+        static void provideProjections (calenhad::mapping::projection::ProjectionService* service);
 
         static bool readXml (const QString& fname, QDomDocument& doc);
 
@@ -63,7 +67,7 @@ namespace calenhad {
         static calenhad::preferences::PreferencesService* _preferences;
         static calenhad::notification::QNotificationService* _messages;
         static calenhad::legend::LegendService* _legends;
-        static calenhad::controls::globe::ProjectionService* _projections;
+        static calenhad::mapping::projection::ProjectionService* _projections;
         static calenhad::controls::globe::StatisticsService* _statistics;
         static calenhad::pipeline::ModuleFactory* _modules;
         static calenhad::expressions::CalculatorService* _calculator;

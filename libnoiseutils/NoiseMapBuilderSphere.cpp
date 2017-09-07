@@ -30,11 +30,11 @@ void NoiseMapBuilderSphere::build () {
         // Create the sphere model.
         noise::model::Sphere sphereModel;
         sphereModel.SetModule (*_source);
-        _curLat = _bounds.south (GeoDataCoordinates::Degree);
+        _curLat = RAD2DEG * (_bounds.south());
         // Fill every point in the noise map with the output values from the model.
         for (int y = 0; y < _destHeight; y++) {
             float* pDest = _destNoiseMap -> GetSlabPtr (y);
-            _curLon = _bounds.west (GeoDataCoordinates::Degree);
+            _curLon = RAD2DEG * (_bounds.west());
 
             for (int x = 0; x < _destWidth; x++) {
                 //if thread is being interrupted, terminate the loops gracefully
@@ -65,8 +65,8 @@ void NoiseMapBuilderSphere::prepare () {
     // values from the source model.
     _destNoiseMap -> SetSize (_destWidth, _destHeight);
 
-    _xDelta = _bounds.width (GeoDataCoordinates::Degree) / (double) _destWidth;
-    _yDelta = _bounds.height (GeoDataCoordinates::Degree) / (double) _destHeight;
+    _xDelta = RAD2DEG * _bounds.width() / (double) _destWidth;
+    _yDelta = RAD2DEG * _bounds.height() / (double) _destHeight;
 
     // GeoDataLatLonBox thinks 180 degrees West is equal to 180 degrees East; so we need to remember that the actual
     // longitudinal extent around the whole globe starting and ending on this meridian is 180 degrees (2 * M_PI radians), not 0.

@@ -3,6 +3,7 @@
 //
 #include "QNode.h"
 #include <QDialog>
+#include <QString>
 #include <QCloseEvent>
 #include <iostream>
 #include "../nodeedit/qneconnection.h"
@@ -24,10 +25,10 @@ using namespace calenhad::expressions;
 //using namespace calenhad::actions;
 
 
-QNode::QNode (const QString& nodeType, QWidget* parent) : QWidget (parent),
+QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (parent),
     _model (nullptr), _dialog (nullptr), _handle (nullptr), _content (nullptr), _contentLayout (nullptr),
-    _nodeType (nodeType),
-    _name ("New " + nodeType) {
+    _nodeType (nodeType), _inputCount (inputs),
+    _name ("New_" + nodeType) {
 
 }
 
@@ -79,7 +80,12 @@ void QNode::initialise() {
 
     // when we change panels, move the focus to the newly-shown panel - this removes the focus from the parameter controls and causes their
     // values to be updated to the underlying noise owner data
-    connect (_expander, &QToolBox::currentChanged, this, [=] () { _expander -> currentWidget() -> findChild<QWidget*>() -> setFocus(); });
+    connect (_expander, &QToolBox::currentChanged, this, [=] () {
+        QWidget* w = _expander -> currentWidget() -> findChild<QWidget*>();
+        if (w) {
+            w -> setFocus();
+        }
+    });
 }
 
 QString QNode::name() {
@@ -89,7 +95,8 @@ QString QNode::name() {
 void QNode::setName (const QString& name) {
     if (! (name.isNull()) && (name != _name)) {
         _name = name;
-        _nameEdit -> setText (name);
+        _name = _name.replace (" ", "_");
+        _nameEdit -> setText (_name);
         update();
         if (_dialog) {
             _dialog -> setWindowTitle (_name + " (" + nodeType () + ")");
@@ -127,6 +134,9 @@ QNodeBlock* QNode::handle() {
 
 void QNode::addPort (QNEPort* port) {
     _ports.append (port);
+    if (port -> portType () == QNEPort::OutputPort) {
+        _output = port;
+    }
 }
 
 QList<QNEPort*> QNode::ports() {
@@ -220,8 +230,14 @@ void QNode::invalidate() {
 void QNode::setModel (CalenhadModel* model) {
     if (! _model) {
         _model = model;
+        for (ExpressionWidget* widget : _parameters.values ()) {
+            connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
+            connect (widget, &ExpressionWidget::compiled, [=] (const double& v) { emit nodeChanged(); });
+            connect (widget, &ExpressionWidget::errorFound, this, [=] () { emit nodeChanged(); });
+        }
+
         emit nodeChanged();
-        //_model -> controller () -> addParamsWidget (_dialog, this);
+
     } else {
         std::cout << "Can't reassign owner to another model";
     }
@@ -366,7 +382,7 @@ QNodeGroup* QNode::group () {
     return _group;
 }
 
-ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, std::function<void (const double& value)> onUpdate, ParamValidator* validator) {
+ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator) {
 
     // create a panel to hold the parameter widgets, if we haven't done this already
     if (! (_content)) {
@@ -375,9 +391,7 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
 
     ExpressionWidget* widget = new ExpressionWidget (this);
     _contentLayout -> addRow (label, widget);
-    connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
-    connect (widget, &ExpressionWidget::compiled, [=] (const double& v) { onUpdate (v); emit nodeChanged(); });
-    connect (widget, &ExpressionWidget::errorFound, this, [=] () { emit nodeChanged(); });
+
     _parameters.insert (name, widget);
     widget -> setValidator (validator);
     widget -> setText (QString::number (initial));
@@ -413,4 +427,8 @@ void QNode::addContentPanel() {
 
 int QNode::id () {
     return _id;
+}
+
+calenhad::nodeedit::QNEPort* QNode::output () {
+    return _output;
 }

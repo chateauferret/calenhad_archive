@@ -17,18 +17,18 @@ namespace calenhad {
     namespace controls {
         namespace globe {
 
-            class CalenhadGlobe;
+            class CalenhadGlobeDialog;
 
             class CalenhadStatsTab : public QWidget {
             public:
-                CalenhadStatsTab (CalenhadGlobe* parent);
+                CalenhadStatsTab (CalenhadGlobeDialog* parent);
 
                 virtual ~CalenhadStatsTab ();
 
                 void showEvent (QShowEvent* e) override;
 
             protected:
-                CalenhadGlobe* _globe;
+                CalenhadGlobeDialog* _globe;
                 QLabel* _extremesMapLabel, * _extremesGlobeLabel;
                 QLabel* _renderTimeLabel, * _renderTimePerPixelLabel;
                 QLabel* _pixelsInMapLabel;

@@ -11,6 +11,9 @@
 #include "../controls/altitudemap/AltitudeMapConstants.h"
 
 namespace calenhad {
+    namespace mapping {
+        class Curve;
+    }
     namespace controls {
         namespace altitudemap {
             class AltitudeMapEditor;
@@ -38,8 +41,6 @@ namespace calenhad {
 
             void addEntry (const double& in, const double& out = 0);
 
-            void removeEntry (const double& key);
-
         public slots:
 
             void updateEntries ();
@@ -52,15 +53,14 @@ namespace calenhad {
 
         protected:
             calenhad::controls::altitudemap::AltitudeMapEditor* _editor;
-            QMap<calenhad::controls::altitudemap::CurveType, noise::module::Module*> _modules;
-
-
+            QMap<calenhad::controls::altitudemap::CurveType, calenhad::mapping::Curve*> _curves;
             void clearMap ();
 
             QString _oldXml;
 
             void preserve ();
 
+            mapping::Curve* _curve;
         };
     }
 }

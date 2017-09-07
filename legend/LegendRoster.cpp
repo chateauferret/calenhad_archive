@@ -25,7 +25,11 @@ LegendRoster::~LegendRoster() {
 }
 
 Legend* LegendRoster::find (const QString& name) {
-    return _legends.find (name).value ();
+    if (exists (name)) {
+        return _legends.find (name).value ();
+    } else {
+        return defaultLegend();
+    }
 }
 
 bool LegendRoster::exists (const QString& name) {
@@ -41,15 +45,18 @@ void LegendRoster::inflate (const QString& filename) {
     _filename = filename;
     QDomDocument doc;
     if (CalenhadServices::readXml (_filename, doc)) {
-        QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
-        for (int i = 0; i < legendNodes.size (); i++) {
-            Legend* legend = new Legend();
-            legend -> inflate (legendNodes.item (i));
-            provide (legend);
-        }
-        _dirty = false;
+        inflate (doc);
     }
+}
 
+void LegendRoster::inflate (const QDomDocument& doc) {
+    QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
+    for (int i = 0; i < legendNodes.size (); i++) {
+        Legend* legend = new Legend();
+        legend -> inflate (legendNodes.item (i));
+        provide (legend);
+    }
+    _dirty = false;
 }
 
 QMap<QString, Legend*> LegendRoster::all () {
@@ -79,7 +86,7 @@ bool LegendRoster::remove (const QString& name) {
 }
 
 void LegendRoster::commit () {
-    serialise (_filename);
+    serialize (_filename);
 }
 
 void LegendRoster::rollback () {
@@ -87,13 +94,7 @@ void LegendRoster::rollback () {
     inflate (_filename);
 }
 
-void LegendRoster::serialise (QString filename) {
-
-    QFile file (filename);
-    QTextStream ds (&file);
-
-
-    QDomDocument doc;
+void LegendRoster::serialize (QDomDocument& doc) {
     QDomElement root = doc.createElement ("legends");
     doc.appendChild (root);
 
@@ -101,6 +102,16 @@ void LegendRoster::serialise (QString filename) {
         legend -> serialise (doc);
     }
 
+}
+
+void LegendRoster::serialize (const QString& filename) {
+
+    QFile file (filename);
+    QTextStream ds (&file);
+
+
+    QDomDocument doc;
+    serialize (doc);
     std::cout.flush();
     if (! file.open( QIODevice::WriteOnly | QIODevice::Text )) {
         CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
@@ -118,9 +129,9 @@ void LegendRoster::serialise (QString filename) {
 }
 
 Legend* LegendRoster::defaultLegend() {
-  //  if (exists ("default")) {
-  //      return find ("default)");
-  //  }
+    if (exists ("default")) {
+        return find ("default");
+    }
 
     if (legendCount() > 0) {
         return _legends.first();
@@ -128,6 +139,7 @@ Legend* LegendRoster::defaultLegend() {
 
     // if there are no legends at all, make one up and add it to the roster
     Legend* legend = new Legend();
+    _legends.insert ("default", legend);
     legend -> addEntry (-1.0, Qt::black);
     legend -> addEntry (1.0, Qt::white);
     legend -> setName ("default");

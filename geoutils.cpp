@@ -8,44 +8,45 @@
 #include <cmath>
 #include <math.h>
 #include <QtGui/QtGui>
+#include <sstream>
 namespace geoutils {
 
     Geolocation::Geolocation () : Geolocation (0.0, 0.0, Units::Radians) {}
 
-    Geolocation::Geolocation (const double& newLat, const double& newLon, const unsigned& units) {
-        if (units == Units::Degrees) {
-            latitude = degreesToRadians (newLat);
-            longitude = degreesToRadians (newLon);
-            latDegrees = newLat;
-            lonDegrees = newLon;
-        } else {
-            latitude = newLat;
-            longitude = newLon;
-            latDegrees = radiansToDegrees (newLat);
-            lonDegrees = radiansToDegrees (newLon);
-        }
+    Geolocation::Geolocation (const double& newLat, const double& newLon, const Units& units) {
+        setLatitude (newLat, units);
+        setLongitude (newLon, units);
     }
 
-    Geolocation::Geolocation (const Geolocation& other) : Geolocation (other.latitude, other.longitude, Units::Radians) {
-        latDegrees = other.latDegrees;
-        lonDegrees = other.lonDegrees;
+    Geolocation::Geolocation (const Geolocation& other) : Geolocation (other._latitude, other._longitude, Units::Radians) {
+
     }
 
     bool Geolocation::operator== (const Geolocation& other) const {
-        return latitude == other.latitude && longitude == other.longitude;
+        return _latitude == other._latitude && _longitude == other._longitude;
     }
 
     Geolocation Geolocation::operator+ (const Geolocation& other) {
         Geolocation g = other;
-        g.latitude = latitude + other.latitude;
-        g.longitude = longitude + other.longitude;
-        g.latDegrees = latDegrees + other.latDegrees;
-        g.lonDegrees = lonDegrees + other.lonDegrees;
+        g._latitude = _latitude + other._latitude;
+        g._longitude = _longitude + other._longitude;
         return g;
     }
 
-    QString Geolocation::toString () {
-        return ""; // to do
+    double Geolocation::latitude (const Units& units) const {
+        return units == Units::Radians ? _latitude : radiansToDegrees (_latitude);
+    }
+
+    double Geolocation::longitude (const Units& units) const {
+        return units == Units::Radians ? _longitude : radiansToDegrees (_longitude);
+    }
+
+    void Geolocation::setLatitude (const double& lat, const Units& units) {
+        _latitude = units == Units::Radians ? lat : degreesToRadians (lat);
+    }
+
+    void Geolocation::setLongitude (const double& lon, const Units& units) {
+        _longitude = units == Units::Radians ? lon : degreesToRadians (lon);
     }
 
     Cartesian::Cartesian () : Cartesian (0.0, 0.0, 1.0) {}
@@ -90,21 +91,21 @@ namespace geoutils {
         if (from == unto) {
             return result;
         } else {
-            if (from.longitude == unto.longitude) {
-                if (from.latitude > unto.latitude) {
+            if (from.longitude() == unto.longitude()) {
+                if (from.latitude() > unto.latitude()) {
                     result = M_PI;
                 }
             } else {
                 double c = acos (
-                        sin (unto.latitude) * sin (from.latitude) + cos (unto.latitude) * cos (from.latitude) * cos ((unto.longitude - from.longitude)));
-                result = asin (cos (unto.latitude) * sin ((unto.longitude - from.longitude)) / sin (c));
+                        sin (unto.latitude()) * sin (from.latitude()) + cos (unto.latitude()) * cos (from.latitude()) * cos ((unto.longitude() - from.longitude())));
+                result = asin (cos (unto.latitude()) * sin ((unto.longitude() - from.longitude())) / sin (c));
             }
 
-            if ((unto.latitude < from.latitude && unto.longitude < from.longitude)) {
+            if ((unto.latitude() < from.latitude() && unto.longitude() < from.longitude())) {
                 result = M_PI - result;
-            } else if ((unto.latitude < from.latitude && unto.longitude > from.longitude)) {
+            } else if ((unto.latitude() < from.latitude() && unto.longitude() > from.longitude())) {
                 result = M_PI - result;
-            } else if ((unto.latitude > from.latitude && unto.longitude < from.longitude)) {
+            } else if ((unto.latitude() > from.latitude() && unto.longitude() < from.longitude())) {
                 result += 2 * M_PI;
             }
         }
@@ -134,7 +135,62 @@ namespace geoutils {
         //z = sin (g.latitude);
         GeographicLib::Geocentric gc = GeographicLib::Geocentric (1, 0);
         double x, y, z;
-        gc.Forward (g.latDegrees, g.lonDegrees, 0, x, y, z);
+        gc.Forward (g.latitude (Units::Degrees), g.longitude (Units::Degrees), 0, x, y, z);
         return Cartesian (x, y, z);
     }
+
+
+    QString Math::toTraditional (double ang, const unsigned& num_dec_places) {
+        bool neg (false);
+        if (ang < 0.0) {
+            neg = true;
+            ang = -ang;
+        }
+
+        int deg = (int) ang;
+        double frac = ang - (double) deg;
+
+        frac *= 60.0;
+
+        int min = (int) frac;
+
+        frac = frac - (double) min;
+
+        // fix the DDD MM 60 case
+        // TODO: nearbyint isn’t alway available (Visual C++, for example)
+        double sec = nearbyint (frac * 600000.0);
+        sec /= 10000.0;
+
+        if (sec >= 60.0) {
+            min++;
+            sec -= 60.0;
+        }
+
+        std::ostringstream oss;
+
+        if (neg) {
+            oss << "-";
+        }
+
+//  TODO: allow user to define delimiters separating degrees, minutes, and seconds.
+        oss.setf (std::ios::fixed, std::ios::floatfield);
+
+        oss << deg << "°";
+        oss.fill ('0');
+        oss.width (2);
+        oss << min << "\'";
+        if (num_dec_places == 0) {
+            oss.width (2);
+            oss.precision (0);
+        } else {
+            oss.width (num_dec_places + 3);
+            oss.precision (num_dec_places);
+        }
+        oss << sec
+            << "\"";
+
+        return QString::fromStdString (oss.str ());
+    }
+
+
 } // namespace geoutils

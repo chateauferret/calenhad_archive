@@ -91,6 +91,8 @@ namespace calenhad {
 
 			void setHighlight (const PortHighlight& highlight);
 
+			calenhad::qmodule::QNode* source();
+
 			Q_PROPERTY (QString name
 								READ
 										portName

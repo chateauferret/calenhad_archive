@@ -43,7 +43,8 @@ QColor Legend::lookup (const double& index) {
         std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
             return entry.first <= index;
         });
-        QColor color = interpolateColors (i, --i, index);
+        std::map<double, QColor>::iterator j = i;
+        QColor color = interpolateColors (i, --j, index);
         return color;
     } else {
         std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
@@ -179,13 +180,14 @@ QString Legend::name () {
 
 void Legend::inflate (const QDomNode& n) {
     if (n.isElement()) {
-
+        clear ();
         QDomElement e = n.toElement ();
         QString legendType = e.attribute ("type");
 
         QDomNode nameNode = e.firstChildElement ("name");
         QString name = nameNode.firstChild ().nodeValue ();
         _name = name;
+
         setInterpolated (legendType.toLower () == "gradient");
         QDomNode notesNode = e.firstChildElement ("notes");
         QString notes = notesNode.nodeValue ();
@@ -201,6 +203,9 @@ void Legend::inflate (const QDomNode& n) {
                 addEntry (index, c);
             }
         }
+
+
+
     }
 }
 

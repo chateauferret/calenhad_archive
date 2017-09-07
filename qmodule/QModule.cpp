@@ -8,10 +8,12 @@
 #include "../nodeedit/qneport.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../controls/globe/CalenhadPreview.h"
-#include "../controls/QNoiseMapViewer.h"
 #include "../CalenhadServices.h"
 #include "../legend/LegendService.h"
+#include "../legend/Legend.h"
+#include "../pipeline/ModuleFactory.h"
+#include <QMenu>
+#include <controls/globe/CalenhadGlobeDialog.h>
 
 using namespace icosphere;
 using namespace calenhad::qmodule;
@@ -23,16 +25,15 @@ using namespace calenhad::legend;
 
 
 int QModule::seed = 0;
-noise::NoiseQuality QModule::noiseQuality = noise::NoiseQuality::QUALITY_STD;
 
-QModule::QModule (const QString& nodeType, noise::module::Module* m, QWidget* parent) : QNode (nodeType, parent), _module (m) {
+QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
-    setupPreview();
+
 }
 
 QModule::~QModule () {
-    if (_module) { delete _module; _module = nullptr; }
+
 }
 
 void QModule::initialise() {
@@ -41,26 +42,32 @@ void QModule::initialise() {
     // all modules have an output
     QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
     addPort (output);
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    _contextMenu = new QMenu (this);
+    QAction* globeAction = new QAction ("Show globe");
+    connect (globeAction, &QAction::triggered, this, &QModule::showGlobe);
+    _contextMenu -> addAction (globeAction);
+}
+
+void QModule::showGlobe() {
+    CalenhadGlobeDialog* globe = new CalenhadGlobeDialog (this, this);
+    globe -> initialise();
+    globe -> show();
 }
 
 void QModule::setupPreview() {
-    // preview panel
-    _preview = new QNoiseMapViewer (this, this);
+    _preview = new CalenhadMapView (this);
     _preview -> setSource (this);
     _previewIndex = addPanel (tr ("Preview"), _preview);
+    connect (_preview, &QWidget::customContextMenuRequested, this, &QModule::showContextMenu);
     std::cout << "Preview " << _previewIndex << "\n";
-    _preview -> initialise();
-    connect (this, &QNode::nodeChanged, _preview, &CalenhadPreview::render);
 }
 
-
-std::shared_ptr<QImage> QModule::overview() {
-    return _preview -> image();
+void QModule::showContextMenu (const QPoint& point) {
+    std::cout << "Show Context menu\n";
+    _contextMenu -> exec (QCursor::pos());
 }
 
-noise::module::Module* QModule::module () {
-    return _module;
-}
 
 void QModule::addInputPorts() {
     // find the input configuration from the libnoiseutils owner and create ports to match
@@ -69,10 +76,9 @@ void QModule::addInputPorts() {
     // if there are > 3 inputs, 1 is data and the rest are controls
     int portType;
     QString name;
-    // if there is no module (yet), assume one input port (this fits AltitudeMap, may be bollocks in new cases where module selection is dynamic)
-    int inputs = _module ? _module -> GetSourceModuleCount() : 1;
-    for (int i = 0; i < inputs; i++) {
-        if (inputs < 3 || i == 0 || (i == 1 && inputs == 3)) {
+
+    for (int i = 0; i < _inputCount; i++) {
+        if (_inputCount < 3 || i == 0 || (i == 1 && _inputCount == 3)) {
             name = "Input " + QString::number (i + 1);
             portType = QNEPort::InputPort;
         } else {
@@ -86,11 +92,14 @@ void QModule::addInputPorts() {
 
 void QModule::inflate (const QDomElement& element) {
     QNode::inflate (element);
+    QString legendName = element.attribute ("legend", "default");
+    _legend = CalenhadServices::legends() -> find (legendName);
     // position is retrieved in CalenhadModel
 }
 
 void QModule::serialize (QDomDocument& doc) {
     QNode::serialize (doc);
+    _element.setAttribute ("legend", _legend -> name());
     QDomElement positionElement = doc.createElement ("position");
     _element.appendChild (positionElement);
     positionElement.setAttribute ("y", handle() -> scenePos().y());
@@ -104,6 +113,7 @@ void QModule::invalidate() {
 
 void QModule::setModel (CalenhadModel* model) {
     QNode::setModel (model);
+    setupPreview();
 }
 
 void QModule::setLegend (Legend* legend) {
@@ -123,4 +133,8 @@ bool QModule::isComplete() {
     bool complete = QNode::isComplete();
     _expander -> setItemEnabled (_previewIndex, complete);
     return complete;
+}
+
+void QModule::contextMenuEvent (QContextMenuEvent* e) {
+    _contextMenu -> exec();
 }

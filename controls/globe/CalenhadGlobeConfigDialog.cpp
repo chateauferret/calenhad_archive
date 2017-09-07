@@ -9,7 +9,7 @@
 #include <QFormLayout>
 #include <QTextEdit>
 #include <QtWidgets/QDialogButtonBox>
-#include "CalenhadGlobe.h"
+#include "CalenhadGlobeDialog.h"
 #include "CalenhadGlobeConfigDialog.h"
 #include "CalenhadServices.h"
 #include "CalenhadStatsTab.h"
@@ -17,14 +17,15 @@
 #include "../../legend/LegendManager.h"
 #include "../../legend/LegendService.h"
 #include <marble/AbstractProjection.h>
-#include "ProjectionService.h"
+#include "mapping/projection/ProjectionService.h"
 #include <QtWidgets/QMessageBox>
+#include "qmodule/QModule.h"
 
 using namespace calenhad::controls::globe;
 using namespace calenhad::legend;
-using namespace Marble;
+using namespace calenhad::mapping::projection;
 
-CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : QDialog (), _parent (parent) {
+CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* parent) : QDialog (), _parent (parent) {
     setLayout (new QVBoxLayout ());
 
     QTabWidget* tabs = new QTabWidget (this);
@@ -98,12 +99,12 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
     tabs->addTab (projectionTab, "&Projection");
 
     _projectionCombo = new QComboBox (projectionTab);
-    QMap<QString, Projection> m = CalenhadServices::projections ()->all ();
+    QMap<QString, Projection*> m = CalenhadServices::projections() -> all();
     for (QString name : m.keys ()) {
         _projectionCombo->addItem (name);
-        if (parent->projection () == m.value (name)) {
-            _projectionCombo->setCurrentText (name);
-        }
+        //if (parent->projection () == m.value (name)) {
+        //    _projectionCombo->setCurrentText (name);
+        //}
     }
     ((QFormLayout*) projectionTab->layout ())->addRow ("Projection", _projectionCombo);
 
@@ -120,7 +121,7 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobe* parent) : Q
 
 void CalenhadGlobeConfigDialog::initialise() {
     CalenhadServices::legends() -> setDirty (false);
-    _mouseSensitivitySlider -> setValue (_parent -> sensitivity());
+    _mouseSensitivitySlider -> setValue (_parent -> mapWidget() -> sensitivity());
     _dragModeCombo -> setCurrentText ("Do nothing");
     _doubleClickModeCombo -> setCurrentText ("Do nothing");
     _mouseSensitivitySlider -> setEnabled (false);
@@ -129,22 +130,21 @@ void CalenhadGlobeConfigDialog::initialise() {
     if (_parent->doubleClickMode() == CalenhadGlobeDoubleClickMode::Goto) { _doubleClickModeCombo -> setCurrentText ("Go to"); _mouseSensitivitySlider -> setEnabled (true); }
     if (_parent->doubleClickMode() == CalenhadGlobeDoubleClickMode::Place) { _doubleClickModeCombo -> setCurrentText ("Describe place"); _mouseSensitivitySlider -> setEnabled (true); }
     _overviewCheck -> setChecked (_parent -> isOverviewVisible());
-    _scaleCheck -> setChecked (_parent -> isFloatItemVisible ("scalebar"));
+    _scaleCheck -> setChecked (_parent -> isScaleVisible());
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent -> isCompassVisible());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
-    _legendManager -> setCurrentLegend (_parent -> legend());
-    switch (_parent -> coordinatesFormat()) {
+    _legendManager -> setCurrentLegend (_parent -> mapWidget() -> source () -> legend());
+    switch (_parent -> mapWidget() -> coordinatesFormat()) {
         case (CoordinatesFormat::NoCoordinates) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
         case (CoordinatesFormat::Decimal) : { _tooltipOptionCombo -> setCurrentText ("Decimal"); break; }
         case (CoordinatesFormat::Traditional) : { _tooltipOptionCombo -> setCurrentText ("Traditional"); break; }
     }
-    switch (_parent -> datumFormat()) {
+    switch (_parent -> mapWidget() -> datumFormat()) {
         case (DatumFormat::NoDatum) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
         case (DatumFormat::Native) : { _tooltipOptionCombo -> setCurrentText ("Native"); break; }
         case (DatumFormat::Scaled) : { _tooltipOptionCombo -> setCurrentText ("Scale"); break; }
     }
-
 }
 
 CalenhadGlobeConfigDialog::~CalenhadGlobeConfigDialog () {
@@ -157,7 +157,7 @@ bool CalenhadGlobeConfigDialog::zoomBarCheckState() { return _zoomBarCheck -> is
 bool CalenhadGlobeConfigDialog::compassCheckState () { return _compassCheck -> isChecked(); }
 bool CalenhadGlobeConfigDialog::graticuleCheckState () { return _graticuleCheck -> isChecked(); }
 double CalenhadGlobeConfigDialog::mouseSensitivity() { return _mouseSensitivitySlider -> value(); }
-Projection CalenhadGlobeConfigDialog::selectedProjection() { return CalenhadServices::projections() -> fetch (_projectionCombo -> currentText()); }
+Projection* CalenhadGlobeConfigDialog::selectedProjection() { return CalenhadServices::projections() -> fetch (_projectionCombo -> currentText()); }
 
 CalenhadGlobeDragMode CalenhadGlobeConfigDialog::dragMode () {
     if (_dragModeCombo->currentText () == "Pan") { return CalenhadGlobeDragMode::Pan; }

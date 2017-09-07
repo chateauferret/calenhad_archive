@@ -8,6 +8,8 @@
 #include "NoiseConstants.h"
 #include "NoiseMapBuilder.h"
 #include <marble/GeoDataLatLonBox.h>
+#include "../icosphere/Bounds.h"
+
 namespace calenhad {
     namespace pipeline {
         class ImageRenderJob;
@@ -48,7 +50,7 @@ namespace noise {
             /// Returns the boundary of the spherical noise map.
             ///
             /// @returns The boundary of the noise map, in degrees.
-            Marble::GeoDataLatLonBox bounds () const {
+            icosphere::Bounds bounds () const {
                 return _bounds;
             }
 
@@ -57,14 +59,14 @@ namespace noise {
             /// Sets the coordinate boundaries of the noise map.
             ///
             /// @throw noise::ExceptionInvalidParam See the preconditions.
-            void SetBounds (Marble::GeoDataLatLonBox bounds) {
+            void SetBounds (icosphere::Bounds bounds) {
                 _bounds = bounds;
             }
 
         protected:
 
             /// Boundary of the spherical noise map, in degrees.
-            Marble::GeoDataLatLonBox _bounds;
+            icosphere::Bounds _bounds;
 
             double _curLat, _curLon, _xDelta, _yDelta;
             calenhad::pipeline::ImageRenderJob* _job;

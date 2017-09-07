@@ -10,6 +10,7 @@
 #include <memory>
 #include <QtTest/QTest>
 #include <icosphere/IcosphereModule.h>
+#include <libnoise/module/perlin.h>
 #include "IcosphereTest.h"
 #include "icosphere/icosphere.h"
 #include "../icosphere/icosphere.h"
@@ -22,6 +23,9 @@ using namespace noise::module;
 using namespace icosphere::test;
 using namespace calenhad;
 using namespace calenhad::legend;
+using namespace calenhad::preferences;
+ using namespace noise::module;
+
 IcosphereTest::IcosphereTest() {
 
 }
@@ -178,7 +182,7 @@ void IcosphereTest::icosphereBoundsTest() {
     Icosphere* ico = new Icosphere (8);
     ico->assemble (bounds);
     qDebug() << "Estimate: " << bounds.estimateVertexCount (8);
-    QCOMPARE (bounds.crossesDateLine(), crossesDateline);
+    QCOMPARE (bounds.crossesDateline(), crossesDateline);
     QCOMPARE (ico -> vertexCount(), (unsigned) count);
     delete ico;
 

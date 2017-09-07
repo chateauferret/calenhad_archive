@@ -6,12 +6,10 @@ SET(CONTROLS_SOURCE_FILES
         ${ALTITUDEMAP_SOURCE_FILES}
         ${CMAKE_CURRENT_LIST_DIR}/QExpander.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QExpander.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseMapViewer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QNoiseMapViewer.h
-        ${CMAKE_CURRENT_LIST_DIR}/globe/QNoiseMapExplorer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/globe/QNoiseMapExplorer.h
-        ${CMAKE_CURRENT_LIST_DIR}/globe/CalenhadGlobe.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/globe/CalenhadGlobe.h
+        #  ${CMAKE_CURRENT_LIST_DIR}/globe/QNoiseMapExplorer.cpp
+      #  ${CMAKE_CURRENT_LIST_DIR}/globe/QNoiseMapExplorer.h
+       # ${CMAKE_CURRENT_LIST_DIR}/globe/CalenhadGlobeDialog.cpp
+       # ${CMAKE_CURRENT_LIST_DIR}/globe/CalenhadGlobeDialog.h
         ${CMAKE_CURRENT_LIST_DIR}/QxtGlobal.h
         ${CMAKE_CURRENT_LIST_DIR}/QIconPalette.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QIconPalette.h
@@ -21,4 +19,6 @@ SET(CONTROLS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/FlowLayout.h
         ${CMAKE_CURRENT_LIST_DIR}/QColoredIcon.h
         ${CMAKE_CURRENT_LIST_DIR}/QColoredIcon.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/TextEdit.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/TextEdit.h
         )

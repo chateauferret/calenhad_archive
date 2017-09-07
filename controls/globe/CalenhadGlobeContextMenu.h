@@ -10,15 +10,24 @@
 #include <marble/MarbleGlobal.h>
 #include "CalenhadGlobeConstants.h"
 namespace calenhad {
+    namespace mapping {
+        namespace projection {
+            class Projection;
+        }
+    }
+}
+
+using namespace calenhad::mapping::projection;
+namespace calenhad {
     namespace controls {
         namespace globe {
 
-            class CalenhadGlobe;
+            class CalenhadGlobeDialog;
 
             class CalenhadGlobeContextMenu : public QMenu {
             Q_OBJECT
             public:
-                CalenhadGlobeContextMenu (CalenhadGlobe* parent);
+                CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent);
 
                 virtual ~CalenhadGlobeContextMenu ();
 
@@ -32,8 +41,6 @@ namespace calenhad {
 
                 void showZoomSlider (const bool&);
 
-                void setFloatItemVisible (const bool&);
-
                 void showNavigator (const bool&);
 
                 void showGraticule (const bool&);
@@ -42,10 +49,10 @@ namespace calenhad {
 
                 void doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&);
 
-                void projectionSelected (const Marble::Projection&);
+                void projectionSelected (QString projection);
 
             protected:
-                CalenhadGlobe* _parent;
+                CalenhadGlobeDialog* _parent;
                 QMenu* _mouseDragMenu;
                 QAction* _panAction;
                 QAction* _zoomAction;
@@ -69,7 +76,6 @@ namespace calenhad {
                 void setDoubleClickMode (const bool& enable);
 
                 void projectionSelected (const bool& selected);
-
 
             };
         }

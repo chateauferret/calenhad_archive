@@ -6,7 +6,6 @@
 #define CALENHAD_QMODULE_H
 
 
-#include <libnoise/module/module.h>
 #include <QWidget>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QToolBox>
@@ -15,11 +14,9 @@
 #include <QUuid>
 
 #include <memory>
+#include <controls/globe/CalenhadMapView.h>
 #include "QNode.h"
 
-namespace Marble {
-    class GeoDataLatLonAltBox;
-}
 
 namespace calenhad {
     namespace legend {
@@ -33,7 +30,9 @@ namespace calenhad {
         class QNotificationFactory;
     }
     namespace controls {
-        class QNoiseMapViewer;
+        namespace globe {
+            class CalenhadMapView;
+        }
     }
     namespace qmodule {
 
@@ -41,8 +40,8 @@ namespace calenhad {
         Q_OBJECT
         Q_ENUMS (ModuleType)
         public:
-            QModule (const QString& nodeType, noise::module::Module* m, QWidget* parent = 0);
-            QModule (noise::module::Module* m, QWidget* parent) : QNode ("Perlin", parent) { }
+            QModule (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
+
             virtual ~QModule ();
 
             virtual void inflate (const QDomElement& element) override;
@@ -50,9 +49,6 @@ namespace calenhad {
             virtual void serialize (QDomDocument& doc) override;
 
             static int seed;
-            static noise::NoiseQuality noiseQuality;
-
-            virtual noise::module::Module* module ();
 
             // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.
             // If it returns false, rendering does not take place.
@@ -64,32 +60,33 @@ namespace calenhad {
 
             calenhad::legend::Legend* legend ();
 
-            std::shared_ptr<QImage> overview ();
+            void showContextMenu (const QPoint& point);
             bool isComplete() override;
+
         public slots:
             void setupPreview ();
             void invalidate () override;
-
+            void showGlobe ();
         protected:
+
+            virtual void contextMenuEvent (QContextMenuEvent* e) override;
 
             virtual void addInputPorts ();
 
             void initialise () override;
 
             QFormLayout* _previewLayout;
-            calenhad::controls::QNoiseMapViewer* _preview;
-            noise::module::Module* _module;
+            calenhad::controls::globe::CalenhadMapView* _preview;
 
             int _previewIndex;
             calenhad::legend::Legend* _legend;
 
-            bool _renderRequested;
+            QMenu* _contextMenu;
 
         protected slots:
 
 
-
-
+;
         };
     }
 }

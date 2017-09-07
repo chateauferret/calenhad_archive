@@ -59,7 +59,7 @@ void AltitudeMapPlot::setEntries (const QVector<QPointF>& entries) {
     _curve -> setStyle (QwtPlotCurve::Lines);
     _curve -> setRenderHint (QwtPlotItem::RenderAntialiased, true);
 
-    if (_curveType == CurveType::AltitudeCurve) {
+    if (_curveType == CurveType::Altitude) {
         _curve -> setSamples (_entries);
     } else {
         _curve -> setSamples (remapTerrace());
@@ -80,7 +80,7 @@ QVector<QPointF> AltitudeMapPlot::remapTerrace() {
 }
 
 QVector<QPointF> AltitudeMapPlot::getEntries () {
-    if (_curveType == CurveType::AltitudeCurve) {
+    if (_curveType == CurveType::Altitude) {
         return _entries;
     } else {
         return remapTerrace();
@@ -225,7 +225,7 @@ void AltitudeMapPlot::sortEntries (QVector<QPointF>& entries) {
 
 void AltitudeMapPlot::setCurveType (CurveType type) {
     _curveType = type;
-    if (type == CurveType::AltitudeCurve) {
+    if (type == CurveType::Altitude) {
         AltitudeMapFitter* f = new AltitudeMapFitter();
         _fitter = f;
         f -> setSplineSize (_resolution);

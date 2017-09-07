@@ -3,15 +3,15 @@
 //
 
 #include "CalenhadGlobeContextMenu.h"
-#include "CalenhadGlobe.h"
+#include "CalenhadGlobeDialog.h"
 #include "CalenhadServices.h"
-#include <marble/AbstractProjection.h>
-#include "ProjectionService.h"
+#include "../../mapping/projection/ProjectionService.h"
+#include "../../mapping/projection/Projection.h"
 
 using namespace calenhad::controls::globe;
-using namespace Marble;
+using namespace calenhad::mapping::projection;
 
-CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobe* parent) : QMenu(), _parent (parent) {
+CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent) : QMenu(), _parent (parent) {
 
     _showOverviewMapAction = new QAction ("Overview map", this);
     _showOverviewMapAction->setStatusTip ("Toggle the display of the overview map");
@@ -24,7 +24,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobe* parent) : QMe
     _showScaleAction->setCheckable (true);
     _showScaleAction->setData ("scalebar");
     addAction (_showScaleAction);
-    connect (_showScaleAction, SIGNAL (toggled (bool)), this, SIGNAL (setFloatItemVisible (const bool&)));
+    connect (_showScaleAction, SIGNAL (toggled (bool)), this, SIGNAL (setScaleVisible (const bool&)));
 
     _showZoomSliderAction = new QAction ("Zoom bar", this);
     _showZoomSliderAction->setStatusTip ("Toggle the display of the zoom bar");
@@ -119,7 +119,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobe* parent) : QMe
     addMenu (_projectionMenu);
 
     _projectionActions = new QActionGroup (this);
-    QMap<QString, Marble::Projection> m = CalenhadServices::projections() -> all ();
+    QMap<QString, Projection*> m = CalenhadServices::projections() -> all ();
      for (QString key : m.keys()) {
          QAction* action = new QAction (key, this);
          action -> setToolTip ("Change projection to " + key);
@@ -145,7 +145,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobe* parent) : QMe
     configureAction -> setStatusTip ("Configure properties for the globe");
     configureAction -> setCheckable (false);
     addAction (configureAction);
-    connect (configureAction, &QAction::triggered, parent, &CalenhadGlobe::showConfigDialog);
+    connect (configureAction, &QAction::triggered, parent, &CalenhadGlobeDialog::showConfigDialog);
 
 
 }
@@ -171,7 +171,7 @@ void CalenhadGlobeContextMenu::setDoubleClickMode (const bool& enable) {
 void CalenhadGlobeContextMenu::initialise () {
     blockSignals (true);
     _showOverviewMapAction->setChecked (_parent -> isOverviewVisible());
-    _showScaleAction->setChecked (_parent -> isFloatItemVisible ("scalebar"));
+    _showScaleAction->setChecked (_parent -> isScaleVisible());
     _showZoomSliderAction->setChecked (_parent -> isZoomBarVisible());
     _showNavigatorAction->setChecked (_parent -> isCompassVisible());
     _showGraticuleAction->setChecked (_parent -> isGraticuleVisible());
@@ -181,19 +181,19 @@ void CalenhadGlobeContextMenu::initialise () {
     _gotoAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Goto);
     _placeAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Place);
     _disableDoubleClickAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::NoDoubleClick);
-    QMap<QString, Projection> m = CalenhadServices::projections() -> all();
+   /* QMap<QString, Projection> m = CalenhadServices::projections() -> all();
     for (QAction* action : _projectionActions -> actions()) {
         Projection p = _parent -> projection();
         QString key =  action -> text();
         action -> setChecked (p == m.value (key));
     }
+    */
     blockSignals (false);
 }
 
 void CalenhadGlobeContextMenu::projectionSelected (const bool& selected) {
     QAction* action = (QAction*) sender();
     if (selected) {
-        Projection p = CalenhadServices::projections () -> fetch (action -> text());
-        emit projectionSelected (p);
+        emit projectionSelected (action -> text());
     }
 }

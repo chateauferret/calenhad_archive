@@ -93,3 +93,7 @@ QToolBox {
 QDockWidget {
     background: transparent;
 }
+
+CalenhadGlobe > CalenhadMapView {
+    border: 2px solid black;
+}

@@ -1,9 +1,8 @@
 SET(GLOBE_SOURCE_FILES
-${CMAKE_CURRENT_LIST_DIR}/CalenhadOverviewMap.cpp
-${CMAKE_CURRENT_LIST_DIR}/CalenhadOverviewMap.h
-${CMAKE_CURRENT_LIST_DIR}/CalenhadPreview.h
-${CMAKE_CURRENT_LIST_DIR}/CalenhadPreview.cpp
-${CMAKE_CURRENT_LIST_DIR}/CalenhadOverviewInterface.h
+
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMapView.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMapView.cpp
+
 ${CMAKE_CURRENT_LIST_DIR}/CalenhadNavigator.cpp
 ${CMAKE_CURRENT_LIST_DIR}/CalenhadNavigator.h
 ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeContextMenu.cpp
@@ -12,11 +11,9 @@ ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConfigDialog.cpp
 ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConfigDialog.h
 ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.cpp
 ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.h
-${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.cpp
-${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsTab.h
 ${CMAKE_CURRENT_LIST_DIR}/StatisticsService.cpp
 ${CMAKE_CURRENT_LIST_DIR}/StatisticsService.h
-${CMAKE_CURRENT_LIST_DIR}/ProjectionService.cpp
-${CMAKE_CURRENT_LIST_DIR}/ProjectionService.h
 ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConstants.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeDialog.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeDialog.cpp
         )
