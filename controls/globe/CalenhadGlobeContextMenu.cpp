@@ -54,17 +54,17 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
     _gotoAction = new QAction ("Go to", this);
     _gotoAction -> setToolTip ("Go to a location by double-clicking the mouse");
     _gotoAction -> setCheckable (true);
-    _gotoAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Goto);
+    _gotoAction -> setChecked (_parent -> globe() -> mouseDoubleClickMode () == CalenhadGlobeDoubleClickMode::Goto);
 
     _placeAction = new QAction ("Describe place", this);
     _placeAction -> setToolTip ("Describe a place by double-clicking the mouse");
     _placeAction -> setCheckable (true);
-    _placeAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Place);
+    _placeAction -> setChecked (_parent -> globe() -> mouseDoubleClickMode () == CalenhadGlobeDoubleClickMode::Place);
 
     _disableDoubleClickAction = new QAction ("Do nothing", this);
     _disableDoubleClickAction -> setToolTip ("Disable mouse double-clicking on the globe");
     _disableDoubleClickAction -> setCheckable (true);
-    _disableDoubleClickAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::NoDoubleClick);
+    _disableDoubleClickAction -> setChecked (_parent -> globe() -> mouseDoubleClickMode () == CalenhadGlobeDoubleClickMode::NoDoubleClick);
 
     QActionGroup* mouseDoubleClickModeGroup = new QActionGroup (this);
     mouseDoubleClickModeGroup -> addAction (_gotoAction);
@@ -88,17 +88,17 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
     _panAction = new QAction ("Pan", this);
     _panAction -> setToolTip ("Pan the globe by dragging the mouse");
     _panAction -> setCheckable (true);
-    _panAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::Pan);
+    _panAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Pan);
 
     _zoomAction = new QAction ("Zoom", this);
     _zoomAction -> setToolTip ("Zoom the globe by dragging the mouse");
     _zoomAction -> setCheckable (true);
-    _zoomAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::Zoom);
+    _zoomAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Zoom);
 
     _disableDragAction = new QAction ("Do nothing", this);
     _disableDragAction -> setToolTip ("Disable mouse dragging on the globe");
     _disableDragAction -> setCheckable (true);
-    _disableDragAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::NoDrag);
+    _disableDragAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::NoDrag);
 
     QActionGroup* mouseDragModeGroup = new QActionGroup (this);
     mouseDragModeGroup -> addAction (_panAction);
@@ -175,12 +175,12 @@ void CalenhadGlobeContextMenu::initialise () {
     _showZoomSliderAction->setChecked (_parent -> isZoomBarVisible());
     _showNavigatorAction->setChecked (_parent -> isCompassVisible());
     _showGraticuleAction->setChecked (_parent -> isGraticuleVisible());
-    _panAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::Pan);
-    _zoomAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::Zoom);
-    _disableDragAction -> setChecked (_parent->dragMode () == CalenhadGlobeDragMode::NoDrag);
-    _gotoAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Goto);
-    _placeAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::Place);
-    _disableDoubleClickAction -> setChecked (_parent->doubleClickMode () == CalenhadGlobeDoubleClickMode::NoDoubleClick);
+    _panAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Pan);
+    _zoomAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Zoom);
+    _disableDragAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::NoDrag);
+    _gotoAction -> setChecked (_parent -> globe() ->  mouseDoubleClickMode () == CalenhadGlobeDoubleClickMode::Goto);
+    _placeAction -> setChecked (_parent -> globe() -> mouseDoubleClickMode () == CalenhadGlobeDoubleClickMode::Place);
+    _disableDoubleClickAction -> setChecked (_parent -> globe() -> mouseDoubleClickMode () == CalenhadGlobeDoubleClickMode::NoDoubleClick);
    /* QMap<QString, Projection> m = CalenhadServices::projections() -> all();
     for (QAction* action : _projectionActions -> actions()) {
         Projection p = _parent -> projection();

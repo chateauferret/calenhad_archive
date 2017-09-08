@@ -51,7 +51,7 @@ int EquirectangularProjection::id () {
 
 QString EquirectangularProjection::glsl() {
     QString code = "if (projection == PROJ_EQUIRECTANGULAR) {\n";
-    code += "   vec2 g = vec2 (i.x  + datum.x, i.y);\n";
+    code += "   vec2 g = vec2 (i.x, i.y);\n";
     code += "   bool valid = (g.y >= -M_PI / 2) && (g.y <= M_PI / 2);\n";
     code += "   vec3 cart = toCartesian (g);\n";
     code += "   return vec4 (cart.xyz, abs (g.y / (M_PI / 2)));\n";

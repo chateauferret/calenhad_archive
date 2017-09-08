@@ -1,0 +1,16 @@
+//
+// Created by martin on 06/02/17.
+//
+
+#ifndef CALENHAD_NOISEMAPBUILDERICOSPHERE_H
+#define CALENHAD_NOISEMAPBUILDERICOSPHERE_H
+
+
+
+class NoiseMapBuilderIcosphere {
+
+};
+
+
+
+#endif //CALENHAD_NOISEMAPBUILDERICOSPHERE_H

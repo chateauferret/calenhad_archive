@@ -98,7 +98,6 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_abs, "Absolute value");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_blend, "Blend points");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_cache, "Cache value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_checkerboard, "Checkerboard pattern");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_invert, "Invert values");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_max, "Maximum value");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_min, "Minimum value");

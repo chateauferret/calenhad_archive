@@ -41,7 +41,10 @@ namespace geoutils {
         Geolocation (const double& newLat, const double& newLon, const Units& units = Units::Radians);
         Geolocation (const Geolocation& other);
         bool operator== (const Geolocation& other) const;
+        void operator+= (const Geolocation& other);
+        void operator-= (const Geolocation& other);
         Geolocation operator+ (const Geolocation& other);
+        Geolocation operator- (const Geolocation& other);
         double latitude (const Units& units = Units::Radians) const;
         double longitude (const Units& units = Units::Radians) const;
         void setLatitude (const double& lat, const Units& units = Units::Radians);
@@ -50,6 +53,7 @@ namespace geoutils {
         double _latitude;
         double _longitude;
 
+        void conform ();
     };
 
     class Cartesian {                  // a point in three-dimensional space

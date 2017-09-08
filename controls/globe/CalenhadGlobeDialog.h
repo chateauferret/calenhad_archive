@@ -60,10 +60,6 @@ namespace calenhad {
 
                 void paintEvent (QPaintEvent* e) override;
 
-                const CalenhadGlobeDragMode dragMode ();
-
-                const CalenhadGlobeDoubleClickMode doubleClickMode ();
-
                 bool isCompassVisible ();
 
                 bool isZoomBarVisible ();
@@ -74,13 +70,9 @@ namespace calenhad {
 
                 bool isScaleVisible ();
 
-                CalenhadMapView* mapWidget();
+                CalenhadMapView* globe ();
 
             public slots:
-
-                void setMouseDragMode (const CalenhadGlobeDragMode& mouseMode);
-
-                void setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mouseMode);
 
                 void showContextMenu (const QPoint& pos);
 
@@ -119,9 +111,6 @@ namespace calenhad {
                 QwtSlider* _zoomSlider;
                 QPoint _moveFrom;
                 GeographicLib::Geodesic* _geodesic;
-
-                CalenhadGlobeDragMode _mouseDragMode;
-                CalenhadGlobeDoubleClickMode _mouseDoubleClickMode;
                 CalenhadGlobeConfigDialog* _configDialog;
 
                 double zoom ();

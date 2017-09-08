@@ -121,26 +121,26 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
 
 void CalenhadGlobeConfigDialog::initialise() {
     CalenhadServices::legends() -> setDirty (false);
-    _mouseSensitivitySlider -> setValue (_parent -> mapWidget() -> sensitivity());
+    _mouseSensitivitySlider -> setValue (_parent -> globe() -> sensitivity());
     _dragModeCombo -> setCurrentText ("Do nothing");
     _doubleClickModeCombo -> setCurrentText ("Do nothing");
     _mouseSensitivitySlider -> setEnabled (false);
-    if (_parent->dragMode() == CalenhadGlobeDragMode::Pan) { _dragModeCombo -> setCurrentText ("Pan"); _mouseSensitivitySlider -> setEnabled (true); }
-    if (_parent->dragMode() == CalenhadGlobeDragMode::Zoom) { _dragModeCombo -> setCurrentText ("Zoom"); _mouseSensitivitySlider -> setEnabled (true); }
-    if (_parent->doubleClickMode() == CalenhadGlobeDoubleClickMode::Goto) { _doubleClickModeCombo -> setCurrentText ("Go to"); _mouseSensitivitySlider -> setEnabled (true); }
-    if (_parent->doubleClickMode() == CalenhadGlobeDoubleClickMode::Place) { _doubleClickModeCombo -> setCurrentText ("Describe place"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent -> globe() -> mouseDragMode() == CalenhadGlobeDragMode::Pan) { _dragModeCombo -> setCurrentText ("Pan"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent -> globe() -> mouseDragMode() == CalenhadGlobeDragMode::Zoom) { _dragModeCombo -> setCurrentText ("Zoom"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent -> globe() -> mouseDoubleClickMode() == CalenhadGlobeDoubleClickMode::Goto) { _doubleClickModeCombo -> setCurrentText ("Go to"); _mouseSensitivitySlider -> setEnabled (true); }
+    if (_parent -> globe() -> mouseDoubleClickMode() == CalenhadGlobeDoubleClickMode::Place) { _doubleClickModeCombo -> setCurrentText ("Describe place"); _mouseSensitivitySlider -> setEnabled (true); }
     _overviewCheck -> setChecked (_parent -> isOverviewVisible());
     _scaleCheck -> setChecked (_parent -> isScaleVisible());
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent -> isCompassVisible());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
-    _legendManager -> setCurrentLegend (_parent -> mapWidget() -> source () -> legend());
-    switch (_parent -> mapWidget() -> coordinatesFormat()) {
+    _legendManager -> setCurrentLegend (_parent -> globe() -> source () -> legend());
+    switch (_parent -> globe() -> coordinatesFormat()) {
         case (CoordinatesFormat::NoCoordinates) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
         case (CoordinatesFormat::Decimal) : { _tooltipOptionCombo -> setCurrentText ("Decimal"); break; }
         case (CoordinatesFormat::Traditional) : { _tooltipOptionCombo -> setCurrentText ("Traditional"); break; }
     }
-    switch (_parent -> mapWidget() -> datumFormat()) {
+    switch (_parent -> globe() -> datumFormat()) {
         case (DatumFormat::NoDatum) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
         case (DatumFormat::Native) : { _tooltipOptionCombo -> setCurrentText ("Native"); break; }
         case (DatumFormat::Scaled) : { _tooltipOptionCombo -> setCurrentText ("Scale"); break; }

@@ -77,7 +77,6 @@ namespace calenhad {
             QString calenhad_module_abs;
             QString calenhad_module_blend;
             QString calenhad_module_cache;
-            QString calenhad_module_checkerboard;
             QString calenhad_module_invert;
             QString calenhad_module_max;
             QString calenhad_module_min;

@@ -46,6 +46,8 @@ namespace calenhad {
 
                 void zoomOutFrom (const icosphere::Bounds& target);
 
+                CalenhadGlobeDoubleClickMode mouseDoubleClickMode();
+                CalenhadGlobeDragMode mouseDragMode();
 
                 void setDatumFormat (DatumFormat format);
                 DatumFormat datumFormat();
@@ -53,11 +55,13 @@ namespace calenhad {
                 CoordinatesFormat coordinatesFormat();
                 void setSensitivity (double sensitivity);
                 double sensitivity();
-                void goTo (geoutils::Geolocation geolocation);
+                void goTo (const geoutils::Geolocation& geolocation);
 
             public slots:
 
                 void render ();
+                void setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mode);
+                void setMouseDragMode (const CalenhadGlobeDragMode& mode);
 
             signals:
 

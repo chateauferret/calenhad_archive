@@ -26,11 +26,39 @@ namespace geoutils {
         return _latitude == other._latitude && _longitude == other._longitude;
     }
 
+    void Geolocation::operator+= (const Geolocation& other) {
+       setLatitude (_latitude + other._latitude);
+       setLongitude (_longitude + other._longitude);
+       conform();
+    }
+
+    void Geolocation::operator-= (const Geolocation& other) {
+        setLatitude (_latitude - other._latitude);
+        setLongitude (_longitude - other._longitude);
+        conform();
+    }
+
     Geolocation Geolocation::operator+ (const Geolocation& other) {
         Geolocation g = other;
         g._latitude = _latitude + other._latitude;
         g._longitude = _longitude + other._longitude;
+        g.conform();
         return g;
+    }
+
+    Geolocation Geolocation::operator- (const Geolocation& other) {
+        Geolocation g = other;
+        g._latitude = _latitude - other._latitude;
+        g._longitude = _longitude - other._longitude;
+        g.conform();
+        return g;
+    }
+
+    void Geolocation::conform() {
+        if (_latitude > M_PI) { setLatitude (_latitude - M_PI); }
+        if (_latitude  -M_PI * 2) { setLatitude (_latitude + M_PI); }
+        if (_longitude > M_PI * 2) { setLongitude (_longitude - M_PI * 2); }
+        if (_longitude < -M_PI * 2) { setLongitude (_longitude + M_PI * 2); }
     }
 
     double Geolocation::latitude (const Units& units) const {
@@ -48,6 +76,8 @@ namespace geoutils {
     void Geolocation::setLongitude (const double& lon, const Units& units) {
         _longitude = units == Units::Radians ? lon : degreesToRadians (lon);
     }
+
+
 
     Cartesian::Cartesian () : Cartesian (0.0, 0.0, 1.0) {}
 

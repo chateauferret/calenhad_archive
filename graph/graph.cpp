@@ -71,7 +71,14 @@ QString Graph::glsl () {
 
     _connections = _doc.documentElement().elementsByTagName ("connection");
     _code =  glsl (_node);
-    _code.append ("float value (vec3 cartesian) { return " + _nodeName + " (cartesian); }\n");
+    _code.append ("float value (vec3 cartesian) {\n");
+    _code.append ("    vec3 r = vec3 (0.0, rotation.x, -rotation.y);\n");
+   // _code.append ("    vec3 r = vec3 (0.0, 0.0, 0.0);\n");
+   // _code.append ("    vec3 q = vec3 (0.0, rotation.x, 0.0);\n");
+  //  _code.append ("    vec3 q = vec3 (0.0, 0.0, 0.0);\n");
+    _code.append ("    vec3 rotated = rotate (cartesian, r);\n");
+    _code.append ("    return " + _nodeName + " (rotated);\n");
+    _code.append ("}\n");
     parseLegend();
     return _code;
 };
@@ -223,13 +230,10 @@ void Graph::parseLegend () {
     float dx = (1 / (float) size) * 2 ;
     for (int i = 0; i < size * 4; i+= 4)  {
         QColor c = legend -> lookup (i * dx - 1);
-
         _colorMapBuffer [i + 0] = (float) c.redF();
         _colorMapBuffer [i + 1] = (float) c.greenF();
         _colorMapBuffer [i + 2] = (float) c.blueF();
         _colorMapBuffer [i + 3] = (float) c.alphaF();
-
-
     }
 
 }

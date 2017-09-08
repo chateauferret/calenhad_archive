@@ -29,6 +29,7 @@ CalenhadMapView::CalenhadMapView (QWidget* parent) : CalenhadMapWidget (parent),
     _datumFormat (DatumFormat::Scaled),
     _zoomDrag (false),
     _ratio (2.0),
+    _mouseDoubleClickMode (CalenhadGlobeDoubleClickMode::Goto),
     _bounds (Bounds (-M_PI_2, M_PI_2, 0, M_2_PI)),
     _source (nullptr), _previewType (OverviewPreviewType::WholeWorld) {
     setMouseTracking (true);
@@ -127,8 +128,11 @@ double CalenhadMapView::sensitivity () {
     return _sensitivity;
 }
 
-void CalenhadMapView::goTo (Geolocation geolocation) {
-// to do
+void CalenhadMapView::goTo (const Geolocation& geolocation) {
+    Geolocation g (geolocation);
+    g.setLatitude (- g.latitude ());
+    g.setLongitude (- g.longitude());
+    rotate (g);
 }
 
 
@@ -136,7 +140,7 @@ void CalenhadMapView::goTo (Geolocation geolocation) {
 void CalenhadMapView::mousePressEvent (QMouseEvent* e) {
     Geolocation loc;
     if (e -> button () == Qt::LeftButton) {
-        if (geoCoordinates (e -> pos(), loc)) { // to do = bool geoCoordinates (QPointF screenPosition, Geolocation geolocation)
+        if (geoCoordinates (e -> pos(), loc)) {
             _moveFrom = e -> pos ();
             setCursor (Qt::OpenHandCursor);
         }
@@ -144,7 +148,6 @@ void CalenhadMapView::mousePressEvent (QMouseEvent* e) {
 }
 
 void CalenhadMapView::mouseDoubleClickEvent (QMouseEvent* e) {
-    double lat, lon;
     if (_mouseDoubleClickMode == CalenhadGlobeDoubleClickMode::Goto) {
         Geolocation loc;
         if (geoCoordinates (e->pos(), loc)) {
@@ -187,8 +190,7 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
            // Bounds bounds = Bounds (_bounds.center().latitude() + (qDegreesToRadians (dLat)), bounds.center().longitude() + (qDegreesToRadians (dLon)));
             //setBounds (bounds);
             _moveFrom = e->pos ();
-
-            update ();
+            update();
         }
 
         if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
@@ -212,8 +214,7 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
             point.setY ((double) e -> pos().y());
 
             if (geoCoordinates (point, loc)) {
-                QString text = QString::number (point.x()) + ", " + QString::number (point.y()) + ": " +
-                               (_coordinatesFormat == CoordinatesFormat::Decimal ? geoLocationStringDecimal (loc) : geoLocationStringTraditional (loc));
+                QString text = _coordinatesFormat == CoordinatesFormat::Decimal ? geoLocationStringDecimal (loc) : geoLocationStringTraditional (loc);
                 QToolTip::showText (e -> globalPos(), text, this);
             }
         }
@@ -245,6 +246,22 @@ QString CalenhadMapView::geoLocationStringDecimal (const Geolocation& loc) {
 }
 
 QString CalenhadMapView::geoLocationStringTraditional (const Geolocation& loc) {
-    return Math::toTraditional (std::abs (loc.latitude (Units::Degrees))) + "°" + (loc.latitude() > 0 ? "N" : "S") + " "
-           + Math::toTraditional (std::abs (loc.longitude (Units::Degrees))) + "°" + (loc.longitude() > 0 ? "E" : "W");
+    return Math::toTraditional (std::abs (loc.latitude (Units::Degrees))) + (loc.latitude() > 0 ? "N" : "S") + " "
+           + Math::toTraditional (std::abs (loc.longitude (Units::Degrees))) + (loc.longitude() > 0 ? "E" : "W");
+}
+
+void CalenhadMapView::setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mode) {
+    _mouseDoubleClickMode = mode;
+}
+
+void CalenhadMapView::setMouseDragMode (const CalenhadGlobeDragMode& mode) {
+    _mouseDragMode = mode;
+}
+
+CalenhadGlobeDoubleClickMode CalenhadMapView::mouseDoubleClickMode () {
+    return _mouseDoubleClickMode;
+}
+
+CalenhadGlobeDragMode CalenhadMapView::mouseDragMode () {
+    return _mouseDragMode;
 }

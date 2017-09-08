@@ -81,7 +81,6 @@ void Preferences::loadSettings() {
     calenhad_module_abs = _settings -> value ("calenhad/owner/abs", "Abs").toString();
     calenhad_module_blend = _settings -> value ("calenhad/owner/blend", "Blend").toString();
     calenhad_module_cache = _settings -> value ("calenhad/owner/cache", "Cache").toString();
-    calenhad_module_checkerboard = _settings -> value ("calenhad/owner/checkerboard", "Checkerboard").toString();
     calenhad_module_invert = _settings -> value ("calenhad/owner/invert", "Invert").toString();
     calenhad_module_max = _settings -> value ("calenhad/owner/max", "Max").toString();
     calenhad_module_min = _settings -> value ("calenhad/owner/min", "Min").toString();
@@ -176,7 +175,6 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/owner/abs", calenhad_module_abs);
     _settings -> setValue ("calenhad/owner/blend", calenhad_module_blend);
     _settings -> setValue ("calenhad/owner/cache", calenhad_module_cache);
-    _settings -> setValue ("calenhad/owner/checkerboard", calenhad_module_checkerboard);
     _settings -> setValue ("calenhad/owner/invert", calenhad_module_invert);
     _settings -> setValue ("calenhad/owner/max", calenhad_module_max);
     _settings -> setValue ("calenhad/owner/min", calenhad_module_min);

@@ -9,6 +9,7 @@
 #include <QWindow>
 
 using namespace calenhad;
+using namespace geoutils;
 using namespace calenhad::graph;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
@@ -147,7 +148,7 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::paintGL() {
-
+    std::cout << "Rotation " << _rotation.longitude (Units::Degrees) << " " <<  _rotation.latitude (Units::Degrees) << "\n";
     static GLint srcLoc= glGetUniformLocation(m_renderProgram->programId(),"srcTex");
     static GLint destLoc=glGetUniformLocation(m_computeProgram->programId(),"destTex");
     static GLint ambsLoc = glGetUniformLocation (m_computeProgram -> programId(), "altitudeMapBufferSize");
@@ -156,8 +157,8 @@ void CalenhadMapWidget::paintGL() {
     static GLint projLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
     static GLint resolutionLoc = glGetUniformLocation (m_computeProgram -> programId(), "resolution");
     static GLint projectionLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
+    static GLint rotationLoc = glGetUniformLocation (m_computeProgram -> programId(), "rotation");
 
-    // compute
     m_vao.bind();
     m_computeProgram->bind();
     m_texture->bind();
@@ -166,23 +167,10 @@ void CalenhadMapWidget::paintGL() {
     glUniform1i (projLoc, _projection -> id ());
     glUniform1i (resolutionLoc, m_texture -> height());
     glUniform1i (projectionLoc, _projection -> id());
-
-    // set the zoom factor
-    if (zoomLoc != -1) {
-        glUniform1f (zoomLoc, (GLfloat) _zoom);
-    }
-
-    // set the altitude map buffer size, if there is one
-    if (ambsLoc != -1) {
-        int ambs = 2048;
-        glUniform1i (ambsLoc, ambs);
-    }
-
-    // set the color map buffer size
-    if (cmbsLoc != -1) {
-        int cmbs = 2048;
-        glUniform1i (cmbsLoc, cmbs);
-    }
+    glUniform2f (rotationLoc, _rotation.longitude (Units::Degrees), _rotation.latitude (Units::Degrees));
+    glUniform1f (zoomLoc, (GLfloat) _zoom);
+    glUniform1i (ambsLoc, 2048);
+    glUniform1i (cmbsLoc, 2048);
 
     glDispatchCompute (m_texture -> width() / 16, m_texture -> height() / 16, 1);
     glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -249,4 +237,13 @@ void CalenhadMapWidget::setProjection (const QString& projection) {
 
 Projection* CalenhadMapWidget::projection() {
     return _projection;
+}
+
+void CalenhadMapWidget::rotate (const Geolocation& rotation) {
+    _rotation += rotation;
+    update();
+}
+
+Geolocation CalenhadMapWidget::rotation() {
+    return _rotation;
 }

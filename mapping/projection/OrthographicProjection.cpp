@@ -58,6 +58,8 @@ int OrthographicProjection::id () {
 
 QString OrthographicProjection::glsl() {
     QString code = "if (projection == PROJ_ORTHOGRAPHIC) {\n";
+    //code += "   vec2 datum = -rotation;\n";
+    code += "   vec2 datum = vec2 (0.0, 0.0);\n";
     code += "    float x = i.x / 2;\n";
     code += "    float y = i.y;\n";
     code += "    float w = sqrt (x * x + y * y);\n";

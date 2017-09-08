@@ -84,8 +84,6 @@ void CalenhadGlobeDialog::initialise() {
     _zoomSlider -> setFixedSize (100, 100);
     connect (_navigator, SIGNAL (navigationRequested (const NavigationEvent&)), this, SLOT (navigate (const NavigationEvent&)));
     connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
-    _mouseDragMode = CalenhadGlobeDragMode::Pan;
-    _mouseDoubleClickMode = CalenhadGlobeDoubleClickMode::Goto;
     _positionLabel = new QLabel (this);
 
     invalidate();
@@ -96,7 +94,6 @@ CalenhadGlobeDialog::~CalenhadGlobeDialog() {
     delete _geodesic;
     if (_graph) { delete _graph; }
 }
-
 
 void CalenhadGlobeDialog::invalidate () {
     _globe -> update();
@@ -125,8 +122,8 @@ void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
         connect (_contextMenu, SIGNAL (setScaleVisible (const bool&)), this, SLOT (setScaleVisible (const bool&)));
         connect (_contextMenu, SIGNAL (showNavigator (const bool&)), this, SLOT (showNavigator (const bool&)));
         connect (_contextMenu, SIGNAL (showGraticule (const bool&)), this, SLOT (setGraticuleVisible (const bool&)));
-        connect (_contextMenu, SIGNAL (dragModeSelected (const CalenhadGlobeDragMode&)), this, SLOT (setMouseDragMode (const CalenhadGlobeDragMode&)));
-        connect (_contextMenu, SIGNAL (doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&)), this, SLOT (setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode&)));
+        connect (_contextMenu, SIGNAL (dragModeSelected (const CalenhadGlobeDragMode&)), _globe, SLOT (setMouseDragMode (const CalenhadGlobeDragMode&)));
+        connect (_contextMenu, SIGNAL (doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&)), _globe, SLOT (setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode&)));
         connect (_contextMenu, SIGNAL (projectionSelected (QString)), _globe, SLOT (setProjection (const QString&)));
         connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
     }
@@ -193,20 +190,6 @@ bool CalenhadGlobeDialog::isCompassVisible () {
     return _navigator -> isVisible();
 }
 
-void CalenhadGlobeDialog::setMouseDragMode (const CalenhadGlobeDragMode& mouseMode) {
-   if (mouseMode != _mouseDragMode) {
-        _mouseDragMode = mouseMode;
-    }
-}
-
-void CalenhadGlobeDialog::setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mouseMode) {
-    _mouseDoubleClickMode = mouseMode;
-}
-
-const CalenhadGlobeDragMode CalenhadGlobeDialog::dragMode () {
-    return _mouseDragMode;
-}
-
 void CalenhadGlobeDialog::showConfigDialog() {
     if (!_configDialog) {
         _configDialog = new CalenhadGlobeConfigDialog (this);
@@ -223,8 +206,8 @@ void CalenhadGlobeDialog::updateConfig () {
     showZoomSlider (_configDialog -> zoomBarCheckState ());
     showNavigator (_configDialog -> compassCheckState());
     setGraticuleVisible (_configDialog -> graticuleCheckState ());
-    setMouseDragMode (_configDialog -> dragMode ());
-    setMouseDoubleClickMode (_configDialog -> doubleClickMode());
+    globe() -> setMouseDragMode (_configDialog -> dragMode ());
+    globe() -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
     //setProjection (_configDialog -> selectedProjection());
     _configDialog -> update();
@@ -235,11 +218,6 @@ void CalenhadGlobeDialog::updateConfig () {
      update();
     _globe -> setCoordinatesFormat (_configDialog -> coordinatesFormat());
     _globe -> setDatumFormat (_configDialog -> datumFormat());
-}
-
-
-const CalenhadGlobeDoubleClickMode CalenhadGlobeDialog::doubleClickMode () {
-    return _mouseDoubleClickMode;
 }
 
 void CalenhadGlobeDialog::setGraticuleVisible (const bool& visible) {
@@ -258,6 +236,6 @@ void CalenhadGlobeDialog::setScalebarVisible (bool visible) {
     // to do
 }
 
-CalenhadMapView* CalenhadGlobeDialog::mapWidget () {
+CalenhadMapView* CalenhadGlobeDialog::globe () {
     return _globe;
 }

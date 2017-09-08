@@ -3,7 +3,7 @@
 uniform writeonly image2D destTex;
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
-uniform vec2 datum = vec2 (0.0, 0.57); // datum for the projection, where required - in radians
+uniform vec2 rotation = vec2 (0.0, 0.0); // rotation for the projection, where required - in degrees lon lat
 uniform ivec2 offset = ivec2 (0, 0); // centre of the map in the projected space - -r/2 < y < r/2, r < x < r
 uniform float zoom = 1.0;
 uniform int resolution = 512;
@@ -73,9 +73,44 @@ float cubicInterpolate (float n0, float n1, float n2, float n3, float a) {
 	  return p * a * a * a + q * a * a + r * a + s;
   }
 
-vec3 rotate (vec3 cartesian, vec3 rotations) {
+mat3 rotateX (float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3 (
+        1.0, 0.0, 0.0,
+        0.0, c, s,
+        0.0, -s, c
+    );
+}
 
-  vec3 vcos, vsin;
+mat3 rotateY(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        c, 0.0, -s,
+        0.0, 1.0, 0.0,
+        s, 0.0, c
+    );
+}
+
+mat3 rotateZ(float rad) {
+    float c = cos(rad);
+    float s = sin(rad);
+    return mat3(
+        c, s, 0.0,
+        -s, c, 0.0,
+        0.0, 0.0, 1.0
+    );
+}
+
+vec3 rotate (vec3 pos, vec3 rotations) {
+    pos = rotateZ (radians (rotations.z)) * pos;
+    pos = rotateY (radians (rotations.y)) * pos;
+    pos = rotateX (radians (rotations.x)) * pos;
+    return pos;
+}
+  // original libnoise combined matrix rotation - doesn't seem to behave
+ /* vec3 vcos, vsin;
 
   // degrees were given in the UI
   rotations = radians (rotations);
@@ -89,7 +124,7 @@ vec3 rotate (vec3 cartesian, vec3 rotations) {
 
   return matrix * cartesian;
 
-}
+ */
 
 //	Classic Perlin 4D Noise
 //	by Stefan Gustavson
@@ -535,7 +570,7 @@ float billow (vec3 cartesian, float frequency, float lacunarity, float persisten
 }
 
 vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, int seed) {
-    // Get the values from the three noise::module::Perlin noise modules and
+  // Get the values from the three noise::module::Perlin noise modules and
   // add each value to each coordinate of the input value.  There are also
   // some offsets added to the coordinates of the input values.  This prevents
   // the distortion modules from returning zero if the (x, y, z) coordinates,
@@ -635,7 +670,6 @@ float select (float control, float in0, float in1, float lowerBound, float upper
     return mix (in0, in1, alpha);
   }
 
-
 float map (float value, int bufferIndex) {
     float index = ((value / 2) + 0.5) * altitudeMapBufferSize;
     int indexPos = int (index);
@@ -663,7 +697,6 @@ vec4 findColor (float value) {
 
 // inserted code //
 
-
 // Inverse projection to get the 3D coordinates represented  by the given position under the current projection.
 // The first three components in the returned vector are x, y and z, the third is negative if the point is off the map.
 // Logic here should be identical to that in the corresponding implementations of calenhad::mapping::projection::Projection::inverse.
@@ -682,13 +715,10 @@ vec4 cartesian (vec2 pos) {
     return vec4 (0.0, 0.0, 0.0, -1.0);
 }
 void main() {
-    ivec2 pos = ivec2 (gl_GlobalInvocationID.xy) ;
-
+    ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
     vec4 c = cartesian (pos);
-
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
     float step = smoothstep (0.99, 1.0, c.w);
     vec4 color =  mix (findColor (value (c.xyz)), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
     imageStore (destTex, pos, color);
-
 }

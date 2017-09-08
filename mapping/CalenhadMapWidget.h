@@ -10,6 +10,7 @@
 #include <QOpenGLTexture>
 #include <QOpenGLVertexArrayObject>
 #include <QDir>
+#include <geoutils.h>
 
 namespace calenhad {
     namespace graph {
@@ -50,6 +51,10 @@ namespace calenhad {
 
             double zoom ();
 
+            void rotate (const geoutils::Geolocation& rotation);
+
+            geoutils::Geolocation rotation();
+
 
 
             projection::Projection* projection ();
@@ -74,6 +79,7 @@ namespace calenhad {
             double _zoom;
             calenhad::mapping::projection::Projection* _projection;
 
+            geoutils::Geolocation _rotation;
         };
     }
 }
