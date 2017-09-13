@@ -65,7 +65,7 @@ void CalenhadMapView::zoomOutFrom (const Bounds& target) {
     Geolocation centre = target.center ();
 
     if(target.height() && target.width()) {
-        //work out the needed zoom level
+        //work out the needed scale level
         QPointF nw, se;
         double nx, sx, wx, ex;
         screenCoordinates (Geolocation (target.north(), target.west()), nw);
@@ -99,8 +99,8 @@ void CalenhadMapView::screenCoordinates (geoutils::Geolocation geolocation, QPoi
 }
 
 bool CalenhadMapView::geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation) {
-    double x = ((pos.x() / width()) * M_PI * 2 - M_PI) * _zoom;
-    double y = ((pos.y() / height()) * M_PI - (M_PI / 2)) * _zoom;
+    double x = ((pos.x() / width()) * M_PI * 2 - M_PI) * _scale;
+    double y = ((pos.y() / height()) * M_PI - (M_PI / 2)) * _scale;
     return _projection -> inverse (QPointF (x, -y), geolocation);
 }
 
@@ -129,13 +129,8 @@ double CalenhadMapView::sensitivity () {
 }
 
 void CalenhadMapView::goTo (const Geolocation& geolocation) {
-    Geolocation g (geolocation);
-    g.setLatitude (- g.latitude ());
-    g.setLongitude (- g.longitude());
-    rotate (g);
+    rotate (geolocation);
 }
-
-
 
 void CalenhadMapView::mousePressEvent (QMouseEvent* e) {
     Geolocation loc;
@@ -150,7 +145,7 @@ void CalenhadMapView::mousePressEvent (QMouseEvent* e) {
 void CalenhadMapView::mouseDoubleClickEvent (QMouseEvent* e) {
     if (_mouseDoubleClickMode == CalenhadGlobeDoubleClickMode::Goto) {
         Geolocation loc;
-        if (geoCoordinates (e->pos(), loc)) {
+        if (geoCoordinates (e -> pos(), loc)) {
             goTo (loc);
         }
     }

@@ -233,7 +233,7 @@ public:
 	// Default: 0.5
 	void SetPerturbFractalGain(float perturbGain) { m_perturbGain = perturbGain; m_perturbFractalBounding = CalculateFractalBounding(m_perturbOctaves, m_perturbGain);	}
 
-	// Sets the length for vectors after perturb normalising 
+	// Sets the magnitude for vectors after perturb normalising
 	// Default: 1.0
 	void SetPerturbNormaliseLength(float perturbNormaliseLength) { m_perturbNormaliseLength = perturbNormaliseLength; }
 

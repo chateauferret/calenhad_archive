@@ -72,12 +72,7 @@ QString Graph::glsl () {
     _connections = _doc.documentElement().elementsByTagName ("connection");
     _code =  glsl (_node);
     _code.append ("float value (vec3 cartesian) {\n");
-    _code.append ("    vec3 r = vec3 (0.0, rotation.x, -rotation.y);\n");
-   // _code.append ("    vec3 r = vec3 (0.0, 0.0, 0.0);\n");
-   // _code.append ("    vec3 q = vec3 (0.0, rotation.x, 0.0);\n");
-  //  _code.append ("    vec3 q = vec3 (0.0, 0.0, 0.0);\n");
-    _code.append ("    vec3 rotated = rotate (cartesian, r);\n");
-    _code.append ("    return " + _nodeName + " (rotated);\n");
+    _code.append ("    return " + _nodeName + " (cartesian);\n");
     _code.append ("}\n");
     parseLegend();
     return _code;

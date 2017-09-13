@@ -116,7 +116,7 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     _defaultContextMenu -> addMenu (parent -> toolbox -> menu ("Modules"));
     _defaultContextMenu -> addMenu (_zoomMenu);
 
-    // zoom actions
+    // scale actions
     zoomInAction = createTool (tr ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
     zoomOutAction = createTool (tr ("Zoom &out"), "Zoom out", CalenhadAction::ZoomOutAction, _viewDrawer);
     zoomToFitAction = createTool (tr ("Zoom to &fit"), "Zoom to fit", CalenhadAction::ZoomToFitAction, _viewDrawer);

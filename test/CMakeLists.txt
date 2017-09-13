@@ -28,7 +28,7 @@ set (test_SRCS
         QTestSuite.cpp
         QTestSuite.h
         test.cpp
-        test.h)
+        test.h ../matrices.cpp ../matrices.h)
 
 add_executable(CalenhadTest ${test_SRCS})
 add_test(CalenhadTest

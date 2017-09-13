@@ -81,6 +81,8 @@ set(SOURCE_FILES ${SOURCE_FILES}
         CalenhadServices.cpp
         CalenhadServices.h
         Serializable.h
+        matrices.cpp
+        matrices.h
         ${FASTNOISE_SIMD_SOURCE_FILES}
         ${QMODULE_SOURCE_FILES}
         ${NODEEDIT_SOURCE_FILES}
@@ -103,7 +105,7 @@ set (CUDA_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/cudatest.cu)
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} mapping/projection/MercatorProjection.cpp mapping/projection/MercatorProjection.h mapping/projection/OrthographicProjection.cpp mapping/projection/OrthographicProjection.h mapping/Viewport.cpp mapping/Viewport.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} )
 add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL

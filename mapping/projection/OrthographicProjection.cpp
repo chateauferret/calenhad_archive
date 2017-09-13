@@ -67,7 +67,7 @@ QString OrthographicProjection::glsl() {
     code += "    float x1 = cos (datum.x) * x + sin (datum.x) * sin (datum.y) * y + sin (datum.x) * cos (datum.y) * z;\n";
     code += "    float y1 = cos (datum.y) * y - sin (datum.y) * z;\n";
     code += "    float z1 = - sin (datum.x) * x + cos (datum.x) * sin (datum.y) * y + cos (datum.x) * cos (datum.y) * z;\n";
-    code += "    return vec4 (z1, y1, x1, w);\n";
+    code += "    return vec4 (z1, x1, y1, w);\n";
     code += "}\n";
     return code;
 }

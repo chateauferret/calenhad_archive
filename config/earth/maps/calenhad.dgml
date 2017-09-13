@@ -13,7 +13,7 @@
         <minimum>   900  </minimum>
         <maximum>  3700  </maximum>
         <discrete> false </discrete>
-      </zoom>
+      </scale>
     </head>
 
     <map bgcolor="#000000">

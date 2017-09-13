@@ -79,7 +79,7 @@ bool CalculatorService::validateVariableName (const QString& name, QString& mess
         // name must not be stupidly long
         if (name.length () > CalenhadServices::preferences() -> calenhad_variables_name_maxlength) {
             result = false;
-            message += "Name is too long: maximum length " + QString::number (CalenhadServices::preferences() -> calenhad_variables_name_maxlength) + "\n";
+            message += "Name is too long: maximum magnitude " + QString::number (CalenhadServices::preferences() -> calenhad_variables_name_maxlength) + "\n";
         }
 
         // name must not be a reserved word

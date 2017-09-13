@@ -27,7 +27,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
     connect (_showScaleAction, SIGNAL (toggled (bool)), this, SIGNAL (setScaleVisible (const bool&)));
 
     _showZoomSliderAction = new QAction ("Zoom bar", this);
-    _showZoomSliderAction->setStatusTip ("Toggle the display of the zoom bar");
+    _showZoomSliderAction->setStatusTip ("Toggle the display of the scale bar");
     _showZoomSliderAction->setCheckable (true);
     addAction (_showZoomSliderAction);
     connect (_showZoomSliderAction, SIGNAL (toggled (bool)), this, SIGNAL (showZoomSlider (const bool&)));
@@ -82,7 +82,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
     // Configure actions for dragging the mouse
 
     _mouseDragMenu = new QMenu ("Mouse drag actions", this);
-    _mouseDragMenu -> setStatusTip ("Pan or zoom the globe view using the mouse");
+    _mouseDragMenu -> setStatusTip ("Pan or scale the globe view using the mouse");
     addMenu (_mouseDragMenu);
 
     _panAction = new QAction ("Pan", this);

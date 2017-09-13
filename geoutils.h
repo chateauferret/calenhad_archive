@@ -27,7 +27,11 @@
 #include <QtCore/QString>
 namespace geoutils {
 
-    enum Units { Degrees, Radians };
+
+    enum Units {
+        Degrees, Radians
+    };
+
 
     class IllegalGeoCoordinatesException : public std::runtime_error {
     public:

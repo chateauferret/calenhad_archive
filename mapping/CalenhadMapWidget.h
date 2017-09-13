@@ -11,6 +11,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QDir>
 #include <geoutils.h>
+#include "../matrices.h"
 
 namespace calenhad {
     namespace graph {
@@ -47,15 +48,19 @@ namespace calenhad {
 
             void showEvent (QShowEvent* e) override;
 
-            void setZoom (const double& zoom);
+            void setScale (const double& scale);
 
-            double zoom ();
+            double scale ();
 
             void rotate (const geoutils::Geolocation& rotation);
 
             geoutils::Geolocation rotation();
 
+            void setTranslation (const QPointF& translation);
 
+            QPointF translation();
+
+            matrices::Mat4 modelMatrix();
 
             projection::Projection* projection ();
 
@@ -76,10 +81,11 @@ namespace calenhad {
             float* _altitudeMapBuffer;
             float* _colorMapBuffer;
 
-            double _zoom;
+            double _scale;
             calenhad::mapping::projection::Projection* _projection;
 
             geoutils::Geolocation _rotation;
+            QPointF _translation;
         };
     }
 }

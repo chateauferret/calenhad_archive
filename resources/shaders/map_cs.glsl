@@ -3,11 +3,9 @@
 uniform writeonly image2D destTex;
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
-uniform vec2 rotation = vec2 (0.0, 0.0); // rotation for the projection, where required - in degrees lon lat
-uniform ivec2 offset = ivec2 (0, 0); // centre of the map in the projected space - -r/2 < y < r/2, r < x < r
-uniform float zoom = 1.0;
 uniform int resolution = 512;
 uniform bool supersample = false;
+uniform mat4 modelMatrix;
 
 layout (std430, binding = 3) buffer altitudeMapBuffer { float map_out []; };
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
@@ -703,7 +701,7 @@ vec4 findColor (float value) {
 
 vec4 cartesian (vec2 pos) {
 
-    vec2 i = vec2 ((pos.x - resolution) / (resolution * 2), (pos.y / 2 - (resolution / 4)) / resolution) * zoom;
+    vec2 i = vec2 ((pos.x - resolution) / (resolution * 2), (pos.y / 2 - (resolution / 4)) / resolution);
     i *= M_PI * 2;
 
     // one "unit" of i here on the flat map will now be one planetary radius.
@@ -717,8 +715,10 @@ vec4 cartesian (vec2 pos) {
 void main() {
     ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
     vec4 c = cartesian (pos);
+    vec4 xpos = vec4 (vec4 (c.xyz, 1.0) * modelMatrix);
+
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
     float step = smoothstep (0.99, 1.0, c.w);
-    vec4 color =  mix (findColor (value (c.xyz)), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
+    vec4 color =  mix (findColor (value (xpos.xyz)), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
     imageStore (destTex, pos, color);
 }

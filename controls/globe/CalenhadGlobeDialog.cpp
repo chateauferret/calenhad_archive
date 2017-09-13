@@ -169,12 +169,12 @@ void CalenhadGlobeDialog::paintEvent (QPaintEvent* e) {
 }
 
 void CalenhadGlobeDialog::setZoom (const double& zoom) {
-    _globe -> setZoom (zoom);
+    _globe->setScale (zoom);
     invalidate();
 }
 
 double CalenhadGlobeDialog::zoom() {
-    return _globe -> zoom();
+    return _globe->scale ();
 }
 
 bool CalenhadGlobeDialog::isOverviewVisible () {

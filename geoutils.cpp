@@ -5,8 +5,6 @@
  */
 
 #include "geoutils.h"
-#include <cmath>
-#include <math.h>
 #include <QtGui/QtGui>
 #include <sstream>
 namespace geoutils {
@@ -16,6 +14,7 @@ namespace geoutils {
     Geolocation::Geolocation (const double& newLat, const double& newLon, const Units& units) {
         setLatitude (newLat, units);
         setLongitude (newLon, units);
+        conform();
     }
 
     Geolocation::Geolocation (const Geolocation& other) : Geolocation (other._latitude, other._longitude, Units::Radians) {
@@ -55,10 +54,10 @@ namespace geoutils {
     }
 
     void Geolocation::conform() {
-        if (_latitude > M_PI) { setLatitude (_latitude - M_PI); }
-        if (_latitude  -M_PI * 2) { setLatitude (_latitude + M_PI); }
-        if (_longitude > M_PI * 2) { setLongitude (_longitude - M_PI * 2); }
-        if (_longitude < -M_PI * 2) { setLongitude (_longitude + M_PI * 2); }
+        if (_latitude > M_PI / 2) { setLatitude (_latitude - M_PI); }
+        if (_latitude < -M_PI / 2) { setLatitude (_latitude + M_PI); }
+        if (_longitude > M_PI) { setLongitude (_longitude - M_PI * 2); }
+        if (_longitude < -M_PI) { setLongitude (_longitude + M_PI * 2); }
     }
 
     double Geolocation::latitude (const Units& units) const {
@@ -76,7 +75,6 @@ namespace geoutils {
     void Geolocation::setLongitude (const double& lon, const Units& units) {
         _longitude = units == Units::Radians ? lon : degreesToRadians (lon);
     }
-
 
 
     Cartesian::Cartesian () : Cartesian (0.0, 0.0, 1.0) {}

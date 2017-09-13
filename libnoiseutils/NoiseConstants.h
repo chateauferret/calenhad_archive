@@ -77,7 +77,7 @@ namespace noise {
             static constexpr int RASTER_MAX_HEIGHT = 32767;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-            // The raster's stride length must be a multiple of this constant.
+            // The raster's stride magnitude must be a multiple of this constant.
             static constexpr int RASTER_STRIDE_BOUNDARY = 4;
 #endif
 

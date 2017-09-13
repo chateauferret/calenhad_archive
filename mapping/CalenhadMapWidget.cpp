@@ -7,9 +7,11 @@
 #include "projection/ProjectionService.h"
 #include "projection/Projection.h"
 #include <QWindow>
+#include <QtXml/QtXml>
 
 using namespace calenhad;
 using namespace geoutils;
+using namespace matrices;
 using namespace calenhad::graph;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
@@ -25,7 +27,7 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     m_indexBuffer (nullptr),
     _altitudeMapBuffer (nullptr),
     _projection (CalenhadServices::projections() -> fetch ("Equirectangular")),
-    _zoom (1.0),
+    _scale (1.0),
     _shader ("") {
 
 
@@ -148,27 +150,35 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::paintGL() {
-    std::cout << "Rotation " << _rotation.longitude (Units::Degrees) << " " <<  _rotation.latitude (Units::Degrees) << "\n";
+    glUseProgram (m_computeProgram -> programId());
     static GLint srcLoc= glGetUniformLocation(m_renderProgram->programId(),"srcTex");
     static GLint destLoc=glGetUniformLocation(m_computeProgram->programId(),"destTex");
     static GLint ambsLoc = glGetUniformLocation (m_computeProgram -> programId(), "altitudeMapBufferSize");
     static GLint cmbsLoc = glGetUniformLocation (m_computeProgram -> programId(), "colorMapBufferSize");
-    static GLint zoomLoc = glGetUniformLocation (m_computeProgram -> programId(), "zoom");
     static GLint projLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
     static GLint resolutionLoc = glGetUniformLocation (m_computeProgram -> programId(), "resolution");
     static GLint projectionLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
-    static GLint rotationLoc = glGetUniformLocation (m_computeProgram -> programId(), "rotation");
+    static GLint modelMatrixLoc = glGetUniformLocation (m_computeProgram -> programId(), "modelMatrix");
 
     m_vao.bind();
     m_computeProgram->bind();
     m_texture->bind();
 
+    // prepare the model matrix for the shader
+    modelMatrix().debug();
+    Mat4 M = modelMatrix();
+    GLfloat a [16];
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            a [i * 4 + j] = M.value (i, j);
+        }
+    }
+
     glUniform1i (destLoc,0);
     glUniform1i (projLoc, _projection -> id ());
     glUniform1i (resolutionLoc, m_texture -> height());
     glUniform1i (projectionLoc, _projection -> id());
-    glUniform2f (rotationLoc, _rotation.longitude (Units::Degrees), _rotation.latitude (Units::Degrees));
-    glUniform1f (zoomLoc, (GLfloat) _zoom);
+    glUniformMatrix4fv (modelMatrixLoc, 1, GL_TRUE, a);
     glUniform1i (ambsLoc, 2048);
     glUniform1i (cmbsLoc, 2048);
 
@@ -222,12 +232,12 @@ void CalenhadMapWidget::showEvent (QShowEvent* e) {
 }
 
 
-void CalenhadMapWidget::setZoom (const double& zoom) {
-    _zoom = zoom;
+void CalenhadMapWidget::setScale (const double& scale) {
+    _scale = scale;
 }
 
-double CalenhadMapWidget::zoom() {
-    return _zoom;
+double CalenhadMapWidget::scale () {
+    return _scale;
 }
 
 void CalenhadMapWidget::setProjection (const QString& projection) {
@@ -240,10 +250,32 @@ Projection* CalenhadMapWidget::projection() {
 }
 
 void CalenhadMapWidget::rotate (const Geolocation& rotation) {
-    _rotation += rotation;
+    _rotation.setLatitude (_rotation.latitude() - rotation.latitude());
+    _rotation.setLongitude (_rotation.longitude() - rotation.longitude());
+    std::cout << "Rotation " << qRadiansToDegrees (_rotation.longitude()) << " " << qRadiansToDegrees (_rotation.latitude()) << "\n";
     update();
 }
 
 Geolocation CalenhadMapWidget::rotation() {
     return _rotation;
+}
+
+QPointF CalenhadMapWidget::translation() {
+    return _translation;
+}
+
+void CalenhadMapWidget::setTranslation (const QPointF& translation) {
+    _translation = translation;
+}
+
+matrices::Mat4 CalenhadMapWidget::modelMatrix () {
+    Mat4 T = Mat4::translationMatrix (_translation.x(), _translation.y(), 0.0);
+    Mat4 S = Mat4::scalingMatrix (_scale, _scale, _scale);
+
+    Versor vLat = Versor::fromParameters (_rotation.latitude(), 0.0, 1.0, 0.0);
+    Versor vLon = Versor::fromParameters (_rotation.longitude(), 1.0, 0.0, 0.0);
+    Versor v = vLat * vLon;
+    Mat4 R = v.toRotationMatrix();
+
+    return T * R * S;
 }
