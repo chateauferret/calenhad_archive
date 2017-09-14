@@ -51,8 +51,8 @@ vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
 }
 
 vec2 toGeolocation (vec3 cartesian) {
-    float theta = atan (cartesian.x, cartesian.z);
-    float phi = acos (cartesian.y);
+    float theta = atan (cartesian.y, cartesian.x);
+    float phi = acos (cartesian.z);
     return vec2 (theta, phi);
 }
 
@@ -763,12 +763,11 @@ void main() {
     }
 
     // write to the inset to show points that are within the main map, if there is one
-    // to do - don't overwrite coloured points in the inset with grey
     if (insetHeight > 0 && ! inset) {
         vec2 g = toGeolocation (xpos.xyz);
         float x = g.x / (2 * M_PI) + 0.5;
         float y = g.y / M_PI;
-        ivec2 index = ivec2 (int ((1 - x) * insetHeight * 2), int ((1 - y) * insetHeight));
+        ivec2 index = ivec2 (int (x * insetHeight * 2), int ((1 - y) * insetHeight));
         index += insetPos;
         imageStore (destTex, index, findColor (v));
     }
