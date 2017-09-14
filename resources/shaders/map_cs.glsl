@@ -4,8 +4,9 @@ uniform writeonly image2D destTex;
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
 uniform int resolution = 512;
-uniform bool supersample = false;
-uniform mat4 modelMatrix;
+uniform bool overview = false;
+uniform float scale;
+uniform vec2 datum;
 
 layout (std430, binding = 3) buffer altitudeMapBuffer { float map_out []; };
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
@@ -699,11 +700,13 @@ vec4 findColor (float value) {
 // The first three components in the returned vector are x, y and z, the third is negative if the point is off the map.
 // Logic here should be identical to that in the corresponding implementations of calenhad::mapping::projection::Projection::inverse.
 
-vec4 cartesian (vec2 pos) {
+vec4 cartesian (vec2 pos, bool project) {
 
-    vec2 i = vec2 ((pos.x - resolution) / (resolution * 2), (pos.y / 2 - (resolution / 4)) / resolution);
-    i *= M_PI * 2;
+    vec2 j = vec2 ((pos.x - resolution) / (resolution * 2), (pos.y / 2 - (resolution / 4)) / resolution);
+    j *= M_PI * 2;
+    vec2 i = j * scale;
 
+    if (project) {
     // one "unit" of i here on the flat map will now be one planetary radius.
     // x = longitude and y = latitude.
     // branches to select projection are OK because all invocations will be using the same projection
@@ -711,14 +714,31 @@ vec4 cartesian (vec2 pos) {
     // inserted projections //
 
     return vec4 (0.0, 0.0, 0.0, -1.0);
+
+    } else {
+        // overview is always whole-world equirectangular
+        vec2 g = vec2 (j.x + datum.x, j.y);
+        vec3 cart = toCartesian (g);
+        return vec4 (cart.xyz, 1.0);
+    }
+
 }
+
 void main() {
     ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
-    vec4 c = cartesian (pos);
-    vec4 xpos = vec4 (vec4 (c.xyz, 1.0) * modelMatrix);
+    vec4 c = cartesian (pos, true);
+    vec4 color;
 
-    // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-    float step = smoothstep (0.99, 1.0, c.w);
-    vec4 color =  mix (findColor (value (xpos.xyz)), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
+    if (overview) {
+        vec4 p = cartesian (pos, false);
+        float v = value (p.xyz);
+        color = c.w > scale ? vec4 (v, v, v, 1.0) : findColor (v);
+    } else {
+        // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
+        float step = smoothstep (0.99, 1.0, c.w);
+        vec4 xpos = vec4 (c.xyz, 1.0);
+        float v = value (xpos.xyz);
+        color =  mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
+    }
     imageStore (destTex, pos, color);
 }

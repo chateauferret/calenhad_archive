@@ -1,6 +1,6 @@
 #include "CalenhadMapWidget.h"
 #include <QIcon>
-#include <iostream>
+#include "../icosphere/Bounds.h"
 #include "../graph/graph.h"
 #include "../CalenhadServices.h"
 #include "../preferences/preferences.h"
@@ -8,10 +8,12 @@
 #include "projection/Projection.h"
 #include <QWindow>
 #include <QtXml/QtXml>
+#include <QtGui/QPainter>
 
 using namespace calenhad;
 using namespace geoutils;
 using namespace matrices;
+using namespace icosphere;
 using namespace calenhad::graph;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
@@ -25,16 +27,18 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     m_texture (nullptr),
     m_renderProgram (nullptr),
     m_indexBuffer (nullptr),
+    _parentMap (nullptr),
     _altitudeMapBuffer (nullptr),
     _projection (CalenhadServices::projections() -> fetch ("Equirectangular")),
     _scale (1.0),
-    _shader ("") {
+    _shader (""),
+    _graticule (true) {
 
 
     QSurfaceFormat format;
-    //format.setSamples(8);
-    //format.setVersion(4, 3);
-    //format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setSamples(8);
+    format.setVersion(4, 3);
+    format.setProfile(QSurfaceFormat::CoreProfile);
     setFormat(format);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -106,7 +110,6 @@ void CalenhadMapWidget::initializeGL() {
     m_indexBuffer->allocate(g_element_buffer_data,sizeof(g_element_buffer_data));
 
     glActiveTexture(GL_TEXTURE0);
-    //m_texture = new QOpenGLTexture(QImage(QDir::currentPath()+"/../OpenGLComputeExample/example_image.png").mirrored());
     m_texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     m_texture->create();
     m_texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
@@ -143,29 +146,35 @@ void CalenhadMapWidget::initializeGL() {
     m_renderProgram->bind();
 
     GLint posPtr = glGetAttribLocation(m_renderProgram->programId(), "pos");
-    glVertexAttribPointer(posPtr, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(posPtr);
+    glVertexAttribPointer (posPtr, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray (posPtr);
 
     m_vao.release();
 }
 
 void CalenhadMapWidget::paintGL() {
+    if (_parentMap) { _parentMap -> update(); }
+    QPainter p (this);
+    p.beginNativePainting();
+
     glUseProgram (m_computeProgram -> programId());
     static GLint srcLoc= glGetUniformLocation(m_renderProgram->programId(),"srcTex");
     static GLint destLoc=glGetUniformLocation(m_computeProgram->programId(),"destTex");
     static GLint ambsLoc = glGetUniformLocation (m_computeProgram -> programId(), "altitudeMapBufferSize");
     static GLint cmbsLoc = glGetUniformLocation (m_computeProgram -> programId(), "colorMapBufferSize");
-    static GLint projLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
     static GLint resolutionLoc = glGetUniformLocation (m_computeProgram -> programId(), "resolution");
     static GLint projectionLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
-    static GLint modelMatrixLoc = glGetUniformLocation (m_computeProgram -> programId(), "modelMatrix");
+    //static GLint modelMatrixLoc = glGetUniformLocation (m_computeProgram -> programId(), "modelMatrix");
+    static GLint scaleLoc = glGetUniformLocation (m_computeProgram -> programId (), "scale");
+    static GLint datumLoc = glGetUniformLocation (m_computeProgram -> programId(), "datum");
+    static GLint overviewLoc = glGetUniformLocation (m_computeProgram -> programId(), "overview");
 
     m_vao.bind();
     m_computeProgram->bind();
     m_texture->bind();
 
     // prepare the model matrix for the shader
-    modelMatrix().debug();
+    /*
     Mat4 M = modelMatrix();
     GLfloat a [16];
     for (int i = 0; i < 4; i++) {
@@ -173,14 +182,26 @@ void CalenhadMapWidget::paintGL() {
             a [i * 4 + j] = M.value (i, j);
         }
     }
+    */
+    glUniform1i (destLoc, 0);
+    if (_parentMap) {
+        glUniform2f (datumLoc, (GLfloat) _parentMap -> rotation().longitude(), (GLfloat) -_parentMap -> rotation().latitude());
+        glUniform1i (projectionLoc, _parentMap -> projection() -> id ());
+        glUniform1f (scaleLoc, (GLfloat) _parentMap -> scale());
+        glUniform1i (overviewLoc, 1);
+    } else {
+        glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) -_rotation.latitude());
+        glUniform1i (projectionLoc, _projection -> id ());
+        glUniform1f (scaleLoc, (GLfloat) _scale);
+        glUniform1i (overviewLoc, 0);
+    }
 
-    glUniform1i (destLoc,0);
-    glUniform1i (projLoc, _projection -> id ());
     glUniform1i (resolutionLoc, m_texture -> height());
-    glUniform1i (projectionLoc, _projection -> id());
-    glUniformMatrix4fv (modelMatrixLoc, 1, GL_TRUE, a);
+    //glUniformMatrix4fv (modelMatrixLoc, 1, GL_TRUE, a);
+
     glUniform1i (ambsLoc, 2048);
     glUniform1i (cmbsLoc, 2048);
+
 
     glDispatchCompute (m_texture -> width() / 16, m_texture -> height() / 16, 1);
     glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -189,19 +210,19 @@ void CalenhadMapWidget::paintGL() {
     m_renderProgram->bind();
     //glClear(GL_COLOR_BUFFER_BIT);
     m_texture->bind();
-    glUniform1i(srcLoc,0);
+    glUniform1i(srcLoc, 0);
     glDrawElements (GL_TRIANGLE_STRIP,4,GL_UNSIGNED_SHORT,0);
-
     m_vao.release();
+
+    p.endNativePainting();
+
+    if (_graticule) {
+        drawGraticule (p);
+    }
 }
 
-void CalenhadMapWidget::resizeGL(int width, int height)
-{
-//    glViewport(0, 0, width, height);
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    glOrtho(0, 1, 0, 1, 0, 1);
-//    glMatrixMode(GL_MODELVIEW);
+void CalenhadMapWidget::resizeGL(int width, int height) {
+    glViewport(0, 0, width, height);
 }
 
 // Insert the given code into the compute shader to realise the noise pipeline
@@ -250,10 +271,9 @@ Projection* CalenhadMapWidget::projection() {
 }
 
 void CalenhadMapWidget::rotate (const Geolocation& rotation) {
-    _rotation.setLatitude (_rotation.latitude() - rotation.latitude());
-    _rotation.setLongitude (_rotation.longitude() - rotation.longitude());
-    std::cout << "Rotation " << qRadiansToDegrees (_rotation.longitude()) << " " << qRadiansToDegrees (_rotation.latitude()) << "\n";
+    _rotation = rotation;
     update();
+    std::cout << "Rotation " << qRadiansToDegrees (_rotation.longitude()) << " " << qRadiansToDegrees (_rotation.latitude()) << "\n";
 }
 
 Geolocation CalenhadMapWidget::rotation() {
@@ -269,13 +289,28 @@ void CalenhadMapWidget::setTranslation (const QPointF& translation) {
 }
 
 matrices::Mat4 CalenhadMapWidget::modelMatrix () {
-    Mat4 T = Mat4::translationMatrix (_translation.x(), _translation.y(), 0.0);
-    Mat4 S = Mat4::scalingMatrix (_scale, _scale, _scale);
+    //Mat4 T = Mat4::translationMatrix (_translation.x(), _translation.y(), 0.0);
+    //Mat4 S = Mat4::scalingMatrix (_scale, _scale, _scale);
 
-    Versor vLat = Versor::fromParameters (_rotation.latitude(), 0.0, 1.0, 0.0);
-    Versor vLon = Versor::fromParameters (_rotation.longitude(), 1.0, 0.0, 0.0);
-    Versor v = vLat * vLon;
-    Mat4 R = v.toRotationMatrix();
+    //Versor vLat = Versor::fromParameters (_rotation.latitude(), 0.0, 1.0, 0.0);
+    //Versor vLon = Versor::fromParameters (_rotation.longitude(), 1.0, 0.0, 0.0);
+    //Versor vTilt = Versor::fromParameters (qDegreesToRadians (23.5), 0.0, 0.0, 0.1);
+    //Versor v = vLat * vLon;
+    //Mat4 R = v.toRotationMatrix();
 
-    return T * R * S;
+    //return T * R ;//* S;
+
+}
+
+void CalenhadMapWidget::setParentMap (CalenhadMapWidget* parentMap) {
+    _parentMap = parentMap;
+}
+
+Bounds CalenhadMapWidget::bounds() {
+
+}
+
+void CalenhadMapWidget::drawGraticule (QPainter& p) {
+    p.setPen(Qt::red);
+
 }

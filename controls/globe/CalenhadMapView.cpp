@@ -101,7 +101,9 @@ void CalenhadMapView::screenCoordinates (geoutils::Geolocation geolocation, QPoi
 bool CalenhadMapView::geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation) {
     double x = ((pos.x() / width()) * M_PI * 2 - M_PI) * _scale;
     double y = ((pos.y() / height()) * M_PI - (M_PI / 2)) * _scale;
-    return _projection -> inverse (QPointF (x, -y), geolocation);
+    _projection -> setDatum (_rotation);
+    bool result = _projection -> inverse (QPointF (x, -y), geolocation);
+    return result;
 }
 
 void CalenhadMapView::setCoordinatesFormat (CoordinatesFormat format) {

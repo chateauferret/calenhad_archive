@@ -70,10 +70,12 @@ namespace geoutils {
 
     void Geolocation::setLatitude (const double& lat, const Units& units) {
         _latitude = units == Units::Radians ? lat : degreesToRadians (lat);
+        conform();
     }
 
     void Geolocation::setLongitude (const double& lon, const Units& units) {
         _longitude = units == Units::Radians ? lon : degreesToRadians (lon);
+        conform();
     }
 
 

@@ -68,6 +68,7 @@ void CalenhadGlobeDialog::initialise() {
 
     // add our own overview map
     _overview = new CalenhadMapView (this);
+    _overview -> setParentMap (_globe);
     _overview -> setFixedSize (210, 105);
     _overview -> move (20, 20);
     _overview -> setSource (_globe -> source());

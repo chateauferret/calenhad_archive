@@ -11,6 +11,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QDir>
 #include <geoutils.h>
+#include <icosphere/Bounds.h>
 #include "../matrices.h"
 
 namespace calenhad {
@@ -64,6 +65,10 @@ namespace calenhad {
 
             projection::Projection* projection ();
 
+            icosphere::Bounds bounds ();
+
+            void setParentMap (CalenhadMapWidget* parentMap);
+
         public slots:
 
             void setProjection (const QString& projection);
@@ -86,6 +91,10 @@ namespace calenhad {
 
             geoutils::Geolocation _rotation;
             QPointF _translation;
+            bool _graticule;
+            CalenhadMapWidget* _parentMap;
+            void drawGraticule (QPainter& p);
+
         };
     }
 }

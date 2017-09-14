@@ -8,6 +8,7 @@
 #include <geoutils.h>
 #include <QtCore/QPointF>
 #include <QPointF>
+#include "geoutils.h"
 
 namespace calenhad {
     namespace mapping {
@@ -31,6 +32,8 @@ namespace calenhad {
                 virtual int id() = 0;
 
                 virtual QPointF range() { return QPointF (M_PI * 2, M_PI); }
+
+                virtual void setDatum (const geoutils::Geolocation& datum) = 0;
             };
         }
     }

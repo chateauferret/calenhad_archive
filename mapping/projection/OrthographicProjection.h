@@ -30,7 +30,7 @@ namespace calenhad {
 
                 int id() override;
 
-                void setDatum (const geoutils::Geolocation& point);
+                void setDatum (const geoutils::Geolocation& datum) override;
 
                 geoutils::Geolocation _datum;   // _datum.longitude is the central meridian of the projection
                 // _datum.latitude is ignored

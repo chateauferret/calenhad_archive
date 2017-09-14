@@ -27,7 +27,7 @@ bool OrthographicProjection::inverse (const QPointF& point, Geolocation& geoloca
     double rho = std::sqrt (x * x + y * y);
     double c = std::asin (rho);
     double lat = asin (cos (c) * sin (_datum.latitude()) + (((y * sin (c)) * cos (_datum.latitude()) / rho)));
-    double lon = _datum.longitude() + std::atan ((x * sin (c)) / (rho * cos (_datum.latitude()) * cos (c) - y * sin (_datum.latitude()) * sin (c)));
+    double lon = _datum.longitude() + std::atan2 ((x * sin (c)), (rho * cos (_datum.latitude()) * cos (c) - y * sin (_datum.latitude()) * sin (c)));
     geolocation.setLatitude (lat);
     geolocation.setLongitude (lon);
     return (isVisible (geolocation));
@@ -40,7 +40,7 @@ bool OrthographicProjection::isVisible (const Geolocation& geolocation) {
 bool OrthographicProjection::forward (const geoutils::Geolocation& geolocation, QPointF& point) {
     point.setX ((geolocation.longitude() - _datum.longitude()) * cos (_datum.latitude()));
     point.setY (geolocation.latitude() - _datum.latitude());
-    bool valid = (geolocation.latitude() >= -M_PI / 2) && (geolocation.latitude() <= M_PI / 2);
+    bool valid = isVisible (geolocation);
     return valid;
 }
 
@@ -58,8 +58,6 @@ int OrthographicProjection::id () {
 
 QString OrthographicProjection::glsl() {
     QString code = "if (projection == PROJ_ORTHOGRAPHIC) {\n";
-    //code += "   vec2 datum = -rotation;\n";
-    code += "   vec2 datum = vec2 (0.0, 0.0);\n";
     code += "    float x = i.x / 2;\n";
     code += "    float y = i.y;\n";
     code += "    float w = sqrt (x * x + y * y);\n";
