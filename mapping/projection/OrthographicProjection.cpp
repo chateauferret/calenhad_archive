@@ -56,15 +56,15 @@ int OrthographicProjection::id () {
     return 2; // see map_cs.glsl
 }
 
-QString OrthographicProjection::glsl() {
-    QString code = "if (projection == PROJ_ORTHOGRAPHIC) {\n";
+QString OrthographicProjection::glslInverse () {
+    QString code = "if (p == PROJ_ORTHOGRAPHIC) {\n";
     code += "    float x = i.x / 2;\n";
     code += "    float y = i.y;\n";
     code += "    float w = sqrt (x * x + y * y);\n";
     code += "    float z = sqrt (1.0 - x * x - y * y);\n";
-    code += "    float x1 = cos (datum.x) * x + sin (datum.x) * sin (datum.y) * y + sin (datum.x) * cos (datum.y) * z;\n";
-    code += "    float y1 = cos (datum.y) * y - sin (datum.y) * z;\n";
-    code += "    float z1 = - sin (datum.x) * x + cos (datum.x) * sin (datum.y) * y + cos (datum.x) * cos (datum.y) * z;\n";
+    code += "    float x1 = cos (d.x) * x + sin (d.x) * sin (d.y) * y + sin (d.x) * cos (d.y) * z;\n";
+    code += "    float y1 = cos (d.y) * y - sin (d.y) * z;\n";
+    code += "    float z1 = - sin (d.x) * x + cos (d.x) * sin (d.y) * y + cos (d.x) * cos (d.y) * z;\n";
     code += "    return vec4 (z1, x1, y1, w);\n";
     code += "}\n";
     return code;

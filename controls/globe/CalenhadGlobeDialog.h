@@ -105,7 +105,6 @@ namespace calenhad {
 
 
             protected:
-                CalenhadMapView* _overview;
                 CalenhadNavigator* _navigator;
                 CalenhadGlobeContextMenu* _contextMenu;
                 QwtSlider* _zoomSlider;

@@ -37,7 +37,7 @@ const QMap<QString, Projection*>& ProjectionService::all () const {
 QString ProjectionService::glsl () {
     QString code = "";
     for (Projection* p : _projections) {
-        code += p -> glsl();
+        code += p->glslInverse ();
     }
     return code;
 }

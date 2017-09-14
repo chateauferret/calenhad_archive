@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     CalculatorService* calculator = new CalculatorService();
     CalenhadServices::provideCalculator (calculator);
 
-    // test glsl generation with some modules
+    // test glslInverse generation with some modules
 
     // test xml file
     QFile file ("/home/martin/ClionProjects/calenhad/cmake-build-debug/test-2.xml");

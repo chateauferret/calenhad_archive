@@ -69,6 +69,8 @@ namespace calenhad {
 
             void setParentMap (CalenhadMapWidget* parentMap);
 
+            void setInset (bool inset);
+
         public slots:
 
             void setProjection (const QString& projection);
@@ -95,6 +97,7 @@ namespace calenhad {
             CalenhadMapWidget* _parentMap;
             void drawGraticule (QPainter& p);
 
+            bool _inset;
         };
     }
 }

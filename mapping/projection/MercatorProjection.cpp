@@ -48,10 +48,10 @@ int MercatorProjection::id () {
     return 1; // see map_cs.glsl
 }
 
-QString MercatorProjection::glsl() {
-    QString code = "if (projection == PROJ_MERCATOR) {\n";
+QString MercatorProjection::glslInverse() {
+    QString code = "if (p == PROJ_MERCATOR) {\n";
     code += "    float lat = M_PI / 2 - 2 * atan (exp (-i.y));\n";
-    code += "    float lon = i.x + datum.x;\n";
+    code += "    float lon = i.x + d.x;\n";
     code += "    vec2 g = vec2 (lon, lat);\n";
     code += "    vec3 cart = toCartesian (g);\n";
     code += "   return vec4 (cart, abs (g.y / M_PI * 2));\n";

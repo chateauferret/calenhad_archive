@@ -34,11 +34,12 @@ namespace calenhad {
 
                 geoutils::Geolocation _datum;   // _datum.longitude is the central meridian of the projection
                 // _datum.latitude is ignored
-                QString glsl () override;
+                QString glslInverse () override;
 
                 bool isVisible (const geoutils::Geolocation& geolocation);
 
                 QPointF range() override;
+
             };
 
         }

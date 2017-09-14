@@ -49,9 +49,9 @@ int EquirectangularProjection::id () {
     return 0; // see map_cs.glsl
 }
 
-QString EquirectangularProjection::glsl() {
-    QString code = "if (projection == PROJ_EQUIRECTANGULAR) {\n";
-    code += "   vec2 g = vec2 (i.x + datum.x, i.y);\n";
+QString EquirectangularProjection::glslInverse() {
+    QString code = "if (p == PROJ_EQUIRECTANGULAR) {\n";
+    code += "   vec2 g = vec2 (i.x + d.x, i.y);\n";
     code += "   bool valid = (g.y >= -M_PI / 2) && (g.y <= M_PI / 2);\n";
     code += "   vec3 cart = toCartesian (g);\n";
     code += "   return vec4 (cart.xyz, abs (g.y / (M_PI / 2)));\n";

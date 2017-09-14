@@ -27,7 +27,7 @@ namespace calenhad {
 
                 virtual QString notes () = 0;
 
-                virtual QString glsl() = 0;
+                virtual QString glslInverse () = 0;
 
                 virtual int id() = 0;
 

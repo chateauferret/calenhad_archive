@@ -32,7 +32,8 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _projection (CalenhadServices::projections() -> fetch ("Equirectangular")),
     _scale (1.0),
     _shader (""),
-    _graticule (true) {
+    _graticule (true),
+    _inset (false) {
 
 
     QSurfaceFormat format;
@@ -61,7 +62,7 @@ void CalenhadMapWidget::initializeGL() {
     initializeOpenGLFunctions();
     //glEnable (GL_MULTISAMPLE);
 
-    glClearColor(0,0,1,1);
+    glClearColor(0, 0, 1, 1);
     _colorMapBuffer = _graph -> colorMapBuffer();
     _altitudeMapBuffer = _graph -> altitudeMapBuffer();
 
@@ -167,12 +168,14 @@ void CalenhadMapWidget::paintGL() {
     //static GLint modelMatrixLoc = glGetUniformLocation (m_computeProgram -> programId(), "modelMatrix");
     static GLint scaleLoc = glGetUniformLocation (m_computeProgram -> programId (), "scale");
     static GLint datumLoc = glGetUniformLocation (m_computeProgram -> programId(), "datum");
-    static GLint overviewLoc = glGetUniformLocation (m_computeProgram -> programId(), "overview");
+    static GLint insetHeightLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetHeight");
 
     m_vao.bind();
     m_computeProgram->bind();
     m_texture->bind();
-
+    GLubyte c = 0;
+    std::vector<GLubyte> emptyData (m_texture -> width() * m_texture -> height() * 4, 0);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_texture -> width(), m_texture -> height(), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
     // prepare the model matrix for the shader
     /*
     Mat4 M = modelMatrix();
@@ -184,18 +187,10 @@ void CalenhadMapWidget::paintGL() {
     }
     */
     glUniform1i (destLoc, 0);
-    if (_parentMap) {
-        glUniform2f (datumLoc, (GLfloat) _parentMap -> rotation().longitude(), (GLfloat) -_parentMap -> rotation().latitude());
-        glUniform1i (projectionLoc, _parentMap -> projection() -> id ());
-        glUniform1f (scaleLoc, (GLfloat) _parentMap -> scale());
-        glUniform1i (overviewLoc, 1);
-    } else {
-        glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) -_rotation.latitude());
-        glUniform1i (projectionLoc, _projection -> id ());
-        glUniform1f (scaleLoc, (GLfloat) _scale);
-        glUniform1i (overviewLoc, 0);
-    }
-
+    glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) -_rotation.latitude());
+    glUniform1i (projectionLoc, _projection -> id ());
+    glUniform1f (scaleLoc, (GLfloat) _scale);
+    glUniform1i (insetHeightLoc, _inset ? 192 : 0);
     glUniform1i (resolutionLoc, m_texture -> height());
     //glUniformMatrix4fv (modelMatrixLoc, 1, GL_TRUE, a);
 
@@ -313,4 +308,8 @@ Bounds CalenhadMapWidget::bounds() {
 void CalenhadMapWidget::drawGraticule (QPainter& p) {
     p.setPen(Qt::red);
 
+}
+
+void CalenhadMapWidget::setInset (bool inset) {
+    _inset = inset;
 }

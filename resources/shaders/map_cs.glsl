@@ -1,10 +1,9 @@
 #version 430
 
-uniform writeonly image2D destTex;
+layout (rgba32f) uniform image2D destTex;
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
 uniform int resolution = 512;
-uniform bool overview = false;
 uniform float scale;
 uniform vec2 datum;
 
@@ -30,7 +29,13 @@ const int PROJ_MERCATOR = 1;
 const int PROJ_ORTHOGRAPHIC = 2;
 //...
 
+// selected projection for main map
 uniform int projection = PROJ_ORTHOGRAPHIC;
+
+// overview map inset parameters
+uniform int insetHeight;                               // height (pixels) - width will be 2 x height - 0 means no inset
+uniform ivec2 insetPos = ivec2 (8, 8);                    // inset top left corner x, y (pixels)
+uniform vec4 insetBorder = vec4 (1.0, 1.0, 1.0, 1.0);   // border color
 
 
 float makeInt32Range (float f) {
@@ -43,6 +48,12 @@ vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
     cartesian.y = cos (geolocation.y) * sin (geolocation.x);
     cartesian.z = sin (geolocation.y);
     return cartesian;
+}
+
+vec2 toGeolocation (vec3 cartesian) {
+    float theta = atan (cartesian.x, cartesian.z);
+    float phi = acos (cartesian.y);
+    return vec2 (theta, phi);
 }
 
 float hash (float n) {
@@ -700,45 +711,65 @@ vec4 findColor (float value) {
 // The first three components in the returned vector are x, y and z, the third is negative if the point is off the map.
 // Logic here should be identical to that in the corresponding implementations of calenhad::mapping::projection::Projection::inverse.
 
-vec4 cartesian (vec2 pos, bool project) {
-
-    vec2 j = vec2 ((pos.x - resolution) / (resolution * 2), (pos.y / 2 - (resolution / 4)) / resolution);
+vec2 logicalPos (vec2 pos, bool inset) {
+    float r = float (inset ? insetHeight: resolution);
+    vec2 j = vec2 ((pos.x - r) / (r * 2), (pos.y / 2 - (r / 4)) / r);
     j *= M_PI * 2;
-    vec2 i = j * scale;
+    j *= inset ? 1.0 : scale;
+    return j;
+}
 
-    if (project) {
+vec4 cartesian (vec2 i, bool inset) {
+
+    // use the set values for the inset when we are composing the inset, otherwise the reigning parameters for the main map.
+    int p = inset ? PROJ_EQUIRECTANGULAR : projection;
+    vec2 d = inset ? vec2 (0.0, 0.0) : datum;
+
     // one "unit" of i here on the flat map will now be one planetary radius.
     // x = longitude and y = latitude.
-    // branches to select projection are OK because all invocations will be using the same projection
+    // branches to select projection are OK because all invocations will be using the same projection (except for texels in the inset area).
 
     // inserted projections //
 
     return vec4 (0.0, 0.0, 0.0, -1.0);
 
-    } else {
-        // overview is always whole-world equirectangular
-        vec2 g = vec2 (j.x + datum.x, j.y);
-        vec3 cart = toCartesian (g);
-        return vec4 (cart.xyz, 1.0);
-    }
+}
 
+bool inInset (ivec2 pos) {
+    return pos.x > insetPos.x && pos.x < insetPos.x + insetHeight * 2 && pos.y > insetPos.y && pos.y < insetPos.y + insetHeight;
+}
+
+vec4 toGreyscale (vec4 color) {
+    float l = sqrt (color.x * color.x + color.y * color.y + color.z * color.z);
+    return vec4 (l, l, l, 1.0);
 }
 
 void main() {
     ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
-    vec4 c = cartesian (pos, true);
+    bool inset = inInset (pos);
+    vec2 i = logicalPos (pos, inset);
+    vec4 c = cartesian (i, inset);
     vec4 color;
 
-    if (overview) {
-        vec4 p = cartesian (pos, false);
-        float v = value (p.xyz);
-        color = c.w > scale ? vec4 (v, v, v, 1.0) : findColor (v);
-    } else {
-        // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-        float step = smoothstep (0.99, 1.0, c.w);
-        vec4 xpos = vec4 (c.xyz, 1.0);
-        float v = value (xpos.xyz);
-        color =  mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
+    // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
+    float step = smoothstep (0.99, 1.0, c.w);
+    vec4 xpos = vec4 (c.xyz, 1.0);
+
+    float v = value (xpos.xyz);
+    color = inset ? toGreyscale (findColor (v)) : mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
+    vec4 q = imageLoad (destTex, pos);
+    if (q.xyz == vec3 (0.0, 0.0, 0.0)) {
+        imageStore (destTex, pos, color);
     }
-    imageStore (destTex, pos, color);
+
+    // write to the inset to show points that are within the main map, if there is one
+    // to do - don't overwrite coloured points in the inset with grey
+    if (insetHeight > 0 && ! inset) {
+        vec2 g = toGeolocation (xpos.xyz);
+        float x = g.x / (2 * M_PI) + 0.5;
+        float y = g.y / M_PI;
+        ivec2 index = ivec2 (int ((1 - x) * insetHeight * 2), int ((1 - y) * insetHeight));
+        index += insetPos;
+        imageStore (destTex, index, findColor (v));
+    }
 }

@@ -52,6 +52,7 @@ CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, QModule* source) : QD
     connect (_globe, &QWidget::customContextMenuRequested, this, &CalenhadGlobeDialog::showContextMenu);
     _globe -> setSource (source);
     _globe -> setProjection ("Orthographic");
+    _globe -> setInset (true);
 
 }
 
@@ -66,16 +67,6 @@ void CalenhadGlobeDialog::initialise() {
     _zoomSlider -> move (width() - 20, height() - 20);
     _zoomSlider -> setFixedSize (40, 150);
 
-    // add our own overview map
-    _overview = new CalenhadMapView (this);
-    _overview -> setParentMap (_globe);
-    _overview -> setFixedSize (210, 105);
-    _overview -> move (20, 20);
-    _overview -> setSource (_globe -> source());
-    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
-    effect -> setBlurRadius (10);
-    effect -> setOffset (4);
-    _overview -> setGraphicsEffect (effect);
     connect (_zoomSlider, SIGNAL (valueChanged (const double&)), this, SLOT (setZoom (const double&)));
     _zoomSlider -> setValue (1.0);
 
@@ -133,7 +124,7 @@ void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
 }
 
 void CalenhadGlobeDialog::showOverviewMap (const bool& show) {
-    _overview -> setVisible (show);
+    _globe -> setInset (show);
     update();
 }
 

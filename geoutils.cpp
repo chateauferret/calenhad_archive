@@ -155,7 +155,6 @@ namespace geoutils {
         double lat, lon, h;
         gc.Reverse (c.x, c.y, c.z, lat, lon, h);
         return Geolocation (lat, lon, Units::Degrees);
-
     }
 
     Cartesian Math::toCartesian (const Geolocation& g) {
