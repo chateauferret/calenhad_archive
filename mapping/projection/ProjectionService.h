@@ -21,9 +21,11 @@ namespace calenhad {
                 calenhad::mapping::projection::Projection* fetch (const QString& name);
 
                 const QMap<QString, calenhad::mapping::projection::Projection*>& all () const;
-                QString glsl();
+                QString glslInverse ();
+                QString glslForward ();
             protected:
                 QMap<QString, calenhad::mapping::projection::Projection*> _projections;
+
 
             };
         }

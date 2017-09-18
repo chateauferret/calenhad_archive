@@ -34,10 +34,6 @@ namespace calenhad {
 
                 virtual ~CalenhadMapView ();
 
-                void screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
-
-                bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
-
                 calenhad::qmodule::QModule* source ();
 
                 void setSource (calenhad::qmodule::QModule* qm);

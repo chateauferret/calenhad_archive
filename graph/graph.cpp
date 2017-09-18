@@ -92,14 +92,14 @@ QString Graph::glsl (const QDomNode& node) {
                 if (list.at (i).firstChildElement ("name").text() == from) {
                     _code = glsl (list.at (i));
 
-                    // remove them from the process once done because the glsl won't compile if they appear twice
+                    // remove them from the process once done because the glslInverse won't compile if they appear twice
                     _doc.documentElement ().removeChild (list.at (i));
                 }
             }
         }
     }
 
-    // Find out what type of module this node wants and construct glsl for it
+    // Find out what type of module this node wants and construct glslInverse for it
     QString type = node.attributes().namedItem ("type").nodeValue();
     QDomElement element = node.toElement();
     std::cout << type.toStdString () << "\n";
@@ -115,10 +115,10 @@ QString Graph::glsl (const QDomNode& node) {
     } else {
         _code.append (CalenhadServices::modules() -> codes() -> value (type));
     }
-    // replace the name marker with the name of the module which will be the member variable name for its output in glsl
+    // replace the name marker with the name of the module which will be the member variable name for its output in glslInverse
     _code.replace ("%n", name);
 
-    // replace the input module markers with their names referencing their member variables in glsl
+    // replace the input module markers with their names referencing their member variables in glslInverse
     for (int i = 0; i < _connections.length(); i++) {
         QDomNode c = _connections.at (i);
         QDomElement toElement = c.firstChildElement ("target");

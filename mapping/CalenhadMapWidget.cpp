@@ -87,7 +87,6 @@ void CalenhadMapWidget::initializeGL() {
     m_vao.create();
     if (m_vao.isCreated()){
         m_vao.bind();
-        qDebug() << "VAO created!";
     }
 
     static const GLfloat g_vertex_buffer_data[] = {
@@ -102,14 +101,15 @@ void CalenhadMapWidget::initializeGL() {
     m_vertexBuffer->create();
     m_vertexBuffer->setUsagePattern(QOpenGLBuffer::StaticDraw);
     m_vertexBuffer->bind();
-    m_vertexBuffer->allocate(g_vertex_buffer_data,sizeof(g_vertex_buffer_data));
+    m_vertexBuffer->allocate (g_vertex_buffer_data, sizeof(g_vertex_buffer_data));
 
     m_indexBuffer = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
     m_indexBuffer->create();
     m_indexBuffer->setUsagePattern(QOpenGLBuffer::StaticDraw);
     m_indexBuffer->bind();
-    m_indexBuffer->allocate(g_element_buffer_data,sizeof(g_element_buffer_data));
+    m_indexBuffer->allocate (g_element_buffer_data, sizeof(g_element_buffer_data));
 
+    // texture for the map
     glActiveTexture(GL_TEXTURE0);
     m_texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     m_texture->create();
@@ -120,10 +120,9 @@ void CalenhadMapWidget::initializeGL() {
     m_texture->allocateStorage();
     m_texture->bind();
 
-    glBindImageTexture(0, m_texture->textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
-    qDebug() << m_texture->width() << m_texture->height();
+    glBindImageTexture (0, m_texture -> textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+
     m_computeShader = new QOpenGLShader(QOpenGLShader::Compute);
-    //m_computeShader -> compileSourceFile (":/shaders/map_cs.glsl");
     m_vertexShader = new QOpenGLShader(QOpenGLShader::Vertex);
     m_vertexShader->compileSourceFile(":/shaders/map_vs.glsl");
     m_fragmentShader = new QOpenGLShader(QOpenGLShader::Fragment);
@@ -161,6 +160,7 @@ void CalenhadMapWidget::paintGL() {
     glUseProgram (m_computeProgram -> programId());
     static GLint srcLoc= glGetUniformLocation(m_renderProgram->programId(),"srcTex");
     static GLint destLoc=glGetUniformLocation(m_computeProgram->programId(),"destTex");
+    static GLint insetLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetTex");
     static GLint ambsLoc = glGetUniformLocation (m_computeProgram -> programId(), "altitudeMapBufferSize");
     static GLint cmbsLoc = glGetUniformLocation (m_computeProgram -> programId(), "colorMapBufferSize");
     static GLint resolutionLoc = glGetUniformLocation (m_computeProgram -> programId(), "resolution");
@@ -169,13 +169,16 @@ void CalenhadMapWidget::paintGL() {
     static GLint scaleLoc = glGetUniformLocation (m_computeProgram -> programId (), "scale");
     static GLint datumLoc = glGetUniformLocation (m_computeProgram -> programId(), "datum");
     static GLint insetHeightLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetHeight");
+    static GLint passLoc = glGetUniformLocation (m_computeProgram -> programId(), "pass");
 
     m_vao.bind();
     m_computeProgram->bind();
     m_texture->bind();
+
     GLubyte c = 0;
     std::vector<GLubyte> emptyData (m_texture -> width() * m_texture -> height() * 4, 0);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_texture -> width(), m_texture -> height(), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
+
     // prepare the model matrix for the shader
     /*
     Mat4 M = modelMatrix();
@@ -186,8 +189,10 @@ void CalenhadMapWidget::paintGL() {
         }
     }
     */
+
     glUniform1i (destLoc, 0);
-    glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) -_rotation.latitude());
+    glUniform1i (insetLoc, 1);
+    glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude());
     glUniform1i (projectionLoc, _projection -> id ());
     glUniform1f (scaleLoc, (GLfloat) _scale);
     glUniform1i (insetHeightLoc, _inset ? 192 : 0);
@@ -197,14 +202,15 @@ void CalenhadMapWidget::paintGL() {
     glUniform1i (ambsLoc, 2048);
     glUniform1i (cmbsLoc, 2048);
 
-
-    glDispatchCompute (m_texture -> width() / 16, m_texture -> height() / 16, 1);
-    glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+    glUniform1i (passLoc, PASS_INSET);
+    glDispatchCompute (m_texture->width () / 16, m_texture->height () / 16, 1);
+    glMemoryBarrier (GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
     // draw
-    m_renderProgram->bind();
+    m_renderProgram -> bind();
     //glClear(GL_COLOR_BUFFER_BIT);
     m_texture->bind();
+
     glUniform1i(srcLoc, 0);
     glDrawElements (GL_TRIANGLE_STRIP,4,GL_UNSIGNED_SHORT,0);
     m_vao.release();
@@ -230,15 +236,16 @@ void CalenhadMapWidget::setGraph (Graph* g) {
         _shader = textStream.readAll ();
         QString code = g->glsl ();
         _shader.replace ("// inserted code //", code);
-        _shader.replace ("// inserted projections //", CalenhadServices::projections() -> glsl());
+        _shader.replace ("// inserted inverse //", CalenhadServices::projections ()->glslInverse ());
+        _shader.replace ("// inserted forward //", CalenhadServices::projections ()->glslForward ());
         _graph = g;
         std::cout << _shader.toStdString () << "\n";
         if (m_computeShader) {
-            m_computeShader->compileSourceCode (_shader);
-            m_computeProgram->removeAllShaders ();
-            m_computeProgram->addShader (m_computeShader);
-            m_computeProgram->link ();
-            m_computeProgram->bind ();
+            m_computeShader -> compileSourceCode (_shader);
+            m_computeProgram -> removeAllShaders ();
+            m_computeProgram -> addShader (m_computeShader);
+            m_computeProgram -> link ();
+            m_computeProgram -> bind ();
         }
     }
 }
@@ -305,11 +312,34 @@ Bounds CalenhadMapWidget::bounds() {
 
 }
 
+void CalenhadMapWidget::setInset (bool inset) {
+    _inset = inset;
+}
+
+
+QList<double> CalenhadMapWidget::graticules() {
+    QList<double> list;
+    list.append ({ 30, 15, 5, 1, 0.5, 0.25, 0.1, 0.05, 0.025, 0.01, 0.005, 0.0025, 0.001 });
+    return list;
+}
+
 void CalenhadMapWidget::drawGraticule (QPainter& p) {
-    p.setPen(Qt::red);
+    p.setPen(Qt::yellow);
+    Geolocation centre = _rotation;
+    QList<double> g = graticules();
+    int dLat = 10, dLon = 10;
+    double resLat = 0, resLon = 0;
 
 }
 
-void CalenhadMapWidget::setInset (bool inset) {
-    _inset = inset;
+void CalenhadMapWidget::screenCoordinates (Geolocation geolocation, QPointF& screenCoordinates) {
+    // to do
+}
+
+bool CalenhadMapWidget::geoCoordinates (QPointF pos, Geolocation& geolocation) {
+    double x = ((pos.x() / width()) * M_PI * 2 - M_PI) * _scale;
+    double y = ((pos.y() / height()) * M_PI - (M_PI / 2)) * _scale;
+    _projection -> setDatum (_rotation);
+    bool result = _projection -> inverse (QPointF (x, -y), geolocation);
+    return result;
 }

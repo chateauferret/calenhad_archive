@@ -40,6 +40,7 @@ namespace calenhad {
 
                 QPointF range() override;
 
+                QString glslForward () override;
             };
 
         }

@@ -34,10 +34,18 @@ const QMap<QString, Projection*>& ProjectionService::all () const {
     return _projections;
 }
 
-QString ProjectionService::glsl () {
+QString ProjectionService::glslInverse() {
     QString code = "";
     for (Projection* p : _projections) {
-        code += p->glslInverse ();
+        code += p -> glslInverse();
+    }
+    return code;
+}
+
+QString ProjectionService::glslForward() {
+    QString code = "";
+    for (Projection* p : _projections) {
+        code += p -> glslForward();
     }
     return code;
 }

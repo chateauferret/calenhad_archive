@@ -27,8 +27,12 @@ namespace calenhad {
     }
 
     namespace mapping {
+
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
+
+            void screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
+
             QOpenGLVertexArrayObject m_vao;
             QOpenGLBuffer* m_vertexBuffer;
             QOpenGLBuffer* m_indexBuffer;
@@ -98,6 +102,15 @@ namespace calenhad {
             void drawGraticule (QPainter& p);
 
             bool _inset;
+
+            // render pass identifiers
+            static const int PASS_INSET = 1;
+            static const int PASS_MAINMAP = 2;
+            static const int PASS_STATISTICS = 3;
+
+            QList<double> graticules ();
+
+            bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
         };
     }
 }

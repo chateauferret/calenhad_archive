@@ -13,6 +13,7 @@
 #include <QtXml/QtXml>
 #include <QtWidgets/QToolTip>
 #include "../../mapping/projection/Projection.h"
+#include "../../mapping/CalenhadMapWidget.h"
 
 using namespace icosphere;
 using namespace calenhad::pipeline;
@@ -92,18 +93,6 @@ void CalenhadMapView::zoomInTo (const Bounds& target) {
     }
     goTo (target.center()); // in radians
     _zoomSlider -> setValue (radiusToZoomFactor (newRadius)); */
-}
-
-void CalenhadMapView::screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates) {
-    // to do
-}
-
-bool CalenhadMapView::geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation) {
-    double x = ((pos.x() / width()) * M_PI * 2 - M_PI) * _scale;
-    double y = ((pos.y() / height()) * M_PI - (M_PI / 2)) * _scale;
-    _projection -> setDatum (_rotation);
-    bool result = _projection -> inverse (QPointF (x, -y), geolocation);
-    return result;
 }
 
 void CalenhadMapView::setCoordinatesFormat (CoordinatesFormat format) {

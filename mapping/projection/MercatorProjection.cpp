@@ -24,14 +24,14 @@ bool MercatorProjection::inverse (const QPointF& point, Geolocation& geolocation
     double x = point.x();
     double y = point.y();
     geolocation.setLatitude (M_PI / 2 - 2 * atan (exp (-y)));
-    geolocation.setLongitude ((x / cos (_datum.latitude())) + _datum.longitude());
+    geolocation.setLongitude (x + _datum.longitude());
     bool valid = (geolocation.latitude() >= -M_PI / 2) && (geolocation.latitude() <= M_PI / 2);
     return valid;
 }
 
 bool MercatorProjection::forward (const geoutils::Geolocation& geolocation, QPointF& point) {
-    point.setX ((geolocation.longitude() - _datum.longitude()) * cos (_datum.latitude()));
-    point.setY (geolocation.latitude() - _datum.latitude());
+    point.setX (geolocation.longitude() - _datum.longitude());
+    point.setY (std::log (tan (M_PI / 4 + geolocation.latitude()) / 2));
     bool valid = (geolocation.latitude() >= -M_PI / 2) && (geolocation.latitude() <= M_PI / 2);
     return valid;
 }
@@ -45,7 +45,7 @@ QString MercatorProjection::notes () {
 }
 
 int MercatorProjection::id () {
-    return 1; // see map_cs.glsl
+    return 1; // see map_cs.glslInverse
 }
 
 QString MercatorProjection::glslInverse() {
@@ -53,8 +53,17 @@ QString MercatorProjection::glslInverse() {
     code += "    float lat = M_PI / 2 - 2 * atan (exp (-i.y));\n";
     code += "    float lon = i.x + d.x;\n";
     code += "    vec2 g = vec2 (lon, lat);\n";
-    code += "    vec3 cart = toCartesian (g);\n";
-    code += "   return vec4 (cart, abs (g.y / M_PI * 2));\n";
+    code += "    return vec3 (g.xy, abs (g.y / M_PI * 2));\n";
+    code += "}\n";
+    return code;
+}
+
+QString MercatorProjection::glslForward() {
+    QString code = "if (p == PROJ_MERCATOR) {\n";
+    code += "    float y = log (tan (M_PI / 4 + g.y) / 2);\n";
+    code += "    float x = g.x - d.x;\n";
+    code += "    vec2 i = vec2 (x, y);\n";
+    code += "    return vec3 (i.xy, abs (g.y / M_PI * 2));\n";
     code += "}\n";
     return code;
 }

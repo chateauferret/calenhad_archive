@@ -32,7 +32,7 @@ bool EquirectangularProjection::inverse (const QPointF& point, Geolocation& geol
 
 bool EquirectangularProjection::forward (const geoutils::Geolocation& geolocation, QPointF& point) {
     point.setX ((geolocation.longitude() - _datum.longitude()) * cos (_datum.latitude()));
-    point.setY (geolocation.latitude() - _datum.latitude());
+    point.setY (geolocation.latitude());
     bool valid = (geolocation.latitude() >= -M_PI / 2) && (geolocation.latitude() <= M_PI / 2);
     return valid;
 }
@@ -46,15 +46,23 @@ QString EquirectangularProjection::notes () {
 }
 
 int EquirectangularProjection::id () {
-    return 0; // see map_cs.glsl
+    return 0; // see map_cs.glslInverse
 }
 
 QString EquirectangularProjection::glslInverse() {
     QString code = "if (p == PROJ_EQUIRECTANGULAR) {\n";
     code += "   vec2 g = vec2 (i.x + d.x, i.y);\n";
-    code += "   bool valid = (g.y >= -M_PI / 2) && (g.y <= M_PI / 2);\n";
-    code += "   vec3 cart = toCartesian (g);\n";
-    code += "   return vec4 (cart.xyz, abs (g.y / (M_PI / 2)));\n";
+    code += "   float visible = abs (g.y / (M_PI / 2));\n";
+    code += "   return vec3 (g.xy, visible);\n";
+    code += "}\n";
+    return code;
+}
+
+QString EquirectangularProjection::glslForward() {
+    QString code = "if (p == PROJ_EQUIRECTANGULAR) {\n";
+    code += "   vec2 i = vec2 ((g.x - d.x) * cos (d.y), g.y);\n";
+    code += "   float visible = abs (g.y / (M_PI / 2));\n";
+    code += "   return vec3 (i.xy, visible);\n";
     code += "}\n";
     return code;
 }

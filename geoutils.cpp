@@ -54,10 +54,10 @@ namespace geoutils {
     }
 
     void Geolocation::conform() {
-        if (_latitude > M_PI / 2) { setLatitude (_latitude - M_PI); }
-        if (_latitude < -M_PI / 2) { setLatitude (_latitude + M_PI); }
-        if (_longitude > M_PI) { setLongitude (_longitude - M_PI * 2); }
-        if (_longitude < -M_PI) { setLongitude (_longitude + M_PI * 2); }
+        if (_latitude > M_PI / 2) { _latitude -= M_PI; }
+        if (_latitude < -M_PI / 2) { _latitude += M_PI; }
+        if (_longitude > M_PI) { _longitude -= M_PI * 2; }
+        if (_longitude < -M_PI) { _longitude += M_PI * 2; }
     }
 
     double Geolocation::latitude (const Units& units) const {

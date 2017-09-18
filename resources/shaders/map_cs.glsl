@@ -37,22 +37,33 @@ uniform int insetHeight;                               // height (pixels) - widt
 uniform ivec2 insetPos = ivec2 (8, 8);                    // inset top left corner x, y (pixels)
 uniform vec4 insetBorder = vec4 (1.0, 1.0, 1.0, 1.0);   // border color
 
+// pass identifiers
+uniform int pass;
+const int PASS_INSET = 1;
+const int PASS_MAINMAP = 2;
+const int PASS_STATISTICS = 3;
+
+// statistics
+float minAltitude = 0;
+float maxAltitude = 0;
+
 
 float makeInt32Range (float f) {
     return clamp (-1073741824.0, 1073741824.0, f);
 }
 
-vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
-    vec3 cartesian;
+vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
+    vec4 cartesian;
     cartesian.x = cos (geolocation.x) * cos (geolocation.y);
-    cartesian.y = cos (geolocation.y) * sin (geolocation.x);
-    cartesian.z = sin (geolocation.y);
+    cartesian.z = cos (geolocation.y) * sin (geolocation.x);
+    cartesian.y = sin (geolocation.y);
+    cartesian.w = geolocation.z;
     return cartesian;
 }
 
 vec2 toGeolocation (vec3 cartesian) {
-    float theta = atan (cartesian.y, cartesian.x);
-    float phi = acos (cartesian.z);
+    float phi = atan (cartesian.x, cartesian.z);
+    float theta = acos (cartesian.y) - (M_PI / 2);
     return vec2 (theta, phi);
 }
 
@@ -707,31 +718,70 @@ vec4 findColor (float value) {
 
 // inserted code //
 
-// Inverse projection to get the 3D coordinates represented  by the given position under the current projection.
-// The first three components in the returned vector are x, y and z, the third is negative if the point is off the map.
-// Logic here should be identical to that in the corresponding implementations of calenhad::mapping::projection::Projection::inverse.
 
-vec2 logicalPos (vec2 pos, bool inset) {
-    float r = float (inset ? insetHeight: resolution);
+// Coordinate systems:
+//      screen coordinates (corresponds to GlobalInvoicationID) - the coordinates of the texel being rendered. 0 <= x <= resolution * 2; 0 <= x <= resolution.
+//      map coordinates - the coordinates of a point on the logical map. -2 * M_PI < x <= 2 * M_PI; -M_PI <= y <= M_PI.
+//          (the logical map is the equirectangular projection with scale 1 unit = 1 radian of latitude or longitude).
+//      geolocation - the longitude and latitude (in that order) of a point on the geoid under the reigning projection. -2 * M_PI < x <= 2 * M_PI; -M_PI <= y <= M_PI.
+//      cartesian - the point in 3D space corresponding to a geolocation on the surface of the (spherical) geoid. -1 <= x, y, z <= 1 and x^2 + y^2 + z^2 = 1.
+
+// Returns the map coordinates for a given GlobalInvocationID (essentially screen coordinates) taking into account the scale.
+// Coordinates returned are those for the inset map (inset TRUE) or the main map (inset FALSE).
+vec2 mapPos (vec2 pos, bool inset) {
+    float r = float (inset ? insetHeight : resolution);
     vec2 j = vec2 ((pos.x - r) / (r * 2), (pos.y / 2 - (r / 4)) / r);
     j *= M_PI * 2;
     j *= inset ? 1.0 : scale;
     return j;
 }
 
-vec4 cartesian (vec2 i, bool inset) {
+// Returns the screen coordinates (GlobalInvocationID) for given map coordinates taking into account the scale.
+// Coordinates returned are those for the inset map (inset TRUE) or the main map (inset FALSE).
+ivec2 scrPos (vec2 g, bool inset) {
+    float r = float (inset ? insetHeight : resolution);
+    vec2 j = g / (inset ? 1.0 : scale);
+    j /= M_PI;
+    j.x = (j.x + 1) * r;
+    j.y = (j.y + 0.5) * r;
+    return ivec2 (j);
+}
+
+    // Projections.
+    // one "unit" of i here on the flat map will now be one planetary radius if the projection is equirectangular.
+    // branches to select projection are OK because all invocations will be using the same projection (except for texels in the inset area).
+
+    // Forward projection to get the screen coordinate corresponding to the by the given geolocation under the current projection.
+    // The first two components in the returned vector are x and y; the third is logical distance from the
+    // centre of projection. Logic here should be identical to that in the corresponding implementations of
+    // calenhad::mapping::projection::Projection::forward.
+
+vec3 forward (vec2 g, bool inset) {
+
+    // use the set values for the inset when we are accessing the inset, otherwise the reigning parameters for the main map.
+    int p = inset ? PROJ_EQUIRECTANGULAR : projection;
+    vec2 d = inset ? vec2 (0.0, 0.0) : datum;
+
+    // inserted forward //
+
+    return vec3 (0.0, 0.0, -1.0);
+
+}
+
+// Inverse projection to get the geolocation represented  by the given position under the current projection.
+// The first two components in the returned vector are longitude and latitude; the third is logical distance from the
+// centre of projection. Logic here should be identical to that in the corresponding implementations of
+// calenhad::mapping::projection::Projection::inverse.
+
+vec3 inverse (vec2 i, bool inset) {
 
     // use the set values for the inset when we are composing the inset, otherwise the reigning parameters for the main map.
     int p = inset ? PROJ_EQUIRECTANGULAR : projection;
     vec2 d = inset ? vec2 (0.0, 0.0) : datum;
 
-    // one "unit" of i here on the flat map will now be one planetary radius.
-    // x = longitude and y = latitude.
-    // branches to select projection are OK because all invocations will be using the same projection (except for texels in the inset area).
+    // inserted inverse //
 
-    // inserted projections //
-
-    return vec4 (0.0, 0.0, 0.0, -1.0);
+    return vec3 (0.0, 0.0, -1.0);
 
 }
 
@@ -745,30 +795,37 @@ vec4 toGreyscale (vec4 color) {
 }
 
 void main() {
+
     ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
     bool inset = inInset (pos);
-    vec2 i = logicalPos (pos, inset);
-    vec4 c = cartesian (i, inset);
+    vec2 i = mapPos (pos, inset);
+    vec3 g = inverse (i, inset);
+    vec4 c = toCartesian (g);
     vec4 color;
 
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-    float step = smoothstep (0.99, 1.0, c.w);
-    vec4 xpos = vec4 (c.xyz, 1.0);
+    float step = smoothstep (0.99, 1.000001, c.w);
+    float v = value (c.xyz);
+    color = mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
 
-    float v = value (xpos.xyz);
-    color = inset ? toGreyscale (findColor (v)) : mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
-    vec4 q = imageLoad (destTex, pos);
-    if (q.xyz == vec3 (0.0, 0.0, 0.0)) {
-        imageStore (destTex, pos, color);
+    if (insetHeight > 0) {
+        if (inset) {
+            vec3 f = forward (g.xy, true);                                    // get the geolocation of this texel in the inset map
+            ivec2 s = scrPos (f.xy, false);                                   // find the corresponding texel in the main map
+            if (f.z > 1.0 || ! (s.x >= 0 && s.x <= resolution * 2  && s.y >= 0 && s.y <= resolution)) {      // if the texel is not on the main map...
+                color = toGreyscale (findColor (v));                          // ... grey out the corresponding texel in the inset map.
+            }
+        }
     }
 
-    // write to the inset to show points that are within the main map, if there is one
-    if (insetHeight > 0 && ! inset) {
-        vec2 g = toGeolocation (xpos.xyz);
-        float x = g.x / (2 * M_PI) + 0.5;
-        float y = g.y / M_PI;
-        ivec2 index = ivec2 (int (x * insetHeight * 2), int ((1 - y) * insetHeight));
-        index += insetPos;
-        imageStore (destTex, index, findColor (v));
-    }
+
+    imageStore (destTex, pos, color);
+
+    if (v > maxAltitude) { maxAltitude = v; }
+    if (v < minAltitude) { minAltitude = v; }
+
 }
+
+    // to do - hypsography pass
+    // to do - normals pass
+    // to do - legends pass
