@@ -67,7 +67,6 @@ void ProjectionTest::equirectangularProjectionInverseTest() {
     // test inverse
     p = QPointF (x, y);
     proj->inverse (p, g);
-    std::cout << "(" << p.x () << ", " << p.y () << ") -> Geolocation lat " << g.latitude << " lon " << g.longitude << "\n";
 
 }
 

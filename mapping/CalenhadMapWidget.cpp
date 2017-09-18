@@ -27,7 +27,6 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     m_texture (nullptr),
     m_renderProgram (nullptr),
     m_indexBuffer (nullptr),
-    _parentMap (nullptr),
     _altitudeMapBuffer (nullptr),
     _projection (CalenhadServices::projections() -> fetch ("Equirectangular")),
     _scale (1.0),
@@ -43,6 +42,22 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     setFormat(format);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
+    // read shader code from files into memory for use at render time
+    QFile csFile (":/shaders/map_cs.glsl");
+    csFile.open (QIODevice::ReadOnly);
+    QTextStream csTextStream (&csFile);
+    _shaderTemplate = csTextStream.readAll ();
+
+    QFile vsFile (":/shaders/map_vs.glsl");
+    vsFile.open (QIODevice::ReadOnly);
+    QTextStream vsTextStream (&vsFile);
+    _vertexShader = vsTextStream.readAll ();
+
+    QFile fsFile (":/shaders/map_fs.glsl");
+    fsFile.open (QIODevice::ReadOnly);
+    QTextStream fsTextStream (&fsFile);
+    _fragmentShader = fsTextStream.readAll ();
+    
 }
 
 CalenhadMapWidget::~CalenhadMapWidget() {
@@ -124,14 +139,10 @@ void CalenhadMapWidget::initializeGL() {
 
     m_computeShader = new QOpenGLShader(QOpenGLShader::Compute);
     m_vertexShader = new QOpenGLShader(QOpenGLShader::Vertex);
-    m_vertexShader->compileSourceFile(":/shaders/map_vs.glsl");
+    m_vertexShader -> compileSourceCode (_vertexShader);
     m_fragmentShader = new QOpenGLShader(QOpenGLShader::Fragment);
-    m_fragmentShader -> compileSourceFile (":/shaders/map_fs.glsl");
+    m_fragmentShader -> compileSourceCode (_fragmentShader);
     m_computeProgram = new QOpenGLShaderProgram();
-
-    if (! m_computeShader) {
-        m_computeShader = new QOpenGLShader(QOpenGLShader::Compute);
-    }
 
     m_computeShader -> compileSourceCode (_shader);
     m_computeProgram -> removeAllShaders();
@@ -153,11 +164,10 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::paintGL() {
-    if (_parentMap) { _parentMap -> update(); }
+
     QPainter p (this);
     p.beginNativePainting();
 
-    glUseProgram (m_computeProgram -> programId());
     static GLint srcLoc= glGetUniformLocation(m_renderProgram->programId(),"srcTex");
     static GLint destLoc=glGetUniformLocation(m_computeProgram->programId(),"destTex");
     static GLint insetLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetTex");
@@ -179,16 +189,7 @@ void CalenhadMapWidget::paintGL() {
     std::vector<GLubyte> emptyData (m_texture -> width() * m_texture -> height() * 4, 0);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_texture -> width(), m_texture -> height(), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
 
-    // prepare the model matrix for the shader
-    /*
-    Mat4 M = modelMatrix();
-    GLfloat a [16];
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            a [i * 4 + j] = M.value (i, j);
-        }
-    }
-    */
+    std::cout << "Repaint with projection " << _projection -> name().toStdString() << "\n";
 
     glUniform1i (destLoc, 0);
     glUniform1i (insetLoc, 1);
@@ -229,24 +230,22 @@ void CalenhadMapWidget::resizeGL(int width, int height) {
 // Insert the given code into the compute shader to realise the noise pipeline
 void CalenhadMapWidget::setGraph (Graph* g) {
     if (g != _graph) {
-        // read template compute shader file
-        QFile file (":/shaders/map_cs.glsl");
-        file.open (QIODevice::ReadOnly);
-        QTextStream textStream (&file);
-        _shader = textStream.readAll ();
-        QString code = g->glsl ();
+        _shader = _shaderTemplate;
+        QString code = g -> glsl ();
         _shader.replace ("// inserted code //", code);
-        _shader.replace ("// inserted inverse //", CalenhadServices::projections ()->glslInverse ());
-        _shader.replace ("// inserted forward //", CalenhadServices::projections ()->glslForward ());
+        _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
+        _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
         _graph = g;
-        std::cout << _shader.toStdString () << "\n";
         if (m_computeShader) {
-            m_computeShader -> compileSourceCode (_shader);
             m_computeProgram -> removeAllShaders ();
+            m_computeShader -> compileSourceCode (_shader);
             m_computeProgram -> addShader (m_computeShader);
             m_computeProgram -> link ();
             m_computeProgram -> bind ();
+        } else {
+            std::cout << "No compute shader\n";
         }
+        update();
     }
 }
 
@@ -275,7 +274,6 @@ Projection* CalenhadMapWidget::projection() {
 void CalenhadMapWidget::rotate (const Geolocation& rotation) {
     _rotation = rotation;
     update();
-    std::cout << "Rotation " << qRadiansToDegrees (_rotation.longitude()) << " " << qRadiansToDegrees (_rotation.latitude()) << "\n";
 }
 
 Geolocation CalenhadMapWidget::rotation() {
@@ -302,10 +300,6 @@ matrices::Mat4 CalenhadMapWidget::modelMatrix () {
 
     //return T * R ;//* S;
 
-}
-
-void CalenhadMapWidget::setParentMap (CalenhadMapWidget* parentMap) {
-    _parentMap = parentMap;
 }
 
 Bounds CalenhadMapWidget::bounds() {

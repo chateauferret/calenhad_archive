@@ -40,10 +40,13 @@ CalenhadMapView::~CalenhadMapView() {
 }
 
 void CalenhadMapView::render() {
-        QDomDocument doc = _source -> model() -> serialize ();
+    if (_source -> isComplete()) {
+        QDomDocument doc = _source -> model () -> serialize ();
         Graph* g = new Graph (doc, _source -> name ());
         setGraph (g);
         update ();
+    } else {
+    }
 }
 
 QModule* CalenhadMapView::source() {

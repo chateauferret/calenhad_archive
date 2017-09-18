@@ -130,6 +130,7 @@ bool ExpressionWidget::prepare() {
             _goosed = true;
             _statusLabel->setPixmap (_statusGoosed);
             reportErrors ();
+            emit errorFound();
         } else {
 
             _goosed = false;
@@ -175,3 +176,6 @@ void ExpressionWidget::setValidator (calenhad::qmodule::ParamValidator* validato
     _validator = validator;
 }
 
+void ExpressionWidget::focusOutEvent (QFocusEvent* event) {
+    prepare();
+}

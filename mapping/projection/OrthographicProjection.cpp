@@ -47,7 +47,7 @@ bool OrthographicProjection::forward (const geoutils::Geolocation& geolocation, 
 }
 
 QString OrthographicProjection::name () {
-    return "Mercator projection";
+    return "Orthographic projection";
 }
 
 QString OrthographicProjection::notes () {

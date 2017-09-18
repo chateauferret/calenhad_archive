@@ -105,7 +105,6 @@ void VariablesDialog::commit () {
         QString name = _table -> item (i, 0) -> text();
         QString notes = _table -> item (i, 2) -> text();
         double v = value (_table -> item (i, 1));
-        std::cout << "Variable: " << name.toStdString () << " = " << v << "\n";
         CalenhadServices::calculator() -> insertVariable (name, notes, v);
     }
 }
@@ -113,7 +112,6 @@ void VariablesDialog::commit () {
 double VariablesDialog::value (QTableWidgetItem* item) {
     bool ok;
     double value = item -> text().toDouble (&ok);
-    std::cout << "'" << item -> text().toStdString () << "' = " << value << "\n";
     if (ok) {
         return value;
     } else {

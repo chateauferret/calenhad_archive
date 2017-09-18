@@ -36,6 +36,7 @@ namespace calenhad {
             const QString& text();
             exprtk::expression<double>* expression ();
             bool isValid ();
+
         public slots:
 
             bool prepare();
@@ -65,6 +66,7 @@ namespace calenhad {
             QLabel* _statusLabel;
             calenhad::qmodule::ParamValidator* _validator;
 
+            void focusOutEvent (QFocusEvent* event) override;
         };
     }
 }

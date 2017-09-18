@@ -26,7 +26,7 @@ using namespace calenhad::legend;
 
 int QModule::seed = 0;
 
-QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent) {
+QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
 
@@ -50,9 +50,11 @@ void QModule::initialise() {
 }
 
 void QModule::showGlobe() {
-    CalenhadGlobeDialog* globe = new CalenhadGlobeDialog (this, this);
-    globe -> initialise();
-    globe -> show();
+    if (!_globe) {
+        _globe = new CalenhadGlobeDialog (this, this);
+        _globe -> initialise ();
+    }
+    _globe -> show();
 }
 
 void QModule::setupPreview() {
@@ -60,11 +62,9 @@ void QModule::setupPreview() {
     _preview -> setSource (this);
     _previewIndex = addPanel (tr ("Preview"), _preview);
     connect (_preview, &QWidget::customContextMenuRequested, this, &QModule::showContextMenu);
-    std::cout << "Preview " << _previewIndex << "\n";
 }
 
 void QModule::showContextMenu (const QPoint& point) {
-    std::cout << "Show Context menu\n";
     _contextMenu -> exec (QCursor::pos());
 }
 
@@ -108,6 +108,7 @@ void QModule::serialize (QDomDocument& doc) {
 }
 
 void QModule::invalidate() {
+    _expander -> setItemEnabled (_previewIndex, isComplete());
     QNode::invalidate();
 }
 
@@ -131,7 +132,6 @@ bool QModule::generateMap () {
 
 bool QModule::isComplete() {
     bool complete = QNode::isComplete();
-    _expander -> setItemEnabled (_previewIndex, complete);
     return complete;
 }
 

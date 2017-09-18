@@ -21,7 +21,6 @@ QProgressNotification::~QProgressNotification () {
 }
 
 void QProgressNotification::showEvent (QShowEvent* e) {
-    std::cout << "Shown\n";
     emit displayed();
 }
 
@@ -57,6 +56,5 @@ void QProgressNotification::mousePressEvent (QMouseEvent* e) {
 }
 
 void QProgressNotification::setMessage (const QString& message) {
-    std::cout << "Message: " << message.toStdString () << "\n";
     _message -> setText (message);
 }

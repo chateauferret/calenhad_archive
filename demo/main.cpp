@@ -53,7 +53,6 @@ int main(int argc, char* argv[]) {
     QTextStream textStream (&file);
     QString xml;
     xml.append (textStream.readAll());
-    std::cout<< xml.toStdString () << "\n\n";
 
     Graph* g = new Graph (xml, "m");
 

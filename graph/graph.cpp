@@ -99,7 +99,7 @@ QString Graph::glsl (const QDomNode& node) {
         }
     }
 
-    // Find out what type of module this node wants and construct glslInverse for it
+    // Find out what type of module this node wants and construct glsl for it
     QString type = node.attributes().namedItem ("type").nodeValue();
     QDomElement element = node.toElement();
     std::cout << type.toStdString () << "\n";

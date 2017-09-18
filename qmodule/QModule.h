@@ -32,6 +32,7 @@ namespace calenhad {
     namespace controls {
         namespace globe {
             class CalenhadMapView;
+            class CalenhadGlobeDialog;
         }
     }
     namespace qmodule {
@@ -82,11 +83,13 @@ namespace calenhad {
             calenhad::legend::Legend* _legend;
 
             QMenu* _contextMenu;
+            calenhad::controls::globe::CalenhadGlobeDialog* _globe;
 
         protected slots:
 
 
 ;
+
         };
     }
 }

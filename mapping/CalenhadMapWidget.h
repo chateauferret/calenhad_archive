@@ -71,9 +71,7 @@ namespace calenhad {
 
             icosphere::Bounds bounds ();
 
-            void setParentMap (CalenhadMapWidget* parentMap);
-
-            void setInset (bool inset);
+            void setInset (bool);
 
         public slots:
 
@@ -98,7 +96,6 @@ namespace calenhad {
             geoutils::Geolocation _rotation;
             QPointF _translation;
             bool _graticule;
-            CalenhadMapWidget* _parentMap;
             void drawGraticule (QPainter& p);
 
             bool _inset;
@@ -111,6 +108,11 @@ namespace calenhad {
             QList<double> graticules ();
 
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
+
+            // boilerplate code for compute, vertex and fragment shaders
+            QString _shaderTemplate;
+            QString _vertexShader;
+            QString _fragmentShader;
         };
     }
 }
