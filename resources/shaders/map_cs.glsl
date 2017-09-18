@@ -810,10 +810,10 @@ void main() {
 
     if (insetHeight > 0) {
         if (inset) {
-            vec3 f = forward (g.xy, true);                                    // get the geolocation of this texel in the inset map
-            ivec2 s = scrPos (f.xy, false);                                   // find the corresponding texel in the main map
-            if (f.z > 1.0 || ! (s.x >= 0 && s.x <= resolution * 2  && s.y >= 0 && s.y <= resolution)) {      // if the texel is not on the main map...
-                color = toGreyscale (findColor (v));                          // ... grey out the corresponding texel in the inset map.
+            vec3 f = forward (g.xy, false);                                         // get the geolocation of this texel in the inset map
+            ivec2 s = scrPos (f.xy, false);                                         // find the corresponding texel in the main map
+            if (f.z > 1.0 || f.z < 0.0 || s.x < 0 || s.x > resolution * 2  || s.y < 0 || s.y > resolution) {  // if the texel is not on the main map...
+                color = toGreyscale (findColor (v));                                // ... grey out the corresponding texel in the inset map.
             }
         }
     }

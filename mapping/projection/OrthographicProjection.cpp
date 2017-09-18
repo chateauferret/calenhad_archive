@@ -75,10 +75,9 @@ QString OrthographicProjection::glslInverse() {
 
 QString OrthographicProjection::glslForward() {
     QString code = "if (p == PROJ_ORTHOGRAPHIC) {\n";
-    code += "   float y = cos (g.y) * sin (g.x - d.x);\n";
-    code += "   float x = cos (d.y) * sin (g.y) - sin (d.y) * cos (g.y) * cos (g.x - d.x);\n";
-    code += "   float rho = sqrt (x * x + y * y);\n";
-    code += "   float visible = sin (g.y) * sin (d.y) + cos (g.y) * cos (d.y) * cos (g.x - d.x);\n";
+    code += "   float x = 2 * cos (g.y) * sin (g.x - d.x);\n";
+    code += "   float y = cos (d.y) * sin (g.y) - sin (d.y) * cos (g.y) * cos (g.x - d.x);\n";
+    code += "   float rho = sin (d.y) * sin (g.y) + cos (d.y) * cos (g.y) * cos (g.x - d.x);\n";
     code += "   return vec3 (x, y, rho);\n";
     code += "}\n";
     return code;
