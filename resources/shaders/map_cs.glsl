@@ -630,9 +630,6 @@ float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octave
           // Make sure that these floating-point values have the same range as a 32-
           // bit integer so that we can pass them to the coherent-noise functions.
           vec3 n = cartesian;
-          //n.x = MakeInt32Range (cartesian.x);
-          //n.y = MakeInt32Range (cartesian.y);
-          //n.z = MakeInt32Range (cartesian.z);
 
           // Get the coherent-noise value.
           int seed = (seed + curOctave) & 0x7fffffff;
@@ -660,7 +657,7 @@ float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octave
           cartesian *= lacunarity;
         }
 
-        return (value * 1.25) - 1.0;
+        return (value) - 1.0;
 
     }
 
@@ -691,18 +688,25 @@ float select (float control, float in0, float in1, float lowerBound, float upper
     return mix (in0, in1, alpha);
   }
 
+// This maps an input value onto an output value to realise the spline and terrace functions (module AltitudeMap).
+// Instead of iterating through the mapping looking for the highest index that is lower than the key value, we precomputed an array of
+// (currently 2048) linearly-spaced mapping outputs so that we can find the nearest just by multiplying the key by the total number of
+// precomputed mappings. Avoids nasty branching and very fast, but at the expense of some loss of resolution. We
+// compensate for that by interpolating between the two mappings either side of the key so we don't introduce artificial terracing.
+// See graph.cpp, method addAltitudeMapBuffer (QDomElement map), which provides the precomputed map array. It is uploaded to map_out at render time.
 float map (float value, int bufferIndex) {
-    float index = ((value / 2) + 0.5) * altitudeMapBufferSize;
+    float index = ((value / 2) + 0.5) * float (altitudeMapBufferSize);
     int indexPos = int (index);
     int index0 = clamp (indexPos    , 0, altitudeMapBufferSize - 2);
     int index1 = clamp (indexPos + 1, 0, altitudeMapBufferSize - 2);
     int offset = bufferIndex * altitudeMapBufferSize;
     float out0 = map_out [index0 + offset];
     float out1 = map_out [index1 + offset];
-    float alpha = (value - out0) / (out1 - out0);
+    float alpha = value - min (out0, out1) / abs (out1 - out0);
     return mix (out0, out1, alpha);
 }
 
+// Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.
 vec4 findColor (float value) {
     value = value / 2 + 0.5;
     float index = value * colorMapBufferSize;
@@ -810,11 +814,14 @@ void main() {
 
     if (insetHeight > 0) {
         if (inset) {
-            vec3 f = forward (g.xy, false);                                         // get the geolocation of this texel in the inset map
-            ivec2 s = scrPos (f.xy, false);                                         // find the corresponding texel in the main map
-            if (f.z > 1.0 || f.z < 0.0 || s.x < 0 || s.x > resolution * 2  || s.y < 0 || s.y > resolution) {  // if the texel is not on the main map...
-                color = toGreyscale (findColor (v));                                // ... grey out the corresponding texel in the inset map.
+            vec3 f = forward (g.xy, false);                                             // get the geolocation of this texel in the inset map
+            ivec2 s = scrPos (f.xy, false);                                             // find the corresponding texel in the main map
+            if (f.z > 1.0 || f.z < 0.0 ||                                               // if the texel is out of the projection's  bounds or ...
+                s.x < 0 || s.x > resolution * 2  || s.y < 0 || s.y > resolution) {      // if the texel is not on the main map ...
+               color = toGreyscale (findColor (v));                                     // ... grey out the corresponding texel in the inset map.
+
             }
+            //color = findColor (map (i.x, 0));   // test functions with output in inset map here if needed
         }
     }
 

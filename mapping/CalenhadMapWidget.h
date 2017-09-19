@@ -65,8 +65,6 @@ namespace calenhad {
 
             QPointF translation();
 
-            matrices::Mat4 modelMatrix();
-
             projection::Projection* projection ();
 
             icosphere::Bounds bounds ();

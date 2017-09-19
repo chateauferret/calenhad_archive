@@ -52,7 +52,7 @@ QString readParameter (const QDomElement& element, const QString param) {
 }
 
 QString Graph::glsl () {
-
+    std::cout << _doc.toString ().toStdString () << "\n";
     if (_altitudeMapBuffer) {
         free (_altitudeMapBuffer);
         _altitudeMapBuffer = nullptr;
@@ -134,7 +134,7 @@ QString Graph::glsl (const QDomNode& node) {
     for (QString param : CalenhadServices::modules () -> paramNames()) {
         _code.replace ("%" + param, readParameter (element, param));
     }
-    //std::cout << _code.toStdString () << "\n";
+
     return _code;
 }
 
@@ -150,7 +150,7 @@ QString Graph::addAltitudeMapBuffer (QDomElement map) {
             float x = mapNodes.at (i).attributes().namedItem ("x").nodeValue ().toFloat (&ok);
             float y = mapNodes.at (i).attributes().namedItem ("y").nodeValue().toFloat (&ok);
            if (ok) {
-                cs->AddControlPoint (x, y);
+                cs -> AddControlPoint (x, y);
             }
         }
 
@@ -182,7 +182,6 @@ QString Graph::addAltitudeMapBuffer (QDomElement map) {
     for (int i = 0; i < size; i++) {
         float x = size * (i / size);
         _altitudeMapBuffer [i] = output [i];
-        std::cout << i <<" -> " << output [i]<< "\n";
     }
     return "float %n (vec3 v) { return map (%0 (v), " + QString::number (_bufferCount - 1) + "); }\n";
 }

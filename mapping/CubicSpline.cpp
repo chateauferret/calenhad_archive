@@ -30,9 +30,8 @@ CubicSpline::CubicSpline() : Curve() {
 
 }
 
-CubicSpline::~CubicSpline()
-{
-    delete[] m_pControlPoints;
+CubicSpline::~CubicSpline() {
+
 }
 
 

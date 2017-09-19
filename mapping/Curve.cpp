@@ -13,7 +13,7 @@ Curve::Curve (): m_controlPointCount (0), m_pControlPoints (nullptr) {
 }
 
 Curve::~Curve () {
-    if (m_pControlPoints) {
+    if (m_pControlPoints && m_controlPointCount > 0) {
         delete[] m_pControlPoints;
     }
 }

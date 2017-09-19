@@ -22,6 +22,7 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
         _drag (false),
         _index (noneSelected),
         _symbol (new QwtSymbol),
+        _fitter (nullptr),
         _resolution (resolution) {
     setTitle ("Altitude map");
     setCanvas (new AltitudeMapPlotCanvas());
@@ -42,7 +43,7 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
 AltitudeMapPlot::~AltitudeMapPlot() {
     _curve -> detach(); // automatically deletes the curve
     delete _symbol;
-    delete _fitter;
+    if (_fitter) { delete _fitter; }
 }
 
 void AltitudeMapPlot::changeEvent (QEvent *e) {

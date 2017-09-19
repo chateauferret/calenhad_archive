@@ -29,13 +29,13 @@ int QModule::seed = 0;
 QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
-
 }
 
 QModule::~QModule () {
-
+    if (_globe) { delete _globe; }
 }
 
+/// Initialise a QModule ready for use. Creates the UI.
 void QModule::initialise() {
     QNode::initialise();
 

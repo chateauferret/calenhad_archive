@@ -401,7 +401,7 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* 
 }
 
 void CalenhadModel::deleteNode (QNode* node) {
-    // first delete any connections to or from the owner
+    // first delete any connections to or from the module
     for (QGraphicsItem* item : items()) {
         if (item -> type() == QNEConnection::Type) {
             for (QNEPort* p : node -> ports ()) {
@@ -424,8 +424,8 @@ void CalenhadModel::deleteNode (QNode* node) {
             delete item;
         }
     }
+    delete node;
     update();
-
     _port = nullptr; // otherwise it keeps trying to do stuff to the deleted port
 }
 

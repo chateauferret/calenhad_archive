@@ -28,6 +28,7 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     m_renderProgram (nullptr),
     m_indexBuffer (nullptr),
     _altitudeMapBuffer (nullptr),
+    _colorMapBuffer (nullptr),
     _projection (CalenhadServices::projections() -> fetch ("Equirectangular")),
     _scale (1.0),
     _shader (""),
@@ -81,23 +82,6 @@ void CalenhadMapWidget::initializeGL() {
     _colorMapBuffer = _graph -> colorMapBuffer();
     _altitudeMapBuffer = _graph -> altitudeMapBuffer();
 
-    // create and allocate any required shared altitudeMapBuffer on the GPU and copy the contents across to them.
-
-    GLuint altitudeMap = 0;
-    glGenBuffers (1, &altitudeMap);
-    glBindBuffer (GL_SHADER_STORAGE_BUFFER, altitudeMap);
-    glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph -> altitudeMapBufferSize(), _altitudeMapBuffer, GL_DYNAMIC_COPY);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, altitudeMap);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0); // unbind
-
-    // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
-
-    GLuint colorMap = 1;
-    glGenBuffers (1, &colorMap);
-    glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
-    glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) *  _graph -> colorMapBufferSize(), _colorMapBuffer, GL_DYNAMIC_COPY);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, colorMap);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 1); // unbind
 
     m_vao.create();
     if (m_vao.isCreated()){
@@ -175,11 +159,9 @@ void CalenhadMapWidget::paintGL() {
     static GLint cmbsLoc = glGetUniformLocation (m_computeProgram -> programId(), "colorMapBufferSize");
     static GLint resolutionLoc = glGetUniformLocation (m_computeProgram -> programId(), "resolution");
     static GLint projectionLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
-    //static GLint modelMatrixLoc = glGetUniformLocation (m_computeProgram -> programId(), "modelMatrix");
     static GLint scaleLoc = glGetUniformLocation (m_computeProgram -> programId (), "scale");
     static GLint datumLoc = glGetUniformLocation (m_computeProgram -> programId(), "datum");
     static GLint insetHeightLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetHeight");
-    static GLint passLoc = glGetUniformLocation (m_computeProgram -> programId(), "pass");
 
     m_vao.bind();
     m_computeProgram->bind();
@@ -198,12 +180,37 @@ void CalenhadMapWidget::paintGL() {
     glUniform1f (scaleLoc, (GLfloat) _scale);
     glUniform1i (insetHeightLoc, _inset ? 192 : 0);
     glUniform1i (resolutionLoc, m_texture -> height());
-    //glUniformMatrix4fv (modelMatrixLoc, 1, GL_TRUE, a);
 
     glUniform1i (ambsLoc, 2048);
     glUniform1i (cmbsLoc, 2048);
 
-    glUniform1i (passLoc, PASS_INSET);
+
+    // create and allocate any required shared altitudeMapBuffer on the GPU and copy the contents across to them.
+    _altitudeMapBuffer = _graph -> altitudeMapBuffer();
+    if (_altitudeMapBuffer && _graph -> altitudeMapBufferSize () > 0) {
+        GLuint altitudeMap = 0;
+        glGenBuffers (1, &altitudeMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, altitudeMap);
+        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph -> altitudeMapBufferSize (), _altitudeMapBuffer, GL_DYNAMIC_COPY);
+        for (int i = 0; i < _graph -> altitudeMapBufferSize () / sizeof (float); i++) {
+            std::cout << i << " -> " << _altitudeMapBuffer [i] << "\n";
+        }
+        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, altitudeMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 0); // unbind
+    }
+
+    // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
+    _colorMapBuffer = _graph -> colorMapBuffer();
+    if (_colorMapBuffer) {
+        GLuint colorMap = 1;
+        glGenBuffers (1, &colorMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
+        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph -> colorMapBufferSize (), _colorMapBuffer, GL_DYNAMIC_COPY);
+        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+    }
+
+
     glDispatchCompute (m_texture->width () / 16, m_texture->height () / 16, 1);
     glMemoryBarrier (GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
@@ -229,9 +236,10 @@ void CalenhadMapWidget::resizeGL(int width, int height) {
 
 // Insert the given code into the compute shader to realise the noise pipeline
 void CalenhadMapWidget::setGraph (Graph* g) {
-    if (g != _graph) {
+        makeCurrent();
         _shader = _shaderTemplate;
         QString code = g -> glsl ();
+        std::cout << code.toStdString () << "\n";
         _shader.replace ("// inserted code //", code);
         _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
         _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
@@ -245,8 +253,9 @@ void CalenhadMapWidget::setGraph (Graph* g) {
         } else {
             std::cout << "No compute shader\n";
         }
+
         update();
-    }
+
 }
 
 void CalenhadMapWidget::showEvent (QShowEvent* e) {
@@ -288,19 +297,6 @@ void CalenhadMapWidget::setTranslation (const QPointF& translation) {
     _translation = translation;
 }
 
-matrices::Mat4 CalenhadMapWidget::modelMatrix () {
-    //Mat4 T = Mat4::translationMatrix (_translation.x(), _translation.y(), 0.0);
-    //Mat4 S = Mat4::scalingMatrix (_scale, _scale, _scale);
-
-    //Versor vLat = Versor::fromParameters (_rotation.latitude(), 0.0, 1.0, 0.0);
-    //Versor vLon = Versor::fromParameters (_rotation.longitude(), 1.0, 0.0, 0.0);
-    //Versor vTilt = Versor::fromParameters (qDegreesToRadians (23.5), 0.0, 0.0, 0.1);
-    //Versor v = vLat * vLon;
-    //Mat4 R = v.toRotationMatrix();
-
-    //return T * R ;//* S;
-
-}
 
 Bounds CalenhadMapWidget::bounds() {
 

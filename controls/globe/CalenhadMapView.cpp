@@ -44,7 +44,6 @@ void CalenhadMapView::render() {
         QDomDocument doc = _source -> model () -> serialize ();
         Graph* g = new Graph (doc, _source -> name ());
         setGraph (g);
-        update ();
     } else {
     }
 }
