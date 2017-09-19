@@ -69,6 +69,9 @@ namespace calenhad {
 
                 void reject () override;
 
+            signals:
+                void legendChanged (calenhad::legend::Legend* legend);
+
             protected:
                 CalenhadGlobeDialog* _parent;
                 QCheckBox* _overviewCheck;

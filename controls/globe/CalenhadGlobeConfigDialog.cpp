@@ -94,6 +94,7 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     _legendTab-> setLayout (new  QVBoxLayout());
     _legendTab -> layout() -> addWidget (_legendManager);
 
+
     QWidget* projectionTab = new QWidget (tabs);
     projectionTab->setLayout (new QFormLayout (projectionTab));
     tabs->addTab (projectionTab, "&Projection");
@@ -177,6 +178,8 @@ Legend* CalenhadGlobeConfigDialog::selectedLegend () {
 
 void CalenhadGlobeConfigDialog::commitChanges () {
     _legendManager -> commit();
+    emit legendChanged (_legendManager -> currentLegend());
+
 }
 
 void CalenhadGlobeConfigDialog::reject() {

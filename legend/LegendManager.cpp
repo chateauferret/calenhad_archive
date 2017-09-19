@@ -128,7 +128,6 @@ void LegendManager::addLegendWidget (Legend* legend) {
     ((QStackedLayout*) _legendDetailArea -> layout())->addWidget (w);
     connect (w, SIGNAL (nameChanged (QString)), legend, SLOT (setName (const QString&)));
     connect (w, SIGNAL (iconChanged (QIcon)), _chooser, SLOT (setCurrentIcon (const QIcon&)));
-
     connect (legend, &Legend::renamed, this, [=] () {
         _chooser -> setItemText (_chooser -> currentIndex(), legend -> name());
         _chooser -> setCurrentText (legend -> name());

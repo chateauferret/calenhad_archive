@@ -23,6 +23,7 @@
 #include "../../pipeline/CalenhadModel.h"
 #include <QWindow>
 #include "../../mapping/projection/Projection.h"
+#include "../../qmodule/QModule.h"
 
 class QwtCompass;
 
@@ -35,6 +36,7 @@ using namespace calenhad::qmodule;
 using namespace calenhad::mapping;
 using namespace calenhad::legend;
 using namespace calenhad::graph;
+using namespace calenhad::qmodule;
 using namespace geoutils;
 
 CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, QModule* source) : QDialog (parent),
@@ -198,8 +200,8 @@ void CalenhadGlobeDialog::updateConfig () {
     showZoomSlider (_configDialog -> zoomBarCheckState ());
     showNavigator (_configDialog -> compassCheckState());
     setGraticuleVisible (_configDialog -> graticuleCheckState ());
-    globe() -> setMouseDragMode (_configDialog -> dragMode ());
-    globe() -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
+    _globe -> setMouseDragMode (_configDialog -> dragMode ());
+    _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
     //setProjection (_configDialog -> selectedProjection());
     _configDialog -> update();
@@ -210,6 +212,7 @@ void CalenhadGlobeDialog::updateConfig () {
      update();
     _globe -> setCoordinatesFormat (_configDialog -> coordinatesFormat());
     _globe -> setDatumFormat (_configDialog -> datumFormat());
+    _globe -> source() -> setLegend (_configDialog -> selectedLegend());
 }
 
 void CalenhadGlobeDialog::setGraticuleVisible (const bool& visible) {
