@@ -94,7 +94,6 @@ void Preferences::loadSettings() {
     calenhad_module_add = _settings -> value ("calenhad/module/add", "Add").toString();
     calenhad_module_abs = _settings -> value ("calenhad/module/abs", "Abs").toString();
     calenhad_module_blend = _settings -> value ("calenhad/module/blend", "Blend").toString();
-    calenhad_module_cache = _settings -> value ("calenhad/module/cache", "Cache").toString();
     calenhad_module_invert = _settings -> value ("calenhad/module/invert", "Invert").toString();
     calenhad_module_max = _settings -> value ("calenhad/module/max", "Max").toString();
     calenhad_module_min = _settings -> value ("calenhad/module/min", "Min").toString();

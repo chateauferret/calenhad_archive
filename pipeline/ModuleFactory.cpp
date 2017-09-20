@@ -50,7 +50,6 @@ QStringList ModuleFactory::types () {
             << CalenhadServices::preferences() -> calenhad_module_altitudemap
             << CalenhadServices::preferences() -> calenhad_module_billow
             << CalenhadServices::preferences() -> calenhad_module_blend
-            << CalenhadServices::preferences() -> calenhad_module_cache
             << CalenhadServices::preferences() -> calenhad_module_clamp
             << CalenhadServices::preferences() -> calenhad_module_constant
             << CalenhadServices::preferences() -> calenhad_module_cylinders
@@ -81,8 +80,7 @@ QStringList ModuleFactory::types () {
 QNode* ModuleFactory::createModule (const QString& type) {
 
     if (type == CalenhadServices::preferences() -> calenhad_module_abs ||
-        type == CalenhadServices::preferences() -> calenhad_module_invert ||
-        type == CalenhadServices::preferences() -> calenhad_module_cache ) { return new QModule (type, 1); }
+        type == CalenhadServices::preferences() -> calenhad_module_invert ) { return new QModule (type, 1); }
     if (type == CalenhadServices::preferences() -> calenhad_module_add ||
         type == CalenhadServices::preferences() -> calenhad_module_max ||
         type == CalenhadServices::preferences() -> calenhad_module_min ||
@@ -269,22 +267,16 @@ void ModuleFactory::provideCodes() {
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_spheres, "float %n (vec3 v) { return spheres (v, %frequency); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_translate, "float %n (vec3 v) { return %0 (v + vec3 (%x, %y, %z)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_rotate, "float %n (vec3 v) { return %0 (rotate (v, vec3 (%x, %y, %z))); }\n");
-
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_clamp, "float %n  (vec3 v) { return clamp (%0 (v), float (%lowerBound), float (%upperBound)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_constant, "float %n (vec3 v) { return %constValue; }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_abs, "float %n (vec3 v) { return abs (%0 (v)); }\n");
-
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_blend, "float %n (vec3 v) { return mix (%0 (v), %1 (v), %2 (v)); }\n");
-
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_cache, "float %n (vec3 v) { return %0 (v); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_invert, "float %n (vec3 v) { return - %0 (v); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_max, "float %n (vec3 v) { return max (%0 (v), %1 (v)); }\n");
-
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_min, "float %n (vec3 v) { return min (%0 (v), %1 (v)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_power, "float %n (vec3 v) { return pow (%0 (v), %1 (v)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_displace, "float %n (vec3 v) { return %0 (v + vec3 (%1 (v), %2 (v), %3 (v))); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_scalebias, "float %n (vec3 v) { return %0 (v) * %scale + %bias; }\n");
-
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_select, "float %n (vec3 v) { return select (%2 (v), %1 (v), %0 (v), %lowerBound, %upperBound, %falloff); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_turbulence, "float %n (vec3 v) { return %0 (turbulence (v, %frequency, %power, %roughness, %seed)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_voronoi, "float %n (vec3 v) { return voronoi (v, %frequency, %displacement, %enableDistance, %seed); }\n");

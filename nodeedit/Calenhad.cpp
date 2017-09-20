@@ -72,17 +72,8 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
     // Tools
 
-    QToolBar* modulesToolbar = toolbox -> toolbar ("Modules");
-    modulesToolbar -> setAcceptDrops (false);
-    //modulesToolbar -> addNotification (_controller -> nodeRoster());
-    QDockWidget* editToolsDock = new QDockWidget (modulesToolbar -> windowTitle(), this);
-    editToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
-    modulesToolbar -> setParent (this);
-    editToolsDock -> setWidget (modulesToolbar);
-    addDockWidget (Qt::RightDockWidgetArea, editToolsDock);
-
     QToolBar* zoomToolbar = toolbox -> toolbar ("View");
-    modulesToolbar -> setAcceptDrops (false);
+    zoomToolbar -> setAcceptDrops (false);
     QDockWidget* zoomToolsDock = new QDockWidget (zoomToolbar -> windowTitle(), this);
     zoomToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     zoomToolbar -> setParent (this);
@@ -162,7 +153,7 @@ Calenhad::~Calenhad() {
 void Calenhad::setModel (CalenhadModel* model) {
     _model = model;
     _model -> setSceneRect (-1000, -1000, 1000, 1000);
-    _controller->setModel (_model);
+    _controller-> setModel (_model);
     _model -> setController (_controller);
     _view -> setController (_controller);
     _controller -> addView (_view);

@@ -318,11 +318,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             if (_activeTool) {
                 QString type = _activeTool -> data().toString();
                 if (! type.isNull ()) {
-                    if (type == "NodeGroup") {
-                        addNodeGroup (me -> scenePos(), "New node group");
-                    } else {
-                        addModule (me->scenePos (), type);
-                    }
+                    addNode (me->scenePos (), type);
                 }
                 _controller -> clearTools();
                 setActiveTool (nullptr);
@@ -339,20 +335,27 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 }
 
 QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
+    QString name = "New_" + type;
+    int i = 0;
+    while (nameExists (name)) {
+        name = "New_" + type + "_" + QString::number (i++);
+    }
+
     if (type == "NodeGroup") {
-        addNodeGroup (initPos, "New Group");
+        addNodeGroup (initPos, name);
     } else {
-        addModule (initPos, type, "New " + type);
+        addModule (initPos, type, name);
     }
 }
 
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     if (type != QString::null) {
-        QNode* module = CalenhadServices::modules() -> createModule (type);
-        //module -> setName (name);
+        QModule* module = (QModule*) CalenhadServices::modules() -> createModule (type);
         AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
         _controller -> doCommand (command);
-        return (QModule*) command -> node();
+        module = (QModule*) command -> node();
+        module -> setName (name);
+        return module;
     } else {
         CalenhadServices::messages() -> message ("error", "Couldn't create module of type " + type + "\n");
         return nullptr;
@@ -362,11 +365,13 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
 QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& name) {
     QNodeGroup* group = new QNodeGroup();
     group -> initialise();
-    //group -> setName (name);
-
+    group -> setName (name);
     AddNodeCommand* command = new AddNodeCommand (group, initPos, this);
     _controller -> doCommand (command);
-    return (QNodeGroup*) command -> node();
+    group = (QNodeGroup*) command -> node();
+    group -> setName (name);
+
+    return group;
 }
 
 QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
@@ -394,19 +399,19 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* 
         b -> addPort (port);
     }
     node -> setModel (this);
-    if (node -> name().isNull () || node -> name().isEmpty()) {
-        QString n = "New_" + node -> nodeType();
-        int i = 0;
-        QString s;
-//        while (! validateName (n, s, node)) {
-//            n = "New_" + node -> nodeType() + "_" + QString::number (i++);
-//        }
-        node -> setName (n);
-    }
     b -> assignGroup();
     b -> assignIcon();
     node -> invalidate ();
     return node;
+}
+
+bool CalenhadModel::nameExists (const QString& name) {
+    for (QNode* n : nodes()) {
+        if (name == n->name ()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void CalenhadModel::deleteNode (QNode* node) {
@@ -457,19 +462,17 @@ QList<QNodeGroup*> CalenhadModel::nodeGroups() {
     return groups;
 }
 
-QList<QModule*> CalenhadModel::modules() {
-    QList<QModule*> modules;
+QList<QNode*> CalenhadModel::nodes() {
+    QList<QNode*> nodes;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
             if (type == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
                 QNodeBlock* handle = (QNodeBlock*) item;
                 QNode* node = handle -> node();
-                if (dynamic_cast<QModule*> (node)) {
-                    modules.append (dynamic_cast<QModule*> (node));
-                }
+                nodes.append (node);
             }
         }
-    return modules;
+    return nodes;
 }
 
 QList<QNEConnection*> CalenhadModel::connections() {
@@ -495,8 +498,8 @@ QNodeGroup* CalenhadModel::findGroup (const QString& name) {
 }
 
 
-QModule* CalenhadModel::findModule (const QString& name) {
-    for (QModule* qm : modules()) {
+QNode* CalenhadModel::findModule (const QString& name) {
+    for (QNode* qm : nodes()) {
         if ((! qm -> name().isNull ()) && (qm -> name() == name)) {
             return qm;
         }
@@ -527,7 +530,7 @@ QDomDocument CalenhadModel::serialize () {
     CalenhadServices::calculator() -> serialize (doc);
     writeMetadata (doc);
     CalenhadServices::legends () -> serialize (doc);
-    for (QModule* qm : modules()) {
+    for (QNode* qm : nodes()) {
         qm -> serialize (doc);
     }
     for (QNEConnection* c : connections()) {
@@ -603,11 +606,11 @@ void CalenhadModel::inflate (const QDomDocument& doc) {
     for (int i = 0; i < connectionNodes.count(); i++) {
         QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
         QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-        QModule* fromModule = findModule (fromElement.attributes().namedItem ("module").nodeValue());
-        QModule* toModule = findModule (toElement.attributes().namedItem ("module").nodeValue());
-        if (fromModule && toModule) {
+        QNode* fromNode = findModule (fromElement.attributes().namedItem ("module").nodeValue());
+        QNode* toNode = findModule (toElement.attributes().namedItem ("module").nodeValue());
+        if (fromNode && toNode) {
             QNEPort* fromPort = nullptr, * toPort = nullptr;
-            for (QNEPort* port : fromModule -> ports()) {
+            for (QNEPort* port : fromNode -> ports()) {
                 bool okIndex;
                 int index = fromElement.attribute ("output").toInt (&okIndex);
                 if (okIndex) {
@@ -617,7 +620,7 @@ void CalenhadModel::inflate (const QDomDocument& doc) {
                     }
                 }
             }
-            for (QNEPort* port : toModule -> ports()) {
+            for (QNEPort* port : toNode -> ports()) {
                 bool okIndex;
                 int index = toElement.attribute ("input").toInt (&okIndex);
                 if (okIndex) {

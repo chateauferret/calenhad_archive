@@ -45,7 +45,7 @@ namespace calenhad {
 
             virtual ~CalenhadModel ();
 
-            calenhad::qmodule::QModule* findModule (const QString& name);
+            qmodule::QNode* findModule (const QString& name);
 
             calenhad::qmodule::QNodeGroup* findGroup (const QString& name);
 
@@ -81,7 +81,7 @@ namespace calenhad {
 
             void inflate (const QDomDocument& doc);
 
-            QList<calenhad::qmodule::QModule*> modules ();
+            QList<calenhad::qmodule::QNode*> nodes ();
 
             QList<calenhad::qmodule::QNodeGroup*> nodeGroups ();
 
@@ -92,8 +92,6 @@ namespace calenhad {
             void writeParameter (QDomElement& element, const QString& param, const QString& value);
 
             void highlightGroupAt (QPointF pos);
-
-            bool validateName (QString& name, QString& messages, calenhad::qmodule::QNode* node);
 
         signals:
 
@@ -125,6 +123,7 @@ namespace calenhad {
             calenhad::nodeedit::QNodeGroupBlock* _highlighted;
 
 
+            bool nameExists (const QString& name);
         };
     }
 }

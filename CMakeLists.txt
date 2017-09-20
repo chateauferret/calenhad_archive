@@ -51,7 +51,6 @@ include_directories(
 
 )
 
-INCLUDE(${FASTNOISE_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${QMODULE_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${NODEEDIT_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${CONTROLS_SOURCE_DIR}/CMakeLists.txt)
