@@ -8,6 +8,7 @@
 #include <iostream>
 #include "../nodeedit/qneconnection.h"
 #include <QMenu>
+#include <nodeedit/NodeNameValidator.h>
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
@@ -15,26 +16,29 @@
 #include "../nodeedit/qneport.h"
 #include "../messages/QNotificationService.h"
 #include "../nodeedit/QNodeBlock.h"
-#include "ParamValidator.h"
+#include "../actions/ChangeModuleCommand.h"
+#include "../preferences/PreferencesService.h"
 
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 using namespace calenhad::controls;
 using namespace calenhad::pipeline;
 using namespace calenhad::expressions;
-//using namespace calenhad::actions;
+using namespace calenhad::actions;
+
 
 
 QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (parent),
-    _model (nullptr), _dialog (nullptr), _handle (nullptr), _content (nullptr), _contentLayout (nullptr),
-    _nodeType (nodeType), _inputCount (inputs),
-    _name ("New_" + nodeType) {
+    _model (nullptr), _dialog (nullptr), _handle (nullptr), _content (nullptr), _contentLayout (nullptr), _palette (nullptr), _validator (nullptr),
+    _nodeType (nodeType) {
 
 }
 
 
 QNode::~QNode () {
     if (_dialog) { delete _dialog; }
+    if (_validator) { delete _validator; }
+    if (_palette) { delete _palette; }
 }
 
 void QNode::initialise() {
@@ -50,6 +54,21 @@ void QNode::initialise() {
     about -> setLayout (layout);
 
     _nameEdit = new QLineEdit();
+    _palette = new QPalette();
+    _nameEdit -> setPalette (*_palette);
+    _validator = new NodeNameValidator (this);
+    connect (_validator, &NodeNameValidator::message, this,[=] (const QString& message) {
+        _nameEdit -> setToolTip (message);
+        _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_error);
+        _nameEdit->setPalette (*_palette);
+    });
+    connect (_validator, &NodeNameValidator::success, this, [=] () {
+        _nameEdit -> setToolTip (QString::null);
+        _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+        _nameEdit->setPalette (*_palette);
+    });
+    _nameEdit -> setValidator (_validator);
+
     layout -> addWidget (_nameEdit);
 
     connect (_nameEdit, &QLineEdit::editingFinished, this, [=] () {
@@ -91,10 +110,11 @@ QString QNode::name() {
     return _name;
 }
 
+// setName assumes the name has been validated using CalenhadModel::validateName - it is the caller's
+// responsibility to call this first (since we don't know if the caller wants messages).
 void QNode::setName (const QString& name) {
     if (! (name.isNull()) && (name != _name)) {
         _name = name;
-        _name = _name.replace (" ", "_");
         _nameEdit -> setText (_name);
         update();
         if (_dialog) {
@@ -323,9 +343,9 @@ void QNode::serialize (QDomDocument& doc) {
 
 void QNode::propertyChangeRequested (const QString& p, const QVariant& value) {
     if (_model && (property (p.toStdString ().c_str ()) != value)) {
-       // ChangeModuleCommand* c = new ChangeModuleCommand (this, p, property (p.toStdString ().c_str ()), value);
+        ChangeModuleCommand* c = new ChangeModuleCommand (this, p, property (p.toStdString ().c_str ()), value);
         if (_model) {
-        //    _model -> controller() -> doCommand (c);
+            _model -> controller() -> doCommand (c);
         }
         _model -> update();
     }

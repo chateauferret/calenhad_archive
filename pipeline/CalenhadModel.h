@@ -93,7 +93,7 @@ namespace calenhad {
 
             void highlightGroupAt (QPointF pos);
 
-
+            bool validateName (QString& name, QString& messages, calenhad::qmodule::QNode* node);
 
         signals:
 
@@ -123,6 +123,7 @@ namespace calenhad {
             calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos, calenhad::nodeedit::QNodeBlock* b);
 
             calenhad::nodeedit::QNodeGroupBlock* _highlighted;
+
 
         };
     }

@@ -36,12 +36,6 @@ QString QNodeGroup::nodeType () {
     return "NodeType";
 }
 
-QNodeGroup* QNodeGroup::clone () {
-    QNodeGroup* other = new QNodeGroup ((QWidget*) parent());
-    other -> setRect (_rect);
-    other -> setName ("Copy of " + _name);
-    return other;
-}
 
 void QNodeGroup::initialise() {
     QNode::initialise();
@@ -61,4 +55,17 @@ void QNodeGroup::setOctaveCount (const int& value) {
     emit changedOctaves (_octaves);
     _octaveSpin -> setValue (value);
 
+}
+
+QNodeGroup* QNodeGroup::clone () {
+    QNodeGroup* other = new QNodeGroup ((QWidget*) parent());
+    other -> setRect (_rect);
+    QString n = "Copy_of_" + _name;
+    int i = 0;
+    QString e;
+//    while (! _model -> validateName (n, e, this)) {
+//        n = "Copy_of_" + _name + "_" + QString::number (i++);
+//    }
+    setName (n);
+    return other;
 }

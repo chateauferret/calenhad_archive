@@ -50,7 +50,7 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) 
     QPainterPath p;
     QPolygonF polygon;
     _label = new EditableLabel (this);
-    _label->setDefaultTextColor (CalenhadServices::preferences ()->calenhad_port_text_color);
+    _label -> setTextColor (CalenhadServices::preferences ()->calenhad_port_text_color);
     connect (_label, SIGNAL (textEdited (const QString&)), this, SLOT (nameChangeRequested (const QString&)));
 
     if (type == OutputPort) {

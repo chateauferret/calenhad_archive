@@ -173,7 +173,7 @@ void CalenhadGlobeContextMenu::initialise () {
     _showOverviewMapAction->setChecked (_parent -> isOverviewVisible());
     _showScaleAction->setChecked (_parent -> isScaleVisible());
     _showZoomSliderAction->setChecked (_parent -> isZoomBarVisible());
-    _showNavigatorAction->setChecked (_parent -> isCompassVisible());
+    _showNavigatorAction->setChecked (_parent->isNavigatorVisible ());
     _showGraticuleAction->setChecked (_parent -> isGraticuleVisible());
     _panAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Pan);
     _zoomAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Zoom);

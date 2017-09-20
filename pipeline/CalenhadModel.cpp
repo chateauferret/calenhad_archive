@@ -22,6 +22,8 @@
 #include "../messages/QNotificationService.h"
 #include <QGraphicsSceneMouseEvent>
 #include "../legend/LegendService.h"
+#include "../preferences/PreferencesService.h"
+#include <QGraphicsItem>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -30,6 +32,7 @@ using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
 using namespace calenhad::actions;
 using namespace calenhad::expressions;
+using namespace calenhad::preferences;
 
 CalenhadModel::CalenhadModel() : QGraphicsScene(),
     conn (nullptr),
@@ -346,7 +349,7 @@ QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     if (type != QString::null) {
         QNode* module = CalenhadServices::modules() -> createModule (type);
-        module -> setName (name);
+        //module -> setName (name);
         AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
         _controller -> doCommand (command);
         return (QModule*) command -> node();
@@ -359,7 +362,7 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
 QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& name) {
     QNodeGroup* group = new QNodeGroup();
     group -> initialise();
-    group -> setName (name);
+    //group -> setName (name);
 
     AddNodeCommand* command = new AddNodeCommand (group, initPos, this);
     _controller -> doCommand (command);
@@ -392,7 +395,13 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* 
     }
     node -> setModel (this);
     if (node -> name().isNull () || node -> name().isEmpty()) {
-        node -> setName ("New " + node -> nodeType());
+        QString n = "New_" + node -> nodeType();
+        int i = 0;
+        QString s;
+//        while (! validateName (n, s, node)) {
+//            n = "New_" + node -> nodeType() + "_" + QString::number (i++);
+//        }
+        node -> setName (n);
     }
     b -> assignGroup();
     b -> assignIcon();

@@ -180,7 +180,7 @@ bool CalenhadGlobeDialog::isZoomBarVisible () {
     return _zoomSlider -> isVisible();
 }
 
-bool CalenhadGlobeDialog::isCompassVisible () {
+bool CalenhadGlobeDialog::isNavigatorVisible () {
     return _navigator -> isVisible();
 }
 
@@ -203,7 +203,7 @@ void CalenhadGlobeDialog::updateConfig () {
     _globe -> setMouseDragMode (_configDialog -> dragMode ());
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
-    //setProjection (_configDialog -> selectedProjection());
+    _globe -> setProjection (_configDialog -> selectedProjection() -> name ());
     _configDialog -> update();
     _contextMenu -> update();
     for (Legend* legend : CalenhadServices::legends() -> all()) {

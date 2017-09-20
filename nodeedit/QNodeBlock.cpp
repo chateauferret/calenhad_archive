@@ -38,6 +38,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../nodeedit/CalenhadView.h"
 #include "../nodeedit/qneport.h"
 #include <QGraphicsSceneMouseEvent>
+#include "../pipeline/CalenhadModel.h"
+#include "NodeNameValidator.h"
 
 
 using namespace calenhad::controls;
@@ -52,6 +54,7 @@ QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem 
     _pixmap = CalenhadServices::modules() -> getIcon (node -> nodeType());
     _size = QSize (CalenhadServices::preferences() -> calenhad_handle_module_width, CalenhadServices::preferences() -> calenhad_handle_module_height);
     _margin = CalenhadServices::preferences() -> calenhad_handle_module_margin;
+    _nameValidator = new NodeNameValidator (_node);
 
 }
 
@@ -68,14 +71,37 @@ void QNodeBlock::initialise() {
 
     // name label
     _label = new EditableLabel (this);
+    _oldName = _node -> name();
     _label -> setText (_node -> name());
-    _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+    _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+    _label -> setValidator (_nameValidator);
+    /*
+    connect (_label, &EditableLabel::textChanged, this, [=] () {
 
-
-    connect (_label, &EditableLabel::textEdited, this, [=] () {
-        if (_node -> name() != _label -> toPlainText()) {
-            _node -> propertyChangeRequested ("name", _label -> toPlainText ());
+        QString text = _label -> proposedText();
+        if (_nameValidator -> validate (text, ) == QValidator::Invalid) {
+            //_label -> setToolTip (messages);
+            _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_error);
+        } else {
+            _label -> setToolTip (QString::null);
+            _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
         }
+    });
+    */
+    connect (_label, &EditableLabel::textEdited, this, [=] () {
+        QString name = _label -> toPlainText();
+        _node->propertyChangeRequested ("name", name);
+    /*}
+
+        if (_node->name () != name) {
+            QString messages;
+            if (_node -> model() -> validateName (name, messages, _node)) {
+
+            } else {
+                _node -> setName (_oldName);
+                _label -> setText (_oldName);
+            }
+        }*/
     });
     connect (_node, &QNode::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
     setPath (makePath ());

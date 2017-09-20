@@ -19,7 +19,8 @@ namespace calenhad {
 
             virtual QSettings* settings () = 0;
 
-            // preferences
+            // Colours and styles
+
             QString calenhad_stylesheet;
             QColor calenhad_module_brush_color_selected;
             QColor calenhad_module_brush_color_normal;
@@ -48,22 +49,38 @@ namespace calenhad {
             QColor calenhad_module_text_color_normal;
             QColor calenhad_nodegroup_text_color_selected;
             QColor calenhad_nodegroup_text_color_normal;
-            unsigned calenhad_altitudemap_deletemargin;
-            unsigned calenhad_altitudemap_buffersize;
-            unsigned calenhad_colormap_buffersize;
-            QString calenhad_legends_filename;
-            int calenhad_variables_name_maxlength;
+            QColor calenhad_module_text_color_error;
             QColor calenhad_variables_color_normal;
             QColor calenhad_variables_color_error;
 
+            // Configuration
 
-            // geometry
+            QString calenhad_legends_filename;
+            int calenhad_variables_name_maxlength;
+            int calenhad_node_name_minLength;
+            int calenhad_node_name_maxLength;
+            QString calenhad_node_name_validChars;
+
+
+            // Geometry
+
             unsigned calenhad_port_radius;
             unsigned calenhad_port_margin;
             unsigned calenhad_module_duplicate_offset_x;
             unsigned calenhad_module_duplicate_offset_y;
+            unsigned calenhad_altitudemap_deletemargin;
+            unsigned calenhad_altitudemap_buffersize;
+            unsigned calenhad_colormap_buffersize;
+            int calenhad_toolpalette_icon_size;
+            int calenhad_toolpalette_icon_margin;
+            int calenhad_toolpalette_icon_shadow;
+            int calenhad_toolpalette_arrow_size;
+            int calenhad_handle_module_width;
+            int calenhad_handle_module_height;
+            int calenhad_handle_module_margin;
+            int calenhad_notifications_width;
 
-            // modules
+            // Modules
 
             QString calenhad_module_perlin;
             QString calenhad_module_cylinders;
@@ -97,14 +114,7 @@ namespace calenhad {
             QColor calenhad_toolpalette_icon_color_normal;
             QColor calenhad_toolpalette_icon_color_mouseover;
             QColor calenhad_toolpalette_icon_color_shadow;
-            int calenhad_toolpalette_icon_size;
-            int calenhad_toolpalette_icon_margin;
-            int calenhad_toolpalette_icon_shadow;
-            int calenhad_toolpalette_arrow_size;
-            int calenhad_handle_module_width;
-            int calenhad_handle_module_height;
-            int calenhad_handle_module_margin;
-            int calenhad_notifications_width;
+
 
         };
     }

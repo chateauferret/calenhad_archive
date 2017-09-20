@@ -40,7 +40,7 @@ namespace calenhad {
 	}
 	namespace nodeedit {
 		class QNEPort;
-
+		class NodeNameValidator;
 		class EditableLabel;
 
 		class QNodeGroupBlock;
@@ -119,7 +119,9 @@ namespace calenhad {
 			QPixmap _iconImage;
             const QPixmap _endorsementOrright, _endorsementGoosed;
 
-		};
+            QString _oldName;
+            calenhad::nodeedit::NodeNameValidator* _nameValidator;
+        };
 	}
 }
 

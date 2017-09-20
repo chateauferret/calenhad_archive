@@ -133,7 +133,7 @@ void CalenhadGlobeConfigDialog::initialise() {
     _overviewCheck -> setChecked (_parent -> isOverviewVisible());
     _scaleCheck -> setChecked (_parent -> isScaleVisible());
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
-    _compassCheck -> setChecked (_parent -> isCompassVisible());
+    _compassCheck -> setChecked (_parent->isNavigatorVisible ());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
     _legendManager -> setCurrentLegend (_parent -> globe() -> source () -> legend());
     switch (_parent -> globe() -> coordinatesFormat()) {

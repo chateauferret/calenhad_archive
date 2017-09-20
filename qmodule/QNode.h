@@ -31,6 +31,7 @@ namespace calenhad {
     namespace nodeedit {
         class QNEPort;
         class QNodeBlock;
+        class NodeNameValidator;
     }
     namespace expressions {
         class ExpressionWidget;
@@ -41,6 +42,7 @@ namespace calenhad {
 
         class QNode : public QWidget, public Serializable {
         Q_OBJECT
+
 
         public:
             QNode (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
@@ -103,7 +105,6 @@ namespace calenhad {
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
             int id();
-
             calenhad::nodeedit::QNEPort* output();
 
         public slots:
@@ -123,7 +124,6 @@ namespace calenhad {
 
         protected:
             int _id;
-            calenhad::pipeline::CalenhadModel* _model;
             QNodeGroup* _group;
             QDialog* _dialog;
             calenhad::nodeedit::QNodeBlock* _handle;
@@ -136,6 +136,7 @@ namespace calenhad {
             calenhad::nodeedit::QNEPort* _output;
             QWidget* _content;
             int _inputCount;
+            calenhad::pipeline::CalenhadModel* _model;
 
             QMap<QString, calenhad::expressions::ExpressionWidget*> _parameters;
             virtual void addInputPorts () = 0;
@@ -157,6 +158,9 @@ namespace calenhad {
             QDoubleSpinBox* addParameter (const QString& text, const QString& property);
 
             void addContentPanel ();
+
+            calenhad::nodeedit::NodeNameValidator* _validator;
+            QPalette* _palette;
         };
 
     } // namespace qmodule

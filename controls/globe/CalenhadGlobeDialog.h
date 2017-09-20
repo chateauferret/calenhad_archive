@@ -60,7 +60,7 @@ namespace calenhad {
 
                 void paintEvent (QPaintEvent* e) override;
 
-                bool isCompassVisible ();
+                bool isNavigatorVisible ();
 
                 bool isZoomBarVisible ();
 
