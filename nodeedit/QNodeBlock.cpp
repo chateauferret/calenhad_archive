@@ -75,33 +75,9 @@ void QNodeBlock::initialise() {
     _label -> setText (_node -> name());
     _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
     _label -> setValidator (_nameValidator);
-    /*
-    connect (_label, &EditableLabel::textChanged, this, [=] () {
-
-        QString text = _label -> proposedText();
-        if (_nameValidator -> validate (text, ) == QValidator::Invalid) {
-            //_label -> setToolTip (messages);
-            _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_error);
-        } else {
-            _label -> setToolTip (QString::null);
-            _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
-        }
-    });
-    */
     connect (_label, &EditableLabel::textEdited, this, [=] () {
         QString name = _label -> toPlainText();
-        _node->propertyChangeRequested ("name", name);
-    /*}
-
-        if (_node->name () != name) {
-            QString messages;
-            if (_node -> model() -> validateName (name, messages, _node)) {
-
-            } else {
-                _node -> setName (_oldName);
-                _label -> setText (_oldName);
-            }
-        }*/
+        _node -> propertyChangeRequested ("name", name);
     });
     connect (_node, &QNode::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
     setPath (makePath ());

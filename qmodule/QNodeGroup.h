@@ -43,14 +43,6 @@ namespace calenhad {
 
             void addInputPorts () override;
 
-
-            QSpinBox* _octaveSpin;
-
-            int getOctaveCount ();
-
-            void setOctaveCount (const int& value);
-
-            int _octaves;
         };
     }
 }

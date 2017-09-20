@@ -36,7 +36,7 @@ namespace calenhad {
 		class QNodeBlock;
 		class QNEConnection;
 		class EditableLabel;
-
+		class NodeNameValidator;
 
 
 		class QNEPort : public QObject, public QGraphicsPathItem {
@@ -129,7 +129,8 @@ namespace calenhad {
 			quint64 _ptr;
 
 
-		};
+            NodeNameValidator* _nameValidator;
+        };
 	}
 }
 

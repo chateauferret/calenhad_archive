@@ -143,12 +143,6 @@ namespace calenhad {
 
             int addPanel (const QString& name, QWidget* widget);
 
-            QDoubleSpinBox* noiseValueParamControl (const QString& text, const QString& property = QString::null);
-
-            QSpinBox* countParameterControl (const QString& text, const QString& property = QString::null);
-
-            QwtCounter* angleParameterControl (const QString& text, const QString& property = QString::null);
-
             QFormLayout* _contentLayout;
             QDomElement _element;
             QDomDocument _document;

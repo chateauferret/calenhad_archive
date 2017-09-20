@@ -62,6 +62,8 @@ void Preferences::loadSettings() {
 
     calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/ClionProjects/calenhad/config/legends.xml").toString ();
     calenhad_variables_name_maxlength = _settings -> value ("calenhad/variables/name/maxlength", 50).toUInt();
+    calenhad_port_name_minLength = _settings -> value ("calenhad/port/name_minlength", 1).toUInt();
+    calenhad_port_name_maxLength = _settings -> value ("calenhad/port/name/maxlength", 25).toUInt();
     calenhad_node_name_minLength = _settings -> value ("calenhad/node/name_minlength", 3).toUInt();
     calenhad_node_name_maxLength = _settings -> value ("calenhad/node/name/maxlength", 50).toUInt();
     calenhad_node_name_validChars = _settings -> value ("calenhad/node/name/validchars", "[A-Za-z_][A-Za-z_0-9]*").toString();
@@ -161,6 +163,8 @@ void Preferences::saveSettings() {
 
     _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
     _settings -> setValue ("calenhad/variables/name/maxlength", calenhad_variables_name_maxlength);
+    _settings -> setValue ("calenhad/port/name_minlength", calenhad_port_name_minLength);
+    _settings -> setValue ("calenhad/port/name/maxlength", calenhad_port_name_maxLength);
     _settings -> setValue ("calenhad/node/name_minlength", calenhad_node_name_minLength);
     _settings -> setValue ("calenhad/node/name/maxlength", calenhad_node_name_maxLength);
     _settings -> setValue ("calenhad/node/name/validchars", calenhad_node_name_validChars);

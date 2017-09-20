@@ -39,22 +39,6 @@ QString QNodeGroup::nodeType () {
 
 void QNodeGroup::initialise() {
     QNode::initialise();
-    _octaveSpin = countParameterControl ("Number of octaves");
-    _octaveSpin -> setValue (getOctaveCount());
-    _contentLayout -> addRow ("Octaves", _octaveSpin);
-    setOctaveCount (getOctaveCount ());
-}
-
-
-int QNodeGroup::getOctaveCount () {
-    return _octaves;
-}
-
-void QNodeGroup::setOctaveCount (const int& value) {
-    _octaves = value;
-    emit changedOctaves (_octaves);
-    _octaveSpin -> setValue (value);
-
 }
 
 QNodeGroup* QNodeGroup::clone () {
@@ -63,9 +47,6 @@ QNodeGroup* QNodeGroup::clone () {
     QString n = "Copy_of_" + _name;
     int i = 0;
     QString e;
-//    while (! _model -> validateName (n, e, this)) {
-//        n = "Copy_of_" + _name + "_" + QString::number (i++);
-//    }
     setName (n);
     return other;
 }

@@ -29,7 +29,7 @@ using namespace calenhad::actions;
 
 
 QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (parent),
-    _model (nullptr), _dialog (nullptr), _handle (nullptr), _content (nullptr), _contentLayout (nullptr), _palette (nullptr), _validator (nullptr),
+    _model (nullptr), _dialog (nullptr), _handle (nullptr), _content (nullptr), _contentLayout (nullptr), _palette (nullptr), _validator (nullptr), _inputCount (inputs),
     _nodeType (nodeType) {
 
 }
@@ -182,54 +182,6 @@ bool QNode::isComplete() {
         }
     }
     return complete;
-}
-
-// Spin _box which selects a libnoiseutils level value between -1 and 1
-QDoubleSpinBox* QNode::noiseValueParamControl (const QString& text, const QString& property) {
-    if (property == QString::null) { return noiseValueParamControl (text, propertyName (text)); }
-    QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
-    spin -> setRange (-1.0, 1.0);
-    spin -> setSingleStep (0.1);
-    spin -> setToolTip (text);
-
-    connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
-    return spin;
-}
-
-// Spin _box which selects an iteration or octave count between 1 and 12
-QSpinBox* QNode::countParameterControl (const QString& text, const QString& property) {
-    if (property == QString::null) { return countParameterControl (text, propertyName (text)); }
-    QSpinBox* spin = new QSpinBox (_content);
-    spin -> setRange (1, 12);
-    spin -> setToolTip (text);
-    connect (spin, &QSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
-    return spin;
-}
-
-// Spin _box which selects an angle between + / - 180 degrees
-QwtCounter* QNode::angleParameterControl (const QString& text, const QString& p) {
-    if (p == QString::null) { return angleParameterControl (text, propertyName (text)); }
-    QwtCounter *counter = new QwtCounter (this);
-    counter -> setWrapping (true);
-    counter -> setRange (-180.0, 180.0);
-    counter -> setSingleStep (1.0);
-    counter -> setNumButtons (3);
-    counter -> setIncSteps (QwtCounter::Button1, 1);
-    counter -> setIncSteps (QwtCounter::Button2, 15);
-    counter -> setIncSteps (QwtCounter::Button3, 45);
-
-    counter -> setToolTip (text);
-    connect (counter, &QwtCounter::valueChanged, this, [=] () {
-        double value = counter -> value();
-        if (value == counter -> maximum()) { value = counter -> minimum(); }
-        else if (value == counter -> minimum()) { value = counter -> maximum(); }
-        if (! ((property (p.toStdString().c_str())  == counter -> minimum() && value == counter -> maximum()) ||
-                property (p.toStdString().c_str()) == counter -> maximum () && value == counter -> minimum())) {
-            propertyChangeRequested (p, value);
-        }
-    });
-
-    return counter;
 }
 
 QDoubleSpinBox* QNode::addParameter (const QString& text, const QString& property) {

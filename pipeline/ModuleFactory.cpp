@@ -281,7 +281,7 @@ void ModuleFactory::provideCodes() {
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_turbulence, "float %n (vec3 v) { return %0 (turbulence (v, %frequency, %power, %roughness, %seed)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_voronoi, "float %n (vec3 v) { return voronoi (v, %frequency, %displacement, %enableDistance, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_scalepoint, "float %n (vec3 v) { return %0 (v * vec3 (%x, %y, %z)); }\n");
-    //_codes -> insert (CalenhadServices::preferences() -> calenhad_module_altitudemap, "float %n (vec3 v) { return "
+    // altitudemap generates code in its own methods - do not inject here
 
 
 }

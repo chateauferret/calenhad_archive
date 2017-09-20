@@ -3,6 +3,8 @@
 SET(NODEEDIT_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/NodeNameValidator.cpp
         ${CMAKE_CURRENT_LIST_DIR}/NodeNameValidator.h
+        ${CMAKE_CURRENT_LIST_DIR}/PortNameValidator.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/PortNameValidator.h
         ${CMAKE_CURRENT_LIST_DIR}/QNodeBlock.h
         ${CMAKE_CURRENT_LIST_DIR}/QNodeBlock.cpp
         ${CMAKE_CURRENT_LIST_DIR}/qneconnection.h

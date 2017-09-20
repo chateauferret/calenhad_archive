@@ -17,8 +17,12 @@ using namespace calenhad::preferences;
 using namespace calenhad;
 
 NodeNameValidator::NodeNameValidator (QNode* node) :
-        QRegularExpressionValidator (QRegularExpression (CalenhadServices::preferences() -> calenhad_node_name_validChars)),
-        _node (node) {
+    QRegularExpressionValidator (QRegularExpression (CalenhadServices::preferences() -> calenhad_node_name_validChars)),
+    _node (node) {
+}
+
+NodeNameValidator::~NodeNameValidator () {
+
 }
 
 QValidator::State NodeNameValidator::validate (QString& input, int& pos) const {
@@ -49,7 +53,7 @@ QValidator::State NodeNameValidator::validate (QString& input, int& pos) const {
     }
 
     // make sure name isn't a duplicate (another node)
-        foreach (QGraphicsItem* item, _node -> model() -> items()) {
+    foreach (QGraphicsItem* item, _node -> model() -> items()) {
         if (item -> type() == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
             QNodeBlock* handle = (QNodeBlock*) item;
             if (input == handle -> node() -> name() && handle -> node() != _node) {
@@ -65,8 +69,4 @@ QValidator::State NodeNameValidator::validate (QString& input, int& pos) const {
         emit success();
     }
     return state;
-}
-
-NodeNameValidator::~NodeNameValidator () {
-
 }

@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../preferences/PreferencesService.h"
+#include "PortNameValidator.h"
 
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
@@ -45,12 +46,15 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) 
         _radius (CalenhadServices::preferences() -> calenhad_port_radius),
         _margin (CalenhadServices::preferences() -> calenhad_port_margin),
         _index (index),
+        _block (nullptr),
         _portType (type),
         _portName (name) {
     QPainterPath p;
     QPolygonF polygon;
     _label = new EditableLabel (this);
-    _label -> setTextColor (CalenhadServices::preferences ()->calenhad_port_text_color);
+
+
+    _label -> setTextColor (CalenhadServices::preferences() -> calenhad_port_text_color);
     connect (_label, SIGNAL (textEdited (const QString&)), this, SLOT (nameChangeRequested (const QString&)));
 
     if (type == OutputPort) {
@@ -77,7 +81,11 @@ QNEPort::~QNEPort () {
 }
 
 void QNEPort::setBlock (QNodeBlock* b) {
-    _block = b;
+    if (! _block) {
+        _block = b;
+        _nameValidator = new PortNameValidator (this);
+        _label->setValidator (_nameValidator);
+    }
 }
 
 void QNEPort::nameChangeRequested (const QString& value) {
@@ -112,12 +120,12 @@ QNodeBlock* QNEPort::block () const {
 }
 
 bool QNEPort::isConnected (QNEPort* other) {
-            foreach (QNEConnection* conn, m_connections) {
-            if (conn -> port1 () == other || conn -> port2 () == other) {
-                return true;
-            }
+     foreach (QNEConnection* conn, m_connections) {
+        if (conn->port1 () == other || conn->port2 () == other) {
+            return true;
         }
-    return false;
+     }
+     return false;
 }
 
 QVariant QNEPort::itemChange (GraphicsItemChange change, const QVariant& value) {
@@ -131,13 +139,17 @@ QVariant QNEPort::itemChange (GraphicsItemChange change, const QVariant& value) 
 }
 
 void QNEPort::initialise () {
-        _label -> setPlainText (_portName);
-        _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_port_text_color);
-        if (_portType == OutputPort) {
-            _label -> setPos (_radius, -2 * (_radius + 1));
-        } else {
-            _label -> setPos (-(_label -> boundingRect ().width () + 4), -2 * (_radius + 1));
-        }
+    _label -> setPlainText (_portName);
+    _label -> setDefaultTextColor (CalenhadServices::preferences() -> calenhad_port_text_color);
+    if (_portType == OutputPort) {
+        _label -> setPos (_radius, -2 * (_radius + 1));
+    } else {
+        _label -> setPos (-(_label -> boundingRect ().width () + 4), -2 * (_radius + 1));
+    }
+
+    _nameValidator = new PortNameValidator (this);
+    _label -> setValidator (_nameValidator);
+
 }
 
 void QNEPort::setHighlight (const PortHighlight& highlight) {

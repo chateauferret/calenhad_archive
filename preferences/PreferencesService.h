@@ -57,6 +57,8 @@ namespace calenhad {
 
             QString calenhad_legends_filename;
             int calenhad_variables_name_maxlength;
+            int calenhad_port_name_minLength;
+            int calenhad_port_name_maxLength;
             int calenhad_node_name_minLength;
             int calenhad_node_name_maxLength;
             QString calenhad_node_name_validChars;
