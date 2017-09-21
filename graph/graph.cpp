@@ -230,7 +230,8 @@ void Graph::parseLegend () {
 
     QDomElement legendElement;
     QString legendName = _node.attributes ().namedItem ("legend").nodeValue();
-    QDomNodeList legendElements = _doc.elementsByTagName ("legend");
+    QDomElement legendRoot = _doc.documentElement ().firstChildElement ("legends");
+    QDomNodeList legendElements = legendRoot.elementsByTagName ("legend");
     for (int i = 0; i < legendElements.size(); i++) {
         if (legendElements.at (i).firstChildElement ("name").firstChild ().nodeValue() == legendName) {
             legendElement = legendElements.at (i).toElement();

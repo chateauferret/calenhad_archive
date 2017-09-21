@@ -212,7 +212,7 @@ void Legend::inflate (const QDomNode& n) {
 
 
 void Legend::serialise (QDomDocument doc) {
-    QDomElement root = doc.firstChildElement ("legends");
+    QDomElement root = doc.documentElement().firstChildElement ("legends");
     QDomElement e = doc.createElement ("legend");
     e.setAttribute ("type", isInterpolated() ? "gradient" : "stepwise");
     root.appendChild (e);

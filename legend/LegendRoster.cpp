@@ -95,8 +95,8 @@ void LegendRoster::rollback () {
 }
 
 void LegendRoster::serialize (QDomDocument& doc) {
-    QDomElement root = doc.createElement ("legends");
-    doc.appendChild (root);
+    QDomElement element = doc.createElement ("legends");
+    doc.documentElement().appendChild (element);
 
     for (Legend* legend : _legends) {
         legend -> serialise (doc);

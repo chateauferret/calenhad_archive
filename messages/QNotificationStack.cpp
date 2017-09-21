@@ -8,6 +8,7 @@
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QPushButton>
 #include <memory>
+#include <iostream>
 #include "QNotificationStack.h"
 #include "QProgressNotification.h"
 using namespace calenhad::notification;
@@ -38,6 +39,7 @@ QNotification* QNotificationStack::message (const QString& style, const QString&
     connect (notification, SIGNAL (displayed()), timer, SLOT (start()), Qt::QueuedConnection);
     connect (notification, SIGNAL (dismissed (QNotification*)), this, SLOT (clearMessage (QNotification*)), Qt::QueuedConnection);
     layout() -> addWidget (notification);
+    std::cout << message.toStdString() << "\n";
     return notification;
 }
 

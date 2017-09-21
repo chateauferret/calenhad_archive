@@ -228,9 +228,6 @@ void QNode::showParameters (const bool& visible) {
 
 void QNode::inflate (const QDomElement& element) {
     _element = element;
-    bool okId;
-    _id = element.attribute ("id").toInt (&okId);
-    if (okId) {
         QDomElement notesNode = element.firstChildElement ("name");
         QString name = notesNode.text ();
         QDomNodeList portNodes = element.elementsByTagName ("port");
@@ -258,9 +255,7 @@ void QNode::inflate (const QDomElement& element) {
             QString paramValue = paramNodes.at (i).attributes ().namedItem ("value").nodeValue ();
             setParameter (paramName, paramValue);
         }
-    } else {
 
-    }
 }
 
 void QNode::serialize (QDomDocument& doc) {
