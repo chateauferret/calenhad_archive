@@ -4,6 +4,7 @@
 #include <libnoise/module/modulebase.h>
 #include <QtCore/QString>
 #include <QDomNode>
+#include "../exprtk/exprtk.hpp"
 
 namespace calenhad {
     namespace pipeline {
@@ -24,6 +25,7 @@ namespace calenhad {
             int altitudeMapBufferSize();
             float* colorMapBuffer();
             int colorMapBufferSize ();
+            QString readParameter (const QDomElement& element, const QString param);
 
         protected:
             QDomNode _node;
@@ -44,6 +46,7 @@ namespace calenhad {
             float* _colorMapBuffer;
 
 
+            exprtk::parser<double>* _parser;
         };
 
 

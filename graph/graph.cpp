@@ -16,6 +16,7 @@
 #include "../mapping/TerraceCurve.h"
 #include "../mapping/CubicSpline.h"
 #include "../legend/Legend.h"
+#include "../exprtk/CalculatorService.h"
 
 using namespace calenhad;
 using namespace calenhad::nodeedit;
@@ -24,28 +25,46 @@ using namespace calenhad::preferences;
 using namespace calenhad::graph;
 using namespace calenhad::mapping;
 using namespace calenhad::legend;
+using namespace calenhad::expressions;
+using namespace exprtk;
 
-Graph::Graph (const QString& xml, const QString& nodeName) : _xml (xml), _nodeName (nodeName), _altitudeMapBuffer (nullptr), _colorMapBuffer (nullptr) {
+Graph::Graph (const QString& xml, const QString& nodeName) : _xml (xml), _nodeName (nodeName), _altitudeMapBuffer (nullptr), _colorMapBuffer (nullptr), _parser (new parser<double>()) {
     _doc.setContent (_xml);
 
 }
 
-Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _nodeName (nodeName), _altitudeMapBuffer (nullptr), _colorMapBuffer (nullptr) {
+Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _nodeName (nodeName), _altitudeMapBuffer (nullptr), _colorMapBuffer (nullptr), _parser (new parser<double>()) {
 
 }
 
 Graph::~Graph () {
     if (_altitudeMapBuffer) { free (_altitudeMapBuffer); }
     if (_colorMapBuffer) { delete (_colorMapBuffer); }
+    delete _parser;
 }
 
 
-QString readParameter (const QDomElement& element, const QString param) {
-
+QString Graph::readParameter (const QDomElement& element, const QString param) {
     QDomElement e = element.firstChildElement ("parameter");
     for (; ! e.isNull(); e = e.nextSiblingElement ("parameter")) {
         if (e.attributeNode ("name").value () == param) {
-            return e.attributeNode ("value").value ();
+            QString expr = e.attributeNode ("value").value ();
+            std::cout << "Expression " << expr.toStdString() << " = ";
+            expression<double>* exp = CalenhadServices::calculator() -> makeExpression (expr);
+            if (exp) {
+                double value = exp -> value ();
+                std::cout << value << "\n";
+                delete exp;
+                return QString::number (value);
+            } else {
+                std::cout << "Expression goosed\n";
+                QStringList errors = CalenhadServices::calculator () -> errors();
+                for (QString error : errors) {
+                    std::cout << error.toStdString () << "\n";
+                    delete exp;
+                    return 0;
+                }
+            }
         }
     }
     return QString::null;

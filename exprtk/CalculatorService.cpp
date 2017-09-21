@@ -3,6 +3,7 @@
 //
 
 #include <CalenhadServices.h>
+#include <iostream>
 #include "CalculatorService.h"
 #include "../preferences/PreferencesService.h"
 #include "../messages/QNotificationService.h"
@@ -10,22 +11,24 @@
 using namespace exprtk;
 using namespace calenhad::expressions;
 
-CalculatorService::CalculatorService () {
+CalculatorService::CalculatorService () : _symbols (new symbol_table<double>()), _parser (new parser<double>()) {
 
 }
 
 CalculatorService::~CalculatorService () {
-
+   if (_symbols) { delete _symbols; }
+    delete _parser;
 }
 
 QMap<QString, CalenhadVariable> CalculatorService::variables () {
     return _variables;
 }
 
-void CalculatorService::insertVariable (const QString& name, const QString& notes, double& value) {
+void CalculatorService::insertVariable (QString name, const QString& notes, double value) {
     CalenhadVariable cv (name, notes, value);
     _variables.insert (name, cv);
-    _symbols.add_variable (name.toStdString(), cv._value);
+
+
 }
 
 void CalculatorService::updateVariable (const QString& name, const QString& notes, double& value) {
@@ -39,7 +42,6 @@ void CalculatorService::updateVariable (const QString& name, const QString& note
 
 void CalculatorService::deleteVariable (const QString& name) {
     _variables.remove (name);
-    _symbols.remove_variable (name.toStdString());
 }
 
 void CalculatorService::clear () {
@@ -47,11 +49,26 @@ void CalculatorService::clear () {
 }
 
 
-// Get a new expression object registered with the variable table. Caller is responsible for deleting the returned object.
-expression<double>* CalculatorService::makeExpression() {
+// Get a new expression object registered with the variable table. Caller is responsible for compiling it and deleting the returned object.
+expression<double>* CalculatorService::makeExpression (const QString& e) {
+    _symbols -> clear();
     expression<double>* exp = new expression<double>();
-    exp -> register_symbol_table (_symbols);
-    return exp;
+    for (QString key : _variables.keys ()) {
+        double v = _variables.value (key)._value;
+        _symbols -> add_variable (key.toStdString (), v);
+    }
+
+    exp -> register_symbol_table (*_symbols);
+    if (_parser -> compile (e.toStdString(), *exp)) {
+        _errors.clear();
+        return exp;
+    } else {
+        for (std::size_t i = 0; i < _parser -> error_count(); ++i) {
+            parser_error::type error = _parser -> get_error (i);
+            _errors.append (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
+        }
+        return nullptr;
+    }
 }
 
 bool CalculatorService::validateVariableName (const QString& name, QString& message) {
@@ -145,6 +162,10 @@ void CalculatorService::serialize (QDomDocument& doc) {
         itemElement.setAttribute ("name", key);
         itemElement.setAttribute ("value", cv._value);
     }
+}
+
+QStringList CalculatorService::errors () {
+    return _errors;
 }
 
 

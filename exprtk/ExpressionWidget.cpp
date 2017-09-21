@@ -111,18 +111,13 @@ void ExpressionWidget::openLongBox() {
 
 bool ExpressionWidget::prepare() {
     QString text = _expressionShortBox -> text();
-    _errors.clear();
-    _expression = CalenhadServices::calculator() -> makeExpression();
-    const std::string s = text.toStdString();
-    if (! (_parser -> compile (s, *_expression))) {
-        for (std::size_t i = 0; i < _parser -> error_count(); ++i) {
-            exprtk::parser_error::type error = _parser->get_error (i);
-             _errors.append (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
-             _goosed = true;
-            _statusLabel -> setPixmap (_statusGoosed);
-            reportErrors();
-            emit errorFound();
-        }
+    _expression = CalenhadServices::calculator() -> makeExpression (text);
+    if (! _expression) {
+        _goosed = true;
+        _statusLabel -> setPixmap (_statusGoosed);
+        _errors.append (CalenhadServices::calculator() -> errors());
+         reportErrors ();
+         emit errorFound();
     } else {
         double v = _expression -> value();
         if (! (_validator -> isInValidSet (v))) {
@@ -136,13 +131,13 @@ bool ExpressionWidget::prepare() {
             _goosed = false;
             if (_validator -> isInBestSet (v)) {
                 _statusLabel->setPixmap (_statusOrright);
-                setToolTip (QString::number (_expression->value ()));
+                setToolTip (QString::number (v));
             } else {
                 _statusLabel->setPixmap (_statusQuery);
                 setToolTip (_validator->toString (v));
             }
 
-            emit compiled (_expression->value ());
+            emit compiled (v);
         }
     }
     emit expressionChanged();
