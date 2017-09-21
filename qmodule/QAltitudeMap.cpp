@@ -45,7 +45,7 @@ void QAltitudeMap::makeContentPanel() {
     _curves.insert (CurveType::Terrace, new TerraceCurve());
     TerraceCurve* invertedTerrace = new TerraceCurve();
     invertedTerrace -> InvertTerraces (true);
-    _curves.insert (CurveType::InvertedTerraceCurve, invertedTerrace);
+    _curves.insert (CurveType::InvertedTerrace, invertedTerrace);
     _curve = _curves.value (CurveType::Altitude);
 
     QPushButton* editButton = new QPushButton (this);
@@ -62,7 +62,7 @@ void QAltitudeMap::editAltitudeMap() {
     QVector<QPointF> entries = getEntries();
     _editor -> setEntries (entries);
     if (dynamic_cast<TerraceCurve*> (_curve)) {
-        _editor -> setCurveType (dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted() ? CurveType::InvertedTerraceCurve : CurveType::Terrace);
+        _editor -> setCurveType (dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted() ? CurveType::InvertedTerrace : CurveType::Terrace);
     } else {
         _editor -> setCurveType (CurveType::Altitude);
     }
@@ -158,7 +158,7 @@ void QAltitudeMap::inflate (const QDomElement& element) {
     QDomElement mapElement = element.firstChildElement ("map");
     if (mapElement.attribute ("function") == "terrace") {
         if (mapElement.attribute ("inverted") == "true") {
-            _curve = _curves.find (CurveType::InvertedTerraceCurve).value();
+            _curve = _curves.find (CurveType::InvertedTerrace).value();
         } else {
             _curve = _curves.find (CurveType::Terrace).value();
         }

@@ -163,6 +163,7 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                 replot ();
             } else {
                 canvas() -> setCursor (Qt::ClosedHandCursor);
+
                 // if the  control point stays on the canvas we just move it about, reordering the points if one is moved past another in the x direction
                 updatePoint (point);
                 _index = _curve -> closestPoint (event->pos (), &dist);
@@ -191,7 +192,7 @@ void AltitudeMapPlot::updatePoint (QPointF point) {
         point.setX (1);
     }
 
-    // no two points are to have the same X value - if they do, libnoise owner will throw an exception
+    // no two points are to have the same X value
     if (_index > 0) {
         if (point.x () == _entries.at (_index - 1).x ()) {
             point.setX (_entries.at (_index - 1).x () + (2.0d / _resolution));
@@ -235,7 +236,7 @@ void AltitudeMapPlot::setCurveType (CurveType type) {
         f -> attachPlot (this);
         _fitter = f;
         f -> setResolution (_resolution);
-        f -> setInverted (type == CurveType::InvertedTerraceCurve);
+        f -> setInverted (type == CurveType::InvertedTerrace);
     }
     _curve -> setCurveFitter (_fitter);
     _curve -> setSamples (_entries);

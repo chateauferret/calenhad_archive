@@ -56,7 +56,7 @@ QStringList ModuleFactory::types () {
             << CalenhadServices::preferences() -> calenhad_module_diff
             << CalenhadServices::preferences() -> calenhad_module_displace
             << CalenhadServices::preferences() -> calenhad_module_exponent
-         //   << CalenhadServices::preferences() -> calenhad_module_icospheremap
+         // << CalenhadServices::preferences() -> calenhad_module_icospheremap
             << CalenhadServices::preferences() -> calenhad_module_invert
             << CalenhadServices::preferences() -> calenhad_module_max
             << CalenhadServices::preferences() -> calenhad_module_min
@@ -89,9 +89,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
         type == CalenhadServices::preferences() -> calenhad_module_diff)  { return new QModule (type, 2); }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_blend) { return new QModule (type, 3); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_displace) {
-        return new QModule (type, 4);
-    }
+    if (type == CalenhadServices::preferences() -> calenhad_module_displace) { return new QModule (type, 4); }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_cylinders) {
         QModule* qm = new QModule (type);
@@ -240,8 +238,23 @@ QStringList ModuleFactory::paramNames() {
 }
 
 void ModuleFactory::provideParamNames() {
-    _paramNames << "frequency" << "lacunarity" << "persistence" << "octaves" << "seed" << "lowerBound" << "upperBound" << "enableDistance" << "constValue" << "falloff"
-            << "x" << "y" << "z" << "scale" << "bias" << "displacement" << "enableDistance" << "exponent" << "power" << "roughness";
+    _paramNames << "frequency"
+                << "lacunarity"
+                << "persistence"
+                << "octaves"
+                << "seed"
+                << "lowerBound"
+                << "upperBound"
+                << "enableDistance"
+                << "constValue"
+                << "falloff"
+                << "x" << "y" << "z"
+                << "scale" << "bias"
+                << "displacement"
+                << "enableDistance"
+                << "exponent"
+                << "power"
+                << "roughness";
 }
 
 QMap<QString, QString>* ModuleFactory::codes() {

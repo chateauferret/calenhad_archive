@@ -72,7 +72,7 @@ QString Graph::glsl () {
     _connections = _doc.documentElement().elementsByTagName ("connection");
     _code =  glsl (_node);
     _code.append ("float value (vec3 cartesian) {\n");
-    _code.append ("    return " + _nodeName + " (cartesian);\n");
+    _code.append ("    return _" + _nodeName + " (cartesian);\n");
     _code.append ("}\n");
     parseLegend();
     return _code;
@@ -92,7 +92,7 @@ QString Graph::glsl (const QDomNode& node) {
                 if (list.at (i).firstChildElement ("name").text() == from) {
                     _code = glsl (list.at (i));
 
-                    // remove them from the process once done because the glslInverse won't compile if they appear twice
+                    // remove them from the process once done because the glsl won't compile if they appear twice
                     _doc.documentElement ().removeChild (list.at (i));
                 }
             }
@@ -105,7 +105,6 @@ QString Graph::glsl (const QDomNode& node) {
     std::cout << type.toStdString () << "\n";
     if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) {
 
-
         // to avoid lots of branching in complex altitude maps we will generate a list of precalculated mappings and
         // linearly interpolate between them. Then the index of the nearest point to a given input value is a simple function of the value.
         // This buffer is the list of precalculated mappings
@@ -115,10 +114,10 @@ QString Graph::glsl (const QDomNode& node) {
     } else {
         _code.append (CalenhadServices::modules() -> codes() -> value (type));
     }
-    // replace the name marker with the name of the module which will be the member variable name for its output in glslInverse
-    _code.replace ("%n", name);
+    // replace the name marker with the name of the module which will be the member variable name for its output in glsl
+    _code.replace ("%n", "_" + name);
 
-    // replace the input module markers with their names referencing their member variables in glslInverse
+    // replace the input module markers with their names referencing their member variables in glsl
     for (int i = 0; i < _connections.length(); i++) {
         QDomNode c = _connections.at (i);
         QDomElement toElement = c.firstChildElement ("target");
@@ -127,7 +126,7 @@ QString Graph::glsl (const QDomNode& node) {
             QDomElement fromElement = c.firstChildElement ("source");
             QString index = toElement.attributes ().namedItem ("input").nodeValue ();
             QString source = fromElement.attributes ().namedItem ("module").nodeValue ();
-            _code.replace ("%" + index, source);
+            _code.replace ("%" + index, "_" + source);
         }
     }
     // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML

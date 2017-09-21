@@ -26,12 +26,16 @@ using namespace calenhad::pipeline;
 using namespace calenhad::expressions;
 using namespace calenhad::actions;
 
-
-
 QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (parent),
-    _model (nullptr), _dialog (nullptr), _handle (nullptr), _content (nullptr), _contentLayout (nullptr), _palette (nullptr), _validator (nullptr), _inputCount (inputs),
+    _model (nullptr),
+    _dialog (nullptr),
+    _handle (nullptr),
+    _content (nullptr),
+    _contentLayout (nullptr),
+    _palette (nullptr),
+    _validator (nullptr),
+    _inputCount (inputs),
     _nodeType (nodeType) {
-
 }
 
 
@@ -57,7 +61,7 @@ void QNode::initialise() {
     _palette = new QPalette();
     _nameEdit -> setPalette (*_palette);
     _validator = new NodeNameValidator (this);
-    connect (_validator, &NodeNameValidator::message, this,[=] (const QString& message) {
+    connect (_validator, &NodeNameValidator::message, this, [=] (const QString& message) {
         _nameEdit -> setToolTip (message);
         _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_error);
         _nameEdit->setPalette (*_palette);

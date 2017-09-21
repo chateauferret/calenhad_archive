@@ -19,7 +19,6 @@ PortNameValidator::~PortNameValidator() {
 
 }
 
-
 QValidator::State PortNameValidator::validate (QString& input, int& pos) const {
     QString errors = "";
 

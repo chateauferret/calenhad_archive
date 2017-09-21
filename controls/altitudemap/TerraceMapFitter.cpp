@@ -6,6 +6,8 @@
 #include <libnoise/interp.h>
 #include <iostream>
 #include <qwt/qwt_plot.h>
+#include <cmath>
+#include <libnoiseutils/Interpolation.h>
 #include "TerraceMapFitter.h"
 
 using namespace calenhad::controls::altitudemap;
@@ -53,15 +55,10 @@ QPolygonF TerraceMapFitter::fitCurve (const QPolygonF &points) const {
 }
 
 double TerraceMapFitter::getY (const double& x, const QPolygonF& points) const {
-    // this stuff all comes from libnoise terrace.cpp and interp.cpp
+    // this stuff all comes from libnoise interp.cpp
 
     // Find the first element in the control point array that has an input value
     // larger than the output value from the source owner.
-    // Find the first element in the control point array that has a value
-    // larger than the output value from the source owner.
-
-    // y-axis is oriented inversely on the screen from on the logical canvas so we need to do some maths.
-
     int indexPos;
     for (indexPos = 0; indexPos < points.size(); indexPos++) {
         if (x < points.at (indexPos).x()) {
@@ -69,41 +66,36 @@ double TerraceMapFitter::getY (const double& x, const QPolygonF& points) const {
         }
     }
 
-    // Find the two nearest control points so that we can map their values
-    // onto a quadratic curve.
-    int index0 = noise::ClampValue (indexPos - 1, 0, points.size() - 2);
-    int index1 = noise::ClampValue (indexPos, 0, points.size() - 1);
+    // Find the four nearest control points so that we can perform cubic
+    // interpolation.
+    int index1 = noise::ClampValue (indexPos - 1, 0, points.size() - 1);
+    int index2 = noise::ClampValue (indexPos, 0, points.size() - 1);
 
-    // If some control points are missing (which occurs if the output value from
-    // the source owner is greater than the largest value or less than the
-    // smallest value of the control point array), get the value of the nearest
-    // control point and exit now.
-    if (index0 == index1) {
-        return points.at (index1).x();
+    // If some control points are missing (which occurs if the value from the
+    // source owner is greater than the largest input value or less than the
+    // smallest input value of the control point array), get the corresponding
+    // output value of the nearest control point and exit now.
+    if (index1 == index2) {
+        return points.at (index1).y();
     }
 
-    // Compute the alpha value used for linear interpolation.
-    double value0 = points.at (index0).x();
-    double value1 = points.at (index1).x();
+    // Compute the alpha value used for cubic interpolation.
+    double input0 = points.at (index1).x();
+    double input1 = points.at (index2).x();
+    double alpha = (x - input0) / (input1 - input0);
 
-    double v0 = _plot -> invTransform (QwtPlot::xBottom, value0);
-    double v1 = _plot -> invTransform (QwtPlot::xBottom, value1);
-    double xValue = _plot -> invTransform (QwtPlot::xBottom, x);
-    double alpha = (xValue - v0) / (v1 - v0);
     if (_inverted) {
         alpha = 1.0 - alpha;
-        noise::SwapValues (v0, v1);
+        int temp = index1; index1 = index2; index2 = temp;
     }
 
-    // Squaring the alpha produces the terrace effect.
     alpha *= alpha;
-
-    // Now perform the linear interpolation given the alpha value.
-
-    double yValue = ((1.0 - alpha) * v0) + (alpha * v1);
-    return _plot -> transform (QwtPlot::xBottom, - yValue);
+    // Now perform the cubic interpolation given the alpha value.
+    return  noise::utils::Interpolation::linearInterp  (
+            points.at (index1).y(),
+            points.at (index2).y(),
+            alpha);
 }
-
 void TerraceMapFitter::setResolution (const int& resolution) {
     _resolution = resolution;
 }

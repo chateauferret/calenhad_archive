@@ -24,7 +24,7 @@ AltitudeMapEditor::AltitudeMapEditor (QWidget* parent) : QDialog (parent),
     _curveTypeCombo = new QComboBox();
     _curveTypeOptions.insert ("Altitude curve", CurveType::Altitude);
     _curveTypeOptions.insert ("Terrace", CurveType::Terrace);
-    _curveTypeOptions.insert ("Inverted Terrace", CurveType::InvertedTerraceCurve);
+    _curveTypeOptions.insert ("Inverted Terrace", CurveType::InvertedTerrace);
     _curveTypeCombo -> addItems (_curveTypeOptions.keys());
     connect (_curveTypeCombo, SIGNAL (currentIndexChanged (int)), this, SLOT (curveTypeSelected (int)));
     layout -> addWidget (_curveTypeCombo);
