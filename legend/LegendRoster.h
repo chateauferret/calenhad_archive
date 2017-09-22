@@ -12,7 +12,7 @@
 namespace calenhad {
     namespace legend {
         class Legend;
-        class LegendRoster : public QObject, public LegendService {
+        class LegendRoster : public LegendService {
         Q_OBJECT
         public:
             LegendRoster ();
@@ -25,22 +25,11 @@ namespace calenhad {
 
             void provide (Legend* legend) override;
 
-            void inflate (const QString& filename = _filename) override;
-            void serialize (const QString& filename) override;
-            void serialize (QDomDocument& doc) override;
-            void inflate (const QDomDocument& doc) override;
-
-            QMap<QString, Legend*> all ();
-
             void rename (const QString& from, const QString& to) override;
 
             int legendCount () override;
 
             bool remove (const QString& name) override;
-
-            void commit () override;
-
-            void rollback () override;
 
             Legend* defaultLegend () override;
 
@@ -48,14 +37,20 @@ namespace calenhad {
 
             void setDirty (const bool& dirty = true) override;
 
+            void commit () override;
 
+            void rollback () override;
+
+            void clear() override;
+
+            QList<Legend*> all() override;
 
 
         private:
             QMap<QString, Legend*> _legends;
             bool _dirty;
-            static QString _filename;
 
+            QString _lastFile;
         };
     }
 }

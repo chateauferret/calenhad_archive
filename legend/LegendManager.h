@@ -33,11 +33,6 @@ namespace calenhad {
 
 
         public slots:
-
-            void commit ();
-
-            void rollback ();
-
             void showLegend ();
 
             void setCurrentLegend (Legend* legend);

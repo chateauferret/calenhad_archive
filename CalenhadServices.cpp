@@ -75,7 +75,7 @@ bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
     int errLine, errColumn;
 
     if (! doc.setContent (&f, false, &error, &errLine, &errColumn)) {
-        CalenhadServices::messages() -> message ("error", "Couldn't read file " + fname + "\nError " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
+        // CalenhadServices::messages() -> message ("error", "Couldn't read file " + fname + "\nError " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
         return false;
     } else {
         return true;

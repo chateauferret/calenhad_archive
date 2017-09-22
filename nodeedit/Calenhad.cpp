@@ -41,6 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "controls/QIconPalette.h"
 #include "../exprtk/VariablesDialog.h"
 #include "../qmodule/QNode.h"
+#include "../legend/LegendService.h"
 
 using namespace icosphere;
 using namespace calenhad;
@@ -103,18 +104,27 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     QAction* loadAction = new QAction (tr ("&Load"), this);
     loadAction -> setShortcuts (QKeySequence::Open);
     loadAction -> setStatusTip (tr ("Open a file"));
-    connect (loadAction, SIGNAL (triggered()), this, SLOT (loadFile()));
-
+    connect (loadAction, &QAction::triggered, this, [=] () { loadFile(); });
     QAction* saveAction = new QAction (tr ("&Save"), this);
     saveAction -> setShortcuts (QKeySequence::Save);
     saveAction -> setStatusTip (tr ("Save a file"));
-    connect (saveAction, SIGNAL (triggered()), this, SLOT (saveFile()));
+    connect (saveAction, &QAction::triggered, this, [=] () { saveFile(); });
+
+    QAction* loadLegendsAction = new QAction ("Load legends", this);
+    loadLegendsAction -> setStatusTip ("Import legends from a Calenhad file");
+    connect (loadLegendsAction, &QAction::triggered, this, [=] () { loadFile (CalenhadFileType::CalenhadLegendFile); });
+
+    QAction* saveLegendsAction = new QAction ("Save legends", this);
+    saveLegendsAction -> setStatusTip ("Export legends to a separate file");
+    connect (saveLegendsAction, &QAction::triggered, this, [=] () { saveFile (CalenhadFileType::CalenhadLegendFile); });
 
     // Menu
 
     QMenu* fileMenu = menuBar () -> addMenu (tr ("&File"));
     fileMenu -> addAction (loadAction);
     fileMenu -> addAction (saveAction);
+    fileMenu -> addAction (loadLegendsAction);
+    fileMenu -> addAction (saveLegendsAction);
     fileMenu -> addSeparator();
     fileMenu -> addAction (quitAction);
 
@@ -164,33 +174,16 @@ CalenhadModel* Calenhad::model() {
     return _model;
 }
 
-void Calenhad::saveFile() {
+void Calenhad::saveFile (const CalenhadFileType& fileType) {
     QString fname = QFileDialog::getSaveFileName();
-
-    QFile file (fname);
-    QTextStream ds (&file);
-    QDomDocument doc = _model->serialize ();
-
-    std::cout << doc.toString().toStdString();
-    std::cout.flush();
-    if (! file.open( QIODevice::WriteOnly | QIODevice::Text )) {
-        CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
-        return;
-    }
-
-    ds << doc.toString();
-    file.close();
-    QNotificationService* service = CalenhadServices::messages();
-    CalenhadServices::messages() -> message ("info", "Wrote file " + fname);
+    _model -> serialize (fname, fileType);
     _lastFile = fname;
 }
 
-void Calenhad::loadFile() {
-    QDomDocument doc;
+void Calenhad::loadFile (const CalenhadFileType& fileType) {
     QString fname = QFileDialog::getOpenFileName ();
-     if (CalenhadServices::readXml (fname, doc)) {
-         _model -> inflate (doc);
-     }
+    _model -> inflate (fname);
+    _lastFile = fname;
 }
 
 void Calenhad::closeEvent (QCloseEvent* event) {
@@ -227,4 +220,3 @@ void Calenhad::addToolbar (QToolBar* toolbar, QNode* node) {
 CalenhadController* Calenhad::controller () {
     return _controller;
 }
-

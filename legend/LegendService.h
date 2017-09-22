@@ -13,7 +13,8 @@ namespace calenhad {
     namespace legend {
         class Legend;
 
-        class LegendService {
+        class LegendService : public QObject {
+            Q_OBJECT
         public:
             virtual Legend* find (const QString& name) = 0;
 
@@ -21,19 +22,11 @@ namespace calenhad {
 
             virtual void provide (Legend* legend) = 0;
 
-            virtual void inflate (const QString& fname) = 0;
-
-            virtual QMap<QString, Legend*> all () = 0;
-
             virtual void rename (const QString& from, const QString& to) = 0;
 
             virtual int legendCount () = 0;
 
             virtual bool remove (const QString& name) = 0;
-
-            virtual void commit () = 0;
-
-            virtual void rollback () = 0;
 
             virtual Legend* defaultLegend () = 0;
 
@@ -41,9 +34,19 @@ namespace calenhad {
 
             virtual void setDirty (const bool& dirty = true) = 0;
 
-            virtual void serialize (const QString& filename) = 0;
-            virtual void serialize (QDomDocument& doc) = 0;
-            virtual void inflate (const QDomDocument& doc) = 0;
+            virtual void commit () = 0;
+
+            virtual void rollback () = 0;
+
+            virtual QList<Legend*> all() = 0;
+
+            virtual void clear() = 0;
+
+        signals:
+            void commitRequested();
+            void rollbackRequested();
+
+
         };
     }
 }

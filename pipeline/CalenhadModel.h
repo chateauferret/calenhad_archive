@@ -12,6 +12,7 @@
 #include <QAction>
 #include <libnoise/module/modulebase.h>
 #include <Serializable.h>
+#include "../nodeedit/Calenhad.h"
 
 namespace icosphere {
     class Icosphere;
@@ -77,9 +78,10 @@ namespace calenhad {
 
             void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
 
-            QDomDocument serialize ();
-
-            void inflate (const QDomDocument& doc);
+            QDomDocument serialize (const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+            void serialize (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+            void inflate (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+            void inflate (const QDomDocument& doc, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
 
             QList<calenhad::qmodule::QNode*> nodes ();
 
@@ -92,6 +94,10 @@ namespace calenhad {
             void writeParameter (QDomElement& element, const QString& param, const QString& value);
 
             void highlightGroupAt (QPointF pos);
+
+            public slots:
+            void commitLegends();
+            void rollbackLegends();
 
         signals:
 
@@ -124,6 +130,8 @@ namespace calenhad {
 
 
             bool nameExists (const QString& name);
+
+
         };
     }
 }

@@ -26,8 +26,7 @@ LegendManager::LegendManager (QWidget* parent) : QWidget (parent) {
     layout() -> addWidget (_legendDetailArea);
 
     // install a widget into the stack for each of the available legends
-    for (QString key : _service -> all().keys()) {
-        Legend* legend = _service -> find (key);
+    for (Legend* legend : _service -> all()) {
         addLegendWidget (legend);
     }
 
@@ -111,17 +110,6 @@ LegendManager::~LegendManager () {
 
 }
 
-void LegendManager::commit () {
-    if (_service -> isDirty()) {
-        _service -> commit ();
-    }
-}
-
-void LegendManager::rollback () {
-    if (_service -> isDirty()) {
-        _service -> rollback ();
-    }
-}
 
 void LegendManager::addLegendWidget (Legend* legend) {
     LegendWidget* w = legend -> widget();

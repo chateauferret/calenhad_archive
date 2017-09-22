@@ -177,13 +177,11 @@ QString Legend::name () {
     return _name;
 }
 
-
 void Legend::inflate (const QDomNode& n) {
     if (n.isElement()) {
         clear ();
         QDomElement e = n.toElement ();
         QString legendType = e.attribute ("type");
-
         QDomNode nameNode = e.firstChildElement ("name");
         QString name = nameNode.firstChild ().nodeValue ();
         _name = name;
@@ -203,13 +201,8 @@ void Legend::inflate (const QDomNode& n) {
                 addEntry (index, c);
             }
         }
-
-
-
     }
 }
-
-
 
 void Legend::serialise (QDomDocument doc) {
     QDomElement root = doc.documentElement().firstChildElement ("legends");

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QFile>
 #include <QTextStream>
+#include <QtWidgets/QFileDialog>
 #include "LegendRoster.h"
 #include "CalenhadServices.h"
 #include "Legend.h"
@@ -14,8 +15,6 @@
 using namespace calenhad;
 using namespace calenhad::notification;
 using namespace calenhad::legend;
-
-QString LegendRoster::_filename;
 
 LegendRoster::LegendRoster () : _dirty (false) {
 }
@@ -41,26 +40,8 @@ void LegendRoster::provide (Legend* legend) {
     _dirty = true;
 }
 
-void LegendRoster::inflate (const QString& filename) {
-    _filename = filename;
-    QDomDocument doc;
-    if (CalenhadServices::readXml (_filename, doc)) {
-        inflate (doc);
-    }
-}
-
-void LegendRoster::inflate (const QDomDocument& doc) {
-    QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
-    for (int i = 0; i < legendNodes.size (); i++) {
-        Legend* legend = new Legend();
-        legend -> inflate (legendNodes.item (i));
-        provide (legend);
-    }
-    _dirty = false;
-}
-
-QMap<QString, Legend*> LegendRoster::all () {
-    return _legends;
+QList <Legend*> LegendRoster::all () {
+    return _legends.values ();
 }
 
 void LegendRoster::rename (const QString& from, const QString& to) {
@@ -85,49 +66,6 @@ bool LegendRoster::remove (const QString& name) {
     return false;
 }
 
-void LegendRoster::commit () {
-    serialize (_filename);
-}
-
-void LegendRoster::rollback () {
-    _legends.clear();
-    inflate (_filename);
-}
-
-void LegendRoster::serialize (QDomDocument& doc) {
-    QDomElement element = doc.createElement ("legends");
-    doc.documentElement().appendChild (element);
-
-    for (Legend* legend : _legends) {
-        legend -> serialise (doc);
-    }
-
-}
-
-void LegendRoster::serialize (const QString& filename) {
-
-    QFile file (filename);
-    QTextStream ds (&file);
-
-
-    QDomDocument doc;
-    serialize (doc);
-    std::cout.flush();
-    if (! file.open( QIODevice::WriteOnly | QIODevice::Text )) {
-        CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
-        return;
-    }
-
-    ds << doc.toString();
-
-    file.close();
-    QNotificationService* service = CalenhadServices::messages();
-    CalenhadServices::messages() -> message ("info", "Wrote file " + filename);
-    _filename = filename;
-    _dirty = false;
-
-}
-
 Legend* LegendRoster::defaultLegend() {
     if (exists ("default")) {
         return find ("default");
@@ -143,7 +81,6 @@ Legend* LegendRoster::defaultLegend() {
     legend -> addEntry (-1.0, Qt::black);
     legend -> addEntry (1.0, Qt::white);
     legend -> setName ("default");
-    legend -> setNotes ("This legend was added to the roster because no legends were found in the legend file " + _filename + ".");
     provide (legend);
     return legend;
 }
@@ -154,4 +91,20 @@ bool LegendRoster::isDirty() {
 
 void LegendRoster::setDirty (const bool& dirty) {
     _dirty = dirty;
+}
+
+void LegendRoster::commit () {
+    if (isDirty()) {
+        emit commitRequested();
+    }
+}
+
+void LegendRoster::rollback () {
+    if (isDirty()) {
+        emit rollbackRequested();
+    }
+}
+
+void LegendRoster::clear () {
+    _legends.clear();
 }

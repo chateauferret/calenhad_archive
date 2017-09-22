@@ -177,7 +177,7 @@ Legend* CalenhadGlobeConfigDialog::selectedLegend () {
 }
 
 void CalenhadGlobeConfigDialog::commitChanges () {
-    _legendManager -> commit();
+    CalenhadServices::legends() -> commit();
     emit legendChanged (_legendManager -> currentLegend());
 
 }
@@ -191,7 +191,7 @@ void CalenhadGlobeConfigDialog::reject() {
         confirm.setEscapeButton (QMessageBox::No);
         int result = confirm.exec ();
         if (result == QMessageBox::Yes) {
-            _legendManager -> rollback ();
+            CalenhadServices::legends() -> rollback();
             QDialog::reject();
         }
     } else {

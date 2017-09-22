@@ -56,6 +56,7 @@ namespace calenhad {
         class CalenhadView;
         class QNEToolBox;
 
+        enum CalenhadFileType { CalenhadModelFile, CalenhadLegendFile };
 
         class Calenhad : public QMainWindow {
         Q_OBJECT
@@ -79,9 +80,10 @@ namespace calenhad {
 
         private slots:
 
-            void saveFile ();
+            void saveFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
 
-            void loadFile ();
+            void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+
 
             void closeEvent (QCloseEvent* event);
 

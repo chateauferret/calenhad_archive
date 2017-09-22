@@ -50,6 +50,8 @@ namespace calenhad {
             QMap<QString, CalenhadVariable> _oldVariables;
 
             void showEvent (QShowEvent* e) override;
+
+            void setupColumns ();
         };
     }
 }

@@ -63,7 +63,6 @@ int main (int argc, char **argv) {
     QString fname = CalenhadServices::preferences() -> calenhad_legends_filename;
     LegendRoster* roster = new LegendRoster();
     CalenhadServices::provideLegends (roster);
-    roster->inflate (fname);
 
     // Projections service
     ProjectionService* projections = new ProjectionService();
@@ -85,6 +84,8 @@ int main (int argc, char **argv) {
     // Calenhad model - the arrangement of modules and connections between them
     CalenhadModel* model = new CalenhadModel();
     Calenhad* window = new Calenhad();
+
+    model -> inflate (fname, calenhad::nodeedit::CalenhadModelFile);
 
     // Message service
     QNotificationStack* notifications = new QNotificationStack (preferences -> calenhad_notifications_width, window);

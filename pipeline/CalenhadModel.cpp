@@ -23,7 +23,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include "../legend/LegendService.h"
 #include "../preferences/PreferencesService.h"
-#include <QGraphicsItem>
+#include "../legend/Legend.h"
 
 using namespace icosphere;
 using namespace calenhad;
@@ -33,6 +33,7 @@ using namespace calenhad::qmodule;
 using namespace calenhad::actions;
 using namespace calenhad::expressions;
 using namespace calenhad::preferences;
+using namespace calenhad::legend;
 
 CalenhadModel::CalenhadModel() : QGraphicsScene(),
     conn (nullptr),
@@ -44,6 +45,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _controller (nullptr),
     _highlighted (nullptr) {
     installEventFilter (this);
+    connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
+    connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
 }
 
 // determine whether connection from given input to given output is allowed
@@ -523,18 +526,44 @@ CalenhadController* CalenhadModel::controller () {
     return _controller;
 }
 
-QDomDocument CalenhadModel::serialize () {
+
+void CalenhadModel::serialize (const QString& filename, const CalenhadFileType& fileType) {
+    QFile file (filename);
+    QTextStream ds (&file);
+    QDomDocument doc = serialize (fileType);
+
+    std::cout << doc.toString().toStdString();
+    std::cout.flush();
+    if (! file.open (QIODevice::WriteOnly | QIODevice::Text )) {
+        CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
+    } else {
+        ds << doc.toString ();
+        file.close ();
+        CalenhadServices::messages() -> message ("info", "Wrote file " + filename);
+    }
+}
+
+QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
     QDomDocument doc;
     QDomElement root = doc.createElement ("model");
     doc.appendChild (root);
-    CalenhadServices::calculator() -> serialize (doc);
     writeMetadata (doc);
-    CalenhadServices::legends () -> serialize (doc);
-    for (QNode* qm : nodes()) {
-        qm -> serialize (doc);
+
+    // Always include all known legends in the file
+    QDomElement legendsElement = doc.createElement ("legends");
+    root.appendChild (legendsElement);
+    for (Legend* legend : CalenhadServices::legends () -> all()) {
+        legend -> serialise (doc);
     }
-    for (QNEConnection* c : connections()) {
-        c -> serialise (doc);
+
+    if (fileType == CalenhadFileType::CalenhadModelFile) {
+        CalenhadServices::calculator() -> serialize (doc);
+        for (QNode* qm : nodes ()) {
+            qm->serialize (doc);
+        }
+        for (QNEConnection* c : connections ()) {
+            c->serialise (doc);
+        }
     }
     return doc;
 }
@@ -580,62 +609,81 @@ void CalenhadModel::readMetadata (const QDomDocument& doc) {
     _date = dateElement.isNull() ? QDateTime::currentDateTime() : QDateTime::fromString (dateElement.nodeValue(), "dd MMMM yyyy hh:mm");
 }
 
-void CalenhadModel::inflate (const QDomDocument& doc) {
+
+void CalenhadModel::inflate (const QString& filename, const CalenhadFileType& fileType) {
+    QDomDocument doc;
+    if (CalenhadServices::readXml (filename, doc)) {
+        inflate (doc, fileType);
+    }
+}
+
+void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fileType) {
     readMetadata (doc);
-    CalenhadServices::legends() -> inflate (doc);
-    QDomElement variablesElement = doc.documentElement().firstChildElement ("variables");
-    CalenhadServices::calculator() -> inflate (variablesElement);
-    QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("module");
-    for (int i = 0; i < moduleNodes.count(); i++) {
-        QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");
-        int x = positionElement.attributes().namedItem ("x").nodeValue().toInt();
-        int y = positionElement.attributes().namedItem ("y").nodeValue().toInt();
-        QPointF pos (x, y);
-        QString type = moduleNodes.at(i).attributes().namedItem ("type").nodeValue();
-        QDomElement nameNode = moduleNodes.at (i).firstChildElement ("name");
-        QString name = nameNode.text();
-        QModule* qm = addModule (pos, type, name);
-        qm -> inflate (moduleNodes.at (i).toElement());
+
+    // Always retrieve all legends from the file
+    QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
+    for (int i = 0; i < legendNodes.size(); i++) {
+        Legend* legend = new Legend();
+        legend -> inflate (legendNodes.at (i));
+        CalenhadServices::legends() -> provide (legend);
     }
 
-    // In the connections, we save and retrieve the types of output ports in case we ever have further types of output ports.
-    // Does not support a port serving as both input and output (because index presently not unique across both).
-    // For the time being however all output ports will be of type 2 (QNEPort::Output).
+    if (fileType == CalenhadFileType::CalenhadModelFile) {
+        QDomElement variablesElement = doc.documentElement ().firstChildElement ("variables");
+        CalenhadServices::calculator ()->inflate (variablesElement);
+        QDomNodeList moduleNodes = doc.documentElement ().elementsByTagName ("module");
+        for (int i = 0; i < moduleNodes.count (); i++) {
+            QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");
+            int x = positionElement.attributes ().namedItem ("x").nodeValue ().toInt ();
+            int y = positionElement.attributes ().namedItem ("y").nodeValue ().toInt ();
+            QPointF pos (x, y);
+            QString type = moduleNodes.at (i).attributes ().namedItem ("type").nodeValue ();
+            QDomElement nameNode = moduleNodes.at (i).firstChildElement ("name");
+            QString name = nameNode.text ();
+            QModule* qm = addModule (pos, type, name);
+            qm->inflate (moduleNodes.at (i).toElement ());
+        }
 
-    QDomNodeList connectionNodes = doc.documentElement().elementsByTagName ("connection");
-    for (int i = 0; i < connectionNodes.count(); i++) {
-        QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
-        QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-        QNode* fromNode = findModule (fromElement.attributes().namedItem ("module").nodeValue());
-        QNode* toNode = findModule (toElement.attributes().namedItem ("module").nodeValue());
-        if (fromNode && toNode) {
-            QNEPort* fromPort = nullptr, * toPort = nullptr;
-            for (QNEPort* port : fromNode -> ports()) {
-                bool okIndex;
-                int index = fromElement.attribute ("output").toInt (&okIndex);
-                if (okIndex) {
-                    if (port -> index() == index && port -> portType() == QNEPort::OutputPort) {
-                        fromPort = port;
-                        fromPort -> setName (fromElement.attribute ("name"));
+
+        // In the connections, we save and retrieve the types of output ports in case we ever have further types of output ports.
+        // Does not support a port serving as both input and output (because index presently not unique across both).
+        // For the time being however all output ports will be of type 2 (QNEPort::Output).
+
+        QDomNodeList connectionNodes = doc.documentElement ().elementsByTagName ("connection");
+        for (int i = 0; i < connectionNodes.count (); i++) {
+            QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
+            QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
+            QNode* fromNode = findModule (fromElement.attributes ().namedItem ("module").nodeValue ());
+            QNode* toNode = findModule (toElement.attributes ().namedItem ("module").nodeValue ());
+            if (fromNode && toNode) {
+                QNEPort* fromPort = nullptr, * toPort = nullptr;
+                for (QNEPort* port : fromNode->ports ()) {
+                    bool okIndex;
+                    int index = fromElement.attribute ("output").toInt (&okIndex);
+                    if (okIndex) {
+                        if (port->index () == index && port->portType () == QNEPort::OutputPort) {
+                            fromPort = port;
+                            fromPort->setName (fromElement.attribute ("name"));
+                        }
                     }
                 }
-            }
-            for (QNEPort* port : toNode -> ports()) {
-                bool okIndex;
-                int index = toElement.attribute ("input").toInt (&okIndex);
-                if (okIndex) {
-                    if (port -> index() == index && port -> portType() != QNEPort::OutputPort) {
-                        toPort = port;
-                        toPort -> setName (fromElement.attribute ("name"));
+                for (QNEPort* port : toNode->ports ()) {
+                    bool okIndex;
+                    int index = toElement.attribute ("input").toInt (&okIndex);
+                    if (okIndex) {
+                        if (port->index () == index && port->portType () != QNEPort::OutputPort) {
+                            toPort = port;
+                            toPort->setName (fromElement.attribute ("name"));
+                        }
                     }
                 }
-            }
-            if (fromPort && toPort) {
-                connectPorts (fromPort, toPort);
-            } else {
-                // to do - message couldn't connect ports - but first need to implement connection names
-                if (! fromPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect source"); }
-                if (! toPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect target"); }
+                if (fromPort && toPort) {
+                    connectPorts (fromPort, toPort);
+                } else {
+                    // to do - message couldn't connect ports - but first need to implement connection names
+                    if (!fromPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect source"); }
+                    if (!toPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect target"); }
+                }
             }
         }
     }
@@ -672,5 +720,14 @@ void CalenhadModel::highlightGroupAt (QPointF pos) {
     }
 }
 
+void CalenhadModel::commitLegends () {
+    QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
+    serialize (file, CalenhadFileType::CalenhadLegendFile);
+}
 
+void CalenhadModel::rollbackLegends() {
+    CalenhadServices::legends() -> clear();
+    QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
+    inflate (file, CalenhadFileType::CalenhadLegendFile);
+}
 

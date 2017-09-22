@@ -14,14 +14,6 @@ using namespace calenhad::expressions;
 
 VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()) {
 
-    _table -> setColumnCount (3);
-
-    QTableWidgetItem* nameHeader = new QTableWidgetItem (tr ("Name"));
-    QTableWidgetItem* valueHeader = new QTableWidgetItem (tr ("Value"));
-    QTableWidgetItem* notesHeader = new QTableWidgetItem (tr ("Notes"));
-    _table -> setHorizontalHeaderItem (0, nameHeader);
-    _table -> setHorizontalHeaderItem (1, valueHeader);
-    _table -> setHorizontalHeaderItem (2, notesHeader);
     setLayout (new QVBoxLayout());
     layout() -> addWidget (_table);
 
@@ -94,9 +86,7 @@ void VariablesDialog::selectionChanged() {
 }
 
 void VariablesDialog::resizeEvent (QResizeEvent* e) {
-    _table -> setColumnWidth (0, _table -> width() * 0.15);
-    _table -> setColumnWidth (1, _table -> width() * 0.15);
-    _table -> setColumnWidth (2, _table -> width() - (_table -> columnWidth (0) + _table -> columnWidth (1)));
+    setupColumns();
 }
 
 void VariablesDialog::commit () {
@@ -121,6 +111,8 @@ double VariablesDialog::value (QTableWidgetItem* item) {
 
 void VariablesDialog::rollback() {
     _table -> clear();
+    setupColumns();
+
     _table -> setRowCount (_oldVariables.size());
     int row = 0;
 
@@ -134,7 +126,23 @@ void VariablesDialog::rollback() {
         _table -> setItem (row, 2, notes);
         row++;
     }
+
+    QStringList headers;
+    headers << "Name" << "Value" << "Notes";
+    _table -> setColumnCount (3);
+    _table -> setHorizontalHeaderLabels (headers);
+
 };
+
+void VariablesDialog::setupColumns() {
+    QStringList headers;
+    headers << "Name" << "Value" << "Notes";
+    _table -> setColumnCount (3);
+    _table -> setHorizontalHeaderLabels (headers);
+    _table -> setColumnWidth (0, _table -> width() * 0.25);
+    _table -> setColumnWidth (1, _table -> width() * 0.15);
+    _table -> setColumnWidth (2, _table -> width() - (_table -> columnWidth (0) + _table -> columnWidth (1)));
+}
 
 void VariablesDialog::validateContent() {
     bool result = true;

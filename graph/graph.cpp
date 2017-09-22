@@ -49,7 +49,6 @@ QString Graph::readParameter (const QDomElement& element, const QString param) {
     for (; ! e.isNull(); e = e.nextSiblingElement ("parameter")) {
         if (e.attributeNode ("name").value () == param) {
             QString expr = e.attributeNode ("value").value ();
-            std::cout << "Expression " << expr.toStdString() << " = ";
             expression<double>* exp = CalenhadServices::calculator() -> makeExpression (expr);
             if (exp) {
                 double value = exp -> value ();

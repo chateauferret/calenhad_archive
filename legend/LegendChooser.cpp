@@ -48,7 +48,7 @@ void LegendChooser::legendChosen() {
 
 Legend* LegendChooser::selectedLegend() {
     if (currentText().isNull ()) {
-        setCurrentText (_service -> all().keys().first());
+        setCurrentText (_service -> all().at (0) -> name ());
     }
 
     return _service -> find (currentText ());
