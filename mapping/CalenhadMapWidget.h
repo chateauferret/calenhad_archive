@@ -85,7 +85,6 @@ namespace calenhad {
             Viewport* _viewport;
             calenhad::graph::Graph* _graph;
             QString _shader;
-            float* _altitudeMapBuffer;
             float* _colorMapBuffer;
 
             double _scale;

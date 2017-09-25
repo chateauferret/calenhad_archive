@@ -26,7 +26,7 @@ namespace calenhad {
             Curve ();
             virtual ~Curve ();
             virtual float GetValue (const float& sourceModuleValue) const = 0;
-            virtual void GetValues (float* outputs, int size) const;
+            virtual void GetValues (float* outputs, int size, double& from, double& to) const;
 
 
             /// Adds a control point to the curve.

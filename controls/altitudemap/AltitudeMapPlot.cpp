@@ -25,7 +25,10 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
         _fitter (nullptr),
         _resolution (resolution) {
     setTitle ("Altitude map");
-    setCanvas (new AltitudeMapPlotCanvas());
+    _canvas = new AltitudeMapPlotCanvas();
+    setCanvas (_canvas);
+    _panner = new QwtPlotPanner (_canvas);
+    _zoomer = new QwtPlotMagnifier (_canvas);
     canvas() -> setMouseTracking (true);
     setAxisScale ( QwtPlot::yLeft, -1.0, 1.0);
     setAxisScale ( QwtPlot::xBottom, -1.0, 1.0);
@@ -44,6 +47,8 @@ AltitudeMapPlot::~AltitudeMapPlot() {
     _curve -> detach(); // automatically deletes the curve
     delete _symbol;
     if (_fitter) { delete _fitter; }
+    if (_zoomer) { delete _zoomer; }
+    if (_panner) { delete _panner; }
 }
 
 void AltitudeMapPlot::changeEvent (QEvent *e) {
@@ -173,9 +178,11 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
         _index = _curve -> closestPoint (event -> pos (), &dist);
         if (dist < 8) {
             canvas() -> setCursor (Qt::OpenHandCursor);
+            _panner -> setEnabled (false);
         } else {
             canvas() -> setCursor (Qt::CrossCursor);
             _index = noneSelected;
+            _panner -> setEnabled (true);
         }
     }
 }
@@ -254,7 +261,16 @@ CurveType AltitudeMapPlot::curveType () {
 }
 
 
-void AltitudeMapPlotCanvas::mousePressEvent (QMouseEvent* event) {
+
+AltitudeMapPlotCanvas::AltitudeMapPlotCanvas() : QwtPlotCanvas() {
+
+}
+
+AltitudeMapPlotCanvas::~AltitudeMapPlotCanvas() {
+
+}
+
+void AltitudeMapPlotCanvas::mouseDoubleClickEvent (QMouseEvent* event) {
     dynamic_cast<AltitudeMapPlot*> (plot()) -> mouseCanvasPressEvent (event);
 }
 

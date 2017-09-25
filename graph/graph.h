@@ -21,8 +21,6 @@ namespace calenhad {
             Graph (const QDomDocument& doc, const QString& nodeName);
             ~Graph();
             QString glsl();
-            float* altitudeMapBuffer ();
-            int altitudeMapBufferSize();
             float* colorMapBuffer();
             int colorMapBufferSize ();
             QString readParameter (const QDomElement& element, const QString param);
@@ -35,14 +33,10 @@ namespace calenhad {
             pipeline::CalenhadModel* _model;
             QDomNodeList _connections;
             QDomNodeList list;
-
-            QString addAltitudeMapBuffer (QDomElement map);
             QString _code;
             QString _xml;
             QDomDocument _doc;
             QString _nodeName;
-            int _bufferCount;
-            float* _altitudeMapBuffer;
             float* _colorMapBuffer;
 
 

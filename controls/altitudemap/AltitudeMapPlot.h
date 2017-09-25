@@ -12,6 +12,8 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QComboBox>
 #include "../qmodule/QAltitudeMap.h"
+#include <qwt/qwt_plot_panner.h>
+#include <qwt/qwt_plot_magnifier.h>
 
 class QwtSymbol;
 
@@ -21,6 +23,22 @@ namespace calenhad {
 
 
             class AltitudeMapFitter;
+
+            class AltitudeMapPlotCanvas : public QwtPlotCanvas {
+            public:
+                AltitudeMapPlotCanvas();
+                virtual ~AltitudeMapPlotCanvas();
+                virtual void mouseDoubleClickEvent (QMouseEvent* event) override;
+
+                virtual void mouseMoveEvent (QMouseEvent* event) override;
+
+                virtual void mouseReleaseEvent (QMouseEvent* event) override;
+
+            protected:
+                QwtPlotMagnifier* _zoomer;
+                QwtPlotPanner* _panner;
+
+            };
 
             class AltitudeMapPlot : public QwtPlot {
             Q_OBJECT
@@ -68,16 +86,13 @@ namespace calenhad {
                 bool canDeleteSelected ();
 
                 void sortEntries (QVector<QPointF>& entries);
+
+                AltitudeMapPlotCanvas* _canvas;
+                QwtPlotPanner* _panner;
+                QwtPlotMagnifier* _zoomer;
             };
 
-            class AltitudeMapPlotCanvas : public QwtPlotCanvas {
-            public:
-                virtual void mousePressEvent (QMouseEvent* event) override;
 
-                virtual void mouseMoveEvent (QMouseEvent* event) override;
-
-                virtual void mouseReleaseEvent (QMouseEvent* event) override;
-            };
         }
     }
 }

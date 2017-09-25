@@ -41,8 +41,8 @@ CalenhadMapView::~CalenhadMapView() {
 
 void CalenhadMapView::render() {
     if (_source -> isComplete()) {
-        QDomDocument doc = _source -> model () -> serialize (calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
-        Graph* g = new Graph (doc, _source -> name ());
+        QDomDocument doc = _source->model ()->serialize (calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+        Graph* g = new Graph (doc, _source->name ());
         setGraph (g);
     } else {
     }

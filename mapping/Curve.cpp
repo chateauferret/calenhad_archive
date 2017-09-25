@@ -18,12 +18,15 @@ Curve::~Curve () {
     }
 }
 
-void Curve::GetValues (float* outputs, int size) const {
-    float dx = (2 / (float) size);
-    for (int i = 0; i < size; i++) {
-        float value = GetValue (i * dx - 1);
-        outputs [i] = value;
+void Curve::GetValues (float* outputs, int size, double& from, double& to) const {
+    from = m_pControlPoints [0].inputValue;
+    to = m_pControlPoints [m_controlPointCount - 1].inputValue;
 
+    double dx = (to - from) / size;
+    for (int i = 0; i < size; i++) {
+        float value = GetValue (i * dx + from);
+        outputs [i] = value;
+        std::cout << i << " " << value << "\n";
     }
 }
 

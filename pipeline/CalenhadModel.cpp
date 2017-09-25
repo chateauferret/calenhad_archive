@@ -172,9 +172,8 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
 }
 
 QGraphicsItem* CalenhadModel::itemAt (const QPointF& pos) {
-    if (sceneRect().contains (pos)) {
-        return QGraphicsScene::itemAt (pos, QTransform ());
-    } else return nullptr;
+       QGraphicsItem* item = QGraphicsScene::itemAt (pos, QTransform ());
+        return item;
 }
 
 // This handler is required to stop a right-click which brings up the context menu from clearing the selection.

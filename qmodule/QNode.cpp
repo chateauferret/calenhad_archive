@@ -119,6 +119,7 @@ QString QNode::name() {
 void QNode::setName (const QString& name) {
     if (! (name.isNull()) && (name != _name)) {
         _name = name;
+        _name = _name.replace (" ", "_");
         _nameEdit -> setText (_name);
         update();
         if (_dialog) {

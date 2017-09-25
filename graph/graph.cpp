@@ -17,7 +17,7 @@
 #include "../mapping/CubicSpline.h"
 #include "../legend/Legend.h"
 #include "../exprtk/CalculatorService.h"
-
+#include <QList>
 using namespace calenhad;
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
@@ -28,17 +28,16 @@ using namespace calenhad::legend;
 using namespace calenhad::expressions;
 using namespace exprtk;
 
-Graph::Graph (const QString& xml, const QString& nodeName) : _xml (xml), _nodeName (nodeName), _altitudeMapBuffer (nullptr), _colorMapBuffer (nullptr), _parser (new parser<double>()) {
+Graph::Graph (const QString& xml, const QString& nodeName) : _xml (xml), _nodeName (nodeName), _colorMapBuffer (nullptr), _parser (new parser<double>()) {
     _doc.setContent (_xml);
 
 }
 
-Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _nodeName (nodeName), _altitudeMapBuffer (nullptr), _colorMapBuffer (nullptr), _parser (new parser<double>()) {
+Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _nodeName (nodeName), _colorMapBuffer (nullptr), _parser (new parser<double>()) {
 
 }
 
 Graph::~Graph () {
-    if (_altitudeMapBuffer) { free (_altitudeMapBuffer); }
     if (_colorMapBuffer) { delete (_colorMapBuffer); }
     delete _parser;
 }
@@ -52,7 +51,6 @@ QString Graph::readParameter (const QDomElement& element, const QString param) {
             expression<double>* exp = CalenhadServices::calculator() -> makeExpression (expr);
             if (exp) {
                 double value = exp -> value ();
-                std::cout << value << "\n";
                 delete exp;
                 return QString::number (value);
             } else {
@@ -71,11 +69,6 @@ QString Graph::readParameter (const QDomElement& element, const QString param) {
 
 QString Graph::glsl () {
     std::cout << _doc.toString ().toStdString () << "\n";
-    if (_altitudeMapBuffer) {
-        free (_altitudeMapBuffer);
-        _altitudeMapBuffer = nullptr;
-    }
-    _bufferCount = 0;
 
     list = _doc.documentElement().elementsByTagName ("module");
     for (int i = 0; i < list.length (); i++) {
@@ -123,12 +116,78 @@ QString Graph::glsl (const QDomNode& node) {
     std::cout << type.toStdString () << "\n";
     if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) {
 
-        // to avoid lots of branching in complex altitude maps we will generate a list of precalculated mappings and
-        // linearly interpolate between them. Then the index of the nearest point to a given input value is a simple function of the value.
-        // This buffer is the list of precalculated mappings
+        // this version uses branching directly on the GPU - seems to be OK
+        // if we try doing it with precalculated buffers managing the buffers is a pain in the arse.
+        QDomElement mapElement = element.firstChildElement ("map");
+        QDomNodeList entries = mapElement.elementsByTagName ("entry");
+        QList<QPair<double, double>> mapping;
+        for (int i = 0; i < entries.length(); i++) {
+            QDomElement n = entries.at (i).toElement ();
+            bool ok;
+            double x = n.attribute ("x").toDouble (&ok);
+            double y = n.attribute ("y").toDouble (&ok);
+            if (ok) {
+                mapping.append (QPair<double, double> (x, y));
+            }
+        }
+        // input is below the bottom of the range
+        _code += "float %n (vec3 v) {\n";
+        _code += "  float value = %0 (v);\n";
+        _code += "  if (value < " + QString::number (mapping.first().first) + ") { return " + QString::number (mapping.last().second) + "; }\n";
 
-        QString call = addAltitudeMapBuffer (element.firstChildElement ("map"));
-        _code.append (call);
+
+        for (int j = 1; j < mapping.size(); j++) {
+            QString mapFunction;
+
+            // compose the mapping function
+
+            // spline function
+            if (mapElement.attribute ("function") == "spline") {
+                double x [4], y [4];
+                for (int i = 0; i < 4; i++) {
+                    int k = std::max (j + i - 2, 0);
+                    k = std::min (k, mapping.size() - 1);
+                    x [i] = mapping.at (k).first;
+                    y [i] = mapping.at (k).second;
+                }
+
+                // Compute the alpha value used for cubic interpolation.
+                mapFunction += "        float alpha = ((value - " + QString::number (x [1]) + ") / " + QString::number (x [2] - x [1]) + ");\n";
+                mapFunction += "        return cubicInterpolate (" +
+                        QString::number (y [0]) + ", " +
+                        QString::number (y [1]) + ", " +
+                        QString::number (y [2]) + ", " +
+                        QString::number (y [3]) + ", alpha);";
+                _code += "  if (value > " + QString::number (x [1]) + " && value <= " + QString::number (x [2]) + ") {\n" + mapFunction + "\n   }\n";
+            }
+
+            // terrace function
+            bool inverted = mapElement.attribute ("inverted") == "1" || mapElement.attribute ("inverted").toLower() == "true"  ;
+            if (mapElement.attribute ("function") == "terrace") {
+                double x [2], y [2];
+                for (int i = 0; i < 2; i++) {
+                    int k = std::max (j + i - 1, 0);
+                    k = std::min (k, mapping.size() - 1);
+                    x [i] = mapping.at (k).first;
+                    y [i] = mapping.at (k).second;
+                }
+
+                // Compute the alpha value used for cubic interpolation.
+                mapFunction += "        float alpha = ((value - " + QString::number (x [0]) + ") / " + QString::number (x [1] - x [0]) + ");\n";
+                if (inverted) { mapFunction += "        alpha = 1 - alpha;\n"; }
+                mapFunction += "        alpha *= alpha;\n";
+                mapFunction += "        return mix ( float(" +
+                               QString::number (inverted ? y [1] : y [0]) + "), float (" +
+                               QString::number (inverted ? y [0] : y [1]) + "), " +
+                               "alpha);";
+                _code += "  if (value > " + QString::number (x [0]) + " && value <= " + QString::number (x [1]) + ") {\n" + mapFunction + "\n   }\n";
+            }
+        }
+
+        // input is beyond the top of the range
+        _code += "  if (value > " + QString::number (mapping.last().first) + ") { return " + QString::number (mapping.last().second) + "; }\n";
+        _code += "}\n";
+
     } else {
         _code.append (CalenhadServices::modules() -> codes() -> value (type));
     }
@@ -153,63 +212,6 @@ QString Graph::glsl (const QDomNode& node) {
     }
 
     return _code;
-}
-
-QString Graph::addAltitudeMapBuffer (QDomElement map) {
-    Curve* c;
-    QString function = map.attribute ("function");
-    QDomNodeList mapNodes = map.elementsByTagName ("entry");
-    if (function == "spline") {
-        CubicSpline* cs = new CubicSpline();
-        c = cs;
-        for (int i = 0; i < mapNodes.size(); i++) {
-            bool ok;
-            float x = mapNodes.at (i).attributes().namedItem ("x").nodeValue ().toFloat (&ok);
-            float y = mapNodes.at (i).attributes().namedItem ("y").nodeValue().toFloat (&ok);
-           if (ok) {
-                cs -> AddControlPoint (x, y);
-            }
-        }
-
-    } else {
-        TerraceCurve* tc = new TerraceCurve();
-        c = tc;
-        bool inverted = map.attribute ("inverted").toLower () == "true";
-        tc->InvertTerraces (inverted);
-        for (int i = 0; i < mapNodes.size(); i++) {
-            bool ok;
-            float x = mapNodes.at (i).attributes().namedItem ("x").nodeValue ().toFloat (&ok);
-            if (ok) {
-                tc->AddControlPoint (x);
-            }
-        }
-    }
-
-    int size = CalenhadServices::preferences () -> calenhad_altitudemap_buffersize;
-    float output [size];
-
-    if (_altitudeMapBuffer) {
-        _bufferCount++;
-        _altitudeMapBuffer = (float*) realloc (_altitudeMapBuffer, size * sizeof (float) * _bufferCount);
-    } else {
-        _altitudeMapBuffer = (float*) malloc (size * sizeof (float));
-        _bufferCount = 1;
-    }
-    c -> GetValues (output, size);
-    for (int i = 0; i < size; i++) {
-        float x = size * (i / size);
-        _altitudeMapBuffer [i] = output [i];
-    }
-    return "float %n (vec3 v) { return map (%0 (v), " + QString::number (_bufferCount - 1) + "); }\n";
-}
-
-float* Graph::altitudeMapBuffer () {
-    return _altitudeMapBuffer;
-}
-
-// returns the number of bytes required to store the altitude map buffer
-int Graph::altitudeMapBufferSize () {
-    return CalenhadServices::preferences() -> calenhad_altitudemap_buffersize * _bufferCount * sizeof (float);
 }
 
 float* Graph::colorMapBuffer () {
@@ -247,7 +249,6 @@ void Graph::parseLegend () {
         _colorMapBuffer [i + 2] = (float) c.blueF();
         _colorMapBuffer [i + 3] = (float) c.alphaF();
     }
-
 }
 
 

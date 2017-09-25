@@ -47,11 +47,6 @@ const int PASS_STATISTICS = 3;
 float minAltitude = 0;
 float maxAltitude = 0;
 
-
-float makeInt32Range (float f) {
-    return clamp (-1073741824.0, 1073741824.0, f);
-}
-
 vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
     vec4 cartesian;
     cartesian.x = cos (geolocation.x) * cos (geolocation.y);
@@ -130,22 +125,6 @@ vec3 rotate (vec3 pos, vec3 rotations) {
     pos = rotateX (radians (rotations.x)) * pos;
     return pos;
 }
-  // original libnoise combined matrix rotation - doesn't seem to behave
- /* vec3 vcos, vsin;
-
-  // degrees were given in the UI
-  rotations = radians (rotations);
-  vcos = cos (rotations);
-  vsin = sin (rotations);
-
-  mat3 matrix;
-  matrix [0] = vec3 (vsin.y * vsin.x * vsin.z + vcos.y * vcos.z, vcos.x * vsin.z, vsin.y * vcos.z - vcos.y * vsin.x * vsin.z);
-  matrix [1] = vec3 (vsin.y * vsin.x * vcos.z - vcos.y * vsin.z, vcos.x * vcos.z, -vcos.y * vsin.x * vcos.z - vsin.y * vsin.z);
-  matrix [2] = vec3 (-vsin.y * vcos.x, vsin.x, vcos.y * vcos.x);
-
-  return matrix * cartesian;
-
- */
 
 //	Classic Perlin 4D Noise
 //	by Stefan Gustavson
@@ -694,16 +673,17 @@ float select (float control, float in0, float in1, float lowerBound, float upper
 // precomputed mappings. Avoids nasty branching and very fast, but at the expense of some loss of resolution. We
 // compensate for that by interpolating between the two mappings either side of the key so we don't introduce artificial terracing.
 // See graph.cpp, method addAltitudeMapBuffer (QDomElement map), which provides the precomputed map array. It is uploaded to map_out at render time.
-float map (float value, int bufferIndex) {
-    float index = ((value / 2) + 0.5) * float (altitudeMapBufferSize);
+float map (float value, int bufferIndex, float from, float to) {
+    float i = (value - from) / (to - from);
+    float index = i * float (altitudeMapBufferSize);
     int indexPos = int (index);
     int index0 = clamp (indexPos    , 0, altitudeMapBufferSize - 2);
-    int index1 = clamp (indexPos + 1, 0, altitudeMapBufferSize - 2);
+    int index1 = clamp (indexPos + 1, 0, altitudeMapBufferSize - 1);
     int offset = bufferIndex * altitudeMapBufferSize;
     float out0 = map_out [index0 + offset];
     float out1 = map_out [index1 + offset];
-    float alpha = value - min (out0, out1) / abs (out1 - out0);
-    return mix (out0, out1, alpha);
+    float alpha = ((value - out0) / (out1 - out0)) * (out1 > out0 ? 1.0 : -1.0);
+    return clamp (mix (out0, out1, alpha), -1.0, 1.0);
 }
 
 // Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.
@@ -721,7 +701,6 @@ vec4 findColor (float value) {
 }
 
 // inserted code //
-
 
 // Coordinate systems:
 //      screen coordinates (corresponds to GlobalInvoicationID) - the coordinates of the texel being rendered. 0 <= x <= resolution * 2; 0 <= x <= resolution.
@@ -818,10 +797,10 @@ void main() {
             ivec2 s = scrPos (f.xy, false);                                             // find the corresponding texel in the main map
             if (f.z > 1.0 || f.z < 0.0 ||                                               // if the texel is out of the projection's  bounds or ...
                 s.x < 0 || s.x > resolution * 2  || s.y < 0 || s.y > resolution) {      // if the texel is not on the main map ...
-               color = toGreyscale (findColor (v));                                     // ... grey out the corresponding texel in the inset map.
-
+             color = toGreyscale (findColor (v));                                       // ... grey out the corresponding texel in the inset map.
             }
-            //color = findColor (map (i.x, 0));   // test functions with output in inset map here if needed
+            color = findColor (v);
+            // test functions with output in inset map here if needed
         }
     }
 

@@ -27,7 +27,6 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     m_texture (nullptr),
     m_renderProgram (nullptr),
     m_indexBuffer (nullptr),
-    _altitudeMapBuffer (nullptr),
     _colorMapBuffer (nullptr),
     _projection (CalenhadServices::projections() -> fetch ("Equirectangular")),
     _scale (1.0),
@@ -71,7 +70,6 @@ CalenhadMapWidget::~CalenhadMapWidget() {
     if (m_computeProgram) { delete m_computeProgram; }
     if (m_indexBuffer)  { delete m_indexBuffer; }
     if (m_vertexBuffer) { delete m_vertexBuffer; }
-    if (_altitudeMapBuffer) { delete _altitudeMapBuffer; }
 }
 
 void CalenhadMapWidget::initializeGL() {
@@ -80,7 +78,6 @@ void CalenhadMapWidget::initializeGL() {
 
     glClearColor(0, 0, 1, 1);
     _colorMapBuffer = _graph -> colorMapBuffer();
-    _altitudeMapBuffer = _graph -> altitudeMapBuffer();
 
 
     m_vao.create();
@@ -155,7 +152,6 @@ void CalenhadMapWidget::paintGL() {
     static GLint srcLoc= glGetUniformLocation(m_renderProgram->programId(),"srcTex");
     static GLint destLoc=glGetUniformLocation(m_computeProgram->programId(),"destTex");
     static GLint insetLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetTex");
-    static GLint ambsLoc = glGetUniformLocation (m_computeProgram -> programId(), "altitudeMapBufferSize");
     static GLint cmbsLoc = glGetUniformLocation (m_computeProgram -> programId(), "colorMapBufferSize");
     static GLint resolutionLoc = glGetUniformLocation (m_computeProgram -> programId(), "resolution");
     static GLint projectionLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
@@ -180,26 +176,9 @@ void CalenhadMapWidget::paintGL() {
     glUniform1f (scaleLoc, (GLfloat) _scale);
     glUniform1i (insetHeightLoc, _inset ? 192 : 0);
     glUniform1i (resolutionLoc, m_texture -> height());
-
-    glUniform1i (ambsLoc, 2048);
     glUniform1i (cmbsLoc, 2048);
 
-
-    // create and allocate any required shared altitudeMapBuffer on the GPU and copy the contents across to them.
-    _altitudeMapBuffer = _graph -> altitudeMapBuffer();
-    if (_altitudeMapBuffer && _graph -> altitudeMapBufferSize () > 0) {
-        GLuint altitudeMap = 0;
-        glGenBuffers (1, &altitudeMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, altitudeMap);
-        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph -> altitudeMapBufferSize (), _altitudeMapBuffer, GL_DYNAMIC_COPY);
-        for (int i = 0; i < _graph -> altitudeMapBufferSize () / sizeof (float); i++) {
-            std::cout << i << " -> " << _altitudeMapBuffer [i] << "\n";
-        }
-        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, altitudeMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 0); // unbind
-    }
-
-    // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
+// create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
     _colorMapBuffer = _graph -> colorMapBuffer();
     if (_colorMapBuffer) {
         GLuint colorMap = 1;
@@ -209,7 +188,6 @@ void CalenhadMapWidget::paintGL() {
         glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
     }
-
 
     glDispatchCompute (m_texture->width () / 16, m_texture->height () / 16, 1);
     glMemoryBarrier (GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -240,16 +218,21 @@ void CalenhadMapWidget::setGraph (Graph* g) {
         _shader = _shaderTemplate;
         QString code = g -> glsl ();
         std::cout << code.toStdString () << "\n";
-        _shader.replace ("// inserted code //", code);
+    _graph = g;
+
+    _shader.replace ("// inserted code //", code);
         _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
         _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
-        _graph = g;
+
         if (m_computeShader) {
             m_computeProgram -> removeAllShaders ();
-            m_computeShader -> compileSourceCode (_shader);
-            m_computeProgram -> addShader (m_computeShader);
-            m_computeProgram -> link ();
-            m_computeProgram -> bind ();
+            if (m_computeShader -> compileSourceCode (_shader)) {
+                m_computeProgram->addShader (m_computeShader);
+                m_computeProgram->link ();
+                m_computeProgram->bind ();
+            } else {
+                std::cout << "Compute shader would not compile\n";
+            }
         } else {
             std::cout << "No compute shader\n";
         }
