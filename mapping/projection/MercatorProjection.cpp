@@ -37,7 +37,7 @@ bool MercatorProjection::forward (const geoutils::Geolocation& geolocation, QPoi
 }
 
 QString MercatorProjection::name () {
-    return "Mercator projection";
+    return "Mercator";
 }
 
 QString MercatorProjection::notes () {
@@ -45,7 +45,7 @@ QString MercatorProjection::notes () {
 }
 
 int MercatorProjection::id () {
-    return 1; // see map_cs.glslInverse
+    return 1; // see map_cs.glsl
 }
 
 QString MercatorProjection::glslInverse() {
@@ -53,7 +53,7 @@ QString MercatorProjection::glslInverse() {
     code += "    float lat = M_PI / 2 - 2 * atan (exp (-i.y));\n";
     code += "    float lon = i.x + d.x;\n";
     code += "    vec2 g = vec2 (lon, lat);\n";
-    code += "    return vec3 (g.xy, abs (g.y / M_PI * 2));\n";
+    code += "    return vec3 (g.xy, abs (g.y / (M_PI / 2)));\n";
     code += "}\n";
     return code;
 }
@@ -63,7 +63,11 @@ QString MercatorProjection::glslForward() {
     code += "    float y = log (tan (M_PI / 4 + g.y) / 2);\n";
     code += "    float x = g.x - d.x;\n";
     code += "    vec2 i = vec2 (x, y);\n";
-    code += "    return vec3 (i.xy, abs (g.y / M_PI * 2));\n";
+    code += "    return vec3 (i.xy, abs (g.y / (M_PI / 2)));\n";
     code += "}\n";
     return code;
+}
+
+double MercatorProjection::aspectRatio () {
+    return 0;
 }
