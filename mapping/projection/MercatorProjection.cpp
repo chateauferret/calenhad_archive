@@ -31,7 +31,7 @@ bool MercatorProjection::inverse (const QPointF& point, Geolocation& geolocation
 
 bool MercatorProjection::forward (const geoutils::Geolocation& geolocation, QPointF& point) {
     point.setX (geolocation.longitude() - _datum.longitude());
-    point.setY (std::log (tan (M_PI / 4 + geolocation.latitude()) / 2));
+    point.setY (std::log (tan ((M_PI / 4) + (geolocation.latitude() / 2))));
     bool valid = (geolocation.latitude() >= -M_PI / 2) && (geolocation.latitude() <= M_PI / 2);
     return valid;
 }
@@ -60,7 +60,7 @@ QString MercatorProjection::glslInverse() {
 
 QString MercatorProjection::glslForward() {
     QString code = "if (p == PROJ_MERCATOR) {\n";
-    code += "    float y = log (tan (M_PI / 4 + g.y) / 2);\n";
+    code += "    float y = log (tan ((M_PI / 4) + (g.y / 2)));\n";
     code += "    float x = g.x - d.x;\n";
     code += "    vec2 i = vec2 (x, y);\n";
     code += "    return vec3 (i.xy, abs (g.y / (M_PI / 2)));\n";

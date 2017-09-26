@@ -59,11 +59,13 @@ vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
 vec2 toGeolocation (vec3 cartesian) {
     float phi = atan (cartesian.x, cartesian.z);
     float theta = acos (cartesian.y) - (M_PI / 2);
+    theta += (theta < -M_PI ? M_PI : 0);
+    theta -= (theta > M_PI ? M_PI : 0);
     return vec2 (theta, phi);
 }
 
 float hash (float n) {
-    return fract(sin(n)*43758.5453);
+    return fract (sin (n)*43758.5453);
 }
 
 float SCurve3 (float a) {
@@ -799,7 +801,7 @@ void main() {
                 s.x < 0 || s.x > resolution * 2  || s.y < 0 || s.y > resolution) {      // if the texel is not on the main map ...
              color = toGreyscale (findColor (v));                                       // ... grey out the corresponding texel in the inset map.
             }
-            color = findColor (v);
+
             // test functions with output in inset map here if needed
         }
     }

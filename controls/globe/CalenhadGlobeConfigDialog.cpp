@@ -103,9 +103,9 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     QMap<QString, Projection*> m = CalenhadServices::projections() -> all();
     for (QString name : m.keys ()) {
         _projectionCombo->addItem (name);
-        //if (parent->projection () == m.value (name)) {
-        //    _projectionCombo->setCurrentText (name);
-        //}
+        if (parent -> globe() -> projection () == m.value (name)) {
+            _projectionCombo->setCurrentText (name);
+        }
     }
     ((QFormLayout*) projectionTab->layout ())->addRow ("Projection", _projectionCombo);
 
@@ -130,7 +130,7 @@ void CalenhadGlobeConfigDialog::initialise() {
     if (_parent -> globe() -> mouseDragMode() == CalenhadGlobeDragMode::Zoom) { _dragModeCombo -> setCurrentText ("Zoom"); _mouseSensitivitySlider -> setEnabled (true); }
     if (_parent -> globe() -> mouseDoubleClickMode() == CalenhadGlobeDoubleClickMode::Goto) { _doubleClickModeCombo -> setCurrentText ("Go to"); _mouseSensitivitySlider -> setEnabled (true); }
     if (_parent -> globe() -> mouseDoubleClickMode() == CalenhadGlobeDoubleClickMode::Place) { _doubleClickModeCombo -> setCurrentText ("Describe place"); _mouseSensitivitySlider -> setEnabled (true); }
-    _overviewCheck -> setChecked (_parent -> isOverviewVisible());
+    _overviewCheck -> setChecked (_parent -> isOverviewVisible ());
     _scaleCheck -> setChecked (_parent -> isScaleVisible());
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent->isNavigatorVisible ());

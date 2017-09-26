@@ -55,11 +55,9 @@ CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, QModule* source) : QD
     _globe -> setSource (source);
     _globe -> setProjection ("Orthographic");
     _globe -> setInset (true);
-
 }
 
 void CalenhadGlobeDialog::initialise() {
-
     _zoomSlider = new QwtSlider (this);
     _zoomSlider -> setGroove (true);
     _zoomSlider -> setTrough (false);
@@ -94,18 +92,23 @@ void CalenhadGlobeDialog::invalidate () {
 }
 
 void CalenhadGlobeDialog::resizeEvent (QResizeEvent* e) {
-    QWidget::resizeEvent (e);
+    int height = e -> size().height();
+    int width = e -> size().width();
 
-    // let the map fill the whole widget. To do - have aspect ratio of image be consistent with the projection
-    _globe -> setFixedSize (size());
+        // let the map fill the whole widget but keep the widget's aspect ratio at 2 : 1.
+        if (width > 2 * height) {
+            _globe -> setFixedSize (width, width / 2);
+        } else {
+            _globe -> setFixedSize (height * 2, height);
+        }
+        // update positions and sizes of the control widgets
+        _zoomSlider->move (std::max (20, width - 20 - _zoomSlider->width ()), std::max (20, height - 20 - _zoomSlider->height ()));
+        _zoomSlider->setFixedSize (40, std::max (150, height - 200));
+        _navigator->setFixedSize (100, 100);
+        _navigator->move (std::max (20, width - 20 - _navigator->height ()), 20);
 
-    // update positions and sizes of the control widgets
-    _zoomSlider -> move (std::max (20, width() - 20 - _zoomSlider -> width()), std::max (20, height() - 20 - _zoomSlider -> height()));
-    _zoomSlider -> setFixedSize (40, std::max (150, height() - 200));
-    _navigator -> setFixedSize (100, 100);
-    _navigator -> move (std::max (20, width() - 20 - _navigator -> height()), 20);
-
-    emit resized (e -> size());
+        emit resized (QSize (e->size ().width (), height));
+   // }
 }
 
 void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
@@ -171,11 +174,6 @@ double CalenhadGlobeDialog::zoom() {
     return _globe->scale ();
 }
 
-bool CalenhadGlobeDialog::isOverviewVisible () {
-    //return _overview -> isVisible();
-    return false; // for now
-}
-
 bool CalenhadGlobeDialog::isZoomBarVisible () {
     return _zoomSlider -> isVisible();
 }
@@ -233,4 +231,8 @@ void CalenhadGlobeDialog::setScalebarVisible (bool visible) {
 
 CalenhadMapView* CalenhadGlobeDialog::globe () {
     return _globe;
+}
+
+bool CalenhadGlobeDialog::isOverviewVisible () {
+    return _globe -> inset();
 }

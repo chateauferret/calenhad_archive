@@ -53,6 +53,7 @@ void QModule::showGlobe() {
     if (!_globe) {
         _globe = new CalenhadGlobeDialog (this, this);
         _globe -> initialise ();
+        _globe -> resize (640, 320);
     }
     _globe -> show();
 }

@@ -36,6 +36,7 @@ QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (p
     _validator (nullptr),
     _inputCount (inputs),
     _nodeType (nodeType) {
+
 }
 
 
@@ -96,10 +97,9 @@ void QNode::initialise() {
     l -> setMargin (5);
     _dialog = new QDialog (this);
     _dialog -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint | Qt::WindowMinimizeButtonHint);
-    _dialog -> setSizePolicy (QSizePolicy (QSizePolicy::Fixed, QSizePolicy::Fixed));
     _dialog -> setLayout (new QVBoxLayout());
     _dialog -> layout() -> addWidget (_expander);
-
+    _dialog -> resize (300, 200);
     // when we change panels, move the focus to the newly-shown panel - this removes the focus from the parameter controls and causes their
     // values to be updated to the underlying noise owner data
     connect (_expander, &QToolBox::currentChanged, this, [=] () {
@@ -305,6 +305,7 @@ void QNode::propertyChangeRequested (const QString& p, const QVariant& value) {
 
 void QNode::showEvent (QShowEvent* event) {
     _nameEdit -> setText (_name);
+    resize (300, 200);
     QWidget::showEvent (event);
 }
 

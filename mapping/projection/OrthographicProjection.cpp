@@ -22,7 +22,7 @@ void OrthographicProjection::setDatum (const Geolocation& datum) {
 };
 
 bool OrthographicProjection::inverse (const QPointF& point, Geolocation& geolocation) {
-    double x = point.x() / 2;
+    double x = point.x();
     double y = point.y();
     double rho = std::sqrt (x * x + y * y);
     double c = std::asin (rho);
@@ -47,7 +47,7 @@ bool OrthographicProjection::forward (const geoutils::Geolocation& geolocation, 
 }
 
 QString OrthographicProjection::name () {
-    return "Orthographic projection";
+    return "Orthographic";
 }
 
 QString OrthographicProjection::notes () {
@@ -61,7 +61,7 @@ int OrthographicProjection::id () {
 
 QString OrthographicProjection::glslInverse() {
     QString code = "if (p == PROJ_ORTHOGRAPHIC) {\n";
-    code += "   float x = i.x / 2;\n";
+    code += "   float x = i.x;\n";
     code += "   float y = i.y;\n";
     code += "   float rho = sqrt (x * x + y * y);\n";
     code += "   float c = asin (rho);\n";
@@ -75,7 +75,7 @@ QString OrthographicProjection::glslInverse() {
 
 QString OrthographicProjection::glslForward() {
     QString code = "if (p == PROJ_ORTHOGRAPHIC) {\n";
-    code += "   float x = 2 * cos (g.y) * sin (g.x - d.x);\n";
+    code += "   float x = cos (g.y) * sin (g.x - d.x);\n";
     code += "   float y = cos (d.y) * sin (g.y) - sin (d.y) * cos (g.y) * cos (g.x - d.x);\n";
     code += "   float rho = sin (d.y) * sin (g.y) + cos (d.y) * cos (g.y) * cos (g.x - d.x);\n";
     code += "   return vec3 (x, y, rho);\n";
@@ -86,6 +86,10 @@ QString OrthographicProjection::glslForward() {
 
 QPointF OrthographicProjection::range () {
     return QPointF (M_PI, M_PI);
+}
+
+double OrthographicProjection::aspectRatio () {
+    return 0;
 }
 //
 // Created by martin on 04/09/17.

@@ -38,7 +38,7 @@ bool EquirectangularProjection::forward (const geoutils::Geolocation& geolocatio
 }
 
 QString EquirectangularProjection::name () {
-    return "Equirectangular projection";
+    return "Equirectangular";
 }
 
 QString EquirectangularProjection::notes () {
@@ -65,4 +65,8 @@ QString EquirectangularProjection::glslForward() {
     code += "   return vec3 (i.xy, visible);\n";
     code += "}\n";
     return code;
+}
+
+double EquirectangularProjection::aspectRatio () {
+    return 0.5;
 }

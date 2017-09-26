@@ -35,6 +35,8 @@ namespace calenhad {
                 virtual QPointF range() { return QPointF (M_PI * 2, M_PI); }
 
                 virtual void setDatum (const geoutils::Geolocation& datum) = 0;
+
+                virtual double aspectRatio() = 0;
             };
         }
     }

@@ -16,6 +16,8 @@ find_package(Qwt REQUIRED)
 find_package(LibProj4 REQUIRED)
 find_package(LibNoise REQUIRED)
 find_package(GeographicLib 1.34 REQUIRED)
+find_package(OpenGL REQUIRED)
+include_directories(${OpenGL_INCLUDE_DIRS})
 #find_package(CUDA REQUIRED)
 
 
@@ -113,7 +115,8 @@ target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
         ${GeographicLib_LIBRARIES}
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}
-        ${QWT_LIBRARY})
+        ${QWT_LIBRARY}
+        ${OPENGL_LIBRARIES})
 
 target_link_libraries (calenhad core)
 

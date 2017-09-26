@@ -3,6 +3,7 @@
 
 
 #include <QOpenGLWidget>
+#include <QWidget>
 #include <QOpenGLFunctions_4_3_Core>
 #include <QOpenGLBuffer>
 #include <QOpenGLShader>
@@ -61,15 +62,13 @@ namespace calenhad {
 
             geoutils::Geolocation rotation();
 
-            void setTranslation (const QPointF& translation);
-
-            QPointF translation();
-
             projection::Projection* projection ();
 
             icosphere::Bounds bounds ();
 
             void setInset (bool);
+
+            bool inset();
 
         public slots:
 
@@ -110,6 +109,8 @@ namespace calenhad {
             QString _shaderTemplate;
             QString _vertexShader;
             QString _fragmentShader;
+
+
         };
     }
 }

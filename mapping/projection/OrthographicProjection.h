@@ -41,6 +41,8 @@ namespace calenhad {
                 QPointF range() override;
 
                 QString glslForward () override;
+
+                double aspectRatio() override;
             };
 
         }

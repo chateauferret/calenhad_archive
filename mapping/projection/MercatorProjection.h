@@ -37,6 +37,8 @@ namespace calenhad {
                 QString glslInverse() override;
 
                 QString glslForward() override;
+
+                double aspectRatio() override;
             };
 
         }

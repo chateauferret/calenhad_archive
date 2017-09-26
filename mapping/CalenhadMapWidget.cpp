@@ -1,6 +1,6 @@
 #include "CalenhadMapWidget.h"
 #include <QIcon>
-#include "../icosphere/Bounds.h"
+
 #include "../graph/graph.h"
 #include "../CalenhadServices.h"
 #include "../preferences/preferences.h"
@@ -209,7 +209,20 @@ void CalenhadMapWidget::paintGL() {
 }
 
 void CalenhadMapWidget::resizeGL(int width, int height) {
+    if (height == 0) height = 1;
+    float aspectRatio = (float) width / (float)height;
     glViewport(0, 0, width, height);
+
+    glMatrixMode(GL_PROJECTION); /* switch to projection matrix */
+    glLoadIdentity();
+    if (width >= height) {
+        glOrtho (-0.5f * aspectRatio, 0.5f * aspectRatio, 0.0f, 1.0f, -1, 1);
+    }
+    else {
+        glOrtho (-0.5f, 0.5f, 0.0, 1.0 / aspectRatio, -1, 1);
+    }
+    glMatrixMode(GL_MODELVIEW);
+
 }
 
 // Insert the given code into the compute shader to realise the noise pipeline
@@ -272,15 +285,6 @@ Geolocation CalenhadMapWidget::rotation() {
     return _rotation;
 }
 
-QPointF CalenhadMapWidget::translation() {
-    return _translation;
-}
-
-void CalenhadMapWidget::setTranslation (const QPointF& translation) {
-    _translation = translation;
-}
-
-
 Bounds CalenhadMapWidget::bounds() {
 
 }
@@ -315,4 +319,8 @@ bool CalenhadMapWidget::geoCoordinates (QPointF pos, Geolocation& geolocation) {
     _projection -> setDatum (_rotation);
     bool result = _projection -> inverse (QPointF (x, -y), geolocation);
     return result;
+}
+
+bool CalenhadMapWidget::inset () {
+    return _inset;
 }
