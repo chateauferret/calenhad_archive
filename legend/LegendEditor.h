@@ -75,8 +75,10 @@ namespace calenhad {
             /// get the position
             int updatePos (QColorRampEditorSlider* sl);
 
-            // get a pixmap summary
-            QIcon icon ();
+            double zoom();
+            double pan();
+            double max();
+            double min();
 
         signals:
 
@@ -97,12 +99,18 @@ namespace calenhad {
             virtual void mousePressEvent (QMouseEvent* e);
 
             /// on update the ramp because sliders are changed
-            virtual void updateRamp ();
+            virtual void updateRamp();
+
+            void zoom (const int& steps);
+            void pan (const int& steps);
+
 
         protected:
 
             Legend* _legend;
 
+            double _zoom;
+            double _pan;
             /// sort the slider list
             static bool SliderSort (const QColorRampEditorSlider* a1, const QColorRampEditorSlider* a2);
 
@@ -114,9 +122,6 @@ namespace calenhad {
 
             /// bound space
             int bspace_;
-
-            /// min and max value from initialization
-            const qreal min = -1.0, max = 1.0;
 
             /// the widgets drawint the ramp, the sliders, the text
             QRampWidget* rampwid_;
@@ -142,6 +147,10 @@ namespace calenhad {
             bool slideUpdate_;
 
             void showEvent (QShowEvent* e);
+
+            void setView (double from, double to);
+
+            void wheelEvent (QWheelEvent* e);
         };
 
 // -----------------------------------------------------------
@@ -185,6 +194,7 @@ namespace calenhad {
 
         protected:
             void paintEvent (QPaintEvent* e);
+
         };
 
         class QSlidersWidget : public QWidget {
@@ -218,7 +228,7 @@ namespace calenhad {
         public:
             QSliderTextWidget (QWidget* parent = NULL);
 
-            LegendEditor* rampeditor_;
+            LegendEditor* _editor;
 
         protected:
 

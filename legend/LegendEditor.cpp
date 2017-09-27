@@ -10,6 +10,7 @@
 
 #include "LegendEditor.h"
 #include <QMouseEvent>
+#include <cmath>
 #include "CalenhadServices.h"
 #include "legend/Legend.h"
 
@@ -21,7 +22,7 @@ using namespace calenhad::legend;
 LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : QWidget (parent), _legend (legend),
                                                                         _orientation (orientation),
                                                                         activeSlider_ (-1), slideUpdate_ (false),
-                                                                        bspace_ (5),
+                                                                        bspace_ (5), _zoom (1.0), _pan (0.0),
                                                                         visText_ (false), textColor_ (Qt::white), textAcc_ (1) {
     if (_orientation == Qt::Horizontal) {
         setMinimumSize (50, 40);
@@ -59,7 +60,7 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
     layout ()->addWidget (slidewid_);
 
     textwid_ = new QSliderTextWidget ();
-    textwid_->rampeditor_ = this;
+    textwid_->_editor = this;
     if (_orientation == Qt::Horizontal) {
         textwid_->setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed);
         textwid_->setFixedHeight (12);
@@ -112,7 +113,7 @@ void LegendEditor::showEvent (QShowEvent* e) {
     // find min/max
     //min=legend -> entries().first().first;
     //max=legend -> entries().last().first;
-    double range = max - min;
+    double range = max() - min();
     // create sliders
     for (int i = 0; i < _legend -> size(); i++) {
         QColorRampEditorSlider* sl = new QColorRampEditorSlider (_orientation, _legend -> at (i).second, slidewid_);
@@ -147,10 +148,10 @@ qreal LegendEditor::updateValue (QColorRampEditorSlider* sl) {
     QRect crec = slidewid_->contentsRect ();
     if (_orientation == Qt::Horizontal) {
         crec.adjust (bspace_, 0, -bspace_, 0);
-        sl->val = min + (1.0 * sl->pos ().x () - bspace_) / crec.width () * (max - min);
+        sl -> val = min() + ((_zoom * (sl->pos ().x ()) - bspace_) / crec.width ()) * (max() - min());
     } else {
         crec.adjust (0, bspace_, 0, -bspace_);
-        sl->val = min + (1.0 * sl->pos ().y () - bspace_) / crec.height () * (max - min);
+        sl->val = min () + ((_zoom * (sl->pos ().y ()) - bspace_) / crec.height ()) * (max () - min ());
     }
     return sl->val;
 }
@@ -160,19 +161,20 @@ int LegendEditor::updatePos (QColorRampEditorSlider* sl) {
     qreal pos;
     if (_orientation == Qt::Horizontal) {
         crec.adjust (bspace_, 0, -bspace_, 0);
-        pos = (sl->val - min) / (max - min) * crec.width ();
-        pos -= sl->width () / 2;
+        pos = (sl->val - min()) / (max() - min()) * crec.width () / _zoom;
         pos += bspace_;
         sl->move (pos, 0);
     } else {
         crec.adjust (0, bspace_, 0, -bspace_);
-        pos = (sl->val - min) / (max - min) * crec.height ();
-        pos -= sl->height () / 2;
+        pos = (sl->val - min()) / (max() - min()) * crec.height () / _zoom;
         pos += bspace_;
         sl->move (0, pos);
     }
     return pos;
 }
+
+
+
 
 // -----------------------------------------------------------
 void LegendEditor::setSliderColor (int index, QColor col) {
@@ -195,24 +197,22 @@ void LegendEditor::mousePressEvent (QMouseEvent* e) {
         QRect crec = contentsRect ();
         if (_orientation == Qt::Horizontal) {
             crec.adjust (bspace_, 0, -bspace_, 0);
-            if (crec.contains (e->pos (), true)) // test mouse is in ramp
-            {
+            if (crec.contains (e->pos (), true)) {
                 QColorRampEditorSlider* sl = new QColorRampEditorSlider (_orientation, Qt::white, slidewid_);
                 _sliders.push_back (sl);
-                sl->move (e->pos ().x (), 0);
-                updateValue (sl);
-                sl->show ();
+                sl -> move (e->pos ().x (), 0);
+                //updateValue (sl);
+                sl -> show ();
                 qSort (_sliders.begin (), _sliders.end (), LegendEditor::SliderSort);
                 updateRamp ();
             }
         } else {
             crec.adjust (0, bspace_, 0, -bspace_);
-            if (crec.contains (e->pos (), true)) // test mouse is in ramp
-            {
+            if (crec.contains (e->pos (), true)) {
                 QColorRampEditorSlider* sl = new QColorRampEditorSlider (_orientation, Qt::white, slidewid_);
                 _sliders.push_back (sl);
                 sl->move (0, e->pos ().y ());
-                updateValue (sl);
+                //updateValue (sl);
                 sl->show ();
                 qSort (_sliders.begin (), _sliders.end (), LegendEditor::SliderSort);
                 updateRamp ();
@@ -224,16 +224,56 @@ void LegendEditor::mousePressEvent (QMouseEvent* e) {
 void LegendEditor::updateRamp () {
     _legend -> clear();
     for (QColorRampEditorSlider* slider : _sliders) {
+        updatePos (slider);
         _legend -> addEntry (slider -> val, slider -> getColor());
     }
 
-
-    if (textwid_->isVisible ()) { textwid_->update (); }
+    if (textwid_-> isVisible ()) { textwid_->update (); }
     emit legendChanged (legend() -> entries());
     update ();
 }
 
+double LegendEditor::zoom() {
+    return _zoom;
+}
 
+double LegendEditor::pan() {
+    return _pan;
+}
+
+double LegendEditor::min () {
+    return _pan - _zoom;
+}
+
+double LegendEditor::max () {
+    return _pan + _zoom;
+}
+
+
+void LegendEditor::zoom (const int& steps) {
+    _zoom *= std::pow (0.9, steps);
+    updateRamp();
+}
+
+void LegendEditor::pan (const int& steps) {
+    _pan -= 0.01 * _zoom * steps;
+    updateRamp();
+}
+
+void LegendEditor::setView (double from, double to) {
+    _pan = (from + to) / 2;
+    _zoom = (to - from) / 2;
+    updateRamp();
+}
+
+void LegendEditor::wheelEvent (QWheelEvent* e) {
+    int clicks = e->delta () / 120;
+    if (e -> modifiers() && Qt::ControlModifier) {
+        zoom (clicks);
+    } else {
+        pan (clicks);
+    }
+}
 
 // -----------------------------------------------------------
 // QRampWidget -----------------------------------------------
@@ -250,9 +290,10 @@ void QRampWidget::paintEvent (QPaintEvent* e) {
     QPainter painter (this);
     painter.setPen (Qt::black);
     QColor color;
-    double step = 2.0 / width();
+
+    double step = 2.0 / width() * _editor -> zoom();
     int i = 0;
-    for (double index = -1.0; index < 1.0; index += step) {
+    for (double index = _editor -> pan() - _editor -> zoom(); index < _editor -> pan() + _editor -> zoom(); index += step) {
         color = _editor -> _legend -> lookup (index);
         QPen pen = QPen (color);
         painter.setPen (pen);
@@ -263,26 +304,7 @@ void QRampWidget::paintEvent (QPaintEvent* e) {
         }
         i++;
     }
-    /*
 
-    QLinearGradient grad;
-    QRect crec = contentsRect ();
-    if (_editor->_orientation == Qt::Horizontal) {
-        crec.adjust (_editor->bspace_, 0, -_editor->bspace_, -1);
-        grad = QLinearGradient (0, 0, crec.width () - 1, 0);
-    } else {
-        crec.adjust (0, _editor->bspace_, -1, -_editor->bspace_);
-        grad = QLinearGradient (0, 0, 0, crec.height () - 1);
-    }
-
-    for (int i = 0; i < _editor->_sliders.size (); i++) {
-        qreal nval = (_editor->_sliders[i]->val - _editor->min) / (_editor->max - _editor->min);
-        grad.setColorAt (nval, _editor->_sliders[i]->getColor ());
-    }
-
-    painter.fillRect (crec, grad);
-    painter.drawRect (crec);
-    */
     QWidget::paintEvent (e);
 }
 
@@ -432,35 +454,33 @@ void QSliderTextWidget::paintEvent (QPaintEvent* e) {
     painter.setFont (f);
 
     painter.setPen (Qt::black);
-    painter.setBrush (rampeditor_->textColor_);
+    painter.setBrush (_editor -> textColor_);
 
     QFontMetrics fm (f);
 
     // adjust size for vertical
-    if (rampeditor_->_orientation == Qt::Vertical) {
-        {
-            QString txt1 = QString::number (rampeditor_->_sliders.first ()->val, 'f', rampeditor_->textAcc_);
-            QString txt2 = QString::number (rampeditor_->_sliders.last ()->val, 'f', rampeditor_->textAcc_);
+    if (_editor->_orientation == Qt::Vertical) {
+            QString txt1 = QString::number (_editor->_sliders.first ()->val, 'f', _editor->textAcc_);
+            QString txt2 = QString::number (_editor->_sliders.last ()->val, 'f', _editor->textAcc_);
             int w = fm.width (txt1) + 4;
             if (w > this->width ()) { setFixedWidth (w); }
             w = fm.width (txt2) + 4;
             if (w > this->width ()) { setFixedWidth (w); }
-        }
+
         // draw the text for vertical orientation
-        for (int i = 0; i < rampeditor_->_sliders.size (); i++) {
-            int pos = rampeditor_->_sliders[i]->pos ().y ();
-            qreal val = rampeditor_->_sliders[i]->val;
-            QString txt = QString::number (val, 'f', rampeditor_->textAcc_);
-            painter.drawText (2, pos + rampeditor_->_sliders[i]->height (), txt);
+        for (int i = 0; i < _editor->_sliders.size (); i++) {
+            double pos = _editor->_sliders [i] -> pos().y();
+            qreal val = _editor->_sliders[i]->val;
+            QString txt = QString::number (val, 'f', _editor->textAcc_);
+            painter.drawText (2, (int) pos + _editor->_sliders[i]->height (), txt);
         }
-    } else // draw the text for horizontal orientation
-    {
-        for (int i = 0; i < rampeditor_->_sliders.size (); i++) {
-            int pos = rampeditor_->_sliders[i]->pos ().x ();
-            qreal val = rampeditor_->_sliders[i]->val;
-            QString txt = QString::number (val, 'f', rampeditor_->textAcc_);
-            if ((pos + fm.width (txt)) > width ()) { pos += -fm.width (txt) + rampeditor_->_sliders[i]->width (); }
-            painter.drawText (pos, 2 + fm.height (), txt);
+    } else {
+        for (int i = 0; i < _editor->_sliders.size (); i++) {
+            double pos = _editor->_sliders [i] -> pos().x();
+            qreal val = _editor->_sliders[i]->val;
+            QString txt = QString::number (val, 'f', _editor->textAcc_);
+            if ((pos + fm.width (txt)) > width ()) { pos += -fm.width (txt) + _editor->_sliders[i]->width (); }
+            painter.drawText ((int) pos, 2 + fm.height (), txt);
         }
     }
 
