@@ -16,7 +16,7 @@ using namespace calenhad;
 using namespace calenhad::notification;
 using namespace calenhad::legend;
 
-LegendRoster::LegendRoster () : _dirty (false) {
+LegendRoster::LegendRoster () : _dirty (false), _lastUsed (nullptr) {
 }
 
 LegendRoster::~LegendRoster() {
@@ -25,10 +25,11 @@ LegendRoster::~LegendRoster() {
 
 Legend* LegendRoster::find (const QString& name) {
     if (exists (name)) {
-        return _legends.find (name).value ();
+        _lastUsed =  _legends.find (name).value ();
     } else {
-        return defaultLegend();
+        _lastUsed = defaultLegend();
     }
+    return _lastUsed;
 }
 
 bool LegendRoster::exists (const QString& name) {
@@ -107,4 +108,8 @@ void LegendRoster::rollback () {
 
 void LegendRoster::clear () {
     _legends.clear();
+}
+
+Legend* LegendRoster::lastUsed () {
+    return _lastUsed;
 }

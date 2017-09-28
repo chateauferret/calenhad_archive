@@ -115,7 +115,7 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     layout ()->addWidget (tabs);
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect (buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    connect (buttonBox, &QDialogButtonBox::rejected, this, &CalenhadGlobeConfigDialog::reject);
     layout ()->addWidget (buttonBox);
 
 }
@@ -197,6 +197,11 @@ void CalenhadGlobeConfigDialog::reject() {
     } else {
         QDialog::reject();
     }
+}
+
+void CalenhadGlobeConfigDialog::accept() {
+    commitChanges();
+    QDialog::accept();
 }
 
 CoordinatesFormat CalenhadGlobeConfigDialog::coordinatesFormat () {

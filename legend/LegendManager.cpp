@@ -15,7 +15,7 @@
 
 using namespace calenhad::legend;
 
-LegendManager::LegendManager (QWidget* parent) : QWidget (parent) {
+LegendManager::LegendManager (QWidget* parent) : QWidget (parent), _legend (nullptr) {
     _service = CalenhadServices::legends();
     _chooser = new LegendChooser (_service, this);
     connect (_chooser, &LegendChooser::legendSelected, this, &LegendManager::showLegend);
@@ -56,7 +56,9 @@ Legend* LegendManager::currentLegend() {
 
 void LegendManager::setCurrentLegend (Legend* legend) {
     _legend = legend;
-    _chooser -> setCurrentText (legend -> name());
+    if (_legend) {
+        _chooser->setCurrentText (legend->name ());
+    }
 }
 
 void LegendManager::showLegend () {
@@ -100,9 +102,10 @@ void LegendManager::showEvent (QShowEvent* e) {
     _chooser -> refresh();
 
     // turn up the right widget for the legend currently in use
-    ((QStackedLayout*)_legendDetailArea -> layout()) -> setCurrentWidget (_legend -> widget());
-
-    _chooser -> setCurrentText (_legend -> name ());
+    if (_legend) {
+        ((QStackedLayout*) _legendDetailArea->layout ())->setCurrentWidget (_legend->widget ());
+        _chooser->setCurrentText (_legend->name ());
+    }
 
 }
 

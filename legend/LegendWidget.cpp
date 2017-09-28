@@ -9,13 +9,13 @@
 #include "Legend.h"
 #include "LegendService.h"
 #include "LegendWidget.h"
-#include "LegendEditor.h"
+#include "../controls/legend/LegendEditor.h"
 #include "CalenhadServices.h"
 #include "../messages/QNotificationService.h"
 
 using namespace calenhad::notification;
 using namespace calenhad::legend;
-
+using namespace calenhad::controls::legend;
 
 LegendWidget::LegendWidget (Legend* legend, QWidget* parent) : QWidget (parent), _legend (legend) {
     setLayout (new QVBoxLayout ());

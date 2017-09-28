@@ -33,6 +33,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtCore/QMap>
 
 namespace calenhad {
+    namespace controls {
+        class CalenhadLegendDialog;
+    }
     namespace preferences {
         class Preferences;
     }
@@ -98,6 +101,8 @@ namespace calenhad {
             //void readMetadata (const QDomDocument& doc, QNotificationFactory* messages);
 
             bool readXml (const QString& fname, QDomDocument& doc);
+
+            calenhad::controls::CalenhadLegendDialog* _legendDialog;
         };
     }
 }

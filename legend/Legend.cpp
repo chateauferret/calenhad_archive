@@ -3,7 +3,7 @@
 //
 #include "Legend.h"
 #include <QtWidgets/QVBoxLayout>
-#include "LegendEditor.h"
+#include "controls/legend/LegendEditor.h"
 #include "LegendService.h"
 #include "LegendWidget.h"
 #include "CalenhadServices.h"

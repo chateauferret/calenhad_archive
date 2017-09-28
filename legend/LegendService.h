@@ -42,6 +42,8 @@ namespace calenhad {
 
             virtual void clear() = 0;
 
+            virtual Legend* lastUsed() = 0;
+
         signals:
             void commitRequested();
             void rollbackRequested();

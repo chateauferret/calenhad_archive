@@ -192,7 +192,6 @@ void CalenhadGlobeDialog::showConfigDialog() {
 }
 
 void CalenhadGlobeDialog::updateConfig () {
-    _configDialog -> commitChanges();
     setScalebarVisible (_configDialog -> scaleCheckState());
     showOverviewMap (_configDialog -> overviewCheckState ());
     showZoomSlider (_configDialog -> zoomBarCheckState ());

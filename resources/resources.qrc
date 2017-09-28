@@ -33,6 +33,9 @@
         <file>appicons/controls/arrow_up.png</file>
         <file>appicons/controls/arrow_left.png</file>
         <file>appicons/controls/arrow_right.png</file>
+        <file>appicons/controls/zoom_in.png</file>
+        <file>appicons/controls/zoom_out.png</file>
+        <file>appicons/controls/legend.png</file>
         <file>appicons/status/goosed.png</file>
         <file>appicons/status/orright.png</file>
         <file>appicons/status/query.png</file>

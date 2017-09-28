@@ -12,18 +12,17 @@
 #include <QtWidgets/QCheckBox>
 
 namespace calenhad {
+    namespace controls {
+        namespace legend {
+            class LegendEditor;
+        }
+    }
+
     namespace legend {
         class Legend;
-
-        class LegendEditor;
-
         class LegendService;
-
-        typedef QPair<qreal, QColor> LegendEntry;
-
         class LegendWidget : public QWidget {
         Q_OBJECT
-
 
         public:
             LegendWidget (Legend* legend, QWidget* parent = 0);
@@ -31,7 +30,7 @@ namespace calenhad {
             virtual ~LegendWidget ();
 
             QLineEdit* _legendNameBox;
-            LegendEditor* _legendEditor;
+            calenhad::controls::legend::LegendEditor* _legendEditor;
             QCheckBox* _legendInterpolateCheck;
             QTextEdit* _legendNotesBox;
 

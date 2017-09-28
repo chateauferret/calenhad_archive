@@ -45,12 +45,14 @@ namespace calenhad {
 
             QList<Legend*> all() override;
 
+            Legend* lastUsed() override;
 
         private:
             QMap<QString, Legend*> _legends;
             bool _dirty;
 
             QString _lastFile;
+            Legend* _lastUsed;
         };
     }
 }

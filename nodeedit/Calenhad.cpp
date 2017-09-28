@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QCloseEvent>
 #include <QtCore/QTextStream>
 #include <QLayout>
+#include <controls/CalenhadLegendDialog.h>
 #include "Calenhad.h"
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
@@ -43,6 +44,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../qmodule/QNode.h"
 #include "../legend/LegendService.h"
 
+
 using namespace icosphere;
 using namespace calenhad;
 using namespace calenhad::controls;
@@ -55,7 +57,8 @@ using namespace calenhad::notification;
 
 QNEToolBox* Calenhad::toolbox = new QNEToolBox();
 
-Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
+Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent),
+    _legendDialog (nullptr) {
 
     _controller = new CalenhadController (this);
 
@@ -118,13 +121,21 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
     saveLegendsAction -> setStatusTip ("Export legends to a separate file");
     connect (saveLegendsAction, &QAction::triggered, this, [=] () { saveFile (CalenhadFileType::CalenhadLegendFile); });
 
+    QAction* manageLegendsAction = new QAction ("Manage legends", this);
+    manageLegendsAction -> setStatusTip ("Manage legends");
+    connect (manageLegendsAction, &QAction::triggered, this, [=] () {
+        if (! _legendDialog) {
+            _legendDialog = new CalenhadLegendDialog (this);
+        }
+        _legendDialog -> show();
+    });
+
     // Menu
 
     QMenu* fileMenu = menuBar () -> addMenu (tr ("&File"));
     fileMenu -> addAction (loadAction);
     fileMenu -> addAction (saveAction);
-    fileMenu -> addAction (loadLegendsAction);
-    fileMenu -> addAction (saveLegendsAction);
+
     fileMenu -> addSeparator();
     fileMenu -> addAction (quitAction);
 
@@ -133,7 +144,12 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent) {
 
     QMenu* toolMenu = toolbox -> menu ("Modules");
     menuBar() -> addMenu (toolMenu);
+    QMenu* legendsMenu = new QMenu ("Legends");
+    legendsMenu -> addAction (loadLegendsAction);
+    legendsMenu -> addAction (saveLegendsAction);
+    legendsMenu -> addAction (manageLegendsAction);
     QMenu* viewMenu = toolbox -> menu ("View");
+    viewMenu -> addMenu (legendsMenu);
     menuBar() -> addMenu (viewMenu);
 
     setWindowTitle (tr ("Node Editor"));

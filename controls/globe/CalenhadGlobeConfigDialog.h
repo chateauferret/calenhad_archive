@@ -90,6 +90,7 @@ namespace calenhad {
                 QComboBox* _tooltipOptionCombo;
                 QComboBox* _tooltipDatumCombo;
 
+                void accept ();
             };
         }
     }
