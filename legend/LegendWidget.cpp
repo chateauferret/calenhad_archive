@@ -11,7 +11,7 @@
 #include "LegendWidget.h"
 #include "../controls/legend/LegendEditor.h"
 #include "CalenhadServices.h"
-#include "../messages/QNotificationService.h"
+#include "../messages/QNotificationHost.h"
 
 using namespace calenhad::notification;
 using namespace calenhad::legend;

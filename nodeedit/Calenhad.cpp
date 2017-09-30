@@ -35,7 +35,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "preferences/preferences.h"
-#include "messages/QNotificationService.h"
 #include "CalenhadView.h"
 #include "../nodeedit/qnetoolbox.h"
 #include "../CalenhadServices.h"
@@ -43,6 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../exprtk/VariablesDialog.h"
 #include "../qmodule/QNode.h"
 #include "../legend/LegendService.h"
+#include "CalenhadToolBar.h"
 
 
 using namespace icosphere;
@@ -57,7 +57,7 @@ using namespace calenhad::notification;
 
 QNEToolBox* Calenhad::toolbox = new QNEToolBox();
 
-Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent),
+Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _legendDialog (nullptr) {
 
     _controller = new CalenhadController (this);
@@ -76,16 +76,17 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent),
 
     // Tools
 
-    QToolBar* zoomToolbar = toolbox -> toolbar ("View");
-    zoomToolbar -> setAcceptDrops (false);
-    QDockWidget* zoomToolsDock = new QDockWidget (zoomToolbar -> windowTitle(), this);
-    zoomToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
-    zoomToolbar -> setParent (this);
-    zoomToolsDock -> setWidget (zoomToolbar);
-    addDockWidget (Qt::RightDockWidgetArea, zoomToolsDock);
+    CalenhadToolBar* viewToolbar = toolbox -> toolbar ("View");
+    viewToolbar -> setAcceptDrops (false);
+    QDockWidget* viewToolsDock = new QDockWidget (viewToolbar -> windowTitle(), this);
+    viewToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
+    viewToolbar -> setParent (this);
+    viewToolsDock -> setWidget (viewToolbar);
+    connect (viewToolsDock, &QDockWidget::dockLocationChanged, viewToolbar, &CalenhadToolBar::arrange);
+    addDockWidget (Qt::TopDockWidgetArea, viewToolsDock);
 
 
-    // for now an icon to drag a new group onto the workspace
+    // modules and other nodes
     QDockWidget* iconsDock = new QDockWidget ("Modules", this);
     iconsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     QIconPalette* iconsPanel = new QIconPalette (this);iconsPanel -> show();
@@ -174,6 +175,14 @@ Calenhad::Calenhad (QWidget* parent) : QMainWindow (parent),
 
 Calenhad::~Calenhad() {
 
+}
+
+void Calenhad::resizeEvent (QResizeEvent* event) {
+    reorder();
+}
+
+void Calenhad::moveEvent (QMoveEvent* event) {
+    reorder();
 }
 
 void Calenhad::setModel (CalenhadModel* model) {

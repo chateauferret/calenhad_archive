@@ -18,7 +18,7 @@ QNotification::QNotification (const QString& message, QWidget* host, const QStri
     timer->setInterval (_duration);
     timer->setSingleShot (true);
     connect (timer, SIGNAL (timeout()), this, SLOT (dismiss()), Qt::QueuedConnection);
-    connect (this, SIGNAL (displayed()), timer, SLOT (start()), Qt::QueuedConnection);
+    connect (this, SIGNAL (complete()), timer, SLOT (start()), Qt::QueuedConnection);
 }
 
 QNotification::~QNotification() {
@@ -26,7 +26,7 @@ QNotification::~QNotification() {
 }
 
 void QNotification::showEvent (QShowEvent* e) {
-    emit displayed();
+    emit complete();
 }
 
 void QNotification::mousePressEvent (QMouseEvent* e) {
@@ -34,9 +34,13 @@ void QNotification::mousePressEvent (QMouseEvent* e) {
 }
 
 void QNotification::dismiss() {
-    emit dismissed (this);
+    emit dismissed();
 }
 
 void QNotification::setDuration (const int& duration) {
     _duration = duration;
+}
+
+int QNotification::duration() {
+    return _duration;
 }

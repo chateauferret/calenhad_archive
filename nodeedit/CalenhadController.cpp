@@ -40,10 +40,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../nodeedit/CalenhadView.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../pipeline/ModuleFactory.h"
-#include "../messages/QNotificationService.h"
 #include "../nodeedit/qneport.h"
 #include "../qmodule/QModule.h"
-#include <QGraphicsScene>
+#include <QAction>
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
@@ -107,7 +106,7 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
 
     // A tool for adding a new node group
-    QAction* tool = createTool ("NodeGroup", "Add a new group", "NodeGroup", _addModuleDrawer, true);
+    QAction* tool = createTool (QIcon (":/sppicons/controls/group_add.png"), "NodeGroup", "Add a new group", "NodeGroup", _addModuleDrawer, true);
     tool -> setCheckable (true);
     _addModuleGroup -> addTool (tool);
 
@@ -116,10 +115,10 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     _defaultContextMenu -> addMenu (_zoomMenu);
 
     // scale actions
-    zoomInAction = createTool (tr ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
-    zoomOutAction = createTool (tr ("Zoom &out"), "Zoom out", CalenhadAction::ZoomOutAction, _viewDrawer);
-    zoomToFitAction = createTool (tr ("Zoom to &fit"), "Zoom to fit", CalenhadAction::ZoomToFitAction, _viewDrawer);
-    zoomSelectionAction = createTool (tr ("Zoom to &selection"), "Zoom to selection", CalenhadAction::ZoomToSelectionAction, _viewDrawer);
+    zoomInAction = createTool (QIcon (":/appicons/controls/zoom_in.png"), ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
+    zoomOutAction = createTool (QIcon (":/appicons/controls/zoom_out.png"), tr ("Zoom &out"), "Zoom out", CalenhadAction::ZoomOutAction, _viewDrawer);
+    zoomToFitAction = createTool (QIcon (":/appicons/controls/zoom_to_fit.png"), tr ("Zoom to &fit"), "Zoom to fit", CalenhadAction::ZoomToFitAction, _viewDrawer);
+    zoomSelectionAction = createTool (QIcon (":/appicons/controls/zoom.png"), tr ("Zoom to &selection"), "Zoom to selection", CalenhadAction::ZoomToSelectionAction, _viewDrawer);
     _zoomMenu -> addAction (zoomInAction);
     _zoomMenu -> addAction (zoomOutAction);
     _zoomMenu -> addAction (zoomToFitAction);
@@ -127,8 +126,8 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
 
     // undo/redo apparatus
     _undoStack = new QUndoStack();
-    undoAction = createTool (tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
-    redoAction = createTool (tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
+    undoAction = createTool (QIcon (":/appicons/controls/undo.png"), tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
+    redoAction = createTool (QIcon (":/appicons/controls/redo.png"), tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
     undoAction -> setEnabled (_undoStack -> canUndo());
     redoAction -> setEnabled (_undoStack -> canRedo());
     _defaultContextMenu -> addAction (undoAction);
@@ -137,23 +136,22 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _v
     connect (_undoStack, &QUndoStack::canRedoChanged, this, [=] () { redoAction -> setEnabled (_undoStack -> canRedo()); });
 
     // connection actions
-    deleteConnectionAction = createTool (tr ("Delete connection"), "Delete connection", CalenhadAction::DeleteConnectionAction, _editDrawer);
+    deleteConnectionAction = createTool (QIcon (":/appicons.controls/disconnect.png"), tr ("Disconnect"), "Remove connection between modules", CalenhadAction::DeleteConnectionAction, _editDrawer);
     _connectionContextMenu -> addAction (deleteConnectionAction);
 
     // other module actions
-    deleteModuleAction = createTool (tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, _editDrawer);
-    deleteSelectionAction = createTool (tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
+    deleteSelectionAction = createTool (QIcon (":/appicons.controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
     deleteSelectionAction -> setEnabled (false);
-    _moduleContextMenu -> addAction (deleteModuleAction);
+    //_moduleContextMenu -> addAction (deleteModuleAction);
     _moduleContextMenu -> addAction (deleteSelectionAction);
 
-    duplicateModuleAction = createTool (tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, _editDrawer);
+    duplicateModuleAction = createTool (QIcon (":/appicons.controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, _editDrawer);
     _moduleContextMenu -> addAction (duplicateModuleAction);
 }
 
 
-QAction* CalenhadController::createTool (const QString& caption, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle) {
-    QAction* tool = new QAction (caption, this);
+QAction* CalenhadController::createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle) {
+    QAction* tool = new QAction (icon, name, this);
     tool -> setStatusTip (statusTip);
     tool -> setCheckable (toggle);
     tool -> setData (id);
@@ -187,7 +185,7 @@ CalenhadController::~CalenhadController() {
 
 // to do - provide further lookup for name to localisation file
 void CalenhadController::addModuleTool (const QString& name, const QString& tooltip) {
-    QAction* tool = createTool (name, tooltip, name, _addModuleDrawer, true);
+    QAction* tool = createTool (QIcon (":/resources/appicons/tools/" + name + ".png"), name, tooltip, name, _addModuleDrawer, true);
     tool -> setCheckable (true);
     _addModuleGroup -> addTool (tool);
 
@@ -320,6 +318,7 @@ void CalenhadController::doCommand (QUndoCommand* c) {
         zoomInAction->setEnabled (z < 4.0);
         zoomOutAction->setEnabled (z > 0.025);
     }
+    showMessage (c -> text());
 }
 
 void CalenhadController::addParamsWidget (QToolBar* toolbar, QNode* node) {

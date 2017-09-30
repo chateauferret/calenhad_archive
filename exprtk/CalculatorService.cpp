@@ -6,7 +6,7 @@
 #include <iostream>
 #include "CalculatorService.h"
 #include "../preferences/PreferencesService.h"
-#include "../messages/QNotificationService.h"
+#include "../messages/QNotificationHost.h"
 
 using namespace exprtk;
 using namespace calenhad::expressions;

@@ -15,6 +15,8 @@ SET(NODEEDIT_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/qneport.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadController.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadController.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadToolBar.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadToolBar.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadView.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadView.h
         ${CMAKE_CURRENT_LIST_DIR}/qnetoolbox.cpp

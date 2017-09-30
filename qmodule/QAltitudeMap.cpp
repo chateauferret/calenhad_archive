@@ -10,7 +10,7 @@
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
 #include "../controls/altitudemap/AltitudeMapEditor.h"
-#include "messages/QNotificationStack.h"
+#include "messages/QNotificationHost.h"
 #include "../nodeedit/qneport.h"
 #include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"

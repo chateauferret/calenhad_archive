@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QDockWidget>
 #include <QtXml/QDomDocument>
 #include <QtCore/QMap>
+#include "../messages/QNotificationHost.h"
 
 namespace calenhad {
     namespace controls {
@@ -61,7 +62,7 @@ namespace calenhad {
 
         enum CalenhadFileType { CalenhadModelFile, CalenhadLegendFile };
 
-        class Calenhad : public QMainWindow {
+        class Calenhad : public calenhad::notification::QNotificationHost {
         Q_OBJECT
 
         public:
@@ -103,6 +104,10 @@ namespace calenhad {
             bool readXml (const QString& fname, QDomDocument& doc);
 
             calenhad::controls::CalenhadLegendDialog* _legendDialog;
+
+            void resizeEvent (QResizeEvent* event) override;
+
+            void moveEvent (QMoveEvent* event);
         };
     }
 }

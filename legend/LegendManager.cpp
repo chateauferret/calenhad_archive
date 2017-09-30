@@ -11,7 +11,7 @@
 #include "CalenhadServices.h"
 #include "LegendChooser.h"
 #include "controls/globe/CalenhadGlobeConfigDialog.h"
-#include "../messages/QNotificationService.h"
+#include "../messages/QNotificationHost.h"
 
 using namespace calenhad::legend;
 

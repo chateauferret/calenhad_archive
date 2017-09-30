@@ -21,7 +21,7 @@ QProgressNotification::~QProgressNotification () {
 }
 
 void QProgressNotification::showEvent (QShowEvent* e) {
-    emit displayed();
+
 }
 
 void QProgressNotification::setProgress (const int& progress) {

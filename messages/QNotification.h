@@ -31,16 +31,16 @@ namespace calenhad {
             virtual void mousePressEvent (QMouseEvent* e) override;
 
             void setDuration (const int& duration);
-
+            int duration ();
         public slots:
 
             void dismiss ();
 
         signals:
 
-            void dismissed (QNotification*);
+            void dismissed();
 
-            void displayed ();
+            void complete ();
 
         protected:
 
@@ -48,6 +48,8 @@ namespace calenhad {
 
             QLabel* _message;
             int _duration;
+
+
         };
     }
 }

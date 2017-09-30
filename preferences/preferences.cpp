@@ -78,6 +78,7 @@ void Preferences::loadSettings() {
     calenhad_handle_module_height = _settings -> value ("calenhad/handle/module/height", calenhad_handle_module_width).toUInt();
     calenhad_handle_module_margin = _settings -> value ("calenhad/handle/module/margin", 2).toUInt();
     calenhad_notifications_width = _settings -> value ("calenhad/preferences/width", 150).toUInt();
+    calenhad_notifications_margin = _settings -> value ("calenhad/preferences/margin", 5).toUInt();
     calenhad_toolpalette_icon_size = _settings -> value ("calenhad/toolpalette/icon/size", 24).toInt();
     calenhad_toolpalette_icon_margin = _settings -> value ("calenhad/toolpalette/icon/margin", 4).toInt();
     calenhad_toolpalette_icon_shadow = _settings -> value ("calenhad/toolpalette/icon/shadow", 2).toInt();

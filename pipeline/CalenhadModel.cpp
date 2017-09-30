@@ -19,7 +19,6 @@
 #include "../qmodule/QModule.h"
 #include "../exprtk/CalculatorService.h"
 #include "../libnoiseutils/nullmodule.h"
-#include "../messages/QNotificationService.h"
 #include <QGraphicsSceneMouseEvent>
 #include "../legend/LegendService.h"
 #include "../preferences/PreferencesService.h"

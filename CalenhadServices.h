@@ -18,7 +18,7 @@ namespace calenhad {
         class PreferencesService;
     }
     namespace notification {
-        class QNotificationService;
+        class QNotificationHost;
     }
     namespace legend {
         class LegendService;
@@ -39,7 +39,7 @@ namespace calenhad {
     public:
         static calenhad::preferences::PreferencesService* preferences ();
 
-        static calenhad::notification::QNotificationService* messages ();
+        static calenhad::notification::QNotificationHost* messages ();
 
         static calenhad::legend::LegendService* legends ();
 
@@ -53,7 +53,7 @@ namespace calenhad {
 
         static void providePreferences (calenhad::preferences::PreferencesService* service);
 
-        static void provideMessages (calenhad::notification::QNotificationService* service);
+        static void provideMessages (calenhad::notification::QNotificationHost* service);
 
         static void provideLegends (calenhad::legend::LegendService* service);
 
@@ -65,7 +65,7 @@ namespace calenhad {
 
     private:
         static calenhad::preferences::PreferencesService* _preferences;
-        static calenhad::notification::QNotificationService* _messages;
+        static calenhad::notification::QNotificationHost* _messages;
         static calenhad::legend::LegendService* _legends;
         static calenhad::mapping::projection::ProjectionService* _projections;
         static calenhad::controls::globe::StatisticsService* _statistics;

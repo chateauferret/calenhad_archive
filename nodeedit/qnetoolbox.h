@@ -8,6 +8,7 @@
 #include <QToolButton>
 #include <QPushButton>
 #include <QMenu>
+#include "CalenhadToolBar.h"
 
 
  namespace calenhad {
@@ -44,7 +45,7 @@
 
              QMenu* menu ();
 
-             QToolBar* toolbar ();
+             CalenhadToolBar* toolbar ();
 
              QString& name ();
 
@@ -84,7 +85,7 @@
 
              ~QNEToolBox ();
 
-             QToolBar* toolbar (const QString& drawer);
+             calenhad::nodeedit::CalenhadToolBar* toolbar (const QString& drawer);
 
              QMenu* menu (const QString& drawer);
 

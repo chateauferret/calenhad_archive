@@ -10,7 +10,7 @@
 #include "LegendRoster.h"
 #include "CalenhadServices.h"
 #include "Legend.h"
-#include "../messages/QNotificationService.h"
+#include "../messages/QNotificationHost.h"
 
 using namespace calenhad;
 using namespace calenhad::notification;

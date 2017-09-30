@@ -9,7 +9,7 @@
 #include "pipeline/ModuleFactory.h"
 #include "exprtk/CalculatorService.h"
 #include "preferences/PreferencesService.h"
-#include "messages/QNotificationStack.h"
+#include "messages/QNotificationHost.h"
 #include "legend/LegendService.h"
 #include "mapping/projection/ProjectionService.h"
 #include "controls/globe/StatisticsService.h"
@@ -23,7 +23,7 @@ using namespace calenhad::expressions;
 using namespace calenhad::mapping::projection;
 
 PreferencesService* CalenhadServices::_preferences;
-QNotificationService* CalenhadServices::_messages;
+QNotificationHost* CalenhadServices::_messages;
 ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
@@ -34,7 +34,7 @@ PreferencesService* CalenhadServices::preferences () {
     return _preferences;
 }
 
-QNotificationService* CalenhadServices::messages () {
+QNotificationHost* CalenhadServices::messages () {
     return _messages;
 }
 
@@ -55,7 +55,7 @@ void CalenhadServices::providePreferences (PreferencesService* service) {
     _modules = new ModuleFactory();
 }
 
-void CalenhadServices::provideMessages (QNotificationService* service) {
+void CalenhadServices::provideMessages (QNotificationHost* service) {
     _messages = service;
 }
 

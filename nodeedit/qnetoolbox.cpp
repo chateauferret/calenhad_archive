@@ -4,6 +4,7 @@
 
 #include <QtWidgets/QGraphicsView>
 #include "qnetoolbox.h"
+#include "CalenhadToolBar.h"
 
 using namespace calenhad::nodeedit;
 
@@ -15,7 +16,7 @@ QNEToolBox::QNEToolBox() : QObject(),
 
 QNEToolBox::~QNEToolBox() { }
 
-QToolBar* QNEToolBox::toolbar (const QString& drawer) {
+CalenhadToolBar* QNEToolBox::toolbar (const QString& drawer) {
     return _drawers.value (drawer) -> toolbar();
 }
 
@@ -76,8 +77,8 @@ QString& ToolDrawer::name() {
     return _name;
 }
 
-QToolBar* ToolDrawer::toolbar() {
-    QToolBar* toolbar = new QToolBar (_name);
+CalenhadToolBar* ToolDrawer::toolbar() {
+    CalenhadToolBar* toolbar = new CalenhadToolBar (_name);
     toolbar -> setOrientation (Qt::Vertical);
     for (QAction* action : _tools.values()) {
         toolbar -> addAction (action);

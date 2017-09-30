@@ -108,7 +108,7 @@ namespace calenhad {
 			QAction* deleteSelectionAction;
 			QAction* duplicateModuleAction;
 
-			QAction* createTool (const QString& caption, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false);
+			QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false);
 
 			QWidget* _nodeRoster;
 		};

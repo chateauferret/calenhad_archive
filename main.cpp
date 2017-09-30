@@ -5,7 +5,7 @@
 #include "pipeline/CalenhadModel.h"
 #include "icosphere/icosphere.h"
 #include "exprtk/CalculatorService.h"
-#include "messages/QNotificationStack.h"
+#include "messages/QNotificationHost.h"
 #include "nodeedit/qnetoolbox.h"
 #include "preferences/preferences.h"
 #include "controls/altitudemap/AltitudeMapPlot.h"
@@ -88,11 +88,11 @@ int main (int argc, char **argv) {
     model -> inflate (fname, calenhad::nodeedit::CalenhadModelFile);
 
     // Message service
-    QNotificationStack* notifications = new QNotificationStack (preferences -> calenhad_notifications_width, window);
+    QNotificationHost* notifications = (QNotificationHost*) window;
     CalenhadServices::provideMessages (notifications);
     window -> setModel (model);
     window -> show();
-    notifications -> show();
+
 
     return app.exec();
 }

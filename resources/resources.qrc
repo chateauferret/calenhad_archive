@@ -33,9 +33,38 @@
         <file>appicons/controls/arrow_up.png</file>
         <file>appicons/controls/arrow_left.png</file>
         <file>appicons/controls/arrow_right.png</file>
+        <file>appicons/controls/connect.png</file>
+        <file>appicons/controls/delete_selection.png</file>
+        <file>appicons/controls/duplicate.png</file>
+        <file>appicons/controls/disconnect.png</file>
+        <file>appicons/controls/find.png</file>
+        <file>appicons/controls/group_add.png</file>
+        <file>appicons/controls/group_delete.png</file>
+        <file>appicons/controls/group_make.png</file>
+        <file>appicons/controls/home.png</file>
+        <file>appicons/controls/home_go.png</file>
+        <file>appicons/controls/legend.png</file>
+        <file>appicons/controls/map.png</file>
+        <file>appicons/controls/map_tiles.png</file>
+        <file>appicons/controls/modules.png</file>
+        <file>appicons/controls/mouse_options.png</file>
+        <file>appicons/controls/note.png</file>
+        <file>appicons/controls/open_file.png</file>
+        <file>appicons/controls/places.png</file>
+        <file>appicons/controls/preferences.png</file>
+        <file>appicons/controls/projections.png</file>
+        <file>appicons/controls/quit.png</file>
+        <file>appicons/controls/redo.png</file>
+        <file>appicons/controls/save.png</file>
+        <file>appicons/controls/save_as.png</file>
+        <file>appicons/controls/statistics.png</file>
+        <file>appicons/controls/undo.png</file>
+        <file>appicons/controls/variables.png</file>
+        <file>appicons/controls/xml.png</file>
+        <file>appicons/controls/zoom.png</file>
         <file>appicons/controls/zoom_in.png</file>
         <file>appicons/controls/zoom_out.png</file>
-        <file>appicons/controls/legend.png</file>
+        <file>appicons/controls/zoom_to_fit.png</file>
         <file>appicons/status/goosed.png</file>
         <file>appicons/status/orright.png</file>
         <file>appicons/status/query.png</file>

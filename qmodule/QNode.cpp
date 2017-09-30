@@ -14,7 +14,6 @@
 #include "../CalenhadServices.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../nodeedit/qneport.h"
-#include "../messages/QNotificationService.h"
 #include "../nodeedit/QNodeBlock.h"
 #include "../actions/ChangeModuleCommand.h"
 #include "../preferences/PreferencesService.h"
