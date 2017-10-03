@@ -4,6 +4,7 @@
 
 #include <CalenhadServices.h>
 #include <QtWidgets/QGraphicsItem>
+#include <iostream>
 #include "NodeNameValidator.h"
 #include "../preferences/PreferencesService.h"
 #include "../exprtk/CalculatorService.h"
@@ -14,6 +15,7 @@
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
 using namespace calenhad::preferences;
+using namespace calenhad::pipeline;
 using namespace calenhad;
 
 NodeNameValidator::NodeNameValidator (QNode* node) :
@@ -27,7 +29,6 @@ NodeNameValidator::~NodeNameValidator () {
 
 QValidator::State NodeNameValidator::validate (QString& input, int& pos) const {
     QString errors = "";
-
     // make sure name is well-formed
     QValidator::State state = QRegularExpressionValidator::validate (input, pos);
     if (state != QValidator::Acceptable) {
@@ -53,7 +54,8 @@ QValidator::State NodeNameValidator::validate (QString& input, int& pos) const {
     }
 
     // make sure name isn't a duplicate (another node)
-    foreach (QGraphicsItem* item, _node -> model() -> items()) {
+    CalenhadModel* m = _node -> model();
+    foreach (QGraphicsItem* item, m -> items()) {
         if (item -> type() == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
             QNodeBlock* handle = (QNodeBlock*) item;
             if (input == handle -> node() -> name() && handle -> node() != _node) {

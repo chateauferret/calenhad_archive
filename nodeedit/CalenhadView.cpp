@@ -29,9 +29,10 @@ void CalenhadView::setZoom (const qreal& z) {
     qreal factor = z / zoom;
     scale (factor, factor);
     zoom = z;
-    QTransform xf = transform ();
+    QTransform xf = transform();
     double oldZoom = zoom;
     zoom = (xf.m11 () + xf.m22 ()) / 2;
+    emit viewZoomed (oldZoom, zoom);
 }
 
 double CalenhadView::currentZoom() {

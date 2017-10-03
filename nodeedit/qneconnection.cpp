@@ -28,6 +28,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../CalenhadServices.h"
 #include "qneport.h"
 #include "../preferences/PreferencesService.h"
+#include "qnetoolbox.h"
+#include <QMenu>
 
 using namespace calenhad::notification;
 using namespace calenhad::nodeedit;
@@ -79,7 +81,7 @@ void QNEConnection::updatePath() {
     QPen pen;
 
     if (m_port2) {
-        if (isSelected()) {
+        if (isSelected ()) {
             pen = QPen (CalenhadServices::preferences() -> calenhad_connector_selected_color, CalenhadServices::preferences() -> calenhad_connector_selected_weight);
         } else {
             pen = QPen (CalenhadServices::preferences() -> calenhad_connector_normal_color, CalenhadServices::preferences() -> calenhad_connector_normal_weight);
@@ -90,10 +92,10 @@ void QNEConnection::updatePath() {
 
     setPen (pen);
     p.moveTo (pos1);
-    qreal dx = pos2.x() - pos1.x();
-    qreal dy = pos2.y() - pos1.y();
-    QPointF ctr1 (pos1.x() + dx * 0.25, pos1.y() + dy * 0.1);
-    QPointF ctr2 (pos1.x () + dx * 0.75, pos1.y() + dy * 0.9);
+    qreal dx = pos2.x () - pos1.x ();
+    qreal dy = pos2.y () - pos1.y ();
+    QPointF ctr1 (pos1.x () + dx * 0.25, pos1.y () + dy * 0.1);
+    QPointF ctr2 (pos1.x () + dx * 0.75, pos1.y () + dy * 0.9);
     p.cubicTo (ctr1, ctr2, pos2);
     setPath (p);
 }
@@ -114,10 +116,10 @@ void QNEConnection::serialise (QDomDocument& doc) {
         connectionElement.appendChild (connectionFromElement);
         QDomElement connectionToElement = doc.createElement ("target");
         connectionElement.appendChild (connectionToElement);
-        connectionFromElement.setAttribute ("module", m_port1->owner ()->name ());
-        connectionToElement.setAttribute ("module", m_port2->owner ()->name ());
-        connectionFromElement.setAttribute ("output", m_port1->index ());
-        connectionToElement.setAttribute ("input", m_port2->index ());
+        connectionFromElement.setAttribute ("module", m_port1 -> owner() -> name ());
+        connectionToElement.setAttribute ("module", m_port2 -> owner() -> name ());
+        connectionFromElement.setAttribute ("output", m_port1 -> index());
+        connectionToElement.setAttribute ("input", m_port2 -> index ());
     }
 }
 
@@ -129,4 +131,8 @@ QNEPort* QNEConnection::otherEnd (QNEPort* port) {
     if (port == m_port1) { return m_port2; }
     if (port == m_port2) { return m_port1; }
     return nullptr;
+}
+
+void QNEConnection::mousePressEvent (QGraphicsSceneMouseEvent* e) {
+    QGraphicsItem::mousePressEvent (e);
 }

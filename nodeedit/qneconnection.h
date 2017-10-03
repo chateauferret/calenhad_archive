@@ -28,6 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include <QGraphicsPathItem>
 #include <QtXml/QDomDocument>
+#include <QtWidgets/QAction>
 
 namespace calenhad {
 	namespace notification {
@@ -72,6 +73,8 @@ namespace calenhad {
 
 			QNEPort* otherEnd (QNEPort* port);
 
+			void mousePressEvent (QGraphicsSceneMouseEvent* e) override;
+
 		private:
 
 			QPointF pos1;
@@ -80,7 +83,9 @@ namespace calenhad {
 			QNEPort* m_port2;
 
 
-		};
+			QMenu* _connectionContextMenu;
+            QAction* _deleteConnectionAction;
+        };
 	}
 }
 

@@ -93,13 +93,7 @@ namespace calenhad {
 
 			calenhad::qmodule::QNode* source();
 
-			Q_PROPERTY (QString name
-								READ
-										portName
-								WRITE
-										setName
-								MEMBER
-								_portName);
+			Q_PROPERTY (QString name READ portName WRITE setName MEMBER	_portName);
 
 		public slots:
 
@@ -130,6 +124,7 @@ namespace calenhad {
 
 
             NodeNameValidator* _nameValidator;
+
         };
 	}
 }

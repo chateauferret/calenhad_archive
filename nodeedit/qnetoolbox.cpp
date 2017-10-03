@@ -78,7 +78,7 @@ QString& ToolDrawer::name() {
 }
 
 CalenhadToolBar* ToolDrawer::toolbar() {
-    CalenhadToolBar* toolbar = new CalenhadToolBar (_name);
+    CalenhadToolBar* toolbar = new CalenhadToolBar (_name, (QWidget*) parent());
     toolbar -> setOrientation (Qt::Vertical);
     for (QAction* action : _tools.values()) {
         toolbar -> addAction (action);

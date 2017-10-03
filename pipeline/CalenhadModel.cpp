@@ -20,9 +20,11 @@
 #include "../exprtk/CalculatorService.h"
 #include "../libnoiseutils/nullmodule.h"
 #include <QGraphicsSceneMouseEvent>
+#include <actions/ContextAction.h>
 #include "../legend/LegendService.h"
 #include "../preferences/PreferencesService.h"
-#include "../legend/Legend.h"
+#include <QList>
+#include <QGraphicsItem>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -42,7 +44,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _description (""),
     _date (QDateTime::currentDateTime()),
     _controller (nullptr),
-    _highlighted (nullptr) {
+    _highlighted (nullptr),
+    _menu (nullptr) {
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
@@ -126,26 +129,29 @@ bool CalenhadModel::existsPath (QNodeBlock* from, QNodeBlock* to) {
 
 bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
     if (canConnect (output, input, true)) {
-        QNEConnection* c = new QNEConnection (0);
+        QNEConnection* c = new QNEConnection ();
+        c -> setParentItem (0);
+        c -> setZValue (-900);
         addItem (c);
         c -> setPort1 (output);
         c -> setPort2 (input);
         c -> updatePosFromPorts();
         c -> updatePath();
-        update();
+
 
         // tell the target owner to declare change requiring rerender
-        output -> owner () -> invalidate();
+        output -> owner() -> invalidate();
 
         // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
-        connect (output -> owner (), SIGNAL (nodeChanged()), input -> owner (), SLOT (invalidate()));
+        connect (output -> owner(), SIGNAL (nodeChanged()), input -> owner(), SLOT (invalidate()));
 
         // colour the input to show its connected status
         input -> setHighlight (QNEPort::PortHighlight::CONNECTED);
 
         // tell the target owner to declare change requiring rerender
         output -> owner () -> invalidate();
-        //input -> invalidateRenders();
+
+
         return true;
     } else {
         return false;
@@ -153,8 +159,8 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
 }
 
 void CalenhadModel::disconnectPorts (QNEConnection* connection) {
-    if (connection -> port1()) { connection -> port1() -> initialise (); }
-    if (connection -> port2()) { connection -> port2() -> initialise (); }
+    if (connection -> port1()) { connection -> port1() -> initialise(); }
+    if (connection -> port2()) { connection -> port2() -> initialise(); }
 
     // colour the input port to show its availability
     if (connection -> port1() -> type() != QNEPort::OutputPort) { connection -> port1() -> setHighlight (QNEPort::PortHighlight::NONE); }
@@ -167,12 +173,6 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
     removeItem (connection);
     delete connection;
     update();
-
-}
-
-QGraphicsItem* CalenhadModel::itemAt (const QPointF& pos) {
-       QGraphicsItem* item = QGraphicsScene::itemAt (pos, QTransform ());
-        return item;
 }
 
 // This handler is required to stop a right-click which brings up the context menu from clearing the selection.
@@ -192,35 +192,37 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         case QEvent::GraphicsSceneMousePress: {
             switch ((int) me -> button()) {
                 case Qt::LeftButton: {
-                    QGraphicsItem* item = itemAt (me -> scenePos ()) ;
-
-                    // click on nothing - deselect anything selected
-                    if (! item && ! conn) {
-                        for (QGraphicsItem* modelItem : items()) {
-                            if (modelItem -> isSelected()) {
-                                modelItem -> setSelected (false);
-                                modelItem -> update();
+                    QPointF pos = me -> scenePos();
+                    QList<QGraphicsItem*> items = QGraphicsScene::items (pos) ;
+                    foreach (QGraphicsItem* item, items) {
+                        // click on nothing - deselect anything selected
+                        if (!item && !conn) {
+                            for (QGraphicsItem* modelItem : QGraphicsScene::items ()) {
+                                if (modelItem->isSelected ()) {
+                                    modelItem->setSelected (false);
+                                    modelItem->update ();
+                                }
                             }
                         }
-                    }
 
-                    // click on an output port - create a connection which we can connect to another owner's input or control port
-                    if (item && item -> type () == QNEPort::Type) {
-                        // only allow connections from output ports to input ports
-                        QNEPort* port = ((QNEPort*) item);
-                        if (port -> portType() == QNEPort::OutputPort) {
-                            for (QGraphicsView* view : views()) {
-                                view -> setDragMode (QGraphicsView::NoDrag);
+                        // click on an output port - create a connection which we can connect to another owner's input or control port
+                        if (item && item->type () == QNEPort::Type) {
+                            // only allow connections from output ports to input ports
+                            QNEPort* port = ((QNEPort*) item);
+                            if (port->portType () == QNEPort::OutputPort) {
+                                for (QGraphicsView* view : views ()) {
+                                    view->setDragMode (QGraphicsView::NoDrag);
+                                }
+                                if (conn) { delete conn; }
+                                conn = new QNEConnection (0);
+                                addItem (conn);
+                                conn->setPort1 ((QNEPort*) item);
+                                conn->setPos1 (item -> scenePos());
+                                conn->setPos2 (me->scenePos ());
+                                conn->updatePath ();
+                                conn->canDrop = false;
+                                return true;
                             }
-                            if (conn) { delete conn; }
-                            conn = new QNEConnection (0);
-                            addItem (conn);
-                            conn -> setPort1 ((QNEPort*) item);
-                            conn -> setPos1 (item -> scenePos ());
-                            conn -> setPos2 (me -> scenePos ());
-                            conn -> updatePath ();
-                            conn -> canDrop = false;
-                            return true;
                         }
                     }
                     break;
@@ -229,20 +231,14 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 case Qt::RightButton: {
 
                     if (! conn) {
-                        QGraphicsItem* item = itemAt (me -> scenePos ());
-                        /*if (item) {
-
-                            // right click on existing connection: context menu (to do)
-                            if (item -> nodeType() == QNEConnection::Type) {
-
-
+                        QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos ());
+                        foreach (QGraphicsItem* item, items) {
+                            QMenu* menu = makeMenu (item);
+                            if (menu) {
+                                menu->exec (me->screenPos ());
+                                break;
                             }
-                        } */
-                        QMenu* menu = _controller -> getContextMenu (item);
-                        if (menu) {
-                            menu -> exec (me -> screenPos());
                         }
-
                     }
                     break;
                 }
@@ -256,27 +252,33 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             }
             if (conn) {
                // _viewToolsGroup -> toolToggled (false);
+                conn -> setParentItem (0);
+                conn -> setZValue (1000);
+
                 conn -> setPos2 (me -> scenePos());
                 conn -> updatePath ();
                 conn -> canDrop = false;
 
-                QGraphicsItem* item = itemAt (me -> scenePos ());
-                if (item && item -> type () == QNEPort::Type) {
-                    QNEPort* port = (QNEPort*) item;
-                    if (port != conn -> port1() && ! (port -> hasConnection())) {
-                        if (canConnect (conn -> port1(), port)) {
-                            // Change colour of a port if we mouse over it and can make a connection to it
-                            port -> setHighlight (QNEPort::PortHighlight::CAN_CONNECT);
-                            _port = port;
+                QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos ());
+                foreach (QGraphicsItem* item, items) {
+                        if (item && item->type () == QNEPort::Type) {
+                            QNEPort* port = (QNEPort*) item;
+                            if (port != conn -> port1 () && !(port->hasConnection ())) {
+                                if (canConnect (conn -> port1 (), port)) {
+                                    // Change colour of a port if we mouse over it and can make a connection to it
+                                    port -> setHighlight (QNEPort::PortHighlight::CAN_CONNECT);
+                                    _port = port;
+                                }
+                            }
+                        } else {
+                            if (_port) {
+                                // If we moved off a port without making a connection to it, set it back to its unoccupied colour
+                                _port -> setHighlight (QNEPort::PortHighlight::NONE);
+                                _port = nullptr;
+                            }
                         }
                     }
-                } else {
-                    if (_port) {
-                        // If we moved off a port without making a connection to it, set it back to its unoccupied colour
-                        _port -> setHighlight (QNEPort::PortHighlight::NONE);
-                        _port = nullptr;
-                    }
-                }
+                update();
                 return true;
             } else {
                 if (! _activeTool) {
@@ -302,16 +304,18 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     _port -> update();
                 }
                 if (conn && me -> button() == Qt::LeftButton) {
-                    QGraphicsItem* item = itemAt (me -> scenePos());
-                    if (item && item -> type () == QNEPort::Type) {
-                        QNEPort* port1 = conn -> port1();
-                        QNEPort* port2 = (QNEPort*) item;
-                        removeItem (conn);
-                        if (!connectPorts (port1, port2)) {
-                            // if connection successful, clear the connection to avoid starting a new one immediately
-                            delete conn;
-                            conn = nullptr;
-                            return true;
+                    QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
+                    foreach (QGraphicsItem* item, items) {
+                        if (item && item->type () == QNEPort::Type) {
+                            QNEPort* port1 = conn -> port1 ();
+                            QNEPort* port2 = (QNEPort*) item;
+                            removeItem (conn);
+                            if (! connectPorts (port1, port2)) {
+                                // if connection successful, clear the connection to avoid starting a new one immediately
+                                delete conn;
+                                conn = nullptr;
+                                return true;
+                            }
                         }
                     }
                 }
@@ -321,7 +325,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (! type.isNull ()) {
                     addNode (me->scenePos (), type);
                 }
-                _controller -> clearTools();
+                ((Calenhad*) _controller -> parent()) -> clearTools();
                 setActiveTool (nullptr);
             }
         }
@@ -352,11 +356,13 @@ QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     if (type != QString::null) {
         QModule* module = (QModule*) CalenhadServices::modules() -> createModule (type);
+        module -> setModel (this);
         AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
         _controller -> doCommand (command);
         module = (QModule*) command -> node();
         module -> setName (name);
-        return module;
+
+       return module;
     } else {
         CalenhadServices::messages() -> message ("error", "Couldn't create module of type " + type + "\n");
         return nullptr;
@@ -365,8 +371,8 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
 
 QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& name) {
     QNodeGroup* group = new QNodeGroup();
+    group -> setModel (this);
     group -> initialise();
-    group -> setName (name);
     AddNodeCommand* command = new AddNodeCommand (group, initPos, this);
     _controller -> doCommand (command);
     group = (QNodeGroup*) command -> node();
@@ -376,33 +382,27 @@ QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& 
 }
 
 QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
-    if (dynamic_cast<QModule*> (node)) {
-        QNodeBlock* b = new QNodeBlock ((QModule*) node);
-        b -> initialise();
-        return addNode (node, initPos, b);
+    QNodeBlock* b;
+    QNodeGroup* ng = dynamic_cast<QNodeGroup*> (node);
+    if (ng) {
+        QNodeGroupBlock* ngb = new QNodeGroupBlock (ng, 0);
+        b = ngb;
+    } else {
+        b = new QNodeBlock (node, 0);
     }
-    if (dynamic_cast<QNodeGroup*> (node)) {
-        QNodeGroupBlock* b = new QNodeGroupBlock ((QNodeGroup*) node);
-        b -> initialise();
-        return addNode (node, initPos, b);
-    }
-    return nullptr;
-}
-
-
-QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos, QNodeBlock* b) {
+    b -> initialise();
     node -> setHandle (b);
     addItem (b);
-    b -> setPos (initPos.x (), initPos.y ());
+    b -> setPos (initPos.x(), initPos.y());
 
     connect (node, &QNode::nameChanged, b, &QNodeBlock::nodeChanged);
-    for (QNEPort* port : node->ports ()) {
+    for (QNEPort* port : node -> ports ()) {
         b -> addPort (port);
     }
-    node -> setModel (this);
+
     b -> assignGroup();
     b -> assignIcon();
-    node -> invalidate ();
+    update();
     return node;
 }
 
@@ -445,7 +445,7 @@ void CalenhadModel::deleteNode (QNode* node) {
 }
 
 CalenhadModel::~CalenhadModel() {
-
+    if (_menu) { delete _menu; }
 }
 
 QList<QNodeGroup*> CalenhadModel::nodeGroups() {
@@ -729,3 +729,31 @@ void CalenhadModel::rollbackLegends() {
     inflate (file, CalenhadFileType::CalenhadLegendFile);
 }
 
+QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
+    if (_menu) { delete _menu; }
+    // construct menu for whatever item type here because QGraphicsItem does not extend QObject, so we can't call connect within QGraphicsItem
+    if (dynamic_cast<QNEConnection*> (item)) {
+        // connection actions
+        _menu = new QMenu ("Connection");
+        QNEConnection* c = static_cast<QNEConnection*> (item);
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/disconnect.png"), "Disconnect", "Delete this connection from the model", CalenhadAction::DeleteConnectionAction, c));
+        return _menu;
+    }
+    if (dynamic_cast<QNodeBlock*> (item)) {
+        QNodeBlock* block = static_cast<QNodeBlock*> (item);
+        QNode* n = block -> node();
+        _menu = new QMenu (n -> name() + " (" + n -> nodeType() + ")");
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons.controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, block));
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons.controls/delete.png"), tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, block));
+        return _menu;
+    }
+}
+
+QAction* CalenhadModel::makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item) {
+    ContextAction<QGraphicsItem>* action = new ContextAction<QGraphicsItem> (item, icon, name, this);
+    action -> setStatusTip (statusTip);
+    action -> setCheckable (false);
+    action -> setData (id);
+    connect (action, &QAction::triggered, _controller, &CalenhadController::actionTriggered);
+    return action;
+}

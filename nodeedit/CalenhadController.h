@@ -35,12 +35,11 @@ namespace calenhad {
 
 		public:
 
-
 			explicit CalenhadController (Calenhad* parent = 0);
 
 			virtual ~CalenhadController ();
 
-			void setModel (calenhad::pipeline::CalenhadModel* scene);
+			void setModel (calenhad::pipeline::CalenhadModel* model);
 
 			calenhad::pipeline::CalenhadModel* model ();
 
@@ -51,19 +50,8 @@ namespace calenhad {
 			void doCommand (QUndoCommand* c);
 
 			void addParamsWidget (QToolBar* toolbar, calenhad::qmodule::QNode* node);
-
-			void addMenus (QMenuBar* menuBar);
-
-			QMenu* getContextMenu (QGraphicsItem* item);
-
-			QMenu* getContextMenu ();
-
-			QMenu* getContextMenu (calenhad::qmodule::QNode* node);
-
-			void setSelectionActionsEnabled (const bool& enabled);
-
-			QWidget* nodeRoster ();
-
+            bool canUndo();
+            bool canRedo();
 
 		public slots:
 
@@ -71,46 +59,16 @@ namespace calenhad {
 
 			void showMessage (QString message);
 
-			void clearTools ();
-
-			void actionTriggered ();
-
+            void actionTriggered();
+        signals:
+            void canUndoChanged();
+            void canRedoChanged();
 
 		private:
-			QList<CalenhadView*>* _views;
-			ToolDrawer* _viewDrawer;
-			ToolDrawer* _editDrawer;
-			QUndoStack* _undoStack;
-			ToolDrawer* _addModuleDrawer;
-			ToolGroup* _addModuleGroup;
-			calenhad::pipeline::CalenhadModel* _model;
-			QGraphicsItem* _contextItem;
-			calenhad::qmodule::QNode* _contextNode;
+            QList<CalenhadView*>* _views;
+            calenhad::pipeline::CalenhadModel* _model;
 
-			void addModuleTool (const QString& name, const QString& tooltip);
-
-			QMenu* _moduleContextMenu;
-			QMenu* _connectionContextMenu;
-			QMenu* _outputPortContextMenu;
-			QMenu* _inputPortContextMenu;
-			QMenu* _defaultContextMenu;
-			QMenu* _zoomMenu;
-			QMenu* _addModuleMenu;
-			//void makeContextMenus ();
-
-			QAction* undoAction, * redoAction;
-			QAction* zoomInAction;
-			QAction* zoomOutAction;
-			QAction* zoomToFitAction;
-			QAction* zoomSelectionAction;
-			QAction* deleteConnectionAction;
-			QAction* deleteModuleAction;
-			QAction* deleteSelectionAction;
-			QAction* duplicateModuleAction;
-
-			QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false);
-
-			QWidget* _nodeRoster;
+            QUndoStack* _undoStack;
 		};
 
 	}

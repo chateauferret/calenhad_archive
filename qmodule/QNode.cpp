@@ -200,7 +200,6 @@ void QNode::invalidate() {
 }
 
 void QNode::setModel (CalenhadModel* model) {
-    if (! _model) {
         _model = model;
         for (ExpressionWidget* widget : _parameters.values ()) {
             connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
@@ -209,11 +208,6 @@ void QNode::setModel (CalenhadModel* model) {
             connect (widget, &ExpressionWidget::expressionChanged, this, &QNode::nodeChanged);
         }
 
-        emit nodeChanged();
-
-    } else {
-        std::cout << "Can't reassign owner to another model";
-    }
 }
 
 void QNode::showParameters (const bool& visible) {

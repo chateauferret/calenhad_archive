@@ -44,8 +44,11 @@ QColor Legend::lookup (const double& index) {
             return entry.first <= index;
         });
         std::map<double, QColor>::iterator j = i;
-        QColor color = interpolateColors (i, --j, index);
-        return color;
+        if (j == _entries.begin()) {
+            return _entries.begin() -> second;
+        } else {
+            return interpolateColors (i, --j, index);
+        }
     } else {
         std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
             return entry.first <= index;

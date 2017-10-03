@@ -56,8 +56,6 @@ namespace calenhad {
 
             calenhad::qmodule::QNodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
 
-            calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos);
-
             void deleteNode (calenhad::qmodule::QNode* node);
 
             bool canConnect (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input, const bool& verbose = false);
@@ -70,7 +68,7 @@ namespace calenhad {
 
             void setActiveTool (QAction* tool);
 
-            QGraphicsItem* itemAt (const QPointF& pos);
+            QList<QGraphicsItem>* itemAt (const QPointF& pos);
 
             void setController (calenhad::nodeedit::CalenhadController* controller);
 
@@ -94,6 +92,8 @@ namespace calenhad {
             void writeParameter (QDomElement& element, const QString& param, const QString& value);
 
             void highlightGroupAt (QPointF pos);
+
+            calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos);
 
             public slots:
             void commitLegends();
@@ -124,14 +124,15 @@ namespace calenhad {
 
             void readMetadata (const QDomDocument& doc);
 
-            calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos, calenhad::nodeedit::QNodeBlock* b);
-
             calenhad::nodeedit::QNodeGroupBlock* _highlighted;
 
 
             bool nameExists (const QString& name);
+            QMenu* _menu;
 
+            QMenu* makeMenu (QGraphicsItem* item);
 
+            QAction* makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item = 0);
         };
     }
 }

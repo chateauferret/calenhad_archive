@@ -16,7 +16,6 @@ include_directories(${Qt5Core_INCLUDE_DIRS})
 include_directories(${Qt5Xml_INCLUDE_DIRS})
 
 SET(MESSAGES_SOURCE_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/QNotificationService.h
         ${CMAKE_CURRENT_LIST_DIR}/QNotificationHost.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QNotificationHost.h
         ${CMAKE_CURRENT_LIST_DIR}/QNotification.cpp

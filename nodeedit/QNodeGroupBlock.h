@@ -6,12 +6,14 @@
 #define CALENHAD_QNODEGROUPBLOCK_H
 
 
+#include <qmodule/QNodeGroup.h>
 #include "QNodeBlock.h"
 #include "../controls/SizeGripItem.h"
 
 namespace calenhad {
     namespace qmodule {
         class QModule;
+        class QNodeGroup;
     }
     namespace nodeedit {
 
@@ -27,7 +29,7 @@ namespace calenhad {
                 Type = QGraphicsItem::UserType + 8
             };
 
-            QNodeGroupBlock (calenhad::qmodule::QNode* node, QGraphicsItem* parent = 0);
+            QNodeGroupBlock (calenhad::qmodule::QNodeGroup* node, QGraphicsItem* parent = 0);
 
             virtual ~QNodeGroupBlock ();
 

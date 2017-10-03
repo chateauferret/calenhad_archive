@@ -16,7 +16,7 @@ using namespace calenhad::qmodule;
 using namespace calenhad::controls;
 
 
-QNodeGroupBlock::QNodeGroupBlock (QNode* node, QGraphicsItem* parent) : QNodeBlock (node, parent) {
+QNodeGroupBlock::QNodeGroupBlock (QNodeGroup* node, QGraphicsItem* parent) : QNodeBlock (node, parent) {
     _rect = QRectF (0, 0, 240, 120);
     setAcceptHoverEvents (true);
     setAcceptDrops (true);
@@ -36,6 +36,7 @@ void QNodeGroupBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* 
     if (_highlighted) {
         _brush.setColor (_brush.color().lighter());
     }
+
     painter -> setBrush (_brush);
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_nodegroup_text_color_selected : CalenhadServices::preferences() -> calenhad_nodegroup_text_color_normal);
     painter -> setPen (_pen);
@@ -66,7 +67,7 @@ void QNodeGroupBlock::nodeChanged () {
 void QNodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     QNodeBlock::mouseReleaseEvent (event);
     if (parentItem ()) {
-        setZValue (parentItem ()->zValue () + 1);
+        setZValue (parentItem () -> zValue () + 1);
     } else {
         setZValue (-1000);
     }

@@ -43,127 +43,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../nodeedit/qneport.h"
 #include "../qmodule/QModule.h"
 #include <QAction>
+#include <actions/ContextAction.h>
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
 using namespace calenhad::actions;
 
-CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()) {
-
-    // tool groups - activating a toggle action deactivates all others in the same group (like a radio button)
-    _addModuleGroup = new ToolGroup();
-    Calenhad::toolbox -> addGroup (_addModuleGroup);
-
-    _nodeRoster = new QWidget();
-    _nodeRoster -> setLayout (new QGridLayout());
-
-    // tool drawers - tools in the same drawer are grouped in the UI
-    _addModuleDrawer = new ToolDrawer ("Modules");
-    Calenhad::toolbox -> addDrawer (_addModuleDrawer);
-    _viewDrawer = new ToolDrawer ("View");
-    Calenhad::toolbox -> addDrawer (_viewDrawer);
-    _editDrawer = new ToolDrawer ("Edit");
-    Calenhad::toolbox -> addDrawer (_editDrawer);
-
-    // create context menus
-    _connectionContextMenu = new QMenu ("Connection");
-    _moduleContextMenu = new QMenu ("Module");
-    _outputPortContextMenu = new QMenu ("Output");
-    _inputPortContextMenu = new QMenu ("Input");
-    _defaultContextMenu = new QMenu ("Menu");
-    _addModuleMenu = new QMenu ("Add module");
-
-//    _connectionContextMenu -> addMenu (connectInputMenu());
-//    _connectionContextMenu -> addMenu (connectOutputMenu());
-//    _outputPortContextMenu -> addMenu (connectInputMenu());
-//    _inputPortContextMenu -> addMenu (connectOutputMenu());
-
-    // tools to create modules
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_perlin, "Perlin noise");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_billow, "Billow noise");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "Ridged multifractal noise");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_cylinders, "Cylindrical distance function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_spheres, "Spherical distance function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_exponent, "Exponent function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_translate, "Translation function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_rotate, "Rotation function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_scalepoint, "Scale points");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_scalebias, "Scale and bias");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_add, "Add values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_diff, "Difference between values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_clamp, "Clamp values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_constant, "Constant value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_abs, "Absolute value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_blend, "Blend points");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_invert, "Invert values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_max, "Maximum value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_min, "Minimum value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_voronoi, "Voronoi pattern");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_select, "Select input");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_turbulence, "Turbulence");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
-
-    // A tool for adding a new node group
-    QAction* tool = createTool (QIcon (":/sppicons/controls/group_add.png"), "NodeGroup", "Add a new group", "NodeGroup", _addModuleDrawer, true);
-    tool -> setCheckable (true);
-    _addModuleGroup -> addTool (tool);
-
-    _zoomMenu = new QMenu ("Zoom");
-    _defaultContextMenu -> addMenu (parent -> toolbox -> menu ("Modules"));
-    _defaultContextMenu -> addMenu (_zoomMenu);
-
-    // scale actions
-    zoomInAction = createTool (QIcon (":/appicons/controls/zoom_in.png"), ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
-    zoomOutAction = createTool (QIcon (":/appicons/controls/zoom_out.png"), tr ("Zoom &out"), "Zoom out", CalenhadAction::ZoomOutAction, _viewDrawer);
-    zoomToFitAction = createTool (QIcon (":/appicons/controls/zoom_to_fit.png"), tr ("Zoom to &fit"), "Zoom to fit", CalenhadAction::ZoomToFitAction, _viewDrawer);
-    zoomSelectionAction = createTool (QIcon (":/appicons/controls/zoom.png"), tr ("Zoom to &selection"), "Zoom to selection", CalenhadAction::ZoomToSelectionAction, _viewDrawer);
-    _zoomMenu -> addAction (zoomInAction);
-    _zoomMenu -> addAction (zoomOutAction);
-    _zoomMenu -> addAction (zoomToFitAction);
-    _zoomMenu -> addAction (zoomSelectionAction);
-
-    // undo/redo apparatus
-    _undoStack = new QUndoStack();
-    undoAction = createTool (QIcon (":/appicons/controls/undo.png"), tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
-    redoAction = createTool (QIcon (":/appicons/controls/redo.png"), tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
-    undoAction -> setEnabled (_undoStack -> canUndo());
-    redoAction -> setEnabled (_undoStack -> canRedo());
-    _defaultContextMenu -> addAction (undoAction);
-    _defaultContextMenu -> addAction (redoAction);
-    connect (_undoStack, &QUndoStack::canUndoChanged, this, [=] () { undoAction -> setEnabled (_undoStack -> canUndo()); });
-    connect (_undoStack, &QUndoStack::canRedoChanged, this, [=] () { redoAction -> setEnabled (_undoStack -> canRedo()); });
-
-    // connection actions
-    deleteConnectionAction = createTool (QIcon (":/appicons.controls/disconnect.png"), tr ("Disconnect"), "Remove connection between modules", CalenhadAction::DeleteConnectionAction, _editDrawer);
-    _connectionContextMenu -> addAction (deleteConnectionAction);
-
-    // other module actions
-    deleteSelectionAction = createTool (QIcon (":/appicons.controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
-    deleteSelectionAction -> setEnabled (false);
-    //_moduleContextMenu -> addAction (deleteModuleAction);
-    _moduleContextMenu -> addAction (deleteSelectionAction);
-
-    duplicateModuleAction = createTool (QIcon (":/appicons.controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, _editDrawer);
-    _moduleContextMenu -> addAction (duplicateModuleAction);
+CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()), _undoStack (new QUndoStack()) {
+    connect (_undoStack, &QUndoStack::canUndoChanged, this, &CalenhadController::canUndoChanged);
+    connect (_undoStack, &QUndoStack::canRedoChanged, this, &CalenhadController::canRedoChanged);
 }
 
-
-QAction* CalenhadController::createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle) {
-    QAction* tool = new QAction (icon, name, this);
-    tool -> setStatusTip (statusTip);
-    tool -> setCheckable (toggle);
-    tool -> setData (id);
-
-    drawer -> addTool (tool);
-    if (toggle) {
-        connect (tool, SIGNAL (toggled (bool)), this, SLOT (toolSelected (bool)));
-    } else {
-        connect (tool, SIGNAL (triggered()), this, SLOT (actionTriggered ()));
-    }
-    return tool;
-}
 
 void CalenhadController::addView (CalenhadView* view) {
     _views -> append (view);
@@ -177,39 +68,20 @@ CalenhadController::~CalenhadController() {
     if (_views) {
         delete _views;
     }
-    delete _addModuleGroup;
-    delete _viewDrawer;
-    delete _editDrawer;
-    delete _addModuleDrawer;
+
 }
 
-// to do - provide further lookup for name to localisation file
-void CalenhadController::addModuleTool (const QString& name, const QString& tooltip) {
-    QAction* tool = createTool (QIcon (":/resources/appicons/tools/" + name + ".png"), name, tooltip, name, _addModuleDrawer, true);
-    tool -> setCheckable (true);
-    _addModuleGroup -> addTool (tool);
-
-    // try drag and drop stuff - for now just for NodeGroup
-    if (name == "NodeGroup") {
-
-    }
-}
-
-void CalenhadController::setModel (CalenhadModel* s) {
-    _model = s;
-    connect (s, &QGraphicsScene::selectionChanged, this, [=] () {
-        setSelectionActionsEnabled (! (s -> selectedItems().isEmpty()));
+void CalenhadController::setModel (CalenhadModel* model) {
+    _model = model;
+    connect (model, &QGraphicsScene::selectionChanged, this, [=] () {
+        ((Calenhad*) parent()) -> setSelectionActionsEnabled (! (model -> selectedItems().isEmpty()));
     });
 
-    connect (s, SIGNAL (showMessage (QString)), this, SLOT (showMessage (QString)));
+    connect (model, SIGNAL (showMessage (QString)), this, SLOT (showMessage (QString)));
 }
 
 CalenhadModel* CalenhadController::model () {
     return _model;
-}
-
-void CalenhadController::clearTools() {
-    _addModuleGroup -> toolToggled (false);
 }
 
 void CalenhadController::toolSelected (bool state) {
@@ -239,61 +111,25 @@ void CalenhadController::showMessage (QString message) {
     CalenhadServices::messages() -> message ("info", message);
 }
 
-QMenu* CalenhadController::getContextMenu (QGraphicsItem* item) {
-    _contextItem = item;
-    if (! item) {
-        return _defaultContextMenu;
-    }
-    else if (item -> type() == QNEConnection::Type) {
-        return _connectionContextMenu;
-    }
-    else if (item -> type() == QNodeBlock::Type) {
-        QNodeBlock* handle = (QNodeBlock*) item;
-        calenhad::qmodule::QNode* node = handle -> node();
-        return getContextMenu (node);
-    }
-    else if (item -> type() == QNEPort::Type) {
-        QNEPort* port = (QNEPort*) item;
-        if (port -> portType() == QNEPort::OutputPort) {
-            return _outputPortContextMenu;
-        } else {
-           return  _inputPortContextMenu;
-        }
-    }
-    return _defaultContextMenu;
-}
-
-QMenu* CalenhadController::getContextMenu (QNode* node) {
-    _contextNode = node;
-    if (dynamic_cast<QModule*> (node)) {
-        return _moduleContextMenu;
-    } else {
-        return _defaultContextMenu; // for now
-    }
-}
-
-QMenu* CalenhadController::getContextMenu() {
-    return _defaultContextMenu;
-}
-
-void CalenhadController::actionTriggered () {
-
+void CalenhadController::actionTriggered() {
     // fire the selected action
     QAction* action = (QAction*) sender();
+    ContextAction<QGraphicsItem>* ca = dynamic_cast<ContextAction<QGraphicsItem>*> (action);
+    if (ca) {
+        if (action->data () == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<QNEConnection*> (ca -> context()), _model)); }
+        if (action->data () == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand ((static_cast<QNodeBlock*> (ca -> context())) -> node (), _model)); }
+        if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<QNodeBlock*> (ca -> context())) -> node (), _model)); }
+    }
     if (action -> data() == CalenhadAction::ZoomInAction) { doCommand (new ZoomCommand (0.1, _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomOutAction) { doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
-    if (action -> data() == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<QNEConnection*> (_contextItem), _model)); }
 
-    // to do - delete other kinds of node
-    if (action -> data() == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand (_contextNode,  _model)); }
-    if (action -> data() == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand (_contextNode,  _model)); }
     if (action -> data() == CalenhadAction::DeleteSelectionAction) {
         CommandGroup* group = new CommandGroup ();
         for (QGraphicsItem* item : _model->selectedItems ()) {
             // to do - delete other kinds of node
-            if (item->type () == QGraphicsItem::UserType + 3) { // block
+            if (item -> type () == QGraphicsItem::UserType + 3) { // block
                 QNode* node = ((QNodeBlock*) item) -> node();
                 // to do - generalise this to delete groups too
                 QModule* module = dynamic_cast<QModule*> (node);
@@ -313,11 +149,6 @@ void CalenhadController::actionTriggered () {
 
 void CalenhadController::doCommand (QUndoCommand* c) {
     _undoStack->push (c);
-    if (! _views -> isEmpty ()) {
-        double z = _views->at (0)->currentZoom ();
-        zoomInAction->setEnabled (z < 4.0);
-        zoomOutAction->setEnabled (z > 0.025);
-    }
     showMessage (c -> text());
 }
 
@@ -326,20 +157,11 @@ void CalenhadController::addParamsWidget (QToolBar* toolbar, QNode* node) {
     mainWindow -> addToolbar (toolbar, node);
 }
 
-void CalenhadController::addMenus (QMenuBar* menuBar) {
-    QMenu* editMenu = menuBar -> findChild<QMenu*>("editMenu");
-    if (editMenu) {
-        editMenu -> addAction (deleteSelectionAction);
-        editMenu -> addSeparator();
-        editMenu -> addAction (undoAction);
-        editMenu -> addAction (redoAction);
-    }
+bool CalenhadController::canUndo () {
+    return _undoStack -> canUndo();
 }
 
-void CalenhadController::setSelectionActionsEnabled (const bool& enabled) {
-    deleteSelectionAction -> setEnabled (enabled);
-}
 
-QWidget* CalenhadController::nodeRoster() {
-    return _nodeRoster;
+bool CalenhadController::canRedo () {
+    return _undoStack -> canRedo();
 }

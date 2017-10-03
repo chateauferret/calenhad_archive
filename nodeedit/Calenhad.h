@@ -31,7 +31,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QDockWidget>
 #include <QtXml/QDomDocument>
 #include <QtCore/QMap>
+#include <QtWidgets/QUndoStack>
+#include <QtWidgets/QGraphicsItem>
 #include "../messages/QNotificationHost.h"
+#include "qnetoolbox.h"
 
 namespace calenhad {
     namespace controls {
@@ -70,7 +73,7 @@ namespace calenhad {
 
             ~Calenhad ();
 
-            static QNEToolBox* toolbox;
+            QNEToolBox* _toolbox;
 
             void setModel (calenhad::pipeline::CalenhadModel* model);
 
@@ -81,6 +84,9 @@ namespace calenhad {
             void addToolbar (QToolBar* toolbar, calenhad::qmodule::QNode* node);
 
             CalenhadController* controller ();
+
+            void clearTools ();
+            void setSelectionActionsEnabled (const bool& enabled);
 
         private slots:
 
@@ -108,6 +114,53 @@ namespace calenhad {
             void resizeEvent (QResizeEvent* event) override;
 
             void moveEvent (QMoveEvent* event);
+
+
+            ToolDrawer* _viewDrawer;
+            ToolDrawer* _editDrawer;
+
+            ToolDrawer* _addModuleDrawer;
+            ToolGroup* _addModuleGroup;
+
+
+
+            void addModuleTool (const QString& name, const QString& tooltip);
+
+            QMenu* _moduleContextMenu;
+            QMenu* _connectionContextMenu;
+            QMenu* _outputPortContextMenu;
+            QMenu* _inputPortContextMenu;
+            QMenu* _defaultContextMenu;
+            QMenu* _zoomMenu;
+            QMenu* _addModuleMenu;
+            //void makeContextMenus ();
+
+            QAction* undoAction, * redoAction;
+            QAction* zoomInAction;
+            QAction* zoomOutAction;
+            QAction* zoomToFitAction;
+            QAction* zoomSelectionAction;
+            QAction* deleteConnectionAction;
+            QAction* deleteModuleAction;
+            QAction* deleteSelectionAction;
+            QAction* duplicateModuleAction;
+
+            QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false);
+
+            QWidget* _nodeRoster;
+            QGraphicsItem* _contextItem;
+            void addMenus (QMenuBar* menuBar);
+
+
+
+            QMenu* getContextMenu (QGraphicsItem* item);
+
+            QMenu* getContextMenu (qmodule::QNode* node);
+
+            QMenu* getContextMenu ();
+
+
+            void updateZoomActions ();
         };
     }
 }

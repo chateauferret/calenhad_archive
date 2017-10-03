@@ -55,7 +55,7 @@ QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem 
     _size = QSize (CalenhadServices::preferences() -> calenhad_handle_module_width, CalenhadServices::preferences() -> calenhad_handle_module_height);
     _margin = CalenhadServices::preferences() -> calenhad_handle_module_margin;
     _nameValidator = new NodeNameValidator (_node);
-
+    setZValue (0);
 }
 
 QNodeBlock::~QNodeBlock() {
@@ -104,22 +104,27 @@ void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* optio
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_module_text_color_selected : CalenhadServices::preferences() -> calenhad_module_text_color_normal);
     painter -> setPen (_pen);
     painter -> drawPath (path());
-    _icon -> setColor (isSelected() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark() : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark());
-    painter -> drawPixmap ( _margin, _margin, _icon -> grab());
+    if (_icon) {
+        _icon->setColor (isSelected () ? CalenhadServices::preferences ()->calenhad_module_brush_color_selected.dark ()
+                                       : CalenhadServices::preferences ()->calenhad_module_brush_color_normal.dark ());
+        painter->drawPixmap (_margin, _margin, _icon->grab ());
+    }
     QPixmap _endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
     painter -> drawPixmap (0, 0, _endorsement);
 
 }
 
 void QNodeBlock::assignIcon() {
-    if (_icon) { delete _icon; }
-    _icon = new QColoredIcon();
-    _icon->setToolTip (node() -> nodeType());
-    _icon -> setAlignment (Qt::AlignCenter);
-    _icon -> setPixmap (_pixmap -> scaled (32, 32));
-    _icon -> setFixedSize (_pixmap -> size ());
-    _icon -> setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
-    _icon -> setFixedSize (32, 32);
+    if (_pixmap) {
+        if (_icon) { delete _icon; }
+        _icon = new QColoredIcon ();
+        _icon->setToolTip (node ()->nodeType ());
+        _icon->setAlignment (Qt::AlignCenter);
+        _icon->setPixmap (_pixmap->scaled (32, 32));
+        _icon->setFixedSize (_pixmap->size ());
+        _icon->setColor (CalenhadServices::preferences ()->calenhad_toolpalette_icon_color_normal);
+        _icon->setFixedSize (32, 32);
+    }
 }
 
 QNEPort* QNodeBlock::addPort (QNEPort* port) {
@@ -275,7 +280,7 @@ void QNodeBlock::assignGroup() {
     }
     QNodeGroupBlock* target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
     // assign this node to the target group, if there is one (and if not already assigned)
-    setZValue (0);
+    //setZValue (0);
     if (target) {
         _node -> setGroup ((QNodeGroup*) target -> node ());
         attach (target);

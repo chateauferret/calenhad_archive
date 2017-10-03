@@ -80,6 +80,7 @@ QNEPort::~QNEPort () {
     foreach (QNEConnection* conn, m_connections) delete conn;
 }
 
+
 void QNEPort::setBlock (QNodeBlock* b) {
     if (! _block) {
         _block = b;
