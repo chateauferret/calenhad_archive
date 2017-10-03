@@ -166,9 +166,6 @@ void CalenhadMapWidget::paintGL() {
     GLubyte c = 0;
     std::vector<GLubyte> emptyData (m_texture -> width() * m_texture -> height() * 4, 0);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_texture -> width(), m_texture -> height(), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
-
-    std::cout << "Repaint with projection " << _projection -> name().toStdString() << "\n";
-
     glUniform1i (destLoc, 0);
     glUniform1i (insetLoc, 1);
     glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude());

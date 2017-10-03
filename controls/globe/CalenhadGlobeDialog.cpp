@@ -24,6 +24,7 @@
 #include <QWindow>
 #include "../../mapping/projection/Projection.h"
 #include "../../qmodule/QModule.h"
+#include "../../preferences/PreferencesService.h"
 
 class QwtCompass;
 
@@ -62,11 +63,11 @@ void CalenhadGlobeDialog::initialise() {
     _zoomSlider -> setGroove (true);
     _zoomSlider -> setTrough (false);
     _zoomSlider -> setScalePosition (QwtSlider::NoScale);
-    _zoomSlider -> setLowerBound (1.2);
-    _zoomSlider -> setUpperBound (0.01);
+    _zoomSlider -> setLowerBound (CalenhadServices::preferences() -> calenhad_globe_zoom_max);
+    _zoomSlider -> setUpperBound (CalenhadServices::preferences() -> calenhad_globe_zoom_min);
     _zoomSlider -> move (width() - 20, height() - 20);
     _zoomSlider -> setFixedSize (40, 150);
-
+    connect (_globe, &CalenhadMapView::zoomRequested, _zoomSlider, &QwtSlider::setValue);
     connect (_zoomSlider, SIGNAL (valueChanged (const double&)), this, SLOT (setZoom (const double&)));
     _zoomSlider -> setValue (1.0);
 
@@ -166,8 +167,11 @@ void CalenhadGlobeDialog::paintEvent (QPaintEvent* e) {
 }
 
 void CalenhadGlobeDialog::setZoom (const double& zoom) {
-    _globe->setScale (zoom);
-    invalidate();
+    if (zoom <= CalenhadServices::preferences() -> calenhad_globe_zoom_max && zoom >= CalenhadServices::preferences() -> calenhad_globe_zoom_min) {
+        _globe -> setScale (zoom);
+        invalidate ();
+    }
+    std::cout << zoom << "\n";
 }
 
 double CalenhadGlobeDialog::zoom() {

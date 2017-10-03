@@ -60,7 +60,7 @@ namespace calenhad {
                 void setMouseDragMode (const CalenhadGlobeDragMode& mode);
 
             signals:
-
+                void zoomRequested (const double& zoom);
 
 
             protected:
@@ -92,6 +92,8 @@ namespace calenhad {
                 QString geoLocationStringDecimal (const geoutils::Geolocation& loc);
 
                 QString geoLocationStringTraditional (const geoutils::Geolocation& loc);
+
+                void wheelEvent (QWheelEvent* event);
             };
         }
     }

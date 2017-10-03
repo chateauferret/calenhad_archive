@@ -82,6 +82,8 @@ namespace calenhad {
             int calenhad_handle_module_margin;
             int calenhad_notifications_width;
             int calenhad_notifications_margin;
+            double calenhad_globe_zoom_max;
+            double calenhad_globe_zoom_min;
 
             // Modules
 

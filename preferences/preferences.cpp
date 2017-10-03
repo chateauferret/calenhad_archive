@@ -17,7 +17,7 @@ Preferences::~Preferences () {
 }
 
 void Preferences::loadSettings() {
-
+    bool ok;
     // Colours and style
 
     calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/martin/.config/calenhad/darkorange.css").toString();
@@ -83,6 +83,8 @@ void Preferences::loadSettings() {
     calenhad_toolpalette_icon_margin = _settings -> value ("calenhad/toolpalette/icon/margin", 4).toInt();
     calenhad_toolpalette_icon_shadow = _settings -> value ("calenhad/toolpalette/icon/shadow", 2).toInt();
     calenhad_toolpalette_arrow_size = _settings -> value ("calenhad/toolpalette/arrow/size", 16).toInt();
+    calenhad_globe_zoom_min = _settings -> value ("calenhad/globe/zoom/min", 0.01).toDouble (&ok);
+    calenhad_globe_zoom_max = _settings -> value ("calenhad/globe/zoom/max", 1.2).toDouble (&ok);
 
     // Module names
 
@@ -185,6 +187,8 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/handle/module/height", calenhad_handle_module_height);
     _settings -> setValue ("calenhad/handle/module/margin",  calenhad_handle_module_margin);
     _settings -> setValue ("calenhad/notifications/width", calenhad_notifications_width);
+    _settings -> setValue ("calenhad/globe/zoom/min", calenhad_globe_zoom_min);
+    _settings -> setValue ("calenhad/globe/zoom/max", calenhad_globe_zoom_max);
 
     // Modules
 

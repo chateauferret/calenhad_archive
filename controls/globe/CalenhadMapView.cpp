@@ -149,7 +149,6 @@ void CalenhadMapView::mouseDoubleClickEvent (QMouseEvent* e) {
 }
 
 void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
-
     Geolocation se, nw;
     bool isOnGlobe = true; // for now
     double south = se.latitude (Units::Degrees);
@@ -161,20 +160,11 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
         if (cursor().shape () != Qt::ClosedHandCursor) {
             setCursor (Qt::ClosedHandCursor);
         }
-        if (south > north) {
-            temp = north;
-            north = south;
-            south = temp;
-        }
-        if (_bounds.width () > M_PI) {
-            temp = east;
-            east = west;
-            west = temp;
-        }
+
+        double dx = e -> pos().x() - _moveFrom.x();
+        double dy = e -> pos().y() - _moveFrom.y();
 
         if (_mouseDragMode == CalenhadGlobeDragMode::Pan) {
-            double dx = e -> pos().x() - _moveFrom.x();
-            double dy = e -> pos().y() - _moveFrom.y();
             double dLon = 180.0 * _scale * _sensitivity * dx / 50;
             double dLat = 180.0 * _scale * _sensitivity * dy / 50;
             _moveFrom = e -> pos();
@@ -182,16 +172,10 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
         }
 
         if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
-            _zoomDrag = true;
-
-            if (isOnGlobe) {
-
-                _zoomBox = Bounds (qDegreesToRadians (north), qDegreesToRadians (south), qDegreesToRadians (east), qDegreesToRadians (west));
-                update ();
-            } else {
-
-                _zoomDrag = false;
-            }
+            double dz = dy * _sensitivity / 10;
+            emit zoomRequested (_scale + dz);
+            _moveFrom = e -> pos();
+            update();
         }
     } else {
         setCursor (Qt::CrossCursor);
@@ -207,6 +191,12 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
             }
         }
     }
+}
+
+void CalenhadMapView::wheelEvent (QWheelEvent* event) {
+    double dz = event -> delta() * _sensitivity / 1200;
+    emit zoomRequested (_scale + dz);
+    update();
 }
 
 void CalenhadMapView::mouseReleaseEvent (QMouseEvent* e) {
