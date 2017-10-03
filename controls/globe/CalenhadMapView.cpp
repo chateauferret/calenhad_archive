@@ -30,6 +30,7 @@ CalenhadMapView::CalenhadMapView (QWidget* parent) : CalenhadMapWidget (parent),
     _datumFormat (DatumFormat::Scaled),
     _zoomDrag (false),
     _ratio (2.0),
+    _sensitivity (0.5),
     _mouseDoubleClickMode (CalenhadGlobeDoubleClickMode::Goto),
     _bounds (Bounds (-M_PI_2, M_PI_2, 0, M_2_PI)),
     _source (nullptr), _previewType (OverviewPreviewType::WholeWorld) {
@@ -41,8 +42,8 @@ CalenhadMapView::~CalenhadMapView() {
 
 void CalenhadMapView::render() {
     if (_source -> isComplete()) {
-        QDomDocument doc = _source->model ()->serialize (calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
-        Graph* g = new Graph (doc, _source->name ());
+        QDomDocument doc = _source->model() -> serialize (calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+        Graph* g = new Graph (doc, _source -> name ());
         setGraph (g);
     } else {
     }
@@ -148,8 +149,7 @@ void CalenhadMapView::mouseDoubleClickEvent (QMouseEvent* e) {
 }
 
 void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
-    double dx = e -> pos().x() - _moveFrom.x();
-    double dy = e -> pos().y() - _moveFrom.y();
+
     Geolocation se, nw;
     bool isOnGlobe = true; // for now
     double south = se.latitude (Units::Degrees);
@@ -173,12 +173,12 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
         }
 
         if (_mouseDragMode == CalenhadGlobeDragMode::Pan) {
-            double dLat = (180.0 / _bounds.height()) * dy * _sensitivity;
-            double dLon = (180.0 / _bounds.width()) * dx * _sensitivity;
-           // Bounds bounds = Bounds (_bounds.center().latitude() + (qDegreesToRadians (dLat)), bounds.center().longitude() + (qDegreesToRadians (dLon)));
-            //setBounds (bounds);
-            _moveFrom = e->pos ();
-            update();
+            double dx = e -> pos().x() - _moveFrom.x();
+            double dy = e -> pos().y() - _moveFrom.y();
+            double dLon = 180.0 * _scale * _sensitivity * dx / 50;
+            double dLat = 180.0 * _scale * _sensitivity * dy / 50;
+            _moveFrom = e -> pos();
+            goTo (Geolocation (_rotation.latitude() + qDegreesToRadians (dLat), _rotation.longitude() - qDegreesToRadians (dLon)));
         }
 
         if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
