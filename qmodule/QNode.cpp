@@ -38,12 +38,12 @@ QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (p
 
 }
 
-
 QNode::~QNode () {
     if (_dialog) { delete _dialog; }
     if (_validator) { delete _validator; }
     if (_palette) { delete _palette; }
 }
+
 
 void QNode::initialise() {
     _ports.clear();
@@ -146,11 +146,6 @@ int QNode::addPanel (const QString& title, QWidget* widget) {
     return _expander -> addItem (widget, title);
 }
 
-
-void QNode::setHandle (QNodeBlock* h) {
-    _handle = h;
-}
-
 QNodeBlock* QNode::handle() {
     return _handle;
 }
@@ -227,20 +222,20 @@ void QNode::inflate (const QDomElement& element) {
         QDomNodeList portNodes = element.elementsByTagName ("port");
         for (int i = 0; i < portNodes.count (); i++) {
             bool okIndex, okType;
-            int portIndex = portNodes.at (i).attributes ().namedItem ("index").nodeValue ().toInt (&okIndex);
-            int portType = portNodes.at (i).attributes ().namedItem ("type").nodeValue ().toInt (&okType);
+            int portIndex = portNodes.at (i).attributes().namedItem ("index").nodeValue().toInt (&okIndex);
+            int portType = portNodes.at (i).attributes().namedItem ("type").nodeValue().toInt (&okType);
             QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
             QString name = portNameNode.text ();
             if (okIndex && okType) {
                 for (QNEPort* p : _ports) {
-                    if (p->index () == portIndex && p->portType () == portType) {
-                        p->setName (name);
+                    if (p -> index () == portIndex && p -> portType() == portType) {
+                        p -> setName (name);
                     }
                 }
             } else {
                 QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue () + " port with index " +
                             portNodes.at (i).attributes ().namedItem ("index").nodeValue () + " in owner " + _name;
-                CalenhadServices::messages ()->message ("warning", "Reverting to default port names. " + m);
+                CalenhadServices::messages() -> message ("warning", "Reverting to default port names. " + m);
             }
         }
         QDomNodeList paramNodes = element.elementsByTagName ("parameter");
@@ -249,7 +244,6 @@ void QNode::inflate (const QDomElement& element) {
             QString paramValue = paramNodes.at (i).attributes ().namedItem ("value").nodeValue ();
             setParameter (paramName, paramValue);
         }
-
 }
 
 void QNode::serialize (QDomDocument& doc) {
@@ -369,13 +363,8 @@ QString QNode::parameter (const QString& name) {
     return _parameters.value (name) -> text();
 }
 
-
 QStringList QNode::parameters () {
     return _parameters.keys();
-}
-
-QNode* QNode::clone () {
-    return CalenhadServices::modules() -> clone (this);
 }
 
 void QNode::addContentPanel() {
@@ -391,6 +380,29 @@ int QNode::id () {
     return _id;
 }
 
-calenhad::nodeedit::QNEPort* QNode::output () {
+QNEPort* QNode::output () {
     return _output;
+}
+
+QNodeBlock* QNode::makeHandle() {
+    _handle = new QNodeBlock (this);
+    _handle -> initialise();
+    return _handle;
+}
+
+QNode* QNode::clone() {
+    QDomDocument doc;
+    QDomElement root = doc.createElement ("clone");
+    doc.appendChild (root);
+    serialize (doc);
+    std::cout << doc.toString().toStdString () << "\n";
+    QNode* _copy = CalenhadServices::modules() -> createModule (nodeType());
+    _copy -> setModel (_model);
+    _copy -> inflate (doc.documentElement().firstChildElement ("module"));
+    _copy -> setName (_name + "_0");
+    int i = 0;
+    while (_model -> nameExists (_copy -> name())) {
+        _copy -> setName (name() + "_" + QString::number (i));
+    }
+    return _copy;
 }

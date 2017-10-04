@@ -171,7 +171,6 @@ void CalenhadGlobeDialog::setZoom (const double& zoom) {
         _globe -> setScale (zoom);
         invalidate ();
     }
-    std::cout << zoom << "\n";
 }
 
 double CalenhadGlobeDialog::zoom() {

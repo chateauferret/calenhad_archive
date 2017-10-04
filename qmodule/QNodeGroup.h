@@ -6,6 +6,7 @@
 #define CALENHAD_QWIDGETGROUP_H
 
 
+#include <nodeedit/QNodeGroupBlock.h>
 #include "QNode.h"
 
 namespace calenhad {
@@ -15,7 +16,6 @@ namespace calenhad {
         Q_OBJECT
         public:
             QNodeGroup (QWidget* parent = 0);
-
             virtual ~QNodeGroup ();
 
             enum {
@@ -30,9 +30,10 @@ namespace calenhad {
 
             QString nodeType () override;
 
-            QNodeGroup* clone () override;
 
             void initialise () override;
+
+            calenhad::nodeedit::QNodeBlock* makeHandle() override;
 
         signals:
 
@@ -42,6 +43,7 @@ namespace calenhad {
             QRect _rect;
 
             void addInputPorts () override;
+
 
         };
     }

@@ -94,7 +94,7 @@ namespace calenhad {
             void highlightGroupAt (QPointF pos);
 
             calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos);
-
+            bool nameExists (const QString& name);
             public slots:
             void commitLegends();
             void rollbackLegends();
@@ -127,7 +127,7 @@ namespace calenhad {
             calenhad::nodeedit::QNodeGroupBlock* _highlighted;
 
 
-            bool nameExists (const QString& name);
+
             QMenu* _menu;
 
             QMenu* makeMenu (QGraphicsItem* item);

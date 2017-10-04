@@ -118,7 +118,7 @@ void CalenhadController::actionTriggered() {
     if (ca) {
         if (action->data () == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<QNEConnection*> (ca -> context()), _model)); }
         if (action->data () == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand ((static_cast<QNodeBlock*> (ca -> context())) -> node (), _model)); }
-        if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<QNodeBlock*> (ca -> context())) -> node (), _model)); }
+        if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<QNodeBlock*> (ca -> context())) -> node(), _model)); }
     }
     if (action -> data() == CalenhadAction::ZoomInAction) { doCommand (new ZoomCommand (0.1, _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomOutAction) { doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }

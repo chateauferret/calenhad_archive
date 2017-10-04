@@ -8,6 +8,8 @@
 #include "../preferences/preferences.h"
 #include "../CalenhadServices.h"
 #include "../qmodule/QModule.h"
+#include "../qmodule/QNodeGroup.h"
+#include "../pipeline/ModuleFactory.h"
 
 using namespace calenhad::actions;
 using namespace calenhad::qmodule;
@@ -22,18 +24,14 @@ DuplicateNodeCommand::~DuplicateNodeCommand () {
 
 }
 
-void DuplicateNodeCommand::undo () {
-    _model->deleteNode (_copy);
+void DuplicateNodeCommand::undo() {
+    _model -> deleteNode (_copy);
 }
 
-void DuplicateNodeCommand::redo () {
+void DuplicateNodeCommand::redo() {
     _copy = _node -> clone();
-    QString name = _node -> name();
-    int i = 1;
-    while (_model -> findModule (name)) {
-        name = _node -> name() + " copy " + QString::number (i);
-    }
-    QPointF p = _node -> handle() -> scenePos();
-    QPointF newPoint = QPointF (p.x() + CalenhadServices::preferences () -> calenhad_module_duplicate_offset_x, p.y() + CalenhadServices::preferences () -> calenhad_module_duplicate_offset_y);
-    _model -> addNode (_copy, newPoint);
+    QPointF p (_node -> handle() -> pos());
+    p.setX (p.x() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_x);
+    p.setY (p.y() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_y);
+    _model -> addNode (_copy, p);
 }

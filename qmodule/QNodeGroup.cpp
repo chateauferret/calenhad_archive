@@ -4,14 +4,16 @@
 
 #include "QNodeGroup.h"
 #include "../pipeline/CalenhadModel.h"
+#include "../nodeedit/QNodeGroupBlock.h"
 
 using namespace calenhad::qmodule;
+using namespace calenhad::nodeedit;
 
 QNodeGroup::QNodeGroup (QWidget* parent) : QNode (parent), _rect (QRect (0, 0, 100, 100)) {
 
 }
 
-QNodeGroup::~QNodeGroup () {
+QNodeGroup::~QNodeGroup() {
 
 }
 
@@ -41,12 +43,9 @@ void QNodeGroup::initialise() {
     QNode::initialise();
 }
 
-QNodeGroup* QNodeGroup::clone () {
-    QNodeGroup* other = new QNodeGroup ((QWidget*) parent());
-    other -> setRect (_rect);
-    QString n = "Copy_of_" + _name;
-    int i = 0;
-    QString e;
-    setName (n);
-    return other;
+QNodeBlock* QNodeGroup::makeHandle() {
+    QNodeGroupBlock* b = new QNodeGroupBlock (this);
+    _handle = b;
+    b -> initialise ();
+    return _handle;
 }

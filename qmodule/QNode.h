@@ -43,6 +43,8 @@ namespace calenhad {
         class QNode : public QWidget, public Serializable {
         Q_OBJECT
 
+            QNode (const QNode* other);
+
 
         public:
             QNode (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
@@ -68,8 +70,6 @@ namespace calenhad {
             void setGroup (QNodeGroup* group);
 
             QNodeGroup* group ();
-
-            void setHandle (calenhad::nodeedit::QNodeBlock* h);
 
             calenhad::nodeedit::QNodeBlock* handle ();
 
@@ -106,7 +106,7 @@ namespace calenhad {
             QString parameter (const QString& label);
             int id();
             calenhad::nodeedit::QNEPort* output();
-
+            virtual nodeedit::QNodeBlock* makeHandle ();
         public slots:
 
             virtual void invalidate ();
@@ -155,6 +155,8 @@ namespace calenhad {
 
             calenhad::nodeedit::NodeNameValidator* _validator;
             QPalette* _palette;
+
+
         };
 
     } // namespace qmodule

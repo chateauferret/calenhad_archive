@@ -382,16 +382,7 @@ QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& 
 }
 
 QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
-    QNodeBlock* b;
-    QNodeGroup* ng = dynamic_cast<QNodeGroup*> (node);
-    if (ng) {
-        QNodeGroupBlock* ngb = new QNodeGroupBlock (ng, 0);
-        b = ngb;
-    } else {
-        b = new QNodeBlock (node, 0);
-    }
-    b -> initialise();
-    node -> setHandle (b);
+    QNodeBlock* b = node -> makeHandle();
     addItem (b);
     b -> setPos (initPos.x(), initPos.y());
 
@@ -408,7 +399,7 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
 
 bool CalenhadModel::nameExists (const QString& name) {
     for (QNode* n : nodes()) {
-        if (name == n->name ()) {
+        if (name == n -> name ()) {
             return true;
         }
     }

@@ -22,11 +22,11 @@ namespace calenhad {
         public:
             DuplicateNodeCommand (calenhad::qmodule::QNode* node, calenhad::pipeline::CalenhadModel* model);
 
-            virtual ~DuplicateNodeCommand ();
+            virtual ~DuplicateNodeCommand();
 
-            virtual void undo () override;
+            virtual void undo() override;
 
-            virtual void redo () override;
+            virtual void redo() override;
 
         protected:
             calenhad::pipeline::CalenhadModel* _model = nullptr;
