@@ -55,7 +55,17 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) 
 
 
     _label -> setTextColor (CalenhadServices::preferences() -> calenhad_port_text_color);
+    if (type != OutputPort) {
+        _label -> setAlignment (Qt::AlignRight);
+    }
     connect (_label, SIGNAL (textEdited (const QString&)), this, SLOT (nameChangeRequested (const QString&)));
+    connect (_label, &EditableLabel::textChanged, this, [=] () {
+        if (_portType == OutputPort) {
+            _label -> setPos (_radius, -2 * (_radius + 1));
+        } else {
+            _label -> setPos (-(_label -> boundingRect ().width () + 4), -2 * (_radius + 1));
+        }
+    });
 
     if (type == OutputPort) {
         polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);

@@ -15,11 +15,13 @@ namespace calenhad {
         class EditableLabel : public QGraphicsTextItem {
         Q_OBJECT
 
+
+
         public:
             EditableLabel (QGraphicsItem* parent = 0);
 
             virtual ~EditableLabel ();
-
+            void setAlignment (Qt::AlignmentFlag flag);
             void setValidator (NodeNameValidator* v);
             void setText (const QString& text);
             QString proposedText();
@@ -46,6 +48,9 @@ namespace calenhad {
             QPalette* _palette;
 
             NodeNameValidator* _validator;
+            Qt::AlignmentFlag _alignment;
+
+            Qt::AlignmentFlag alignment ();
         };
     }
 }

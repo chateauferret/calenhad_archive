@@ -67,6 +67,7 @@ namespace calenhad {
             void updateName ();
 
 
+            void populate ();
         };
     }
 }

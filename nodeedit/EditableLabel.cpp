@@ -12,7 +12,7 @@
 
 using namespace calenhad::nodeedit;
 
-EditableLabel::EditableLabel (QGraphicsItem* parent) : QGraphicsTextItem (parent), _textEdit (nullptr), _proxy (nullptr) {
+EditableLabel::EditableLabel (QGraphicsItem* parent) : QGraphicsTextItem (parent), _textEdit (nullptr), _proxy (nullptr), _alignment (Qt::AlignLeft) {
     setCursor (Qt::IBeamCursor);
     _palette = new QPalette();
 }
@@ -32,6 +32,7 @@ void EditableLabel::setValidator (NodeNameValidator* v) {
 
 void EditableLabel::setText (const QString& text) {
     QGraphicsTextItem::setPlainText (text);
+    setAlignment (_alignment);
     emit textChanged (text);
 }
 
@@ -51,10 +52,13 @@ void EditableLabel::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 
     if (! _textEdit) {
         _textEdit = new QLineEdit ();
+        _textEdit -> setAlignment (_alignment);
         _proxy -> setWidget (_textEdit);
         connect (_textEdit, &QLineEdit::editingFinished, this, &EditableLabel::finishedEditing);
-        connect (_textEdit, &QLineEdit::textChanged, this, [=] () { emit textChanged (toPlainText()); });
         _textEdit -> setValidator (_validator);
+        if (_alignment == Qt::AlignRight) {
+            _textEdit -> move (- (_textEdit -> width() - boundingRect ().width () + 4) , 0);
+        }
     }
 
     if (_textEdit) {
@@ -70,8 +74,11 @@ void EditableLabel::finishedEditing() {
     QString text = _textEdit -> text();
     setPlainText (text);
     _textEdit -> hide();
+
     emit editingStateChanged (false);
     emit textEdited (text);
+    emit textChanged (text);
+    setAlignment (_alignment);
 }
 
 QString EditableLabel::proposedText () {
@@ -90,5 +97,16 @@ void EditableLabel::clearMessage() {
     if (_textEdit) {
         _textEdit -> setToolTip (QString::null);
         setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+    }
+}
+
+Qt::AlignmentFlag EditableLabel::alignment() {
+    return _alignment;
+}
+
+void EditableLabel::setAlignment (Qt::AlignmentFlag flag) {
+    _alignment = flag;
+    if (_textEdit) {
+        _textEdit->setAlignment (flag);
     }
 }
