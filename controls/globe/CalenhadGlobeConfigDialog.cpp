@@ -135,7 +135,8 @@ void CalenhadGlobeConfigDialog::initialise() {
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent->isNavigatorVisible ());
     _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
-    _legendManager -> setCurrentLegend (_parent -> globe() -> source () -> legend());
+    std::cout << "Legend " << _parent -> globe() -> source() -> legend() -> name ().toStdString () << "\n";
+    _legendManager -> setCurrentLegend (_parent -> globe() -> source() -> legend());
     switch (_parent -> globe() -> coordinatesFormat()) {
         case (CoordinatesFormat::NoCoordinates) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
         case (CoordinatesFormat::Decimal) : { _tooltipOptionCombo -> setCurrentText ("Decimal"); break; }
@@ -179,7 +180,6 @@ Legend* CalenhadGlobeConfigDialog::selectedLegend () {
 void CalenhadGlobeConfigDialog::commitChanges () {
     CalenhadServices::legends() -> commit();
     emit legendChanged (_legendManager -> currentLegend());
-
 }
 
 void CalenhadGlobeConfigDialog::reject() {

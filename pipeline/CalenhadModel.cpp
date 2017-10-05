@@ -361,7 +361,7 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
         _controller -> doCommand (command);
         module = (QModule*) command -> node();
         module -> setName (name);
-
+        module -> setLegend (CalenhadServices::legends() -> lastUsed());
        return module;
     } else {
         CalenhadServices::messages() -> message ("error", "Couldn't create module of type " + type + "\n");
@@ -507,7 +507,7 @@ void CalenhadModel::setController (CalenhadController* controller) {
     if (! _controller)  {
         _controller = controller;
     } else {
-        std::cout << "Can't replace controller once assigned\n";
+
     }
 }
 

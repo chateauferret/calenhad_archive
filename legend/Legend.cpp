@@ -165,6 +165,9 @@ void Legend::setName (const QString& name) {
     // when we change the name of a legend, we need to tell the LegendService so that it can find it under the new name
     CalenhadServices::legends() -> rename (_name, name);
     _name = name;
+    if (name.isEmpty ()) {
+        std::cout << "Set empty name to legend\n";
+    }
     emit renamed (name);
 }
 
@@ -187,7 +190,7 @@ void Legend::inflate (const QDomNode& n) {
         QString legendType = e.attribute ("type");
         QDomNode nameNode = e.firstChildElement ("name");
         QString name = nameNode.firstChild ().nodeValue ();
-        _name = name;
+        setName (name);
 
         setInterpolated (legendType.toLower () == "gradient");
         QDomNode notesNode = e.firstChildElement ("notes");
@@ -202,6 +205,7 @@ void Legend::inflate (const QDomNode& n) {
             if (ok) {
                 QColor c = QColor (element.attribute ("color"));
                 addEntry (index, c);
+                std::cout << index << " " << c.name().toStdString () << " " << element.toDocument().toString().toStdString() << "\n";
             }
         }
     }
@@ -224,6 +228,7 @@ void Legend::serialise (QDomDocument doc) {
         QDomElement entryElement = doc.createElement ("entry");
         entryElement.setAttribute ("index", entry.first);
         entryElement.setAttribute ("color", entry.second.name());
+
         e.appendChild (entryElement);
     }
 }

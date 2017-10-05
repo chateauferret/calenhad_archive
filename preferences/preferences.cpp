@@ -60,7 +60,7 @@ void Preferences::loadSettings() {
 
     // Configuration
 
-    calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/ClionProjects/calenhad/config/legends.xml").toString ();
+    calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/.config/calenhad/legends.xml").toString ();
     calenhad_variables_name_maxlength = _settings -> value ("calenhad/variables/name/maxlength", 50).toUInt();
     calenhad_port_name_minLength = _settings -> value ("calenhad/port/name_minlength", 1).toUInt();
     calenhad_port_name_maxLength = _settings -> value ("calenhad/port/name/maxlength", 25).toUInt();

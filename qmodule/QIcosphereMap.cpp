@@ -30,7 +30,7 @@ QIcosphereMap::~QIcosphereMap () { }
 
 void QIcosphereMap::makeContentPanel() {
     addContentPanel();
-    std::cout << "Content " << _expander -> indexOf (_content) << "\n";
+
     _depthSpin = countParameterControl ("Depth");
     _depthSpin -> setMinimum (3);
     _depthSpin -> setMaximum (13);

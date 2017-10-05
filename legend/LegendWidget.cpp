@@ -52,6 +52,10 @@ LegendWidget::LegendWidget (Legend* legend, QWidget* parent) : QWidget (parent),
         _legend -> setNotes (_legendNotesBox -> toPlainText());
         emit notesChanged (_legendNotesBox -> toPlainText());
     });
+
+    _legendNameBox->setText (_legend->name ());
+    _legendInterpolateCheck->setChecked (_legend->isInterpolated ());
+    _legendNotesBox->setText (_legend->notes ());
 }
 
 LegendWidget::~LegendWidget () {
@@ -59,9 +63,9 @@ LegendWidget::~LegendWidget () {
 }
 
 void LegendWidget::showEvent (QShowEvent* event) {
-    _legendNameBox -> setText (_legend -> name());
-    _legendInterpolateCheck -> setChecked (_legend -> isInterpolated());
-    _legendNotesBox -> setText (_legend -> notes());
+    _legendNameBox->setText (_legend->name ());
+    _legendInterpolateCheck->setChecked (_legend->isInterpolated ());
+    _legendNotesBox->setText (_legend->notes ());
 }
 
 void LegendWidget::updateLegend() {

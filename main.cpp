@@ -85,8 +85,7 @@ int main (int argc, char **argv) {
     CalenhadModel* model = new CalenhadModel();
     Calenhad* window = new Calenhad();
 
-    model -> inflate (fname, calenhad::nodeedit::CalenhadModelFile);
-
+    model -> inflate (fname, calenhad::nodeedit::CalenhadLegendFile);
     // Message service
     QNotificationHost* notifications = (QNotificationHost*) window;
     CalenhadServices::provideMessages (notifications);

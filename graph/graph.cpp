@@ -68,8 +68,6 @@ QString Graph::readParameter (const QDomElement& element, const QString param) {
 }
 
 QString Graph::glsl () {
-    std::cout << _doc.toString ().toStdString () << "\n";
-
     list = _doc.documentElement().elementsByTagName ("module");
     for (int i = 0; i < list.length (); i++) {
         QDomElement nameNode = list.at (i).firstChildElement ("name");
@@ -241,6 +239,7 @@ void Graph::parseLegend () {
 
     Legend* legend = new Legend();
     legend -> inflate (legendElement);
+    std::cout << legendElement . toDocument () . toString () . toStdString () << "\n";
     float dx = (1 / (float) size) * 2 ;
     for (int i = 0; i < size * 4; i+= 4)  {
         QColor c = legend -> lookup (i * dx - 1);

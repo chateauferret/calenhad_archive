@@ -29,6 +29,9 @@ Legend* LegendRoster::find (const QString& name) {
     } else {
         _lastUsed = defaultLegend();
     }
+    if (_lastUsed -> name().isEmpty ()) {
+        std::cout << "Found legend with no name\n";
+    }
     return _lastUsed;
 }
 
@@ -37,6 +40,9 @@ bool LegendRoster::exists (const QString& name) {
 }
 
 void LegendRoster::provide (Legend* legend) {
+    if (legend -> name().isEmpty ()) {
+        std::cout << "No legend name\n";
+    }
     _legends.insert (legend -> name(), legend);
     _dirty = true;
 }

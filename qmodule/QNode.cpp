@@ -395,7 +395,6 @@ QNode* QNode::clone() {
     QDomElement root = doc.createElement ("clone");
     doc.appendChild (root);
     serialize (doc);
-    std::cout << doc.toString().toStdString () << "\n";
     QNode* _copy = CalenhadServices::modules() -> createModule (nodeType());
     _copy -> setModel (_model);
     _copy -> inflate (doc.documentElement().firstChildElement ("module"));
