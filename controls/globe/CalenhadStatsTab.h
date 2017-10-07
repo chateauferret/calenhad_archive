@@ -11,9 +11,12 @@
 #include <qwt/qwt_plot.h>
 #include <QtWidgets/QComboBox>
 
-class QModule;
+
 
 namespace calenhad {
+    namespace qmodule {
+        class QModule;
+    }
     namespace controls {
         namespace globe {
 
@@ -21,19 +24,20 @@ namespace calenhad {
 
             class CalenhadStatsTab : public QWidget {
             public:
-                CalenhadStatsTab (CalenhadGlobeDialog* parent);
+                CalenhadStatsTab (calenhad::qmodule::QModule* source, CalenhadGlobeDialog* parent = 0);
 
                 virtual ~CalenhadStatsTab ();
 
                 void showEvent (QShowEvent* e) override;
 
             protected:
-                CalenhadGlobeDialog* _globe;
+                CalenhadGlobeDialog* dialog;
                 QLabel* _extremesMapLabel, * _extremesGlobeLabel;
                 QLabel* _renderTimeLabel, * _renderTimePerPixelLabel;
                 QLabel* _pixelsInMapLabel;
                 QLabel* _whenGeneratedLabel;
                 QwtPlot* _hypsography;
+                calenhad::qmodule::QModule* _source;
             };
         }
     }

@@ -22,7 +22,7 @@ using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::mapping;
 
-QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_altitudemap, 1, parent), _editor (nullptr) {
+QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_altitudemap, new AltitudeMapRangeFinder(), 1), _editor (nullptr) {
     makeContentPanel();
 }
 
@@ -59,8 +59,8 @@ void QAltitudeMap::editAltitudeMap() {
     // preserve the existing state so that we can undo
     preserve();
 
-    QVector<QPointF> entries = getEntries();
-    _editor -> setEntries (entries);
+    QVector<QPointF> e = entries ();
+    _editor -> setEntries (e);
     if (dynamic_cast<TerraceCurve*> (_curve)) {
         _editor -> setCurveType (dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted() ? CurveType::InvertedTerrace : CurveType::Terrace);
     } else {
@@ -76,9 +76,9 @@ void QAltitudeMap::updateEntries() {
     CurveType curveType = _editor -> curveType();
     _curve = _curves.find (curveType).value();
     clearMap();
-    QVector<QPointF> entries = _editor -> getEntries();
+    QVector<QPointF> e = _editor -> getEntries();
 
-    for (QPointF point : entries) {
+    for (QPointF point : e) {
         addEntry (point.x (), point.y ());
     }
 
@@ -116,16 +116,16 @@ void QAltitudeMap::addEntry (const double& in, const double& out) {
     }
 }
 
-QVector<QPointF>  QAltitudeMap::getEntries() const {
-    QVector<QPointF> entries;
+QVector<QPointF>  QAltitudeMap::entries () const {
+    QVector<QPointF> e;
     int count = _curve -> GetControlPointCount();
     const ControlPoint* points = _curve -> GetControlPointArray();
     for (int i = 0; i < count; i++) {
-        entries.append (QPointF ((points + i) -> inputValue, (points + i) -> outputValue));
+        e.append (QPointF ((points + i) -> inputValue, (points + i) -> outputValue));
     }
 
-    std::sort (entries.begin(), entries.end(), [] (const QPointF & a, const QPointF & b) -> bool { return a.x() < b.x(); });
-    return entries;
+    std::sort (e.begin(), e.end(), [] (const QPointF & a, const QPointF & b) -> bool { return a.x() < b.x(); });
+    return e;
 };
 
 void QAltitudeMap::resetMap () {
@@ -195,8 +195,8 @@ void QAltitudeMap::serialize (QDomDocument& doc) {
         mapElement.setAttribute ("function", "spline");
     }
 
-    QVector<QPointF> entries = getEntries();
-    for (QPointF entry : entries) {
+    QVector<QPointF> e = entries ();
+    for (QPointF entry : e) {
         QDomElement entryElement = _document.createElement ("entry");
         entryElement.setAttribute ("x", entry.x());
         entryElement .setAttribute ("y", entry.y());
@@ -210,4 +210,18 @@ void QAltitudeMap::preserve () {
     doc.appendChild (root);
     serialize (doc);
     _oldXml = doc.toString();
+}
+
+bool AltitudeMapRangeFinder::range (double& min, double& max) {
+        min = 0.0;
+        max = 0.0;
+        if (input (0)) {
+                    foreach (QPointF p, ((QAltitudeMap*) _module) -> entries ()) {
+                    if (p.y () > max) { max = p.y (); }
+                    if (p.x () < min) { min = p.y (); }
+                }
+            return true;
+        } else {
+            return false;
+        }
 }

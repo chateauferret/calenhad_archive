@@ -14,7 +14,7 @@
 #include "../exprtk/ExpressionWidget.h"
 #include <QPixmap>
 #include <QList>
-
+#include "../qmodule/RangeFinder.h"
 
 using namespace noise::module;
 using namespace calenhad;
@@ -79,38 +79,38 @@ QStringList ModuleFactory::types () {
 
 QNode* ModuleFactory::createModule (const QString& type) {
 
-    if (type == CalenhadServices::preferences() -> calenhad_module_abs ||
-        type == CalenhadServices::preferences() -> calenhad_module_invert ) { return new QModule (type, 1); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_add ||
-        type == CalenhadServices::preferences() -> calenhad_module_max ||
-        type == CalenhadServices::preferences() -> calenhad_module_min ||
-        type == CalenhadServices::preferences() -> calenhad_module_multiply ||
-        type == CalenhadServices::preferences() -> calenhad_module_power ||
-        type == CalenhadServices::preferences() -> calenhad_module_diff)  { return new QModule (type, 2); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_abs) { return new QModule (type, new AbsRangeFinder(), 1); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_invert) { return new QModule (type, new InvertRangeFinder(), 1); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_add) { return new QModule (type, new AddRangeFinder(), 1); }
+    if (    type == CalenhadServices::preferences() -> calenhad_module_max) { return new QModule (type, new MaxRangeFinder(), 1); }
+    if (    type == CalenhadServices::preferences() -> calenhad_module_min) { return new QModule (type, new MinRangeFinder(), 1); }
+    if (    type == CalenhadServices::preferences() -> calenhad_module_multiply) { return new QModule (type, new MultiplyRangeFinder(), 1); }
+    if (    type == CalenhadServices::preferences() -> calenhad_module_power) { return new QModule (type, new PowerRangeFinder(), 2); }
+    if (    type == CalenhadServices::preferences() -> calenhad_module_diff) { return new QModule (type, new DiffRangeFinder(), 2); }
 
-    if (type == CalenhadServices::preferences() -> calenhad_module_blend) { return new QModule (type, 3); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_displace) { return new QModule (type, 4); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_blend) { return new QModule (type, new OrRangeFinder(), 3); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_displace) { return new QModule (type, new PassThroughRangeFinder(), 4); }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_cylinders) {
-        QModule* qm = new QModule (type);
+        QModule* qm = new QModule (type, new UnitRangeFinder());
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_CYLINDERS_FREQUENCY, new AcceptPositive());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_spheres) {
-        QModule* qm = new QModule (type);
+        QModule* qm = new QModule (type, new UnitRangeFinder());
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_SPHERES_FREQUENCY, new AcceptPositive());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_exponent) {
-        QModule* qm = new QModule (type, 1);
+        QModule* qm = new QModule (type, new ExponentRangeFinder(), 1);
         qm -> addParameter ("Exponent", "exponent", noise::module::DEFAULT_EXPONENT, new AcceptAnyRubbish());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_translate) {
-        QModule* qm = new QModule (type, 1);
+        QModule* qm = new QModule (type, new PassThroughRangeFinder(), 1);
         qm -> addParameter ("X", "x", noise::module::DEFAULT_TRANSLATE_POINT_X, new PreferNoiseValue());
         qm -> addParameter ("Y", "y", noise::module::DEFAULT_TRANSLATE_POINT_Y, new PreferNoiseValue());
         qm -> addParameter ("Z", "z", noise::module::DEFAULT_TRANSLATE_POINT_Z, new PreferNoiseValue());
@@ -118,7 +118,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_rotate) {
-        QModule* qm = new QModule (type, 1);
+        QModule* qm = new QModule (type, new PassThroughRangeFinder(),  1);
         qm -> addParameter ("X", "x", noise::module::DEFAULT_ROTATE_X, new AcceptAngleDegrees());
         qm -> addParameter ("Y", "y", noise::module::DEFAULT_ROTATE_Y, new AcceptAngleDegrees());
         qm -> addParameter ("Z", "z", noise::module::DEFAULT_ROTATE_Z, new AcceptAngleDegrees());
@@ -126,20 +126,20 @@ QNode* ModuleFactory::createModule (const QString& type) {
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_clamp) {
-        QModule* qm = new QModule (type, 1);
+        QModule* qm = new QModule (type, new BoundsRangeFinder ("lowerBound", "upperBound"), 1);
         qm -> addParameter ("Lower bound", "lowerBound", noise::module::DEFAULT_CLAMP_LOWER_BOUND, new AcceptNoiseValue());
         qm -> addParameter ("Upper bound", "upperBound", noise::module::DEFAULT_CLAMP_UPPER_BOUND, new AcceptNoiseValue());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_constant) {
-        QModule* qm = new QModule (type);
+        QModule* qm = new QModule (type, new BoundsRangeFinder ("constValue", "constValue"));
         qm -> addParameter ("Constant value", "constValue", noise::module::DEFAULT_CONST_VALUE, new AcceptNoiseValue());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_perlin) {
-        QModule* qm = new QModule (type);
+        QModule* qm = new QModule (type, new UnitRangeFinder());
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_PERLIN_FREQUENCY, new AcceptPositive());
         qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_PERLIN_LACUNARITY, new AcceptRange (1.5, 3.5));
         qm -> addParameter ("Persistence", "persistence", noise::module::DEFAULT_PERLIN_PERSISTENCE, new AcceptRange (0, 1));
@@ -149,7 +149,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_billow) {
-        QModule* qm = new QModule (type);
+        QModule* qm = new QModule (type, new UnitRangeFinder());
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_BILLOW_FREQUENCY, new AcceptPositive());
         qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_BILLOW_LACUNARITY, new AcceptRange (1.5, 3.5));
         qm -> addParameter ("Persistence", "persistence", noise::module::DEFAULT_BILLOW_PERSISTENCE, new AcceptRange (0, 1));
@@ -159,7 +159,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) {
-        QModule* qm = new QModule (type);
+        QModule* qm = new QModule (type, new UnitRangeFinder());
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_RIDGED_FREQUENCY, new AcceptPositive());
         qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_RIDGED_LACUNARITY, new AcceptRange (1.5, 3.5));
         qm -> addParameter ("Octaves", "octaves", noise::module::DEFAULT_RIDGED_OCTAVE_COUNT, new PreferInteger());
@@ -168,21 +168,21 @@ QNode* ModuleFactory::createModule (const QString& type) {
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_scalebias) {
-        QModule* qm = new QModule (type, 1);
+        QModule* qm = new QModule (type, new ScaleBiasRangeFinder(), 1);
         qm -> addParameter ("Scale", "scale", noise::module::DEFAULT_SCALE, new PreferNoiseValue());
         qm -> addParameter ("Bias", "bias", noise::module::DEFAULT_BIAS, new PreferNoiseValue());
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_select) {
-        QModule* qm = new QModule (type, 3);
+        QModule* qm = new QModule (type, new OrRangeFinder(), 3);
         qm -> addParameter ("Lower bound", "lowerBound", noise::module::DEFAULT_SELECT_LOWER_BOUND, new AcceptNoiseValue());
         qm -> addParameter ("Upper bound", "upperBound", noise::module::DEFAULT_SELECT_UPPER_BOUND, new AcceptNoiseValue());
         qm -> addParameter ("Falloff", "falloff", noise::module::DEFAULT_SELECT_EDGE_FALLOFF);
         return qm;
     }
     if (type == CalenhadServices::preferences() -> calenhad_module_turbulence) {
-        QModule* qm = new QModule (type, 1);
+        QModule* qm = new QModule (type, new PassThroughRangeFinder(), 1);
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_TURBULENCE_FREQUENCY, new AcceptPositive());
         qm -> addParameter ("Power", "power", noise::module::DEFAULT_TURBULENCE_POWER, new AcceptAnyRubbish());
         qm -> addParameter ("Roughness", "roughness", noise::module::DEFAULT_TURBULENCE_ROUGHNESS, new AcceptAnyRubbish());
@@ -191,7 +191,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_voronoi) {
-        QModule* qm = new QModule (type);
+        QModule* qm = new QModule (type, new UnitRangeFinder());
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_VORONOI_FREQUENCY, new AcceptPositive());
         qm -> addParameter ("Displacement", "displacement", noise::module::DEFAULT_VORONOI_DISPLACEMENT, new PreferNoiseValue());
         qm -> addParameter ("Enable distance", "enableDistance", 1.0, new AcceptAnyRubbish);
@@ -200,7 +200,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_scalepoint) {
-        QModule* qm = new QModule (type, 1);
+        QModule* qm = new QModule (type, new PassThroughRangeFinder(), 1);
         qm -> addParameter ("X", "x", noise::module::DEFAULT_SCALE_POINT_X, new PreferNoiseValue());
         qm -> addParameter ("Y", "y", noise::module::DEFAULT_SCALE_POINT_Y, new PreferNoiseValue());
         qm -> addParameter ("Z", "z", noise::module::DEFAULT_SCALE_POINT_Z, new PreferNoiseValue());
@@ -253,7 +253,6 @@ void ModuleFactory::provideParamNames() {
                 << "displacement"
                 << "enableDistance"
                 << "exponent"
-                << "power"
                 << "roughness";
 }
 

@@ -4,6 +4,7 @@
 
 
 #include "QModule.h"
+#include "RangeFinder.h"
 #include "../nodeedit/QNodeBlock.h"
 #include "../nodeedit/qneport.h"
 #include "../nodeedit/Calenhad.h"
@@ -14,7 +15,7 @@
 #include "../pipeline/ModuleFactory.h"
 #include <QMenu>
 #include <controls/globe/CalenhadGlobeDialog.h>
-
+#include "../nodeedit/qneconnection.h"
 using namespace icosphere;
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
@@ -26,19 +27,20 @@ using namespace calenhad::legend;
 
 int QModule::seed = 0;
 
-QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr) {
+QModule::QModule (const QString& nodeType, RangeFinder* rangeFinder, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr), _rangeFinder (rangeFinder) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
 }
 
 QModule::~QModule () {
     if (_globe) { delete _globe; }
+    if (_rangeFinder) { delete _rangeFinder; }
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
 void QModule::initialise() {
     QNode::initialise();
-
+    _rangeFinder -> setModule (this);
     // all modules have an output
     QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
     addPort (output);
@@ -90,6 +92,15 @@ void QModule::addInputPorts() {
     }
 }
 
+QNode* QModule::sourceModule (int portIndex) {
+    QNEPort* p = _ports.at (portIndex);
+    if (p -> portType () == QNEPort::OutputPort || p -> connections().isEmpty()) {
+        return nullptr;
+    }
+    QNEConnection* c = p -> connections().first();
+    return c -> otherEnd (p) -> owner ();
+}
+
 void QModule::inflate (const QDomElement& element) {
     QNode::inflate (element);
     QString legendName = element.attribute ("legend", "default");
@@ -138,3 +149,7 @@ bool QModule::isComplete() {
 void QModule::contextMenuEvent (QContextMenuEvent* e) {
     _contextMenu -> exec();
 }
+
+bool QModule::range (double& min, double& max) {
+    return _rangeFinder -> range (min, max);
+};

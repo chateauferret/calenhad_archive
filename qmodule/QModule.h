@@ -36,12 +36,12 @@ namespace calenhad {
         }
     }
     namespace qmodule {
-
+        class RangeFinder;
         class QModule : public QNode {
         Q_OBJECT
         Q_ENUMS (ModuleType)
         public:
-            QModule (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
+            QModule (const QString& nodeType, RangeFinder* rangeFinder, int inputs = 0, QWidget* parent = 0);
 
             virtual ~QModule ();
 
@@ -58,11 +58,12 @@ namespace calenhad {
             void setModel (calenhad::pipeline::CalenhadModel* model) override;
 
             void setLegend (calenhad::legend::Legend* legend);
-
+            QNode* sourceModule (int portIndex);
             calenhad::legend::Legend* legend ();
 
             void showContextMenu (const QPoint& point);
             bool isComplete() override;
+            bool range (double& min, double& max);
 
         public slots:
             void setupPreview ();
@@ -84,11 +85,8 @@ namespace calenhad {
 
             QMenu* _contextMenu;
             calenhad::controls::globe::CalenhadGlobeDialog* _globe;
+            RangeFinder* _rangeFinder;
 
-        protected slots:
-
-
-;
 
         };
     }

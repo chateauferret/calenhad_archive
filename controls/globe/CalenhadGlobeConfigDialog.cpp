@@ -109,7 +109,7 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     }
     ((QFormLayout*) projectionTab->layout ())->addRow ("Projection", _projectionCombo);
 
-    CalenhadStatsTab* statsTab = new CalenhadStatsTab (_parent);
+    CalenhadStatsTab* statsTab = new CalenhadStatsTab (_parent -> globe() -> source(), parent);
     tabs -> addTab (statsTab, "&Statistics");
 
     layout ()->addWidget (tabs);
