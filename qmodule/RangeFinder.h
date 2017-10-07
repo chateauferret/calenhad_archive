@@ -274,8 +274,12 @@ namespace calenhad {
                 double min0, max0, min1, max1;
                 bool ok = inputRange (0, min0, max0) && inputRange (1, min1, max1);
                 if (ok) {
-                    min = std::pow (min0, min1);
-                    max = std::pow (max0, max1);
+                    min = min0 * min1;
+                    max = max0 * max1;
+                    if (std::pow (min0, max1) < min) { min = std::pow (min0, max1); };
+                    if (std::pow (min0, max1) > max) { max = std::pow (min0, max1); };
+                    if (std::pow (max0, min1) < min) { min = std::pow (max0, min1); };
+                    if (std::pow (max0, min1) > max) { max = std::pow (max0, min1); };
                 }
                 return ok;
             }
