@@ -221,12 +221,18 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     connect (saveLegendsAction, &QAction::triggered, this, [=] () { saveFileAs (CalenhadFileType::CalenhadLegendFile); });
 
     QAction* xmlAction = createAction (QIcon (":/appicons/controls/xml.png"), tr ("&XML"), "View model as an XML file", QKeySequence::NativeText);
-    connect (xmlAction, &QAction::triggered, this, [=] () {  });
-    fileToolbar -> addAction (xmlAction);
+    connect (xmlAction, &QAction::triggered, this, [=] () {
+        QDomDocument doc = _model -> serialize (CalenhadFileType::CalenhadModelFile);
+        QString xml = doc.toString();
+        QTextEdit* xmlText = new QTextEdit();
+        xmlText -> setText (xml);
+        xmlText -> setAttribute (Qt::WA_DeleteOnClose);
+        xmlText -> setReadOnly (true);
+        xmlText -> resize (480, 360);
+        xmlText -> show();
 
-    QAction* glslAction = createAction (QIcon (":/appicons/controls/glsl.png"), tr ("&Shader code"), "View model's GLSL shader code output", QKeySequence());
-    connect (glslAction, &QAction::triggered, this, [=] () {  });
-    fileToolbar -> addAction (glslAction);
+    });
+    fileToolbar -> addAction (xmlAction);
 
     QAction* manageLegendsAction = createAction (QIcon (":/appicons/controls/legend.png"), tr ("&Legends"), "Manage the list of map legends");
     connect (manageLegendsAction, &QAction::triggered, this, [=] () {
