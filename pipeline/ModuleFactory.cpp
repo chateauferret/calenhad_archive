@@ -82,11 +82,11 @@ QNode* ModuleFactory::createModule (const QString& type) {
     if (type == CalenhadServices::preferences() -> calenhad_module_abs) { return new QModule (type, new AbsRangeFinder(), 1); }
     if (type == CalenhadServices::preferences() -> calenhad_module_invert) { return new QModule (type, new InvertRangeFinder(), 1); }
     if (type == CalenhadServices::preferences() -> calenhad_module_add) { return new QModule (type, new AddRangeFinder(), 2); }
-    if (    type == CalenhadServices::preferences() -> calenhad_module_max) { return new QModule (type, new MaxRangeFinder(), 2); }
-    if (    type == CalenhadServices::preferences() -> calenhad_module_min) { return new QModule (type, new MinRangeFinder(), 2); }
-    if (    type == CalenhadServices::preferences() -> calenhad_module_multiply) { return new QModule (type, new MultiplyRangeFinder(), 2); }
-    if (    type == CalenhadServices::preferences() -> calenhad_module_power) { return new QModule (type, new PowerRangeFinder(), 2); }
-    if (    type == CalenhadServices::preferences() -> calenhad_module_diff) { return new QModule (type, new DiffRangeFinder(), 2); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_max) { return new QModule (type, new MaxRangeFinder(), 2); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_min) { return new QModule (type, new MinRangeFinder(), 2); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_multiply) { return new QModule (type, new MultiplyRangeFinder(), 2); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_power) { return new QModule (type, new PowerRangeFinder(), 2); }
+    if (type == CalenhadServices::preferences() -> calenhad_module_diff) { return new QModule (type, new DiffRangeFinder(), 2); }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_blend) { return new QModule (type, new OrRangeFinder(), 3); }
     if (type == CalenhadServices::preferences() -> calenhad_module_displace) { return new QModule (type, new PassThroughRangeFinder(), 4); }

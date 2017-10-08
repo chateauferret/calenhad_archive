@@ -90,8 +90,8 @@ namespace calenhad {
 
         private slots:
 
-            void saveFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
-
+            void saveFile();
+            void saveFileAs (const CalenhadFileType& fileType);
             void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
 
 
@@ -124,7 +124,7 @@ namespace calenhad {
 
 
 
-            void addModuleTool (const QString& name, const QString& tooltip);
+            QAction* addModuleTool (const QString& name, const QString& tooltip);
 
             QMenu* _moduleContextMenu;
             QMenu* _connectionContextMenu;
@@ -145,22 +145,18 @@ namespace calenhad {
             QAction* deleteSelectionAction;
             QAction* duplicateModuleAction;
 
-            QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false);
+            QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
 
             QWidget* _nodeRoster;
-            QGraphicsItem* _contextItem;
             void addMenus (QMenuBar* menuBar);
 
 
-
-            QMenu* getContextMenu (QGraphicsItem* item);
-
-            QMenu* getContextMenu (qmodule::QNode* node);
-
-            QMenu* getContextMenu ();
-
-
             void updateZoomActions ();
+
+            CalenhadToolBar* makeToolbar (const QString& name);
+
+            QAction* createAction (const QIcon& icon, const QString& name, const QString statusTip, const QKeySequence& shortcut = QKeySequence());
+
         };
     }
 }

@@ -71,6 +71,8 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _toolbox -> addDrawer (_viewDrawer);
     _editDrawer = new ToolDrawer ("Edit");
     _toolbox -> addDrawer (_editDrawer);
+    _editDrawer = new ToolDrawer ("File");
+    _toolbox -> addDrawer (_editDrawer);
 
     // Nodes editor
 
@@ -86,23 +88,9 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 
     // Tools
 
-    CalenhadToolBar* viewToolbar = _toolbox -> toolbar ("View");
-    viewToolbar -> setAcceptDrops (false);
-    QDockWidget* viewToolsDock = new QDockWidget (viewToolbar -> windowTitle(), this);
-    viewToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
-    viewToolbar -> setParent (this);
-    viewToolsDock -> setWidget (viewToolbar);
-    connect (viewToolsDock, &QDockWidget::dockLocationChanged, viewToolbar, &CalenhadToolBar::arrange);
-    addDockWidget (Qt::TopDockWidgetArea, viewToolsDock);
-
-    CalenhadToolBar* editToolbar = _toolbox -> toolbar ("Edit");
-    editToolbar -> setAcceptDrops (false);
-    QDockWidget* editToolsDock = new QDockWidget (editToolbar -> windowTitle(), this);
-    editToolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
-    editToolbar -> setParent (this);
-    editToolsDock -> setWidget (editToolbar);
-    connect (editToolsDock, &QDockWidget::dockLocationChanged, editToolbar, &CalenhadToolBar::arrange);
-    addDockWidget (Qt::TopDockWidgetArea, editToolsDock);
+    CalenhadToolBar* viewToolbar = makeToolbar ("View");
+    CalenhadToolBar* editToolbar = makeToolbar ("Edit");
+    CalenhadToolBar* fileToolbar = makeToolbar ("File");
 
     // modules and other nodes
     QDockWidget* iconsDock = new QDockWidget ("Modules", this);
@@ -158,6 +146,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_turbulence, "Turbulence");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
+    QAction* nodeGroupTool = addModuleTool (CalenhadServices::preferences() -> calenhad_nodegroup, "Node group");
 
     // A tool for adding a new node group
     QAction* tool = createTool (QIcon (":/sppicons/controls/group_add.png"), "NodeGroup", "Add a new group", "NodeGroup", _addModuleDrawer, true);
@@ -192,28 +181,36 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _defaultContextMenu -> addAction (redoAction);
     editToolbar -> addAction (undoAction);
     editToolbar -> addAction (redoAction);
+    nodeGroupTool -> setIcon (QIcon (":/appicons/controls/group_add.png"));
+    editToolbar -> addAction (nodeGroupTool);
     connect (_controller, &CalenhadController::canUndoChanged, this, [=] () { undoAction -> setEnabled (_controller -> canUndo()); });
     connect (_controller, &CalenhadController::canRedoChanged, this, [=] () { redoAction -> setEnabled (_controller -> canRedo()); });
 
-
     // other module actions
-    deleteSelectionAction = createTool (QIcon (":/appicons.controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
-    deleteSelectionAction -> setEnabled (false);
-    _moduleContextMenu -> addAction (deleteSelectionAction);
 
-    QAction* quitAction = new QAction (tr ("&Quit"), this);
-    quitAction -> setShortcuts (QKeySequence::Quit);
-    quitAction -> setStatusTip (tr ("Quit the application"));
+    QAction* newAction = createAction (QIcon (":/appicons/controls/new.png"), tr ("&New"), "Start a new project", QKeySequence::New);
+    // connect (newAction, &QAction::triggered, this, newProject());
+    fileToolbar -> addAction (newAction);
+
+    QAction* closeAction = createAction (QIcon (":/appicons/controls/close.png"), tr ("&Close"), "Start a new project", QKeySequence::New);
+    // connect (closeAction, &QAction::triggered, this, closeProject());
+    fileToolbar -> addAction (closeAction);
+
+    QAction* quitAction = createAction (QIcon (":/appicons/controls/quit.png"), tr ("&Quit"), "Quit the application", QKeySequence::Quit);
     connect (quitAction, SIGNAL (triggered()), qApp, SLOT (quit()));
+    fileToolbar -> addAction (quitAction);
 
-    QAction* loadAction = new QAction (tr ("&Load"), this);
-    loadAction -> setShortcuts (QKeySequence::Open);
-    loadAction -> setStatusTip (tr ("Open a file"));
+    QAction* loadAction = createAction (QIcon (":/appicons/controls/open_file.png"), tr ("&Open"), "Open a Calenhad model file", QKeySequence::Open);
     connect (loadAction, &QAction::triggered, this, [=] () { loadFile(); });
-    QAction* saveAction = new QAction (tr ("&Save"), this);
-    saveAction -> setShortcuts (QKeySequence::Save);
-    saveAction -> setStatusTip (tr ("Save a file"));
+    fileToolbar -> addAction (loadAction);
+
+    QAction* saveAction = createAction (QIcon (":/appicons/controls/save.png"), tr ("&Save"), "Save model", QKeySequence::Save);
     connect (saveAction, &QAction::triggered, this, [=] () { saveFile(); });
+    fileToolbar -> addAction (saveAction);
+
+    QAction* saveAsAction = createAction (QIcon (":/appicons/controls/save_as.png"), tr ("&Save as..."), "Save model in a new file", QKeySequence::SaveAs);
+    connect (saveAsAction, &QAction::triggered, this, [=] () { saveFileAs (CalenhadFileType::CalenhadModelFile); });
+    fileToolbar -> addAction (saveAction);
 
     QAction* loadLegendsAction = new QAction ("Load legends", this);
     loadLegendsAction -> setStatusTip ("Import legends from a Calenhad file");
@@ -221,28 +218,67 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 
     QAction* saveLegendsAction = new QAction ("Save legends", this);
     saveLegendsAction -> setStatusTip ("Export legends to a separate file");
-    connect (saveLegendsAction, &QAction::triggered, this, [=] () { saveFile (CalenhadFileType::CalenhadLegendFile); });
+    connect (saveLegendsAction, &QAction::triggered, this, [=] () { saveFileAs (CalenhadFileType::CalenhadLegendFile); });
 
-    QAction* manageLegendsAction = new QAction ("Manage legends", this);
-    manageLegendsAction -> setStatusTip ("Manage legends");
+    QAction* xmlAction = createAction (QIcon (":/appicons/controls/xml.png"), tr ("&XML"), "View model as an XML file", QKeySequence::NativeText);
+    connect (xmlAction, &QAction::triggered, this, [=] () {  });
+    fileToolbar -> addAction (xmlAction);
+
+    QAction* glslAction = createAction (QIcon (":/appicons/controls/glsl.png"), tr ("&Shader code"), "View model's GLSL shader code output", QKeySequence());
+    connect (glslAction, &QAction::triggered, this, [=] () {  });
+    fileToolbar -> addAction (glslAction);
+
+    QAction* manageLegendsAction = createAction (QIcon (":/appicons/controls/legend.png"), tr ("&Legends"), "Manage the list of map legends");
     connect (manageLegendsAction, &QAction::triggered, this, [=] () {
         if (! _legendDialog) {
             _legendDialog = new CalenhadLegendDialog (this);
         }
         _legendDialog -> show();
     });
-
+    editToolbar -> addAction (manageLegendsAction);
     // Menu
 
     QMenu* fileMenu = menuBar () -> addMenu (tr ("&File"));
+    fileMenu -> addAction (newAction);
     fileMenu -> addAction (loadAction);
     fileMenu -> addAction (saveAction);
-
+    fileMenu -> addAction (saveAsAction);
+    fileMenu -> addAction (closeAction);
     fileMenu -> addSeparator();
+    fileMenu -> addAction (loadLegendsAction);
+    fileMenu -> addAction (saveLegendsAction);
+    fileMenu -> addSeparator();
+    fileMenu -> addAction (xmlAction);
+    fileMenu -> addAction (glslAction);
     fileMenu -> addAction (quitAction);
+
+    QAction* cutAction = createAction (QIcon (":/appicons/controls/cut.png"), tr ("Cut"), "Cut selection to the clipboard", QKeySequence::Cut);
+    cutAction -> setEnabled (false);
+    connect (cutAction, &QAction::triggered, this, [=] () {  });
+    fileToolbar -> addAction (cutAction);
+
+    QAction* copyAction = createAction (QIcon (":/appicons/controls/copy.png"), tr ("Copy"), "Copy selection to the clipboard", QKeySequence::Copy);
+    copyAction -> setEnabled (false);
+    connect (copyAction, &QAction::triggered, this, [=] () {  });
+    fileToolbar -> addAction (copyAction);
+
+    QAction* pasteAction = createAction (QIcon (":/appicons/controls/paste.png"), tr ("Paste"), "Paste selection from the clipboard", QKeySequence::Paste);
+    connect (pasteAction, &QAction::triggered, this, [=] () {  });
+    fileToolbar -> addAction (pasteAction);
+
+    deleteSelectionAction = createTool (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
+    deleteSelectionAction -> setEnabled (false);
+    _moduleContextMenu -> addAction (deleteSelectionAction);
+    editToolbar -> addAction (deleteSelectionAction);
+
 
     QMenu* editMenu = menuBar() -> addMenu (tr ("&Edit"));
     editMenu -> setObjectName ("editMenu");
+    editMenu -> addAction (cutAction);
+    editMenu -> addAction (copyAction);
+    editMenu -> addAction (pasteAction);
+    editMenu -> addSeparator();
+    editMenu -> addAction (manageLegendsAction);
 
     QMenu* toolMenu = _toolbox -> menu ("Modules");
     menuBar() -> addMenu (toolMenu);
@@ -254,22 +290,22 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     viewMenu -> addMenu (legendsMenu);
     menuBar() -> addMenu (viewMenu);
 
-    setWindowTitle (tr ("Node Editor"));
+    setWindowTitle (tr ("Calenhad"));
 
     // Settings
 
     QSettings* settings = CalenhadServices::preferences() -> settings();
     settings -> beginGroup ("MainWindow");
-    resize (settings -> value("size", QSize(400, 400)).toSize());
-    move (settings -> value("pos", QPoint(200, 200)).toPoint());
+    resize (settings -> value ("size", QSize (400, 400)).toSize());
+    move (settings -> value ("pos", QPoint (200, 200)).toPoint());
     settings -> endGroup();
     addMenus (menuBar());
 
     // Dialogs
 
     _variablesDialog = new VariablesDialog();
-    QAction* variablesAction = new QAction (tr ("&Variables"));
-    saveAction -> setStatusTip (tr ("Variables used in the script"));
+    QAction* variablesAction = createAction (QIcon (":/appicons/controls/variables.png"), tr ("&Variables"), "Review and edit module parameter variables", QKeySequence());
+    editToolbar -> addAction (variablesAction);
     editMenu -> addAction (variablesAction);
     connect (variablesAction, &QAction::triggered, this, [=] () { _variablesDialog -> exec(); });
 }
@@ -304,10 +340,18 @@ CalenhadModel* Calenhad::model() {
     return _model;
 }
 
-void Calenhad::saveFile (const CalenhadFileType& fileType) {
+void Calenhad::saveFileAs (const CalenhadFileType& fileType) {
     QString fname = QFileDialog::getSaveFileName();
     _model -> serialize (fname, fileType);
     _lastFile = fname;
+}
+
+void Calenhad::saveFile() {
+    if (_lastFile.isNull()) {
+        saveFileAs (CalenhadFileType::CalenhadModelFile);
+    } else {
+        _model -> serialize (_lastFile, CalenhadFileType::CalenhadModelFile);
+    }
 }
 
 void Calenhad::loadFile (const CalenhadFileType& fileType) {
@@ -361,9 +405,15 @@ void Calenhad::addMenus (QMenuBar* menuBar) {
     }
 }
 
-QAction* Calenhad::createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle) {
+QAction* Calenhad::createAction (const QIcon& icon, const QString& name, const QString statusTip, const QKeySequence& shortcut) {
     QAction* tool = new QAction (icon, name, this);
     tool -> setStatusTip (statusTip);
+    return tool;
+}
+
+QAction* Calenhad::createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle, const QKeySequence& shortcut) {
+    QAction* tool = createAction (icon, name, statusTip, shortcut);
+
     tool -> setCheckable (toggle);
     tool -> setData (id);
 
@@ -376,10 +426,11 @@ QAction* Calenhad::createTool (const QIcon& icon, const QString& name, const QSt
     return tool;
 }
 
-void Calenhad::addModuleTool (const QString& name, const QString& tooltip) {
+QAction* Calenhad::addModuleTool (const QString& name, const QString& tooltip) {
     QAction* tool = createTool (QIcon (":/resources/appicons/tools/" + name + ".png"), name, tooltip, name, _addModuleDrawer, true);
     tool -> setCheckable (true);
     _addModuleGroup -> addTool (tool);
+    return tool;
 }
 
 void Calenhad::clearTools() {
@@ -396,4 +447,17 @@ void Calenhad::updateZoomActions() {
         zoomInAction -> setEnabled (z < 4.0);
         zoomOutAction -> setEnabled (z > 0.025);
     }
+}
+
+CalenhadToolBar* Calenhad::makeToolbar (const QString& name) {
+    CalenhadToolBar* toolbar = _toolbox -> toolbar (name);
+    toolbar -> setAcceptDrops (false);
+    QDockWidget* toolsDock = new QDockWidget (toolbar -> windowTitle(), this);
+    toolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
+    toolbar -> setParent (this);
+    toolsDock -> setWidget (toolbar);
+    connect (toolsDock, &QDockWidget::dockLocationChanged, toolbar, &CalenhadToolBar::arrange);
+    connect (toolsDock, &QDockWidget::topLevelChanged, toolbar, &CalenhadToolBar::detached);
+    addDockWidget (Qt::TopDockWidgetArea, toolsDock);
+    return toolbar;
 }

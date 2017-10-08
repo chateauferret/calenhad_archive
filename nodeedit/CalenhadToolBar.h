@@ -10,13 +10,14 @@
 namespace calenhad {
     namespace nodeedit {
         class CalenhadToolBar : public QToolBar {
+            Q_OBJECT
         public:
             CalenhadToolBar (const QString& name, QWidget* parent = 0);
             virtual ~CalenhadToolBar();
 
             public slots:
             void arrange (Qt::DockWidgetArea area);
-
+            void detached (const bool& floating);
         };
     }
 }

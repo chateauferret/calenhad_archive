@@ -18,7 +18,6 @@ find_package(LibNoise REQUIRED)
 find_package(GeographicLib 1.34 REQUIRED)
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
-#find_package(CUDA REQUIRED)
 
 
 message (STATUS "QtCore v" ${Qt5Core_VERSION})
@@ -26,8 +25,6 @@ message (STATUS "QtWidgets v" ${Qt5Widgets_VERSION})
 message (STATUS "QtGui v" ${Qt5Gui_VERSION})
 message (STATUS "QtXml v" ${Qt5Xml_VERSION})
 message (STATUS "QtOpenGL v" ${Qt5OpenGL_VERSION})
-
-#find_package(Marble REQUIRED)
 
 MESSAGE (STATUS "Current source dir " ${CMAKE_CURRENT_SOURCE_DIR})
 set(FASTNOISE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fastnoise_simd)
@@ -120,8 +117,3 @@ target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
 
 target_link_libraries (calenhad core)
 
-#cuda_add_library (cudalib  ${CUDA_SOURCE})
-#target_link_libraries(cudalib ${CUDA_LIBRARIES})
-add_executable (demo demo/main.cpp ${RESOURCES})
-#cuda_add_executable (demo demo/main.cpp)
-target_link_libraries (demo core) # cudalib)
