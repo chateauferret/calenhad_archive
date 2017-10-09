@@ -64,11 +64,12 @@ namespace calenhad {
             void canUndoChanged();
             void canRedoChanged();
 
-		private:
+		protected:
             QList<CalenhadView*>* _views;
             calenhad::pipeline::CalenhadModel* _model;
 
             QUndoStack* _undoStack;
+
 		};
 
 	}

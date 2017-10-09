@@ -44,6 +44,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../qmodule/QModule.h"
 #include <QAction>
 #include <actions/ContextAction.h>
+#include <actions/SelectionToClipboardCommand.h>
+#include <actions/PasteCommand.h>
+#include <QtGui/QGuiApplication>
+#include <QClipboard>
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
@@ -53,6 +57,7 @@ using namespace calenhad::actions;
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()), _undoStack (new QUndoStack()) {
     connect (_undoStack, &QUndoStack::canUndoChanged, this, &CalenhadController::canUndoChanged);
     connect (_undoStack, &QUndoStack::canRedoChanged, this, &CalenhadController::canRedoChanged);
+
 }
 
 
@@ -124,22 +129,34 @@ void CalenhadController::actionTriggered() {
     if (action -> data() == CalenhadAction::ZoomOutAction) { doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
-
-    if (action -> data() == CalenhadAction::DeleteSelectionAction) {
+    if (action -> data() == CalenhadAction::PasteAction) { doCommand (new PasteCommand (_model)); }
+    if (action -> data() == CalenhadAction::DeleteSelectionAction || action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
         CommandGroup* group = new CommandGroup ();
-        for (QGraphicsItem* item : _model->selectedItems ()) {
-            // to do - delete other kinds of node
-            if (item -> type () == QGraphicsItem::UserType + 3) { // block
-                QNode* node = ((QNodeBlock*) item) -> node();
-                // to do - generalise this to delete groups too
-                QModule* module = dynamic_cast<QModule*> (node);
-                if (module) {
-                    DeleteNodeCommand* command = new DeleteNodeCommand (module, _model);
-                    group->addCommand (command);
+
+
+        if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::DeleteSelectionAction) {
+            for (QGraphicsItem* item : _model->selectedItems ()) {
+                // to do - delete other kinds of node
+                if (item->type () == QGraphicsItem::UserType + 3) { // block
+                    QNode* node = ((QNodeBlock*) item)->node ();
+                    // to do - generalise this to delete groups too
+                    QModule* module = dynamic_cast<QModule*> (node);
+                    if (module) {
+                        DeleteNodeCommand* command = new DeleteNodeCommand (module, _model);
+                        group->addCommand (command);
+                    }
                 }
             }
         }
+
+
+        if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
+            SelectionToClipboardCommand* command = new SelectionToClipboardCommand (_model);
+            group -> addCommand (command);
+        }
+
         doCommand (group);
+        ((Calenhad*) parent()) -> setSelectionActionsEnabled (! (_model -> selectedItems().isEmpty()));
     }
 
     if (action -> data() == CalenhadAction::UndoAction) { _undoStack -> undo(); }

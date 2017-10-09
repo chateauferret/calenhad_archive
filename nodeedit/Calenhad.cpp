@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtCore/QTextStream>
 #include <QLayout>
 #include <controls/CalenhadLegendDialog.h>
+#include <QtGui/QGuiApplication>
 #include "Calenhad.h"
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
@@ -44,6 +45,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneconnection.h"
 #include "QNodeBlock.h"
 #include "qneport.h"
+#include <QClipboard>
 
 
 using namespace icosphere;
@@ -255,22 +257,27 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     fileMenu -> addAction (saveLegendsAction);
     fileMenu -> addSeparator();
     fileMenu -> addAction (xmlAction);
-    fileMenu -> addAction (glslAction);
     fileMenu -> addAction (quitAction);
 
-    QAction* cutAction = createAction (QIcon (":/appicons/controls/cut.png"), tr ("Cut"), "Cut selection to the clipboard", QKeySequence::Cut);
+    cutAction = createAction (QIcon (":/appicons/controls/cut.png"), tr ("Cut"), "Cut selection to the clipboard", QKeySequence::Cut);
     cutAction -> setEnabled (false);
-    connect (cutAction, &QAction::triggered, this, [=] () {  });
+    cutAction -> setData (CalenhadAction::CutAction);
+    connect (cutAction, SIGNAL (triggered()), _controller, SLOT (actionTriggered ()));
     fileToolbar -> addAction (cutAction);
 
-    QAction* copyAction = createAction (QIcon (":/appicons/controls/copy.png"), tr ("Copy"), "Copy selection to the clipboard", QKeySequence::Copy);
+    copyAction = createAction (QIcon (":/appicons/controls/copy.png"), tr ("Copy"), "Copy selection to the clipboard", QKeySequence::Copy);
     copyAction -> setEnabled (false);
-    connect (copyAction, &QAction::triggered, this, [=] () {  });
+    copyAction -> setData (CalenhadAction::CopyAction);
+    connect (copyAction, SIGNAL (triggered()), _controller, SLOT (actionTriggered ()));
     fileToolbar -> addAction (copyAction);
 
-    QAction* pasteAction = createAction (QIcon (":/appicons/controls/paste.png"), tr ("Paste"), "Paste selection from the clipboard", QKeySequence::Paste);
-    connect (pasteAction, &QAction::triggered, this, [=] () {  });
+    pasteAction = createAction (QIcon (":/appicons/controls/paste.png"), tr ("Paste"), "Paste selection from the clipboard", QKeySequence::Paste);
+    pasteAction -> setEnabled (false);
+    pasteAction -> setData (CalenhadAction::PasteAction);
+    connect (pasteAction, SIGNAL (triggered()), _controller, SLOT (actionTriggered ()));
     fileToolbar -> addAction (pasteAction);
+    connect (QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &Calenhad::updatePasteAction);
+    updatePasteAction();
 
     deleteSelectionAction = createTool (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, _editDrawer);
     deleteSelectionAction -> setEnabled (false);
@@ -445,6 +452,8 @@ void Calenhad::clearTools() {
 
 void Calenhad::setSelectionActionsEnabled (const bool& enabled) {
     deleteSelectionAction -> setEnabled (enabled);
+    cutAction -> setEnabled (enabled);
+    copyAction -> setEnabled (enabled);
 }
 
 void Calenhad::updateZoomActions() {
@@ -453,6 +462,10 @@ void Calenhad::updateZoomActions() {
         zoomInAction -> setEnabled (z < 4.0);
         zoomOutAction -> setEnabled (z > 0.025);
     }
+}
+
+void Calenhad::updatePasteAction() {
+    pasteAction -> setEnabled (! (QGuiApplication::clipboard() -> text().isEmpty()));
 }
 
 CalenhadToolBar* Calenhad::makeToolbar (const QString& name) {

@@ -93,7 +93,7 @@ namespace calenhad {
             void saveFile();
             void saveFileAs (const CalenhadFileType& fileType);
             void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
-
+            void updatePasteAction();
 
             void closeEvent (QCloseEvent* event);
 
@@ -144,6 +144,7 @@ namespace calenhad {
             QAction* deleteModuleAction;
             QAction* deleteSelectionAction;
             QAction* duplicateModuleAction;
+            QAction* cutAction, * copyAction, * pasteAction;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
 
@@ -156,6 +157,7 @@ namespace calenhad {
             CalenhadToolBar* makeToolbar (const QString& name);
 
             QAction* createAction (const QIcon& icon, const QString& name, const QString statusTip, const QKeySequence& shortcut = QKeySequence());
+
 
         };
     }
