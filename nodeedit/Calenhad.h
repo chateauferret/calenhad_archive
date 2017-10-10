@@ -63,7 +63,7 @@ namespace calenhad {
         class CalenhadView;
         class QNEToolBox;
 
-        enum CalenhadFileType { CalenhadModelFile, CalenhadLegendFile };
+        enum CalenhadFileType { CalenhadModelFile, CalenhadLegendFile, CalenhadModelFragment };
 
         class Calenhad : public calenhad::notification::QNotificationHost {
         Q_OBJECT

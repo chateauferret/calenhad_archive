@@ -31,6 +31,6 @@ void PasteCommand::undo () {
 void PasteCommand::redo () {
     QDomDocument doc;
     if (doc.setContent (QGuiApplication::clipboard() -> text())) {
-        _model -> inflate (doc, CalenhadFileType::CalenhadModelFile);
+        _model -> inflate (doc, CalenhadFileType::CalenhadModelFragment);
     }
 }

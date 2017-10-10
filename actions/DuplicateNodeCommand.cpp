@@ -33,5 +33,6 @@ void DuplicateNodeCommand::redo() {
     QPointF p (_node -> handle() -> pos());
     p.setX (p.x() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_x);
     p.setY (p.y() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_y);
+    _copy -> setName (_model -> uniqueName (_node -> name()));
     _model -> addNode (_copy, p);
 }

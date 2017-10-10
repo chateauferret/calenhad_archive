@@ -398,10 +398,7 @@ QNode* QNode::clone() {
     QNode* _copy = CalenhadServices::modules() -> createModule (nodeType());
     _copy -> setModel (_model);
     _copy -> inflate (doc.documentElement().firstChildElement ("module"));
-    _copy -> setName (_name + "_0");
-    int i = 0;
-    while (_model -> nameExists (_copy -> name())) {
-        _copy -> setName (name() + "_" + QString::number (i));
-    }
+    _copy -> setName (_model -> uniqueName (_name));
+
     return _copy;
 }

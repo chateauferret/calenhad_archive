@@ -95,6 +95,7 @@ namespace calenhad {
 
             calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos);
             bool nameExists (const QString& name);
+            QString uniqueName (QString original);
             public slots:
             void commitLegends();
             void rollbackLegends();
@@ -133,6 +134,7 @@ namespace calenhad {
             QMenu* makeMenu (QGraphicsItem* item);
 
             QAction* makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item = 0);
+
         };
     }
 }

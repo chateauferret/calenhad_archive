@@ -107,6 +107,7 @@ namespace calenhad {
             int id();
             calenhad::nodeedit::QNEPort* output();
             virtual nodeedit::QNodeBlock* makeHandle ();
+
         public slots:
 
             virtual void invalidate ();
@@ -155,6 +156,7 @@ namespace calenhad {
 
             calenhad::nodeedit::NodeNameValidator* _validator;
             QPalette* _palette;
+
 
 
         };

@@ -342,14 +342,11 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
     QString name = "New_" + type;
     int i = 0;
-    while (nameExists (name)) {
-        name = "New_" + type + "_" + QString::number (i++);
-    }
-
+    QNode* n;
     if (type == "NodeGroup") {
-        addNodeGroup (initPos, name);
+        n = addNodeGroup (initPos, name);
     } else {
-        addModule (initPos, type, name);
+        n = addModule (initPos, type, name);
     }
 }
 
@@ -360,7 +357,7 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
         AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
         _controller -> doCommand (command);
         module = (QModule*) command -> node();
-        module -> setName (name);
+        module -> setName (uniqueName (name));
         module -> setLegend (CalenhadServices::legends() -> lastUsed());
        return module;
     } else {
@@ -376,7 +373,7 @@ QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& 
     AddNodeCommand* command = new AddNodeCommand (group, initPos, this);
     _controller -> doCommand (command);
     group = (QNodeGroup*) command -> node();
-    group -> setName (name);
+    group -> setName (uniqueName (name));
 
     return group;
 }
@@ -617,28 +614,60 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
         CalenhadServices::legends() -> provide (legend);
     }
 
-    if (fileType == CalenhadFileType::CalenhadModelFile) {
+    // if we are pasting, clear the selection, so that we can select the pasted items instead
+    if (fileType == CalenhadFileType::CalenhadModelFragment) {
+        foreach (QGraphicsItem* item, items()) {
+                item -> setSelected (false);
+            }
+    }
+
+    if (fileType == CalenhadFileType::CalenhadModelFile || fileType == CalenhadFileType::CalenhadModelFragment) {
         QDomElement variablesElement = doc.documentElement ().firstChildElement ("variables");
-        CalenhadServices::calculator ()->inflate (variablesElement);
+        CalenhadServices::calculator() -> inflate (variablesElement);
         QDomNodeList moduleNodes = doc.documentElement ().elementsByTagName ("module");
+        QDomNodeList connectionNodes = doc.documentElement ().elementsByTagName ("connection");
         for (int i = 0; i < moduleNodes.count (); i++) {
+
+            // put the node at the requested position on the canvas
             QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");
             int x = positionElement.attributes ().namedItem ("x").nodeValue ().toInt ();
             int y = positionElement.attributes ().namedItem ("y").nodeValue ().toInt ();
             QPointF pos (x, y);
+
+
+            // if we are pasting, offset the positions so that we can see copied and pasted items separately
+            if (fileType == CalenhadFileType::CalenhadModelFragment) {
+                pos.setX (pos.x () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_x);
+                pos.setY (pos.y () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_y);
+            }
+
             QString type = moduleNodes.at (i).attributes ().namedItem ("type").nodeValue ();
             QDomElement nameNode = moduleNodes.at (i).firstChildElement ("name");
             QString name = nameNode.text ();
-            QModule* qm = addModule (pos, type, name);
+            QString newName = uniqueName (name);
+            QModule* qm = addModule (pos, type, newName);
+            qm -> handle() -> setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
             qm->inflate (moduleNodes.at (i).toElement ());
-        }
 
+            // update connection names so that the module is still found if it was renamed
+
+            for (int i = 0; i < connectionNodes.count (); i++) {
+                QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
+                QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
+                if (fromElement.attribute ("module") == name) {
+                    fromElement.setAttribute ("module", newName);
+                }
+                if (toElement.attribute ("module") == name) {
+                    toElement.setAttribute ("module", newName);
+                }
+            }
+        }
 
         // In the connections, we save and retrieve the types of output ports in case we ever have further types of output ports.
         // Does not support a port serving as both input and output (because index presently not unique across both).
         // For the time being however all output ports will be of type 2 (QNEPort::Output).
 
-        QDomNodeList connectionNodes = doc.documentElement ().elementsByTagName ("connection");
+
         for (int i = 0; i < connectionNodes.count (); i++) {
             QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
             QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
@@ -747,4 +776,14 @@ QAction* CalenhadModel::makeMenuItem (const QIcon& icon, const QString& name, co
     action -> setData (id);
     connect (action, &QAction::triggered, _controller, &CalenhadController::actionTriggered);
     return action;
+}
+
+
+QString CalenhadModel::uniqueName (QString original) {
+    int i = 0;
+    QString suffix;
+    do {
+        suffix = "_" + QString::number (i++);
+    } while (nameExists (original + suffix));
+    return (original + suffix);
 }
