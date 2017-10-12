@@ -300,14 +300,24 @@ QList<double> CalenhadMapWidget::graticules() {
 void CalenhadMapWidget::drawGraticule (QPainter& p) {
     p.setPen(Qt::yellow);
     Geolocation centre = _rotation;
-    QList<double> g = graticules();
-    int dLat = 10, dLon = 10;
-    double resLat = 0, resLon = 0;
+    int drawnLat = 0, drawnLon = 0;
+
 
 }
 
-void CalenhadMapWidget::screenCoordinates (Geolocation geolocation, QPointF& screenCoordinates) {
-    // to do
+bool CalenhadMapWidget::screenCoordinates (Geolocation geolocation, QPointF& screenCoordinates) {
+    _projection -> setDatum (_rotation);
+    QPointF logical;
+    bool fwd = _projection -> forward (geolocation, logical);
+    double x = logical.x() / _scale;
+    double y = - logical.y() / _scale;
+    x += M_PI;
+    y += M_PI / 2;
+    x /= M_PI * 2;
+    y /= M_PI;
+    screenCoordinates.setX (x * width());
+    screenCoordinates.setY (y * height());
+    return fwd;
 }
 
 bool CalenhadMapWidget::geoCoordinates (QPointF pos, Geolocation& geolocation) {

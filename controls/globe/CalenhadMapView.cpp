@@ -189,6 +189,14 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
 
             if (geoCoordinates (point, loc)) {
                 QString text = _coordinatesFormat == CoordinatesFormat::Decimal ? geoLocationStringDecimal (loc) : geoLocationStringTraditional (loc);
+
+                // this bit just provides diagnostic for the screenCoordinates method
+                QPointF s;
+                bool ok = screenCoordinates (loc, s);
+                if (ok) {
+                    text += " " + QString::number (s.x()) + ", " + QString::number (s.y());
+                }
+
                 QToolTip::showText (e -> globalPos(), text, this);
             }
         }

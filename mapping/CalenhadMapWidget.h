@@ -57,6 +57,8 @@ namespace calenhad {
 
             bool inset();
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
+            bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
+
         public slots:
 
             void setProjection (const QString& projection);
@@ -97,7 +99,6 @@ namespace calenhad {
             QString _vertexShader;
             QString _fragmentShader;
 
-            void screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
 
             QOpenGLVertexArrayObject m_vao;
             QOpenGLBuffer* m_vertexBuffer;

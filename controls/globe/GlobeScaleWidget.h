@@ -30,10 +30,9 @@ namespace calenhad {
                 Qt::Orientation _orientation;
                 CalenhadMapView*  _globe;
                 double _radius;
-                GeographicLib::Geodesic*  _geodesic;
+                GeographicLib::Geodesic* _geodesic;
                 double _metresPerUnit;
             };
-
         }
     }
 }
