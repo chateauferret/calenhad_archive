@@ -84,14 +84,11 @@ void CalenhadGlobeDialog::initialise() {
 
     // scale - distance measure based on scale and planet radius
 
-    QWidget* scalePanel = new QWidget (this);
-    scalePanel -> setStyleSheet ("{ background: silver; }");
-    _scale = new GlobeScaleWidget (_globe, scalePanel);
-    _scale -> resize (200, 30);
-    scalePanel -> resize (200, 30);
-    scalePanel -> move (20, height() - 20);
-    scalePanel -> setVisible (true);
-
+    _scale = new GlobeScaleWidget (_globe, this);
+    _scale -> resize (CalenhadServices::preferences() -> calenhad_globe_scale_width, CalenhadServices::preferences() -> calenhad_globe_scale_height);
+    _scale -> move (20, height() - 20);
+    _scale -> setMargin (5);
+    _scale -> setVisible (true);
 
     invalidate();
 }

@@ -58,6 +58,7 @@ void Preferences::loadSettings() {
     calenhad_toolpalette_icon_color_mouseover = _settings -> value ("calenhad/toolpalette/icon/color/mouseover", "#0000FF").value<QColor>();
     calenhad_variables_color_normal = _settings -> value ("calenhad/variables/color/normal", "#000000").value<QColor>();
     calenhad_variables_color_error = _settings -> value ("calenhad/variables/color/error", "#FF0000").value<QColor>();
+    calenhad_globe_scale_background_color = _settings -> value ("calenhad/globe/scale/background/color", "#C0C0C0").value<QColor>();
 
     // Configuration
 
@@ -73,6 +74,8 @@ void Preferences::loadSettings() {
 
     calenhad_port_radius = _settings -> value ("calenhad/port/radius", 5).toUInt();
     calenhad_port_margin = _settings -> value ("calenhad/port//margin", 2).toUInt();
+    calenhad_globe_scale_width = _settings -> value ("calenhad/globe/scale/width", 200).toUInt();
+    calenhad_globe_scale_height = _settings -> value ("calenhad/globe/scale/height", 30).toUInt();
     calenhad_module_duplicate_offset_x = _settings -> value ("calenhad/module/duplicate/offset/x", 64).toUInt();
     calenhad_module_duplicate_offset_y = _settings -> value ("calenhad/module/duplicate/offset/y", 64).toUInt();
     calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 32).toUInt();
@@ -163,6 +166,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/toolpalette/icon/color/mouseover", calenhad_toolpalette_icon_color_mouseover);
     _settings -> setValue ("calenhad/variables/color/normal", calenhad_variables_color_normal);
     _settings -> setValue ("calenhad/variables/color/error", calenhad_variables_color_error);
+    _settings -> setValue ("calenhad/globe/scale/background/color", calenhad_globe_scale_background_color);
 
     // Configuration
 
@@ -178,6 +182,8 @@ void Preferences::saveSettings() {
 
     _settings -> setValue ("calenhad/port/radius", calenhad_port_radius);
     _settings -> setValue ("calenhad/port/margin", calenhad_port_margin);
+    _settings -> setValue ("calenhad/globe/scale/width", calenhad_globe_scale_width);
+    _settings -> setValue ("calenhad/globe/scale/height", calenhad_globe_scale_height);
     _settings -> setValue ("calenhad/module/duplicate/offset/x", calenhad_module_duplicate_offset_x);
     _settings -> setValue ("calenhad/module/duplicate/offset/y", calenhad_module_duplicate_offset_y);
     _settings -> setValue ("calenhad/toolpalette/arrow/size", calenhad_toolpalette_arrow_size);

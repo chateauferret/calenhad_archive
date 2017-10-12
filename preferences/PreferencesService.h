@@ -53,6 +53,7 @@ namespace calenhad {
             QColor calenhad_module_text_color_error;
             QColor calenhad_variables_color_normal;
             QColor calenhad_variables_color_error;
+            QColor calenhad_globe_scale_background_color;
 
             // Configuration
 
@@ -85,6 +86,8 @@ namespace calenhad {
             int calenhad_notifications_margin;
             double calenhad_globe_zoom_max;
             double calenhad_globe_zoom_min;
+            int calenhad_globe_scale_width;
+            int calenhad_globe_scale_height;
 
             // Modules
 

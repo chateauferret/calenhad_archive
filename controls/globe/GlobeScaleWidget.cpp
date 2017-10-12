@@ -19,8 +19,6 @@ GlobeScaleWidget::GlobeScaleWidget (CalenhadMapView* globe, QWidget* parent, con
     setScaleDraw (_draw);
     _scaleEngine = new QwtLinearScaleEngine();
     _draw -> setAlignment (QwtScaleDraw::Alignment::TopScale);
-    _draw -> setSpacing (5.0);
-
 }
 
 GlobeScaleWidget::~GlobeScaleWidget() {
@@ -31,6 +29,7 @@ GlobeScaleWidget::~GlobeScaleWidget() {
 
 void GlobeScaleWidget::paintEvent (QPaintEvent* e) {
     QPainter painter (this);
+
     int extent = (_orientation == Qt::Horizontal ? width() : height()) - 10;
     QPointF centre (_globe -> width() / 2, _globe -> height() / 2);
     QPointF p1 = _orientation == Qt::Horizontal ? QPointF (centre.x() - extent / 2, centre.y()) : QPointF (centre.x(), centre.y() - extent / 2);
@@ -45,6 +44,13 @@ void GlobeScaleWidget::paintEvent (QPaintEvent* e) {
         QwtScaleDiv div = _scaleEngine -> divideScale (0, upperBound / _metresPerUnit, 5, 5, 0.0);
         _draw -> setScaleDiv (div);
     }
+
+    QBrush b = QBrush();
+    b.setColor (CalenhadServices::preferences() -> calenhad_globe_scale_background_color);
+    b.setStyle (Qt::BrushStyle::SolidPattern);
+    painter.setBrush (b);
+    painter.drawRect (0, 0, width() - 10, height());
+
     QwtScaleWidget::paintEvent (e);
 }
 
