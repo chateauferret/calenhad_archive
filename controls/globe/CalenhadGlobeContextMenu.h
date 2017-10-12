@@ -51,6 +51,8 @@ namespace calenhad {
 
                 void projectionSelected (QString projection);
 
+                void scaleVisibleSelected (const bool&);
+
             protected:
                 CalenhadGlobeDialog* _parent;
                 QMenu* _mouseDragMenu;
@@ -77,6 +79,7 @@ namespace calenhad {
 
                 void projectionSelected (const bool& selected);
 
+                void setScalebarVisible (const bool& visible);
             };
         }
     }

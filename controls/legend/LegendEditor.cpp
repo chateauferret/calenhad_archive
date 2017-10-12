@@ -49,7 +49,7 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
     rampwid_->setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding);
     rampwid_->setContentsMargins (0, 0, 0, 0);
 
-    layout ()->addWidget (rampwid_);
+    layout() -> addWidget (rampwid_);
 
     slidewid_ = new LegendEditorSliderPanel ();
     slidewid_->_editor = this;
@@ -75,8 +75,6 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
     }
     layout ()->addWidget (_scale);
     _scale->setVisible (true);
-
-
 
     _colorChooser = new QColorDialog (this);
 }

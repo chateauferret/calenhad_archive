@@ -18,6 +18,7 @@
 #include "../../icosphere/Bounds.h"
 #include "CalenhadGlobeConstants.h"
 #include "CalenhadMapView.h"
+#include "GlobeScaleWidget.h"
 
 namespace GeographicLib {
     class Geodesic;
@@ -41,6 +42,9 @@ namespace calenhad {
     }
 
     namespace controls {
+        namespace legend {
+            class LegendEditorScale;
+        }
         namespace globe {
 
             class CalenhadNavigator;
@@ -88,6 +92,8 @@ namespace calenhad {
 
                 void setGraticuleVisible (const bool& visible = true);
 
+                void setScalebarVisible (const bool& visible);
+
                 void showNavigator (const bool& show = true);
 
                 void navigate (const NavigationEvent& e);
@@ -123,13 +129,14 @@ namespace calenhad {
 
                 bool _graticuleVisible;
 
-                void setScalebarVisible (bool visible);
+
                 CalenhadMapView* _globe;
 
                 icosphere::Bounds _bounds;
                 graph::Graph* _graph;
 
 
+                calenhad::controls::globe::GlobeScaleWidget* _scale;
             };
         }
     }

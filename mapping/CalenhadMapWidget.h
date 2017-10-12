@@ -32,19 +32,6 @@ namespace calenhad {
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
 
-            void screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
-
-            QOpenGLVertexArrayObject m_vao;
-            QOpenGLBuffer* m_vertexBuffer;
-            QOpenGLBuffer* m_indexBuffer;
-            QOpenGLShaderProgram* m_computeProgram;
-            QOpenGLShaderProgram* m_renderProgram;
-            QOpenGLShader* m_computeShader;
-            QOpenGLShader* m_fragmentShader;
-            QOpenGLShader* m_vertexShader;
-            QOpenGLTexture* m_texture;
-            float roll;
-
         public:
             CalenhadMapWidget (QWidget* parent = 0);
 
@@ -69,7 +56,7 @@ namespace calenhad {
             void setInset (bool);
 
             bool inset();
-
+            bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
         public slots:
 
             void setProjection (const QString& projection);
@@ -103,12 +90,24 @@ namespace calenhad {
 
             QList<double> graticules ();
 
-            bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
+
 
             // boilerplate code for compute, vertex and fragment shaders
             QString _shaderTemplate;
             QString _vertexShader;
             QString _fragmentShader;
+
+            void screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
+
+            QOpenGLVertexArrayObject m_vao;
+            QOpenGLBuffer* m_vertexBuffer;
+            QOpenGLBuffer* m_indexBuffer;
+            QOpenGLShaderProgram* m_computeProgram;
+            QOpenGLShaderProgram* m_renderProgram;
+            QOpenGLShader* m_computeShader;
+            QOpenGLShader* m_fragmentShader;
+            QOpenGLShader* m_vertexShader;
+            QOpenGLTexture* m_texture;
 
 
         };

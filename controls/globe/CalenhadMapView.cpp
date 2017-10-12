@@ -12,6 +12,7 @@
 #include <QMouseEvent>
 #include <QtXml/QtXml>
 #include <QtWidgets/QToolTip>
+#include <qwt/qwt_scale_draw.h>
 #include "../../mapping/projection/Projection.h"
 #include "../../mapping/CalenhadMapWidget.h"
 
@@ -35,6 +36,7 @@ CalenhadMapView::CalenhadMapView (QWidget* parent) : CalenhadMapWidget (parent),
     _bounds (Bounds (-M_PI_2, M_PI_2, 0, M_2_PI)),
     _source (nullptr), _previewType (OverviewPreviewType::WholeWorld) {
     setMouseTracking (true);
+
 }
 
 CalenhadMapView::~CalenhadMapView() {

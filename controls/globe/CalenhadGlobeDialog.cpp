@@ -25,6 +25,8 @@
 #include "../../mapping/projection/Projection.h"
 #include "../../qmodule/QModule.h"
 #include "../../preferences/PreferencesService.h"
+#include "../legend/LegendEditorScale.h"
+#include "GlobeScaleWidget.h"
 
 class QwtCompass;
 
@@ -32,6 +34,7 @@ class QwtCompass;
 using namespace GeographicLib;
 using namespace icosphere;
 using namespace calenhad;
+using namespace calenhad::controls::legend;
 using namespace calenhad::controls::globe;
 using namespace calenhad::qmodule;
 using namespace calenhad::mapping;
@@ -79,6 +82,17 @@ void CalenhadGlobeDialog::initialise() {
     connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
     _positionLabel = new QLabel (this);
 
+    // scale - distance measure based on scale and planet radius
+
+    QWidget* scalePanel = new QWidget (this);
+    scalePanel -> setStyleSheet ("{ background: silver; }");
+    _scale = new GlobeScaleWidget (_globe, scalePanel);
+    _scale -> resize (200, 30);
+    scalePanel -> resize (200, 30);
+    scalePanel -> move (20, height() - 20);
+    scalePanel -> setVisible (true);
+
+
     invalidate();
 }
 
@@ -117,7 +131,7 @@ void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
         _contextMenu = new CalenhadGlobeContextMenu (this);
         connect (_contextMenu, SIGNAL (showOverviewMap (const bool&)), this, SLOT (showOverviewMap (const bool&)));
         connect (_contextMenu, SIGNAL (showZoomSlider (const bool&)), this, SLOT (showZoomSlider (const bool&)));
-        connect (_contextMenu, SIGNAL (setScaleVisible (const bool&)), this, SLOT (setScaleVisible (const bool&)));
+        connect (_contextMenu, SIGNAL (scaleVisibleSelected (const bool&)), this, SLOT (setScalebarVisible (const bool&)));
         connect (_contextMenu, SIGNAL (showNavigator (const bool&)), this, SLOT (showNavigator (const bool&)));
         connect (_contextMenu, SIGNAL (showGraticule (const bool&)), this, SLOT (setGraticuleVisible (const bool&)));
         connect (_contextMenu, SIGNAL (dragModeSelected (const CalenhadGlobeDragMode&)), _globe, SLOT (setMouseDragMode (const CalenhadGlobeDragMode&)));
@@ -224,11 +238,11 @@ bool CalenhadGlobeDialog::isGraticuleVisible() {
 }
 
 bool CalenhadGlobeDialog::isScaleVisible () {
-    // to do
+    return ((QWidget*) _scale -> parent()) -> isVisible();
 }
 
-void CalenhadGlobeDialog::setScalebarVisible (bool visible) {
-    // to do
+void CalenhadGlobeDialog::setScalebarVisible (const bool& visible) {
+    ((QWidget*) _scale -> parent()) -> setVisible (visible);
 }
 
 CalenhadMapView* CalenhadGlobeDialog::globe () {

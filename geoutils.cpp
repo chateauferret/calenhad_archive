@@ -7,6 +7,8 @@
 #include "geoutils.h"
 #include <QtGui/QtGui>
 #include <sstream>
+#include <GeographicLib/Geodesic.hpp>
+
 namespace geoutils {
 
     Geolocation::Geolocation () : Geolocation (0.0, 0.0, Units::Radians) {}
@@ -158,10 +160,6 @@ namespace geoutils {
     }
 
     Cartesian Math::toCartesian (const Geolocation& g) {
-        //double x, y, z;
-        //x = cos (g.latitude) * cos (g.longitude);
-        //y = cos (g.latitude) * sin (g.longitude);
-        //z = sin (g.latitude);
         GeographicLib::Geocentric gc = GeographicLib::Geocentric (1, 0);
         double x, y, z;
         gc.Forward (g.latitude (Units::Degrees), g.longitude (Units::Degrees), 0, x, y, z);

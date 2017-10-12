@@ -94,6 +94,7 @@ namespace calenhad {
                 QString geoLocationStringTraditional (const geoutils::Geolocation& loc);
 
                 void wheelEvent (QWheelEvent* event);
+
             };
         }
     }

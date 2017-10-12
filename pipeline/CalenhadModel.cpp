@@ -782,8 +782,9 @@ QAction* CalenhadModel::makeMenuItem (const QIcon& icon, const QString& name, co
 QString CalenhadModel::uniqueName (QString original) {
     int i = 0;
     QString suffix;
-    do {
+    while (nameExists (original + suffix)) {
         suffix = "_" + QString::number (i++);
-    } while (nameExists (original + suffix));
+        std::cout << (original + suffix).toStdString () << "\n";
+    } ;
     return (original + suffix);
 }

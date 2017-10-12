@@ -24,7 +24,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
     _showScaleAction->setCheckable (true);
     _showScaleAction->setData ("scalebar");
     addAction (_showScaleAction);
-    connect (_showScaleAction, SIGNAL (toggled (bool)), this, SIGNAL (setScaleVisible (const bool&)));
+    connect (_showScaleAction, SIGNAL (toggled (bool)), this, SLOT (setScalebarVisible (const bool&)));
 
     _showZoomSliderAction = new QAction ("Zoom bar", this);
     _showZoomSliderAction->setStatusTip ("Toggle the display of the scale bar");
@@ -166,6 +166,10 @@ void CalenhadGlobeContextMenu::setDoubleClickMode (const bool& enable) {
     if (a -> text() == "Go to") { emit doubleClickModeSelected (CalenhadGlobeDoubleClickMode::Goto); }
     if (a -> text() == "Describe place") {emit doubleClickModeSelected (CalenhadGlobeDoubleClickMode::Place); }
     if (a -> text() == "Do nothing") { emit doubleClickModeSelected (CalenhadGlobeDoubleClickMode::NoDoubleClick); }
+}
+
+void CalenhadGlobeContextMenu::setScalebarVisible (const bool& visible) {
+    emit scaleVisibleSelected (visible);
 }
 
 void CalenhadGlobeContextMenu::initialise () {

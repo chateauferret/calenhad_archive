@@ -21,6 +21,7 @@ void Preferences::loadSettings() {
     // Colours and style
 
     calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/martin/.config/calenhad/darkorange.css").toString();
+    calenhad_default_planet_radius = _settings -> value ("calenhad/default_planet/radius", 6371000).toDouble (&ok);
     calenhad_module_brush_color_selected = _settings -> value ("calenhad/module/brush/color/selected", "#00F0F0").value<QColor>();
     calenhad_module_brush_color_normal = _settings -> value ("calenhad/module/brush/color/normal", "#00F000").value<QColor>();
     calenhad_nodegroup_brush_color_selected = _settings -> value ("calenhad/nodegroup/brush/color/selected", "#802020").value<QColor>();
@@ -125,6 +126,7 @@ void Preferences::saveSettings() {
 
     _settings -> setValue ("calenhad/stylesheet", calenhad_stylesheet);
     _settings -> setValue ("calenhad/module/brush/color/selected", calenhad_module_brush_color_selected);
+    _settings -> setValue ("calenhad/default_planet/radius", calenhad_default_planet_radius);
     _settings -> setValue ("calenhad/module/brush/color/normal", calenhad_module_brush_color_normal);
     _settings -> setValue ("calenhad/nodegroup/brush/color/selected", calenhad_nodegroup_brush_color_selected);
     _settings -> setValue ("calenhad/nodegroup/brush/color/normal", calenhad_nodegroup_brush_color_normal);

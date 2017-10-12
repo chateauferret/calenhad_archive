@@ -22,6 +22,7 @@ namespace calenhad {
             // Colours and styles
 
             QString calenhad_stylesheet;
+            double calenhad_default_planet_radius;
             QColor calenhad_module_brush_color_selected;
             QColor calenhad_module_brush_color_normal;
             QColor calenhad_nodegroup_brush_color_selected;

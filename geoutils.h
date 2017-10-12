@@ -81,8 +81,6 @@ namespace geoutils {
         static double distSquared (const Cartesian& a, const Cartesian& b);
         static bool isNearer (const Cartesian& a, const Cartesian& b, const Cartesian& c);
         static QString toTraditional (double ang, const unsigned& num_dec_places = 2);
-
-
     };
 } // namespace Geoutils
 #endif /* GEOUTILS_H */
