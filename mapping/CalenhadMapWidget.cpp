@@ -10,6 +10,7 @@
 #include <QtXml/QtXml>
 #include <QtGui/QPainter>
 
+
 using namespace calenhad;
 using namespace geoutils;
 using namespace matrices;
@@ -57,7 +58,7 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     fsFile.open (QIODevice::ReadOnly);
     QTextStream fsTextStream (&fsFile);
     _fragmentShader = fsTextStream.readAll ();
-    
+
 }
 
 CalenhadMapWidget::~CalenhadMapWidget() {
@@ -192,16 +193,15 @@ void CalenhadMapWidget::paintGL() {
     // draw
     m_renderProgram -> bind();
     //glClear(GL_COLOR_BUFFER_BIT);
-    m_texture->bind();
+    m_texture -> bind();
 
     glUniform1i(srcLoc, 0);
     glDrawElements (GL_TRIANGLE_STRIP,4,GL_UNSIGNED_SHORT,0);
     m_vao.release();
 
     p.endNativePainting();
-
     if (_graticule) {
-        drawGraticule (p);
+        drawGraticule (p, 0);
     }
 }
 
@@ -218,7 +218,7 @@ void CalenhadMapWidget::resizeGL(int width, int height) {
     else {
         glOrtho (-0.5f, 0.5f, 0.0, 1.0 / aspectRatio, -1, 1);
     }
-    glMatrixMode(GL_MODELVIEW);
+    glMatrixMode (GL_MODELVIEW);
 
 }
 
@@ -237,9 +237,9 @@ void CalenhadMapWidget::setGraph (Graph* g) {
         if (m_computeShader) {
             m_computeProgram -> removeAllShaders ();
             if (m_computeShader -> compileSourceCode (_shader)) {
-                m_computeProgram->addShader (m_computeShader);
-                m_computeProgram->link ();
-                m_computeProgram->bind ();
+                m_computeProgram -> addShader (m_computeShader);
+                m_computeProgram -> link ();
+                m_computeProgram -> bind ();
             } else {
                 std::cout << "Compute shader would not compile\n";
             }
@@ -297,20 +297,103 @@ QList<double> CalenhadMapWidget::graticules() {
     return list;
 }
 
-void CalenhadMapWidget::drawGraticule (QPainter& p) {
-    p.setPen(Qt::yellow);
+void CalenhadMapWidget::drawGraticule (QPainter& p, const int& level) {
+    p.setPen (Qt::yellow);
     Geolocation centre = _rotation;
     int drawnLat = 0, drawnLon = 0;
+    int count = 0;
+    // find highest-level lat and lon that are in the viewport
+    double interval = graticules().at (level);
+
+    double lat = (std::floor (centre.latitude (Units::Degrees) / interval)) * interval;
+    double lon = (std::floor (centre.longitude (Units::Degrees) / interval)) * interval;
+
+    if (isInViewport (Geolocation (lat, lon, Units::Degrees))) {
+        QSet<QPair<double, double>> result;
+        getIntersections (QPair<double, double> (lat, lon), interval, result);
+        for (QPair<double, double> g : result) {
+            drawGraticuleIntersection (p, g, level);
+        }
+    } else {
+        if (interval != graticules().last()) {
+            drawGraticule (p, level + 1);
+        }
+    }
+}
+
+void CalenhadMapWidget::getIntersections (const QPair<double, double>& g, const double& interval, QSet<QPair<double, double>>& result) {
+    if (result.contains (g)) { return; }
+    result.insert (g);
+    if (isInViewport (Geolocation (g.first, g.second, Units::Degrees))) {
+        double wlon = g.second - interval;
+        if (wlon < -180.0) { wlon += 360.0; }
+        getIntersections (QPair<double, double> (g.first, wlon), interval, result);
+        double elon = g.second + interval;
+        if (elon > 180.0) { elon -= 360.0; }
+        getIntersections (QPair<double, double>  (g.first, elon), interval, result);
+        double nlat = g.first + interval;
+        if (nlat <= 90.0) {
+            getIntersections (QPair<double, double> (nlat, g.second), interval, result);
+        }
+        double slat = g.first - interval;
+        if (slat >= -90.0) {
+            getIntersections (QPair<double, double> (slat, g.second), interval, result);
+        }
+    }
+}
+
+void CalenhadMapWidget::drawGraticuleIntersection (QPainter& p, const QPair<double, double>& g, const int& level) {
+    QPointF start, end;
+    double interval = graticules().at (level);
+
+    int segments = 10;
 
 
+    // extend the meridian in segments to the north and south
+    screenCoordinates (Geolocation (g.first - interval, g.second, Units::Degrees), start);
+    double lat0 = g.first - interval;
+    for (int i = 0; i <= segments; i++) {
+        Geolocation g0 = Geolocation (lat0, g.second, Units::Degrees);
+        bool visible = screenCoordinates (g0, end);
+        if (visible) {
+            if (lat0 > -90.0) {
+                p.drawLine (start, end);
+            }
+            start = end;
+            lat0 += interval / segments;
+        }
+    }
+
+    // extend the parallel in segments to the east and west
+    screenCoordinates (Geolocation (g.first, g.second - interval, Units::Degrees), start);
+    double lon0 = g.second - interval;
+    for (int i = 0; i <= segments; i++) {
+        Geolocation g0 = Geolocation (g.first, lon0, Units::Degrees);
+        bool visible = screenCoordinates (g0, end);
+        if (visible) {
+            p.drawLine (start, end);
+            start = end;
+            lon0 += interval / segments;
+        }
+    }
+
+}
+
+bool CalenhadMapWidget::isInViewport (Geolocation g) {
+    QPointF s;
+    if (screenCoordinates (g, s)) {
+        return s.x() >= 0 && s.x() <= width() && s.y() >= 0 && s.y() < height();
+    } else {
+        return false;
+    }
 }
 
 bool CalenhadMapWidget::screenCoordinates (Geolocation geolocation, QPointF& screenCoordinates) {
     _projection -> setDatum (_rotation);
-    QPointF logical;
-    bool fwd = _projection -> forward (geolocation, logical);
-    double x = logical.x() / _scale;
-    double y = - logical.y() / _scale;
+    QPointF p;
+    bool fwd = _projection -> forward (geolocation, p);
+    double x = p.x() / _scale;
+    double y = (- p.y()) / _scale;
     x += M_PI;
     y += M_PI / 2;
     x /= M_PI * 2;

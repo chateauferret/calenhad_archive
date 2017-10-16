@@ -30,7 +30,6 @@ CalenhadMapView::CalenhadMapView (QWidget* parent) : CalenhadMapWidget (parent),
     _coordinatesFormat (CoordinatesFormat::Traditional),
     _datumFormat (DatumFormat::Scaled),
     _zoomDrag (false),
-    _ratio (2.0),
     _sensitivity (0.5),
     _mouseDoubleClickMode (CalenhadGlobeDoubleClickMode::Goto),
     _bounds (Bounds (-M_PI_2, M_PI_2, 0, M_2_PI)),
@@ -44,7 +43,7 @@ CalenhadMapView::~CalenhadMapView() {
 
 void CalenhadMapView::render() {
     if (_source -> isComplete()) {
-        QDomDocument doc = _source->model() -> serialize (calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+        QDomDocument doc = _source -> model() -> serialize (calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
         Graph* g = new Graph (doc, _source -> name ());
         setGraph (g);
     } else {
@@ -195,6 +194,9 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
                 bool ok = screenCoordinates (loc, s);
                 if (ok) {
                     text += " " + QString::number (s.x()) + ", " + QString::number (s.y());
+                    text = QString::number (e -> pos().x()) + ", " + QString::number (e -> pos().y()) + " " + text;
+                } else {
+
                 }
 
                 QToolTip::showText (e -> globalPos(), text, this);

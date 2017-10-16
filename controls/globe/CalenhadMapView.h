@@ -66,7 +66,6 @@ namespace calenhad {
             protected:
                 icosphere::Bounds _bounds;
                 OverviewPreviewType _previewType;
-                double _ratio;
                 calenhad::qmodule::QModule* _source;
                 void showEvent (QShowEvent* e) override;
 

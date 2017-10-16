@@ -81,7 +81,7 @@ namespace calenhad {
             geoutils::Geolocation _rotation;
             QPointF _translation;
             bool _graticule;
-            void drawGraticule (QPainter& p);
+            void drawGraticule (QPainter& p, const int& level);
 
             bool _inset;
 
@@ -111,6 +111,12 @@ namespace calenhad {
             QOpenGLTexture* m_texture;
 
 
+            bool isInViewport (geoutils::Geolocation g);
+
+            void drawGraticuleIntersection (QPainter& p, const QPair<double, double>& g, const int& level);
+
+
+            void getIntersections (const QPair<double, double>& g, const double& interval, QSet<QPair<double, double>>& result);
         };
     }
 }

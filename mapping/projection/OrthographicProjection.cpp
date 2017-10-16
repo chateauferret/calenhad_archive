@@ -34,12 +34,12 @@ bool OrthographicProjection::inverse (const QPointF& point, Geolocation& geoloca
 }
 
 bool OrthographicProjection::isVisible (const Geolocation& geolocation) {
-    return sin (geolocation.latitude()) * sin (_datum.latitude()) + cos (geolocation.latitude()) * cos (_datum.latitude()) * cos (geolocation.longitude() - _datum.longitude()) >= 0;
+    return sin (geolocation.latitude()) * sin (_datum.latitude()) + cos (geolocation.latitude()) * cos (_datum.latitude()) * cos (geolocation.longitude() - _datum.longitude()) > 0;
 }
 
 bool OrthographicProjection::forward (const geoutils::Geolocation& geolocation, QPointF& point) {
     double x = std::cos (geolocation.latitude()) * std::sin (geolocation.longitude() - _datum.longitude());
-    double y = std::cos (_datum.latitude()) * std::sin (geolocation.latitude ()) - std::sin (_datum.latitude() * std::cos (geolocation.latitude()) * std::cos (geolocation.longitude() - _datum.longitude()));
+    double y = std::cos (_datum.latitude()) * std::sin (geolocation.latitude ()) - std::sin (_datum.latitude()) * std::cos (geolocation.latitude()) * std::cos (geolocation.longitude() - _datum.longitude());
     point.setX (x);
     point.setY (y);
     bool valid = isVisible (geolocation);
@@ -55,7 +55,7 @@ QString OrthographicProjection::notes () {
 }
 
 int OrthographicProjection::id () {
-    return 2; // see map_cs.glslInverse
+    return 2; // see map_cs.glsl
 }
 
 
