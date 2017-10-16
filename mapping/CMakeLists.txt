@@ -12,4 +12,6 @@ SET(MAPPING_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/CubicSpline.cpp
         ${CMAKE_CURRENT_LIST_DIR}/TerraceCurve.h
         ${CMAKE_CURRENT_LIST_DIR}/TerraceCurve.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/Graticule.h
+        ${CMAKE_CURRENT_LIST_DIR}/Graticule.cpp
         )

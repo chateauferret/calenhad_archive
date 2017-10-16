@@ -28,7 +28,7 @@ namespace calenhad {
     }
 
     namespace mapping {
-
+        class Graticule;
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
 
@@ -58,7 +58,7 @@ namespace calenhad {
             bool inset();
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
             bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
-
+            bool isInViewport (geoutils::Geolocation g);
         public slots:
 
             void setProjection (const QString& projection);
@@ -69,20 +69,14 @@ namespace calenhad {
             void paintGL ();
 
             void resizeGL (int width, int height);
-
-            Viewport* _viewport;
+            geoutils::Geolocation _rotation;
             calenhad::graph::Graph* _graph;
             QString _shader;
             float* _colorMapBuffer;
-
             double _scale;
             calenhad::mapping::projection::Projection* _projection;
-
-            geoutils::Geolocation _rotation;
             QPointF _translation;
-            bool _graticule;
-            void drawGraticule (QPainter& p, const int& level);
-
+            Graticule* _graticule;
             bool _inset;
 
             // render pass identifiers
@@ -90,7 +84,6 @@ namespace calenhad {
             static const int PASS_MAINMAP = 2;
             static const int PASS_STATISTICS = 3;
 
-            QList<double> graticules ();
 
 
 
@@ -110,13 +103,6 @@ namespace calenhad {
             QOpenGLShader* m_vertexShader;
             QOpenGLTexture* m_texture;
 
-
-            bool isInViewport (geoutils::Geolocation g);
-
-            void drawGraticuleIntersection (QPainter& p, const QPair<double, double>& g, const int& level);
-
-
-            void getIntersections (const QPair<double, double>& g, const double& interval, QSet<QPair<double, double>>& result);
         };
     }
 }
