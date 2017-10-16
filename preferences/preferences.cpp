@@ -59,6 +59,18 @@ void Preferences::loadSettings() {
     calenhad_variables_color_normal = _settings -> value ("calenhad/variables/color/normal", "#000000").value<QColor>();
     calenhad_variables_color_error = _settings -> value ("calenhad/variables/color/error", "#FF0000").value<QColor>();
     calenhad_globe_scale_background_color = _settings -> value ("calenhad/globe/scale/background/color", "#C0C0C0").value<QColor>();
+    calenhad_graticule_major_color  = _settings -> value ("calenhad/graticule/major/color", "#FFFFFF").value<QColor>();
+    calenhad_graticule_major_weight = _settings -> value ("calenhad/graticule/major/weight", 1).toUInt();;
+    calenhad_graticule_major_style = _settings -> value ("calenhad/graticule/major/style", (int) Qt::PenStyle::SolidLine).toInt();
+    calenhad_graticule_minor_color = _settings -> value ("calenhad/graticule/minor/color", "#00FFFF").value<QColor>();
+    calenhad_graticule_minor_weight = _settings -> value ("calenhad/graticule/minor/weight", 1).toUInt();
+    calenhad_graticule_minor_style = _settings -> value ("calenhad/graticule/minor/style", (int) Qt::PenStyle::DashLine).toInt();
+    calenhad_graticule_major_text_size = _settings -> value ("calenhad/graticule/major/text/size", 10).toUInt();
+    calenhad_graticule_major_text_color = _settings -> value ("calenhad/graticule/major/text/color", "#FFFFFF").value<QColor>();
+    calenhad_graticule_minor_text_size = _settings -> value ("calenhad/graticule/major/text/size", 8).toUInt();
+    calenhad_graticule_minor_text_color = _settings -> value ("calenhad/graticule/major/text/color", "#00FFFF").value<QColor>();
+    calenhad_graticule_density = _settings -> value ("calenhad/graticule/density", 10).toUInt();
+    calenhad_graticule_visible = _settings -> value ("calenhad/graticule/visible", true).toBool ();
 
     // Configuration
 
@@ -167,6 +179,18 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/variables/color/normal", calenhad_variables_color_normal);
     _settings -> setValue ("calenhad/variables/color/error", calenhad_variables_color_error);
     _settings -> setValue ("calenhad/globe/scale/background/color", calenhad_globe_scale_background_color);
+    _settings -> setValue ("calenhad/graticule/major/color", calenhad_graticule_major_color );
+    _settings -> setValue ("calenhad/graticule/major/weight", calenhad_graticule_major_weight);
+    _settings -> setValue ("calenhad/graticule/major/style", calenhad_graticule_major_style);
+    _settings -> setValue ("calenhad/graticule/minor/color", calenhad_graticule_minor_color);
+    _settings -> setValue ("calenhad/graticule/minor/weight", calenhad_graticule_minor_weight);
+    _settings -> setValue ("calenhad/graticule/major/style", calenhad_graticule_minor_style);
+    _settings -> setValue ("calenhad/graticule/major/text/size", calenhad_graticule_major_text_size);
+    _settings -> setValue ("calenhad/graticule/major/text/color", calenhad_graticule_major_text_color);
+    _settings -> setValue ("calenhad/graticule/major/text/size", calenhad_graticule_minor_text_size);
+    _settings -> setValue ("calenhad/graticule/major/text/color", calenhad_graticule_minor_text_color);
+    _settings -> setValue ("calenhad/graticule/density", calenhad_graticule_density);
+    _settings -> setValue ("calenhad/graticule/visible", calenhad_graticule_visible);
 
     // Configuration
 

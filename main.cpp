@@ -33,7 +33,7 @@ Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
 Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
 Q_DECLARE_METATYPE (calenhad::controls::altitudemap::CurveType)
 Q_DECLARE_METATYPE (calenhad::nodeedit::CalenhadAction)
-
+Q_DECLARE_METATYPE (Qt::PenStyle)
 
 
 int main (int argc, char **argv) {
@@ -45,6 +45,7 @@ int main (int argc, char **argv) {
     qRegisterMetaType<std::shared_ptr<icosphere::Icosphere>>();
     qRegisterMetaType<CurveType>();
     qRegisterMetaType<CalenhadAction>();
+    qRegisterMetaType<Qt::PenStyle>();
 
     // set up application
     QCoreApplication::setOrganizationName("calenhad");

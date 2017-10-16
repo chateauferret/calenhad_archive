@@ -54,6 +54,18 @@ namespace calenhad {
             QColor calenhad_variables_color_normal;
             QColor calenhad_variables_color_error;
             QColor calenhad_globe_scale_background_color;
+            QColor calenhad_graticule_major_color;
+            unsigned calenhad_graticule_major_weight;
+            int calenhad_graticule_major_style;
+            QColor calenhad_graticule_minor_color;
+            unsigned calenhad_graticule_minor_weight;
+            int calenhad_graticule_minor_style;
+            unsigned calenhad_graticule_major_text_size;
+            QColor calenhad_graticule_major_text_color;
+            unsigned calenhad_graticule_minor_text_size;
+            QColor calenhad_graticule_minor_text_color;
+            unsigned calenhad_graticule_density;
+            bool calenhad_graticule_visible;
 
             // Configuration
 
