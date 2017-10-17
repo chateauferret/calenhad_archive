@@ -14,7 +14,7 @@ using namespace calenhad::mapping;
 using namespace geoutils;
 
 
-Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent), _visible (true), _density (0) {
+Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent), _visible (true), _density (1), _majorPen (QPen()), _minorPen (QPen()) {
 
 }
 
@@ -38,45 +38,60 @@ double Graticule::pitch (const int& i) {
     return pitch (j) * f;
 }
 
-void Graticule::drawGraticule (QPainter& p) {
-    int level = 0;
-    int drawn = 0;
-    while (drawn < 32) {
-        drawn = drawGraticule (p, level);
-        level++;
-        std::cout << "Level " << level << " drawn " << drawn << "\n";
+double Graticule::subdivisions (const int& i) {
+    if (i <= 0) { return 30.0; }
+    if (i == 1) { return 15.0; }
+    if (i == 2) { return 10.0; }
+    if (i == 3) { return 5.0; }
+    if (i == 4) { return 1.0; }
+
+
+    double f = 1.0;
+    int j = i;
+    while (j > 4) {
+        j -= 3;
+        f *= 0.1;
     }
-    std::cout << "done\n";
+    return subdivisions (j) * f;
 }
 
-int Graticule::drawGraticule (QPainter& p, const int& level) {
-    int _level = level;
-    QPen pen;
-    pen.setColor (CalenhadServices::preferences() -> calenhad_graticule_major_color);
-    pen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_major_style));
-    pen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_major_weight);
-    p.setPen (pen);
-    Geolocation centre = _globe -> rotation();
+void Graticule::drawGraticule (QPainter& p) {
 
-    // find highest-level lat and lon that are in the viewport
-
-
+    _majorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_major_color);
+    _majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_major_style));
+    _majorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_major_weight);
+    _minorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_minor_color);
+    _minorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_minor_style));
+    _minorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_minor_weight);
     QSet<QPair<double, double>> result;
-    double interval = pitch (_level);
+    int level = 0;
+    while (result.size() < 16) {
+        result.clear();
+        makeGraticule (p, level, result);
+        level++;
+    }
+
+    result.clear();
+    makeGraticule (p, level + _density - 1, result);
+
+    for (QPair<double, double> intersection : result) {
+        drawGraticuleIntersection (p, intersection, level - 1);
+    }
+}
+
+void Graticule::makeGraticule (QPainter& p, const int& level, QSet<QPair<double, double>>& result) {
+    Geolocation centre = _globe -> rotation();
+    double interval = pitch (level);
     double lat = (std::floor (centre.latitude (Units::Degrees) / interval)) * interval;
     double lon = (std::floor (centre.longitude (Units::Degrees) / interval)) * interval;
     if (_globe -> isInViewport (Geolocation (lat, lon, Units::Degrees))) {
         getIntersections (QPair<double, double> (lat, lon), interval, result);
     }
-
-    for (QPair<double, double> intersection : result) {
-        drawGraticuleIntersection (p, intersection, _level);
-    }
-    return result.size();
 }
 
 void Graticule::getIntersections (const QPair<double, double>& g, const double& interval, QSet<QPair<double, double>>& result) {
     if (result.contains (g)) { return; }
+
     result.insert (g);
     if (_globe -> isInViewport (Geolocation (g.first, g.second, Units::Degrees))) {
         double wlon = g.second - interval;
@@ -101,8 +116,10 @@ void Graticule::drawGraticuleIntersection (QPainter& p, const QPair<double, doub
     double interval = pitch (level);
 
     int segments = 10;
+    double q = subdivisions (level);
 
     // extend the meridian in segments to the north and south
+    p.setPen (g.second == 0.0 || g.second / q ==  std::floor (g.second / q) ? _majorPen : _minorPen);
     _globe -> screenCoordinates (Geolocation (g.first - interval, g.second, Units::Degrees), start);
     double lat0 = g.first - interval;
     for (int i = 0; i <= segments; i++) {
@@ -112,13 +129,14 @@ void Graticule::drawGraticuleIntersection (QPainter& p, const QPair<double, doub
             if (lat0 > -90.0) {             // removes an artefact which appears if both poles are visible
                 p.drawLine (start, end);
             }
-            start = end;
-            lat0 += interval / segments;
         }
+        start = end;
+        lat0 += interval / segments;
     }
 
     // extend the parallel in segments to the east and west
-    _globe -> screenCoordinates (Geolocation (g.first, g.second - interval, Units::Degrees), start);
+    p.setPen (g.first == 0.0 || g.first / q == std::floor (g.first / q) ? _majorPen : _minorPen);
+    _globe->screenCoordinates (Geolocation (g.first, g.second - interval, Units::Degrees), start);
     double lon0 = g.second - interval;
     for (int i = 0; i <= segments; i++) {
         Geolocation g0 = Geolocation (g.first, lon0, Units::Degrees);
