@@ -119,7 +119,7 @@ void Graticule::drawGraticuleIntersection (QPainter& p, const QPair<double, doub
     double q = subdivisions (level);
 
     // extend the meridian in segments to the north and south
-    p.setPen (g.second == 0.0 || g.second / q ==  std::floor (g.second / q) ? _majorPen : _minorPen);
+    p.setPen (g.second / q ==  std::floor (g.second / q) ? _majorPen : _minorPen);
     _globe -> screenCoordinates (Geolocation (g.first - interval, g.second, Units::Degrees), start);
     double lat0 = g.first - interval;
     for (int i = 0; i <= segments; i++) {
@@ -127,7 +127,9 @@ void Graticule::drawGraticuleIntersection (QPainter& p, const QPair<double, doub
         bool visible = _globe -> screenCoordinates (g0, end);
         if (visible) {
             if (lat0 > -90.0) {             // removes an artefact which appears if both poles are visible
-                p.drawLine (start, end);
+                if (! _globe -> inset() || (! _globe -> insetRect().contains (start) && ! _globe -> insetRect().contains (end))) {
+                    p.drawLine (start, end);
+                }
             }
         }
         start = end;
@@ -135,19 +137,22 @@ void Graticule::drawGraticuleIntersection (QPainter& p, const QPair<double, doub
     }
 
     // extend the parallel in segments to the east and west
-    p.setPen (g.first == 0.0 || g.first / q == std::floor (g.first / q) ? _majorPen : _minorPen);
+    p.setPen (g.first / q == std::floor (g.first / q) ? _majorPen : _minorPen);
     _globe->screenCoordinates (Geolocation (g.first, g.second - interval, Units::Degrees), start);
     double lon0 = g.second - interval;
     for (int i = 0; i <= segments; i++) {
         Geolocation g0 = Geolocation (g.first, lon0, Units::Degrees);
         bool visible = _globe -> screenCoordinates (g0, end);
         if (visible) {
-            p.drawLine (start, end);
+            if (! _globe -> inset() || (! _globe -> insetRect().contains (start) && ! _globe -> insetRect().contains (end))) {
+                p.drawLine (start, end);
+            }
             start = end;
             lon0 += interval / segments;
         }
     }
 }
+
 
 bool Graticule::visible () const {
     return _visible;

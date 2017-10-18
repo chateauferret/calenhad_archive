@@ -54,7 +54,7 @@ namespace calenhad {
             icosphere::Bounds bounds ();
 
             void setInset (bool);
-
+            QRectF insetRect();
             bool inset();
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
             bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
@@ -84,7 +84,9 @@ namespace calenhad {
             static const int PASS_MAINMAP = 2;
             static const int PASS_STATISTICS = 3;
 
-
+            // inset geometry
+            int _insetHeight;
+            QPoint _insetPos;
 
 
             // boilerplate code for compute, vertex and fragment shaders
@@ -102,6 +104,7 @@ namespace calenhad {
             QOpenGLShader* m_fragmentShader;
             QOpenGLShader* m_vertexShader;
             QOpenGLTexture* m_texture;
+
 
         };
     }

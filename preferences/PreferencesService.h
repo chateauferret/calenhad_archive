@@ -100,6 +100,9 @@ namespace calenhad {
             double calenhad_globe_zoom_min;
             int calenhad_globe_scale_width;
             int calenhad_globe_scale_height;
+            unsigned calenhad_globe_inset_height;
+            unsigned calenhad_globe_inset_x;
+            unsigned calenhad_globe_inset_y;
 
             // Modules
 

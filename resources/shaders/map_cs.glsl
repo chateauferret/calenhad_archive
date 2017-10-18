@@ -34,7 +34,7 @@ uniform int projection = PROJ_ORTHOGRAPHIC;
 
 // overview map inset parameters
 uniform int insetHeight;                               // height (pixels) - width will be 2 x height - 0 means no inset
-uniform ivec2 insetPos = ivec2 (8, 8);                    // inset top left corner x, y (pixels)
+uniform ivec2 insetPos;                              // inset top left corner x, y (pixels)
 uniform vec4 insetBorder = vec4 (1.0, 1.0, 1.0, 1.0);   // border color
 
 // pass identifiers

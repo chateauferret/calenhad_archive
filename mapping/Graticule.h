@@ -34,6 +34,7 @@ namespace calenhad {
 
 
             double subdivisions (const int& i);
+
         };
     }
 }

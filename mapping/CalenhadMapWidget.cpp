@@ -34,7 +34,9 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _shader (""),
     _graticule (nullptr),
     _inset (false),
-    _rotation (Geolocation (0, 0)) {
+    _rotation (Geolocation (0, 0)),
+    _insetHeight (CalenhadServices::preferences() -> calenhad_globe_inset_height),
+    _insetPos (QPoint (CalenhadServices::preferences() -> calenhad_globe_inset_x, CalenhadServices::preferences() -> calenhad_globe_inset_y)) {
 
 
     QSurfaceFormat format;
@@ -163,6 +165,7 @@ void CalenhadMapWidget::paintGL() {
     static GLint scaleLoc = glGetUniformLocation (m_computeProgram -> programId (), "scale");
     static GLint datumLoc = glGetUniformLocation (m_computeProgram -> programId(), "datum");
     static GLint insetHeightLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetHeight");
+    static GLint insetPosLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetPos");
 
     m_vao.bind();
     m_computeProgram->bind();
@@ -176,9 +179,10 @@ void CalenhadMapWidget::paintGL() {
     glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude());
     glUniform1i (projectionLoc, _projection -> id ());
     glUniform1f (scaleLoc, (GLfloat) _scale);
-    glUniform1i (insetHeightLoc, _inset ? 192 : 0);
+    glUniform1i (insetHeightLoc, _inset ? _insetHeight : 0);
     glUniform1i (resolutionLoc, m_texture -> height());
     glUniform1i (cmbsLoc, 2048);
+    glUniform2i (insetPosLoc, _insetPos.x(), _insetPos.y());
 
 // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
     _colorMapBuffer = _graph -> colorMapBuffer();
@@ -315,6 +319,7 @@ bool CalenhadMapWidget::screenCoordinates (Geolocation geolocation, QPointF& scr
     y /= M_PI;
     screenCoordinates.setX (x * width());
     screenCoordinates.setY (y * height());
+
     return fwd;
 }
 
@@ -328,4 +333,12 @@ bool CalenhadMapWidget::geoCoordinates (QPointF pos, Geolocation& geolocation) {
 
 bool CalenhadMapWidget::inset () {
     return _inset;
+}
+
+
+QRectF CalenhadMapWidget::insetRect() {
+    double h = (_insetHeight / (double) m_texture -> height()) * height();
+    double x = (_insetPos.x () / (double) m_texture -> width()) * width();
+    double y = (1 - ((_insetPos.y () + _insetHeight) / (double) m_texture -> height())) * height();
+    return QRectF (x, y, h * 2, h);
 }
