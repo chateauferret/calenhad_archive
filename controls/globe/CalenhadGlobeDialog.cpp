@@ -114,10 +114,10 @@ void CalenhadGlobeDialog::resizeEvent (QResizeEvent* e) {
             _globe -> setFixedSize (height * 2, height);
         }
         // update positions and sizes of the control widgets
-        _zoomSlider->move (std::max (20, width - 20 - _zoomSlider->width ()), std::max (20, height - 20 - _zoomSlider->height ()));
-        _zoomSlider->setFixedSize (40, std::max (150, height - 200));
-        _navigator->setFixedSize (100, 100);
-        _navigator->move (std::max (20, width - 20 - _navigator->height ()), 20);
+        _zoomSlider -> move (std::max (20, width - 20 - _zoomSlider -> width ()), std::max (20, height - 20 - _zoomSlider -> height ()));
+        _zoomSlider -> setFixedSize (40, std::max (150, height - 200));
+        _navigator -> setFixedSize (100, 100);
+        _navigator -> move (std::max (20, width - 20 - _navigator -> height ()), 20);
 
         emit resized (QSize (e->size ().width (), height));
    // }
@@ -130,14 +130,13 @@ void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
         connect (_contextMenu, SIGNAL (showZoomSlider (const bool&)), this, SLOT (showZoomSlider (const bool&)));
         connect (_contextMenu, SIGNAL (scaleVisibleSelected (const bool&)), this, SLOT (setScalebarVisible (const bool&)));
         connect (_contextMenu, SIGNAL (showNavigator (const bool&)), this, SLOT (showNavigator (const bool&)));
-        connect (_contextMenu, SIGNAL (showGraticule (const bool&)), this, SLOT (setGraticuleVisible (const bool&)));
+        connect (_contextMenu, &CalenhadGlobeContextMenu::showGraticule, _globe, &CalenhadMapWidget::setGraticuleVisible);
         connect (_contextMenu, SIGNAL (dragModeSelected (const CalenhadGlobeDragMode&)), _globe, SLOT (setMouseDragMode (const CalenhadGlobeDragMode&)));
         connect (_contextMenu, SIGNAL (doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&)), _globe, SLOT (setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode&)));
         connect (_contextMenu, SIGNAL (projectionSelected (QString)), _globe, SLOT (setProjection (const QString&)));
         connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
     }
     _contextMenu -> exec (mapToGlobal (pos));
-
 }
 
 void CalenhadGlobeDialog::showOverviewMap (const bool& show) {
@@ -210,7 +209,7 @@ void CalenhadGlobeDialog::updateConfig () {
     showOverviewMap (_configDialog -> overviewCheckState ());
     showZoomSlider (_configDialog -> zoomBarCheckState ());
     showNavigator (_configDialog -> compassCheckState());
-    setGraticuleVisible (_configDialog -> graticuleCheckState ());
+    _globe -> setGraticuleVisible (_configDialog -> graticuleCheckState ());
     _globe -> setMouseDragMode (_configDialog -> dragMode ());
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
@@ -224,14 +223,6 @@ void CalenhadGlobeDialog::updateConfig () {
     _globe -> setCoordinatesFormat (_configDialog -> coordinatesFormat());
     _globe -> setDatumFormat (_configDialog -> datumFormat());
     _globe -> source() -> setLegend (_configDialog -> selectedLegend());
-}
-
-void CalenhadGlobeDialog::setGraticuleVisible (const bool& visible) {
-   _graticuleVisible = visible;
-}
-
-bool CalenhadGlobeDialog::isGraticuleVisible() {
-     return _graticuleVisible;
 }
 
 bool CalenhadGlobeDialog::isScaleVisible () {

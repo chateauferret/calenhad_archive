@@ -90,8 +90,6 @@ namespace calenhad {
 
                 void showZoomSlider (const bool& show = true);
 
-                void setGraticuleVisible (const bool& visible = true);
-
                 void setScalebarVisible (const bool& visible);
 
                 void showNavigator (const bool& show = true);

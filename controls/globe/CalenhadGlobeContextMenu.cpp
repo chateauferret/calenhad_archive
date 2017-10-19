@@ -178,7 +178,7 @@ void CalenhadGlobeContextMenu::initialise () {
     _showScaleAction->setChecked (_parent -> isScaleVisible());
     _showZoomSliderAction->setChecked (_parent -> isZoomBarVisible());
     _showNavigatorAction->setChecked (_parent->isNavigatorVisible ());
-    _showGraticuleAction->setChecked (_parent -> isGraticuleVisible());
+    _showGraticuleAction -> setChecked (_parent -> globe() -> isGraticuleVisible());
     _panAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Pan);
     _zoomAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::Zoom);
     _disableDragAction -> setChecked (_parent -> globe() -> mouseDragMode () == CalenhadGlobeDragMode::NoDrag);

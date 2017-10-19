@@ -58,6 +58,10 @@ namespace calenhad {
             bool inset();
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
             bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
+
+            void setGraticuleVisible (const bool& visible);
+
+            bool isGraticuleVisible ();
             bool isInViewport (geoutils::Geolocation g);
         public slots:
 
@@ -77,6 +81,7 @@ namespace calenhad {
             calenhad::mapping::projection::Projection* _projection;
             QPointF _translation;
             Graticule* _graticule;
+            bool _graticuleVisible;
             bool _inset;
 
             // render pass identifiers

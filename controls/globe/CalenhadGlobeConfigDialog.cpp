@@ -134,7 +134,7 @@ void CalenhadGlobeConfigDialog::initialise() {
     _scaleCheck -> setChecked (_parent -> isScaleVisible());
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent->isNavigatorVisible ());
-    _graticuleCheck -> setChecked (_parent -> isGraticuleVisible());
+    _graticuleCheck -> setChecked (_parent -> globe() -> isGraticuleVisible());
     std::cout << "Legend " << _parent -> globe() -> source() -> legend() -> name ().toStdString () << "\n";
     _legendManager -> setCurrentLegend (_parent -> globe() -> source() -> legend());
     switch (_parent -> globe() -> coordinatesFormat()) {

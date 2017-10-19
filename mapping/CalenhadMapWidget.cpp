@@ -11,6 +11,7 @@
 #include <QtGui/QPainter>
 #include "Graticule.h"
 
+
 using namespace calenhad;
 using namespace geoutils;
 using namespace matrices;
@@ -33,6 +34,7 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _scale (1.0),
     _shader (""),
     _graticule (nullptr),
+    _graticuleVisible (true),
     _inset (false),
     _rotation (Geolocation (0, 0)),
     _insetHeight (CalenhadServices::preferences() -> calenhad_globe_inset_height),
@@ -208,7 +210,7 @@ void CalenhadMapWidget::paintGL() {
     m_vao.release();
 
     p.endNativePainting();
-    if (_graticule) {
+    if (_graticule && _graticuleVisible) {
         _graticule -> drawGraticule (p);
     }
 }
@@ -341,4 +343,14 @@ QRectF CalenhadMapWidget::insetRect() {
     double x = (_insetPos.x () / (double) m_texture -> width()) * width();
     double y = (1 - ((_insetPos.y () + _insetHeight) / (double) m_texture -> height())) * height();
     return QRectF (x, y, h * 2, h);
+}
+
+
+void CalenhadMapWidget::setGraticuleVisible (const bool& visible) {
+    _graticuleVisible = visible;
+    update();
+}
+
+bool CalenhadMapWidget::isGraticuleVisible() {
+    return _graticuleVisible;
 }
