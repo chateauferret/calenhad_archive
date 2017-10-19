@@ -14,8 +14,13 @@ using namespace calenhad::mapping;
 using namespace geoutils;
 
 
-Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent), _visible (true), _density (1), _majorPen (QPen()), _minorPen (QPen()) {
-
+Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent), _visible (true), _density (0), _majorPen (QPen()), _minorPen (QPen()) {
+    _majorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_major_color);
+    _majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_major_style));
+    _majorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_major_weight);
+    _minorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_minor_color);
+    _minorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_minor_style));
+    _minorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_minor_weight);
 }
 
 Graticule::~Graticule() {
@@ -57,12 +62,7 @@ double Graticule::subdivisions (const int& i) {
 
 void Graticule::drawGraticule (QPainter& p) {
 
-    _majorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_major_color);
-    _majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_major_style));
-    _majorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_major_weight);
-    _minorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_minor_color);
-    _minorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_minor_style));
-    _minorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_minor_weight);
+
     QSet<QPair<double, double>> result;
     int level = 0;
     while (result.size() < 16) {
@@ -166,6 +166,19 @@ int Graticule::density () const {
     return _density;
 }
 
-void Graticule::setDensity (int density) {
+void Graticule::setDensity (const int& density) {
     _density = density;
+}
+
+QPen Graticule::majorPen() {
+    return _majorPen;
+}
+
+QPen Graticule::minorPen() {
+    return _minorPen;
+}
+
+void Graticule::setPens (QPen majorPen, QPen minorPen) {
+    _majorPen = majorPen;
+    _minorPen = minorPen;
 }

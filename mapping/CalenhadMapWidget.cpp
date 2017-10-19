@@ -354,3 +354,7 @@ void CalenhadMapWidget::setGraticuleVisible (const bool& visible) {
 bool CalenhadMapWidget::isGraticuleVisible() {
     return _graticuleVisible;
 }
+
+Graticule* CalenhadMapWidget::graticule() {
+    return _graticule;
+}

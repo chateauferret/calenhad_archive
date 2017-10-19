@@ -69,7 +69,7 @@ void Preferences::loadSettings() {
     calenhad_graticule_major_text_color = _settings -> value ("calenhad/graticule/major/text/color", "#FFFFFF").value<QColor>();
     calenhad_graticule_minor_text_size = _settings -> value ("calenhad/graticule/major/text/size", 8).toUInt();
     calenhad_graticule_minor_text_color = _settings -> value ("calenhad/graticule/major/text/color", "#00FFFF").value<QColor>();
-    calenhad_graticule_density = _settings -> value ("calenhad/graticule/density", 10).toUInt();
+    calenhad_graticule_density = _settings -> value ("calenhad/graticule/density", 2).toUInt();
     calenhad_graticule_visible = _settings -> value ("calenhad/graticule/visible", true).toBool ();
 
     // Configuration

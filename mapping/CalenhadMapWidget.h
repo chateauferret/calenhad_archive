@@ -61,6 +61,7 @@ namespace calenhad {
 
             void setGraticuleVisible (const bool& visible);
 
+            Graticule* graticule ();
             bool isGraticuleVisible ();
             bool isInViewport (geoutils::Geolocation g);
         public slots:

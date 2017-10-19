@@ -6,27 +6,21 @@
 #include "CalenhadGlobeConfigDialog.h"
 #include "CalenhadNavigator.h"
 #include <QResizeEvent>
-#include <ostream>
-#include <iostream>
 #include "../../legend/Legend.h"
 #include "../../legend/LegendWidget.h"
 #include <QMenu>
 #include "CalenhadGlobeContextMenu.h"
-#include <GeographicLib/Geodesic.hpp>
-#include <QtWidgets/QToolTip>
-#include <CalenhadServices.h>
 #include <graph/graph.h>
 #include <QtWidgets/QGraphicsDropShadowEffect>
 #include <QtXml/QtXml>
-#include <sstream>
 #include "../../legend/LegendService.h"
 #include "../../pipeline/CalenhadModel.h"
 #include <QWindow>
 #include "../../mapping/projection/Projection.h"
 #include "../../qmodule/QModule.h"
-#include "../../preferences/PreferencesService.h"
 #include "../legend/LegendEditorScale.h"
-#include "GlobeScaleWidget.h"
+#include "../../mapping/Graticule.h"
+
 
 class QwtCompass;
 
@@ -50,7 +44,7 @@ CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, QModule* source) : QD
     _moveFrom (QPoint (0, 0)),
     _globe (new CalenhadMapView (this)),
     _graph (nullptr),
-    _geodesic (new Geodesic (Constants::WGS84_a(), Constants::WGS84_f())) {
+    _geodesic (new Geodesic (1, 0)) {
 
     // Turn on mouse tracking so that we can keep showing the mouse pointer coordinates.
     _globe -> setMouseTracking (true);
@@ -209,6 +203,11 @@ void CalenhadGlobeDialog::updateConfig () {
     showOverviewMap (_configDialog -> overviewCheckState ());
     showZoomSlider (_configDialog -> zoomBarCheckState ());
     showNavigator (_configDialog -> compassCheckState());
+    Graticule* g = globe() -> graticule();
+    if (g) {
+        g -> setDensity (_configDialog -> graticuleDensity());
+        g -> setPens (_configDialog -> graticuleMajorPen(), _configDialog -> graticuleMinorPen());
+    }
     _globe -> setGraticuleVisible (_configDialog -> graticuleCheckState ());
     _globe -> setMouseDragMode (_configDialog -> dragMode ());
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
@@ -223,6 +222,8 @@ void CalenhadGlobeDialog::updateConfig () {
     _globe -> setCoordinatesFormat (_configDialog -> coordinatesFormat());
     _globe -> setDatumFormat (_configDialog -> datumFormat());
     _globe -> source() -> setLegend (_configDialog -> selectedLegend());
+
+
 }
 
 bool CalenhadGlobeDialog::isScaleVisible () {

@@ -28,11 +28,14 @@ namespace calenhad {
         class LegendWidget;
     }
     namespace controls {
+        class ColorButton;
         namespace globe {
             class CalenhadGlobeDialog;
 
             class CalenhadGlobeConfigDialog : public QDialog {
             Q_OBJECT
+
+
 
             public:
                 CalenhadGlobeConfigDialog (CalenhadGlobeDialog* parent);
@@ -69,6 +72,10 @@ namespace calenhad {
 
                 void reject () override;
 
+                QPen graticuleMajorPen ();
+                int graticuleDensity ();
+                QPen graticuleMinorPen ();
+
             signals:
                 void legendChanged (calenhad::legend::Legend* legend);
 
@@ -91,6 +98,16 @@ namespace calenhad {
                 QComboBox* _tooltipDatumCombo;
 
                 void accept ();
+
+                QSlider* _densitySlider;
+                calenhad::controls::ColorButton* _graticuleMajorColorButton;
+                QComboBox* _graticuleMajorStyleCombo;
+                QSlider* _graticuleMajorWeightSlider;
+                calenhad::controls::ColorButton* _graticuleMinorColorButton;
+                QComboBox* _graticuleMinorStyleCombo;
+                QSlider* _graticuleMinorWeightSlider;
+                QWidget* _graticuleTab;
+
             };
         }
     }

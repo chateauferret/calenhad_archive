@@ -206,7 +206,7 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
 }
 
 void CalenhadMapView::wheelEvent (QWheelEvent* event) {
-    double dz = event -> delta() * _sensitivity / 1200;
+    double dz =  - event -> delta() * _sensitivity / 1200;
     emit zoomRequested (_scale + dz);
     update();
 }

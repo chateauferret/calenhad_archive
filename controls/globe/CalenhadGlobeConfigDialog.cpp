@@ -19,10 +19,14 @@
 #include <marble/AbstractProjection.h>
 #include "mapping/projection/ProjectionService.h"
 #include <QtWidgets/QMessageBox>
+#include <QtWidgets/QGroupBox>
+#include <controls/ColorButton.h>
 #include "qmodule/QModule.h"
+#include "../../mapping/Graticule.h"
 
 using namespace calenhad::controls::globe;
 using namespace calenhad::legend;
+using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 
 CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* parent) : QDialog (), _parent (parent) {
@@ -40,8 +44,7 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     ((QFormLayout*) widgetsTab->layout ())->addRow ("Zoom bar", _zoomBarCheck);
     _compassCheck = new QCheckBox (widgetsTab);
     ((QFormLayout*) widgetsTab->layout ())->addRow ("Navigator", _compassCheck);
-    _graticuleCheck = new QCheckBox (widgetsTab);
-    ((QFormLayout*) widgetsTab->layout ())->addRow ("Graticule", _graticuleCheck);
+
     _tooltipOptionCombo = new QComboBox (widgetsTab);
     _tooltipOptionCombo -> addItem ("None", CoordinatesFormat::NoCoordinates);
     _tooltipOptionCombo -> addItem ("Decimal", CoordinatesFormat::Decimal);
@@ -107,7 +110,60 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
             _projectionCombo->setCurrentText (name);
         }
     }
-    ((QFormLayout*) projectionTab->layout ())->addRow ("Projection", _projectionCombo);
+    ((QFormLayout*) projectionTab -> layout()) -> addRow ("Projection", _projectionCombo);
+
+    _graticuleTab = new QWidget (tabs);
+    _graticuleTab -> setLayout (new QVBoxLayout (_graticuleTab));
+    QGroupBox* topBox = new QGroupBox (_graticuleTab);
+    topBox -> setLayout (new QFormLayout (topBox));
+    _graticuleCheck = new QCheckBox (topBox);
+    ((QFormLayout*) topBox -> layout ()) -> addRow ("Graticule", _graticuleCheck);
+    _densitySlider = new QSlider (widgetsTab);
+    _densitySlider -> setOrientation (Qt::Horizontal);
+    ((QFormLayout*) topBox -> layout ()) -> addRow ("Density", _densitySlider);
+    QGroupBox* majorBox = new QGroupBox (_graticuleTab);
+    majorBox -> setTitle ("Major divisions");
+    majorBox -> setLayout (new QFormLayout (_graticuleTab));
+
+    _graticuleMajorColorButton = new ColorButton (majorBox);
+    ((QFormLayout*) majorBox -> layout()) -> addRow ("Color", _graticuleMajorColorButton);
+    _graticuleMajorStyleCombo = new QComboBox (majorBox);
+    ((QFormLayout*) majorBox -> layout()) -> addRow ("Style", _graticuleMajorStyleCombo);
+    _graticuleMajorWeightSlider = new QSlider (majorBox);
+    _graticuleMajorWeightSlider -> setOrientation (Qt::Horizontal);
+    ((QFormLayout*) majorBox -> layout()) -> addRow ("Weight", _graticuleMajorWeightSlider);
+    ((QVBoxLayout*) _graticuleTab -> layout()) -> addWidget (majorBox);
+    QGroupBox* minorBox = new QGroupBox (_graticuleTab);
+
+    minorBox -> setTitle ("Minor divisions");
+    minorBox -> setLayout (new QFormLayout (_graticuleTab));
+    _graticuleMinorColorButton = new ColorButton (minorBox);
+    ((QFormLayout*) minorBox -> layout()) -> addRow ("Color", _graticuleMinorColorButton);
+    _graticuleMinorStyleCombo = new QComboBox (minorBox);
+    ((QFormLayout*) minorBox -> layout()) -> addRow ("Style", _graticuleMinorStyleCombo);
+    _graticuleMinorWeightSlider = new QSlider (minorBox);
+    _graticuleMinorWeightSlider -> setOrientation (Qt::Horizontal);
+    ((QFormLayout*) minorBox -> layout()) -> addRow ("Weight", _graticuleMinorWeightSlider);
+    ((QVBoxLayout*) _graticuleTab -> layout()) -> addWidget (minorBox);
+
+    for (int i = Qt::SolidLine; i < Qt::CustomDashLine; i++) {
+        QPixmap pix (200,14);
+        pix.fill (Qt::lightGray);
+
+        QBrush brush (Qt::black);
+        QPen pen (brush, 5, (Qt::PenStyle) i);
+        QPainter painter (&pix);
+        painter.setPen (pen);
+        painter.drawLine (5, 7, 190, 7);
+        _graticuleMinorStyleCombo -> addItem (QIcon(pix), "", i);
+        _graticuleMajorStyleCombo -> addItem (QIcon(pix), "", i);
+    }
+
+    _graticuleMinorWeightSlider -> setRange (1, 6);
+    _graticuleMajorWeightSlider -> setRange (1, 6);
+    _densitySlider -> setRange (0, 4);
+
+    tabs -> addTab (_graticuleTab, "Graticule");
 
     CalenhadStatsTab* statsTab = new CalenhadStatsTab (_parent -> globe() -> source(), parent);
     tabs -> addTab (statsTab, "&Statistics");
@@ -147,6 +203,35 @@ void CalenhadGlobeConfigDialog::initialise() {
         case (DatumFormat::Native) : { _tooltipOptionCombo -> setCurrentText ("Native"); break; }
         case (DatumFormat::Scaled) : { _tooltipOptionCombo -> setCurrentText ("Scale"); break; }
     }
+
+    Graticule* g = _parent -> globe() -> graticule();
+    if (g) {
+        _graticuleTab -> setEnabled (true);
+        _densitySlider -> setValue (g -> density());
+        _graticuleMajorColorButton -> setColor (g -> majorPen().color());
+        _graticuleMajorStyleCombo -> setCurrentIndex (g -> majorPen().style() - 1);
+        _graticuleMajorWeightSlider -> setValue (g -> majorPen().width());
+        _graticuleMinorColorButton -> setColor (g -> minorPen().color());
+        _graticuleMinorStyleCombo -> setCurrentIndex (g -> minorPen().style() - 1);
+        _graticuleMinorWeightSlider -> setValue (g -> minorPen().width());
+    }
+}
+
+QPen CalenhadGlobeConfigDialog::graticuleMajorPen() {
+    QPen pen;
+    pen.setColor (_graticuleMajorColorButton -> color());
+    pen.setStyle ((Qt::PenStyle) (_graticuleMajorStyleCombo -> currentIndex() + 1));
+    pen.setWidth (_graticuleMajorWeightSlider -> value());
+    return pen;
+}
+
+
+QPen CalenhadGlobeConfigDialog::graticuleMinorPen() {
+    QPen pen;
+    pen.setColor (_graticuleMinorColorButton -> color());
+    pen.setStyle ((Qt::PenStyle) (_graticuleMinorStyleCombo -> currentIndex() + 1));
+    pen.setWidth (_graticuleMinorWeightSlider -> value());
+    return pen;
 }
 
 CalenhadGlobeConfigDialog::~CalenhadGlobeConfigDialog () {
@@ -180,6 +265,9 @@ Legend* CalenhadGlobeConfigDialog::selectedLegend () {
 void CalenhadGlobeConfigDialog::commitChanges () {
     CalenhadServices::legends() -> commit();
     emit legendChanged (_legendManager -> currentLegend());
+
+
+
 }
 
 void CalenhadGlobeConfigDialog::reject() {
@@ -210,4 +298,8 @@ CoordinatesFormat CalenhadGlobeConfigDialog::coordinatesFormat () {
 
 DatumFormat CalenhadGlobeConfigDialog::datumFormat() {
     return _tooltipDatumCombo -> currentData().value<DatumFormat>();
+}
+
+int CalenhadGlobeConfigDialog::graticuleDensity () {
+    return _densitySlider -> value();
 }

@@ -19,10 +19,16 @@ namespace calenhad {
             double pitch (const int& i);
             void drawGraticule (QPainter& p);
 
+            QPen majorPen ();
+
+            QPen minorPen ();
+            void setPens (QPen majorPen, QPen minorPen);
+
+            void setDensity (const int& density);
             bool visible () const;
             void setVisible (bool visible);
             int density () const;
-            void setDensity (int density);
+
         protected:
             bool _visible;
             int _density;
