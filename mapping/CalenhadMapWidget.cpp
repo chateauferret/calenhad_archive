@@ -288,7 +288,7 @@ void CalenhadMapWidget::rotate (const Geolocation& rotation) {
     update();
 }
 
-Geolocation CalenhadMapWidget::rotation() {
+const Geolocation& CalenhadMapWidget::rotation () {
     return _rotation;
 }
 

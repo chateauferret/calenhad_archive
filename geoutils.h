@@ -28,6 +28,10 @@
 namespace geoutils {
 
 
+    enum CoordinatesFormat {
+        NoCoordinates, Decimal, Traditional
+    };
+
     enum Units {
         Degrees, Radians
     };
@@ -81,6 +85,11 @@ namespace geoutils {
         static double distSquared (const Cartesian& a, const Cartesian& b);
         static bool isNearer (const Cartesian& a, const Cartesian& b, const Cartesian& c);
         static QString toTraditional (double ang, const unsigned& num_dec_places = 2);
+        static QString geoLocationString (const Geolocation& loc, const CoordinatesFormat& format);
+
+    protected:
+        static QString geoLocationStringDecimal (const Geolocation& loc);
+        static QString geoLocationStringTraditional (const Geolocation& loc);
     };
 } // namespace Geoutils
 #endif /* GEOUTILS_H */

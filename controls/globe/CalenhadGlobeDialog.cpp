@@ -4,7 +4,6 @@
 
 #include "CalenhadGlobeDialog.h"
 #include "CalenhadGlobeConfigDialog.h"
-#include "CalenhadNavigator.h"
 #include <QResizeEvent>
 #include "../../legend/Legend.h"
 #include "../../legend/LegendWidget.h"
@@ -72,7 +71,7 @@ void CalenhadGlobeDialog::initialise() {
     _navigator = new CalenhadNavigator (this);
     _navigator -> move (width() - 20, 20);
     _zoomSlider -> setFixedSize (100, 100);
-    connect (_navigator, SIGNAL (navigationRequested (const NavigationEvent&)), this, SLOT (navigate (const NavigationEvent&)));
+    connect (_navigator, &CalenhadNavigator::navigationRequested, _globe, &CalenhadMapView::navigate);
     connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
     _positionLabel = new QLabel (this);
 
@@ -147,20 +146,6 @@ void CalenhadGlobeDialog::showZoomSlider (const bool& show) {
 void CalenhadGlobeDialog::showNavigator (const bool& show) {
     _navigator -> setVisible (show);
     update();
-}
-
-// move the view centre along a given azimuth
-void CalenhadGlobeDialog::navigate (const NavigationEvent& e) {
-
-    // calculate the great circle distance across the viewport's diagonal
-    double s;
-    _geodesic -> Inverse (qRadiansToDegrees (_bounds.south()), qRadiansToDegrees ( _bounds.east()), qRadiansToDegrees ( _bounds.north()), qRadiansToDegrees ( _bounds.west()), s);
-    // move the viewport centre in the chosen direction by half this distance multiplied by the chosen navigation magnitude
-    double lat, lon;
-    double distance = e.distance() * s / 2;
-    _geodesic -> Direct (qRadiansToDegrees (_bounds.center().latitude()), qRadiansToDegrees ( _bounds.center().longitude()), e.azimuth(), distance, lat, lon);
-    _globe -> goTo (Geolocation (lon, lat));
-
 }
 
 void CalenhadGlobeDialog::paintEvent (QPaintEvent* e) {

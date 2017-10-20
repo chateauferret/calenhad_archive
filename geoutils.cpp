@@ -166,6 +166,15 @@ namespace geoutils {
         return Cartesian (x, y, z);
     }
 
+    QString Math::geoLocationStringDecimal (const Geolocation& loc) {
+        return QString::number (std::abs (loc.latitude (Units::Degrees))) + "°" + (loc.latitude() > 0 ? "N" : "S") + " "
+               + QString::number (std::abs (loc.longitude (Units::Degrees))) + "°" + (loc.longitude() > 0 ? "E" : "W");
+    }
+
+    QString Math::geoLocationStringTraditional (const Geolocation& loc) {
+        return geoutils::Math::toTraditional (std::abs (loc.latitude (Units::Degrees))) + (loc.latitude() > 0 ? "N" : "S") + " "
+               + geoutils::Math::toTraditional (std::abs (loc.longitude (Units::Degrees))) + (loc.longitude() > 0 ? "E" : "W");
+    }
 
     QString Math::toTraditional (double ang, const unsigned& num_dec_places) {
         bool neg (false);
@@ -217,6 +226,10 @@ namespace geoutils {
             << "\"";
 
         return QString::fromStdString (oss.str ());
+    }
+
+    QString Math::geoLocationString (const Geolocation& loc, const CoordinatesFormat& format) {
+        return format == CoordinatesFormat::Decimal ? geoLocationStringDecimal (loc) : geoLocationStringTraditional (loc);
     }
 
 

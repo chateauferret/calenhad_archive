@@ -11,6 +11,8 @@
 #include <QWidget>
 #include <memory>
 #include "../../geoutils.h"
+#include "CalenhadNavigator.h"
+#include <GeographicLib/Geodesic.hpp>
 
 namespace calenhad {
     namespace pipeline {
@@ -47,14 +49,14 @@ namespace calenhad {
 
                 void setDatumFormat (DatumFormat format);
                 DatumFormat datumFormat();
-                void setCoordinatesFormat (CoordinatesFormat format);
-                CoordinatesFormat coordinatesFormat();
+                void setCoordinatesFormat (geoutils::CoordinatesFormat format);
+                geoutils::CoordinatesFormat coordinatesFormat();
                 void setSensitivity (double sensitivity);
                 double sensitivity();
                 void goTo (const geoutils::Geolocation& geolocation);
 
             public slots:
-
+                void navigate (const calenhad::controls::globe::NavigationEvent& e);
                 void render ();
                 void setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mode);
                 void setMouseDragMode (const CalenhadGlobeDragMode& mode);
@@ -73,7 +75,7 @@ namespace calenhad {
                 bool _zoomDrag;
 
                 double _sensitivity = 0.2;
-                CoordinatesFormat _coordinatesFormat;
+                geoutils::CoordinatesFormat _coordinatesFormat;
                 DatumFormat _datumFormat;
 
                 void mousePressEvent (QMouseEvent* e);
@@ -94,6 +96,7 @@ namespace calenhad {
 
                 void wheelEvent (QWheelEvent* event);
 
+                GeographicLib::Geodesic* _geodesic;
             };
         }
     }

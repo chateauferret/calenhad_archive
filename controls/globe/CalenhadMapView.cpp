@@ -16,6 +16,7 @@
 #include "../../mapping/projection/Projection.h"
 #include "../../mapping/CalenhadMapWidget.h"
 
+
 using namespace icosphere;
 using namespace calenhad::pipeline;
 using namespace calenhad::qmodule;
@@ -25,6 +26,7 @@ using namespace calenhad::graph;
 using namespace calenhad;
 using namespace calenhad::mapping::projection;
 using namespace geoutils;
+using namespace GeographicLib;
 
 CalenhadMapView::CalenhadMapView (QWidget* parent) : CalenhadMapWidget (parent),
     _coordinatesFormat (CoordinatesFormat::Traditional),
@@ -33,12 +35,14 @@ CalenhadMapView::CalenhadMapView (QWidget* parent) : CalenhadMapWidget (parent),
     _sensitivity (0.5),
     _mouseDoubleClickMode (CalenhadGlobeDoubleClickMode::Goto),
     _bounds (Bounds (-M_PI_2, M_PI_2, 0, M_2_PI)),
-    _source (nullptr), _previewType (OverviewPreviewType::WholeWorld) {
+    _source (nullptr), _previewType (OverviewPreviewType::WholeWorld),
+    _geodesic (new Geodesic (1, 0)){
     setMouseTracking (true);
 
 }
 
 CalenhadMapView::~CalenhadMapView() {
+    delete _geodesic;
 }
 
 void CalenhadMapView::render() {
@@ -187,18 +191,7 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
             point.setY ((double) e -> pos().y());
 
             if (geoCoordinates (point, loc)) {
-                QString text = _coordinatesFormat == CoordinatesFormat::Decimal ? geoLocationStringDecimal (loc) : geoLocationStringTraditional (loc);
-
-                // this bit just provides diagnostic for the screenCoordinates method
-                QPointF s;
-                bool ok = screenCoordinates (loc, s);
-                if (ok) {
-                    text += " " + QString::number (s.x()) + ", " + QString::number (s.y());
-                    text = QString::number (e -> pos().x()) + ", " + QString::number (e -> pos().y()) + " " + text;
-                } else {
-
-                }
-
+                QString text = geoutils::Math::geoLocationString (loc, _coordinatesFormat);
                 QToolTip::showText (e -> globalPos(), text, this);
             }
         }
@@ -230,15 +223,6 @@ void CalenhadMapView::mouseReleaseEvent (QMouseEvent* e) {
     }
 }
 
-QString CalenhadMapView::geoLocationStringDecimal (const Geolocation& loc) {
-    return QString::number (std::abs (loc.latitude (Units::Degrees))) + "°" + (loc.latitude() > 0 ? "N" : "S") + " "
-           + QString::number (std::abs (loc.longitude (Units::Degrees))) + "°" + (loc.longitude() > 0 ? "E" : "W");
-}
-
-QString CalenhadMapView::geoLocationStringTraditional (const Geolocation& loc) {
-    return Math::toTraditional (std::abs (loc.latitude (Units::Degrees))) + (loc.latitude() > 0 ? "N" : "S") + " "
-           + Math::toTraditional (std::abs (loc.longitude (Units::Degrees))) + (loc.longitude() > 0 ? "E" : "W");
-}
 
 void CalenhadMapView::setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mode) {
     _mouseDoubleClickMode = mode;
@@ -254,4 +238,13 @@ CalenhadGlobeDoubleClickMode CalenhadMapView::mouseDoubleClickMode () {
 
 CalenhadGlobeDragMode CalenhadMapView::mouseDragMode () {
     return _mouseDragMode;
+}
+
+// move the view centre along a given azimuth
+void CalenhadMapView::navigate (const NavigationEvent& e) {
+    // move the viewport centre in the chosen direction by the distance multiplied by the current scale
+    double lat, lon;
+    double distance = e.distance() * scale();
+    _geodesic -> Direct (rotation().latitude (Units::Degrees), rotation().longitude (Units::Degrees), e.azimuth(), distance, lat, lon);
+    goTo (Geolocation (lat, lon, Units::Degrees));
 }

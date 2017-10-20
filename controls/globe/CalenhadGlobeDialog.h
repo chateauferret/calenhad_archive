@@ -94,8 +94,6 @@ namespace calenhad {
 
                 void showNavigator (const bool& show = true);
 
-                void navigate (const NavigationEvent& e);
-
                 void updateConfig ();
 
                 void initialise ();
@@ -140,7 +138,7 @@ namespace calenhad {
     }
 }
 
-Q_DECLARE_METATYPE (calenhad::controls::globe::CoordinatesFormat);
+Q_DECLARE_METATYPE (geoutils::CoordinatesFormat);
 Q_DECLARE_METATYPE (calenhad::controls::globe::DatumFormat);
 
 

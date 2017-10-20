@@ -13,6 +13,7 @@
 #include <qwt/qwt_slider.h>
 
 #include "CalenhadGlobeConstants.h"
+#include "../../geoutils.h"
 
 
 namespace calenhad {
@@ -66,7 +67,7 @@ namespace calenhad {
 
                 void commitChanges ();
 
-                calenhad::controls::globe::CoordinatesFormat coordinatesFormat ();
+                geoutils::CoordinatesFormat coordinatesFormat ();
 
                 calenhad::controls::globe::DatumFormat datumFormat ();
 

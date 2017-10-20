@@ -15,10 +15,6 @@ namespace calenhad {
             enum CalenhadGlobeDoubleClickMode {
                 NoDoubleClick, Goto, Place
             };
-
-            enum CoordinatesFormat {
-                NoCoordinates, Decimal, Traditional
-            };
             enum DatumFormat {
                 NoDatum, Native, Scaled
             };

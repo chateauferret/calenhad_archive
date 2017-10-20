@@ -47,7 +47,7 @@ namespace calenhad {
 
             void rotate (const geoutils::Geolocation& rotation);
 
-            geoutils::Geolocation rotation();
+            const geoutils::Geolocation& rotation ();
 
             projection::Projection* projection ();
 

@@ -3,6 +3,7 @@
 //
 
 #include "CalenhadNavigator.h"
+#include "CalenhadMapView.h"
 #include <QTimer>
 #include <QMouseEvent>
 #include <qwt/qwt_compass_rose.h>
@@ -11,9 +12,10 @@
 #include <cmath>
 
 using namespace calenhad::controls::globe;
+using namespace GeographicLib;
+using namespace geoutils;
 
-CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (parent), _active (false), _buffer (nullptr) {
-
+CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (parent), _active (false), _buffer (nullptr), _geodesic (new Geodesic (1, 0)) {
     QPalette p;
     for (int c = 0; c < QPalette::NColorRoles; c++) {
         const QPalette::ColorRole colorRole = static_cast<QPalette::ColorRole> (c);
@@ -25,18 +27,17 @@ CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (parent), _a
     p.setColor (QPalette::Text, Qt::white);
     p.setColor (QPalette::Background, Qt::transparent);
 
-    for ( int i = 0; i < QPalette::NColorGroups; i++ )
-    {
-        const QPalette::ColorGroup colorGroup = static_cast<QPalette::ColorGroup>( i );
-        const QColor light = p.color( colorGroup, QPalette::Base ).light( 170 );
-        const QColor dark = p.color( colorGroup, QPalette::Base ).dark( 170 );
+    for ( int i = 0; i < QPalette::NColorGroups; i++ ) {
+        const QPalette::ColorGroup colorGroup = static_cast<QPalette::ColorGroup>(i);
+        const QColor light = p.color (colorGroup, QPalette::Base).light (170);
+        const QColor dark = p.color (colorGroup, QPalette::Base).dark (170);
         const QColor mid = frameShadow() == QwtDial::Raised
-                           ? p.color( colorGroup, QPalette::Base ).dark( 110 )
-                           : p.color( colorGroup, QPalette::Base ).light( 110 );
+                           ? p.color (colorGroup, QPalette::Base).dark (110)
+                           : p.color (colorGroup, QPalette::Base).light (110);
 
-        p.setColor( colorGroup, QPalette::Dark, dark );
-        p.setColor( colorGroup, QPalette::Mid, mid );
-        p.setColor( colorGroup, QPalette::Light, light );
+        p.setColor (colorGroup, QPalette::Dark, dark);
+        p.setColor (colorGroup, QPalette::Mid, mid);
+        p.setColor (colorGroup, QPalette::Light, light);
     }
     setPalette (p);
 
@@ -69,8 +70,16 @@ void CalenhadNavigator::mouseMoveEvent (QMouseEvent* e) {
     _length = 2 * std::sqrt ((dx * dx) + (dy * dy)) / scaleInnerRect().width();
     _active = _length < 1.05;
     _length = std::min (1.0, _length);
-    int value = (int) (scrolledTo (e -> pos ())) % 360;
-    setValue (value);
+    int v = (int) (scrolledTo (e -> pos ())) % 360;
+    setValue (v);
+
+    CalenhadMapView* view = static_cast<CalenhadMapView*> (parent());
+    if (view) {
+        double lat, lon;
+        double azimuth = value();
+        _geodesic -> Direct (view -> rotation().latitude (Units::Degrees), view -> rotation().longitude (Units::Degrees), azimuth, _length, lat, lon);
+        setToolTip (geoutils::Math::geoLocationString (Geolocation (lat, lon, Units::Degrees), view -> coordinatesFormat()));
+    }
     update();
 }
 
@@ -78,12 +87,14 @@ void CalenhadNavigator::mouseReleaseEvent (QMouseEvent* e) {
     if (e -> button() == Qt::LeftButton) {
         _active = false;
         NavigationEvent e (value(), _length);
+        std::cout << "Navigation " << value() << " " << _length << "\n";
         emit navigationRequested (e);
     }
 }
 
 CalenhadNavigator::~CalenhadNavigator () {
     delete _buffer;
+    delete _geodesic;
 }
 
 void CalenhadNavigator::paintEvent (QPaintEvent* e) {

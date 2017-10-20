@@ -9,6 +9,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <qwt/qwt_compass.h>
+#include <GeographicLib/Geodesic.hpp>
 
 namespace calenhad {
     namespace controls {
@@ -56,7 +57,7 @@ namespace calenhad {
                 bool _active;
                 double _length;
                 QPixmap* _buffer;
-
+                GeographicLib::Geodesic* _geodesic;
 
             };
         }

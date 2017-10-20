@@ -46,9 +46,9 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     ((QFormLayout*) widgetsTab->layout ())->addRow ("Navigator", _compassCheck);
 
     _tooltipOptionCombo = new QComboBox (widgetsTab);
-    _tooltipOptionCombo -> addItem ("None", CoordinatesFormat::NoCoordinates);
-    _tooltipOptionCombo -> addItem ("Decimal", CoordinatesFormat::Decimal);
-    _tooltipOptionCombo -> addItem ("Traditional", CoordinatesFormat::Traditional);
+    _tooltipOptionCombo -> addItem ("None", geoutils::CoordinatesFormat::NoCoordinates);
+    _tooltipOptionCombo -> addItem ("Decimal", geoutils::CoordinatesFormat::Decimal);
+    _tooltipOptionCombo -> addItem ("Traditional", geoutils::CoordinatesFormat::Traditional);
     ((QFormLayout*) widgetsTab -> layout()) -> addRow ("Coordinates format", _tooltipOptionCombo);
     _tooltipDatumCombo = new QComboBox (widgetsTab);
     _tooltipDatumCombo -> addItem ("None", DatumFormat::NoDatum);
@@ -194,9 +194,9 @@ void CalenhadGlobeConfigDialog::initialise() {
     std::cout << "Legend " << _parent -> globe() -> source() -> legend() -> name ().toStdString () << "\n";
     _legendManager -> setCurrentLegend (_parent -> globe() -> source() -> legend());
     switch (_parent -> globe() -> coordinatesFormat()) {
-        case (CoordinatesFormat::NoCoordinates) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
-        case (CoordinatesFormat::Decimal) : { _tooltipOptionCombo -> setCurrentText ("Decimal"); break; }
-        case (CoordinatesFormat::Traditional) : { _tooltipOptionCombo -> setCurrentText ("Traditional"); break; }
+        case (geoutils::CoordinatesFormat::NoCoordinates) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
+        case (geoutils::CoordinatesFormat::Decimal) : { _tooltipOptionCombo -> setCurrentText ("Decimal"); break; }
+        case (geoutils::CoordinatesFormat::Traditional) : { _tooltipOptionCombo -> setCurrentText ("Traditional"); break; }
     }
     switch (_parent -> globe() -> datumFormat()) {
         case (DatumFormat::NoDatum) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
@@ -292,8 +292,8 @@ void CalenhadGlobeConfigDialog::accept() {
     QDialog::accept();
 }
 
-CoordinatesFormat CalenhadGlobeConfigDialog::coordinatesFormat () {
-    return _tooltipOptionCombo -> currentData().value<CoordinatesFormat>();
+geoutils::CoordinatesFormat CalenhadGlobeConfigDialog::coordinatesFormat () {
+    return _tooltipOptionCombo -> currentData().value<geoutils::CoordinatesFormat>();
 }
 
 DatumFormat CalenhadGlobeConfigDialog::datumFormat() {
