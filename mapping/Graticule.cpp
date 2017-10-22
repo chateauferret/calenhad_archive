@@ -19,6 +19,8 @@ Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent),
      _density (0),
      _majorPen (QPen()),
      _minorPen (QPen()),
+     _bottom  (QLineF (QPointF (00.0, parent -> height() - 10.0), QPointF (parent -> width(), _globe -> height() - 10.0))),
+    _left (QLineF (QPointF (10.0, 0.0), QPointF (10.0, _globe -> height()))),
     _centralLat (0.0), _centralLon (0.0) {
     _majorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_major_color);
     _majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_major_style));
@@ -66,7 +68,8 @@ double Graticule::subdivisions (const int& i) {
 }
 
 void Graticule::drawGraticule (QPainter& p) {
-
+    _bottom = QLineF (QPointF (0.0, _globe -> height() - 10.0), QPointF (_globe -> width(), _globe -> height() - 10.0));
+    _left = QLineF (QPointF (10.0, 0.0), QPointF (10.0, _globe -> height()));
 
     int level = 0;
     while (_intersections.size() < 16) {
@@ -152,7 +155,7 @@ bool Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
     QPointF start, end;
     double interval = pitch (level);
     bool label = false;
-    int segments = 100;
+    int segments = 10;
     double q = subdivisions (level);
 
     // extend the meridian in segments to the north and south
@@ -165,11 +168,14 @@ bool Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
         if (visible) {
             if (lat0 > -90.0) {             // removes an artefact which appears if both poles are visible
                 if (!_globe -> inset () || (!_globe->insetRect ().contains (start) && !_globe->insetRect ().contains (end))) {
-                    p.drawLine (start, end);
-                }
-                if ((start.y() > _globe -> height() && end.y() < _globe  -> height()) || (start.y() < _globe  -> height() && end.y()) > _globe  -> height()) {
-                    p.drawText ((start.x() + end.x()) / 2, _globe  -> height() - 10, QString::number (g.second));
-                    label = true;
+                    QPointF point;
+                    QLineF line = QLineF (start, end);
+                    p.drawLine (line);
+                    QLineF::IntersectType type = line.intersect (_bottom, &point);
+                    if (type == QLineF::IntersectType::BoundedIntersection) {
+                        p.drawText (point, QString::number (g.second));
+                        label = true;
+                    }
                 }
             }
         }
@@ -181,9 +187,10 @@ bool Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
 
 bool Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level) {
     QPointF start, end;
+
     double interval = pitch (level);
     bool label = false;
-    int segments = 100;
+    int segments = 10;
     double q = subdivisions (level);
     // extend the parallel in segments to the east and west
     p.setPen (g.first / q == std::floor (g.first / q) ? _majorPen : _minorPen);
@@ -194,11 +201,15 @@ bool Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, doub
         bool visible = _globe -> screenCoordinates (g0, end);
         if (visible) {
             if (! _globe -> inset() || (! _globe -> insetRect().contains (start) && ! _globe -> insetRect().contains (end))) {
-                p.drawLine (start, end);
-            }
-            if ((start.x() < 0 && end.x() > 0) || (start.x() > 0 && end.x() < 0)) {
-                p.drawText (10, (start.y() + end.y()) / 2, QString::number (g.first));
-                label = true;
+
+                QPointF point;
+                QLineF line = QLineF (start, end);
+                p.drawLine (line);
+                QLineF::IntersectType type = line.intersect (_left, &point);
+                if (type == QLineF::IntersectType::BoundedIntersection) {
+                    p.drawText (point, QString::number (g.first));
+                    label = true;
+                }
             }
             start = end;
             lon0 += interval / segments;

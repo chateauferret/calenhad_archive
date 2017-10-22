@@ -38,7 +38,7 @@ namespace calenhad {
             bool drawLongitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level);
             void makeGraticule (QPainter& p, const int& level);
             QPen _majorPen, _minorPen;
-
+            QLineF _bottom, _left;
             QSet<QPair<double, double>> _intersections;
             double subdivisions (const int& i);
 
