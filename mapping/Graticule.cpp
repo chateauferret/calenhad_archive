@@ -14,7 +14,12 @@ using namespace calenhad::mapping;
 using namespace geoutils;
 
 
-Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent), _visible (true), _density (0), _majorPen (QPen()), _minorPen (QPen()) {
+Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent),
+    _visible (true),
+     _density (0),
+     _majorPen (QPen()),
+     _minorPen (QPen()),
+    _centralLat (0.0), _centralLon (0.0) {
     _majorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_major_color);
     _majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_major_style));
     _majorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_major_weight);
@@ -63,79 +68,123 @@ double Graticule::subdivisions (const int& i) {
 void Graticule::drawGraticule (QPainter& p) {
 
 
-    QSet<QPair<double, double>> result;
     int level = 0;
-    while (result.size() < 16) {
-        result.clear();
-        makeGraticule (p, level, result);
+    while (_intersections.size() < 16) {
+        _intersections.clear();
+        makeGraticule (p, level);
         level++;
     }
 
-    result.clear();
-    makeGraticule (p, level + _density - 1, result);
+    _intersections.clear();
+    makeGraticule (p, level + _density - 1);
+    QSet<double> longitudes, latitudes;
+    for (QPair<double, double> intersection : _intersections) {
+        longitudes.insert (intersection.second);
+        latitudes.insert (intersection.first);
+    }
 
-    for (QPair<double, double> intersection : result) {
-        drawGraticuleIntersection (p, intersection, level - 1);
+    for (double lat : latitudes) {
+        if (! drawLatitude (p, lat, level + _density - 1)) {
+            placeLatitudeLabel (p, lat);
+        };
+    }
+
+    for (double lon : longitudes) {
+        if (! drawLongitude (p, lon, level + _density - 1)) {
+            placeLongitudeLabel (p, lon);
+        };
     }
 }
 
-void Graticule::makeGraticule (QPainter& p, const int& level, QSet<QPair<double, double>>& result) {
+bool Graticule::drawLatitude (QPainter& p, const double& lat, const int& level) {
+    bool label = false;
+    for (QPair<double, double> intersection : _intersections) {
+        if (intersection.first == lat) {
+            if (drawLatitudeIntersection (p, intersection, level - 1)) { label = true; }
+        }
+    }
+    return label;
+}
+
+bool Graticule::drawLongitude (QPainter& p, const double& lon, const int& level) {
+    bool label = false;
+    for (QPair<double, double> intersection : _intersections) {
+        if (intersection.second == lon) {
+            if (drawLongitudeIntersection (p, intersection, level - 1)) { label = true; }
+        }
+    }
+    return label;
+}
+
+void Graticule::makeGraticule (QPainter& p, const int& level) {
     Geolocation centre = _globe -> rotation();
     double interval = pitch (level);
-    double lat = (std::floor (centre.latitude (Units::Degrees) / interval)) * interval;
-    double lon = (std::floor (centre.longitude (Units::Degrees) / interval)) * interval;
-    if (_globe -> isInViewport (Geolocation (lat, lon, Units::Degrees))) {
-        getIntersections (QPair<double, double> (lat, lon), interval, result);
+    _centralLat = (std::floor (centre.latitude (Units::Degrees) / interval)) * interval;
+    _centralLon = (std::floor (centre.longitude (Units::Degrees) / interval)) * interval;
+    if (_globe -> isInViewport (Geolocation (_centralLat, _centralLon, Units::Degrees))) {
+        getIntersections (QPair<double, double> (_centralLat, _centralLon), interval);
     }
 }
 
-void Graticule::getIntersections (const QPair<double, double>& g, const double& interval, QSet<QPair<double, double>>& result) {
-    if (result.contains (g)) { return; }
+void Graticule::getIntersections (const QPair<double, double>& g, const double& interval) {
+    if (_intersections.contains (g)) { return; }
 
-    result.insert (g);
+    _intersections.insert (g);
     if (_globe -> isInViewport (Geolocation (g.first, g.second, Units::Degrees))) {
         double wlon = g.second - interval;
         if (wlon < -180.0) { wlon += 360.0; }
-        getIntersections (QPair<double, double> (g.first, wlon), interval, result);
+        getIntersections (QPair<double, double> (g.first, wlon), interval);
         double elon = g.second + interval;
         if (elon > 180.0) { elon -= 360.0; }
-        getIntersections (QPair<double, double>  (g.first, elon), interval, result);
+        getIntersections (QPair<double, double>  (g.first, elon), interval);
         double nlat = g.first + interval;
         if (nlat <= 90.0) {
-            getIntersections (QPair<double, double> (nlat, g.second), interval, result);
+            getIntersections (QPair<double, double> (nlat, g.second), interval);
         }
         double slat = g.first - interval;
         if (slat >= -90.0) {
-            getIntersections (QPair<double, double> (slat, g.second), interval, result);
+            getIntersections (QPair<double, double> (slat, g.second), interval);
         }
     }
 }
 
-void Graticule::drawGraticuleIntersection (QPainter& p, const QPair<double, double>& g, const int& level) {
+bool Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level) {
     QPointF start, end;
     double interval = pitch (level);
-
-    int segments = 10;
+    bool label = false;
+    int segments = 100;
     double q = subdivisions (level);
 
     // extend the meridian in segments to the north and south
-    p.setPen (g.second / q ==  std::floor (g.second / q) ? _majorPen : _minorPen);
-    _globe -> screenCoordinates (Geolocation (g.first - interval, g.second, Units::Degrees), start);
+    p.setPen (g.second / q == std::floor (g.second / q) ? _majorPen : _minorPen);
+    _globe->screenCoordinates (Geolocation (g.first - interval, g.second, Units::Degrees), start);
     double lat0 = g.first - interval;
     for (int i = 0; i <= segments; i++) {
         Geolocation g0 = Geolocation (lat0, g.second, Units::Degrees);
-        bool visible = _globe -> screenCoordinates (g0, end);
+        bool visible = _globe->screenCoordinates (g0, end);
         if (visible) {
             if (lat0 > -90.0) {             // removes an artefact which appears if both poles are visible
-                if (! _globe -> inset() || (! _globe -> insetRect().contains (start) && ! _globe -> insetRect().contains (end))) {
+                if (!_globe -> inset () || (!_globe->insetRect ().contains (start) && !_globe->insetRect ().contains (end))) {
                     p.drawLine (start, end);
+                }
+                if ((start.y() > _globe -> height() && end.y() < _globe  -> height()) || (start.y() < _globe  -> height() && end.y()) > _globe  -> height()) {
+                    p.drawText ((start.x() + end.x()) / 2, _globe  -> height() - 10, QString::number (g.second));
+                    label = true;
                 }
             }
         }
         start = end;
         lat0 += interval / segments;
     }
+    return label;
+}
 
+bool Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level) {
+    QPointF start, end;
+    double interval = pitch (level);
+    bool label = false;
+    int segments = 100;
+    double q = subdivisions (level);
     // extend the parallel in segments to the east and west
     p.setPen (g.first / q == std::floor (g.first / q) ? _majorPen : _minorPen);
     _globe->screenCoordinates (Geolocation (g.first, g.second - interval, Units::Degrees), start);
@@ -147,12 +196,30 @@ void Graticule::drawGraticuleIntersection (QPainter& p, const QPair<double, doub
             if (! _globe -> inset() || (! _globe -> insetRect().contains (start) && ! _globe -> insetRect().contains (end))) {
                 p.drawLine (start, end);
             }
+            if ((start.x() < 0 && end.x() > 0) || (start.x() > 0 && end.x() < 0)) {
+                p.drawText (10, (start.y() + end.y()) / 2, QString::number (g.first));
+                label = true;
+            }
             start = end;
             lon0 += interval / segments;
         }
     }
+    return label;
 }
 
+void Graticule::placeLatitudeLabel (QPainter& p, const double& lat) {
+    QPointF point;
+    if (_globe -> screenCoordinates (Geolocation (lat, _centralLon, Units::Degrees), point)) {
+        p.drawText (point, QString::number (lat));
+    }
+}
+
+void Graticule::placeLongitudeLabel (QPainter& p, const double& lon) {
+    QPointF point;
+    if (_globe -> screenCoordinates (Geolocation (_centralLat, lon, Units::Degrees), point)) {
+        p.drawText (point, QString::number (lon));
+    }
+}
 
 bool Graticule::visible () const {
     return _visible;

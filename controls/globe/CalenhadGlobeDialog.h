@@ -113,25 +113,15 @@ namespace calenhad {
                 QPoint _moveFrom;
                 GeographicLib::Geodesic* _geodesic;
                 CalenhadGlobeConfigDialog* _configDialog;
-
                 double zoom ();
-
-
-
                 QLabel* _positionLabel;
 
 
                 //Marble::Projection _projection;
-
                 bool _graticuleVisible;
-
-
                 CalenhadMapView* _globe;
-
                 icosphere::Bounds _bounds;
                 graph::Graph* _graph;
-
-
                 calenhad::controls::globe::GlobeScaleWidget* _scale;
             };
         }

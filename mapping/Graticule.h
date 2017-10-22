@@ -33,14 +33,24 @@ namespace calenhad {
             bool _visible;
             int _density;
             CalenhadMapWidget* _globe;
-            void getIntersections (const QPair<double, double>& g, const double& interval, QSet<QPair<double, double>>& result);
-            void drawGraticuleIntersection (QPainter& p, const QPair<double, double>& g, const int& level);
-            void makeGraticule (QPainter& p, const int& level, QSet<QPair<double, double>>& result);
+            void getIntersections (const QPair<double, double>& g, const double& interval);
+            bool drawLatitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level);
+            bool drawLongitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level);
+            void makeGraticule (QPainter& p, const int& level);
             QPen _majorPen, _minorPen;
 
-
+            QSet<QPair<double, double>> _intersections;
             double subdivisions (const int& i);
 
+            bool drawLatitude (QPainter& p, const double& lat, const int& level);
+
+            bool drawLongitude (QPainter& p, const double& lon, const int& level);
+
+            double _centralLat, _centralLon;
+
+            void placeLatitudeLabel (QPainter& p, const double& lat);
+
+            void placeLongitudeLabel (QPainter& p, const double& lon);
         };
     }
 }

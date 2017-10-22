@@ -20,9 +20,7 @@
 #include "../legend/LegendEditorScale.h"
 #include "../../mapping/Graticule.h"
 
-
 class QwtCompass;
-
 
 using namespace GeographicLib;
 using namespace icosphere;
@@ -37,7 +35,6 @@ using namespace calenhad::qmodule;
 using namespace geoutils;
 
 CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, QModule* source) : QDialog (parent),
-
     _configDialog (nullptr),
     _contextMenu (nullptr),
     _moveFrom (QPoint (0, 0)),
@@ -76,7 +73,6 @@ void CalenhadGlobeDialog::initialise() {
     _positionLabel = new QLabel (this);
 
     // scale - distance measure based on scale and planet radius
-
     _scale = new GlobeScaleWidget (_globe, this);
     _scale -> resize (CalenhadServices::preferences() -> calenhad_globe_scale_width, CalenhadServices::preferences() -> calenhad_globe_scale_height);
     _scale -> move (20, height() - 20);
@@ -107,13 +103,12 @@ void CalenhadGlobeDialog::resizeEvent (QResizeEvent* e) {
             _globe -> setFixedSize (height * 2, height);
         }
         // update positions and sizes of the control widgets
-        _zoomSlider -> move (std::max (20, width - 20 - _zoomSlider -> width ()), std::max (20, height - 20 - _zoomSlider -> height ()));
+        _zoomSlider -> move (std::max (20, width - 20 - _zoomSlider -> width()), std::max (20, height - 20 - _zoomSlider -> height()));
         _zoomSlider -> setFixedSize (40, std::max (150, height - 200));
         _navigator -> setFixedSize (100, 100);
-        _navigator -> move (std::max (20, width - 20 - _navigator -> height ()), 20);
+        _navigator -> move (std::max (20, width - 20 - _navigator -> height()), 20);
 
-        emit resized (QSize (e->size ().width (), height));
-   // }
+        emit resized (QSize (e -> size().width(), height));
 }
 
 void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
@@ -207,8 +202,6 @@ void CalenhadGlobeDialog::updateConfig () {
     _globe -> setCoordinatesFormat (_configDialog -> coordinatesFormat());
     _globe -> setDatumFormat (_configDialog -> datumFormat());
     _globe -> source() -> setLegend (_configDialog -> selectedLegend());
-
-
 }
 
 bool CalenhadGlobeDialog::isScaleVisible () {

@@ -87,7 +87,6 @@ void CalenhadNavigator::mouseReleaseEvent (QMouseEvent* e) {
     if (e -> button() == Qt::LeftButton) {
         _active = false;
         NavigationEvent e (value(), _length);
-        std::cout << "Navigation " << value() << " " << _length << "\n";
         emit navigationRequested (e);
     }
 }
