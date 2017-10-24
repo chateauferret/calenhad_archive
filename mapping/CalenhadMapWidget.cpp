@@ -35,6 +35,7 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _shader (""),
     _graticule (nullptr),
     _graticuleVisible (true),
+    _coordinatesFormat (CoordinatesFormat::Traditional),
     _inset (false),
     _rotation (Geolocation (0, 0)),
     _insetHeight (CalenhadServices::preferences() -> calenhad_globe_inset_height),
@@ -357,4 +358,12 @@ bool CalenhadMapWidget::isGraticuleVisible() {
 
 Graticule* CalenhadMapWidget::graticule() {
     return _graticule;
+}
+
+void CalenhadMapWidget::setCoordinatesFormat (CoordinatesFormat format) {
+    _coordinatesFormat = format;
+}
+
+geoutils::CoordinatesFormat CalenhadMapWidget::coordinatesFormat () {
+    return _coordinatesFormat;
 }

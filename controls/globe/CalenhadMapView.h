@@ -49,7 +49,7 @@ namespace calenhad {
 
                 void setDatumFormat (DatumFormat format);
                 DatumFormat datumFormat();
-                void setCoordinatesFormat (geoutils::CoordinatesFormat format);
+
                 geoutils::CoordinatesFormat coordinatesFormat();
                 void setSensitivity (double sensitivity);
                 double sensitivity();
@@ -75,7 +75,6 @@ namespace calenhad {
                 bool _zoomDrag;
 
                 double _sensitivity = 0.2;
-                geoutils::CoordinatesFormat _coordinatesFormat;
                 DatumFormat _datumFormat;
 
                 void mousePressEvent (QMouseEvent* e);

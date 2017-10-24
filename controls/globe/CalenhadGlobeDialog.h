@@ -62,8 +62,6 @@ namespace calenhad {
 
                 void resizeEvent (QResizeEvent* e) override;
 
-                void paintEvent (QPaintEvent* e) override;
-
                 bool isNavigatorVisible ();
 
                 bool isZoomBarVisible ();

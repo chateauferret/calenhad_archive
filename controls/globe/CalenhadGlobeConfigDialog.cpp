@@ -125,6 +125,8 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     majorBox -> setTitle ("Major divisions");
     majorBox -> setLayout (new QFormLayout (_graticuleTab));
 
+    ((QVBoxLayout*) _graticuleTab -> layout()) -> addWidget (topBox);
+
     _graticuleMajorColorButton = new ColorButton (majorBox);
     ((QFormLayout*) majorBox -> layout()) -> addRow ("Color", _graticuleMajorColorButton);
     _graticuleMajorStyleCombo = new QComboBox (majorBox);
@@ -265,9 +267,6 @@ Legend* CalenhadGlobeConfigDialog::selectedLegend () {
 void CalenhadGlobeConfigDialog::commitChanges () {
     CalenhadServices::legends() -> commit();
     emit legendChanged (_legendManager -> currentLegend());
-
-
-
 }
 
 void CalenhadGlobeConfigDialog::reject() {

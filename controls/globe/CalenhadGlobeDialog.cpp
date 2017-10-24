@@ -56,10 +56,11 @@ void CalenhadGlobeDialog::initialise() {
     _zoomSlider -> setGroove (true);
     _zoomSlider -> setTrough (false);
     _zoomSlider -> setScalePosition (QwtSlider::NoScale);
-    _zoomSlider -> setLowerBound (CalenhadServices::preferences() -> calenhad_globe_zoom_max);
-    _zoomSlider -> setUpperBound (CalenhadServices::preferences() -> calenhad_globe_zoom_min);
+    _zoomSlider -> setLowerBound (CalenhadServices::preferences() -> calenhad_globe_zoom_min);
+    _zoomSlider -> setUpperBound (CalenhadServices::preferences() -> calenhad_globe_zoom_max);
     _zoomSlider -> move (width() - 20, height() - 20);
     _zoomSlider -> setFixedSize (40, 150);
+    //_zoomSlider -> setScaleEngine (new QwtLogScaleEngine());
     connect (_globe, &CalenhadMapView::zoomRequested, _zoomSlider, &QwtSlider::setValue);
     connect (_zoomSlider, SIGNAL (valueChanged (const double&)), this, SLOT (setZoom (const double&)));
     _zoomSlider -> setValue (1.0);
@@ -143,16 +144,10 @@ void CalenhadGlobeDialog::showNavigator (const bool& show) {
     update();
 }
 
-void CalenhadGlobeDialog::paintEvent (QPaintEvent* e) {
-    QWidget::paintEvent (e);
-    if (_graticuleVisible) {
-        // draw graticule
-    }
-}
-
 void CalenhadGlobeDialog::setZoom (const double& zoom) {
     if (zoom <= CalenhadServices::preferences() -> calenhad_globe_zoom_max && zoom >= CalenhadServices::preferences() -> calenhad_globe_zoom_min) {
-        _globe -> setScale (zoom);
+        _globe -> setScale (std::pow (10, - zoom));
+        std::cout << zoom << "     " << _globe -> scale() << "\n";
         invalidate ();
     }
 }

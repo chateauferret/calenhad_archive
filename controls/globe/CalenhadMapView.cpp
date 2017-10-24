@@ -29,7 +29,6 @@ using namespace geoutils;
 using namespace GeographicLib;
 
 CalenhadMapView::CalenhadMapView (QWidget* parent) : CalenhadMapWidget (parent),
-    _coordinatesFormat (CoordinatesFormat::Traditional),
     _datumFormat (DatumFormat::Scaled),
     _zoomDrag (false),
     _sensitivity (0.5),
@@ -101,10 +100,6 @@ void CalenhadMapView::zoomInTo (const Bounds& target) {
     }
     goTo (target.center()); // in radians
     _zoomSlider -> setValue (radiusToZoomFactor (newRadius)); */
-}
-
-void CalenhadMapView::setCoordinatesFormat (CoordinatesFormat format) {
-    _coordinatesFormat = format;
 }
 
 void CalenhadMapView::setDatumFormat (DatumFormat format) {

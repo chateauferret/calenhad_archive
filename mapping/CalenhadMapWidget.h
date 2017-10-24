@@ -58,7 +58,8 @@ namespace calenhad {
             bool inset();
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
             bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
-
+            void setCoordinatesFormat (geoutils::CoordinatesFormat format);
+            geoutils::CoordinatesFormat coordinatesFormat();
             void setGraticuleVisible (const bool& visible);
 
             Graticule* graticule ();
@@ -84,6 +85,7 @@ namespace calenhad {
             Graticule* _graticule;
             bool _graticuleVisible;
             bool _inset;
+            geoutils::CoordinatesFormat _coordinatesFormat;
 
             // render pass identifiers
             static const int PASS_INSET = 1;

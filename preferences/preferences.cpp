@@ -99,8 +99,8 @@ void Preferences::loadSettings() {
     calenhad_toolpalette_icon_margin = _settings -> value ("calenhad/toolpalette/icon/margin", 4).toInt();
     calenhad_toolpalette_icon_shadow = _settings -> value ("calenhad/toolpalette/icon/shadow", 2).toInt();
     calenhad_toolpalette_arrow_size = _settings -> value ("calenhad/toolpalette/arrow/size", 16).toInt();
-    calenhad_globe_zoom_min = _settings -> value ("calenhad/globe/zoom/min", 0.01).toDouble (&ok);
-    calenhad_globe_zoom_max = _settings -> value ("calenhad/globe/zoom/max", 1.2).toDouble (&ok);
+    calenhad_globe_zoom_min = _settings -> value ("calenhad/globe/zoom/min", 0.0).toDouble (&ok);
+    calenhad_globe_zoom_max = _settings -> value ("calenhad/globe/zoom/max", 4.0).toDouble (&ok);
     calenhad_globe_inset_height = _settings -> value ("calenhad/globe/inset/height", 192).toUInt (&ok);
     calenhad_globe_inset_x = _settings -> value ("calenhad/globe/inset/x", 8).toUInt (&ok);
     calenhad_globe_inset_y = _settings -> value ("calenhad/globe/inset/y", 8).toUInt (&ok);
