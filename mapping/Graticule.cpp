@@ -188,11 +188,11 @@ void Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
                 QLineF line = QLineF (start, end);
                 if (! _longitudesLabelled.contains (g.second)) {
                     if (_globe -> inset() && line.intersect (_insetTop, &point) == QLineF::IntersectType::BoundedIntersection) {
-                        p.drawText (point, longitudeLabel (g.second));
+                        drawLongitudeLabel (p, point, longitudeLabel (g.second));
                         _longitudesLabelled.append (g.second);
                     }
                     if (line.intersect (_bottom, &point) == QLineF::IntersectType::BoundedIntersection) {
-                        p.drawText (point, longitudeLabel (g.second));
+                        drawLongitudeLabel (p, point, longitudeLabel (g.second));
                         _longitudesLabelled.append (g.second);
                     }
                 }
@@ -225,11 +225,11 @@ void Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, doub
             QLineF line = QLineF (start, end);
             if (! _latitudesLabelled.contains (g.first)) {
                 if (_globe -> inset() && line.intersect (_insetRight, &point) == QLineF::IntersectType::BoundedIntersection) {
-                    p.drawText (point, latitudeLabel (g.first));
+                    drawLatitudeLabel (p, point, latitudeLabel (g.first));
                     _latitudesLabelled.append (g.first);
                 }
                 if (line.intersect (_left, &point) == QLineF::IntersectType::BoundedIntersection) {
-                    p.drawText (point, latitudeLabel (g.first));
+                    drawLatitudeLabel (p, point, latitudeLabel (g.first));
                     _latitudesLabelled.append (g.first);
                 }
             }
@@ -246,7 +246,7 @@ void Graticule::placeLatitudeLabel (QPainter& p, const double& lat) {
     QPointF point;
     if (_globe -> screenCoordinates (Geolocation (lat, _centralLon, Units::Degrees), point)) {
         if (! _latitudesLabelled.contains (lat)) {
-            p.drawText (point, latitudeLabel (lat));
+            drawLatitudeLabel (p, point, latitudeLabel (lat));
             _latitudesLabelled.append (lat);
         }
     }
@@ -256,7 +256,7 @@ void Graticule::placeLongitudeLabel (QPainter& p, const double& lon) {
     QPointF point;
     if (_globe -> screenCoordinates (Geolocation (_centralLat, lon, Units::Degrees), point)) {
         if (! _longitudesLabelled.contains (lon)) {
-            p.drawText (point, longitudeLabel (lon));
+            drawLongitudeLabel (p, point, longitudeLabel (lon));
             _longitudesLabelled.append (lon);
         }
     }
@@ -291,19 +291,70 @@ void Graticule::setPens (QPen majorPen, QPen minorPen) {
     _minorPen = minorPen;
 }
 
-QString Graticule::longitudeLabel (const double& lon) {
+QString Graticule::longitudeLabel (const double& lon, const bool& major) {
+    QString label;
     if (_globe -> coordinatesFormat() == CoordinatesFormat::Traditional) {
-        return geoutils::Math::toTraditional (lon);
+        label = geoutils::Math::toTraditional (std::abs (lon));
+        if (label.contains (".00")) {
+            label = label.replace (".00", "");
+            if (label.contains ("00\"")) {
+                label = label.replace ("00\"", "");
+                if (label.contains ("00\'")) {
+                    label = label.replace ("00\'", "");
+                }
+            }
+        }
     } else {
-        return QString::number (lon);
+        label = QString::number (std::abs (lon));
+        label.append ("°");
     }
+    label.append (lon > 0 ? "E" : "W");
+    return label;
 }
 
-QString Graticule::latitudeLabel (const double& lat) {
+QString Graticule::latitudeLabel (const double& lat, const bool& major) {
+    QString label;
+    if (lat == 0.0) {
+        return ("Equator");
+    }
    if (_globe -> coordinatesFormat() == CoordinatesFormat::Traditional) {
-        return geoutils::Math::toTraditional (lat);
+       label = geoutils::Math::toTraditional (std::abs (lat));
+       if (label.contains ("00\"")) {
+           label = label.replace ("00\"", "");
+           if (label.contains ("00\'")) {
+               label = label.replace ("00\'", "");
+           }
+       }
     } else {
-        return QString::number (lat);
+       label = QString::number (std::abs (lat));
+       label.append ("°");
+    }
+    label.append (lat > 0 ? "N" : "S");
+    return label;
+}
+
+void Graticule::drawLatitudeLabel (QPainter& p, QPointF point, const QString& text) {
+    if (point.y() < _globe -> height() - 20) {
+        drawLabel (p, point, text);
     }
 }
 
+void Graticule::drawLongitudeLabel (QPainter& p, QPointF point, const QString& text) {
+    if (point.x() > 20) {
+        drawLabel (p, point, text);
+    }
+}
+
+void Graticule::drawLabel (QPainter& p, QPointF point, const QString& text) {
+    QFont font ("arial", 10);
+    QFontMetrics fm (font);
+    p.setFont (font);
+    int w = fm.width (text);
+    if (_globe -> inset() && _globe -> insetRect().contains (point)) {
+        point.setX (std::min (point.x(), _globe -> insetRect().right()));
+        point.setY (std::max (point.y(), _globe -> insetRect().top()));
+    } else {
+        point.setX (std::max (10.0, point.x () - w / 2));
+    }
+    p.drawText (point, text);
+}

@@ -208,7 +208,6 @@ namespace geoutils {
             oss << "-";
         }
 
-//  TODO: allow user to define delimiters separating degrees, minutes, and seconds.
         oss.setf (std::ios::fixed, std::ios::floatfield);
 
         oss << deg << "°";
@@ -222,8 +221,7 @@ namespace geoutils {
             oss.width (num_dec_places + 3);
             oss.precision (num_dec_places);
         }
-        oss << sec
-            << "\"";
+        oss << sec << "\"";
 
         return QString::fromStdString (oss.str ());
     }

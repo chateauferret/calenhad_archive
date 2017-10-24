@@ -53,9 +53,15 @@ namespace calenhad {
 
             QList<double> _latitudesLabelled, _longitudesLabelled;
 
-            QString longitudeLabel (const double& lon);
+            QString longitudeLabel (const double& lon, const bool& major = true);
 
-            QString latitudeLabel (const double& lat);
+            QString latitudeLabel (const double& lat, const bool& major = true);
+
+            void drawLabel (QPainter& p, QPointF point, const QString& text);
+
+            void drawLatitudeLabel (QPainter& p, QPointF point, const QString& text);
+
+            void drawLongitudeLabel (QPainter& p, QPointF point, const QString& text);
         };
     }
 }

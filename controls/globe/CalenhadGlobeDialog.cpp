@@ -147,7 +147,6 @@ void CalenhadGlobeDialog::showNavigator (const bool& show) {
 void CalenhadGlobeDialog::setZoom (const double& zoom) {
     if (zoom <= CalenhadServices::preferences() -> calenhad_globe_zoom_max && zoom >= CalenhadServices::preferences() -> calenhad_globe_zoom_min) {
         _globe -> setScale (std::pow (10, - zoom));
-        std::cout << zoom << "     " << _globe -> scale() << "\n";
         invalidate ();
     }
 }
