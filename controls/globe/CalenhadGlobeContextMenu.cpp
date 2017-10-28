@@ -129,6 +129,12 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
          connect (action, SIGNAL (toggled (bool)), this, SLOT (projectionSelected (const bool&)));
      }
 
+    _captureMenu = new QMenu ("Capture", this);
+    QAction* _captureGreyscaleAction = new QAction ("Export greyscale", this);
+    _captureGreyscaleAction -> setToolTip ("Generate a greyscale map and save");
+    connect (_captureGreyscaleAction, &QAction::triggered, _parent, &CalenhadGlobeDialog::captureGreyscale);
+    _captureMenu -> addAction (_captureGreyscaleAction);
+    addMenu (_captureMenu);
 
     connect (_panAction, SIGNAL (toggled (bool)), this, SLOT (setDragMode (const bool&)));
     connect (_zoomAction, SIGNAL (toggled (bool)), this, SLOT (setDragMode (const bool&)));

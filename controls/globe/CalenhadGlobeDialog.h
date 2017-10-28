@@ -96,6 +96,8 @@ namespace calenhad {
 
                 void initialise ();
 
+                void captureGreyscale ();
+
             signals:
 
                 void resized (const QSize& size);
@@ -121,6 +123,7 @@ namespace calenhad {
                 icosphere::Bounds _bounds;
                 graph::Graph* _graph;
                 calenhad::controls::globe::GlobeScaleWidget* _scale;
+
             };
         }
     }

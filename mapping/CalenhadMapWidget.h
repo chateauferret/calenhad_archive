@@ -53,11 +53,14 @@ namespace calenhad {
 
             icosphere::Bounds bounds ();
 
+            bool valueAt (const QPointF& sc, double& value);
+
             void setInset (bool);
             QRectF insetRect();
             bool inset();
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
-            bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& screenCoordinates);
+            QPoint texCoordinates (const QPointF& sc);
+            bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& sc);
             void setCoordinatesFormat (geoutils::CoordinatesFormat format);
             geoutils::CoordinatesFormat coordinatesFormat();
             void setGraticuleVisible (const bool& visible);
@@ -65,9 +68,15 @@ namespace calenhad {
             Graticule* graticule ();
             bool isGraticuleVisible ();
             bool isInViewport (geoutils::Geolocation g);
+
+            QSize heightMapSize () const;
+            float* heightMapBuffer () const;
+            QImage* greyscale();
         public slots:
 
             void setProjection (const QString& projection);
+
+
 
         protected:
             void initializeGL ();
@@ -111,7 +120,11 @@ namespace calenhad {
             QOpenGLShader* m_computeShader;
             QOpenGLShader* m_fragmentShader;
             QOpenGLShader* m_vertexShader;
-            QOpenGLTexture* m_texture;
+            QOpenGLTexture* _globeTexture, * _outTexture;
+
+
+            GLfloat* _heightMapBuffer;
+            const char* name = "heightMapBuffer";
 
 
         };

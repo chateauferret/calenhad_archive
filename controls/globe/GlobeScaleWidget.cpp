@@ -22,8 +22,8 @@ GlobeScaleWidget::GlobeScaleWidget (CalenhadMapView* globe, QWidget* parent, con
 }
 
 GlobeScaleWidget::~GlobeScaleWidget() {
-    if (_scaleEngine) { delete _scaleEngine; }
-    if (_draw) { delete _draw; }
+    //if (_scaleEngine) { delete _scaleEngine; }
+    //if (_draw) { delete _draw; }
     delete _geodesic;
 }
 

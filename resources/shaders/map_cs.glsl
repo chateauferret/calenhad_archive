@@ -7,7 +7,7 @@ uniform int resolution = 512;
 uniform float scale;
 uniform vec2 datum;
 
-layout (std430, binding = 3) buffer altitudeMapBuffer { float map_out []; };
+layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
 layout (local_size_x = 32, local_size_y = 32) in;
 
@@ -33,8 +33,8 @@ const int PROJ_ORTHOGRAPHIC = 2;
 uniform int projection = PROJ_ORTHOGRAPHIC;
 
 // overview map inset parameters
-uniform int insetHeight;                               // height (pixels) - width will be 2 x height - 0 means no inset
-uniform ivec2 insetPos;                              // inset top left corner x, y (pixels)
+uniform int insetHeight;                                // height (pixels) - width will be 2 x height - 0 means no inset
+uniform ivec2 insetPos;                                 // inset top left corner x, y (pixels)
 uniform vec4 insetBorder = vec4 (1.0, 1.0, 1.0, 1.0);   // border color
 
 // pass identifiers
@@ -669,25 +669,6 @@ float select (float control, float in0, float in1, float lowerBound, float upper
     return mix (in0, in1, alpha);
   }
 
-// This maps an input value onto an output value to realise the spline and terrace functions (module AltitudeMap).
-// Instead of iterating through the mapping looking for the highest index that is lower than the key value, we precomputed an array of
-// (currently 2048) linearly-spaced mapping outputs so that we can find the nearest just by multiplying the key by the total number of
-// precomputed mappings. Avoids nasty branching and very fast, but at the expense of some loss of resolution. We
-// compensate for that by interpolating between the two mappings either side of the key so we don't introduce artificial terracing.
-// See graph.cpp, method addAltitudeMapBuffer (QDomElement map), which provides the precomputed map array. It is uploaded to map_out at render time.
-float map (float value, int bufferIndex, float from, float to) {
-    float i = (value - from) / (to - from);
-    float index = i * float (altitudeMapBufferSize);
-    int indexPos = int (index);
-    int index0 = clamp (indexPos    , 0, altitudeMapBufferSize - 2);
-    int index1 = clamp (indexPos + 1, 0, altitudeMapBufferSize - 1);
-    int offset = bufferIndex * altitudeMapBufferSize;
-    float out0 = map_out [index0 + offset];
-    float out1 = map_out [index1 + offset];
-    float alpha = ((value - out0) / (out1 - out0)) * (out1 > out0 ? 1.0 : -1.0);
-    return clamp (mix (out0, out1, alpha), -1.0, 1.0);
-}
-
 // Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.
 vec4 findColor (float value) {
     value = value / 2 + 0.5;
@@ -791,6 +772,7 @@ void main() {
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
     float step = smoothstep (0.99, 1.000001, c.w);
     float v = value (c.xyz);
+
     color = mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
 
     if (insetHeight > 0) {
@@ -803,11 +785,21 @@ void main() {
             }
 
             // test functions with output in inset map here if needed
+
+            // get the value "behind" the inset for the benefit of the downloadable height map
+            i = mapPos (pos, false);
+            g = inverse (i, false);
+            c = toCartesian (g);
+            v = value (c.xyz);
         }
     }
 
-
+    uint out_x = gl_GlobalInvocationID.y;
+    uint out_y = gl_GlobalInvocationID.x;
+    height_map_out [out_y * resolution + out_x] = //v;
+        out_y * resolution + out_x;
     imageStore (destTex, pos, color);
+
 
     if (v > maxAltitude) { maxAltitude = v; }
     if (v < minAltitude) { minAltitude = v; }

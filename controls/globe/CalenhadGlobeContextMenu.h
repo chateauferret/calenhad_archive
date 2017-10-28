@@ -70,6 +70,7 @@ namespace calenhad {
                 QAction* _showGraticuleAction;
                 QMenu* _projectionMenu;
                 QActionGroup* _projectionActions;
+                QMenu* _captureMenu;
 
             protected slots:
 
@@ -80,6 +81,8 @@ namespace calenhad {
                 void projectionSelected (const bool& selected);
 
                 void setScalebarVisible (const bool& visible);
+
+
             };
         }
     }

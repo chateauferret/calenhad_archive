@@ -15,6 +15,7 @@
 #include "../../legend/LegendService.h"
 #include "../../pipeline/CalenhadModel.h"
 #include <QWindow>
+#include <QtWidgets/QFileDialog>
 #include "../../mapping/projection/Projection.h"
 #include "../../qmodule/QModule.h"
 #include "../legend/LegendEditorScale.h"
@@ -212,4 +213,10 @@ CalenhadMapView* CalenhadGlobeDialog::globe () {
 
 bool CalenhadGlobeDialog::isOverviewVisible () {
     return _globe -> inset();
+}
+
+void CalenhadGlobeDialog::captureGreyscale() {
+    QImage* image = _globe -> greyscale();
+    QString fileName = QFileDialog::getSaveFileName (this, tr("Save greyscale image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
+    image -> save (fileName);
 }

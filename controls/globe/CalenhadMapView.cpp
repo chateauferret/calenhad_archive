@@ -150,12 +150,7 @@ void CalenhadMapView::mouseDoubleClickEvent (QMouseEvent* e) {
 
 void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
     Geolocation se, nw;
-    bool isOnGlobe = true; // for now
-    double south = se.latitude (Units::Degrees);
-    double north = nw.latitude (Units::Degrees);
-    double east = se.longitude (Units::Degrees);
-    double west = nw.longitude (Units::Degrees);
-    double temp;
+
     if (e -> buttons() & Qt::LeftButton) {
         if (cursor().shape () != Qt::ClosedHandCursor) {
             setCursor (Qt::ClosedHandCursor);
@@ -184,10 +179,19 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
             QPointF point;
             point.setX ((double) e -> pos().x());
             point.setY ((double) e -> pos().y());
-
+            std::cout << e -> pos().x() << " " << e -> pos().y() << "\n";
             if (geoCoordinates (point, loc)) {
                 QString text = geoutils::Math::geoLocationString (loc, _coordinatesFormat);
-                QToolTip::showText (e -> globalPos(), text, this);
+                double value;
+                QPoint tc = texCoordinates (point);
+                if (isInViewport (loc)) {
+                    text += ": " + QString::number (tc.x ()) + ", " + QString::number (tc.y ());
+                    text += ": " + QString::number (tc.x () * _globeTexture -> height () + tc.y ()) + " ";
+                    if (valueAt (point, value)) {
+                        text += ": " + QString::number (value);
+                    }
+                    QToolTip::showText (e->globalPos (), text, this);
+                }
             }
         }
     }

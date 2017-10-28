@@ -253,7 +253,8 @@ void ModuleFactory::provideParamNames() {
                 << "displacement"
                 << "enableDistance"
                 << "exponent"
-                << "roughness";
+                << "roughness"
+                << "power";
 }
 
 QMap<QString, QString>* ModuleFactory::codes() {
