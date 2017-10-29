@@ -186,7 +186,7 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
                 QPoint tc = texCoordinates (point);
                 if (isInViewport (loc)) {
                     text += ": " + QString::number (tc.x ()) + ", " + QString::number (tc.y ());
-                    text += ": " + QString::number (tc.x () * _globeTexture -> width () + tc.y ()) + " ";
+                    text += ": " + QString::number (tc.y () * _globeTexture -> width () + tc.x ()) + " ";
                     if (valueAt (point, value)) {
                         text += ": " + QString::number (value);
                     }

@@ -762,7 +762,7 @@ vec4 toGreyscale (vec4 color) {
 
 void main() {
 
-    ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
+    ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
     bool inset = inInset (pos);
     vec2 i = mapPos (pos, inset);
     vec3 g = inverse (i, inset);

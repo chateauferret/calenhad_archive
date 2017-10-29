@@ -348,16 +348,16 @@ bool CalenhadMapWidget::isInViewport (Geolocation g) {
 }
 
 QImage* CalenhadMapWidget::greyscale() {
-    QImage* image = new QImage (_globeTexture -> width(), _globeTexture -> width(), QImage::Format_ARGB32);
+    QImage* image = new QImage (_globeTexture -> width(), _globeTexture -> height(), QImage::Format_ARGB32);
     image -> fill (Qt::red);
     int w = _globeTexture -> width();
     int h = _globeTexture -> height();
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            float value = (float) _heightMapBuffer [i * w + j];
+    for (int y = h - 1; y >= 0; y--) {
+        for (int x = 0; x < w; x++) {
+            float value = (float) _heightMapBuffer [y * w + x];
             value = std::min (std::max (-1.0f, value), 1.0f);
             int k = (int) ((value + 1) / 2 * 256);
-            image -> setPixelColor (j, h - i, QColor (k, k, k));
+            image -> setPixelColor (x, y, QColor (k, k, k));
         }
     }
     return image;
@@ -378,6 +378,7 @@ QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
     QPoint tc;
     double x = sc.x() / width ();
     double y = sc.y() / height ();
+    std::cout << x << " " << y << "\n";
     tc.setX (x * _globeTexture -> width ());
     tc.setY ((1 - y) * _globeTexture -> height ());
     return tc;
