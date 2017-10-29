@@ -179,14 +179,14 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
             QPointF point;
             point.setX ((double) e -> pos().x());
             point.setY ((double) e -> pos().y());
-            std::cout << e -> pos().x() << " " << e -> pos().y() << "\n";
+
             if (geoCoordinates (point, loc)) {
                 QString text = geoutils::Math::geoLocationString (loc, _coordinatesFormat);
                 double value;
                 QPoint tc = texCoordinates (point);
                 if (isInViewport (loc)) {
                     text += ": " + QString::number (tc.x ()) + ", " + QString::number (tc.y ());
-                    text += ": " + QString::number (tc.x () * _globeTexture -> height () + tc.y ()) + " ";
+                    text += ": " + QString::number (tc.x () * _globeTexture -> width () + tc.y ()) + " ";
                     if (valueAt (point, value)) {
                         text += ": " + QString::number (value);
                     }

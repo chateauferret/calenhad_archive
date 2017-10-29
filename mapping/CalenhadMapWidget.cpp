@@ -120,7 +120,7 @@ void CalenhadMapWidget::initializeGL() {
     _globeTexture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     _globeTexture->create();
     _globeTexture->setFormat(QOpenGLTexture::RGBA8_UNorm);
-    _globeTexture->setSize (1024, 2048);
+    _globeTexture->setSize (2048, 1024);
     _globeTexture->setMinificationFilter(QOpenGLTexture::Linear);
     _globeTexture->setMagnificationFilter(QOpenGLTexture::Linear);
     _globeTexture->allocateStorage();
@@ -365,8 +365,8 @@ QImage* CalenhadMapWidget::greyscale() {
 
 bool CalenhadMapWidget::valueAt (const QPointF& sc, double& value) {
     QPoint tc = texCoordinates (sc);
-    int index = tc.x() * _globeTexture -> height () + tc.y();
-    if (index >= 0 && index < _globeTexture -> height() * _globeTexture -> width()) {
+    int index = tc.y() * _globeTexture -> width () + tc.x();
+    if (index >= 0 && index < _globeTexture -> width () * _globeTexture -> width()) {
         value = (double) _heightMapBuffer [index];
         return true;
     } else {
@@ -376,10 +376,10 @@ bool CalenhadMapWidget::valueAt (const QPointF& sc, double& value) {
 
 QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
     QPoint tc;
-    double x = sc.x() / width();
-    double y = sc.y() / height();
-    tc.setX (x * _globeTexture -> height());
-    tc.setY (y * _globeTexture -> width());
+    double x = sc.x() / width ();
+    double y = sc.y() / height ();
+    tc.setX (x * _globeTexture -> width ());
+    tc.setY ((1 - y) * _globeTexture -> height ());
     return tc;
 }
 

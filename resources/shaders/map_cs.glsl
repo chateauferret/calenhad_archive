@@ -794,10 +794,10 @@ void main() {
         }
     }
 
-    uint out_x = gl_GlobalInvocationID.y;
-    uint out_y = gl_GlobalInvocationID.x;
-    height_map_out [out_y * resolution + out_x] = //v;
-        out_y * resolution + out_x;
+    uint out_x = pos.x;
+    uint out_y = pos.y;
+    height_map_out [out_y * resolution * 2 + out_x] = v;
+        // out_y * resolution + out_x;
     imageStore (destTex, pos, color);
 
 
