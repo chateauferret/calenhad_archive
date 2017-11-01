@@ -41,6 +41,7 @@ HypsographyWidget::~HypsographyWidget() {
 
 void HypsographyWidget::refresh() {
     GLfloat* buffer = _globe -> heightMapBuffer();
+    if (! buffer) { return; }
     int n =  _globe -> heightMapSize().height() * _globe -> heightMapSize().width();
     double _min = 0.0, _max = 0.0, _sum = 0.0;
     int count = 0;
@@ -55,15 +56,21 @@ void HypsographyWidget::refresh() {
 
     _statistics = Statistics (_min, _max, _sum, count);
     for (int i = 0; i < 1000; i++) {
-        _buckets [i] = 0;
+        _buckets [i] = 0.0;
     }
 
     for (int i = 0; i < n; i++) {
         if (! isnan (buffer [i])) {
             double normalised = (buffer[i] - _min) / _statistics.range ();
+            int h = _globe -> heightMapSize().height();
+            int w = _globe -> heightMapSize().width();
             int bucket = (int) (normalised * 1000);
             if (bucket >= 0 && bucket < 1000) {
-                _buckets[bucket]++;
+                int row = i / w;
+                double lat = (((double) row / (double) h)) * M_PI - (M_PI / 2.0);
+                double area = std::cos (lat) * M_PI / 2;
+                std::cout << i << " " << h << " " << lat << " " << area <<" \n";
+                _buckets [bucket] += area;
             }
         }
     }

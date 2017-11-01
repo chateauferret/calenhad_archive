@@ -232,11 +232,18 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
                     if (! conn) {
                         QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos ());
-                        foreach (QGraphicsItem* item, items) {
-                            QMenu* menu = makeMenu (item);
+                        if (items.empty ()) {
+                            QMenu* menu = makeMenu (nullptr);
                             if (menu) {
-                                menu->exec (me->screenPos ());
-                                break;
+                                menu -> exec (me->screenPos ());
+                            }
+                        } else {
+                            foreach (QGraphicsItem* item, items) {
+                                QMenu* menu = makeMenu (item);
+                                if (menu) {
+                                    menu -> exec (me->screenPos ());
+                                    break;
+                                }
                             }
                         }
                     }
@@ -751,23 +758,26 @@ void CalenhadModel::rollbackLegends() {
 
 QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     if (_menu) { delete _menu; }
+    if (! item) {
+        _menu = new QMenu ("Model");
+    }
     // construct menu for whatever item type here because QGraphicsItem does not extend QObject, so we can't call connect within QGraphicsItem
+    if (dynamic_cast<QNEPort*> (item)) {
+        
+    }
     if (dynamic_cast<QNEConnection*> (item)) {
         // connection actions
         _menu = new QMenu ("Connection");
         QNEConnection* c = static_cast<QNEConnection*> (item);
         _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/disconnect.png"), "Disconnect", "Delete this connection from the model", CalenhadAction::DeleteConnectionAction, c));
-        return _menu;
     }
     if (dynamic_cast<QNodeBlock*> (item)) {
         QNodeBlock* block = static_cast<QNodeBlock*> (item);
         QNode* n = block -> node();
         _menu = new QMenu (n -> name() + " (" + n -> nodeType() + ")");
         _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, block));
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, block));
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, block));
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/delete.png"), tr ("Delete"), "Delete module", CalenhadAction::DeleteModuleAction, block));
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete"), "Delete selection", CalenhadAction::DeleteSelectionAction, block));
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/delete.png"), tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, block));
+
         _menu -> addSeparator();
 
         QAction* editAction = new QAction (QIcon (":/appicons/controls/edit.png"), tr ("Edit"));
@@ -780,8 +790,20 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
             connect (globeAction, &QAction::triggered, (QModule*) n, &QModule::showGlobe);
             _menu->addAction (globeAction);
         }
-        return _menu;
     }
+
+    // actions that operate on selections
+    _menu -> addSeparator();
+    QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
+    _menu -> addAction (copy);
+    QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
+    _menu -> addAction (cut);
+    QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
+    _menu -> addAction (deleteSelection);
+    copy -> setEnabled (selectedItems().size() > 0);
+    cut -> setEnabled (selectedItems().size() > 0);
+    deleteSelection -> setEnabled (selectedItems().size() > 0);
+    return _menu;
 }
 
 QAction* CalenhadModel::makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item) {
@@ -792,7 +814,6 @@ QAction* CalenhadModel::makeMenuItem (const QIcon& icon, const QString& name, co
     connect (action, &QAction::triggered, _controller, &CalenhadController::actionTriggered);
     return action;
 }
-
 
 QString CalenhadModel::uniqueName (QString original) {
     int i = 0;

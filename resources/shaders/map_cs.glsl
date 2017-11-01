@@ -7,8 +7,9 @@ uniform int resolution = 512;
 uniform float scale;
 uniform vec2 datum;
 
-layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
+
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
+layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
 layout (local_size_x = 32, local_size_y = 32) in;
 
 // mathematical constants

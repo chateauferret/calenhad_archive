@@ -40,7 +40,7 @@ namespace calenhad {
                 calenhad::mapping::CalenhadMapWidget* _globe;
                 QwtPlot* _plot;
                 QwtPlotCurve* _curve;
-                int _buckets [1000];
+                double _buckets [1000];
                 double _heights [1000];
                 Statistics _statistics;
                 HypsographyWidget* _context;

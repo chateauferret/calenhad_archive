@@ -21,26 +21,15 @@ CalenhadStatsTab::CalenhadStatsTab (QModule* source, CalenhadGlobeDialog* parent
     worldFormWidget -> setLayout (worldForm);
     _worldExtremesLabel = new QLabel (this);
     _worldMeanLabel = new QLabel (this);
-    worldForm -> addRow ("Minimum and maximum values in world", _worldExtremesLabel);
-    worldForm -> addRow ("Mean value in world", _worldMeanLabel);
+    worldForm -> addRow ("Range of values in world", _worldExtremesLabel);
+
     worldHypsographyBox -> layout () -> addWidget (_worldHypsography);
     worldHypsographyBox -> layout() -> addWidget (worldFormWidget);
 
-    QGroupBox* mapHypsographyBox = new QGroupBox ("This map hypsograph", this);
-    mapHypsographyBox -> setLayout (new QVBoxLayout());
-    _mapHypsography = new HypsographyWidget (parent -> globe(), mapHypsographyBox, _worldHypsography);
-    QFormLayout* mapForm = new QFormLayout();
-    QWidget* mapFormWidget = new QWidget (this);
-    mapFormWidget -> setLayout (mapForm);
-    _mapExtremesLabel = new QLabel (this);
-    _mapMeanLabel = new QLabel (this);
-    mapForm -> addRow ("Minimum and maximum values in map", _mapExtremesLabel);
-    mapForm -> addRow ("Mean value in map", _mapMeanLabel);
-    mapHypsographyBox -> layout () -> addWidget (_mapHypsography);
-    mapHypsographyBox -> layout() -> addWidget (mapFormWidget);
+    worldForm -> addRow ("Mean value in world", _worldMeanLabel);
 
     layout() -> addWidget (worldHypsographyBox);
-    layout() -> addWidget (mapHypsographyBox);
+
 }
 
 CalenhadStatsTab::~CalenhadStatsTab() {
@@ -57,15 +46,5 @@ void CalenhadStatsTab::showEvent (QShowEvent* e) {
         _worldExtremesLabel -> setText ("");
         _worldExtremesLabel -> setEnabled (false);
         _worldMeanLabel -> setText ("");
-    }
-    Statistics mapStats = _mapHypsography -> statistics();
-    if (mapStats.ok()) {
-        _mapExtremesLabel -> setText (QString::number (mapStats._min) + " to " + QString::number (mapStats._max));
-        _mapExtremesLabel -> setEnabled (true);
-        _mapMeanLabel -> setText (QString::number (mapStats.mean()));
-    } else {
-        _mapExtremesLabel -> setText ("");
-        _mapExtremesLabel -> setEnabled (false);
-        _mapMeanLabel -> setText ("");
     }
 }

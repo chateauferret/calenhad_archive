@@ -33,8 +33,8 @@ namespace calenhad {
             protected:
                 CalenhadGlobeDialog* dialog;
                 QLabel* _mapExtremesLabel, * _worldExtremesLabel;
-                QLabel* _mapMeanLabel, * _worldMeanLabel;
-                calenhad::controls::globe::HypsographyWidget* _worldHypsography, * _mapHypsography;
+                QLabel* _worldMeanLabel;
+                calenhad::controls::globe::HypsographyWidget* _worldHypsography;
                 calenhad::qmodule::QModule* _source;
             };
         }

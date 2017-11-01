@@ -27,8 +27,7 @@ LegendPreview::LegendPreview (QWidget* parent) : QwtScaleWidget (parent) {
 }
 
 LegendPreview::~LegendPreview() {
-    if (_scaleEngine) { delete _scaleEngine; }
-    if (_draw) { delete _draw; }
+
 }
 
 void LegendPreview::paintEvent (QPaintEvent* e) {

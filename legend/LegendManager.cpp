@@ -113,10 +113,10 @@ LegendManager::~LegendManager () {
 
 }
 
-
 void LegendManager::addLegendWidget (Legend* legend) {
     LegendWidget* w = legend -> widget();
-    ((QStackedLayout*) _legendDetailArea -> layout())->addWidget (w);
+    QStackedLayout* layout = (QStackedLayout*) _legendDetailArea -> layout();
+    layout -> addWidget (w);
     connect (w, SIGNAL (nameChanged (QString)), legend, SLOT (setName (const QString&)));
     connect (w, SIGNAL (iconChanged (QIcon)), _chooser, SLOT (setCurrentIcon (const QIcon&)));
     connect (legend, &Legend::renamed, this, [=] () {
