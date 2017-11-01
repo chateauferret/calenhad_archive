@@ -44,6 +44,7 @@ const int PASS_MAINMAP = 2;
 const int PASS_STATISTICS = 3;
 
 // statistics
+int hypsographyResolution;
 float minAltitude = 0;
 float maxAltitude = 0;
 
@@ -801,11 +802,7 @@ void main() {
     imageStore (destTex, pos, color);
 
 
-    if (v > maxAltitude) { maxAltitude = v; }
-    if (v < minAltitude) { minAltitude = v; }
-
 }
 
-    // to do - hypsography pass
     // to do - normals pass
     // to do - legends pass

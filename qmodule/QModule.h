@@ -48,7 +48,7 @@ namespace calenhad {
             virtual void inflate (const QDomElement& element) override;
 
             virtual void serialize (QDomDocument& doc) override;
-
+            calenhad::controls::globe::CalenhadMapView* preview();
             static int seed;
 
             // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.

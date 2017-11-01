@@ -99,7 +99,7 @@ void AltitudeMapPlot::mouseCanvasPressEvent (QMouseEvent* event) {
     double dist;
     _index = _curve -> closestPoint (event->pos (), &dist);
     if (dist < 8) {
-        canvas ()->setCursor (Qt::ClosedHandCursor);
+        canvas()->setCursor (Qt::ClosedHandCursor);
     } else {
         _index = noneSelected;
         _entries.append (QPointF (x, y));

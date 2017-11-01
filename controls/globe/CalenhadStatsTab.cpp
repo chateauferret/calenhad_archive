@@ -7,28 +7,40 @@
 #include "CalenhadStatsTab.h"
 #include "CalenhadGlobeDialog.h"
 #include "../../qmodule/QModule.h"
-#include "CalenhadServices.h"
-
 
 using namespace calenhad::controls::globe;
 using namespace calenhad::qmodule;
 
 CalenhadStatsTab::CalenhadStatsTab (QModule* source, CalenhadGlobeDialog* parent) : QWidget (parent), _source (source), dialog (parent) {
+    setLayout (new QVBoxLayout());
+    QGroupBox* worldHypsographyBox = new QGroupBox ("Planet hypsograph", this);
+    worldHypsographyBox -> setLayout (new QVBoxLayout());
+    _worldHypsography = new HypsographyWidget (source -> preview(), worldHypsographyBox);
+    QFormLayout* worldForm = new QFormLayout();
+    QWidget* worldFormWidget = new QWidget (this);
+    worldFormWidget -> setLayout (worldForm);
+    _worldExtremesLabel = new QLabel (this);
+    _worldMeanLabel = new QLabel (this);
+    worldForm -> addRow ("Minimum and maximum values in world", _worldExtremesLabel);
+    worldForm -> addRow ("Mean value in world", _worldMeanLabel);
+    worldHypsographyBox -> layout () -> addWidget (_worldHypsography);
+    worldHypsographyBox -> layout() -> addWidget (worldFormWidget);
 
-    setLayout (new QFormLayout());
-    _whenGeneratedLabel = new QLabel (this);
-    ((QFormLayout*) layout()) -> addRow ("Map generated", _whenGeneratedLabel);
-    _renderTimePerPixelLabel = new QLabel (this);
-    ((QFormLayout*) layout()) -> addRow ("Render time per pixel", _renderTimePerPixelLabel);
-    _renderTimeLabel = new QLabel (this);
-    ((QFormLayout*) layout()) -> addRow ("Render time this map", _renderTimeLabel);
-    _pixelsInMapLabel = new QLabel (this);
-    ((QFormLayout*) layout()) -> addRow ("Pixels in map", _pixelsInMapLabel);
-    _extremesMapLabel = new QLabel (this);
-    ((QFormLayout*) layout()) -> addRow ("Minimum and maximum values in map", _extremesMapLabel);
-    _extremesGlobeLabel = new QLabel (this);
-    ((QFormLayout*) layout()) -> addRow ("Minimum and maximum values in world", _extremesGlobeLabel);
+    QGroupBox* mapHypsographyBox = new QGroupBox ("This map hypsograph", this);
+    mapHypsographyBox -> setLayout (new QVBoxLayout());
+    _mapHypsography = new HypsographyWidget (parent -> globe(), mapHypsographyBox, _worldHypsography);
+    QFormLayout* mapForm = new QFormLayout();
+    QWidget* mapFormWidget = new QWidget (this);
+    mapFormWidget -> setLayout (mapForm);
+    _mapExtremesLabel = new QLabel (this);
+    _mapMeanLabel = new QLabel (this);
+    mapForm -> addRow ("Minimum and maximum values in map", _mapExtremesLabel);
+    mapForm -> addRow ("Mean value in map", _mapMeanLabel);
+    mapHypsographyBox -> layout () -> addWidget (_mapHypsography);
+    mapHypsographyBox -> layout() -> addWidget (mapFormWidget);
 
+    layout() -> addWidget (worldHypsographyBox);
+    layout() -> addWidget (mapHypsographyBox);
 }
 
 CalenhadStatsTab::~CalenhadStatsTab() {
@@ -36,20 +48,24 @@ CalenhadStatsTab::~CalenhadStatsTab() {
 }
 
 void CalenhadStatsTab::showEvent (QShowEvent* e) {
-    CalenhadStatistics stats = CalenhadServices::statistics() -> statistics();
-    _whenGeneratedLabel -> setText (stats._pixelsInMap == 0 ? "Not rendered" : stats._whenRendered);
-    _renderTimeLabel -> setText (stats._pixelsInMap == 0 ? "Not rendered" : QString::number (stats._renderTime) + " ms");
-    double timePerPixel = ((double) stats._renderTime / (double) stats._pixelsInMap);
-    _renderTimePerPixelLabel -> setText (stats._pixelsInMap == 0 ? "Not rendered" : QString::number (timePerPixel * 1000.0) + " μs");
-    _pixelsInMapLabel -> setText (stats._pixelsInMap == 0 ? "Not rendered" : QString::number (stats._pixelsInMap));
-    double min, max;
-    bool ok = _source -> range (min, max);
-    if (ok) {
-        _extremesMapLabel->setText (QString::number (min) + " - " + QString::number (max));
-        _extremesMapLabel -> setEnabled (true);
+    Statistics worldStats = _worldHypsography -> statistics();
+    if (worldStats.ok()) {
+        _worldExtremesLabel -> setText (QString::number (worldStats._min) + " to " + QString::number (worldStats._max));
+        _worldExtremesLabel -> setEnabled (true);
+        _worldMeanLabel -> setText (QString::number (worldStats.mean()));
     } else {
-        _extremesMapLabel -> setText ("");
-        _extremesMapLabel -> setEnabled (false);
+        _worldExtremesLabel -> setText ("");
+        _worldExtremesLabel -> setEnabled (false);
+        _worldMeanLabel -> setText ("");
     }
-    _extremesGlobeLabel -> setText (QString::number (stats._minValueGlobal) + " - " + QString::number (stats._maxValueGlobal));
+    Statistics mapStats = _mapHypsography -> statistics();
+    if (mapStats.ok()) {
+        _mapExtremesLabel -> setText (QString::number (mapStats._min) + " to " + QString::number (mapStats._max));
+        _mapExtremesLabel -> setEnabled (true);
+        _mapMeanLabel -> setText (QString::number (mapStats.mean()));
+    } else {
+        _mapExtremesLabel -> setText ("");
+        _mapExtremesLabel -> setEnabled (false);
+        _mapMeanLabel -> setText ("");
+    }
 }

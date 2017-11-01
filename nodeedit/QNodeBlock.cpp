@@ -105,8 +105,8 @@ void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* optio
     painter -> setPen (_pen);
     painter -> drawPath (path());
     if (_icon) {
-        _icon->setColor (isSelected () ? CalenhadServices::preferences ()->calenhad_module_brush_color_selected.dark ()
-                                       : CalenhadServices::preferences ()->calenhad_module_brush_color_normal.dark ());
+        _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark ()
+                                       : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark ());
         painter->drawPixmap (_margin, _margin, _icon->grab ());
     }
     QPixmap _endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
@@ -122,7 +122,7 @@ void QNodeBlock::assignIcon() {
         _icon->setAlignment (Qt::AlignCenter);
         _icon->setPixmap (_pixmap->scaled (32, 32));
         _icon->setFixedSize (_pixmap->size ());
-        _icon->setColor (CalenhadServices::preferences ()->calenhad_toolpalette_icon_color_normal);
+        _icon->setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
         _icon->setFixedSize (32, 32);
     }
 }
@@ -199,14 +199,14 @@ QVector<QNEPort*> QNodeBlock::outputs() {
 
 QVector<QNEPort*> QNodeBlock::controls() {
     QVector<QNEPort*> res;
-            foreach (QGraphicsItem* port_, parentItem() -> childItems()) {
-            if (port_ -> type () == QNEPort::Type) {
-                QNEPort* port = (QNEPort*) port_;
-                if (port -> portType() != QNEPort::ControlPort) {
-                    res.append (port);
-                }
+    foreach (QGraphicsItem* p, parentItem() -> childItems()) {
+        if (p -> type() == QNEPort::Type) {
+            QNEPort* p = (QNEPort*) p;
+            if (p -> portType () != QNEPort::ControlPort) {
+                res.append (p);
             }
         }
+    }
     return res;
 }
 

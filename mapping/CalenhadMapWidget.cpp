@@ -21,14 +21,14 @@ using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 
 CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
-    m_vertexBuffer (nullptr),
-    m_computeShader (nullptr),
-    m_computeProgram (nullptr),
-    m_vertexShader (nullptr),
-    m_fragmentShader (nullptr),
+    _vertexBuffer (nullptr),
+    _computeShader (nullptr),
+    _computeProgram (nullptr),
+    _vertexShader (nullptr),
+    _fragmentShader (nullptr),
     _globeTexture (nullptr),
-    m_renderProgram (nullptr),
-    m_indexBuffer (nullptr),
+    _renderProgram (nullptr),
+    _indexBuffer (nullptr),
     _colorMapBuffer (nullptr),
     _projection (CalenhadServices::projections() -> fetch ("Equirectangular")),
     _scale (1.0),
@@ -58,12 +58,12 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     QFile vsFile (":/shaders/map_vs.glsl");
     vsFile.open (QIODevice::ReadOnly);
     QTextStream vsTextStream (&vsFile);
-    _vertexShader = vsTextStream.readAll ();
+    _vertexShaderCode = vsTextStream.readAll ();
 
     QFile fsFile (":/shaders/map_fs.glsl");
     fsFile.open (QIODevice::ReadOnly);
     QTextStream fsTextStream (&fsFile);
-    _fragmentShader = fsTextStream.readAll ();
+    _fragmentShaderCode = fsTextStream.readAll ();
 
     _graticule = new Graticule (this);
 
@@ -71,20 +71,21 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
 
 CalenhadMapWidget::~CalenhadMapWidget() {
     makeCurrent();
-    if (m_computeShader) { delete m_computeShader; }
-    if (m_vertexShader) { delete m_vertexShader; }
-    if (m_fragmentShader) { delete m_fragmentShader; }
+    if (_computeShader) { delete _computeShader; }
+    if (_vertexShader) { delete _vertexShader; }
+    if (_fragmentShader) { delete _fragmentShader; }
     if (_globeTexture) { delete _globeTexture; }
-    if (m_renderProgram) { delete m_renderProgram; }
-    if (m_computeProgram) { delete m_computeProgram; }
-    if (m_indexBuffer)  { delete m_indexBuffer; }
-    if (m_vertexBuffer) { delete m_vertexBuffer; }
+    if (_heightMapBuffer) { delete _heightMapBuffer; }
+    if (_renderProgram) { delete _renderProgram; }
+    if (_computeProgram) { delete _computeProgram; }
+    if (_indexBuffer)  { delete _indexBuffer; }
+    if (_vertexBuffer) { delete _vertexBuffer; }
     if (_graticule) { delete _graticule; }
 }
 
 void CalenhadMapWidget::initializeGL() {
     initializeOpenGLFunctions();
-    //glEnable (GL_MULTISAMPLE);
+    glEnable (GL_MULTISAMPLE);
 
     glClearColor(0, 0, 1, 1);
     _colorMapBuffer = _graph -> colorMapBuffer();
@@ -103,17 +104,17 @@ void CalenhadMapWidget::initializeGL() {
     };
     static const GLushort g_element_buffer_data[] = { 0, 1, 2, 3 };
 
-    m_vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    m_vertexBuffer->create();
-    m_vertexBuffer->setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_vertexBuffer->bind();
-    m_vertexBuffer->allocate (g_vertex_buffer_data, sizeof(g_vertex_buffer_data));
+    _vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    _vertexBuffer->create();
+    _vertexBuffer->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    _vertexBuffer->bind();
+    _vertexBuffer->allocate (g_vertex_buffer_data, sizeof(g_vertex_buffer_data));
 
-    m_indexBuffer = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-    m_indexBuffer->create();
-    m_indexBuffer->setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_indexBuffer->bind();
-    m_indexBuffer->allocate (g_element_buffer_data, sizeof(g_element_buffer_data));
+    _indexBuffer = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+    _indexBuffer->create();
+    _indexBuffer->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    _indexBuffer->bind();
+    _indexBuffer->allocate (g_element_buffer_data, sizeof(g_element_buffer_data));
 
     // texture for the map
     glActiveTexture(GL_TEXTURE0);
@@ -126,29 +127,28 @@ void CalenhadMapWidget::initializeGL() {
     _globeTexture->allocateStorage();
     _globeTexture->bind();
     _heightMapBuffer = new float [_globeTexture -> height() * _globeTexture -> width()];
-
     glBindImageTexture (0, _globeTexture -> textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 
-    m_computeShader = new QOpenGLShader(QOpenGLShader::Compute);
-    m_vertexShader = new QOpenGLShader(QOpenGLShader::Vertex);
-    m_vertexShader -> compileSourceCode (_vertexShader);
-    m_fragmentShader = new QOpenGLShader(QOpenGLShader::Fragment);
-    m_fragmentShader -> compileSourceCode (_fragmentShader);
-    m_computeProgram = new QOpenGLShaderProgram();
+    _computeShader = new QOpenGLShader(QOpenGLShader::Compute);
+    _vertexShader = new QOpenGLShader(QOpenGLShader::Vertex);
+    _vertexShader -> compileSourceCode (_vertexShaderCode);
+    _fragmentShader = new QOpenGLShader(QOpenGLShader::Fragment);
+    _fragmentShader -> compileSourceCode (_fragmentShaderCode);
+    _computeProgram = new QOpenGLShaderProgram();
 
-    m_computeShader -> compileSourceCode (_shader);
-    m_computeProgram -> removeAllShaders();
-    m_computeProgram -> addShader (m_computeShader);
-    m_computeProgram -> link();
-    m_computeProgram->bind();
+    _computeShader -> compileSourceCode (_shader);
+    _computeProgram -> removeAllShaders();
+    _computeProgram -> addShader (_computeShader);
+    _computeProgram -> link();
+    _computeProgram->bind();
 
-    m_renderProgram = new QOpenGLShaderProgram();
-    m_renderProgram->addShader(m_vertexShader);
-    m_renderProgram->addShader(m_fragmentShader);
-    m_renderProgram->link();
-    m_renderProgram->bind();
+    _renderProgram = new QOpenGLShaderProgram();
+    _renderProgram->addShader(_vertexShader);
+    _renderProgram->addShader(_fragmentShader);
+    _renderProgram->link();
+    _renderProgram->bind();
 
-    GLint posPtr = glGetAttribLocation(m_renderProgram->programId(), "pos");
+    GLint posPtr = glGetAttribLocation(_renderProgram->programId(), "pos");
     glVertexAttribPointer (posPtr, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray (posPtr);
 
@@ -160,19 +160,19 @@ void CalenhadMapWidget::paintGL() {
     QPainter p (this);
     p.beginNativePainting();
 
-    static GLint srcLoc= glGetUniformLocation(m_renderProgram->programId(),"srcTex");
-    static GLint destLoc=glGetUniformLocation(m_computeProgram->programId(),"destTex");
-    static GLint insetLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetTex");
-    static GLint cmbsLoc = glGetUniformLocation (m_computeProgram -> programId(), "colorMapBufferSize");
-    static GLint resolutionLoc = glGetUniformLocation (m_computeProgram -> programId(), "resolution");
-    static GLint projectionLoc = glGetUniformLocation (m_computeProgram -> programId(), "projection");
-    static GLint scaleLoc = glGetUniformLocation (m_computeProgram -> programId (), "scale");
-    static GLint datumLoc = glGetUniformLocation (m_computeProgram -> programId(), "datum");
-    static GLint insetHeightLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetHeight");
-    static GLint insetPosLoc = glGetUniformLocation (m_computeProgram -> programId(), "insetPos");
+    static GLint srcLoc= glGetUniformLocation(_renderProgram->programId(),"srcTex");
+    static GLint destLoc=glGetUniformLocation(_computeProgram->programId(),"destTex");
+    static GLint insetLoc = glGetUniformLocation (_computeProgram -> programId(), "insetTex");
+    static GLint cmbsLoc = glGetUniformLocation (_computeProgram -> programId(), "colorMapBufferSize");
+    static GLint resolutionLoc = glGetUniformLocation (_computeProgram -> programId(), "resolution");
+    static GLint projectionLoc = glGetUniformLocation (_computeProgram -> programId(), "projection");
+    static GLint scaleLoc = glGetUniformLocation (_computeProgram -> programId (), "scale");
+    static GLint datumLoc = glGetUniformLocation (_computeProgram -> programId(), "datum");
+    static GLint insetHeightLoc = glGetUniformLocation (_computeProgram -> programId(), "insetHeight");
+    static GLint insetPosLoc = glGetUniformLocation (_computeProgram -> programId(), "insetPos");
 
     m_vao.bind();
-    m_computeProgram->bind();
+    _computeProgram->bind();
     _globeTexture->bind();
 
     GLubyte c = 0;
@@ -201,6 +201,7 @@ void CalenhadMapWidget::paintGL() {
 
     // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
     GLuint heightMap = 1;
+
     glGenBuffers (1, &heightMap);
     glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
     glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * _globeTexture -> height() * _globeTexture -> width(), NULL, GL_DYNAMIC_READ);
@@ -211,8 +212,7 @@ void CalenhadMapWidget::paintGL() {
 
 
     // draw
-    m_renderProgram -> bind();
-    //glClear(GL_COLOR_BUFFER_BIT);
+    _renderProgram -> bind();
     _globeTexture -> bind();
 
     glUniform1i(srcLoc, 0);
@@ -220,6 +220,8 @@ void CalenhadMapWidget::paintGL() {
     m_vao.release();
 
     glMemoryBarrier (GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+    glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+
     p.endNativePainting();
 
     // draw the graticule
@@ -241,9 +243,10 @@ void CalenhadMapWidget::paintGL() {
     }
     std::cout << "Out of range: " << outwithRange << "\n";
     std::cout << "Zeroes: " << zeroes << "\n";
+    emit rendered();
 }
 
-float* CalenhadMapWidget::heightMapBuffer() const {
+GLfloat* CalenhadMapWidget::heightMapBuffer() const {
     return _heightMapBuffer;
 }
 
@@ -281,12 +284,12 @@ void CalenhadMapWidget::setGraph (Graph* g) {
     _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
     _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
 
-    if (m_computeShader) {
-        m_computeProgram -> removeAllShaders();
-        if (m_computeShader -> compileSourceCode (_shader)) {
-            m_computeProgram -> addShader (m_computeShader);
-            m_computeProgram -> link();
-            m_computeProgram -> bind();
+    if (_computeShader) {
+        _computeProgram -> removeAllShaders();
+        if (_computeShader -> compileSourceCode (_shader)) {
+            _computeProgram -> addShader (_computeShader);
+            _computeProgram -> link();
+            _computeProgram -> bind();
         } else {
             std::cout << "Compute shader would not compile\n";
         }
@@ -347,7 +350,7 @@ bool CalenhadMapWidget::isInViewport (Geolocation g) {
     }
 }
 
-QImage* CalenhadMapWidget::greyscale() {
+QImage* CalenhadMapWidget::heightmap() {
     QImage* image = new QImage (_globeTexture -> width(), _globeTexture -> height(), QImage::Format_ARGB32);
     image -> fill (Qt::red);
     int w = _globeTexture -> width();
@@ -378,7 +381,6 @@ QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
     QPoint tc;
     double x = sc.x() / width ();
     double y = sc.y() / height ();
-    std::cout << x << " " << y << "\n";
     tc.setX (x * _globeTexture -> width ());
     tc.setY ((1 - y) * _globeTexture -> height ());
     return tc;

@@ -402,3 +402,4 @@ QNode* QNode::clone() {
 
     return _copy;
 }
+

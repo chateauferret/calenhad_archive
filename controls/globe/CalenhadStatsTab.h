@@ -10,7 +10,7 @@
 #include <QtWidgets/QLabel>
 #include <qwt/qwt_plot.h>
 #include <QtWidgets/QComboBox>
-
+#include "HypsographyWidget.h"
 
 
 namespace calenhad {
@@ -32,11 +32,9 @@ namespace calenhad {
 
             protected:
                 CalenhadGlobeDialog* dialog;
-                QLabel* _extremesMapLabel, * _extremesGlobeLabel;
-                QLabel* _renderTimeLabel, * _renderTimePerPixelLabel;
-                QLabel* _pixelsInMapLabel;
-                QLabel* _whenGeneratedLabel;
-                QwtPlot* _hypsography;
+                QLabel* _mapExtremesLabel, * _worldExtremesLabel;
+                QLabel* _mapMeanLabel, * _worldMeanLabel;
+                calenhad::controls::globe::HypsographyWidget* _worldHypsography, * _mapHypsography;
                 calenhad::qmodule::QModule* _source;
             };
         }

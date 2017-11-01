@@ -763,8 +763,23 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
         QNodeBlock* block = static_cast<QNodeBlock*> (item);
         QNode* n = block -> node();
         _menu = new QMenu (n -> name() + " (" + n -> nodeType() + ")");
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons.controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, block));
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons.controls/delete.png"), tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, block));
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, block));
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, block));
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, block));
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/delete.png"), tr ("Delete"), "Delete module", CalenhadAction::DeleteModuleAction, block));
+        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete"), "Delete selection", CalenhadAction::DeleteSelectionAction, block));
+        _menu -> addSeparator();
+
+        QAction* editAction = new QAction (QIcon (":/appicons/controls/edit.png"), tr ("Edit"));
+        editAction -> setToolTip ("Edit module's details and parameters");
+        connect (editAction, &QAction::triggered, this, [=] () { n -> showParameters (true); });
+        _menu -> addAction (editAction);
+
+        if (dynamic_cast<QModule*> (n)) {
+            QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
+            connect (globeAction, &QAction::triggered, (QModule*) n, &QModule::showGlobe);
+            _menu->addAction (globeAction);
+        }
         return _menu;
     }
 }

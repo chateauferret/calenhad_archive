@@ -70,13 +70,14 @@ namespace calenhad {
             bool isInViewport (geoutils::Geolocation g);
 
             QSize heightMapSize () const;
-            float* heightMapBuffer () const;
-            QImage* greyscale();
+            GLfloat* heightMapBuffer() const;
+            QImage* heightmap ();
         public slots:
 
             void setProjection (const QString& projection);
 
-
+        signals:
+            void rendered();
 
         protected:
             void initializeGL ();
@@ -108,19 +109,19 @@ namespace calenhad {
 
             // boilerplate code for compute, vertex and fragment shaders
             QString _shaderTemplate;
-            QString _vertexShader;
-            QString _fragmentShader;
+            QString _vertexShaderCode;
+            QString _fragmentShaderCode;
 
 
             QOpenGLVertexArrayObject m_vao;
-            QOpenGLBuffer* m_vertexBuffer;
-            QOpenGLBuffer* m_indexBuffer;
-            QOpenGLShaderProgram* m_computeProgram;
-            QOpenGLShaderProgram* m_renderProgram;
-            QOpenGLShader* m_computeShader;
-            QOpenGLShader* m_fragmentShader;
-            QOpenGLShader* m_vertexShader;
-            QOpenGLTexture* _globeTexture, * _outTexture;
+            QOpenGLBuffer* _vertexBuffer;
+            QOpenGLBuffer* _indexBuffer;
+            QOpenGLShaderProgram* _computeProgram;
+            QOpenGLShaderProgram* _renderProgram;
+            QOpenGLShader* _computeShader;
+            QOpenGLShader* _fragmentShader;
+            QOpenGLShader* _vertexShader;
+            QOpenGLTexture* _globeTexture;
 
 
             GLfloat* _heightMapBuffer;

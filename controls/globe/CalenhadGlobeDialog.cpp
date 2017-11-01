@@ -216,7 +216,7 @@ bool CalenhadGlobeDialog::isOverviewVisible () {
 }
 
 void CalenhadGlobeDialog::captureGreyscale() {
-    QImage* image = _globe -> greyscale();
-    QString fileName = QFileDialog::getSaveFileName (this, tr("Save greyscale image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
+    QImage* image = _globe->heightmap ();
+    QString fileName = QFileDialog::getSaveFileName (this, tr("Save heightmap image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
     image -> save (fileName);
 }

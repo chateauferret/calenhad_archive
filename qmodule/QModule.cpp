@@ -46,7 +46,7 @@ void QModule::initialise() {
     addPort (output);
     setContextMenuPolicy(Qt::CustomContextMenu);
     _contextMenu = new QMenu (this);
-    QAction* globeAction = new QAction ("Show globe");
+    QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
     connect (globeAction, &QAction::triggered, this, &QModule::showGlobe);
     _contextMenu -> addAction (globeAction);
 }
@@ -152,4 +152,8 @@ void QModule::contextMenuEvent (QContextMenuEvent* e) {
 
 bool QModule::range (double& min, double& max) {
     return _rangeFinder -> range (min, max);
+}
+
+calenhad::controls::globe::CalenhadMapView* QModule::preview () {
+    return _preview;
 };

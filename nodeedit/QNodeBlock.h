@@ -121,6 +121,7 @@ namespace calenhad {
 
             QString _oldName;
             calenhad::nodeedit::NodeNameValidator* _nameValidator;
+
         };
 	}
 }

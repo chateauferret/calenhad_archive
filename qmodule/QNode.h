@@ -101,7 +101,7 @@ namespace calenhad {
             void propertyChangeRequested (const QString& p, const QVariant& value);
 
             QStringList parameters();
-            void showParameters (const bool& visible);
+
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
             int id();
@@ -109,7 +109,7 @@ namespace calenhad {
             virtual nodeedit::QNodeBlock* makeHandle ();
 
         public slots:
-
+            void showParameters (const bool& visible = true);
             virtual void invalidate ();
             void setName (const QString& name);
 

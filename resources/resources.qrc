@@ -40,7 +40,9 @@
         <file>appicons/controls/delete_selection.png</file>
         <file>appicons/controls/duplicate.png</file>
         <file>appicons/controls/disconnect.png</file>
+        <file>appicons/controls/edit.png</file>
         <file>appicons/controls/find.png</file>
+        <file>appicons/controls/globe.png</file>
         <file>appicons/controls/glsl.png</file>
         <file>appicons/controls/group_add.png</file>
         <file>appicons/controls/group_delete.png</file>
