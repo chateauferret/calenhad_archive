@@ -156,12 +156,9 @@ void CalenhadMapWidget::initializeGL() {
     m_vao.release();
 }
 
-void CalenhadMapWidget::paintGL() {
+void CalenhadMapWidget::compute () {
+    makeCurrent();
 
-    QPainter p (this);
-    p.beginNativePainting();
-
-    static GLint srcLoc= glGetUniformLocation(_renderProgram->programId(),"srcTex");
     static GLint destLoc=glGetUniformLocation(_computeProgram->programId(),"destTex");
     static GLint insetLoc = glGetUniformLocation (_computeProgram -> programId(), "insetTex");
     static GLint cmbsLoc = glGetUniformLocation (_computeProgram -> programId(), "colorMapBufferSize");
@@ -210,17 +207,29 @@ void CalenhadMapWidget::paintGL() {
     glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
 
     glDispatchCompute (_globeTexture->width () / 16, _globeTexture->height () / 16, 1);
+    glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+    // retrieve the height map data from the GPU
+    glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
+    glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
+    GLfloat* heightData = (GLfloat *) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+    glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
+    memcpy (_heightMapBuffer, heightData, _globeTexture -> height() * _globeTexture -> width() * sizeof (GLfloat));
 
+}
 
+void CalenhadMapWidget::paintGL() {
+
+    QPainter p (this);
+    p.beginNativePainting();
+    compute();
     // draw
     _renderProgram -> bind();
     _globeTexture -> bind();
-
+    static GLint srcLoc= glGetUniformLocation(_renderProgram->programId(),"srcTex");
     glUniform1i(srcLoc, 0);
     glDrawElements (GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
     m_vao.release();
 
-    glMemoryBarrier (GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
     glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
     p.endNativePainting();
@@ -230,20 +239,7 @@ void CalenhadMapWidget::paintGL() {
         _graticule -> drawGraticule (p);
     }
 
-    // retrieve the height map data from the GPU
-    glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
-    glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-    GLfloat* heightData = (GLfloat *) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-    glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
-    int zeroes = 0, outwithRange = 0;
-    memcpy (_heightMapBuffer, heightData, _globeTexture -> height() * _globeTexture -> width() * sizeof (GLfloat));
-    for (int i = 0; i < _globeTexture -> height () * _globeTexture -> width (); i++) {
-        //std::cout << i << "      " << _heightMapBuffer [i] << "\n";
-        if (_heightMapBuffer [i] < -1.0 || _heightMapBuffer [i] > 1.0) { outwithRange++; }
-        if (_heightMapBuffer [i] == 0.0) { zeroes++; }
-    }
-    std::cout << "Out of range: " << outwithRange << "\n";
-    std::cout << "Zeroes: " << zeroes << "\n";
+
     emit rendered();
 }
 
@@ -294,6 +290,7 @@ void CalenhadMapWidget::setGraph (Graph* g) {
         } else {
             std::cout << "Compute shader would not compile\n";
         }
+        compute();
     } else {
         std::cout << "No compute shader\n";
     }
@@ -444,4 +441,20 @@ void CalenhadMapWidget::setCoordinatesFormat (CoordinatesFormat format) {
 
 geoutils::CoordinatesFormat CalenhadMapWidget::coordinatesFormat () {
     return _coordinatesFormat;
+}
+
+Statistics CalenhadMapWidget::statistics () {
+    double _min = 0, _max = 0, _sum = 0;
+    int count = 0;
+    for (int i = 0; i < _globeTexture -> height() * _globeTexture -> width(); i++) {
+        if (!isnan (_heightMapBuffer[i])) {
+            if (_heightMapBuffer[i] < _min) { _min = _heightMapBuffer[i]; }
+            if (_heightMapBuffer[i] > _max) { _max = _heightMapBuffer[i]; }
+            _sum += _heightMapBuffer[i];
+            count++;
+        }
+    }
+
+    Statistics statistics = Statistics (_min, _max, _sum, count);
+    return statistics;
 }

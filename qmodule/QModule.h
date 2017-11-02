@@ -41,7 +41,7 @@ namespace calenhad {
         Q_OBJECT
         Q_ENUMS (ModuleType)
         public:
-            QModule (const QString& nodeType, RangeFinder* rangeFinder, int inputs = 0, QWidget* parent = 0);
+            QModule (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
 
             virtual ~QModule ();
 
@@ -85,7 +85,6 @@ namespace calenhad {
 
             QMenu* _contextMenu;
             calenhad::controls::globe::CalenhadGlobeDialog* _globe;
-            RangeFinder* _rangeFinder;
 
 
         };

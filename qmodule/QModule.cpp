@@ -4,7 +4,6 @@
 
 
 #include "QModule.h"
-#include "RangeFinder.h"
 #include "../nodeedit/QNodeBlock.h"
 #include "../nodeedit/qneport.h"
 #include "../nodeedit/Calenhad.h"
@@ -23,24 +22,23 @@ using namespace calenhad::controls;
 using namespace calenhad::controls::globe;
 using namespace calenhad::pipeline;
 using namespace calenhad::legend;
+using namespace calenhad::mapping;
 
 
 int QModule::seed = 0;
 
-QModule::QModule (const QString& nodeType, RangeFinder* rangeFinder, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr), _rangeFinder (rangeFinder) {
+QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
 }
 
 QModule::~QModule () {
     if (_globe) { delete _globe; }
-    if (_rangeFinder) { delete _rangeFinder; }
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
 void QModule::initialise() {
     QNode::initialise();
-    _rangeFinder -> setModule (this);
     // all modules have an output
     QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
     addPort (output);
@@ -63,6 +61,7 @@ void QModule::showGlobe() {
 void QModule::setupPreview() {
     _preview = new CalenhadMapView (this);
     _preview -> setSource (this);
+
     _previewIndex = addPanel (tr ("Preview"), _preview);
     connect (_preview, &QWidget::customContextMenuRequested, this, &QModule::showContextMenu);
 }
@@ -151,7 +150,14 @@ void QModule::contextMenuEvent (QContextMenuEvent* e) {
 }
 
 bool QModule::range (double& min, double& max) {
-    return _rangeFinder -> range (min, max);
+    if (_preview) {
+        Statistics statistics = _preview->statistics ();
+        min = statistics._min;
+        max = statistics._max;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 calenhad::controls::globe::CalenhadMapView* QModule::preview () {

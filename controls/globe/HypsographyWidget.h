@@ -8,6 +8,7 @@
 #include <QOpenGLWidget>
 #include <qwt/qwt_plot.h>
 #include <qwt/qwt_plot_curve.h>
+#include <mapping/Statistics.h>
 
 namespace calenhad {
     namespace mapping {
@@ -16,22 +17,12 @@ namespace calenhad {
     namespace controls {
         namespace globe {
 
-            class Statistics {
-            public:
-                Statistics (const double& min, const double& max, const double& sum, const int& count);
-                double _min, _max, _sum;
-                int _count;
-                double range();
-                double mean();
-                bool ok();
-            };
-
             class HypsographyWidget : public QWidget {
 
             public:
-                HypsographyWidget (calenhad::mapping::CalenhadMapWidget* globe, QWidget* parent = 0, HypsographyWidget* context = 0);
+                HypsographyWidget (calenhad::mapping::CalenhadMapWidget* globe, QWidget* parent = 0);
                 virtual ~HypsographyWidget();
-                Statistics statistics();
+                calenhad::mapping::Statistics statistics();
 
             public slots:
                 void refresh();
@@ -42,8 +33,7 @@ namespace calenhad {
                 QwtPlotCurve* _curve;
                 double _buckets [1000];
                 double _heights [1000];
-                Statistics _statistics;
-                HypsographyWidget* _context;
+                calenhad::mapping::Statistics _statistics;
             };
         }
     }

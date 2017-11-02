@@ -13,6 +13,7 @@
 #include <QDir>
 #include <geoutils.h>
 #include <icosphere/Bounds.h>
+#include <controls/globe/HypsographyWidget.h>
 #include "../matrices.h"
 
 namespace calenhad {
@@ -28,11 +29,14 @@ namespace calenhad {
     }
 
     namespace mapping {
+
         class Graticule;
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
-
         public:
+
+
+
             CalenhadMapWidget (QWidget* parent = 0);
 
             ~CalenhadMapWidget ();
@@ -52,7 +56,7 @@ namespace calenhad {
             projection::Projection* projection ();
 
             icosphere::Bounds bounds ();
-
+            calenhad::mapping::Statistics statistics ();
             bool valueAt (const QPointF& sc, double& value);
 
             void setInset (bool);
@@ -74,17 +78,16 @@ namespace calenhad {
             QImage* heightmap ();
         public slots:
 
+            void compute ();
             void setProjection (const QString& projection);
 
         signals:
             void rendered();
 
         protected:
-            void initializeGL ();
-
-            void paintGL ();
-
-            void resizeGL (int width, int height);
+            void initializeGL() override;
+            void paintGL() override;
+            void resizeGL (int width, int height) override;
             geoutils::Geolocation _rotation;
             calenhad::graph::Graph* _graph;
             QString _shader;

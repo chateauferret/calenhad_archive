@@ -22,7 +22,7 @@ using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::mapping;
 
-QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_altitudemap, new AltitudeMapRangeFinder(), 1), _editor (nullptr) {
+QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_altitudemap, 1), _editor (nullptr) {
     makeContentPanel();
 }
 
@@ -212,16 +212,3 @@ void QAltitudeMap::preserve () {
     _oldXml = doc.toString();
 }
 
-bool AltitudeMapRangeFinder::range (double& min, double& max) {
-        min = 0.0;
-        max = 0.0;
-        if (input (0)) {
-                    foreach (QPointF p, ((QAltitudeMap*) _module) -> entries ()) {
-                    if (p.y () > max) { max = p.y (); }
-                    if (p.x () < min) { min = p.y (); }
-                }
-            return true;
-        } else {
-            return false;
-        }
-}

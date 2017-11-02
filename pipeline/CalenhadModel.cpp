@@ -763,7 +763,7 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     }
     // construct menu for whatever item type here because QGraphicsItem does not extend QObject, so we can't call connect within QGraphicsItem
     if (dynamic_cast<QNEPort*> (item)) {
-        
+
     }
     if (dynamic_cast<QNEConnection*> (item)) {
         // connection actions

@@ -9,7 +9,7 @@
 #include <QtXml/QDomElement>
 #include "QModule.h"
 #include "../controls/altitudemap/AltitudeMapConstants.h"
-#include "RangeFinder.h"
+
 
 
 namespace calenhad {
@@ -23,9 +23,6 @@ namespace calenhad {
     }
     namespace qmodule {
 
-        class AltitudeMapRangeFinder : public RangeFinder {
-            bool range (double& min, double& max) override;
-        };
 
         class QAltitudeMap : public QModule {
         Q_OBJECT

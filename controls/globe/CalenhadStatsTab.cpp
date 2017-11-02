@@ -9,6 +9,7 @@
 #include "../../qmodule/QModule.h"
 
 using namespace calenhad::controls::globe;
+using namespace calenhad::mapping;
 using namespace calenhad::qmodule;
 
 CalenhadStatsTab::CalenhadStatsTab (QModule* source, CalenhadGlobeDialog* parent) : QWidget (parent), _source (source), dialog (parent) {
