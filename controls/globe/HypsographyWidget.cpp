@@ -8,17 +8,19 @@
 #include <qwt/qwt_plot_grid.h>
 #include "HypsographyWidget.h"
 #include "../../mapping/CalenhadMapWidget.h"
+#include "CalenhadGlobeConfigDialog.h"
 
 using namespace calenhad::mapping;
 using namespace calenhad::controls::globe;
 using namespace calenhad::mapping;
 
 
-HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe, QWidget* parent) : QWidget (parent),
+HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe,  QWidget* parent) : QWidget (parent),
     _globe (globe),
     _plot (new QwtPlot()),
     _statistics (Statistics (0.0, 0.0, 0.0, 0)) {
     setLayout (new QVBoxLayout());
+    _plot -> setSizePolicy (QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding));
     layout() -> addWidget (_plot);
     _curve = new QwtPlotCurve ("Frequency");
     _curve -> setCurveFitter (NULL);
@@ -32,11 +34,14 @@ HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe, QWidget* parent)
     grid -> attach (_plot);
     _plot -> setAxisTitle (QwtPlot::xBottom, "Frequency (cumulative)");
     _plot -> setAxisTitle (QwtPlot::yLeft, "Altitude");
-    refresh();
 }
 
 HypsographyWidget::~HypsographyWidget() {
 
+}
+
+void HypsographyWidget::showEvent (QShowEvent* e) {
+    refresh();
 }
 
 void HypsographyWidget::refresh() {

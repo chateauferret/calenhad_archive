@@ -1,6 +1,6 @@
 //
 // Created by martin on 02/05/17.
-
+#include "CalenhadMapView.h"
 #include <CalenhadServices.h>
 #include "nodeedit/Calenhad.h"
 #include "../../qmodule/QModule.h"
@@ -12,9 +12,7 @@
 #include <QMouseEvent>
 #include <QtXml/QtXml>
 #include <QtWidgets/QToolTip>
-#include <qwt/qwt_scale_draw.h>
 #include "../../mapping/projection/Projection.h"
-#include "../../mapping/CalenhadMapWidget.h"
 
 
 using namespace icosphere;

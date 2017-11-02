@@ -14,7 +14,6 @@
 #include <QUuid>
 
 #include <memory>
-#include <controls/globe/CalenhadMapView.h>
 #include "QNode.h"
 
 
@@ -33,6 +32,7 @@ namespace calenhad {
         namespace globe {
             class CalenhadMapView;
             class CalenhadGlobeDialog;
+            class CalenhadStatsPanel;
         }
     }
     namespace qmodule {
@@ -87,6 +87,8 @@ namespace calenhad {
             calenhad::controls::globe::CalenhadGlobeDialog* _globe;
 
 
+            int _statsIndex;
+            QDialog* _stats;
         };
     }
 }

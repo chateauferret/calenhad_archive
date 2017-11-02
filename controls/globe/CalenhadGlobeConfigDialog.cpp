@@ -12,7 +12,7 @@
 #include "CalenhadGlobeDialog.h"
 #include "CalenhadGlobeConfigDialog.h"
 #include "CalenhadServices.h"
-#include "CalenhadStatsTab.h"
+#include "CalenhadStatsPanel.h"
 #include "../../legend/Legend.h"
 #include "../../legend/LegendManager.h"
 #include "../../legend/LegendService.h"
@@ -28,6 +28,7 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::legend;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
+using namespace calenhad::graph;
 
 CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* parent) : QDialog (), _parent (parent) {
     setLayout (new QVBoxLayout ());
@@ -167,14 +168,11 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
 
     tabs -> addTab (_graticuleTab, "Graticule");
 
-    CalenhadStatsTab* statsTab = new CalenhadStatsTab (_parent -> globe() -> source(), parent);
-    tabs -> addTab (statsTab, "&Statistics");
-
     layout ()->addWidget (tabs);
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect (buttonBox, &QDialogButtonBox::rejected, this, &CalenhadGlobeConfigDialog::reject);
-    layout ()->addWidget (buttonBox);
+    layout() -> addWidget (buttonBox);
 
 }
 

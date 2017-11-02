@@ -208,6 +208,7 @@ void CalenhadMapWidget::compute () {
 
     glDispatchCompute (_globeTexture->width () / 16, _globeTexture->height () / 16, 1);
     glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+
     // retrieve the height map data from the GPU
     glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
     glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
@@ -225,8 +226,8 @@ void CalenhadMapWidget::paintGL() {
     // draw
     _renderProgram -> bind();
     _globeTexture -> bind();
-    static GLint srcLoc= glGetUniformLocation(_renderProgram->programId(),"srcTex");
-    glUniform1i(srcLoc, 0);
+    static GLint srcLoc = glGetUniformLocation (_renderProgram -> programId(), "srcTex");
+    glUniform1i (srcLoc, 0);
     glDrawElements (GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
     m_vao.release();
 

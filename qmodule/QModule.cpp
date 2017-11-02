@@ -12,9 +12,11 @@
 #include "../legend/LegendService.h"
 #include "../legend/Legend.h"
 #include "../pipeline/ModuleFactory.h"
-#include <QMenu>
+#include <QDialogButtonBox>
 #include <controls/globe/CalenhadGlobeDialog.h>
+#include <controls/globe/CalenhadStatsPanel.h>
 #include "../nodeedit/qneconnection.h"
+
 using namespace icosphere;
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
@@ -27,13 +29,14 @@ using namespace calenhad::mapping;
 
 int QModule::seed = 0;
 
-QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr) {
+QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent), _globe (nullptr), _stats (nullptr) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
 }
 
 QModule::~QModule () {
     if (_globe) { delete _globe; }
+    if (_stats) { delete _stats; }
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
@@ -47,6 +50,7 @@ void QModule::initialise() {
     QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
     connect (globeAction, &QAction::triggered, this, &QModule::showGlobe);
     _contextMenu -> addAction (globeAction);
+
 }
 
 void QModule::showGlobe() {
@@ -61,9 +65,20 @@ void QModule::showGlobe() {
 void QModule::setupPreview() {
     _preview = new CalenhadMapView (this);
     _preview -> setSource (this);
-
     _previewIndex = addPanel (tr ("Preview"), _preview);
+    _stats = new QDialog (this);
+    _stats -> setLayout (new QVBoxLayout (_stats));
+    _stats -> layout() -> addWidget (new CalenhadStatsPanel (this));
+    QDialogButtonBox* box = new QDialogButtonBox (QDialogButtonBox::Ok);
+    _stats -> layout() -> addWidget (box);
+    connect (box, &QDialogButtonBox::accepted, _stats, &QDialog::accept);
+    _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
+    _stats -> setMinimumSize (400, 400);
+    _stats -> move (_dialog -> pos().x() + 400, _dialog -> pos().y() + 300);
+    QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
+    connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
     connect (_preview, &QWidget::customContextMenuRequested, this, &QModule::showContextMenu);
+    _contextMenu -> addAction (statsAction);
 }
 
 void QModule::showContextMenu (const QPoint& point) {

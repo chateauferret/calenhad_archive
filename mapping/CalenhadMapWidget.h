@@ -1,5 +1,5 @@
-#ifndef MYGLWIDGET_H
-#define MYGLWIDGET_H
+#ifndef CALENHADMAPWIDGET_H
+#define CALENHADMAPWIDGET_H
 
 
 #include <QOpenGLWidget>
@@ -134,4 +134,4 @@ namespace calenhad {
         };
     }
 }
-#endif // MYGLWIDGET_H
+#endif // CALENHADMAPWIDGET_H

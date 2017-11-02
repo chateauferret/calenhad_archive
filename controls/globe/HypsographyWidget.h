@@ -11,6 +11,9 @@
 #include <mapping/Statistics.h>
 
 namespace calenhad {
+    namespace qmodule {
+        class QModule;
+    }
     namespace mapping {
         class CalenhadMapWidget;
     }
@@ -34,6 +37,8 @@ namespace calenhad {
                 double _buckets [1000];
                 double _heights [1000];
                 calenhad::mapping::Statistics _statistics;
+
+                void showEvent (QShowEvent* e) override;
             };
         }
     }

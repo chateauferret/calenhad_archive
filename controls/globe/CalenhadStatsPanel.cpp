@@ -4,7 +4,7 @@
 #include "StatisticsService.h"
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGroupBox>
-#include "CalenhadStatsTab.h"
+#include "CalenhadStatsPanel.h"
 #include "CalenhadGlobeDialog.h"
 #include "../../qmodule/QModule.h"
 
@@ -12,7 +12,7 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::mapping;
 using namespace calenhad::qmodule;
 
-CalenhadStatsTab::CalenhadStatsTab (QModule* source, CalenhadGlobeDialog* parent) : QWidget (parent), _source (source), dialog (parent) {
+CalenhadStatsPanel::CalenhadStatsPanel (QModule* source, CalenhadGlobeDialog* parent) : QWidget (parent), _source (source), dialog (parent) {
     setLayout (new QVBoxLayout());
     QGroupBox* worldHypsographyBox = new QGroupBox ("Planet hypsograph", this);
     worldHypsographyBox -> setLayout (new QVBoxLayout());
@@ -33,11 +33,11 @@ CalenhadStatsTab::CalenhadStatsTab (QModule* source, CalenhadGlobeDialog* parent
 
 }
 
-CalenhadStatsTab::~CalenhadStatsTab() {
+CalenhadStatsPanel::~CalenhadStatsPanel() {
 
 }
 
-void CalenhadStatsTab::showEvent (QShowEvent* e) {
+void CalenhadStatsPanel::showEvent (QShowEvent* e) {
     Statistics worldStats = _worldHypsography -> statistics();
     if (worldStats.ok()) {
         _worldExtremesLabel -> setText (QString::number (worldStats._min) + " to " + QString::number (worldStats._max));

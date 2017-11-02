@@ -22,11 +22,11 @@ namespace calenhad {
 
             class CalenhadGlobeDialog;
 
-            class CalenhadStatsTab : public QWidget {
+            class CalenhadStatsPanel : public QWidget {
             public:
-                CalenhadStatsTab (calenhad::qmodule::QModule* source, CalenhadGlobeDialog* parent = 0);
+                CalenhadStatsPanel (calenhad::qmodule::QModule* source, CalenhadGlobeDialog* parent = 0);
 
-                virtual ~CalenhadStatsTab ();
+                virtual ~CalenhadStatsPanel ();
 
                 void showEvent (QShowEvent* e) override;
 

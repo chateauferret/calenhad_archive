@@ -89,9 +89,6 @@ namespace calenhad {
                 CalenhadGlobeDragMode _mouseDragMode;
                 CalenhadGlobeDoubleClickMode _mouseDoubleClickMode;
 
-                QString geoLocationStringDecimal (const geoutils::Geolocation& loc);
-
-                QString geoLocationStringTraditional (const geoutils::Geolocation& loc);
 
                 void wheelEvent (QWheelEvent* event);
 
