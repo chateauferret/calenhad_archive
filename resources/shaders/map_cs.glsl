@@ -531,7 +531,7 @@ float voronoi (vec3 cartesian, float frequency, float displacement, float enable
     return (noise.y - noise.x) * enableDistance;
 }
 
-float perlin (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
+float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, float persistence, int octaves, int seed) {
   float value = 0.0;
   float signal = 0.0;
   float curPersistence = 1.0;
@@ -541,7 +541,7 @@ float perlin (vec3 cartesian, float frequency, float lacunarity, float persisten
 
   for (int curOctave = 0; curOctave < octaves; curOctave++) {
     seed = (seed + curOctave) & 0xffffffff;
-    signal = cnoise (vec4 (n.xyz, seed));
+    signal = simplex ? snoise (vec4 (n.xyz, seed)) : cnoise (vec4 (n.xyz, seed));
     value += signal * curPersistence;
 
     // Prepare the next octave.
@@ -551,6 +551,15 @@ float perlin (vec3 cartesian, float frequency, float lacunarity, float persisten
 
   return value;
 }
+
+float perlin (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
+    return noise (cartesian, false, frequency, lacunarity, persistence, octaves, seed);
+}
+
+float simplex (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
+    return noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed);
+}
+
 
 float billow (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
     float value = 0.0;
@@ -585,9 +594,9 @@ vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, i
   matrix /= 65536.0;
   vec3 pos = matrix * cartesian;
   return vec3 (
-    cartesian.x + perlin (pos, frequency, 2.0, 0.5, roughness, seed) * power,
-    cartesian.y + perlin (pos, frequency, 2.0, 0.5, roughness, seed + 1) * power,
-    cartesian.z + perlin (pos, frequency, 2.0, 0.5, roughness, seed + 2) * power);
+    cartesian.x + noise (pos, false, frequency, 2.0, 0.5, roughness, seed) * power,
+    cartesian.y + noise (pos, false, frequency, 2.0, 0.5, roughness, seed + 1) * power,
+    cartesian.z + noise (pos, false, frequency, 2.0, 0.5, roughness, seed + 2) * power);
 }
 
 // default values from libnoise: exponent = 1.0, offset = 1.0, gain = 2.0, sharpness = 2.0

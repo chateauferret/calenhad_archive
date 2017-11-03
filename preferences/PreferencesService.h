@@ -107,6 +107,7 @@ namespace calenhad {
             // Modules
 
             QString calenhad_module_perlin;
+            QString calenhad_module_simplex;
             QString calenhad_module_cylinders;
             QString calenhad_module_spheres;
             QString calenhad_module_exponent;

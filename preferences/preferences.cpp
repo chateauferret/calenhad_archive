@@ -108,6 +108,7 @@ void Preferences::loadSettings() {
     // Module names
 
     calenhad_module_perlin = _settings -> value ("calenhad/module/perlin", "Perlin").toString();
+    calenhad_module_simplex = _settings -> value ("calenhad/module/simplex", "Simplex").toString();
     calenhad_module_cylinders = _settings -> value ("calenhad/module/cylinders", "Cylinders").toString();
     calenhad_module_spheres = _settings -> value ("calenhad/module/spheres", "Spheres").toString();
     calenhad_module_exponent = _settings -> value ("calenhad/module/exponent", "Exponent").toString();
@@ -231,6 +232,7 @@ void Preferences::saveSettings() {
     // Modules
 
     _settings -> setValue ("calenhad/module/perlin", calenhad_module_perlin);
+    _settings -> setValue ("calenhad/module/simplex", calenhad_module_simplex);
     _settings -> setValue ("calenhad/module/cylinders", calenhad_module_cylinders);
     _settings -> setValue ("calenhad/module/spheres", calenhad_module_spheres);
     _settings -> setValue ("calenhad/module/exponent", calenhad_module_exponent);

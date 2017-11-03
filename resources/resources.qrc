@@ -2,6 +2,7 @@
     <qresource>
         <file>appicons/tools/nodegroup.png</file>
         <file>appicons/tools/perlin.png</file>
+        <file>appicons/tools/simplex.png</file>
         <file>appicons/tools/cylinders.png</file>
         <file>appicons/tools/spheres.png</file>
         <file>appicons/tools/exponent.png</file>

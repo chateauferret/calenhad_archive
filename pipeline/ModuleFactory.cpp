@@ -63,6 +63,7 @@ QStringList ModuleFactory::types () {
             << CalenhadServices::preferences() -> calenhad_nodegroup
             << CalenhadServices::preferences() -> calenhad_module_power
             << CalenhadServices::preferences() -> calenhad_module_perlin
+            << CalenhadServices::preferences() -> calenhad_module_simplex
             << CalenhadServices::preferences() -> calenhad_module_scalepoint
             << CalenhadServices::preferences() -> calenhad_module_spheres
             << CalenhadServices::preferences() -> calenhad_module_ridgedmulti
@@ -137,7 +138,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
         return qm;
     }
 
-    if (type == CalenhadServices::preferences() -> calenhad_module_perlin) {
+    if (type == CalenhadServices::preferences() -> calenhad_module_perlin || type == CalenhadServices::preferences() -> calenhad_module_simplex) {
         QModule* qm = new QModule (type);
         qm -> addParameter ("Frequency", "frequency", noise::module::DEFAULT_PERLIN_FREQUENCY, new AcceptPositive());
         qm -> addParameter ("Lacunarity", "lacunarity", noise::module::DEFAULT_PERLIN_LACUNARITY, new AcceptRange (1.5, 3.5));
@@ -266,6 +267,7 @@ QMap<QString, QString>* ModuleFactory::codes() {
 // %frequency, %lacunarity etc - will be replaced with the value of that parameter, for parameters named in calenhad::graph::Graph::_params.
 void ModuleFactory::provideCodes() {
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_perlin, "float %n (vec3 v) { return perlin (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_simplex, "float %n (vec3 v) { return simplex (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_billow, "float %n (vec3 v) { return billow (v,  %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_ridgedmulti,
                      // "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, %exponent, %offset, %gain, %sharpness); }\n");
