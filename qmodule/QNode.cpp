@@ -183,13 +183,6 @@ bool QNode::isComplete() {
     return complete;
 }
 
-QDoubleSpinBox* QNode::addParameter (const QString& text, const QString& property) {
-    if (property == QString::null) { return addParameter (text, propertyName (text)); }
-    QDoubleSpinBox* spin = new QDoubleSpinBox (_content);
-    connect (spin, &QDoubleSpinBox::editingFinished, this, [=] () { propertyChangeRequested (property, spin -> value()); });
-    return spin;
-}
-
 void QNode::invalidate() {
     emit nodeChanged();
 }

@@ -14,6 +14,7 @@
 #include "../exprtk/ExpressionWidget.h"
 #include <QPixmap>
 #include <QList>
+#include <qmodule/QRasterModule.h>
 
 using namespace noise::module;
 using namespace calenhad;
@@ -72,7 +73,8 @@ QStringList ModuleFactory::types () {
             << CalenhadServices::preferences() -> calenhad_module_select
             << CalenhadServices::preferences() -> calenhad_module_translate
             << CalenhadServices::preferences() -> calenhad_module_turbulence
-            << CalenhadServices::preferences() -> calenhad_module_voronoi;
+            << CalenhadServices::preferences() -> calenhad_module_voronoi
+            << CalenhadServices::preferences() -> calenhad_module_raster;
 
     return list;
 }
@@ -210,6 +212,7 @@ QNode* ModuleFactory::createModule (const QString& type) {
     //if (type == CalenhadServices::preferences() -> calenhad_module_icospheremap) { QIcosphereMap* qm = new QIcosphereMap(); return qm; }
     if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { QAltitudeMap* qm = new QAltitudeMap(); return qm; }
     if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { QNodeGroup* group = new QNodeGroup(); return group; }
+    if (type == CalenhadServices::preferences() -> calenhad_module_raster) { QRasterModule* qm = new QRasterModule(); return qm; }
     return nullptr;
 }
 
@@ -269,9 +272,7 @@ void ModuleFactory::provideCodes() {
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_perlin, "float %n (vec3 v) { return perlin (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_simplex, "float %n (vec3 v) { return simplex (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_billow, "float %n (vec3 v) { return billow (v,  %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_ridgedmulti,
-                     // "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, %exponent, %offset, %gain, %sharpness); }\n");
-                      "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, 1.0, 1.0, 2.0, 2.0); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, 1.0, 1.0, 2.0, 2.0); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_voronoi, "float %n (vec3 v) { return voronoi (v, %frequency, %displacement, %enableDistance, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_add, "float %n (vec3 v) { return %0 (v) + %1 (v); }\n" );
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_multiply, "float %n (vec3 v) { return %0 (v) * %1 (v); }\n");

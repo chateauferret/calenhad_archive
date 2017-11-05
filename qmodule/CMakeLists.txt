@@ -11,5 +11,8 @@ SET(QMODULE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.h
         ${CMAKE_CURRENT_LIST_DIR}/ParamValidator.h
+        ${CMAKE_CURRENT_LIST_DIR}/QRasterModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/QRasterModule.cpp
+
         )
 

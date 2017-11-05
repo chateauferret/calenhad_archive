@@ -150,8 +150,6 @@ namespace calenhad {
             QString _nodeType;
             static QString propertyName (const QString& text);
 
-            QDoubleSpinBox* addParameter (const QString& text, const QString& property);
-
             void addContentPanel ();
 
             calenhad::nodeedit::NodeNameValidator* _validator;
