@@ -44,6 +44,10 @@ namespace calenhad {
 
             void addEntry (const double& in, const double& out = 0);
 
+            QString curveFunction ();
+
+            bool isFunctionInverted ();
+
         public slots:
 
             void updateEntries ();
@@ -64,6 +68,7 @@ namespace calenhad {
             void preserve ();
 
             mapping::Curve* _curve;
+
         };
     }
 }

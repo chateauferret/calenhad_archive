@@ -57,10 +57,15 @@ void QRasterModule::setRaster (const QPixmap& raster) {
         if (_raster) {
             delete _raster;
         }
+        p = p.scaled (CalenhadServices::preferences() -> calenhad_globe_texture_height * 2, CalenhadServices::preferences() -> calenhad_globe_texture_height);
         _raster = new QPixmap (p);
     } else {
 
     }
+}
+
+QPixmap* QRasterModule::raster() {
+    return _raster;
 }
 
 void QRasterModule::fileDialogRequested () {
@@ -70,7 +75,7 @@ void QRasterModule::fileDialogRequested () {
         dir = f.dirName ();
     }
     QString filename = QFileDialog::getOpenFileName (this, "Select raster", "dir", "Image Files (*.png *.jpg *.bmp)");
-    setRaster (filename);
+    openFile (filename);
 }
 
 void QRasterModule::openFile (const QString& filename) {

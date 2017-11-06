@@ -3,7 +3,6 @@
 
 #include <libnoise/module/modulebase.h>
 #include <QtCore/QString>
-#include <QDomNode>
 #include "../exprtk/exprtk.hpp"
 
 namespace calenhad {
@@ -11,36 +10,33 @@ namespace calenhad {
         class CalenhadModel;
     }
     namespace qmodule {
-        class QNode;
+        class QModule;
     }
     namespace graph {
 
         class Graph {
         public:
-            Graph (const QString& xml, const QString& nodeName);
-            Graph (const QDomDocument& doc, const QString& nodeName);
+            //Graph (const QString& xml, const QString& nodeName);
+            //Graph (const QDomDocument& doc, const QString& nodeName);
+            Graph (calenhad::qmodule::QModule* module);
             ~Graph();
             QString glsl();
             float* colorMapBuffer();
             int colorMapBufferSize ();
-            QString readParameter (const QDomElement& element, const QString param);
+            QString readParameter (calenhad::qmodule::QModule* module, const QString& param) ;
 
         protected:
-            QDomNode _node;
-            QString glsl (const QDomNode& node);
+            QString glsl (calenhad::qmodule::QModule* node);
             void parseLegend ();
-
+            calenhad::qmodule::QModule* _module;
             pipeline::CalenhadModel* _model;
-            QDomNodeList _connections;
-            QDomNodeList list;
             QString _code;
-            QString _xml;
-            QDomDocument _doc;
             QString _nodeName;
             float* _colorMapBuffer;
-
+            float* _rasters;
 
             exprtk::parser<double>* _parser;
+            int _rasterId;
         };
 
 

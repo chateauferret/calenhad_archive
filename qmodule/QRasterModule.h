@@ -14,7 +14,7 @@ namespace calenhad {
             QRasterModule (QModule* parent = 0);
             virtual ~QRasterModule();
             void setRaster (const QPixmap& raster);
-
+            QPixmap* raster ();
             void initialise () override;
         protected:
             QString _filename;
@@ -24,6 +24,8 @@ namespace calenhad {
             void fileDialogRequested();
 
             void openFile (const QString& filename);
+
+
         };
     }
 }

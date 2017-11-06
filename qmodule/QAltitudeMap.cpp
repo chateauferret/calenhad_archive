@@ -188,19 +188,33 @@ void QAltitudeMap::serialize (QDomDocument& doc) {
     QModule::serialize (doc);
     QDomElement mapElement = _document.createElement ("map");
     _element.appendChild (mapElement);
-    if (dynamic_cast<TerraceCurve*> (_curve)) {
-        mapElement.setAttribute ("function", "terrace");
-        mapElement.setAttribute ("inverted", dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted ());
-    } else {
-        mapElement.setAttribute ("function", "spline");
+    mapElement.setAttribute ("function", curveFunction());
+    if (isFunctionInverted()) {
+        mapElement.setAttribute ("inverted", true);
     }
-
     QVector<QPointF> e = entries ();
     for (QPointF entry : e) {
         QDomElement entryElement = _document.createElement ("entry");
         entryElement.setAttribute ("x", entry.x());
         entryElement .setAttribute ("y", entry.y());
         mapElement.appendChild (entryElement);
+    }
+}
+
+QString QAltitudeMap::curveFunction() {
+    if (dynamic_cast<TerraceCurve*> (_curve)) {
+        return ("terrace");
+    } else {
+        return ("spline");
+    }
+
+}
+
+bool QAltitudeMap::isFunctionInverted() {
+    if (curveFunction() == "terrace") {
+        return dynamic_cast<TerraceCurve*> (_curve)->IsTerracesInverted();
+    } else {
+        return false;
     }
 }
 

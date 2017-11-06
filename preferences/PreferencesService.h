@@ -103,6 +103,7 @@ namespace calenhad {
             unsigned calenhad_globe_inset_height;
             unsigned calenhad_globe_inset_x;
             unsigned calenhad_globe_inset_y;
+            unsigned calenhad_globe_texture_height;
 
             // Modules
 

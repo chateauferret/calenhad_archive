@@ -10,6 +10,7 @@ uniform vec2 datum;
 
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
 layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
+layout (std430, binding = 4) buffer rastersBuffer { float rasters_in []; };
 layout (local_size_x = 32, local_size_y = 32) in;
 
 // mathematical constants
@@ -48,6 +49,10 @@ const int PASS_STATISTICS = 3;
 int hypsographyResolution;
 float minAltitude = 0;
 float maxAltitude = 0;
+
+// other variables
+uint rasterLength;                                      // number of elements in a raster = resolution * resolution * 2
+
 
 vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
     vec4 cartesian;
@@ -678,7 +683,17 @@ float spheres (vec3 cartesian, float frequency) {
 float select (float control, float in0, float in1, float lowerBound, float upperBound, float edgeFalloff) {
   float alpha = smoothstep (-1.0 + edgeFalloff, 1.0 - edgeFalloff, control);
     return mix (in0, in1, alpha);
-  }
+}
+
+float raster (vec3 cartesian, uint rasterIndex) {
+    vec2 g = toGeolocation (cartesian);
+    float dx = (g.x + M_PI) / (M_PI * 2);
+    float dy = (g.y + (M_PI / 2)) / M_PI;
+    uint x = uint (dx * resolution * 2);
+    uint y = uint (dy * resolution);
+    uint i = y * resolution * 2 + x + rasterIndex * rasterLength;
+    return rasters_in [i];
+}
 
 // Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.
 vec4 findColor (float value) {
@@ -772,7 +787,7 @@ vec4 toGreyscale (vec4 color) {
 }
 
 void main() {
-
+    rasterLength = resolution * resolution * 2;
     ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
     bool inset = inInset (pos);
     vec2 i = mapPos (pos, inset);

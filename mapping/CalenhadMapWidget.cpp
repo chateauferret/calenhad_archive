@@ -122,7 +122,7 @@ void CalenhadMapWidget::initializeGL() {
     _globeTexture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     _globeTexture->create();
     _globeTexture->setFormat(QOpenGLTexture::RGBA8_UNorm);
-    _globeTexture->setSize (2048, 1024);
+    _globeTexture->setSize (CalenhadServices::preferences() -> calenhad_globe_texture_height * 2, CalenhadServices::preferences() -> calenhad_globe_texture_height);
     _globeTexture->setMinificationFilter(QOpenGLTexture::Linear);
     _globeTexture->setMagnificationFilter(QOpenGLTexture::Linear);
     _globeTexture->allocateStorage();
@@ -136,13 +136,15 @@ void CalenhadMapWidget::initializeGL() {
     _fragmentShader = new QOpenGLShader(QOpenGLShader::Fragment);
     _fragmentShader -> compileSourceCode (_fragmentShaderCode);
     _computeProgram = new QOpenGLShaderProgram();
-
+    clock_t start = clock();
     _computeShader -> compileSourceCode (_shader);
     _computeProgram -> removeAllShaders();
     _computeProgram -> addShader (_computeShader);
     _computeProgram -> link();
     _computeProgram->bind();
 
+    clock_t end = clock();
+    std::cout << "Compile shader " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
     _renderProgram = new QOpenGLShaderProgram();
     _renderProgram->addShader(_vertexShader);
     _renderProgram->addShader(_fragmentShader);
@@ -157,6 +159,7 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::compute () {
+    clock_t start = clock();
     makeCurrent();
 
     static GLint destLoc=glGetUniformLocation(_computeProgram->programId(),"destTex");
@@ -216,6 +219,8 @@ void CalenhadMapWidget::compute () {
     glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
     memcpy (_heightMapBuffer, heightData, _globeTexture -> height() * _globeTexture -> width() * sizeof (GLfloat));
 
+    clock_t end = clock();
+    std::cout << "Render " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
 }
 
 void CalenhadMapWidget::paintGL() {
