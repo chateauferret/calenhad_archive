@@ -131,6 +131,7 @@ namespace calenhad {
             const char* name = "heightMapBuffer";
 
 
+            float* _rasterBuffer;
         };
     }
 }

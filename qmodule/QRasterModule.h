@@ -13,17 +13,19 @@ namespace calenhad {
         public:
             QRasterModule (QModule* parent = 0);
             virtual ~QRasterModule();
-            void setRaster (const QPixmap& raster);
-            QPixmap* raster ();
-            void initialise () override;
+            void setRaster (const QImage& raster);
+            QImage* raster();
+            void initialise() override;
+            bool isComplete() override;
         protected:
             QString _filename;
-            QPixmap* _raster;
-
+            QImage* _raster;
+            QLabel* _filenameLabel;
         protected slots:
             void fileDialogRequested();
 
             void openFile (const QString& filename);
+
 
 
         };

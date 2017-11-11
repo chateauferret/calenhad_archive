@@ -257,7 +257,8 @@ void ModuleFactory::provideParamNames() {
                 << "enableDistance"
                 << "exponent"
                 << "roughness"
-                << "power";
+                << "power"
+                << "index";
 }
 
 QMap<QString, QString>* ModuleFactory::codes() {
@@ -269,7 +270,7 @@ QMap<QString, QString>* ModuleFactory::codes() {
 // %0, %1, etc - will be replaced with calls to the module outputs serving the corresponding port as input.
 // %frequency, %lacunarity etc - will be replaced with the value of that parameter, for parameters named in calenhad::graph::Graph::_params.
 void ModuleFactory::provideCodes() {
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_perlin, "float %n (vec3 v) { return perlin (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_perlin, "float %n (vec3 v,) { return perlin (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_simplex, "float %n (vec3 v) { return simplex (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_billow, "float %n (vec3 v) { return billow (v,  %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, 1.0, 1.0, 2.0, 2.0); }\n");
@@ -296,6 +297,7 @@ void ModuleFactory::provideCodes() {
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_turbulence, "float %n (vec3 v) { return %0 (turbulence (v, %frequency, %power, %roughness, %seed)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_voronoi, "float %n (vec3 v) { return voronoi (v, %frequency, %displacement, %enableDistance, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_scalepoint, "float %n (vec3 v) { return %0 (v * vec3 (%x, %y, %z)); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_raster, "float %n (vec3 v) { return raster (v, %index); }\n");
     // altitudemap generates code in its own methods - do not inject here
 
 

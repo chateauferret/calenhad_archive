@@ -24,7 +24,8 @@ namespace calenhad {
             float* colorMapBuffer();
             int colorMapBufferSize ();
             QString readParameter (calenhad::qmodule::QModule* module, const QString& param) ;
-
+            int rasterCount ();
+            float* rasterBuffer();
         protected:
             QString glsl (calenhad::qmodule::QModule* node);
             void parseLegend ();
@@ -37,6 +38,7 @@ namespace calenhad {
 
             exprtk::parser<double>* _parser;
             int _rasterId;
+
         };
 
 

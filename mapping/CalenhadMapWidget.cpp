@@ -171,6 +171,7 @@ void CalenhadMapWidget::compute () {
     static GLint datumLoc = glGetUniformLocation (_computeProgram -> programId(), "datum");
     static GLint insetHeightLoc = glGetUniformLocation (_computeProgram -> programId(), "insetHeight");
     static GLint insetPosLoc = glGetUniformLocation (_computeProgram -> programId(), "insetPos");
+    static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram -> programId(), "rasterResolution");
 
     m_vao.bind();
     _computeProgram->bind();
@@ -188,6 +189,8 @@ void CalenhadMapWidget::compute () {
     glUniform1i (resolutionLoc, _globeTexture -> height());
     glUniform1i (cmbsLoc, 2048);
     glUniform2i (insetPosLoc, _insetPos.x(), _insetPos.y());
+    int h = CalenhadServices::preferences() -> calenhad_globe_texture_height;
+    glUniform1i (rasterResolutionLoc, h);
 
     // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
     _colorMapBuffer = _graph -> colorMapBuffer();
@@ -197,6 +200,23 @@ void CalenhadMapWidget::compute () {
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
         glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph -> colorMapBufferSize (), _colorMapBuffer, GL_DYNAMIC_COPY);
         glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+    }
+
+    // create and allocate a buffer for any input rasters
+    _rasterBuffer = _graph -> rasterBuffer();
+    int rasters = _graph -> rasterCount();
+
+
+    if (_rasterBuffer && rasters > 0) {
+        unsigned h = CalenhadServices::preferences() -> calenhad_globe_texture_height;
+        int rasterBufferSize = rasters * h * h * 2 * sizeof (float);
+
+        GLuint rasterMap = 1;
+        glGenBuffers (1, &rasterMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, rasterMap);
+        glBufferData (GL_SHADER_STORAGE_BUFFER, rasterBufferSize, _rasterBuffer, GL_DYNAMIC_COPY);
+        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 4, rasterMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
     }
 

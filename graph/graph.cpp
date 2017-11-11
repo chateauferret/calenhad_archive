@@ -20,6 +20,9 @@
 #include "../exprtk/CalculatorService.h"
 #include <QList>
 #include <qmodule/QAltitudeMap.h>
+#include <qmodule/QRasterModule.h>
+#include "../messages/QNotificationHost.h"
+#include <QColor>
 
 using namespace calenhad;
 using namespace calenhad::nodeedit;
@@ -53,26 +56,26 @@ Graph::~Graph () {
 
 
 QString Graph::readParameter (QModule* module, const QString& param) {
-    QString expr = module -> parameter (param);
-    expression<double>* exp = CalenhadServices::calculator() -> makeExpression (expr);
-    if (exp) {
-        double value = exp -> value ();
-        delete exp;
-        return QString::number (value);
-    } else {
-        std::cout << "Expression goosed\n";
-        QStringList errors = CalenhadServices::calculator () -> errors();
-        for (QString error : errors) {
-            std::cout << error.toStdString () << "\n";
+
+        QString expr = module->parameter (param);
+        expression<double>* exp = CalenhadServices::calculator ()->makeExpression (expr);
+        if (exp) {
+            double value = exp->value ();
             delete exp;
-            return 0;
+            return QString::number (value);
+        } else {
+            std::cout << "Expression goosed\n";
+            QStringList errors = CalenhadServices::calculator ()->errors ();
+            for (QString error : errors) {
+                std::cout << error.toStdString () << "\n";
+                delete exp;
+                return 0;
+            }
         }
-    }
-    return QString::null;
+        return QString::null;
 }
 
 QString Graph::glsl () {
-
     _code =  glsl (_module);
     _code.append ("float value (vec3 cartesian) {\n");
     _code.append ("    return _" + _nodeName + " (cartesian);\n");
@@ -109,31 +112,35 @@ QString Graph::glsl (QModule* module) {
         QString type = qm -> nodeType();
         std::cout << type.toStdString () << "\n";
 
-        if (type == CalenhadServices::preferences ()->calenhad_module_raster) {
-            unsigned h = CalenhadServices::preferences ()->calenhad_globe_texture_height;
+        if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
+            unsigned h = CalenhadServices::preferences() -> calenhad_globe_texture_height;
+            QRasterModule* rm = (QRasterModule*) qm;
+            QImage* image = rm -> raster();
             int offset = _rasterId * h * h * 2;
             if (_rasterId == 0) {
                 _rasters = (float*) malloc (h * h * 2 * sizeof (float));
             } else {
                 _rasters = (float*) realloc (_rasters, (_rasterId + 1) * h * h * 2 * sizeof (float));
             }
+            _rasterId++;
             if (_rasters) {
                 int i = offset;
                 for (int x = 0; x < h * 2; x++) {
                     for (int y = 0; y < h; y++) {
-                        _rasters[i] = // from module's raster
-                                i++;
+                        QColor c = image -> pixel (x, y);
+                        float v = (float) (c.redF() + c.greenF() + c.blueF()) / 3;
+                        _rasters [i] = v;
+                        i++;
                     }
                 }
+
             } else {
-                // malloc / realloc failed
+                CalenhadServices::messages() -> message ("Out of memory", "Couldn't allocate memory for image buffer");
             }
         }
 
-        if (type == CalenhadServices::preferences ()->calenhad_module_altitudemap) {
-
+        if (type == CalenhadServices::preferences()->calenhad_module_altitudemap) {
             QAltitudeMap* am = static_cast<QAltitudeMap*> (qm);
-
             QVector<QPointF> entries = am -> entries ();
 
             // input is below the bottom of the range
@@ -216,6 +223,12 @@ QString Graph::glsl (QModule* module) {
                 _code.replace ("%" + param, readParameter (qm, param));
             }
         }
+
+        // populate index number for a raster
+        QRasterModule* rm = dynamic_cast<QRasterModule*> (module);
+        if (rm) {
+            _code.replace ("%index", QString::number (_rasterId - 1));
+        }
     }
     return _code;
 }
@@ -248,3 +261,10 @@ void Graph::parseLegend () {
     }
 }
 
+int Graph::rasterCount() {
+    return _rasterId;
+}
+
+float* Graph::rasterBuffer () {
+    return _rasters;
+}

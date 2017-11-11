@@ -1,5 +1,31 @@
 #version 430
 
+// Übershader containing subroutine methods for all module stages which can be run on the GPU.
+
+// Uniform variables which we use to preload parameters before each call.
+
+uniform float frequency;
+uniform float lacunarity;
+uniform float persistence;
+uniform int octaves;
+uniform float seed;
+uniform float lowerBound;
+uniform float upperBound;
+uniform bool enableDistance;
+uniform float constValue;
+uniform float falloff;
+uniform float param_x;
+uniform float param_y;
+uniform float param_z;
+uniform float scale;
+uniform float bias;
+uniform float displacement;
+uniform float exponent;
+uniform float roughness;
+uniform float power;
+
+// Buffers and their geometries.
+
 layout (rgba32f) uniform image2D destTex;
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
@@ -50,9 +76,12 @@ int hypsographyResolution;
 float minAltitude = 0;
 float maxAltitude = 0;
 
-// raster buffer parameters
-uniform int rasterResolution;                                      // number of elements in a raster = resolution * resolution * 2
+// other variables
+uint rasterLength;                                      // number of elements in a raster = resolution * resolution * 2
 
+// subroutine declaration
+subroutine void module (vec3 cartesian);
+uniform module compute (vec3 cartesian);
 
 vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
     vec4 cartesian;
@@ -64,7 +93,7 @@ vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
 }
 
 vec2 toGeolocation (vec3 cartesian) {
-    float phi = atan (cartesian.z, cartesian.x) - (M_PI / 2);
+    float phi = atan (cartesian.x, cartesian.z);
     float theta = acos (cartesian.y) - (M_PI / 2);
     theta += (theta < -M_PI ? M_PI : 0);
     theta -= (theta > M_PI ? M_PI : 0);
@@ -531,6 +560,7 @@ vec2 cellular(vec3 P, float jitter) {
 	return sqrt(d11.xy); // F1, F2
 }
 
+subroutine module
 float voronoi (vec3 cartesian, float frequency, float displacement, float enableDistance, int seed) {
     vec2 noise = cellular (cartesian * frequency, displacement);
     return (noise.y - noise.x) * enableDistance;
@@ -686,14 +716,13 @@ float select (float control, float in0, float in1, float lowerBound, float upper
 }
 
 float raster (vec3 cartesian, uint rasterIndex) {
-    uint offset = rasterIndex * rasterResolution * rasterResolution * 2;
-    vec2 geolocation = toGeolocation (cartesian);
-    float dlon = 0.75 + (geolocation.y / (M_PI * 2));
-    float dlat = (geolocation.x + (M_PI / 2)) / (M_PI / 2);
-    float y = dlat * rasterResolution / 2;
-    float x = dlon * rasterResolution;
-    float i = x * rasterResolution * 2 + y + offset;
-    return rasters_in [uint (i)];
+    vec2 g = toGeolocation (cartesian);
+    float dx = (g.x + M_PI) / (M_PI * 2);
+    float dy = (g.y + (M_PI / 2)) / M_PI;
+    uint x = uint (dx * resolution * 2);
+    uint y = uint (dy * resolution);
+    uint i = y * resolution * 2 + x + rasterIndex * rasterLength;
+    return rasters_in [i];
 }
 
 // Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.
@@ -716,7 +745,7 @@ vec4 findColor (float value) {
 //      screen coordinates (corresponds to GlobalInvoicationID) - the coordinates of the texel being rendered. 0 <= x <= resolution * 2; 0 <= x <= resolution.
 //      map coordinates - the coordinates of a point on the logical map. -2 * M_PI < x <= 2 * M_PI; -M_PI <= y <= M_PI.
 //          (the logical map is the equirectangular projection with scale 1 unit = 1 radian of latitude or longitude).
-//      geolocation - the latitude and longitude (in that order) of a point on the geoid under the reigning projection. -2 * M_PI < x <= 2 * M_PI; -M_PI <= y <= M_PI.
+//      geolocation - the longitude and latitude (in that order) of a point on the geoid under the reigning projection. -2 * M_PI < x <= 2 * M_PI; -M_PI <= y <= M_PI.
 //      cartesian - the point in 3D space corresponding to a geolocation on the surface of the (spherical) geoid. -1 <= x, y, z <= 1 and x^2 + y^2 + z^2 = 1.
 
 // Returns the map coordinates for a given GlobalInvocationID (essentially screen coordinates) taking into account the scale.
@@ -788,7 +817,7 @@ vec4 toGreyscale (vec4 color) {
 }
 
 void main() {
-
+    rasterLength = resolution * resolution * 2;
     ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
     bool inset = inInset (pos);
     vec2 i = mapPos (pos, inset);
@@ -799,6 +828,7 @@ void main() {
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
     float step = smoothstep (0.99, 1.000001, c.w);
     float v = value (c.xyz);
+
     color = mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
 
     if (insetHeight > 0) {

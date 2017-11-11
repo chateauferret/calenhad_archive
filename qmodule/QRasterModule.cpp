@@ -7,6 +7,7 @@
 #include "QRasterModule.h"
 #include "../CalenhadServices.h"
 #include "../preferences/PreferencesService.h"
+#include "../controls/globe/CalenhadMapView.h"
 
 using namespace calenhad::qmodule;
 using namespace calenhad;
@@ -15,13 +16,12 @@ using namespace calenhad::preferences;
 QRasterModule::QRasterModule (QModule* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_raster, 0, parent),
     _raster (nullptr),
     _filename (QString::null) {
-
+    initialise();
 }
 
 QRasterModule::~QRasterModule() {
     if (_raster) { delete _raster; }
 }
-
 
 /// Initialise a QRasterModule ready for use. Creates the UI.
 void QRasterModule::initialise() {
@@ -30,22 +30,21 @@ void QRasterModule::initialise() {
     if (! (_content)) {
         addContentPanel();
     }
-    QWidget* filenameWidget = new QWidget (_content);
-    QHBoxLayout* filenameLayout = new QHBoxLayout();
-    filenameWidget -> setLayout (filenameLayout);
-    QLabel* filenameLabel = new QLabel (this);
+
+    QVBoxLayout* filenameLayout = new QVBoxLayout();
+    _filenameLabel = new QLabel (this);
+    _filenameLabel -> setMinimumSize (QSize (160, 80));
     QPushButton* selectFileButton = new QPushButton (this);
-    filenameLayout -> addWidget (filenameWidget);
-    filenameLayout -> addWidget (selectFileButton);
-    QLabel* label = new QLabel (this);
-    label -> setText ("Filename");
-    _contentLayout -> addRow (label, filenameWidget);
+    selectFileButton -> setFixedSize (100, 20);
+    selectFileButton -> setText ("Select image...");
+    _contentLayout -> addWidget (_filenameLabel);
+    _contentLayout -> addWidget (selectFileButton);
     connect (selectFileButton, &QAbstractButton::pressed, this, &QRasterModule::fileDialogRequested);
 }
 
-void QRasterModule::setRaster (const QPixmap& raster) {
+void QRasterModule::setRaster (const QImage& raster) {
     if (! raster.isNull()) {
-        QPixmap p;
+        QImage p;
         int h, w;
         if (raster.height() > raster.width() / 2) {
             h = raster.width() / 2;
@@ -58,13 +57,17 @@ void QRasterModule::setRaster (const QPixmap& raster) {
             delete _raster;
         }
         p = p.scaled (CalenhadServices::preferences() -> calenhad_globe_texture_height * 2, CalenhadServices::preferences() -> calenhad_globe_texture_height);
-        _raster = new QPixmap (p);
+        _raster = new QImage (p);
+        QPixmap pixmap = QPixmap::fromImage (p).scaled (_filenameLabel -> size());
+        _filenameLabel -> setPixmap (pixmap);
+        _expander -> setItemEnabled (_previewIndex, isComplete());
+        _preview -> render();
     } else {
 
     }
 }
 
-QPixmap* QRasterModule::raster() {
+QImage* QRasterModule::raster() {
     return _raster;
 }
 
@@ -75,11 +78,20 @@ void QRasterModule::fileDialogRequested () {
         dir = f.dirName ();
     }
     QString filename = QFileDialog::getOpenFileName (this, "Select raster", "dir", "Image Files (*.png *.jpg *.bmp)");
+    QPixmap pixmap (filename);
     openFile (filename);
 }
 
 void QRasterModule::openFile (const QString& filename) {
-    QPixmap raster = QPixmap (filename);
+    QImage raster = QImage (filename);
     setRaster (raster);
 }
 
+bool QRasterModule::isComplete() {
+
+    if (_raster) {
+        return QModule::isComplete();
+    } else {
+        return false;
+    }
+}
