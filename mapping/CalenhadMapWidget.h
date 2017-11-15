@@ -124,7 +124,7 @@ namespace calenhad {
             QOpenGLShader* _computeShader;
             QOpenGLShader* _fragmentShader;
             QOpenGLShader* _vertexShader;
-            QOpenGLTexture* _globeTexture;
+            QOpenGLTexture* _globeTexture, * _rasterTexture;
 
 
             GLfloat* _heightMapBuffer;

@@ -52,6 +52,13 @@ Graph::Graph (calenhad::qmodule::QModule* module) : _module (module), _nodeName 
 Graph::~Graph () {
     if (_colorMapBuffer) { delete (_colorMapBuffer); }
     delete _parser;
+    for (int n : _rasters.keys()) {
+        QImage* image = _rasters.value (n);
+        _rasters.remove (n);
+        if (image) {
+            delete image;
+        }
+    }
 }
 
 
@@ -87,6 +94,7 @@ QString Graph::glsl () {
 QString Graph::glsl (QModule* module) {
     QString name = module -> name ();
 
+    // Compile any antecedent modules recurisvely
     for (QNEPort* port : module -> ports()) {
         if (port -> portType () != QNEPort::OutputPort && ! port -> connections().empty()) {
             std::cout << port -> portName ().toStdString () << ": " << port -> type() << "\n";
@@ -112,33 +120,16 @@ QString Graph::glsl (QModule* module) {
         QString type = qm -> nodeType();
         std::cout << type.toStdString () << "\n";
 
+        // if it's a raster module, compile and upload the raster content to the raster buffer
         if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
             unsigned h = CalenhadServices::preferences() -> calenhad_globe_texture_height;
             QRasterModule* rm = (QRasterModule*) qm;
             QImage* image = rm -> raster();
-            int offset = _rasterId * h * h * 2;
-            if (_rasterId == 0) {
-                _rasters = (float*) malloc (h * h * 2 * sizeof (float));
-            } else {
-                _rasters = (float*) realloc (_rasters, (_rasterId + 1) * h * h * 2 * sizeof (float));
-            }
+            _rasters.insert (_rasterId, image);
             _rasterId++;
-            if (_rasters) {
-                int i = offset;
-                for (int x = 0; x < h * 2; x++) {
-                    for (int y = 0; y < h; y++) {
-                        QColor c = image -> pixel (x, y);
-                        float v = (float) (c.redF() + c.greenF() + c.blueF()) / 3;
-                        _rasters [i] = v;
-                        i++;
-                    }
-                }
-
-            } else {
-                CalenhadServices::messages() -> message ("Out of memory", "Couldn't allocate memory for image buffer");
-            }
         }
 
+        // if it's an altitude map, compile the decision tree
         if (type == CalenhadServices::preferences()->calenhad_module_altitudemap) {
             QAltitudeMap* am = static_cast<QAltitudeMap*> (qm);
             QVector<QPointF> entries = am -> entries ();
@@ -265,6 +256,6 @@ int Graph::rasterCount() {
     return _rasterId;
 }
 
-float* Graph::rasterBuffer () {
-    return _rasters;
+QImage* Graph::raster (const int& index) {
+    return _rasters.value (index);
 }

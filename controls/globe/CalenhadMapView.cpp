@@ -57,7 +57,7 @@ QModule* CalenhadMapView::source() {
 void CalenhadMapView::setSource (QModule* qm) {
     _source = qm;
     connect (qm, &QNode::nodeChanged, this, &CalenhadMapView::render);
-    //render();
+    render();
 }
 
 void CalenhadMapView::showEvent (QShowEvent* e) {

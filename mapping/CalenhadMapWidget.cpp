@@ -204,20 +204,20 @@ void CalenhadMapWidget::compute () {
     }
 
     // create and allocate a buffer for any input rasters
-    _rasterBuffer = _graph -> rasterBuffer();
     int rasters = _graph -> rasterCount();
-
-
-    if (_rasterBuffer && rasters > 0) {
-        unsigned h = CalenhadServices::preferences() -> calenhad_globe_texture_height;
-        int rasterBufferSize = rasters * h * h * 2 * sizeof (float);
-
-        GLuint rasterMap = 1;
-        glGenBuffers (1, &rasterMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, rasterMap);
-        glBufferData (GL_SHADER_STORAGE_BUFFER, rasterBufferSize, _rasterBuffer, GL_DYNAMIC_COPY);
-        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 4, rasterMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+    glActiveTexture (GL_TEXTURE1);
+    _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
+    _rasterTexture -> create();
+    _rasterTexture -> setFormat(QOpenGLTexture::RGBA8_UNorm);
+    _rasterTexture -> setSize (CalenhadServices::preferences() -> calenhad_globe_texture_height * 2, CalenhadServices::preferences() -> calenhad_globe_texture_height);
+    _rasterTexture -> setMinificationFilter(QOpenGLTexture::Linear);
+    _rasterTexture -> setMagnificationFilter(QOpenGLTexture::Linear);
+    _rasterTexture -> allocateStorage();
+    _rasterTexture -> bind();
+    glBindImageTexture (1, _rasterTexture -> textureId(), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA8);
+    for (int i = 0; i < rasters; i++) {
+        QImage* raster = _graph -> raster (i);
+        _rasterTexture -> setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster -> bits());
     }
 
     // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.

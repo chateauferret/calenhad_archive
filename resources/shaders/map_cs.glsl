@@ -1,6 +1,7 @@
 #version 430
 
-layout (rgba32f) uniform image2D destTex;
+layout (rgba32f, binding = 0) uniform image2D destTex;          // output texture
+layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
 uniform int resolution = 512;
@@ -10,7 +11,7 @@ uniform vec2 datum;
 
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
 layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
-layout (std430, binding = 4) buffer rastersBuffer { float rasters_in []; };
+
 layout (local_size_x = 32, local_size_y = 32) in;
 
 // mathematical constants
@@ -59,16 +60,15 @@ vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
     cartesian.x = cos (geolocation.x) * cos (geolocation.y);
     cartesian.z = cos (geolocation.y) * sin (geolocation.x);
     cartesian.y = sin (geolocation.y);
+
     cartesian.w = geolocation.z;
     return cartesian;
 }
 
 vec2 toGeolocation (vec3 cartesian) {
-    float phi = atan (cartesian.z, cartesian.x) - (M_PI / 2);
+    float phi = atan (cartesian.z, cartesian.x);
     float theta = acos (cartesian.y) - (M_PI / 2);
-    theta += (theta < -M_PI ? M_PI : 0);
-    theta -= (theta > M_PI ? M_PI : 0);
-    return vec2 (theta, phi);
+    return vec2 (phi, -theta);
 }
 
 float hash (float n) {
@@ -686,14 +686,11 @@ float select (float control, float in0, float in1, float lowerBound, float upper
 }
 
 float raster (vec3 cartesian, uint rasterIndex) {
-    uint offset = rasterIndex * rasterResolution * rasterResolution * 2;
-    vec2 geolocation = toGeolocation (cartesian);
-    float dlon = 0.75 + (geolocation.y / (M_PI * 2));
-    float dlat = (geolocation.x + (M_PI / 2)) / (M_PI / 2);
-    float y = dlat * rasterResolution / 2;
-    float x = dlon * rasterResolution;
-    float i = x * rasterResolution * 2 + y + offset;
-    return rasters_in [uint (i)];
+    vec2 g = toGeolocation (cartesian);
+    float dlon = (g.x + M_PI) / (M_PI * 2);
+    float dlat = (g.y + (M_PI / 2)) / M_PI;
+    vec4 texel = vec4 (texture (rasters, vec3 (dlon, dlat, rasterIndex)));
+    return (texel.x + texel.y + texel.z) / 3;
 }
 
 // Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.
@@ -794,11 +791,13 @@ void main() {
     vec2 i = mapPos (pos, inset);
     vec3 g = inverse (i, inset);
     vec4 c = toCartesian (g);
+    vec2 q = toGeolocation (c.xyz);
     vec4 color;
 
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
     float step = smoothstep (0.99, 1.000001, c.w);
     float v = value (c.xyz);
+
     color = mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
 
     if (insetHeight > 0) {
