@@ -27,7 +27,9 @@ namespace calenhad {
             void openFile (const QString& filename);
 
 
+            void serialize (QDomDocument& doc);
 
+            void inflate (const QDomElement& element);
         };
     }
 }

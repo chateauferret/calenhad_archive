@@ -31,7 +31,6 @@ void QRasterModule::initialise() {
         addContentPanel();
     }
 
-    QVBoxLayout* filenameLayout = new QVBoxLayout();
     _filenameLabel = new QLabel (this);
     _filenameLabel -> setMinimumSize (QSize (160, 80));
     QPushButton* selectFileButton = new QPushButton (this);
@@ -60,6 +59,7 @@ void QRasterModule::setRaster (const QImage& raster) {
         _raster = new QImage (p);
         QPixmap pixmap = QPixmap::fromImage (p).scaled (_filenameLabel -> size());
         _filenameLabel -> setPixmap (pixmap);
+        _filenameLabel -> setToolTip (_filename);
         _expander -> setItemEnabled (_previewIndex, isComplete());
         _preview -> render();
     } else {
@@ -84,6 +84,7 @@ void QRasterModule::fileDialogRequested () {
 
 void QRasterModule::openFile (const QString& filename) {
     QImage raster = QImage (filename);
+    _filename = filename;
     setRaster (raster);
 }
 
@@ -94,4 +95,19 @@ bool QRasterModule::isComplete() {
     } else {
         return false;
     }
+}
+
+
+void QRasterModule::inflate (const QDomElement& element) {
+    QModule::inflate (element);
+    QDomElement rasterElement = element.firstChildElement ("raster");
+    QString filename = rasterElement.attribute ("filename");
+    openFile (filename);
+}
+
+void QRasterModule::serialize (QDomDocument& doc) {
+    QModule::serialize (doc);
+    QDomElement rasterElement = _document.createElement ("raster");
+    rasterElement.setAttribute ("filename", _filename);
+    _element.appendChild (rasterElement);
 }
