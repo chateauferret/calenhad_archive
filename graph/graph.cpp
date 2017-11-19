@@ -120,15 +120,6 @@ QString Graph::glsl (QModule* module) {
         QString type = qm -> nodeType();
         std::cout << type.toStdString () << "\n";
 
-        // if it's a raster module, compile and upload the raster content to the raster buffer
-        if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
-            unsigned h = CalenhadServices::preferences() -> calenhad_globe_texture_height;
-            QRasterModule* rm = (QRasterModule*) qm;
-            QImage* image = rm -> raster();
-            _rasters.insert (_rasterId, image);
-            _rasterId++;
-        }
-
         // if it's an altitude map, compile the decision tree
         if (type == CalenhadServices::preferences()->calenhad_module_altitudemap) {
             QAltitudeMap* am = static_cast<QAltitudeMap*> (qm);
@@ -193,8 +184,27 @@ QString Graph::glsl (QModule* module) {
             _code += "}\n";
 
         } else {
-            _code.append (CalenhadServices::modules ()->codes ()->value (type));
+            _code.append (CalenhadServices::modules() -> codes() ->value (type));
         }
+
+        // if it's a raster module, compile and upload the raster content to the raster buffer
+        if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
+            QRasterModule* rm = (QRasterModule*) qm;
+            QImage* image = rm -> raster();
+            _rasters.insert (_rasterId, image);
+            _rasterId++;
+
+            // replace the bounds marker with the module's declared bounds
+            QPointF* bounds = rm -> bounds();
+           QString boundsCode;
+            for (int i = 0; i < 4; i++) {
+                boundsCode.append ("vec2 (" + QString::number (bounds [i].x()) + ", " + QString::number (bounds [i].y()) + ")");
+                if (i < 3) { boundsCode.append (", "); }
+            }
+            _code.replace ("%bounds", boundsCode);
+        }
+
+
         // replace the name marker with the name of the module which will be the member variable name for its output in glsl
         _code.replace ("%n", "_" + name);
 

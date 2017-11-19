@@ -9,11 +9,12 @@
 #include "../preferences/PreferencesService.h"
 #include "../controls/globe/CalenhadMapView.h"
 
+
 using namespace calenhad::qmodule;
 using namespace calenhad;
 using namespace calenhad::preferences;
 
-QRasterModule::QRasterModule (QModule* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_raster, 0, parent),
+QRasterModule::QRasterModule (QModule* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_raster, 1, parent),
     _raster (nullptr),
     _filename (QString::null) {
     initialise();
@@ -31,6 +32,11 @@ void QRasterModule::initialise() {
         addContentPanel();
     }
 
+    _bounds [0] = QPointF (-M_PI, M_PI_2);
+    _bounds [1] = QPointF (M_PI, M_PI_2);
+    _bounds [2] = QPointF (M_PI, -M_PI_2);
+    _bounds [3] = QPointF (-M_PI, -M_PI_2);
+
     _filenameLabel = new QLabel (this);
     _filenameLabel -> setMinimumSize (QSize (160, 80));
     QPushButton* selectFileButton = new QPushButton (this);
@@ -43,19 +49,10 @@ void QRasterModule::initialise() {
 
 void QRasterModule::setRaster (const QImage& raster) {
     if (! raster.isNull()) {
-        QImage p;
-        int h, w;
-        if (raster.height() > raster.width() / 2) {
-            h = raster.width() / 2;
-            p = raster.scaledToHeight (h);
-        } else {
-            w = raster.height() * 2;
-            p = raster.scaledToWidth (w);
-        }
+        QImage p = raster.scaled (CalenhadServices::preferences() -> calenhad_globe_texture_height, CalenhadServices::preferences() -> calenhad_globe_texture_height);
         if (_raster) {
             delete _raster;
         }
-        p = p.scaled (CalenhadServices::preferences() -> calenhad_globe_texture_height * 2, CalenhadServices::preferences() -> calenhad_globe_texture_height);
         _raster = new QImage (p);
         QPixmap pixmap = QPixmap::fromImage (p).scaled (_filenameLabel -> size());
         _filenameLabel -> setPixmap (pixmap);
@@ -110,4 +107,8 @@ void QRasterModule::serialize (QDomDocument& doc) {
     QDomElement rasterElement = _document.createElement ("raster");
     rasterElement.setAttribute ("filename", _filename);
     _element.appendChild (rasterElement);
+}
+
+QPointF* QRasterModule::bounds() {
+    return _bounds;
 }

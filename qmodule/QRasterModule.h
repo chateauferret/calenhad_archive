@@ -17,18 +17,17 @@ namespace calenhad {
             QImage* raster();
             void initialise() override;
             bool isComplete() override;
+            QPointF* bounds();
         protected:
             QString _filename;
             QImage* _raster;
             QLabel* _filenameLabel;
+            QPointF _bounds [4];
+
         protected slots:
             void fileDialogRequested();
-
             void openFile (const QString& filename);
-
-
             void serialize (QDomDocument& doc);
-
             void inflate (const QDomElement& element);
         };
     }

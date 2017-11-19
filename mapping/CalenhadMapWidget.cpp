@@ -209,7 +209,7 @@ void CalenhadMapWidget::compute () {
     _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
     _rasterTexture -> create();
     _rasterTexture -> setFormat(QOpenGLTexture::RGBA8_UNorm);
-    _rasterTexture -> setSize (CalenhadServices::preferences() -> calenhad_globe_texture_height * 2, CalenhadServices::preferences() -> calenhad_globe_texture_height);
+    _rasterTexture -> setSize (CalenhadServices::preferences() -> calenhad_globe_texture_height, CalenhadServices::preferences() -> calenhad_globe_texture_height);
     _rasterTexture -> setMinificationFilter(QOpenGLTexture::Linear);
     _rasterTexture -> setMagnificationFilter(QOpenGLTexture::Linear);
     _rasterTexture -> allocateStorage();
