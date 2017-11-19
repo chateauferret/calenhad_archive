@@ -23,6 +23,7 @@
 #include <qmodule/QRasterModule.h>
 #include "../messages/QNotificationHost.h"
 #include <QColor>
+#include "../icosphere/Bounds.h"
 
 using namespace calenhad;
 using namespace calenhad::nodeedit;
@@ -31,6 +32,7 @@ using namespace calenhad::preferences;
 using namespace calenhad::graph;
 using namespace calenhad::mapping;
 using namespace calenhad::legend;
+using namespace icosphere;
 using namespace calenhad::expressions;
 using namespace exprtk;
 /*
@@ -195,12 +197,11 @@ QString Graph::glsl (QModule* module) {
             _rasterId++;
 
             // replace the bounds marker with the module's declared bounds
-            QPointF* bounds = rm -> bounds();
-           QString boundsCode;
-            for (int i = 0; i < 4; i++) {
-                boundsCode.append ("vec2 (" + QString::number (bounds [i].x()) + ", " + QString::number (bounds [i].y()) + ")");
-                if (i < 3) { boundsCode.append (", "); }
-            }
+            Bounds bounds = rm -> bounds();
+            QString boundsCode;
+            boundsCode.append ("vec2 (" + QString::number (bounds.east()) + ", " + QString::number (bounds.north()) + ")");
+            boundsCode.append (", ");
+            boundsCode.append ("vec2 (" + QString::number (bounds.west()) + ", " + QString::number (bounds.south()) + ")");
             _code.replace ("%bounds", boundsCode);
         }
 

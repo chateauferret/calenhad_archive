@@ -687,28 +687,27 @@ float select (float control, float in0, float in1, float lowerBound, float upper
 
 // raster without bounds, covering the whole planet
 float raster (vec3 cartesian, uint rasterIndex) {
-vec2 g = toGeolocation (cartesian);
+    vec2 g = toGeolocation (cartesian);
     float dlon = (g.x + M_PI) / (M_PI * 2);
     float dlat = (g.y + (M_PI / 2)) / M_PI;
     vec4 texel = vec4 (texture (rasters, vec3 (dlon, dlat, rasterIndex)));
     return (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
 }
 
-// raster constrained to bounds (a, b, c, d)
-float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, vec2 c, vec2 d, float defaultValue) {
-    /*vec3 ca = toCartesian (a);
-    vec3 cb = toCartesian (b);
-    vec3 cc = toCartesian (c);
-    vec3 cd = toCartesian (d);
-    mat4 transform = mat4 ( ca.x, cb.x, cc.x, 1.0,
-                            ca.y, cb.y, cc.y, 1.0,
-                            ca.z, cb.z, cc.z, 1.0,
-                            0.0, 0.0, 0.0, 0.0);
-    mat4 inverseTransform = inverse (transform);
-    vec4 c = vec4 (cartesian.xyz, 0.0) * inverseTransform;
-    vec4 texel = vec4 (texture (rasters, vec3 (dlon, dlat, rasterIndex)));
-    return (texel.x + texel.y + texel.z) / 3; */
-    return raster (cartesian, rasterIndex);
+// raster constrained to bounds (a.x, a.y) - (b.x, b.y)
+float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultValue) {
+    vec2 g = toGeolocation (cartesian);
+    float dlon = (g.x + M_PI) / (M_PI * 2);
+    float dlat = (g.y + (M_PI / 2)) / M_PI;
+    float x = (g.x - a.x) / (b.x - a.x);
+    float y = (g.y - a.y) / (b.y - a.y);
+    if (x >= 0.0 && x <= 1.0 && y >= 0.0 && y <= 1.0) {
+    vec4 texel = vec4 (texture (rasters, vec3 (x, y, rasterIndex)));
+        float value = (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
+        return mix (value, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
+    } else {
+        return defaultValue;
+    }
 }
 
 // Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.

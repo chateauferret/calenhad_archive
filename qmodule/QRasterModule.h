@@ -6,6 +6,7 @@
 #define CALENHAD_QRASTERMODULE_H
 
 #include "QModule.h"
+#include "../icosphere/Bounds.h"
 
 namespace calenhad {
     namespace qmodule {
@@ -17,12 +18,12 @@ namespace calenhad {
             QImage* raster();
             void initialise() override;
             bool isComplete() override;
-            QPointF* bounds();
+            icosphere::Bounds bounds();
         protected:
             QString _filename;
             QImage* _raster;
             QLabel* _filenameLabel;
-            QPointF _bounds [4];
+            icosphere::Bounds _bounds;
 
         protected slots:
             void fileDialogRequested();

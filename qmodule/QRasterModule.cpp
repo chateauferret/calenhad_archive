@@ -13,6 +13,7 @@
 using namespace calenhad::qmodule;
 using namespace calenhad;
 using namespace calenhad::preferences;
+using namespace icosphere;
 
 QRasterModule::QRasterModule (QModule* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_raster, 1, parent),
     _raster (nullptr),
@@ -32,10 +33,7 @@ void QRasterModule::initialise() {
         addContentPanel();
     }
 
-    _bounds [0] = QPointF (-M_PI, M_PI_2);
-    _bounds [1] = QPointF (M_PI, M_PI_2);
-    _bounds [2] = QPointF (M_PI, -M_PI_2);
-    _bounds [3] = QPointF (-M_PI, -M_PI_2);
+    _bounds = Bounds();
 
     _filenameLabel = new QLabel (this);
     _filenameLabel -> setMinimumSize (QSize (160, 80));
@@ -109,6 +107,6 @@ void QRasterModule::serialize (QDomDocument& doc) {
     _element.appendChild (rasterElement);
 }
 
-QPointF* QRasterModule::bounds() {
+Bounds QRasterModule::bounds() {
     return _bounds;
 }
