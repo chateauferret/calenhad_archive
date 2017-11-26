@@ -22,5 +22,6 @@ SET(CONTROLS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/ColorButton.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadLegendDialog.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadLegendDialog.h
-
+        ${CMAKE_CURRENT_LIST_DIR}/QAngleControl.h
+        ${CMAKE_CURRENT_LIST_DIR}/QAngleControl.cpp
         )

@@ -9,6 +9,9 @@
 #include "../icosphere/Bounds.h"
 
 namespace calenhad {
+    namespace controls {
+        class QAngleControl;
+    }
     namespace qmodule {
         class QRasterModule : public QModule {
         public:
@@ -23,13 +26,18 @@ namespace calenhad {
             QString _filename;
             QImage* _raster;
             QLabel* _filenameLabel;
+            QFormLayout* _rasterLayout;
+            QGridLayout* _boundsLayout;
+            QWidget* _rasterContent, * _boundsContent;
             icosphere::Bounds _bounds;
+            calenhad::controls::QAngleControl* _northBoundsText, * _southBoundsText, * _eastBoundsText, * _westBoundsText;
 
         protected slots:
             void fileDialogRequested();
             void openFile (const QString& filename);
             void serialize (QDomDocument& doc);
             void inflate (const QDomElement& element);
+            void updateBounds();
         };
     }
 }

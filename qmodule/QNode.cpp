@@ -332,20 +332,27 @@ QNodeGroup* QNode::group () {
     return _group;
 }
 
-ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator) {
+ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator, QWidget* _panel) {
 
     // create a panel to hold the parameter widgets, if we haven't done this already
-    if (! (_content)) {
-        addContentPanel();
+    if (! _panel) {
+        if (!(_content)) {
+            addContentPanel ();
+        }
+        _panel = _content;
     }
 
-    ExpressionWidget* widget = new ExpressionWidget (this);
-    _contentLayout -> addRow (label, widget);
+    if (dynamic_cast<QFormLayout*> (_panel -> layout())) {
+        ExpressionWidget* widget = new ExpressionWidget (this);
+        ((QFormLayout*) _panel->layout ()) -> addRow (label, widget);
 
-    _parameters.insert (name, widget);
-    widget -> setValidator (validator);
-    widget -> setText (QString::number (initial));
-    return widget;
+        _parameters.insert (name, widget);
+        widget->setValidator (validator);
+        widget->setText (QString::number (initial));
+        return widget;
+    } else {
+        return nullptr;
+    }
 }
 
 void QNode::setParameter (const QString& name, const QString& text) {
@@ -361,11 +368,11 @@ QStringList QNode::parameters () {
 }
 
 void QNode::addContentPanel() {
-    _contentLayout = new QFormLayout ();
-    _contentLayout->setContentsMargins (5, 0, 5, 0);
-    _contentLayout->setVerticalSpacing (0);
+    _contentLayout = new QFormLayout();
+    _contentLayout -> setContentsMargins (5, 0, 5, 0);
+    _contentLayout -> setVerticalSpacing (0);
     _content = new QWidget (_expander);
-    _content->setLayout (_contentLayout);
+    _content -> setLayout (_contentLayout);
     addPanel (tr ("Parameters"), _content);
 }
 

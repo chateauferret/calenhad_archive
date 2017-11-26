@@ -90,7 +90,7 @@ namespace calenhad {
             void closeEvent (QCloseEvent* event) override;
 
             calenhad::pipeline::CalenhadModel* model ();
-            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator = new AcceptAnyRubbish());
+            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator = new AcceptAnyRubbish(), QWidget* panel = 0);
             virtual bool hasParameters ();
 
             Q_PROPERTY (QString name READ name WRITE setName MEMBER _name NOTIFY nameChanged);

@@ -4,6 +4,7 @@
 
 #include "Bounds.h"
 #include <QDebug>
+#include <QtGui/QtGui>
 
 
 using namespace icosphere;
@@ -17,7 +18,11 @@ int Bounds::estimateVertexCount (const int& level)const {
     return (int) (n * portion);
 }
 
-Bounds::Bounds (double n, double s, double e, double w) : _north (std::max (n, s)), _south (std::min (n, s)), _east (e), _west (w) {
+Bounds::Bounds (double n, double s, double e, double w, Units units) :
+        _north (units == Units::Radians ? std::max (n, s) : qDegreesToRadians (std::max (n, s))),
+        _south (units == Units::Radians ? std::min (n, s) : qDegreesToRadians (std::min (n, s))),
+        _east (units == Units::Radians ? e : qDegreesToRadians (e)),
+        _west (units == Units::Radians ? w : qDegreesToRadians (w)) {
 
 }
 

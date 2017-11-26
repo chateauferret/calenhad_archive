@@ -11,7 +11,7 @@
 namespace icosphere {
     class Bounds {
     public:
-        Bounds (double n = M_PI_2, double s = -M_PI_2, double e = M_PI, double w = - M_PI);
+        Bounds (double n = M_PI_2, double s = -M_PI_2, double e = M_PI, double w = - M_PI, geoutils::Units units = geoutils::Units::Radians);
         int estimateVertexCount (const int& level)const;
         bool operator== (const Bounds& other) const;
         bool operator!= (const Bounds& other) const;
