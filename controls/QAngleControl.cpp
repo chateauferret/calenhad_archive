@@ -84,12 +84,13 @@ double QAngleControl::value () {
 
 void QAngleControl::decimalUpdated() {
     bool ok;
-    int sign = (_tradDegreesText -> text().endsWith ("W") || _tradDegreesText -> text().endsWith ("S")) ? -1 : 1;
+    int sign = (_decimalDegreesText -> text().endsWith ("W") || _decimalDegreesText -> text().endsWith ("S")) ? -1 : 1;
     QString s = _decimalDegreesText -> text();
     s = s.split ("°").first();
     double degrees = sign * s.toDouble (&ok);
-    if (ok) {
+    if (ok && degrees != _value) {
         setValue (degrees);
+        std::cout << _decimalDegreesText -> text().toStdString() << " = " << _value << "\n";
     }
 }
 
@@ -104,30 +105,37 @@ void QAngleControl::tradUpdated() {
     s = s.split ("\"").first();
 
     double seconds = s.toDouble (&ok);
-    if (ok) {
-        setValue (sign * (degrees + minutes / 60.0 + seconds / 3600.0));
+    double value = sign * (degrees + minutes / 60.0 + seconds / 3600.0);
+    if (ok && value != _value) {
+        setValue (value);
+        std::cout << _tradDegreesText -> text().toStdString() << " = " << _value << "\n";
     }
 }
 
 void QAngleControl::setValue (const double& value) {
-    _value = value;
+    if (value != _value) {
+        _value = value;
+        std::cout << "Set value " << value << "\n";
+        QString letter = "";
+        if (_type == AngleType::Latitude) {
+            letter = value > 0 ? "N" : "S";
+        }
+        if (_type == AngleType::Longitude) {
+            letter = value > 0 ? "E" : "W";
+        }
+        int degrees = (int) std::floor (std::abs (_value));
+        double minutes = (std::abs (_value) - degrees) * 60.0;
+        int mins = (int) (value > 0 ? std::floor (minutes) : std::ceil (minutes));
+        double seconds = (minutes - mins) * 60;
+        QString tradText = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
+        QString decimalText = QString::number (_value) + letter + "°";
+        std::cout << _value << " = " <<  tradText.toStdString () << "\n";
+        std::cout << _value << " = " << decimalText.toStdString() << "\n";
+        _tradDegreesText->setText (tradText);
+        _decimalDegreesText->setText (decimalText);
 
-    QString letter = "";
-    if (_type == AngleType::Latitude) {
-        letter = value > 0 ? "N" : "S";
+        emit valueChanged (value);
     }
-    if (_type == AngleType::Longitude) {
-        letter = value > 0 ? "E" : "W";
-    }
-    int degrees = (int) std::floor (std::abs (_value));
-    double minutes = (_value - degrees) * 60.0;
-    int mins = (int) std::floor (minutes);
-    double seconds = (minutes - mins) * 60;
-    QString text = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
-    _tradDegreesText->setText (text);
-    _decimalDegreesText->setText (QString::number (_value) + letter);
-    std::cout << value << "\n";
-    emit valueChanged (value);
 }
 
 void QAngleControl::toggleFormat() {

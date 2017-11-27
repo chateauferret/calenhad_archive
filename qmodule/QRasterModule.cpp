@@ -42,7 +42,7 @@ void QRasterModule::initialise() {
     _boundsLayout->setMargin(0);
     _boundsLayout->setContentsMargins(0,0,0,0);
     _boundsContent = new QWidget (_expander);
-    _boundsContent -> setFixedSize (200, 150);
+    _boundsContent -> setFixedSize (300, 150);
     _boundsContent -> setLayout (_boundsLayout);
     addPanel ("Bounds", _boundsContent);
     _northBoundsText = new QAngleControl ("North", AngleType::Latitude);
