@@ -9,9 +9,16 @@
 #include "QAngleControl.h"
 
 using namespace calenhad::controls;
+using namespace calenhad::qmodule;
 
 
-QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWidget* parent) : QWidget (parent), _type (type) {
+QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWidget* parent) : QWidget (parent), _type (type), _validator (nullptr) {
+
+    _statusLabel = new QLabel (this);
+
+    _statusOrright = QPixmap (":/appicons/status/orright.png");
+    _statusGoosed = QPixmap (":/appicons/status/goosed.png");
+    _statusLabel -> setPixmap (_statusOrright);
     setLayout (new QHBoxLayout());
     layout() -> setSpacing(0);
     layout() -> setMargin(0);
@@ -53,6 +60,7 @@ QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWi
 
     QWidget* stackWidget = new QWidget();
     stackWidget -> setLayout (_stack);
+    _layout -> addWidget (_statusLabel);
     _layout -> addWidget (stackWidget);
     _formatButton = new QPushButton();
 
@@ -66,10 +74,18 @@ QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWi
     trimBox (_decimalDegreesText);
     trimBox (_tradDegreesText);
     trimBox (_formatButton);
+
+    if (_type == AngleType::Latitude) {
+        setValidator (new AcceptRange (-90.0, 90.0, -90.0, 90.0));
+    }
+    if (_type == AngleType::Longitude) {
+        setValidator (new AcceptRange (-180.0, 180.0, -180.0, 180.0));
+    }
+
 }
 
 QAngleControl::~QAngleControl () {
-
+    if (_validator) { delete _validator; }
 }
 
 void QAngleControl::trimBox (QWidget* w) {
@@ -114,30 +130,44 @@ void QAngleControl::tradUpdated() {
 
 void QAngleControl::setValue (const double& value) {
     if (value != _value) {
-        _value = value;
-        std::cout << "Set value " << value << "\n";
-        QString letter = "";
-        if (_type == AngleType::Latitude) {
-            letter = value > 0 ? "N" : "S";
+        if ((! _validator) || _validator -> isInValidSet (value)) {
+            _value = value;
+            std::cout << "Set value " << value << "\n";
+            QString letter = "";
+            if (_type == AngleType::Latitude) {
+                letter = value > 0 ? "N" : "S";
+            }
+            if (_type == AngleType::Longitude) {
+                letter = value > 0 ? "E" : "W";
+            }
+            int degrees = (int) std::floor (std::abs (_value));
+            double minutes = (std::abs (_value) - degrees) * 60.0;
+            int mins = (int) (value > 0 ? std::floor (minutes) : std::ceil (minutes));
+            double seconds = (minutes - mins) * 60;
+            QString tradText = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
+            QString decimalText = QString::number (_value) + letter + "°";
+            std::cout << _value << " = " << tradText.toStdString () << "\n";
+            std::cout << _value << " = " << decimalText.toStdString () << "\n";
+            _tradDegreesText->setText (tradText);
+            _decimalDegreesText->setText (decimalText);
+            setToolTip (QString::null);
+            _statusLabel->setPixmap (_statusOrright);
+            emit valueChanged (value);
+        } else {
+            setToolTip (_validator -> toString (value));
+            _statusLabel->setPixmap (_statusGoosed);
         }
-        if (_type == AngleType::Longitude) {
-            letter = value > 0 ? "E" : "W";
-        }
-        int degrees = (int) std::floor (std::abs (_value));
-        double minutes = (std::abs (_value) - degrees) * 60.0;
-        int mins = (int) (value > 0 ? std::floor (minutes) : std::ceil (minutes));
-        double seconds = (minutes - mins) * 60;
-        QString tradText = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
-        QString decimalText = QString::number (_value) + letter + "°";
-        std::cout << _value << " = " <<  tradText.toStdString () << "\n";
-        std::cout << _value << " = " << decimalText.toStdString() << "\n";
-        _tradDegreesText->setText (tradText);
-        _decimalDegreesText->setText (decimalText);
-
-        emit valueChanged (value);
     }
 }
 
 void QAngleControl::toggleFormat() {
     _stack -> setCurrentIndex (_stack -> currentIndex() == 0 ? 1 : 0);
+}
+
+AngleType QAngleControl::angleType () {
+    return _type;
+}
+
+void QAngleControl::setValidator (calenhad::qmodule::AcceptRange* validator) {
+    _validator = validator;
 }

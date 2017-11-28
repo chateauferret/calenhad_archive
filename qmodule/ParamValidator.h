@@ -6,6 +6,8 @@
 #define CALENHAD_PARAMVALIDATOR_H
 
 #include <QtCore/QString>
+#include <cfloat>
+#include <math.h>
 
 namespace calenhad {
     namespace qmodule {

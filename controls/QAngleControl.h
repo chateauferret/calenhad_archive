@@ -10,10 +10,14 @@
 #include <QtWidgets/QStackedLayout>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLabel>
+#include <QValidator>
+#include <qmodule/ParamValidator.h>
 
 namespace calenhad {
     namespace controls {
+        class QAngleControl;
         enum AngleType { Latitude, Longitude, Bearing };
+
         class QAngleControl : public QWidget {
             Q_OBJECT
 
@@ -22,6 +26,8 @@ namespace calenhad {
             virtual ~QAngleControl();
             double value();
             void setValue (const double& value);
+            AngleType angleType();
+
 
         public slots:
             void toggleFormat();
@@ -39,7 +45,11 @@ namespace calenhad {
             double _value;
             void trimBox (QWidget* w);
             AngleType _type;
-
+            void setValidator (calenhad::qmodule::AcceptRange* validator);
+            qmodule::AcceptRange* _validator;
+            QLabel* _statusLabel;
+            QPixmap _statusOrright;
+            QPixmap _statusGoosed;
         protected slots:
             void decimalUpdated();
             void tradUpdated();
