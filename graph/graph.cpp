@@ -192,16 +192,16 @@ QString Graph::glsl (QModule* module) {
         // if it's a raster module, compile and upload the raster content to the raster buffer
         if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
             QRasterModule* rm = (QRasterModule*) qm;
+            Bounds bounds = rm -> bounds();
             QImage* image = rm -> raster();
-            _rasters.insert (_rasterId, image);
-            _rasterId++;
+            QString boundsCode;
+
+                _rasters.insert (_rasterId++, image);
 
             // replace the bounds marker with the module's declared bounds
-            Bounds bounds = rm -> bounds();
-            QString boundsCode;
-            boundsCode.append ("vec2 (" + QString::number (bounds.east()) + ", " + QString::number (bounds.north()) + ")");
+            boundsCode.append ("vec2 (" + QString::number (bounds.west ()) + ", " + QString::number (bounds.north ()) + ")");
             boundsCode.append (", ");
-            boundsCode.append ("vec2 (" + QString::number (bounds.west()) + ", " + QString::number (bounds.south()) + ")");
+            boundsCode.append ("vec2 (" + QString::number (bounds.east()) + ", " + QString::number (bounds.south ()) + ")");
             _code.replace ("%bounds", boundsCode);
         }
 

@@ -697,10 +697,20 @@ float raster (vec3 cartesian, uint rasterIndex) {
 // raster constrained to bounds (a.x, a.y) - (b.x, b.y)
 float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultValue) {
     vec2 g = toGeolocation (cartesian);
+
+    if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
+        if (g.x < a.x) {
+            g.x += M_PI * 2;
+        }
+        b.x += M_PI * 2;
+    }
+
     float dlon = (g.x + M_PI) / (M_PI * 2);
     float dlat = (g.y + (M_PI / 2)) / M_PI;
     float x = (g.x - a.x) / (b.x - a.x);
     float y = (g.y - a.y) / (b.y - a.y);
+
+
     if (x >= 0.0 && x <= 1.0 && y >= 0.0 && y <= 1.0) {
     vec4 texel = vec4 (texture (rasters, vec3 (x, y, rasterIndex)));
         float value = (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
@@ -709,6 +719,7 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
         return defaultValue;
     }
 }
+
 
 // Find the colour in the current legend corresponding to the given noise value. This works the same way as map, above.
 vec4 findColor (float value) {

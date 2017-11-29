@@ -124,7 +124,6 @@ void QAngleControl::tradUpdated() {
     double value = sign * (degrees + minutes / 60.0 + seconds / 3600.0);
     if (ok && value != _value) {
         setValue (value);
-        std::cout << _tradDegreesText -> text().toStdString() << " = " << _value << "\n";
     }
 }
 
@@ -146,8 +145,6 @@ void QAngleControl::setValue (const double& value) {
             double seconds = (minutes - mins) * 60;
             QString tradText = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
             QString decimalText = QString::number (_value) + letter + "°";
-            std::cout << _value << " = " << tradText.toStdString () << "\n";
-            std::cout << _value << " = " << decimalText.toStdString () << "\n";
             _tradDegreesText->setText (tradText);
             _decimalDegreesText->setText (decimalText);
             setToolTip (QString::null);
