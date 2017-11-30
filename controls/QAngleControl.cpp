@@ -88,6 +88,24 @@ QAngleControl::~QAngleControl () {
     if (_validator) { delete _validator; }
 }
 
+void QAngleControl::refresh() {
+    QString letter = "";
+    if (_type == AngleType::Latitude) {
+        letter = _value > 0 ? "N" : "S";
+    }
+    if (_type == AngleType::Longitude) {
+        letter = _value > 0 ? "E" : "W";
+    }
+    int degrees = (int) std::floor (std::abs (_value));
+    double minutes = (std::abs (_value) - degrees) * 60.0;
+    int mins = (int) (_value > 0 ? std::floor (minutes) : std::ceil (minutes));
+    double seconds = (minutes - mins) * 60;
+    QString tradText = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
+    QString decimalText = QString::number (_value) + letter + "°";
+    _tradDegreesText -> setText (tradText);
+    _decimalDegreesText -> setText (decimalText);
+}
+
 void QAngleControl::trimBox (QWidget* w) {
     QFontMetrics m (w -> font());
     int rowHeight = m.lineSpacing();
@@ -100,20 +118,23 @@ double QAngleControl::value () {
 
 void QAngleControl::decimalUpdated() {
     bool ok;
-    int sign = (_decimalDegreesText -> text().endsWith ("W") || _decimalDegreesText -> text().endsWith ("S")) ? -1 : 1;
-    QString s = _decimalDegreesText -> text();
-    s = s.split ("°").first();
-    double degrees = sign * s.toDouble (&ok);
+    QString text = _decimalDegreesText -> text().trimmed();
+    text = text.toUpper();
+    int sign = (text.endsWith ("W") || text.endsWith ("S")) ? -1 : 1;
+
+    text = text.split ("°").first();
+    double degrees = sign * text.toDouble (&ok);
     if (ok && degrees != _value) {
         setValue (degrees);
-        std::cout << _decimalDegreesText -> text().toStdString() << " = " << _value << "\n";
     }
 }
 
 void QAngleControl::tradUpdated() {
     bool ok;
-    int sign = (_tradDegreesText -> text().endsWith ("W") || _tradDegreesText -> text().endsWith ("S")) ? -1 : 1;
-    QStringList tokens = _tradDegreesText -> text ().split ("°");
+    QString text = _tradDegreesText -> text().trimmed();
+    text = text.toUpper();
+    int sign = (text.endsWith ("W") || text.endsWith ("S")) ? -1 : 1;
+    QStringList tokens = text.split ("°");
     int degrees = tokens.first().toInt (&ok);
     tokens = tokens.at (1).split ("\'");
     int minutes = tokens.first().toInt (&ok);
@@ -124,6 +145,11 @@ void QAngleControl::tradUpdated() {
     double value = sign * (degrees + minutes / 60.0 + seconds / 3600.0);
     if (ok && value != _value) {
         setValue (value);
+    } else {
+        if (! ok) {
+            setToolTip (_validator->toString (value));
+            _statusLabel->setPixmap (_statusGoosed);
+        }
     }
 }
 
@@ -131,22 +157,6 @@ void QAngleControl::setValue (const double& value) {
     if (value != _value) {
         if ((! _validator) || _validator -> isInValidSet (value)) {
             _value = value;
-            std::cout << "Set value " << value << "\n";
-            QString letter = "";
-            if (_type == AngleType::Latitude) {
-                letter = value > 0 ? "N" : "S";
-            }
-            if (_type == AngleType::Longitude) {
-                letter = value > 0 ? "E" : "W";
-            }
-            int degrees = (int) std::floor (std::abs (_value));
-            double minutes = (std::abs (_value) - degrees) * 60.0;
-            int mins = (int) (value > 0 ? std::floor (minutes) : std::ceil (minutes));
-            double seconds = (minutes - mins) * 60;
-            QString tradText = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
-            QString decimalText = QString::number (_value) + letter + "°";
-            _tradDegreesText->setText (tradText);
-            _decimalDegreesText->setText (decimalText);
             setToolTip (QString::null);
             _statusLabel->setPixmap (_statusOrright);
             emit valueChanged (value);
@@ -159,6 +169,7 @@ void QAngleControl::setValue (const double& value) {
 
 void QAngleControl::toggleFormat() {
     _stack -> setCurrentIndex (_stack -> currentIndex() == 0 ? 1 : 0);
+    refresh();
 }
 
 AngleType QAngleControl::angleType () {

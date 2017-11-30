@@ -27,7 +27,7 @@ namespace calenhad {
             double value();
             void setValue (const double& value);
             AngleType angleType();
-
+            void refresh ();
 
         public slots:
             void toggleFormat();
@@ -50,9 +50,11 @@ namespace calenhad {
             QLabel* _statusLabel;
             QPixmap _statusOrright;
             QPixmap _statusGoosed;
+
         protected slots:
             void decimalUpdated();
             void tradUpdated();
+
 
         };
     }
