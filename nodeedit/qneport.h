@@ -117,7 +117,7 @@ namespace calenhad {
 			EditableLabel* _label = nullptr;
 			int _radius;
 			int _margin;
-			QVector<QNEConnection*> m_connections;
+			QVector<QNEConnection*> _connections;
 			int _portType;
 			int _index;
 			quint64 _ptr;

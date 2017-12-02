@@ -99,6 +99,7 @@ namespace calenhad {
             public slots:
             void commitLegends();
             void rollbackLegends();
+            bool existsPath (calenhad::nodeedit::QNodeBlock* output, calenhad::nodeedit::QNodeBlock* input);
 
         signals:
 
@@ -108,7 +109,7 @@ namespace calenhad {
 
         protected:
 
-            bool existsPath (calenhad::nodeedit::QNodeBlock* from, calenhad::nodeedit::QNodeBlock* to);
+
 
             const noise::module::Module* _nullModule;
             QPointF lastClick;

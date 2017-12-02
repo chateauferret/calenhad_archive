@@ -74,7 +74,7 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
 
         // can't create circular paths so reject if a path already exists from proposed output back to proposed input
         // (in which case this connection would complete a circle)
-        if (existsPath (input -> block(), output -> block())) {
+        if (existsPath (output -> owner() -> handle(), input -> owner() -> handle())) {
             if (verbose) {
                 emit showMessage ("Connection would form a circuit within the network");
             }
@@ -97,30 +97,41 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
     }
 };
 
-// Return true if there is a direct or indirect path from one block to another.
-// If there is we can't create a new connection between them as that would complete a circuit.
-bool CalenhadModel::existsPath (QNodeBlock* from, QNodeBlock* to) {
-    // base case: block with no inputs can't have any paths to it
-    if (to -> inputs().isEmpty()) {
+// Return true if there is a direct or indirect path from a given output port to a given input port.
+// If there would be a path from output to input on the same node we can't create a new connection between them as that would complete a circuit.
+bool CalenhadModel::existsPath (QNodeBlock* output, QNodeBlock* input) {
+    if (output -> outputs().isEmpty ()) {
         return false;
-
-        // see if the two blocks are connected
-    } else {
-        for (QNEPort* input: to -> inputs ()) {
-            for (QNEPort* output : from -> outputs ()) {
-                if (output -> isConnected (input)) {
-                    return true;
-                }
-            }
-        }
     }
+    QNode* outputNode = output -> node();
+    QNEPort* outputPort = output -> outputs() [0];
+    QModule* outputModule = dynamic_cast<QModule*> (outputNode);
+    QModule* inputModule = dynamic_cast<QModule*> (input -> node());
+    if (outputPort -> connections().isEmpty()) {
+        return false;
+    } else {
+        QNEConnection* connection = outputPort->connections ()[0];
+        // we're only interested in QModules here
+        if ((!outputModule) || (!inputModule)) {
+            return false;
+        }
 
-    // recursively examine blocks which feed the previous from block
-    for (QNEPort* output : from -> outputs()) {
-        for (QNEConnection* c : output -> connections ()) {
-            QNEPort* input = output == c -> port1() ? c -> port2() : c -> port1();
-            if (existsPath (input -> block(), to)) {
-                return true;
+        // base case: block with no inputs can't have any paths to it
+        if (inputModule->handle ()->inputs ().isEmpty ()) {
+            return false;
+
+            // see if the two blocks are connected
+        } else {
+            for (QNEPort* inputPort: inputModule->handle ()->inputs ()) {
+                if (connection -> otherEnd (outputPort) == inputPort) {
+                    return true;
+                } else {
+                    std::cout << "Looking for path " << outputPort -> owner() -> name().toStdString () << " - " << inputPort -> owner() -> name().toStdString () << "\n";
+                    if (! (inputPort -> connections().isEmpty())) {
+                        QNEConnection* c = inputPort -> connections()[ 0];
+                        return existsPath (outputPort->block (), c -> otherEnd (inputPort) -> block());
+                    }
+                }
             }
         }
     }

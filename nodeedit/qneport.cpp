@@ -87,7 +87,7 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) 
 }
 
 QNEPort::~QNEPort () {
-    foreach (QNEConnection* conn, m_connections) delete conn;
+    foreach (QNEConnection* conn, _connections) delete conn;
 }
 
 
@@ -123,7 +123,7 @@ int QNEPort::radius () {
 }
 
 QVector<QNEConnection*>& QNEPort::connections () {
-    return m_connections;
+    return _connections;
 }
 
 QNodeBlock* QNEPort::block () const {
@@ -131,20 +131,30 @@ QNodeBlock* QNEPort::block () const {
 }
 
 bool QNEPort::isConnected (QNEPort* other) {
-     foreach (QNEConnection* conn, m_connections) {
-        if (conn->port1 () == other || conn->port2 () == other) {
+    if (portType() != QNEPort::OutputPort) {
+        return false;
+    }
+     foreach (QNEConnection* conn, _connections) {
+        if (conn -> port1() -> block() == other -> block() || conn -> port2() -> block() == other -> block()) {
             return true;
         }
      }
+
+    // recursively examine blocks which feed this block's inputs
+    for (QNEPort* inputPort : other -> block() -> inputs()) {
+        if (owner() -> model() -> existsPath (_block, inputPort -> block())) {
+            return true;
+        }
+    }
      return false;
 }
 
 QVariant QNEPort::itemChange (GraphicsItemChange change, const QVariant& value) {
     if (change == ItemScenePositionHasChanged) {
-                foreach (QNEConnection* conn, m_connections) {
-                conn -> updatePosFromPorts ();
-                conn -> updatePath ();
-            }
+            foreach (QNEConnection* conn, _connections) {
+            conn -> updatePosFromPorts();
+            conn -> updatePath();
+        }
     }
     return value;
 }
@@ -188,7 +198,7 @@ void QNEPort::setHighlight (const PortHighlight& highlight) {
 }
 
 bool QNEPort::hasConnection() {
-    return (! (m_connections.isEmpty()));
+    return (! (_connections.isEmpty()));
 }
 
 QRectF QNEPort::boundingRect() const {
@@ -205,13 +215,13 @@ QNode* QNEPort::owner ()  {
 }
 
 void QNEPort::addConnection (QNEConnection* c) {
-    m_connections.append (c);
+    _connections.append (c);
     _block -> node() -> invalidate();
     emit connected (c);
 }
 
 void QNEPort::removeConnection (QNEConnection* c) {
-    m_connections.remove (m_connections.indexOf (c));
+    _connections.remove (_connections.indexOf (c));
     _block -> node() -> invalidate();
     emit disconnected (c -> otherEnd (this));
 }
@@ -224,6 +234,6 @@ calenhad::qmodule::QNode* QNEPort::source () {
     if (owner() -> nodeType () == QNEPort::OutputPort) {
         return nullptr;
     } else {
-        return m_connections.first() -> otherEnd (this) -> owner();
+        return _connections.first() -> otherEnd (this) -> owner();
     }
 }

@@ -297,32 +297,32 @@ void CalenhadMapWidget::resizeGL(int width, int height) {
 
 // Insert the given code into the compute shader to realise the noise pipeline
 void CalenhadMapWidget::setGraph (Graph* g) {
-    makeCurrent();
+    makeCurrent ();
     _shader = _shaderTemplate;
-    QString code = g -> glsl ();
-    std::cout << code.toStdString () << "\n";
-    _graph = g;
+    QString code = g->glsl ();
+    if (code != QString::null) {
+        std::cout << code.toStdString () << "\n";
+        _graph = g;
 
-    _shader.replace ("// inserted code //", code);
-    _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
-    _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
+        _shader.replace ("// inserted code //", code);
+        _shader.replace ("// inserted inverse //", CalenhadServices::projections ()->glslInverse ());
+        _shader.replace ("// inserted forward //", CalenhadServices::projections ()->glslForward ());
 
-    if (_computeShader) {
-        _computeProgram -> removeAllShaders();
-        if (_computeShader -> compileSourceCode (_shader)) {
-            _computeProgram -> addShader (_computeShader);
-            _computeProgram -> link();
-            _computeProgram -> bind();
+        if (_computeShader) {
+            _computeProgram->removeAllShaders ();
+            if (_computeShader->compileSourceCode (_shader)) {
+                _computeProgram->addShader (_computeShader);
+                _computeProgram->link ();
+                _computeProgram->bind ();
+            } else {
+                std::cout << "Compute shader would not compile\n";
+            }
+            compute ();
         } else {
-            std::cout << "Compute shader would not compile\n";
+            std::cout << "No compute shader\n";
         }
-        compute();
-    } else {
-        std::cout << "No compute shader\n";
+        update ();
     }
-
-    update();
-
 }
 
 void CalenhadMapWidget::showEvent (QShowEvent* e) {

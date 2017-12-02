@@ -164,10 +164,12 @@ QList<QNEPort*> QNode::ports() {
 bool QNode::isComplete() {
     bool complete = true;
     QList<ExpressionWidget *> widgets = findChildren<ExpressionWidget*>();
-    for (ExpressionWidget* ew: widgets) {
-        if (! ew -> isValid()) {
-            complete = false;
-            break;
+    if (! (widgets.isEmpty())) {
+        for (ExpressionWidget* ew: widgets) {
+            if (!ew->isValid ()) {
+                complete = false;
+                break;
+            }
         }
     }
     if (complete) {
