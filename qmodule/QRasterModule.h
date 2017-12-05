@@ -38,6 +38,8 @@ namespace calenhad {
             void serialize (QDomDocument& doc);
             void inflate (const QDomElement& element);
             void updateBounds();
+
+            void setBounds (icosphere::Bounds bounds);
         };
     }
 }

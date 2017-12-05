@@ -63,6 +63,7 @@ namespace calenhad {
                 if (_validMin == -DBL_MAX && _validMax != DBL_MAX) { message += " less than " + QString::number (_validMax); }
                 if (_validMin != -DBL_MAX && _validMax == DBL_MAX) { message += " greater than " + QString::number (_validMin); }
                 message += ". Preferred range is from " + QString::number (_bestMin) + " to " + QString::number (_bestMax) + ".";
+                message += QString::number (value);
                 return message;
             }
         protected:

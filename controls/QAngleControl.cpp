@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QtWidgets/QGroupBox>
 #include <QRegularExpression>
+#include <geoutils.h>
 #include "QAngleControl.h"
 
 using namespace calenhad::controls;
@@ -90,20 +91,20 @@ QAngleControl::~QAngleControl () {
 
 void QAngleControl::refresh() {
     QString letter = "";
-    if (_type == AngleType::Latitude) {
-        letter = _value > 0 ? "N" : "S";
-    }
-    if (_type == AngleType::Longitude) {
-        letter = _value > 0 ? "E" : "W";
-    }
-    int degrees = (int) std::floor (std::abs (_value));
-    double minutes = (std::abs (_value) - degrees) * 60.0;
-    int mins = (int) (_value > 0 ? std::floor (minutes) : std::ceil (minutes));
-    double seconds = (minutes - mins) * 60;
-    QString tradText = QString::number (degrees) + "°" + QString::number (mins) + "\'" + QString::number (seconds) + "\"" + letter;
+    QString tradText = geoutils::Math::toTraditional (_value, 4);
     QString decimalText = QString::number (_value) + letter + "°";
     _tradDegreesText -> setText (tradText);
     _decimalDegreesText -> setText (decimalText);
+
+    if ((! _validator) || _validator -> isInValidSet (_value)) {
+        emit valueChanged (_value);
+        setToolTip (QString::null);
+        _statusLabel -> setPixmap (_statusOrright);
+    } else {
+        setToolTip (_validator -> toString (_value));
+        _statusLabel -> setPixmap (_statusGoosed);
+    }
+
 }
 
 void QAngleControl::trimBox (QWidget* w) {
@@ -155,15 +156,7 @@ void QAngleControl::tradUpdated() {
 
 void QAngleControl::setValue (const double& value) {
     if (value != _value) {
-        if ((! _validator) || _validator -> isInValidSet (value)) {
-            _value = value;
-            setToolTip (QString::null);
-            _statusLabel->setPixmap (_statusOrright);
-            emit valueChanged (value);
-        } else {
-            setToolTip (_validator -> toString (value));
-            _statusLabel->setPixmap (_statusGoosed);
-        }
+        _value = value;
     }
 }
 
