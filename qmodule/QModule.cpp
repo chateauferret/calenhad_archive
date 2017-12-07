@@ -134,6 +134,7 @@ void QModule::serialize (QDomDocument& doc) {
 
 void QModule::invalidate() {
     _expander -> setItemEnabled (_previewIndex, isComplete());
+    _handle -> update();
     QNode::invalidate();
 }
 

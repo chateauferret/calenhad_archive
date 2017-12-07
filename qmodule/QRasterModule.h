@@ -40,6 +40,8 @@ namespace calenhad {
             void updateBounds();
 
             void setBounds (icosphere::Bounds bounds);
+
+            bool isBoundsValid ();
         };
     }
 }

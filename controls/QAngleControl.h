@@ -12,23 +12,23 @@
 #include <QtWidgets/QLabel>
 #include <QValidator>
 #include <qmodule/ParamValidator.h>
+#include "../geoutils.h"
 
 namespace calenhad {
     namespace controls {
         class QAngleControl;
-        enum AngleType { Latitude, Longitude, Bearing };
 
         class QAngleControl : public QWidget {
             Q_OBJECT
 
         public:
-            QAngleControl (const QString& caption, const AngleType& type, QWidget* parent = 0);
+            QAngleControl (const QString& caption, const geoutils::AngleType& type, QWidget* parent = 0);
             virtual ~QAngleControl();
             double value();
             void setValue (const double& value);
-            AngleType angleType();
+            geoutils::AngleType angleType();
             void refresh ();
-
+            bool isValid();
         public slots:
             void toggleFormat();
 
@@ -44,18 +44,20 @@ namespace calenhad {
             QHBoxLayout* _tradLayout, * _decimalLayout;
             double _value;
             void trimBox (QWidget* w);
-            AngleType _type;
-            void setValidator (calenhad::qmodule::AcceptRange* validator);
-            qmodule::AcceptRange* _validator;
+            geoutils::AngleType _type;
+            void setValidator (calenhad::qmodule::AcceptAngle* validator);
+            qmodule::AcceptAngle* _validator;
             QLabel* _statusLabel;
             QPixmap _statusOrright;
             QPixmap _statusGoosed;
+            bool _isValid;
 
         protected slots:
             void decimalUpdated();
             void tradUpdated();
 
 
+            void validate ();
         };
     }
 }

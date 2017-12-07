@@ -8,7 +8,8 @@
 #include <QtCore/QString>
 #include <cfloat>
 #include <math.h>
-
+#include <iostream>
+#include "geoutils.h"
 namespace calenhad {
     namespace qmodule {
 
@@ -53,21 +54,41 @@ namespace calenhad {
 
         class AcceptRange : public ParamValidator {
         public:
+            double _epsilon;
             AcceptRange (const double& bestMin, const double& bestMax, const double& validMin = -DBL_MAX, const double& validMax = DBL_MAX) : ParamValidator(),
-                _validMin (validMin), _validMax (validMax), _bestMin (bestMin), _bestMax (bestMax) { }
-            virtual bool isInValidSet (const double& value) override { return value >= _validMin && value <= _validMax; }
-            bool isInBestSet (const double& value) override { return value >= _bestMin && value <= _bestMax; }
-            QString toString (const double& value) {
+                _validMin (validMin), _validMax (validMax), _bestMin (bestMin), _bestMax (bestMax) {  _epsilon = 0.00000001; }
+            virtual bool isInValidSet (const double& value) override { return std::isgreaterequal (value + _epsilon, _validMin) && std::islessequal (value - _epsilon, _validMax);  }
+            virtual bool isInBestSet (const double& value) override {
+                return std::isgreaterequal (value - _epsilon, _bestMin) && std::islessequal (value + _epsilon, _bestMax); }
+            virtual QString toString (const double& value) override {
                 QString message = "Enter any value";
-                if (_validMin != -DBL_MAX && _validMax != DBL_MAX) { message += " between \"" + QString::number (_validMin) + " and \" " + QString::number (_validMax); }
+                if (_validMin != -DBL_MAX && _validMax != DBL_MAX) { message += " between " + QString::number (_validMin) + " and " + QString::number (_validMax); }
                 if (_validMin == -DBL_MAX && _validMax != DBL_MAX) { message += " less than " + QString::number (_validMax); }
                 if (_validMin != -DBL_MAX && _validMax == DBL_MAX) { message += " greater than " + QString::number (_validMin); }
                 message += ". Preferred range is from " + QString::number (_bestMin) + " to " + QString::number (_bestMax) + ".";
-                message += QString::number (value);
                 return message;
             }
         protected:
             double _validMin, _validMax, _bestMin, _bestMax;
+        };
+
+        class AcceptAngle : public AcceptRange {
+        public:
+            QString _minLetter, _maxLetter;
+            AcceptAngle (geoutils::AngleType type) : AcceptRange (0.0, type == geoutils::AngleType::Latitude ? 90.0 : 180.0, 0.0, type == geoutils::AngleType::Latitude ? 90.0 : 180.0),
+                _minLetter (type == geoutils::AngleType::Latitude ? "S" : "W"),
+                _maxLetter (type == geoutils::AngleType::Latitude ? "N" : "E") {
+            }
+            virtual bool isInValidSet (const double& value) override {
+                return AcceptRange::isInValidSet (std::abs (value));
+            }
+            bool isInBestSet (const double& value) override { return isInValidSet (value); }
+            QString toString (const double& value) override {
+                std::cout << "Failed validation on " << value << "\n";
+                QString message = "Enter any value";
+                if (_validMin != -DBL_MAX && _validMax != DBL_MAX) { message += " between " + QString::number (_validMax) + "° " +  _minLetter + " and " + QString::number (_validMax) + "° " + _maxLetter; }
+                return message;
+            }
         };
 
         class AcceptInteger : public ParamValidator {

@@ -18,6 +18,7 @@ using namespace calenhad;
 using namespace calenhad::preferences;
 using namespace icosphere;
 using namespace calenhad::controls;
+using namespace geoutils;
 
 QRasterModule::QRasterModule (QModule* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_raster, 1, parent),
     _raster (nullptr),
@@ -120,11 +121,15 @@ void QRasterModule::openFile (const QString& filename) {
 
 bool QRasterModule::isComplete() {
 
-    if (_raster) {
+    if (_raster && isBoundsValid()) {
         return QModule::isComplete();
     } else {
         return false;
     }
+}
+
+bool QRasterModule::isBoundsValid() {
+    return _northBoundsText -> isValid() && _southBoundsText -> isValid() && _eastBoundsText -> isValid() && _westBoundsText -> isValid();
 }
 
 void QRasterModule::inflate (const QDomElement& element) {

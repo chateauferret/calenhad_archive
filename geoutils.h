@@ -27,6 +27,9 @@
 #include <QtCore/QString>
 namespace geoutils {
 
+    enum AngleType {
+        Latitude, Longitude, Bearing
+    };
 
     enum CoordinatesFormat {
         NoCoordinates, Decimal, Traditional

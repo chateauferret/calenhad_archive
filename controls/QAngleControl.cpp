@@ -11,9 +11,9 @@
 
 using namespace calenhad::controls;
 using namespace calenhad::qmodule;
+using namespace geoutils;
 
-
-QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWidget* parent) : QWidget (parent), _type (type), _validator (nullptr) {
+QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWidget* parent) : QWidget (parent), _type (type), _validator (nullptr), _isValid (false) {
 
     _statusLabel = new QLabel (this);
 
@@ -75,14 +75,7 @@ QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWi
     trimBox (_decimalDegreesText);
     trimBox (_tradDegreesText);
     trimBox (_formatButton);
-
-    if (_type == AngleType::Latitude) {
-        setValidator (new AcceptRange (-90.0, 90.0, -90.0, 90.0));
-    }
-    if (_type == AngleType::Longitude) {
-        setValidator (new AcceptRange (-180.0, 180.0, -180.0, 180.0));
-    }
-
+    setValidator (new AcceptAngle (type));
 }
 
 QAngleControl::~QAngleControl () {
@@ -90,21 +83,17 @@ QAngleControl::~QAngleControl () {
 }
 
 void QAngleControl::refresh() {
-    QString letter = "";
-    QString tradText = geoutils::Math::toTraditional (_value, 4);
-    QString decimalText = QString::number (_value) + letter + "°";
+    QString letter;
+    if (_type == geoutils::AngleType::Latitude) {
+        letter = _value >= 0 ? "N" : "S";
+    } else {
+        letter = _value >= 0 ? "E" : "W";
+    }
+    QString tradText = geoutils::Math::toTraditional (std::abs (_value), 4) + letter;
+    QString decimalText = QString::number (std::abs (_value)) + "°" + letter;
     _tradDegreesText -> setText (tradText);
     _decimalDegreesText -> setText (decimalText);
-
-    if ((! _validator) || _validator -> isInValidSet (_value)) {
-        emit valueChanged (_value);
-        setToolTip (QString::null);
-        _statusLabel -> setPixmap (_statusOrright);
-    } else {
-        setToolTip (_validator -> toString (_value));
-        _statusLabel -> setPixmap (_statusGoosed);
-    }
-
+    std::cout << tradText.toStdString () << " : " << decimalText.toStdString () << "\n";
 }
 
 void QAngleControl::trimBox (QWidget* w) {
@@ -158,6 +147,8 @@ void QAngleControl::setValue (const double& value) {
     if (value != _value) {
         _value = value;
     }
+
+    validate();
 }
 
 void QAngleControl::toggleFormat() {
@@ -169,6 +160,23 @@ AngleType QAngleControl::angleType () {
     return _type;
 }
 
-void QAngleControl::setValidator (calenhad::qmodule::AcceptRange* validator) {
+void QAngleControl::setValidator (calenhad::qmodule::AcceptAngle* validator) {
     _validator = validator;
+}
+
+void QAngleControl::validate() {
+    if ((! _validator) || _validator -> isInValidSet (_value)) {
+        setToolTip (QString::null);
+        _statusLabel -> setPixmap (_statusOrright);
+        _isValid = true;
+    } else {
+        setToolTip (_validator->toString (_value));
+        _statusLabel->setPixmap (_statusGoosed);
+        _isValid = false;
+    }
+    emit valueChanged (_value);
+}
+
+bool QAngleControl::isValid() {
+    return _isValid;
 }
