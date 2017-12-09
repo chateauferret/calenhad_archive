@@ -21,7 +21,6 @@ The solution at the moment provides the following.
  
 Architecture is C++ with no QML and Qt5.9. We use a handful of other libraries:
 
-  - GeographicLib: for calculating distances and azimuths on the sphere when building and traversing the icosphere
   - exprtk: parsing and calculating mathematical formulae entered as text
   - QWT: some of the widgets, such as the compass / navigator that appears on the map
   - GeographicLib: geodesic calculations on the geoid (we always use a sphere)
