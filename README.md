@@ -7,7 +7,7 @@ To use: you drag noise modules from the palette onto the desktop and connect the
   
 This has not been tested rigorously at this point and probably has plenty of opportunities to segfault at no notice. It is very much a work in progress and there is still a lot to do. The rendering of maps also runs like a pig and depends on Marble. (see about.txt). Any use made of it is at own risk. 
 
-Compile using cmake in the usual way. THese are dependencies:
+Compile using cmake in the usual way. These are dependencies:
 
   - exprtk: parsing and calculating mathematical formulae entered as text
   - QWT: some of the widgets, such as the compass / navigator that appears on the map
