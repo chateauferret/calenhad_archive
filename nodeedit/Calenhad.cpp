@@ -384,6 +384,7 @@ void Calenhad::loadFile (const CalenhadFileType& fileType) {
 }
 
 void Calenhad::closeEvent (QCloseEvent* event) {
+    closeProject();
     CalenhadServices::preferences() -> saveSettings();
     QSettings* settings = CalenhadServices::preferences() -> settings();
     settings -> beginGroup ("MainWindow");
@@ -517,8 +518,7 @@ void Calenhad::closeProject() {
 }
 
 void Calenhad::quit() {
-    closeProject();
-    qApp -> quit();
+    close();
 }
 
 void Calenhad::setActive (bool enabled) {
