@@ -88,15 +88,6 @@ namespace calenhad {
             void clearTools ();
             void setSelectionActionsEnabled (const bool& enabled);
 
-        private slots:
-
-            void saveFile();
-            void saveFileAs (const CalenhadFileType& fileType);
-            void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
-            void updatePasteAction();
-
-            void closeEvent (QCloseEvent* event);
-
         private:
             CalenhadController* _controller;
             CalenhadView* _view;
@@ -115,13 +106,14 @@ namespace calenhad {
 
             void moveEvent (QMoveEvent* event);
 
+            void setActive (bool enabled);
 
             ToolDrawer* _viewDrawer;
             ToolDrawer* _editDrawer;
 
             ToolDrawer* _addModuleDrawer;
             ToolGroup* _addModuleGroup;
-
+            QDockWidget* paramsDock;
 
 
             QAction* addModuleTool (const QString& name, const QString& tooltip);
@@ -145,6 +137,7 @@ namespace calenhad {
             QAction* deleteSelectionAction;
             QAction* duplicateModuleAction;
             QAction* cutAction, * copyAction, * pasteAction;
+            QAction* openAction, * newAction, * quitAction;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
 
@@ -157,6 +150,22 @@ namespace calenhad {
             CalenhadToolBar* makeToolbar (const QString& name);
 
             QAction* createAction (const QIcon& icon, const QString& name, const QString statusTip, const QKeySequence& shortcut = QKeySequence());
+
+            QMenu* fileMenu;
+            CalenhadToolBar* fileToolbar;
+
+            void setActive (QWidget* widget, bool enabled);
+
+        private slots:
+
+            void newProject();
+            void closeProject();
+            void saveFile();
+            void saveFileAs (const CalenhadFileType& fileType);
+            void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+            void updatePasteAction();
+            void quit();
+            void closeEvent (QCloseEvent* event);
 
 
         };

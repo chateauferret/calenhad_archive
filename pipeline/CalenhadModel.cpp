@@ -45,7 +45,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _date (QDateTime::currentDateTime()),
     _controller (nullptr),
     _highlighted (nullptr),
-    _menu (nullptr) {
+    _menu (nullptr),
+    _changed (false) {
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
@@ -162,6 +163,8 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         // tell the target owner to declare change requiring rerender
         output -> owner () -> invalidate();
 
+        // model has changed so save if close
+        _changed = true;
 
         return true;
     } else {
@@ -182,6 +185,7 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
 
     // update the model
     removeItem (connection);
+    _changed = true;
     delete connection;
     update();
 }
@@ -366,6 +370,7 @@ QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
     } else {
         n = addModule (initPos, type, name);
     }
+    _changed = true;
 }
 
 QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
@@ -429,6 +434,7 @@ void CalenhadModel::deleteNode (QNode* node) {
                 if (((QNEConnection*) item) -> port1() == p || ((QNEConnection*) item) -> port2() == p) {
                     removeItem (item);
                     delete item;
+                    _changed = true;
                 }
             }
         }
@@ -568,6 +574,7 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
         for (QNEConnection* c : connections ()) {
             c->serialise (doc);
         }
+        _changed = false;
     }
     return doc;
 }
@@ -679,6 +686,7 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
                     toElement.setAttribute ("module", newName);
                 }
             }
+            _changed = false;
         }
 
         // In the connections, we save and retrieve the types of output ports in case we ever have further types of output ports.
@@ -759,6 +767,7 @@ void CalenhadModel::highlightGroupAt (QPointF pos) {
 void CalenhadModel::commitLegends () {
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
     serialize (file, CalenhadFileType::CalenhadLegendFile);
+    _changed = true;
 }
 
 void CalenhadModel::rollbackLegends() {
@@ -834,4 +843,8 @@ QString CalenhadModel::uniqueName (QString original) {
         std::cout << (original + suffix).toStdString () << "\n";
     } ;
     return (original + suffix);
+}
+
+bool CalenhadModel::isChanged() {
+    return _changed;
 }

@@ -61,7 +61,7 @@ int main (int argc, char **argv) {
     CalenhadServices::providePreferences (preferences);
 
     // Legends service
-    QString fname = CalenhadServices::preferences() -> calenhad_legends_filename;
+
     LegendRoster* roster = new LegendRoster();
     CalenhadServices::provideLegends (roster);
 
@@ -83,14 +83,8 @@ int main (int argc, char **argv) {
     std::cout << "Stylesheet: " << file.fileName().toStdString() << "\n";
 
     // Calenhad model - the arrangement of modules and connections between them
-    CalenhadModel* model = new CalenhadModel();
-    Calenhad* window = new Calenhad();
 
-    model -> inflate (fname, calenhad::nodeedit::CalenhadLegendFile);
-    // Message service
-    QNotificationHost* notifications = (QNotificationHost*) window;
-    CalenhadServices::provideMessages (notifications);
-    window -> setModel (model);
+    Calenhad* window = new Calenhad();
     window -> show();
 
 

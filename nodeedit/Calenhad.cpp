@@ -46,6 +46,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "QNodeBlock.h"
 #include "qneport.h"
 #include <QClipboard>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QDockWidget>
 
 
 using namespace icosphere;
@@ -61,7 +63,10 @@ using namespace calenhad::notification;
 
 
 Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
-    _legendDialog (nullptr) {
+    _legendDialog (nullptr), _model (nullptr) {
+
+    // Message service
+    CalenhadServices::provideMessages (this);
 
     _controller = new CalenhadController (this);
     _toolbox = new QNEToolBox();
@@ -82,6 +87,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _view -> setRenderHint (QPainter::Antialiasing, true);
     _view -> centerOn (0, 0);
 
+
     setCentralWidget (_view);
     setDockNestingEnabled (true);
 
@@ -92,7 +98,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 
     CalenhadToolBar* viewToolbar = makeToolbar ("View");
     CalenhadToolBar* editToolbar = makeToolbar ("Edit");
-    CalenhadToolBar* fileToolbar = makeToolbar ("File");
+    fileToolbar = makeToolbar ("File");
 
     // modules and other nodes
     QDockWidget* iconsDock = new QDockWidget ("Modules", this);
@@ -187,24 +193,23 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     editToolbar -> addAction (nodeGroupTool);
     connect (_controller, &CalenhadController::canUndoChanged, this, [=] () { undoAction -> setEnabled (_controller -> canUndo()); });
     connect (_controller, &CalenhadController::canRedoChanged, this, [=] () { redoAction -> setEnabled (_controller -> canRedo()); });
-
     // other module actions
 
-    QAction* newAction = createAction (QIcon (":/appicons/controls/new.png"), tr ("&New"), "Start a new project", QKeySequence::New);
-    // connect (newAction, &QAction::triggered, this, newProject());
+    newAction = createAction (QIcon (":/appicons/controls/new.png"), tr ("&New"), "Start a new project", QKeySequence::New);
+    connect (newAction, &QAction::triggered, this, &Calenhad::newProject);
     fileToolbar -> addAction (newAction);
 
     QAction* closeAction = createAction (QIcon (":/appicons/controls/close.png"), tr ("&Close"), "Start a new project", QKeySequence::New);
-    // connect (closeAction, &QAction::triggered, this, closeProject());
+    connect (closeAction, &QAction::triggered, this, &Calenhad::closeProject);
     fileToolbar -> addAction (closeAction);
 
-    QAction* quitAction = createAction (QIcon (":/appicons/controls/quit.png"), tr ("&Quit"), "Quit the application", QKeySequence::Quit);
-    connect (quitAction, SIGNAL (triggered()), qApp, SLOT (quit()));
+    quitAction = createAction (QIcon (":/appicons/controls/quit.png"), tr ("&Quit"), "Quit the application", QKeySequence::Quit);
+    connect (quitAction, &QAction::triggered, this, &Calenhad::quit);
     fileToolbar -> addAction (quitAction);
 
-    QAction* loadAction = createAction (QIcon (":/appicons/controls/open_file.png"), tr ("&Open"), "Open a Calenhad model file", QKeySequence::Open);
-    connect (loadAction, &QAction::triggered, this, [=] () { loadFile(); });
-    fileToolbar -> addAction (loadAction);
+    openAction = createAction (QIcon (":/appicons/controls/open_file.png"), tr ("&Open"), "Open a Calenhad model file", QKeySequence::Open);
+    connect (openAction, &QAction::triggered, this, [=] () { loadFile(); });
+    fileToolbar -> addAction (openAction);
 
     QAction* saveAction = createAction (QIcon (":/appicons/controls/save.png"), tr ("&Save"), "Save model", QKeySequence::Save);
     connect (saveAction, &QAction::triggered, this, [=] () { saveFile(); });
@@ -246,9 +251,9 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     editToolbar -> addAction (manageLegendsAction);
     // Menu
 
-    QMenu* fileMenu = menuBar () -> addMenu (tr ("&File"));
+    fileMenu = menuBar () -> addMenu (tr ("&File"));
     fileMenu -> addAction (newAction);
-    fileMenu -> addAction (loadAction);
+    fileMenu -> addAction (openAction);
     fileMenu -> addAction (saveAction);
     fileMenu -> addAction (saveAsAction);
     fileMenu -> addAction (closeAction);
@@ -321,6 +326,10 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     editToolbar -> addAction (variablesAction);
     editMenu -> addAction (variablesAction);
     connect (variablesAction, &QAction::triggered, this, [=] () { _variablesDialog -> exec(); });
+
+    // there is no model yet so switch all the controls off except for allowing a model to be created or opened
+    setActive (false);
+
 }
 
 Calenhad::~Calenhad() {
@@ -371,6 +380,7 @@ void Calenhad::loadFile (const CalenhadFileType& fileType) {
     QString fname = QFileDialog::getOpenFileName ();
     _model -> inflate (fname);
     _lastFile = fname;
+    setActive (true);
 }
 
 void Calenhad::closeEvent (QCloseEvent* event) {
@@ -480,3 +490,69 @@ CalenhadToolBar* Calenhad::makeToolbar (const QString& name) {
     addDockWidget (Qt::TopDockWidgetArea, toolsDock);
     return toolbar;
 }
+
+void Calenhad::newProject() {
+    closeProject();
+    QString fname = CalenhadServices::preferences() -> calenhad_legends_filename;
+    CalenhadModel* model = new CalenhadModel();
+    model -> inflate (fname, calenhad::nodeedit::CalenhadLegendFile);
+    setModel (model);
+    setActive (true);
+}
+
+void Calenhad::closeProject() {
+    if (_view ) {
+        if (_model) {
+            if (_model -> isChanged()) {
+                if (QMessageBox::question (_view, "Save file", "Save this model before closing?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+                    saveFile ();
+                }
+            }
+            delete _model;
+            _model = nullptr;
+        }
+    }
+    CalenhadServices::messages() -> clearAll();
+    setActive (false);
+}
+
+void Calenhad::quit() {
+    closeProject();
+    qApp -> quit();
+}
+
+void Calenhad::setActive (bool enabled) {
+    for (QObject* object : children()) {
+        QWidget* widget = dynamic_cast<QWidget*> (object);
+        if (widget) {
+            widget -> setEnabled (enabled);
+        }
+        QAction* action = dynamic_cast<QAction*> (object);
+        if (action) {
+            action -> setEnabled (enabled);
+        }
+    }
+
+    // actions and widgets that must always be available to allow models to be created and opened
+    newAction -> setEnabled (true);
+    openAction -> setEnabled (true);
+    quitAction -> setEnabled (true);
+    setActive (fileMenu, true);
+    setActive (fileToolbar, true);
+
+    if (! enabled) {
+        CalenhadServices::messages() -> message ("No project open", "Select File | New to start a new project or open one using File | Open");
+    }
+
+}
+
+void Calenhad::setActive (QWidget* widget, bool enabled) {
+    if (widget -> parent()) {
+        QWidget* p = dynamic_cast<QWidget*> (widget -> parent());
+        if (p) {
+            p -> setEnabled (enabled);
+            setActive (p, enabled);
+        }
+    }
+}
+

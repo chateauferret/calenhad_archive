@@ -80,6 +80,8 @@ namespace calenhad {
             void serialize (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void inflate (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void inflate (const QDomDocument& doc, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+            bool isChanged();
+
 
             QList<calenhad::qmodule::QNode*> nodes ();
 
@@ -104,8 +106,6 @@ namespace calenhad {
         signals:
 
             void showMessage (QString);
-
-            void moduleAdded (calenhad::qmodule::QModule*);
 
         protected:
 
@@ -136,6 +136,7 @@ namespace calenhad {
 
             QAction* makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item = 0);
 
+            bool _changed;
         };
     }
 }

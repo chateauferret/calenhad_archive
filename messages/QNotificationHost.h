@@ -30,7 +30,7 @@ namespace calenhad {
             QNotification* message (const QString& title, const QString& message, const int& duration = 10000);
 
             QProgressNotification* progress (const QString& title, const QString& message, const int& duration = 10000, const int& toDo = 100, const int& delay = 500);
-
+            void clearAll ();
         public slots:
 
             void clearMessage();
@@ -45,6 +45,7 @@ namespace calenhad {
             void display (QNotification* notification);
 
             int _margin;
+
 
 
         };

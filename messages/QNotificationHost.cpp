@@ -57,8 +57,15 @@ void QNotificationHost::clearMessage() {
     QNotification* message = dynamic_cast<QNotification*> (sender());
     if (message) {
         _messages.removeOne (message);
-        message->close ();
+        message -> close ();
         reorder ();
+    }
+}
+
+void QNotificationHost::clearAll() {
+    for (QNotification* message : _messages) {
+        _messages.removeOne (message);
+        message -> close ();
     }
 }
 
