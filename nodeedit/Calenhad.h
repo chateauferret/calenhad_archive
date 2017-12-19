@@ -39,6 +39,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 namespace calenhad {
     namespace controls {
         class CalenhadLegendDialog;
+        class SplashDialog;
     }
     namespace preferences {
         class Preferences;
@@ -88,6 +89,7 @@ namespace calenhad {
             void clearTools ();
             void setSelectionActionsEnabled (const bool& enabled);
 
+            QSet<QString> recentFiles ();
         private:
             CalenhadController* _controller;
             CalenhadView* _view;
@@ -137,7 +139,7 @@ namespace calenhad {
             QAction* deleteSelectionAction;
             QAction* duplicateModuleAction;
             QAction* cutAction, * copyAction, * pasteAction;
-            QAction* openAction, * newAction, * quitAction;
+            QAction* openAction, * newAction, * quitAction, * importAction;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
 
@@ -155,7 +157,7 @@ namespace calenhad {
             CalenhadToolBar* fileToolbar;
 
             void setActive (QWidget* widget, bool enabled);
-
+            calenhad::controls::SplashDialog* _splash;
         private slots:
 
             void newProject();
@@ -165,9 +167,11 @@ namespace calenhad {
             void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void updatePasteAction();
             void quit();
-            void closeEvent (QCloseEvent* event);
-
-
+            void closeEvent (QCloseEvent* event) override;
+            void showEvent (QShowEvent* event) override;
+            void rememberFile (const QString& file);
+            void loadFile (const QString& fname, const CalenhadFileType& fileType);
+            void openProject ();
         };
     }
 }

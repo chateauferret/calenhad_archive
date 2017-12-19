@@ -1,11 +1,16 @@
 QGraphicsView {
-	background-color: #323232;
-	border: none;
+    background-color: #323232;
+    border: none;
 }
 
-CalenhadView {
-        color: #323232;
-        background-color: #ffa02f;
+calenhad--nodeedit--CalenhadView:disabled {
+    color: #323232;
+    background-color: #4f0f0f;
+}
+
+calenhad--nodeedit--CalenhadView {
+    color: #323232;
+    background-color: #ff7f7f;
 }
 
 QPushButton
@@ -33,12 +38,12 @@ Component {
 }
 
 Component > QLabel {
-      color: #ffff00;
+    color: #ffff00;
 }
 
 Component:selected {
-	color: #b1b1b1;
-	background-color: #c0c000;
+    color: #b1b1b1;
+    background-color: #c0c000;
 }
 
 QNotification#info {
@@ -88,12 +93,13 @@ QNotification > QLabel {
 
 QToolBox {
     border: 2px solid black;
+    background: silver;
+}
+
+QToolBar {
+    background: lightyellow;
 }
 
 QDockWidget {
-    background: transparent;
-}
-
-CalenhadGlobe > CalenhadMapView {
-    border: 2px solid black;
+    background: silver;
 }

@@ -75,6 +75,7 @@ void Preferences::loadSettings() {
     // Configuration
 
     calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/.config/calenhad/legends.xml").toString ();
+    calenhad_recentfiles_filename = _settings -> value ("calenhad/recentfiles/filename", "/home/martin/.config/calenhad/recentfiles.txt").toString ();
     calenhad_variables_name_maxlength = _settings -> value ("calenhad/variables/name/maxlength", 50).toUInt();
     calenhad_port_name_minLength = _settings -> value ("calenhad/port/name_minlength", 1).toUInt();
     calenhad_port_name_maxLength = _settings -> value ("calenhad/port/name/maxlength", 25).toUInt();
@@ -202,6 +203,7 @@ void Preferences::saveSettings() {
     // Configuration
 
     _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
+    _settings -> setValue ("calenhad/recentfiles/filename", calenhad_recentfiles_filename);
     _settings -> setValue ("calenhad/variables/name/maxlength", calenhad_variables_name_maxlength);
     _settings -> setValue ("calenhad/port/name_minlength", calenhad_port_name_minLength);
     _settings -> setValue ("calenhad/port/name/maxlength", calenhad_port_name_maxLength);

@@ -123,7 +123,7 @@ bool CalenhadModel::existsPath (QNodeBlock* output, QNodeBlock* input) {
 
             // see if the two blocks are connected
         } else {
-            for (QNEPort* inputPort: inputModule->handle ()->inputs ()) {
+            for (QNEPort* inputPort: inputModule -> handle() -> inputs()) {
                 if (connection -> otherEnd (outputPort) == inputPort) {
                     return true;
                 } else {

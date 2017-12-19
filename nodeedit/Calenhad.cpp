@@ -48,6 +48,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QClipboard>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QDockWidget>
+#include <controls/SplashDialog.h>
 
 
 using namespace icosphere;
@@ -208,7 +209,11 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     fileToolbar -> addAction (quitAction);
 
     openAction = createAction (QIcon (":/appicons/controls/open_file.png"), tr ("&Open"), "Open a Calenhad model file", QKeySequence::Open);
-    connect (openAction, &QAction::triggered, this, [=] () { loadFile(); });
+    connect (openAction, &QAction::triggered, this, &Calenhad::openProject);
+    fileToolbar -> addAction (openAction);
+
+    importAction = createAction (QIcon (":/appicons/controls/import_file.png"), tr ("&Open"), "Import a Calenhad model file into this project");
+    connect (openAction, &QAction::triggered, this, [=] () { loadFile (CalenhadFileType::CalenhadModelFile); });
     fileToolbar -> addAction (openAction);
 
     QAction* saveAction = createAction (QIcon (":/appicons/controls/save.png"), tr ("&Save"), "Save model", QKeySequence::Save);
@@ -328,8 +333,14 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     connect (variablesAction, &QAction::triggered, this, [=] () { _variablesDialog -> exec(); });
 
     // there is no model yet so switch all the controls off except for allowing a model to be created or opened
+    _splash = new SplashDialog (this);
+    _splash -> setModal (true);
+    connect (_splash, &SplashDialog::openProject, this, [=] () {
+        openProject();
+    });
+    connect (_splash, &SplashDialog::closeCalenhad, this, &Calenhad::quit);
+    connect (_splash, &SplashDialog::newProject, this, &Calenhad::newProject);
     setActive (false);
-
 }
 
 Calenhad::~Calenhad() {
@@ -366,6 +377,7 @@ void Calenhad::saveFileAs (const CalenhadFileType& fileType) {
     QString fname = QFileDialog::getSaveFileName();
     _model -> serialize (fname, fileType);
     _lastFile = fname;
+    rememberFile (fname);
 }
 
 void Calenhad::saveFile() {
@@ -378,9 +390,18 @@ void Calenhad::saveFile() {
 
 void Calenhad::loadFile (const CalenhadFileType& fileType) {
     QString fname = QFileDialog::getOpenFileName ();
+    loadFile (fname, fileType);
+}
+
+void Calenhad::loadFile (const QString& fname, const CalenhadFileType& fileType) {
     _model -> inflate (fname);
     _lastFile = fname;
+    rememberFile (fname);
     setActive (true);
+}
+
+void Calenhad::showEvent (QShowEvent* event) {
+
 }
 
 void Calenhad::closeEvent (QCloseEvent* event) {
@@ -392,6 +413,7 @@ void Calenhad::closeEvent (QCloseEvent* event) {
     settings -> setValue ("pos", pos());
     settings -> endGroup();
     event -> accept();
+    delete _splash;
 }
 
 void Calenhad::initialiseLegends() {
@@ -492,6 +514,15 @@ CalenhadToolBar* Calenhad::makeToolbar (const QString& name) {
     return toolbar;
 }
 
+void Calenhad::openProject() {
+    closeProject();
+    CalenhadModel* model = new CalenhadModel();
+    setModel (model);
+    loadFile (_splash -> fileSelected(), CalenhadFileType::CalenhadModelFile);
+    setActive (true);
+}
+
+
 void Calenhad::newProject() {
     closeProject();
     QString fname = CalenhadServices::preferences() -> calenhad_legends_filename;
@@ -518,6 +549,9 @@ void Calenhad::closeProject() {
 }
 
 void Calenhad::quit() {
+    if (_splash) {
+        _splash -> accept();
+    }
     close();
 }
 
@@ -541,7 +575,11 @@ void Calenhad::setActive (bool enabled) {
     setActive (fileToolbar, true);
 
     if (! enabled) {
-        CalenhadServices::messages() -> message ("No project open", "Select File | New to start a new project or open one using File | Open");
+        _splash -> show();
+        _view -> setEnabled (false);
+    } else {
+        _splash -> accept();
+        _view -> setEnabled (true);
     }
 
 }
@@ -556,3 +594,34 @@ void Calenhad::setActive (QWidget* widget, bool enabled) {
     }
 }
 
+void Calenhad::rememberFile (const QString& file) {
+    QSet<QString> files = recentFiles();
+    files.insert (file);
+    QFile f (CalenhadServices::preferences() -> calenhad_recentfiles_filename);
+    if (f.open (QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream out (&f);
+        for (QString item : files) {
+            out << item << "\n";
+        }
+        out.flush();
+        f.close();
+    }
+}
+
+QSet<QString> Calenhad::recentFiles() {
+    QFile f (CalenhadServices::preferences() -> calenhad_recentfiles_filename);
+    QSet<QString> files;
+    if (f.exists()) {
+        if (f.open (QIODevice::ReadOnly | QIODevice::Text)) {
+            while (! f.atEnd ()) {
+                QByteArray line = f.readLine ();
+                QFile item (line);
+                if (item.exists()) {
+                    files.insert (line);
+                }
+            }
+            f.close();
+        }
+    }
+    return files;
+}
