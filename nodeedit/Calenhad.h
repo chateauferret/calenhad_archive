@@ -89,7 +89,11 @@ namespace calenhad {
             void clearTools ();
             void setSelectionActionsEnabled (const bool& enabled);
 
-            QSet<QString> recentFiles ();
+            QStringList recentFiles ();
+
+        public slots:
+            void titleChanged (const QString& title);
+
         private:
             CalenhadController* _controller;
             CalenhadView* _view;
@@ -159,7 +163,7 @@ namespace calenhad {
             void setActive (QWidget* widget, bool enabled);
             calenhad::controls::SplashDialog* _splash;
         private slots:
-
+            void projectProperties();
             void newProject();
             void closeProject();
             void saveFile();
@@ -171,7 +175,8 @@ namespace calenhad {
             void showEvent (QShowEvent* event) override;
             void rememberFile (const QString& file);
             void loadFile (const QString& fname, const CalenhadFileType& fileType);
-            void openProject ();
+            void openProject (const QString& fname);
+            void open();
         };
     }
 }

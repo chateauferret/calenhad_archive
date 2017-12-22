@@ -45,9 +45,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneconnection.h"
 #include "QNodeBlock.h"
 #include "qneport.h"
+#include "ProjectPropertiesDialog.h"
 #include <QClipboard>
 #include <QtWidgets/QMessageBox>
-#include <QtWidgets/QDockWidget>
 #include <controls/SplashDialog.h>
 
 
@@ -209,7 +209,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     fileToolbar -> addAction (quitAction);
 
     openAction = createAction (QIcon (":/appicons/controls/open_file.png"), tr ("&Open"), "Open a Calenhad model file", QKeySequence::Open);
-    connect (openAction, &QAction::triggered, this, &Calenhad::openProject);
+    connect (openAction, &QAction::triggered, this, &Calenhad::open);
     fileToolbar -> addAction (openAction);
 
     importAction = createAction (QIcon (":/appicons/controls/import_file.png"), tr ("&Open"), "Import a Calenhad model file into this project");
@@ -231,6 +231,10 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     QAction* saveLegendsAction = new QAction ("Save legends", this);
     saveLegendsAction -> setStatusTip ("Export legends to a separate file");
     connect (saveLegendsAction, &QAction::triggered, this, [=] () { saveFileAs (CalenhadFileType::CalenhadLegendFile); });
+
+    QAction* projectPropertiesAction = createAction (QIcon (":/appicons/controls/properties.png"), tr ("Properties..."), "Project properties", QKeySequence::Preferences);
+    connect (projectPropertiesAction, &QAction::triggered, this, &Calenhad::projectProperties);
+    fileToolbar -> addAction (projectPropertiesAction);
 
     QAction* xmlAction = createAction (QIcon (":/appicons/controls/xml.png"), tr ("&XML"), "View model as an XML file", QKeySequence::NativeText);
     connect (xmlAction, &QAction::triggered, this, [=] () {
@@ -266,6 +270,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     fileMenu -> addAction (loadLegendsAction);
     fileMenu -> addAction (saveLegendsAction);
     fileMenu -> addSeparator();
+    fileMenu -> addAction (projectPropertiesAction);
     fileMenu -> addAction (xmlAction);
     fileMenu -> addAction (quitAction);
 
@@ -335,9 +340,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     // there is no model yet so switch all the controls off except for allowing a model to be created or opened
     _splash = new SplashDialog (this);
     _splash -> setModal (true);
-    connect (_splash, &SplashDialog::openProject, this, [=] () {
-        openProject();
-    });
+    connect (_splash, &SplashDialog::openProject, this, &Calenhad::openProject);
     connect (_splash, &SplashDialog::closeCalenhad, this, &Calenhad::quit);
     connect (_splash, &SplashDialog::newProject, this, &Calenhad::newProject);
     setActive (false);
@@ -364,9 +367,10 @@ void Calenhad::setModel (CalenhadModel* model) {
     _controller-> setModel (_model);
     _model -> setController (_controller);
     _view -> setController (_controller);
+    _view -> setScene (_model);
     _controller -> addView (_view);
     connect (_view, &CalenhadView::viewZoomed, this, &Calenhad::updateZoomActions);
-    _view -> setScene (_model);
+    connect (_model, &CalenhadModel::titleChanged, this, &Calenhad::titleChanged);
 }
 
 CalenhadModel* Calenhad::model() {
@@ -514,12 +518,17 @@ CalenhadToolBar* Calenhad::makeToolbar (const QString& name) {
     return toolbar;
 }
 
-void Calenhad::openProject() {
+void Calenhad::openProject (const QString& filename) {
     closeProject();
     CalenhadModel* model = new CalenhadModel();
     setModel (model);
-    loadFile (_splash -> fileSelected(), CalenhadFileType::CalenhadModelFile);
+    loadFile (filename, CalenhadFileType::CalenhadModelFile);
     setActive (true);
+}
+
+
+void Calenhad::open() {
+    openProject (QFileDialog::getOpenFileName (this, "Open project", "/home/martin", "Calenhad project files (*.chp *.xml)"));
 }
 
 
@@ -571,6 +580,7 @@ void Calenhad::setActive (bool enabled) {
     newAction -> setEnabled (true);
     openAction -> setEnabled (true);
     quitAction -> setEnabled (true);
+    _splash -> setEnabled (true);
     setActive (fileMenu, true);
     setActive (fileToolbar, true);
 
@@ -595,10 +605,12 @@ void Calenhad::setActive (QWidget* widget, bool enabled) {
 }
 
 void Calenhad::rememberFile (const QString& file) {
-    QSet<QString> files = recentFiles();
-    files.insert (file);
+    QStringList files = recentFiles();
+    if (! files.contains (file)) {
+        files.append (file);
+    }
     QFile f (CalenhadServices::preferences() -> calenhad_recentfiles_filename);
-    if (f.open (QIODevice::ReadOnly | QIODevice::Text)) {
+    if (f.open (QIODevice::ReadWrite | QIODevice::Text)) {
         QTextStream out (&f);
         for (QString item : files) {
             out << item << "\n";
@@ -608,20 +620,28 @@ void Calenhad::rememberFile (const QString& file) {
     }
 }
 
-QSet<QString> Calenhad::recentFiles() {
+QStringList Calenhad::recentFiles() {
     QFile f (CalenhadServices::preferences() -> calenhad_recentfiles_filename);
-    QSet<QString> files;
+    QStringList files;
     if (f.exists()) {
-        if (f.open (QIODevice::ReadOnly | QIODevice::Text)) {
+        if (f.open (QIODevice::ReadOnly)) {
             while (! f.atEnd ()) {
-                QByteArray line = f.readLine ();
-                QFile item (line);
-                if (item.exists()) {
-                    files.insert (line);
+                QByteArray line = f.readLine().trimmed();
+                if (QFile::exists (line)) {
+                    files.append (line);
                 }
             }
             f.close();
         }
     }
     return files;
+}
+
+void Calenhad::titleChanged (const QString& title) {
+    setWindowTitle (title);
+}
+
+void Calenhad::projectProperties () {
+    ProjectPropertiesDialog* dialog = new ProjectPropertiesDialog (_model);
+    dialog -> show();
 }

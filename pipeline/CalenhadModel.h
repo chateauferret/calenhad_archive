@@ -41,6 +41,7 @@ namespace calenhad {
 
         class CalenhadModel : public QGraphicsScene {
         Q_OBJECT
+
         public:
             CalenhadModel ();
 
@@ -103,9 +104,27 @@ namespace calenhad {
             void rollbackLegends();
             bool existsPath (calenhad::nodeedit::QNodeBlock* output, calenhad::nodeedit::QNodeBlock* input);
 
+
+            const QString& description();
+
+            const QString& filename();
+
+            const QDateTime& lastSave();
+
+            const QString& author();
+
+            const QString& title();
+            void setDescription (const QString& description);
+
+            void setAuthor (const QString& author);
+
+            void setTitle (const QString& title);
+
+
         signals:
 
             void showMessage (QString);
+            void titleChanged (QString);
 
         protected:
 
@@ -137,6 +156,8 @@ namespace calenhad {
             QAction* makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item = 0);
 
             bool _changed;
+            QString _filename;
+            const QDateTime _lastSaved;
         };
     }
 }

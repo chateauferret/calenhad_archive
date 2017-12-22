@@ -9,6 +9,7 @@
 #include <QtCore/QFile>
 #include <QtWidgets/QFileDialog>
 #include <QSet>
+#include <iostream>
 
 using namespace calenhad::controls;
 using namespace calenhad::nodeedit;
@@ -27,20 +28,7 @@ SplashDialog::SplashDialog (Calenhad* parent) {
     _newProjectButton -> setText ("New project");
 
     _recentFileBox = new QComboBox();
-    _recentFiles.fromSet (parent -> recentFiles());
-    for (QString entry : _recentFiles) {
-        QFile f (entry);
-        QDomDocument doc;
-        doc.setContent (&f);
-        QDomElement metadata = doc.firstChildElement ("metadata");
-        QDomElement title = metadata.firstChildElement ("title");
-        QDomNode node = title.firstChild ();
-        QString text = node.nodeValue();
-        _recentFileBox -> addItem (text, entry);
-    }
-
-    _openRecentButton = new QPushButton ();
-    _openRecentButton -> setText ("Open");
+    _recentFiles = parent -> recentFiles();
 
     _openRecentButton = new QPushButton ();
     _openRecentButton -> setText ("Open");
@@ -68,6 +56,22 @@ SplashDialog::~SplashDialog () {
 
 }
 
+void SplashDialog::showEvent (QShowEvent* e) {
+    _recentFileBox -> clear();
+    _recentFiles = ((Calenhad*) parent()) -> recentFiles();
+    for (QString entry : _recentFiles) {
+        QFile f (entry);
+        QDomDocument doc;
+        doc.setContent (&f);
+        std::cout << doc.toString().toStdString () << "\n";
+        QDomElement metadataElement = doc.documentElement ().firstChildElement ("metadata");
+        QDomElement titleElement = metadataElement.firstChildElement ("title");
+        QString title = titleElement.text ();
+        title += " (" + entry + ")";
+        _recentFileBox -> addItem (title, entry);
+    }
+}
+
 void SplashDialog::optionSelected() {
     if (sender() == _openButton) {
         _fileSelected = QFileDialog::getOpenFileName (this, "Open project", "/home/martin", "Calenhad project files (*.chp *.xml)");
@@ -75,8 +79,8 @@ void SplashDialog::optionSelected() {
     }
     if (sender() == _openRecentButton) {
         int item = _recentFileBox -> currentIndex ();
-        QString data = _recentFileBox -> itemData (item).toString();
-        emit openProject (data);
+        _fileSelected = _recentFileBox -> itemData (item).toString();
+        emit openProject (_fileSelected);
     }
     if (sender() == _newProjectButton) {
         emit newProject();

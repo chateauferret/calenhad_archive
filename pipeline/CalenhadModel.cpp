@@ -24,7 +24,6 @@
 #include "../legend/LegendService.h"
 #include "../preferences/PreferencesService.h"
 #include <QList>
-#include <QGraphicsItem>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -46,7 +45,9 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _controller (nullptr),
     _highlighted (nullptr),
     _menu (nullptr),
-    _changed (false) {
+    _changed (false),
+    _filename (""),
+    _lastSaved (QDateTime::currentDateTime()) {
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
@@ -591,6 +592,7 @@ void CalenhadModel::writeMetadata (QDomDocument& doc) {
 
     QDomElement dateElement = doc.createElement ("date");
     metadata.appendChild (dateElement);
+    _date = QDateTime::currentDateTime();
     QDomText dateContent = doc.createTextNode (_date.toString ("dd MMMM yyyy hh:mm"));
     dateElement.appendChild (dateContent);
 
@@ -611,11 +613,13 @@ void CalenhadModel::writeMetadata (QDomDocument& doc) {
 void CalenhadModel::readMetadata (const QDomDocument& doc) {
     QDomElement metadataElement = doc.documentElement().firstChildElement ("metadata");
     QDomElement authorElement = metadataElement.firstChildElement ("author");
-    _author = authorElement.isNull() ? "" : authorElement.nodeValue();
+    _author = authorElement.isNull() ? "" : authorElement.text();
     QDomElement titleElement = metadataElement.firstChildElement ("title");
-    _title = titleElement.isNull() ? "" : titleElement.nodeValue();
+    _title = titleElement.isNull() ? _filename : titleElement.text();
+    if (_title.isNull() || _title.isEmpty()) { _title = _filename; }
+    emit titleChanged (_title);
     QDomElement descriptionElement = metadataElement.firstChildElement ("description");
-    _description = descriptionElement.isNull() ? "" : descriptionElement.nodeValue();
+    _description = descriptionElement.isNull() ? "" : descriptionElement.text();
     QDomElement dateElement = metadataElement.firstChildElement ("date");
     _date = dateElement.isNull() ? QDateTime::currentDateTime() : QDateTime::fromString (dateElement.nodeValue(), "dd MMMM yyyy hh:mm");
 }
@@ -626,6 +630,7 @@ void CalenhadModel::inflate (const QString& filename, const CalenhadFileType& fi
     if (CalenhadServices::readXml (filename, doc)) {
         inflate (doc, fileType);
     }
+    _filename = filename;
 }
 
 void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fileType) {
@@ -847,4 +852,36 @@ QString CalenhadModel::uniqueName (QString original) {
 
 bool CalenhadModel::isChanged() {
     return _changed;
+}
+
+const QString& CalenhadModel::title () {
+    return _title;
+}
+
+const QString& CalenhadModel::author () {
+    return _author;
+}
+
+const QDateTime& CalenhadModel::lastSave () {
+    return _lastSaved;
+}
+
+const QString& CalenhadModel::filename () {
+    return _filename;
+}
+
+const QString& CalenhadModel::description () {
+    return _description;
+}
+
+void CalenhadModel::setTitle (const QString& title) {
+    _title = title;
+}
+
+void CalenhadModel::setAuthor (const QString& author) {
+    _author = author;
+}
+
+void CalenhadModel::setDescription (const QString& description) {
+    _description = description;
 }

@@ -35,6 +35,7 @@ namespace calenhad {
             QComboBox* _recentFileBox;
             QStringList _recentFiles;
             QString _fileSelected;
+            void showEvent (QShowEvent* e) override;
         };
     }
 }
