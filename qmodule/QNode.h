@@ -43,7 +43,6 @@ namespace calenhad {
         class QNode : public QWidget, public Serializable {
         Q_OBJECT
 
-            QNode (const QNode* other);
 
 
         public:
@@ -51,6 +50,9 @@ namespace calenhad {
             QNode (QWidget* parent) {
                  // just for now
             }
+
+            void connectMenu (QMenu* menu, calenhad::nodeedit::QNEPort* port);
+
             enum {
                 Type = QGraphicsItem::UserType + 6
             };
@@ -156,7 +158,7 @@ namespace calenhad {
             QPalette* _palette;
 
 
-
+            QMenu* _connectMenu;
         };
 
     } // namespace qmodule

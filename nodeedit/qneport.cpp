@@ -48,7 +48,8 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) 
         _index (index),
         _block (nullptr),
         _portType (type),
-        _portName (name) {
+        _portName (name),
+        _connectMenu (new QMenu()){
     QPainterPath p;
     QPolygonF polygon;
     _label = new EditableLabel (this);
@@ -88,6 +89,9 @@ QNEPort::QNEPort (int type, int index, const QString& name, QNodeBlock* parent) 
 
 QNEPort::~QNEPort () {
     foreach (QNEConnection* conn, _connections) delete conn;
+    if (_connectMenu) {
+        delete _connectMenu;
+    }
 }
 
 
@@ -230,10 +234,25 @@ QString& QNEPort::portName() {
     return _portName;
 }
 
-calenhad::qmodule::QNode* QNEPort::source () {
+QNode* QNEPort::source () {
     if (owner() -> nodeType () == QNEPort::OutputPort) {
         return nullptr;
     } else {
         return _connections.first() -> otherEnd (this) -> owner();
     }
+}
+
+QMenu* QNEPort::connectMenu() {
+    QNode* n = owner();
+    if (_connectMenu) { delete _connectMenu; }
+    _connectMenu = new QMenu();
+    _connectMenu -> setTitle (portName() + " of " + n -> name() + " (" + n -> nodeType() + ")");
+
+    // go through all the nodes and add to the connect menu any that can take a connection from this port
+    for (QNode* node : owner() -> model() -> nodes()) {
+        if (node != owner()) {
+            node -> connectMenu (_connectMenu, this);
+        }
+    }
+    return _connectMenu;
 }

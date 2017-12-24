@@ -213,7 +213,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     fileToolbar -> addAction (openAction);
 
     importAction = createAction (QIcon (":/appicons/controls/import_file.png"), tr ("&Open"), "Import a Calenhad model file into this project");
-    connect (openAction, &QAction::triggered, this, [=] () { loadFile (CalenhadFileType::CalenhadModelFile); });
+    connect (importAction, &QAction::triggered, this, [=] () { loadFile (CalenhadFileType::CalenhadModelFile); });
     fileToolbar -> addAction (openAction);
 
     QAction* saveAction = createAction (QIcon (":/appicons/controls/save.png"), tr ("&Save"), "Save model", QKeySequence::Save);
@@ -263,6 +263,13 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     fileMenu = menuBar () -> addMenu (tr ("&File"));
     fileMenu -> addAction (newAction);
     fileMenu -> addAction (openAction);
+
+    openRecentMenu = new QMenu();
+    openRecentMenu -> setTitle ("Open recent");
+    openRecentMenu -> setToolTip ("Open a file used recently");
+    fileMenu -> addMenu (openRecentMenu);
+    makeRecentFilesMenu();
+
     fileMenu -> addAction (saveAction);
     fileMenu -> addAction (saveAsAction);
     fileMenu -> addAction (closeAction);
@@ -618,6 +625,7 @@ void Calenhad::rememberFile (const QString& file) {
         out.flush();
         f.close();
     }
+    makeRecentFilesMenu();
 }
 
 QStringList Calenhad::recentFiles() {
@@ -635,6 +643,29 @@ QStringList Calenhad::recentFiles() {
         }
     }
     return files;
+}
+
+void Calenhad::makeRecentFilesMenu() {
+    openRecentMenu -> clear();
+    QStringList files = recentFiles();
+    for (QString entry : files) {
+        QFile f (entry);
+        QDomDocument doc;
+        doc.setContent (&f);
+        std::cout << doc.toString().toStdString () << "\n";
+        QDomElement metadataElement = doc.documentElement ().firstChildElement ("metadata");
+        QDomElement titleElement = metadataElement.firstChildElement ("title");
+        QString title = titleElement.text ();
+        title += " (" + entry + ")";
+        QAction* action = new QAction();
+        action -> setText (title);
+        action -> setData (entry);
+        openRecentMenu -> addAction (action);
+        connect (action, &QAction::triggered, this, [=] () {
+            openProject (action -> data().toString());
+        });
+    }
+
 }
 
 void Calenhad::titleChanged (const QString& title) {

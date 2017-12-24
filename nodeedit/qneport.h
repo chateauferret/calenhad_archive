@@ -94,7 +94,7 @@ namespace calenhad {
 			calenhad::qmodule::QNode* source();
 
 			Q_PROPERTY (QString name READ portName WRITE setName MEMBER	_portName);
-
+            QMenu* connectMenu ();
 		public slots:
 
 			void setName (const QString& n);
@@ -125,6 +125,9 @@ namespace calenhad {
 
             NodeNameValidator* _nameValidator;
 
+
+
+            QMenu* _connectMenu;
         };
 	}
 }

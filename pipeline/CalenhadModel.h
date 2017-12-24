@@ -150,6 +150,7 @@ namespace calenhad {
 
 
             QMenu* _menu;
+            QMenu* _connectMenu, * _connectSubMenu;
 
             QMenu* makeMenu (QGraphicsItem* item);
 

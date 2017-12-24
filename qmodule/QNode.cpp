@@ -34,6 +34,7 @@ QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (p
     _palette (nullptr),
     _validator (nullptr),
     _inputCount (inputs),
+    _connectMenu (nullptr),
     _nodeType (nodeType) {
 
 }
@@ -42,6 +43,7 @@ QNode::~QNode () {
     if (_dialog) { delete _dialog; }
     if (_validator) { delete _validator; }
     if (_palette) { delete _palette; }
+    if (_connectMenu) { delete _connectMenu; }
 }
 
 
@@ -403,5 +405,33 @@ QNode* QNode::clone() {
     _copy -> setName (_model -> uniqueName (_name));
 
     return _copy;
+}
+
+void QNode::connectMenu (QMenu* menu, QNEPort* p) {
+    int portType = p -> portType ();
+
+        if (portType == QNEPort::OutputPort) {
+            if (! _connectMenu) { _connectMenu = new QMenu(); }
+            _connectMenu -> clear();
+            _connectMenu -> setTitle (name());
+            for (QNEPort* port : _ports) {
+                if (port -> portType() != QNEPort::OutputPort) {
+                    QAction* action = new QAction();
+                    action -> setText (port -> portName());
+                    _connectMenu -> addAction (action);
+                    connect (action, &QAction::triggered, this, [=] () {
+                        _model -> connectPorts (p, port);
+                    });
+                }
+            }
+            menu -> addMenu (_connectMenu);
+        } else {
+            QAction* action = new QAction();
+            action -> setText (name());
+            connect (action, &QAction::triggered, this, [=] () {
+               _model -> connectPorts (output(), p);
+            });
+            menu -> addAction (action);
+        }
 }
 

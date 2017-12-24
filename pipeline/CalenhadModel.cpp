@@ -51,6 +51,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
+    _connectMenu = new QMenu();
+    _connectSubMenu = new QMenu (_connectMenu);
 }
 
 // determine whether connection from given input to given output is allowed
@@ -61,7 +63,7 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
         // can't connect a block to itself
         if (output -> block() == input -> block()) {
             if (verbose) {
-                emit showMessage ("Cannot connect owner to itself");
+                CalenhadServices::messages() -> message ("Cannot connect", "Cannot connect owner to itself");
             }
             return false;
         }
@@ -69,7 +71,7 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
         // can only connect an output port to an input port
         if (input -> portType() ==  QNEPort::OutputPort) {
             if (verbose) {
-                emit showMessage ("Cannot make connection to another owner output");
+                CalenhadServices::messages() -> message ("Cannot connect", "Cannot make connection to another owner output");
             }
             return false;
         }
@@ -78,7 +80,7 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
         // (in which case this connection would complete a circle)
         if (existsPath (output -> owner() -> handle(), input -> owner() -> handle())) {
             if (verbose) {
-                emit showMessage ("Connection would form a circuit within the network");
+                CalenhadServices::messages() -> message ("Cannot connect", "Connection would form a circuit within the network");
             }
             return false;
         }
@@ -86,7 +88,7 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
         // can't connect to a port that's already connected to another output
         if (! (input -> connections().empty ())) {
             if (verbose) {
-                emit showMessage ("Port is already connected");
+                CalenhadServices::messages() -> message ("Cannot connect", "Port is already connected");
                 return false;
             }
         }
@@ -782,13 +784,16 @@ void CalenhadModel::rollbackLegends() {
 }
 
 QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
-    if (_menu) { delete _menu; }
+    if (_menu) { delete _menu; _menu = nullptr; }
     if (! item) {
         _menu = new QMenu ("Model");
     }
     // construct menu for whatever item type here because QGraphicsItem does not extend QObject, so we can't call connect within QGraphicsItem
     if (dynamic_cast<QNEPort*> (item)) {
-
+        QNEPort* port = static_cast<QNEPort*> (item);
+        _menu = new QMenu ("Port");
+        _menu -> addMenu (port -> connectMenu ());
+        return _menu;
     }
     if (dynamic_cast<QNEConnection*> (item)) {
         // connection actions
@@ -817,17 +822,17 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
         }
     }
 
-    // actions that operate on selections
-    _menu -> addSeparator();
-    QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
-    _menu -> addAction (copy);
-    QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
-    _menu -> addAction (cut);
-    QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
-    _menu -> addAction (deleteSelection);
-    copy -> setEnabled (selectedItems().size() > 0);
-    cut -> setEnabled (selectedItems().size() > 0);
-    deleteSelection -> setEnabled (selectedItems().size() > 0);
+        // actions that operate on selections
+        _menu->addSeparator ();
+        QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
+        _menu->addAction (copy);
+        QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
+        _menu->addAction (cut);
+        QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
+        _menu->addAction (deleteSelection);
+        copy->setEnabled (selectedItems ().size () > 0);
+        cut->setEnabled (selectedItems ().size () > 0);
+        deleteSelection->setEnabled (selectedItems ().size () > 0);
     return _menu;
 }
 

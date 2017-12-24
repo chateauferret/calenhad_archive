@@ -144,6 +144,7 @@ namespace calenhad {
             QAction* duplicateModuleAction;
             QAction* cutAction, * copyAction, * pasteAction;
             QAction* openAction, * newAction, * quitAction, * importAction;
+            QMenu* openRecentMenu;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
 
@@ -162,6 +163,8 @@ namespace calenhad {
 
             void setActive (QWidget* widget, bool enabled);
             calenhad::controls::SplashDialog* _splash;
+            void makeRecentFilesMenu();
+
         private slots:
             void projectProperties();
             void newProject();
