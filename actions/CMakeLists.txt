@@ -2,6 +2,8 @@
 SET(ACTIONS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/ZoomCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ZoomCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/CreateConnectionCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CreateConnectionCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/AddNodeCommand.cpp

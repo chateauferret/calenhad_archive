@@ -19,7 +19,7 @@ DeleteConnectionCommand::~DeleteConnectionCommand() {
 
 void DeleteConnectionCommand::undo () {
     if (_from && _to) {
-        _model -> connectPorts (_from, _to);
+        _connection = _model -> connectPorts (_from, _to);
         _model -> update();
     }
 }

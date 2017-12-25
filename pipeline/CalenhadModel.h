@@ -61,7 +61,7 @@ namespace calenhad {
 
             bool canConnect (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input, const bool& verbose = false);
 
-            bool connectPorts (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input);
+            nodeedit::QNEConnection* connectPorts (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input);
 
             void disconnectPorts (calenhad::nodeedit::QNEConnection* connection);
 

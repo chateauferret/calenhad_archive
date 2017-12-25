@@ -24,6 +24,7 @@
 #include "../legend/LegendService.h"
 #include "../preferences/PreferencesService.h"
 #include <QList>
+#include <actions/CreateConnectionCommand.h>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -142,7 +143,7 @@ bool CalenhadModel::existsPath (QNodeBlock* output, QNodeBlock* input) {
     return false;
 }
 
-bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
+QNEConnection* CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
     if (canConnect (output, input, true)) {
         QNEConnection* c = new QNEConnection ();
         c -> setParentItem (0);
@@ -169,9 +170,9 @@ bool CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         // model has changed so save if close
         _changed = true;
 
-        return true;
+        return c;
     } else {
-        return false;
+        return nullptr;
     }
 }
 
@@ -335,12 +336,10 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                             QNEPort* port1 = conn -> port1 ();
                             QNEPort* port2 = (QNEPort*) item;
                             removeItem (conn);
-                            if (! connectPorts (port1, port2)) {
-                                // if connection successful, clear the connection to avoid starting a new one immediately
-                                delete conn;
-                                conn = nullptr;
-                                return true;
-                            }
+                            delete conn;
+                            conn = nullptr;
+                            CreateConnectionCommand* command = new CreateConnectionCommand (port1, port2, this);
+                            _controller -> doCommand (command);
                         }
                     }
                 }

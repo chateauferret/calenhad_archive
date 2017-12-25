@@ -9,6 +9,7 @@
 #include "../nodeedit/qneconnection.h"
 #include <QMenu>
 #include <nodeedit/NodeNameValidator.h>
+#include <actions/CreateConnectionCommand.h>
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
@@ -420,7 +421,8 @@ void QNode::connectMenu (QMenu* menu, QNEPort* p) {
                     action -> setText (port -> portName());
                     _connectMenu -> addAction (action);
                     connect (action, &QAction::triggered, this, [=] () {
-                        _model -> connectPorts (p, port);
+                        CreateConnectionCommand* command = new CreateConnectionCommand (p, port, _model);
+                        _model -> controller() -> doCommand (command);
                     });
                 }
             }
@@ -429,7 +431,8 @@ void QNode::connectMenu (QMenu* menu, QNEPort* p) {
             QAction* action = new QAction();
             action -> setText (name());
             connect (action, &QAction::triggered, this, [=] () {
-               _model -> connectPorts (output(), p);
+                CreateConnectionCommand* command = new CreateConnectionCommand (output(), p, _model);
+                _model -> controller() -> doCommand (command);
             });
             menu -> addAction (action);
         }
