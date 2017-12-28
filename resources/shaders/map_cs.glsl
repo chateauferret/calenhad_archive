@@ -282,14 +282,14 @@ float permute(float x){return floor(mod(((x*34.0)+1.0)*x, 289.0));}
 float taylorInvSqrt(float r){return 1.79284291400159 - 0.85373472095314 * r;}
 
 
-vec4 grad4(float j, vec4 ip){
+vec4 grad4 (float j, vec4 ip){
   const vec4 ones = vec4(1.0, 1.0, 1.0, -1.0);
   vec4 p,s;
 
-  p.xyz = floor( fract (vec3(j) * ip.xyz) * 7.0) * ip.z - 1.0;
+  p.xyz = floor (fract (vec3 (j) * ip.xyz) * 7.0) * ip.z - 1.0;
   p.w = 1.5 - dot(abs(p.xyz), ones.xyz);
   s = vec4(lessThan(p, vec4(0.0)));
-  p.xyz = p.xyz + (s.xyz*2.0 - 1.0) * s.www;
+  p.xyz = p.xyz + (s.xyz * 2.0 - 1.0) * s.www;
 
   return p;
 }
@@ -367,6 +367,7 @@ float snoise (vec4 v){
                + dot(m1*m1, vec2( dot( p3, x3 ), dot( p4, x4 ) ) ) ) ;
 
 }
+
 // Cellular noise ("Worley noise") in 3D in GLSL.
 // Copyright (c) Stefan Gustavson 2011-04-19. All rights reserved.
 // This code is released under the conditions of the MIT license.
@@ -385,7 +386,8 @@ vec3 permute (vec3 x) {
 // modern GPU. In any case, it beats any software
 // implementation of Worley noise hands down.
 
-vec2 cellular(vec3 P, float jitter) {
+vec2 cellular (vec3 P, float jitter, float seed) {
+    P += seed;
 	#define K 0.142857142857 // 1/7
 	#define Ko 0.428571428571 // 1/2-K/2
 	#define K2 0.020408163265306 // 1/(7*7)
@@ -532,8 +534,8 @@ vec2 cellular(vec3 P, float jitter) {
 }
 
 float voronoi (vec3 cartesian, float frequency, float displacement, float enableDistance, int seed) {
-    vec2 noise = cellular (cartesian * frequency, displacement);
-    return (noise.y - noise.x) * enableDistance;
+    vec2 c = cellular (cartesian * frequency, displacement, seed);
+    return (c.y - c.x) * enableDistance;
 }
 
 float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, float persistence, int octaves, int seed) {

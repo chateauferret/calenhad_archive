@@ -70,6 +70,8 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
     layout() -> addWidget (_expressionShortBox);
     _longBoxButton -> setFixedWidth (_longBoxButton -> height());
     layout() -> addWidget (_longBoxButton);
+
+    connect (CalenhadServices::calculator(), &CalculatorService::variableChanged, this, &ExpressionWidget::variableChanged);
 }
 
 
@@ -77,6 +79,12 @@ ExpressionWidget::~ExpressionWidget() {
     delete _parser;
     delete _completer;
     if (_validator) { delete _validator; }
+}
+
+void ExpressionWidget::variableChanged (const QString& name, const double& value) {
+    if (_text.contains (name)) {
+        prepare();
+    }
 }
 
 bool ExpressionWidget::isValid() {

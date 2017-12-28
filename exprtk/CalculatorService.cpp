@@ -27,7 +27,7 @@ QMap<QString, CalenhadVariable> CalculatorService::variables () {
 void CalculatorService::insertVariable (QString name, const QString& notes, double value) {
     CalenhadVariable cv (name, notes, value);
     _variables.insert (name, cv);
-
+    emit variableChanged (name, value);
 
 }
 
@@ -35,6 +35,7 @@ void CalculatorService::updateVariable (const QString& name, const QString& note
     if (_variables.keys().contains (name)) {
         _variables.find (name).value()._value = value;
         _variables.find (name).value()._notes = notes;
+        emit variableChanged (name, value);
     } else {
         insertVariable (name, notes, value);
     }
@@ -142,6 +143,7 @@ void CalculatorService::inflate (const QDomElement& element) {
         QString notes = notesNode.firstChild().toText().nodeValue ();
         if (ok) {
             _variables.insert (name, CalenhadVariable (name, notes, value));
+            emit variableChanged (name, value);
         } else {
             CalenhadServices::messages() -> message ("Error", "Failed to parse value of variable " + name + " = " + value);
         }

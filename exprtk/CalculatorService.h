@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QMap>
+#include <QtCore/QObject>
 #include "exprtk.hpp"
 #include "Serializable.h"
 
@@ -24,7 +25,8 @@ namespace calenhad {
             double _value;
         };
 
-        class CalculatorService : public Serializable {
+        class CalculatorService : public QObject, Serializable {
+            Q_OBJECT
 
         public:
             const QStringList reservedWords = {"abs", "acos", "acosh", "and", "asin", "asinh", "atan", "atan2", "atanh", "avg",
@@ -62,6 +64,9 @@ namespace calenhad {
             void inflate (const QDomElement& element) override;
 
             exprtk::expression<double>* makeExpression (const QString& exp);
+
+        signals:
+            void variableChanged (const QString& name, const double& value);
 
         protected:
             exprtk::symbol_table<double>* _symbols;

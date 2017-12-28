@@ -43,6 +43,7 @@ namespace calenhad {
             void openLongBox ();
             void editText ();
             void setValidator (calenhad::qmodule::ParamValidator* validator);
+            void variableChanged (const QString& name, const double& value);
 
         signals:
             void compiled (const double& value);
