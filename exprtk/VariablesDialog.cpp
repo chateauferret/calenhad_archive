@@ -13,7 +13,7 @@
 using namespace calenhad::expressions;
 
 VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()) {
-
+    _table -> setSelectionMode (QTableWidget::SelectionMode::SingleSelection);
     setLayout (new QVBoxLayout());
     layout() -> addWidget (_table);
 
@@ -59,10 +59,9 @@ void VariablesDialog::showEvent (QShowEvent* e) {
 }
 
 void VariablesDialog::deleteSelected() {
-    for (QTableWidgetItem* item : _table -> selectedItems()) {
-        if (item -> column() == 0) {
-            _table -> removeRow (item -> row ());
-        }
+    if (_table -> currentRow() != -1) {
+       _table -> removeRow (_table -> currentRow());
+
     }
 }
 
@@ -82,6 +81,7 @@ void VariablesDialog::selectionChanged() {
     _deleteButton -> setEnabled (! _table -> selectedItems().isEmpty());
     for (QTableWidgetItem* item : _table -> selectedItems()) {
         _table -> selectRow (item -> row ());
+        _table -> setCurrentItem (item);
     }
 }
 
@@ -97,6 +97,7 @@ void VariablesDialog::commit () {
         double v = value (_table -> item (i, 1));
         CalenhadServices::calculator() -> insertVariable (name, notes, v);
     }
+    CalenhadServices::calculator() -> publish();
 }
 
 double VariablesDialog::value (QTableWidgetItem* item) {

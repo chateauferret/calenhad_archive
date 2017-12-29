@@ -24,20 +24,27 @@ QMap<QString, CalenhadVariable> CalculatorService::variables () {
     return _variables;
 }
 
-void CalculatorService::insertVariable (QString name, const QString& notes, double value) {
-    CalenhadVariable cv (name, notes, value);
-    _variables.insert (name, cv);
-    emit variableChanged (name, value);
-
+void CalculatorService::publish() {
+    emit variableChanged();
 }
 
-void CalculatorService::updateVariable (const QString& name, const QString& notes, double& value) {
+void CalculatorService::insertVariable (QString name, const QString& notes, const double& value, const bool& publish) {
+    CalenhadVariable cv (name, notes, value);
+    _variables.insert (name, cv);
+    if (publish) {
+        emit variableChanged (name, value);
+    }
+}
+
+void CalculatorService::updateVariable (const QString& name, const QString& notes, const double& value, const bool& publish) {
     if (_variables.keys().contains (name)) {
         _variables.find (name).value()._value = value;
         _variables.find (name).value()._notes = notes;
-        emit variableChanged (name, value);
+        if (publish) {
+            emit variableChanged (name, value);
+        }
     } else {
-        insertVariable (name, notes, value);
+        insertVariable (name, notes, value, publish);
     }
 }
 

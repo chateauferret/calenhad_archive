@@ -195,7 +195,8 @@ void QNode::invalidate() {
 void QNode::setModel (CalenhadModel* model) {
         _model = model;
         for (ExpressionWidget* widget : _parameters.values ()) {
-            connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
+            //connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
+            connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { invalidate(); });
             connect (widget, &ExpressionWidget::compiled, this, &QNode::nodeChanged);
             connect (widget, &ExpressionWidget::errorFound, this, &QNode::nodeChanged);
             connect (widget, &ExpressionWidget::expressionChanged, this, &QNode::nodeChanged);

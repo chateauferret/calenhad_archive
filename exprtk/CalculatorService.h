@@ -47,9 +47,9 @@ namespace calenhad {
 
             QStringList errors();
 
-            void updateVariable (const QString& name, const QString& notes, double& value);
+            void updateVariable (const QString& name, const QString& notes, const double& value, const bool& publish = false);
 
-            void insertVariable (QString name, const QString& notes, double value);
+            void insertVariable (QString name, const QString& notes, const double& value, const bool& publish = false);
 
             void deleteVariable (const QString& name);
 
@@ -65,8 +65,10 @@ namespace calenhad {
 
             exprtk::expression<double>* makeExpression (const QString& exp);
 
+            void publish();
+
         signals:
-            void variableChanged (const QString& name, const double& value);
+            void variableChanged (const QString& name = QString::null, const double& value = 0);
 
         protected:
             exprtk::symbol_table<double>* _symbols;
@@ -80,6 +82,7 @@ namespace calenhad {
 
 
             exprtk::parser<double>* _parser;
+
         };
     }
 }

@@ -82,7 +82,7 @@ ExpressionWidget::~ExpressionWidget() {
 }
 
 void ExpressionWidget::variableChanged (const QString& name, const double& value) {
-    if (_text.contains (name)) {
+    if (_text == QString::null || _text.contains (name)) {
         prepare();
     }
 }
@@ -131,18 +131,18 @@ bool ExpressionWidget::prepare() {
         if (! (_validator -> isInValidSet (v))) {
             _errors.append (_validator->toString (v));
             _goosed = true;
-            _statusLabel->setPixmap (_statusGoosed);
+            _statusLabel -> setPixmap (_statusGoosed);
             reportErrors ();
             emit errorFound();
         } else {
 
             _goosed = false;
             if (_validator -> isInBestSet (v)) {
-                _statusLabel->setPixmap (_statusOrright);
+                _statusLabel -> setPixmap (_statusOrright);
                 setToolTip (QString::number (v));
             } else {
-                _statusLabel->setPixmap (_statusQuery);
-                setToolTip (_validator->toString (v));
+                _statusLabel -> setPixmap (_statusQuery);
+                setToolTip (_validator -> toString (v));
             }
 
             emit compiled (v);
