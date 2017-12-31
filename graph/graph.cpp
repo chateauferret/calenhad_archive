@@ -63,27 +63,6 @@ Graph::~Graph () {
     }
 }
 
-
-QString Graph::readParameter (QModule* module, const QString& param) {
-
-        QString expr = module->parameter (param);
-        expression<double>* exp = CalenhadServices::calculator ()->makeExpression (expr);
-        if (exp) {
-            double value = exp->value ();
-            delete exp;
-            return QString::number (value);
-        } else {
-            std::cout << "Expression goosed\n";
-            QStringList errors = CalenhadServices::calculator ()->errors ();
-            for (QString error : errors) {
-                std::cout << error.toStdString () << "\n";
-                delete exp;
-                return 0;
-            }
-        }
-        return QString::null;
-}
-
 QString Graph::glsl() {
     _code =  glsl (_module);
     if (_code != QString::null) {
@@ -225,7 +204,7 @@ QString Graph::glsl (QModule* module) {
             // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
             for (QString param : CalenhadServices::modules ()->paramNames ()) {
                 if (qm->parameters ().contains (param)) {
-                    _code.replace ("%" + param, readParameter (qm, param));
+                    _code.replace ("%" + param, QString::number (qm -> parameterValue (param)));
                 }
             }
 

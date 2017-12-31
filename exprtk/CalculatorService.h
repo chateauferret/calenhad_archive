@@ -63,15 +63,16 @@ namespace calenhad {
 
             void inflate (const QDomElement& element) override;
 
-            exprtk::expression<double>* makeExpression (const QString& exp);
+            exprtk::expression<double> makeExpression (const QString& exp);
 
             void publish();
 
+            bool hasErrors ();
         signals:
             void variableChanged (const QString& name = QString::null, const double& value = 0);
 
         protected:
-            exprtk::symbol_table<double>* _symbols;
+
             QMap<QString, CalenhadVariable> _variables;
 
             bool isReservedWord (const QString& term);
@@ -80,8 +81,6 @@ namespace calenhad {
             QDomNode _element;
             QStringList _errors;
 
-
-            exprtk::parser<double>* _parser;
 
         };
     }

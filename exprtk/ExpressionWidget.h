@@ -34,9 +34,8 @@ namespace calenhad {
             virtual ~ExpressionWidget ();
             void setText (QString text);
             const QString& text();
-            exprtk::expression<double>* expression ();
             bool isValid ();
-
+            double value();
         public slots:
 
             bool prepare();
@@ -55,7 +54,6 @@ namespace calenhad {
             ExpressionLineEdit* _expressionShortBox;
             QPushButton* _longBoxButton;
             QPixmap _statusOrright, _statusGoosed,  _statusQuery;
-            exprtk::expression<double>* _expression;
             QStringList _errors;
             exprtk::parser<double>* _parser;
             bool _goosed;
@@ -68,6 +66,12 @@ namespace calenhad {
             calenhad::qmodule::ParamValidator* _validator;
 
             void focusOutEvent (QFocusEvent* event) override;
+
+            exprtk::expression<double> makeExpression (const QString& e);
+
+            bool hasErrors ();
+
+            double _value;
         };
     }
 }

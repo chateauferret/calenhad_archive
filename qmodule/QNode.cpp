@@ -369,6 +369,11 @@ QString QNode::parameter (const QString& name) {
     return _parameters.value (name) -> text();
 }
 
+
+double QNode::parameterValue (const QString& name) {
+    return _parameters.value (name) -> value();
+}
+
 QStringList QNode::parameters () {
     return _parameters.keys();
 }

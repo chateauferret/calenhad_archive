@@ -109,7 +109,7 @@ namespace calenhad {
             int id();
             calenhad::nodeedit::QNEPort* output();
             virtual nodeedit::QNodeBlock* makeHandle ();
-
+            double parameterValue (const QString& name);
         public slots:
             void showParameters (const bool& visible = true);
             virtual void invalidate ();
@@ -159,6 +159,8 @@ namespace calenhad {
 
 
             QMenu* _connectMenu;
+
+
         };
 
     } // namespace qmodule

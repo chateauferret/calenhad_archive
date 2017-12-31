@@ -117,17 +117,53 @@ void ExpressionWidget::openLongBox() {
     _expressionLongBox -> show();
 }
 
+expression<double> ExpressionWidget::makeExpression (const QString& e) {
+    QMap<QString, CalenhadVariable> _variables = CalenhadServices::calculator() -> variables();
+    symbol_table<double> symbols;
+    _errors.clear();
+    std::string keys [_variables.size()];
+    double values [_variables.size()];
+    
+    for (int i = 0; i < _variables.size(); i++) {
+        CalenhadVariable cv = _variables.values ().at (i);
+        keys [i] = cv._name.toStdString ();
+        values [i] = cv._value;
+        symbols.add_variable (keys [i], values [i]);
+    }
+
+    parser<double> p;
+    expression<double> exp;
+    exp.register_symbol_table (symbols);
+
+
+    if (! (p.compile (e.toStdString(), exp))) {
+        for (std::size_t i = 0; i < p.error_count(); ++i) {
+            parser_error::type error = p.get_error (i);
+            QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
+            _errors.append (e);
+            std::cout << "Error " << e.toStdString () << "\n";
+        }
+    } else {
+        std::cout << e.toStdString () << " = " << exp.value () << "\n";
+    }
+    return exp;
+}
+
+
+bool ExpressionWidget::hasErrors() {
+    return ! _errors.isEmpty();
+}
+
 bool ExpressionWidget::prepare() {
     QString text = _expressionShortBox -> text();
-    _expression = CalenhadServices::calculator() -> makeExpression (text);
-    if (! _expression) {
+    exprtk::expression<double> exp = makeExpression (text);
+    if (hasErrors()) {
         _goosed = true;
         _statusLabel -> setPixmap (_statusGoosed);
-        _errors.append (CalenhadServices::calculator() -> errors());
          reportErrors ();
          emit errorFound();
     } else {
-        double v = _expression -> value();
+        double v = exp.value();
         if (! (_validator -> isInValidSet (v))) {
             _errors.append (_validator->toString (v));
             _goosed = true;
@@ -139,12 +175,12 @@ bool ExpressionWidget::prepare() {
             _goosed = false;
             if (_validator -> isInBestSet (v)) {
                 _statusLabel -> setPixmap (_statusOrright);
-                setToolTip (QString::number (v));
+                setToolTip (text + ": " + QString::number (v));
             } else {
                 _statusLabel -> setPixmap (_statusQuery);
                 setToolTip (_validator -> toString (v));
             }
-
+            _value = v;
             emit compiled (v);
         }
     }
@@ -152,8 +188,8 @@ bool ExpressionWidget::prepare() {
     return ! _goosed;
 }
 
-exprtk::expression<double>* ExpressionWidget::expression () {
-    return _expression;
+double ExpressionWidget::value() {
+    return _value;
 }
 
 void ExpressionWidget::reportErrors () {

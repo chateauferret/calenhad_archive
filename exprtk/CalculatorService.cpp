@@ -7,17 +7,16 @@
 #include "CalculatorService.h"
 #include "../preferences/PreferencesService.h"
 #include "../messages/QNotificationHost.h"
+#include <vector>
 
 using namespace exprtk;
 using namespace calenhad::expressions;
 
-CalculatorService::CalculatorService () : _symbols (new symbol_table<double>()), _parser (new parser<double>()) {
+CalculatorService::CalculatorService ()  {
 
 }
 
 CalculatorService::~CalculatorService () {
-   if (_symbols) { delete _symbols; }
-    delete _parser;
 }
 
 QMap<QString, CalenhadVariable> CalculatorService::variables () {
@@ -54,29 +53,6 @@ void CalculatorService::deleteVariable (const QString& name) {
 
 void CalculatorService::clear () {
     _variables.clear();
-}
-
-
-// Get a new expression object registered with the variable table. Caller is responsible for compiling it and deleting the returned object.
-expression<double>* CalculatorService::makeExpression (const QString& e) {
-    _symbols -> clear();
-    expression<double>* exp = new expression<double>();
-    for (QString key : _variables.keys ()) {
-        double v = _variables.value (key)._value;
-        _symbols -> add_variable (key.toStdString (), v);
-    }
-
-    exp -> register_symbol_table (*_symbols);
-    if (_parser -> compile (e.toStdString(), *exp)) {
-        _errors.clear();
-        return exp;
-    } else {
-        for (std::size_t i = 0; i < _parser -> error_count(); ++i) {
-            parser_error::type error = _parser -> get_error (i);
-            _errors.append (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
-        }
-        return nullptr;
-    }
 }
 
 bool CalculatorService::validateVariableName (const QString& name, QString& message) {
