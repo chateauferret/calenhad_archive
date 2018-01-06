@@ -17,7 +17,7 @@
 #include "../nodeedit/QNodeGroupBlock.h"
 #include "../nodeedit/qneport.h"
 #include "../qmodule/QModule.h"
-#include "../exprtk/CalculatorService.h"
+#include "exprtk/VariablesService.h"
 #include "../libnoiseutils/nullmodule.h"
 #include <QGraphicsSceneMouseEvent>
 #include <actions/ContextAction.h>

@@ -4,7 +4,7 @@
 
 #include "ExpressionWidget.h"
 #include "../CalenhadServices.h"
-#include "CalculatorService.h"
+#include "VariablesService.h"
 #include <QtWidgets/QHBoxLayout>
 #include "../qmodule/ParamValidator.h"
 #include <iostream>
@@ -71,7 +71,7 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
     _longBoxButton -> setFixedWidth (_longBoxButton -> height());
     layout() -> addWidget (_longBoxButton);
 
-    connect (CalenhadServices::calculator(), &CalculatorService::variableChanged, this, &ExpressionWidget::variableChanged);
+    connect (CalenhadServices::calculator(), &VariablesService::variableChanged, this, &ExpressionWidget::variableChanged);
 }
 
 

@@ -104,17 +104,19 @@ namespace calenhad {
 
             QStringList parameters();
 
+            void setParameter (const QString& name, const double& value);
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
             int id();
             calenhad::nodeedit::QNEPort* output();
             virtual nodeedit::QNodeBlock* makeHandle ();
             double parameterValue (const QString& name);
+
         public slots:
             void showParameters (const bool& visible = true);
             virtual void invalidate ();
             void setName (const QString& name);
-
+            virtual void parameterChanged();
         signals:
 
             void nameChanged (const QString&);
@@ -159,7 +161,6 @@ namespace calenhad {
 
 
             QMenu* _connectMenu;
-
 
         };
 

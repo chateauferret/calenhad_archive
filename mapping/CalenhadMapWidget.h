@@ -82,7 +82,7 @@ namespace calenhad {
             void setProjection (const QString& projection);
 
         signals:
-            void rendered();
+            void rendered (const bool& success);
 
         protected:
             void initializeGL() override;

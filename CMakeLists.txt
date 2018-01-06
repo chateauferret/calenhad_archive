@@ -14,7 +14,6 @@ message (STATUS ("CMake prefix ") ${CMAKE_PREFIX_PATH})
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Xml OpenGL)
 find_package(Qwt REQUIRED)
 find_package(LibProj4 REQUIRED)
-find_package(LibNoise REQUIRED)
 find_package(GeographicLib 1.34 REQUIRED)
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
@@ -42,7 +41,6 @@ set (GRAPH_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/graph)
 set (PREFERENCES_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/preferences)
 
 include_directories(
-        ${LIBNOISE_LIBRARIES_INCLUDE_DIRS}
         ${GeographicLib_INCLUDE_DIRS}
         ${QtWebApp_INCLUDE_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -81,6 +79,7 @@ set(SOURCE_FILES ${SOURCE_FILES}
         Serializable.h
         matrices.cpp
         matrices.h
+        noiseconstants.h
         ${FASTNOISE_SIMD_SOURCE_FILES}
         ${QMODULE_SOURCE_FILES}
         ${NODEEDIT_SOURCE_FILES}
@@ -108,7 +107,6 @@ add_definitions (${GeographicLib_DEFINITIONS})
 
 target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
         messages
-        ${LIBNOISE_LIBRARIES}
         ${GeographicLib_LIBRARIES}
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}

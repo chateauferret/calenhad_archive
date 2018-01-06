@@ -30,12 +30,17 @@ namespace calenhad {
 
                 void showEvent (QShowEvent* e) override;
 
+            public slots:
+                void refresh ();
+
             protected:
                 CalenhadGlobeDialog* dialog;
                 QLabel* _mapExtremesLabel, * _worldExtremesLabel;
                 QLabel* _worldMeanLabel;
                 calenhad::controls::globe::HypsographyWidget* _worldHypsography;
                 calenhad::qmodule::QModule* _source;
+
+
             };
         }
     }

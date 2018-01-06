@@ -140,7 +140,6 @@ void Preferences::loadSettings() {
     calenhad_module_raster = _settings -> value ("calenhad/module/raster", "Raster").toString();
     calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "NodeGroup").toString();
 
-
 }
 
 void Preferences::saveSettings() {

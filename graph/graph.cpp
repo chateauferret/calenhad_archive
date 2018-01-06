@@ -17,7 +17,7 @@
 #include "../mapping/TerraceCurve.h"
 #include "../mapping/CubicSpline.h"
 #include "../legend/Legend.h"
-#include "../exprtk/CalculatorService.h"
+#include "exprtk/VariablesService.h"
 #include <QList>
 #include <qmodule/QAltitudeMap.h>
 #include <qmodule/QRasterModule.h>

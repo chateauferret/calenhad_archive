@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <iostream>
-#include "CalculatorService.h"
+#include "VariablesService.h"
 #include "../preferences/PreferencesService.h"
 
 using namespace calenhad::expressions;

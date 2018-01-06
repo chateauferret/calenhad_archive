@@ -4,7 +4,7 @@
 
 #include <CalenhadServices.h>
 #include <iostream>
-#include "CalculatorService.h"
+#include "VariablesService.h"
 #include "../preferences/PreferencesService.h"
 #include "../messages/QNotificationHost.h"
 #include <vector>
@@ -12,22 +12,22 @@
 using namespace exprtk;
 using namespace calenhad::expressions;
 
-CalculatorService::CalculatorService ()  {
+VariablesService::VariablesService ()  {
 
 }
 
-CalculatorService::~CalculatorService () {
+VariablesService::~VariablesService () {
 }
 
-QMap<QString, CalenhadVariable> CalculatorService::variables () {
+QMap<QString, CalenhadVariable> VariablesService::variables () {
     return _variables;
 }
 
-void CalculatorService::publish() {
+void VariablesService::publish() {
     emit variableChanged();
 }
 
-void CalculatorService::insertVariable (QString name, const QString& notes, const double& value, const bool& publish) {
+void VariablesService::insertVariable (QString name, const QString& notes, const double& value, const bool& publish) {
     CalenhadVariable cv (name, notes, value);
     _variables.insert (name, cv);
     if (publish) {
@@ -35,7 +35,7 @@ void CalculatorService::insertVariable (QString name, const QString& notes, cons
     }
 }
 
-void CalculatorService::updateVariable (const QString& name, const QString& notes, const double& value, const bool& publish) {
+void VariablesService::updateVariable (const QString& name, const QString& notes, const double& value, const bool& publish) {
     if (_variables.keys().contains (name)) {
         _variables.find (name).value()._value = value;
         _variables.find (name).value()._notes = notes;
@@ -47,15 +47,15 @@ void CalculatorService::updateVariable (const QString& name, const QString& note
     }
 }
 
-void CalculatorService::deleteVariable (const QString& name) {
+void VariablesService::deleteVariable (const QString& name) {
     _variables.remove (name);
 }
 
-void CalculatorService::clear () {
+void VariablesService::clear () {
     _variables.clear();
 }
 
-bool CalculatorService::validateVariableName (const QString& name, QString& message) {
+bool VariablesService::validateVariableName (const QString& name, QString& message) {
     bool result = true;
     // name is required
     if (name.isNull () || name.isEmpty ()) {
@@ -92,7 +92,7 @@ bool CalculatorService::validateVariableName (const QString& name, QString& mess
     return result;
 }
 
-bool CalculatorService::validateVariableValue (const QString& value, QString& message) {
+bool VariablesService::validateVariableValue (const QString& value, QString& message) {
     bool result = true;
     // value is required
     if (value.isNull () || value.isEmpty ()) {
@@ -109,12 +109,12 @@ bool CalculatorService::validateVariableValue (const QString& value, QString& me
     return result;
 }
 
-bool CalculatorService::isReservedWord (const QString& term) {
+bool VariablesService::isReservedWord (const QString& term) {
     return reservedWords.contains (term, Qt::CaseInsensitive);
 }
 
 
-void CalculatorService::inflate (const QDomElement& element) {
+void VariablesService::inflate (const QDomElement& element) {
     _variables.clear();
     _element = element;
     QDomNodeList items = ((QDomElement) element).elementsByTagName ("variable");
@@ -133,7 +133,7 @@ void CalculatorService::inflate (const QDomElement& element) {
     }
 }
 
-void CalculatorService::serialize (QDomDocument& doc) {
+void VariablesService::serialize (QDomDocument& doc) {
     _element = doc.createElement ("variables");
     doc.documentElement().appendChild (_element);
     for (QString key : _variables.keys()) {
@@ -149,7 +149,7 @@ void CalculatorService::serialize (QDomDocument& doc) {
     }
 }
 
-QStringList CalculatorService::errors () {
+QStringList VariablesService::errors () {
     return _errors;
 }
 

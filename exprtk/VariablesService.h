@@ -25,10 +25,11 @@ namespace calenhad {
             double _value;
         };
 
-        class CalculatorService : public QObject, Serializable {
+        class VariablesService : public QObject, Serializable {
             Q_OBJECT
 
         public:
+            // these are reserved words in the exprtk expression language and can't be used as variable names
             const QStringList reservedWords = {"abs", "acos", "acosh", "and", "asin", "asinh", "atan", "atan2", "atanh", "avg",
                                                "break", "case", "ceil", "clamp", "continue", "cosh", "cos", "cot", "csc",
                                                "default", "deg2grad", "deg2rad", "else", "equal", "erfc", "erf", "exp",
@@ -37,11 +38,11 @@ namespace calenhad {
                                                "mand", "max", "min", "mod", "mor", "mul", "nand", "ncdf", "nor", "not",
                                                "not_equal", "not", "null", "or", "pow", "rad2deg", "repeat", "return",
                                                "root", "roundn", "round", "sec", "sgn", "shl", "shr", "sinc", "sinh", "sin",
-                                               "sqrt", "sum", "swap", "switch", "tanh", "tan", "true", "trunc", "until", "var", "while", "xnor", "xor", "xor"};
+                                               "sqrt", "sum", "swap", "switch", "tanh", "tan", "true", "trunc", "until", "var", "while", "xnor", "xor" };
 
-            CalculatorService ();
+            VariablesService ();
 
-            virtual ~CalculatorService ();
+            virtual ~VariablesService ();
 
             QMap<QString, CalenhadVariable> variables ();
 

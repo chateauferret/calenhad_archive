@@ -26,6 +26,7 @@ const int Z_NOISE_GEN = 6971;
 const int SEED_NOISE_GEN = 1013;
 const int SHIFT_NOISE_GEN = 8;
 
+
 // projection types
 const int PROJ_EQUIRECTANGULAR = 0;
 const int PROJ_MERCATOR = 1;
@@ -75,15 +76,18 @@ float hash (float n) {
     return fract (sin (n)*43758.5453);
 }
 
-float SCurve3 (float a) {
-    return (a * a * (3.0 - 2.0 * a));
+
+// Cubic spline: y = x^2 (3 - 2x) = 3x^2 - 2x^3
+float SCurve3 (float x) {
+    return (x * x * (3.0 - 2.0 * x));
 }
 
-float SCurve5 (float a) {
-    float a3 = a * a * a;
-    float a4 = a3 * a;
-    float a5 = a4 * a;
-    return (6.0 * a5) - (15.0 * a4) + (10.0 * a3);
+// Quintic spline: y = 6x^5 - 15x^4 + 10x^3
+float SCurve5 (float x) {
+    float x3 = x * x * x;
+    float x4 = x3 * x;
+    float x5 = x4 * x;
+    return (6.0 * x5) - (15.0 * x4) + (10.0 * x3);
 }
 
   /// Cubic interpolation with four controls (from libnoise).
@@ -278,8 +282,8 @@ float cnoise(vec4 P){
 //	Simplex 4D Noise
 //	by Ian McEwan, Ashima Arts
 //
-float permute(float x){return floor(mod(((x*34.0)+1.0)*x, 289.0));}
-float taylorInvSqrt(float r){return 1.79284291400159 - 0.85373472095314 * r;}
+float permute (float x) { return floor (mod (((x*34.0)+1.0)*x, 289.0)); }
+float taylorInvSqrt (float r) { return 1.79284291400159 - 0.85373472095314 * r; }
 
 
 vec4 grad4 (float j, vec4 ip){
@@ -295,7 +299,7 @@ vec4 grad4 (float j, vec4 ip){
 }
 
 float snoise (vec4 v){
-  const vec2  C = vec2( 0.138196601125010504,  // (5 - sqrt(5))/20  G4
+  const vec2  C = vec2 (0.138196601125010504,  // (5 - sqrt(5))/20  G4
                         0.309016994374947451); // (sqrt(5) - 1)/4   F4
 // First corner
   vec4 i  = floor(v + dot(v, C.yyyy) );
@@ -535,7 +539,7 @@ vec2 cellular (vec3 P, float jitter, float seed) {
 
 float voronoi (vec3 cartesian, float frequency, float displacement, float enableDistance, int seed) {
     vec2 c = cellular (cartesian * frequency, displacement, seed);
-    return (c.y - c.x) * enableDistance;
+    return ((c.y - c.x) * enableDistance);
 }
 
 float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, float persistence, int octaves, int seed) {
@@ -586,7 +590,7 @@ float billow (vec3 cartesian, float frequency, float lacunarity, float persisten
         n *= lacunarity;
         curPersistence *= persistence;
     }
-    return value + 0.5;
+    return (value + 0.5);
 }
 
 vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, int seed) {
@@ -607,7 +611,7 @@ vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, i
 }
 
 // default values from libnoise: exponent = 1.0, offset = 1.0, gain = 2.0, sharpness = 2.0
-float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octaves, int seed,
+float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octaves, float scale, float bias, int seed,
     float exponent, float offset, float gain, float sharpness) {
 
       float pSpectralWeights [30];
@@ -656,7 +660,7 @@ float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octave
           cartesian *= lacunarity;
         }
 
-        return (value) - 1.0;
+        return ((value) - 1.0);
 
     }
 

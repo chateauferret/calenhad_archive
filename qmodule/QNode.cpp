@@ -189,18 +189,14 @@ bool QNode::isComplete() {
 }
 
 void QNode::invalidate() {
+    if (_handle) {
+        _handle -> update ();
+    }
     emit nodeChanged();
 }
 
 void QNode::setModel (CalenhadModel* model) {
         _model = model;
-        for (ExpressionWidget* widget : _parameters.values ()) {
-            //connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { if (_handle) { _handle -> update(); } });
-            connect (widget, &ExpressionWidget::expressionChanged, this, [=] () { invalidate(); });
-            connect (widget, &ExpressionWidget::compiled, this, &QNode::nodeChanged);
-            connect (widget, &ExpressionWidget::errorFound, this, &QNode::nodeChanged);
-            connect (widget, &ExpressionWidget::expressionChanged, this, &QNode::nodeChanged);
-        }
 
 }
 
@@ -350,8 +346,11 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
 
     if (dynamic_cast<QFormLayout*> (_panel -> layout())) {
         ExpressionWidget* widget = new ExpressionWidget (this);
+        connect (widget, &ExpressionWidget::compiled, this, &QNode::nodeChanged);
+        connect (widget, &ExpressionWidget::errorFound, this, &QNode::nodeChanged);
+        connect (widget, &ExpressionWidget::expressionChanged, this, &QNode::nodeChanged);
+        connect (widget, &ExpressionWidget::expressionChanged, this, &QNode::parameterChanged);
         ((QFormLayout*) _panel->layout ()) -> addRow (label, widget);
-
         _parameters.insert (name, widget);
         widget->setValidator (validator);
         widget->setText (QString::number (initial));
@@ -361,8 +360,16 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
     }
 }
 
+void QNode::parameterChanged() {
+    invalidate();
+}
+
 void QNode::setParameter (const QString& name, const QString& text) {
     _parameters.find (name).value() -> setText (text);
+}
+
+void QNode::setParameter (const QString& name, const double& value) {
+    _parameters.find (name).value() -> setText (QString::number (value));
 }
 
 QString QNode::parameter (const QString& name) {
@@ -443,4 +450,3 @@ void QNode::connectMenu (QMenu* menu, QNEPort* p) {
             menu -> addAction (action);
         }
 }
-

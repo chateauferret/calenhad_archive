@@ -266,7 +266,7 @@ void CalenhadMapWidget::paintGL() {
     }
 
 
-    emit rendered();
+    emit rendered (true);
 }
 
 GLfloat* CalenhadMapWidget::heightMapBuffer() const {
@@ -316,12 +316,16 @@ void CalenhadMapWidget::setGraph (Graph* g) {
                 _computeProgram->bind ();
             } else {
                 std::cout << "Compute shader would not compile\n";
+                emit rendered (false);
             }
             compute ();
         } else {
             std::cout << "No compute shader\n";
+            emit rendered (false);
         }
         update ();
+    } else {
+        emit rendered (false);
     }
 }
 

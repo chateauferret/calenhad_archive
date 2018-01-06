@@ -14,6 +14,7 @@
 #include <QUuid>
 
 #include <memory>
+#include <QtWidgets/QCheckBox>
 #include "QNode.h"
 
 
@@ -64,11 +65,14 @@ namespace calenhad {
             void showContextMenu (const QPoint& point);
             bool isComplete() override;
             bool range (double& min, double& max);
-
+            void addScaleAndBias();
         public slots:
             void setupPreview ();
-            void invalidate () override;
             void showGlobe ();
+            void rendered (const bool& success);
+            void normalize (const int& state);
+            void parameterChanged() override;
+
         protected:
 
             virtual void contextMenuEvent (QContextMenuEvent* e) override;
@@ -89,6 +93,12 @@ namespace calenhad {
 
             int _statsIndex;
             QDialog* _stats;
+            QWidget* _scaleBiasPanel;
+
+
+            QCheckBox* _normalizeCheck;
+            QLabel* _rangeLabel;
+
         };
     }
 }

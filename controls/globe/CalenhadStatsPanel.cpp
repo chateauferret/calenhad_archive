@@ -38,6 +38,10 @@ CalenhadStatsPanel::~CalenhadStatsPanel() {
 }
 
 void CalenhadStatsPanel::showEvent (QShowEvent* e) {
+    refresh();
+}
+
+void CalenhadStatsPanel::refresh() {
     Statistics worldStats = _worldHypsography -> statistics();
     if (worldStats.ok()) {
         _worldExtremesLabel -> setText (QString::number (worldStats._min) + " to " + QString::number (worldStats._max));

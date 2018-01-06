@@ -31,11 +31,11 @@ Architecture is C++ with no QML and Qt5.9. We use a handful of other libraries:
     - Classic Perlin 4D Noise by Stefan Gustavson;
     - Simplex 4D Noise by Ian McEwan, Ashima Arts (this is additional to the noise types available in libnoise);
     - Cellular noise ("Worley noise") in 3D in GLSL by Stefan Gustavson 2011-04-19. This replaces libnoise's Voronoi module and has a couple of extra features; and
-    - billow, ridged multifractal and turbulence ported to glsl by yours truly.
+    - billow, ridged multifractal and turbulence ported from libnoise to glsl by yours truly.
 
   Other libnoise modules are ported directly with the exception of checkerboard, which is not really needed and a little awkward.
 
-  The shader code is composed just in time by selecting code which calls the required algorithms and assembling it into a sequence of calls which translate the graph of modules in the model. This is done by the class calenhad::graph::Graph. The projections are also wired in during this code generation process and the code for them is in the various calenhad::mapping::projection classes. Those snippets of code are implementations of algorithms in John P Snyder's seminal work, "Map projections - A working manual".
+  The Übershader code is composed just in time by selecting code which calls the required algorithms and assembling it into a sequence of calls which translate the graph of modules in the model. This is done by the class calenhad::graph::Graph. The projections are also wired in during this code generation process and the code for them is in the various calenhad::mapping::projection classes. Those snippets of code are implementations of algorithms in John P Snyder's seminal work, "Map projections - A working manual".
 
 Calenhad finally stands on the shoulders of the following giants:
 
