@@ -97,14 +97,12 @@ QNode* ModuleFactory::createModule (const QString& type) {
     if (type == CalenhadServices::preferences() -> calenhad_module_cylinders) {
         QModule* qm = new QModule (type);
         qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_CYLINDERS_FREQUENCY, new AcceptPositive());
-        qm -> addScaleAndBias();
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_spheres) {
         QModule* qm = new QModule (type);
         qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_SPHERES_FREQUENCY, new AcceptPositive());
-        qm -> addScaleAndBias();
         return qm;
     }
 
@@ -150,7 +148,6 @@ QNode* ModuleFactory::createModule (const QString& type) {
         qm -> addParameter ("Persistence", "persistence", noiseconstants::DEFAULT_PERLIN_PERSISTENCE, new AcceptRange (0, 1));
         qm -> addParameter ("Octaves", "octaves", noiseconstants::DEFAULT_PERLIN_OCTAVE_COUNT, new PreferInteger());
         qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        qm -> addScaleAndBias();
         return qm;
     }
 
@@ -161,7 +158,6 @@ QNode* ModuleFactory::createModule (const QString& type) {
         qm -> addParameter ("Persistence", "persistence", noiseconstants::DEFAULT_BILLOW_PERSISTENCE, new AcceptRange (0, 1));
         qm -> addParameter ("Octaves", "octaves", noiseconstants::DEFAULT_BILLOW_OCTAVE_COUNT, new PreferInteger());
         qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        qm -> addScaleAndBias();
         return qm;
     }
 
@@ -171,13 +167,11 @@ QNode* ModuleFactory::createModule (const QString& type) {
         qm -> addParameter ("Lacunarity", "lacunarity", noiseconstants::DEFAULT_RIDGED_LACUNARITY, new AcceptRange (1.5, 3.5));
         qm -> addParameter ("Octaves", "octaves", noiseconstants::DEFAULT_RIDGED_OCTAVE_COUNT, new PreferInteger());
         qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        qm -> addScaleAndBias();
         return qm;
     }
 
     if (type == CalenhadServices::preferences() -> calenhad_module_scalebias) {
         QModule* qm = new QModule (type, 1);
-        qm -> addScaleAndBias();
         return qm;
     }
 
@@ -203,7 +197,6 @@ QNode* ModuleFactory::createModule (const QString& type) {
         qm -> addParameter ("Displacement", "displacement", noiseconstants::DEFAULT_VORONOI_DISPLACEMENT, new PreferNoiseValue());
         qm -> addParameter ("Enable distance", "enableDistance", 1.0, new AcceptAnyRubbish);
         qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        qm -> addScaleAndBias();
         return qm;
     }
 
@@ -277,17 +270,17 @@ QMap<QString, QString>* ModuleFactory::codes() {
 // %0, %1, etc - will be replaced with calls to the module outputs serving the corresponding port as input.
 // %frequency, %lacunarity etc - will be replaced with the value of that parameter, for parameters named in calenhad::graph::Graph::_params.
 void ModuleFactory::provideCodes() {
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_perlin, "float %n (vec3 v) { return perlin (v, %frequency, %lacunarity, %persistence, %octaves, %seed) * %scale + %bias; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_simplex, "float %n (vec3 v) { return simplex (v, %frequency, %lacunarity, %persistence, %octaves, %seed) * %scale + %bias; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_billow, "float %n (vec3 v) { return billow (v,  %frequency, %lacunarity, %persistence, %octaves, %seed) * %scale + %bias; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, 1.0, 1.0, 2.0, 2.0) * %scale + %bias; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_voronoi, "float %n (vec3 v) { return voronoi (v, %frequency, %displacement, %enableDistance, %seed) * %scale + %bias; }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_perlin, "float %n (vec3 v) { return perlin (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_simplex, "float %n (vec3 v) { return simplex (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_billow, "float %n (vec3 v) { return billow (v,  %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, 1.0, 1.0, 2.0, 2.0); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_voronoi, "float %n (vec3 v) { return voronoi (v, %frequency, %displacement, %enableDistance, %seed); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_add, "float %n (vec3 v) { return %0 (v) + %1 (v); }\n" );
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_multiply, "float %n (vec3 v) { return %0 (v) * %1 (v); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_diff, "float %n (vec3 v) { return %0 (v) - %1 (v); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_exponent, "float %n (vec3 v) { return pow (abs ((%0 (v) + 1.0) / 2.0), %exponent) * 2.0 - 1.0; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_cylinders, "float %n (vec3 v) { return cylinders (v, %frequency) * %scale + %bias; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_spheres, "float %n (vec3 v) { return spheres (v, %frequency) * %scale + %bias; }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_cylinders, "float %n (vec3 v) { return cylinders (v, %frequency); }\n");
+    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_spheres, "float %n (vec3 v) { return spheres (v, %frequency); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_translate, "float %n (vec3 v) { return %0 (v + vec3 (%x, %y, %z)); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_rotate, "float %n (vec3 v) { return %0 (rotate (v, vec3 (%x, %y, %z))); }\n");
     _codes -> insert (CalenhadServices::preferences() -> calenhad_module_clamp, "float %n  (vec3 v) { return clamp (%0 (v), float (%lowerBound), float (%upperBound)); }\n");

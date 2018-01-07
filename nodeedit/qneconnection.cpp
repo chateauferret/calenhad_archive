@@ -66,8 +66,12 @@ void QNEConnection::setPort1 (QNEPort* p) {
 }
 
 void QNEConnection::setPort2 (QNEPort* p) {
-    m_port2 = p;
-    m_port2 -> addConnection (this);
+    if (p) {
+        m_port2 = p;
+        m_port2->addConnection (this);
+    } else {
+        m_port2 -> removeConnection (this);
+    }
 }
 
 void QNEConnection::updatePosFromPorts () {

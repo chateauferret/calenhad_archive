@@ -27,6 +27,19 @@ const int SEED_NOISE_GEN = 1013;
 const int SHIFT_NOISE_GEN = 8;
 
 
+// these constants are used to scale and bias the outputs of noise generators
+// so that they fall in the range -1 to 1 (roughly)
+const float SIMPLEX_BIAS = 0.57811;
+const float SIMPLEX_SCALE = 0.62083034;
+const float RIDGED_MULTI_BIAS = 0.864406;
+const float RIDGED_MULTI_SCALE = 1.091014622;
+const float VORONOI_BIAS = 0;
+const float VORONOI_SCALE = 1.757700928;
+const float PERLIN_BIAS = 0.0;
+const float PERLIN_SCALE = 1.0;
+const float BILLOW_BIAS = 0.0;
+const float BILLOW_SCALE = 1.0;
+
 // projection types
 const int PROJ_EQUIRECTANGULAR = 0;
 const int PROJ_MERCATOR = 1;
@@ -73,7 +86,7 @@ vec2 toGeolocation (vec3 cartesian) {
 }
 
 float hash (float n) {
-    return fract (sin (n)*43758.5453);
+    return fract (sin (n) * 43758.5453);
 }
 
 
@@ -539,7 +552,7 @@ vec2 cellular (vec3 P, float jitter, float seed) {
 
 float voronoi (vec3 cartesian, float frequency, float displacement, float enableDistance, int seed) {
     vec2 c = cellular (cartesian * frequency, displacement, seed);
-    return ((c.y - c.x) * enableDistance);
+    return ((((c.y - c.x) * enableDistance) + VORONOI_BIAS) * VORONOI_SCALE) - 1.0;
 }
 
 float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, float persistence, int octaves, int seed) {
@@ -564,11 +577,11 @@ float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, fl
 }
 
 float perlin (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
-    return noise (cartesian, false, frequency, lacunarity, persistence, octaves, seed);
+    return (noise (cartesian, false, frequency, lacunarity, persistence, octaves, seed) + PERLIN_BIAS) * PERLIN_SCALE;
 }
 
 float simplex (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
-    return noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed);
+    return (noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed)) * SIMPLEX_SCALE;
 }
 
 
@@ -590,7 +603,7 @@ float billow (vec3 cartesian, float frequency, float lacunarity, float persisten
         n *= lacunarity;
         curPersistence *= persistence;
     }
-    return (value + 0.5);
+    return (value + 0.5 + BILLOW_BIAS) * BILLOW_SCALE;
 }
 
 vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, int seed) {
@@ -611,7 +624,7 @@ vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, i
 }
 
 // default values from libnoise: exponent = 1.0, offset = 1.0, gain = 2.0, sharpness = 2.0
-float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octaves, float scale, float bias, int seed,
+float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octaves, int seed,
     float exponent, float offset, float gain, float sharpness) {
 
       float pSpectralWeights [30];
@@ -660,7 +673,7 @@ float ridgedmulti (vec3 cartesian, float frequency, float lacunarity, int octave
           cartesian *= lacunarity;
         }
 
-        return ((value) - 1.0);
+        return (((value) - 1.0 + RIDGED_MULTI_BIAS) * RIDGED_MULTI_SCALE) - 1.0;
 
     }
 

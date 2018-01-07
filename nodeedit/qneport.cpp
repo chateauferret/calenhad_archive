@@ -225,7 +225,9 @@ void QNEPort::addConnection (QNEConnection* c) {
 }
 
 void QNEPort::removeConnection (QNEConnection* c) {
-    _connections.remove (_connections.indexOf (c));
+    if (_connections.contains (c)) {
+        _connections.remove (_connections.indexOf (c));
+    }
     _block -> node() -> invalidate();
     emit disconnected (c -> otherEnd (this));
 }

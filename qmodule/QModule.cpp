@@ -32,9 +32,7 @@ int QModule::seed = 0;
 
 QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent),
     _globe (nullptr),
-    _stats (nullptr),
-    _scaleBiasPanel (nullptr),
-    _normalizeCheck (nullptr) {
+    _stats (nullptr) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
 }
@@ -142,15 +140,7 @@ void QModule::serialize (QDomDocument& doc) {
 }
 
 void QModule::rendered (const bool& success) {
-        if (_scaleBiasPanel) {
-            _normalizeCheck -> setEnabled (success);
-            double min, max;
-            if (success && range (min, max)) {
-                _rangeLabel -> setText ("Values from " + QString::number (min) + " to " + QString::number (max));
-            } else {
-                _rangeLabel -> setText ("Select Preview to render and calculate range");
-            }
-        }
+
 }
 
 void QModule::setModel (CalenhadModel* model) {
@@ -183,12 +173,11 @@ void QModule::contextMenuEvent (QContextMenuEvent* e) {
 
 bool QModule::range (double& min, double& max) {
     if (_preview) {
-        Statistics statistics = _preview -> statistics();
+        Statistics statistics = _preview->statistics ();
         min = statistics._min;
         max = statistics._max;
         return true;
     } else {
-        _rangeLabel -> setText ("");
         return false;
     }
 }
@@ -197,57 +186,6 @@ calenhad::controls::globe::CalenhadMapView* QModule::preview () {
     return _preview;
 };
 
-
-void QModule::addScaleAndBias() {
-    if (! _scaleBiasPanel) {
-        _scaleBiasPanel = new QWidget (this);
-        _scaleBiasPanel -> setLayout (new QFormLayout());
-        addPanel ("Scale and bias", _scaleBiasPanel);
-        addParameter ("Scale", "scale", 1.0, new AcceptAnyRubbish(), _scaleBiasPanel);
-        addParameter ("Bias", "bias", 0.0, new AcceptAnyRubbish(), _scaleBiasPanel);
-        _normalizeCheck = new QCheckBox (_scaleBiasPanel);
-        _rangeLabel = new QLabel (_scaleBiasPanel);
-        ((QFormLayout*) _scaleBiasPanel -> layout ()) -> addRow (_rangeLabel, _normalizeCheck);
-        _scaleBiasPanel -> layout() -> addWidget (_normalizeCheck);
-        _normalizeCheck -> setEnabled (false);
-        _normalizeCheck -> setChecked (false);
-        _normalizeCheck -> setFixedWidth (100);
-        _normalizeCheck -> setText ("Normalize");
-        connect (_normalizeCheck, &QCheckBox::stateChanged, this, &QModule::normalize);
-    }
-}
-
-void QModule::normalize (const int& state) {
-    if (state == Qt::Checked) {
-        double min, max;
-        bool ok = range (min, max);
-        if (ok) {
-            double scale = 2 / (max - min);
-            double bias = -(scale * (max - min) / 2) + 1;
-            scale *= parameterValue ("scale");
-            bias -= parameterValue ("bias");
-            _parameters.find ("scale").value() -> blockSignals (true);
-            _parameters.find ("bias").value() -> blockSignals (true);
-            setParameter ("scale", scale);
-            setParameter ("bias", bias);
-            _parameters.find ("scale").value() -> blockSignals (false);
-            _parameters.find ("bias").value() -> blockSignals (false);
-            _rangeLabel->setText ("Select Preview to render and calculate range");
-            _normalizeCheck -> setEnabled (false);
-            invalidate();
-        }
-    }
-}
-
 void QModule::parameterChanged() {
-    if (_normalizeCheck) {
-        if (_normalizeCheck -> isChecked()) {
-            CalenhadServices::messages() -> message ("Noise parameter changed", "Noise may no longer be normalized");
-            _normalizeCheck -> setChecked (false);
-            _normalizeCheck -> setEnabled (true);
-        }
-        _rangeLabel -> setText ("Select Preview to render and calculate range");
-    }
-
     QNode::parameterChanged();
 }

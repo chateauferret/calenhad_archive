@@ -65,12 +65,11 @@ namespace calenhad {
             void showContextMenu (const QPoint& point);
             bool isComplete() override;
             bool range (double& min, double& max);
-            void addScaleAndBias();
+
         public slots:
             void setupPreview ();
             void showGlobe ();
             void rendered (const bool& success);
-            void normalize (const int& state);
             void parameterChanged() override;
 
         protected:
@@ -93,11 +92,8 @@ namespace calenhad {
 
             int _statsIndex;
             QDialog* _stats;
-            QWidget* _scaleBiasPanel;
 
 
-            QCheckBox* _normalizeCheck;
-            QLabel* _rangeLabel;
 
         };
     }

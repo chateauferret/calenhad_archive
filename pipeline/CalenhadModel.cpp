@@ -228,11 +228,12 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                         if (item && item->type () == QNEPort::Type) {
                             // only allow connections from output ports to input ports
                             QNEPort* port = ((QNEPort*) item);
+
+                            for (QGraphicsView* view : views ()) {
+                                view->setDragMode (QGraphicsView::NoDrag);
+                            }
+                            if (conn) { delete conn; }
                             if (port->portType () == QNEPort::OutputPort) {
-                                for (QGraphicsView* view : views ()) {
-                                    view->setDragMode (QGraphicsView::NoDrag);
-                                }
-                                if (conn) { delete conn; }
                                 conn = new QNEConnection (0);
                                 addItem (conn);
                                 conn->setPort1 ((QNEPort*) item);
@@ -240,7 +241,13 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                                 conn->setPos2 (me->scenePos ());
                                 conn->updatePath ();
                                 conn->canDrop = false;
-                                return true;
+
+                            } else {
+                                if ( ! port -> connections().isEmpty()) {
+                                    conn = port -> connections().first();
+                                    conn -> setPort2 (nullptr);
+                                    return true;
+                                }
                             }
                         }
                     }
