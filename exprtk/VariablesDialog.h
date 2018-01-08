@@ -52,6 +52,8 @@ namespace calenhad {
             void showEvent (QShowEvent* e) override;
 
             void setupColumns ();
+
+            bool _dirty;
         };
     }
 }

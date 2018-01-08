@@ -10,10 +10,12 @@
 #include "VariablesService.h"
 #include "../preferences/PreferencesService.h"
 #include <QHeaderView>
+#include <QtWidgets/QMessageBox>
+#include <../messages/QNotificationHost.h>
 
 using namespace calenhad::expressions;
 
-VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()) {
+VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()), _dirty (false) {
     _table -> setSelectionMode (QTableWidget::SelectionMode::SingleSelection);
     _table -> horizontalHeader () -> setSectionResizeMode (QHeaderView::ResizeMode::Stretch);
     setLayout (new QVBoxLayout());
@@ -60,13 +62,14 @@ VariablesDialog::~VariablesDialog () {
 void VariablesDialog::showEvent (QShowEvent* e) {
     _oldVariables = CalenhadServices::calculator() -> variables();
     // populate the table with the variables currently held by the service
+    _dirty = false;
     rollback();
 }
 
 void VariablesDialog::deleteSelected() {
     if (_table -> currentRow() != -1) {
        _table -> removeRow (_table -> currentRow());
-
+        _dirty = true;
     }
 }
 
@@ -82,6 +85,7 @@ void VariablesDialog::insertItem() {
     _table -> itemActivated (item);
     _table -> setItemSelected (item, true);
     _table -> editItem (item);
+    _dirty = true;
 }
 
 void VariablesDialog::selectionChanged() {
@@ -118,28 +122,42 @@ double VariablesDialog::value (QTableWidgetItem* item) {
 }
 
 void VariablesDialog::rollback() {
-    _table -> clear();
-    setupColumns();
-
-    _table -> setRowCount (_oldVariables.size());
-    int row = 0;
-
-    for (QString key : _oldVariables.keys()) {
-        QTableWidgetItem* item = new QTableWidgetItem (key);
-        CalenhadVariable cv (_oldVariables.value (key));
-        QTableWidgetItem* value = new QTableWidgetItem (QString::number (cv._value));
-        QTableWidgetItem* notes = new QTableWidgetItem (cv._notes);
-        _table -> setItem (row, 0, item);
-        _table -> setItem (row, 1, value);
-        _table -> setItem (row, 2, notes);
-        row++;
+    int ret = QMessageBox::Discard;
+    if (_dirty) {
+        QMessageBox msgBox;
+        msgBox.setText ("Discard changes?");
+        msgBox.setStandardButtons (QMessageBox::Discard | QMessageBox::Cancel);
+        msgBox.setDefaultButton (QMessageBox::Cancel);
+        ret = msgBox.exec ();
+        if (ret == QMessageBox::Discard) {
+            CalenhadServices::messages() -> message ("", "Changes to variables were rolled back");
+        }
     }
 
-    QStringList headers;
-    headers << "Name" << "Value" << "Notes";
-    _table -> setColumnCount (3);
-    _table -> setHorizontalHeaderLabels (headers);
+    if (ret == QMessageBox::Discard) {
+        _table->clear ();
+        setupColumns ();
 
+        _table->setRowCount (_oldVariables.size());
+        int row = 0;
+
+        for (QString key : _oldVariables.keys()) {
+            QTableWidgetItem* item = new QTableWidgetItem (key);
+            CalenhadVariable cv (_oldVariables.value (key));
+            QTableWidgetItem* value = new QTableWidgetItem (QString::number (cv._value));
+            QTableWidgetItem* notes = new QTableWidgetItem (cv._notes);
+            _table->setItem (row, 0, item);
+            _table->setItem (row, 1, value);
+            _table->setItem (row, 2, notes);
+            row++;
+        }
+
+        QStringList headers;
+        headers << "Name" << "Value" << "Notes";
+        _table->setColumnCount (3);
+        _table->setHorizontalHeaderLabels (headers);
+    }
+    _dirty = false;
 };
 
 void VariablesDialog::setupColumns() {
@@ -160,7 +178,7 @@ void VariablesDialog::validateContent() {
             result = false;
         }
     }
-
+    _dirty = true;
     _buttonBox -> button (QDialogButtonBox::Ok) -> setEnabled (result);
 
 }
