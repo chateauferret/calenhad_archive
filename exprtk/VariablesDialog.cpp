@@ -9,20 +9,24 @@
 #include <iostream>
 #include "VariablesService.h"
 #include "../preferences/PreferencesService.h"
+#include <QHeaderView>
 
 using namespace calenhad::expressions;
 
 VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()) {
     _table -> setSelectionMode (QTableWidget::SelectionMode::SingleSelection);
+    _table -> horizontalHeader () -> setSectionResizeMode (QHeaderView::ResizeMode::Stretch);
     setLayout (new QVBoxLayout());
     layout() -> addWidget (_table);
 
     _deleteButton = new QPushButton (this);
     _deleteButton -> setText ("Delete");
+    _deleteButton -> setFixedWidth (100);
     connect (_deleteButton, &QPushButton::pressed, this, &VariablesDialog::deleteSelected);
 
     _insertButton = new QPushButton (this);
     _insertButton -> setText ("Insert");
+    _insertButton -> setFixedWidth (100);
     connect (_insertButton, &QPushButton::pressed, this, &VariablesDialog::insertItem);
 
     connect (_table, &QTableWidget::itemSelectionChanged, this, &VariablesDialog::selectionChanged);
@@ -45,6 +49,7 @@ VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()) {
 
     // trigger validation when changing content
     connect (_table, &QTableWidget::itemChanged, this, &VariablesDialog::validateContent);
+    resize (400, 300);
 }
 
 
@@ -75,6 +80,8 @@ void VariablesDialog::insertItem() {
     _table -> setItem (i, 1, value);
     _table -> setItem (i, 2, notes);
     _table -> itemActivated (item);
+    _table -> setItemSelected (item, true);
+    _table -> editItem (item);
 }
 
 void VariablesDialog::selectionChanged() {
@@ -136,6 +143,7 @@ void VariablesDialog::rollback() {
 };
 
 void VariablesDialog::setupColumns() {
+
     QStringList headers;
     headers << "Name" << "Value" << "Notes";
     _table -> setColumnCount (3);

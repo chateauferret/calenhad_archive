@@ -236,13 +236,14 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                             if (port->portType () == QNEPort::OutputPort) {
                                 conn = new QNEConnection (0);
                                 addItem (conn);
-                                conn->setPort1 ((QNEPort*) item);
-                                conn->setPos1 (item -> scenePos());
-                                conn->setPos2 (me->scenePos ());
-                                conn->updatePath ();
-                                conn->canDrop = false;
+                                conn -> setPort1 ((QNEPort*) item);
+                                conn -> setPos1 (item -> scenePos());
+                                conn -> setPos2 (me->scenePos ());
+                                conn -> updatePath ();
+                                conn -> canDrop = false;
 
                             } else {
+                                // dragging an existing connection off an input/control port makes the end floating again so we can drop it somewhere else
                                 if ( ! port -> connections().isEmpty()) {
                                     conn = port -> connections().first();
                                     conn -> setPort2 (nullptr);
