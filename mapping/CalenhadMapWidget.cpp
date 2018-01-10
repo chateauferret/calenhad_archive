@@ -406,12 +406,16 @@ bool CalenhadMapWidget::valueAt (const QPointF& sc, double& value) {
 }
 
 QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
-    QPoint tc;
-    double x = sc.x() / width ();
-    double y = sc.y() / height ();
-    tc.setX (x * _globeTexture -> width ());
-    tc.setY ((1 - y) * _globeTexture -> height ());
-    return tc;
+    if (_globeTexture) {
+        QPoint tc;
+        double x = sc.x () / width ();
+        double y = sc.y () / height ();
+        tc.setX (x * _globeTexture -> width ());
+        tc.setY ((1 - y) * _globeTexture -> height ());
+        return tc;
+    } else {
+        return QPoint();
+    }
 }
 
 bool CalenhadMapWidget::screenCoordinates (Geolocation geolocation, QPointF& sc) {

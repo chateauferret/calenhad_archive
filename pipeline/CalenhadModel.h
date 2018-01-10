@@ -42,6 +42,8 @@ namespace calenhad {
         class CalenhadModel : public QGraphicsScene {
         Q_OBJECT
 
+
+
         public:
             CalenhadModel ();
 
@@ -64,12 +66,10 @@ namespace calenhad {
             nodeedit::QNEConnection* connectPorts (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input);
 
             void disconnectPorts (calenhad::nodeedit::QNEConnection* connection);
-
+            void rerouteConnection (nodeedit::QNEPort* from, nodeedit::QNEPort* oldPort, nodeedit::QNEPort* newPort);
             bool eventFilter (QObject* o, QEvent* e);
 
             void setActiveTool (QAction* tool);
-
-            QList<QGraphicsItem>* itemAt (const QPointF& pos);
 
             void setController (calenhad::nodeedit::CalenhadController* controller);
 
@@ -159,6 +159,9 @@ namespace calenhad {
             bool _changed;
             QString _filename;
             const QDateTime _lastSaved;
+            bool _existingConnection;
+            calenhad::nodeedit::QNEPort* _wasConnectedTo;
+
         };
     }
 }

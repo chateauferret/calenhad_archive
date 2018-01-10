@@ -163,7 +163,11 @@ bool QModule::generateMap () {
 
 bool QModule::isComplete() {
     bool complete = QNode::isComplete();
-    _expander->setItemEnabled (_previewIndex, complete);
+    if (! complete) {
+        _expander -> setCurrentIndex (0);
+    }
+    _expander -> setItemEnabled (_previewIndex, complete);
+
     return complete;
 }
 

@@ -180,14 +180,16 @@ void CalenhadMapView::mouseMoveEvent (QMouseEvent* e) {
             if (geoCoordinates (point, loc)) {
                 QString text = geoutils::Math::geoLocationString (loc, _coordinatesFormat);
                 double value;
-                QPoint tc = texCoordinates (point);
-                if (isInViewport (loc)) {
-                    text += ": " + QString::number (tc.x ()) + ", " + QString::number (tc.y ());
-                    text += ": " + QString::number (tc.y () * _globeTexture -> width () + tc.x ()) + " ";
-                    if (valueAt (point, value)) {
-                        text += ": " + QString::number (value);
+                if (_globeTexture) {
+                    QPoint tc = texCoordinates (point);
+                    if (isInViewport (loc)) {
+                        text += ": " + QString::number (tc.x()) + ", " + QString::number (tc.y());
+                        text += ": " + QString::number (tc.y() * _globeTexture -> width() + tc.x()) + " ";
+                        if (valueAt (point, value)) {
+                            text += ": " + QString::number (value);
+                        }
+                        QToolTip::showText (e->globalPos (), text, this);
                     }
-                    QToolTip::showText (e->globalPos (), text, this);
                 }
             }
         }

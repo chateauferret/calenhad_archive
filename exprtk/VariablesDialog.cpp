@@ -6,8 +6,6 @@
 #include <CalenhadServices.h>
 #include <QVBoxLayout>
 #include <QPushButton>
-#include <iostream>
-#include "VariablesService.h"
 #include "../preferences/PreferencesService.h"
 #include <QHeaderView>
 #include <QtWidgets/QMessageBox>

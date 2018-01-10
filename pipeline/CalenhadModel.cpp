@@ -25,6 +25,9 @@
 #include "../preferences/PreferencesService.h"
 #include <QList>
 #include <actions/CreateConnectionCommand.h>
+#include <actions/DeleteConnectionCommand.h>
+#include <actions/CommandGroup.h>
+#include <actions/RerouteConnectionCommand.h>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -47,6 +50,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _highlighted (nullptr),
     _menu (nullptr),
     _changed (false),
+    _existingConnection (false),
+    _wasConnectedTo (nullptr),
     _filename (""),
     _lastSaved (QDateTime::currentDateTime()) {
     installEventFilter (this);
@@ -194,6 +199,51 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
     update();
 }
 
+void CalenhadModel::rerouteConnection (QNEPort* from, QNEPort* oldPort, QNEPort* newPort) {
+    if (! canConnect (from, newPort, true)) {
+        newPort = oldPort;
+    }
+
+    // disconnect the old port
+    if (oldPort) { oldPort->initialise (); }
+    oldPort->setHighlight (QNEPort::PortHighlight::NONE);
+    if (! oldPort -> connections().isEmpty()) {
+        QNEConnection* oldConn = oldPort -> connections ().first();
+        if (oldConn) {
+            removeItem (oldConn);
+            delete oldConn;
+        }
+    }
+
+    // connect to the new port
+    QNEConnection* c = new QNEConnection();
+    c -> setParentItem (0);
+    c -> setZValue (-900);
+    addItem (c);
+    c -> setPort1 (from);
+    c -> setPort2 (newPort);
+    c -> updatePosFromPorts();
+    c -> updatePath();
+
+
+    // tell the target owner to declare change requiring rerender
+    oldPort -> owner ()->invalidate ();
+
+    // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
+    connect (from -> owner(), &QNode::nodeChanged, newPort -> owner(), &QNode::invalidate);
+
+    // colour the input to show its connected status
+    newPort -> setHighlight (QNEPort::PortHighlight::CONNECTED);
+
+    // tell the target owner to declare change requiring rerender
+   from -> owner() -> invalidate();
+
+    // model has changed so save if close
+    _changed = true;
+    update ();
+    _wasConnectedTo = nullptr;
+}
+
 // This handler is required to stop a right-click which brings up the context menu from clearing the selection.
 // Left clicking in space however should discard any current selection.
 void CalenhadModel::mousePressEvent(QGraphicsSceneMouseEvent *event) {
@@ -241,12 +291,14 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                                 conn -> setPos2 (me->scenePos ());
                                 conn -> updatePath ();
                                 conn -> canDrop = false;
-
+                                _existingConnection = false;
                             } else {
                                 // dragging an existing connection off an input/control port makes the end floating again so we can drop it somewhere else
                                 if ( ! port -> connections().isEmpty()) {
                                     conn = port -> connections().first();
+                                    _wasConnectedTo = conn -> port2();
                                     conn -> setPort2 (nullptr);
+                                    _existingConnection = true;
                                     return true;
                                 }
                             }
@@ -343,11 +395,15 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                         if (item && item->type () == QNEPort::Type) {
                             QNEPort* port1 = conn -> port1 ();
                             QNEPort* port2 = (QNEPort*) item;
-                            removeItem (conn);
-                            delete conn;
-                            conn = nullptr;
-                            CreateConnectionCommand* command = new CreateConnectionCommand (port1, port2, this);
-                            _controller -> doCommand (command);
+
+                            if (_existingConnection) {
+                                RerouteConnectionCommand* rcc = new RerouteConnectionCommand (conn -> port1(),_wasConnectedTo, port2, this);
+                                _controller -> doCommand (rcc);
+                            } else {
+                                CreateConnectionCommand* ccc = new CreateConnectionCommand (port1, port2, this);
+                                _controller -> doCommand (ccc);
+                            }
+
                         }
                     }
                 }
@@ -360,6 +416,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 ((Calenhad*) _controller -> parent()) -> clearTools();
                 setActiveTool (nullptr);
             }
+            _wasConnectedTo = nullptr;
         }
 
         // deactivate any in-progress connection whenever a mouse release occurs
