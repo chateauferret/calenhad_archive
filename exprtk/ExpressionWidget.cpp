@@ -53,7 +53,6 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
     _expressionLongBox->setCompleter (_completer);
     connect (_longBoxButton, &QPushButton::pressed, this, &ExpressionWidget::openLongBox);
     connect (_expressionShortBox, &QLineEdit::textChanged, this, &ExpressionWidget::editText);
-
     // whenever the text of the expression is changed, try to recompile it
     connect (_expressionShortBox, &QLineEdit::textChanged, this, &ExpressionWidget::prepare);
 
@@ -80,6 +79,7 @@ ExpressionWidget::~ExpressionWidget() {
     delete _completer;
     if (_validator) { delete _validator; }
 }
+
 
 void ExpressionWidget::variableChanged (const QString& name, const double& value) {
     if (_text == QString::null || _text.contains (name)) {
@@ -118,35 +118,7 @@ void ExpressionWidget::openLongBox() {
 }
 
 expression<double> ExpressionWidget::makeExpression (const QString& e) {
-    QMap<QString, CalenhadVariable> _variables = CalenhadServices::calculator() -> variables();
-    symbol_table<double> symbols;
-    _errors.clear();
-    std::string keys [_variables.size()];
-    double values [_variables.size()];
-    
-    for (int i = 0; i < _variables.size(); i++) {
-        CalenhadVariable cv = _variables.values ().at (i);
-        keys [i] = cv._name.toStdString ();
-        values [i] = cv._value;
-        symbols.add_variable (keys [i], values [i]);
-    }
-
-    parser<double> p;
-    expression<double> exp;
-    exp.register_symbol_table (symbols);
-
-
-    if (! (p.compile (e.toStdString(), exp))) {
-        for (std::size_t i = 0; i < p.error_count(); ++i) {
-            parser_error::type error = p.get_error (i);
-            QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
-            _errors.append (e);
-            std::cout << "Error " << e.toStdString () << "\n";
-        }
-    } else {
-        std::cout << e.toStdString () << " = " << exp.value () << "\n";
-    }
-    return exp;
+    return CalenhadServices::calculator() -> makeExpression (e);
 }
 
 
@@ -155,8 +127,11 @@ bool ExpressionWidget::hasErrors() {
 }
 
 bool ExpressionWidget::prepare() {
+    _errors.clear();
     QString text = _expressionShortBox -> text();
+    std::cout << "Prepare " << text.toStdString () << "\n";
     exprtk::expression<double> exp = makeExpression (text);
+    _errors.append (CalenhadServices::calculator() -> errors());
     if (hasErrors()) {
         _goosed = true;
         _statusLabel -> setPixmap (_statusGoosed);
@@ -165,13 +140,12 @@ bool ExpressionWidget::prepare() {
     } else {
         double v = exp.value();
         if (! (_validator -> isInValidSet (v))) {
-            _errors.append (_validator->toString (v));
+            _errors.append (_validator -> toString (v));
             _goosed = true;
             _statusLabel -> setPixmap (_statusGoosed);
             reportErrors ();
             emit errorFound();
         } else {
-
             _goosed = false;
             if (_validator -> isInBestSet (v)) {
                 _statusLabel -> setPixmap (_statusOrright);
@@ -193,17 +167,13 @@ double ExpressionWidget::value() {
 }
 
 void ExpressionWidget::reportErrors () {
-    QString report = "";
-    for (QString error : _errors) {
-        report += error + "\n";
-    }
-    setToolTip (report);
+    setToolTip (errors());
 }
 
 void ExpressionWidget::setText (QString text) {
-    _expressionShortBox -> setText (text);
-    prepare();
-
+    if (_expressionShortBox -> text() != text) {
+        _expressionShortBox->setText (text);
+    }
 }
 
 const QString& ExpressionWidget::text () {
@@ -217,4 +187,17 @@ void ExpressionWidget::setValidator (calenhad::qmodule::ParamValidator* validato
 
 void ExpressionWidget::focusOutEvent (QFocusEvent* event) {
     prepare();
+    emit editingFinished();
+}
+
+void ExpressionWidget::focusInEvent (QFocusEvent* e) {
+    emit editingText();
+}
+
+QString ExpressionWidget::errors () {
+    QString report = "";
+    for (QString error : _errors) {
+        report += error + "\n";
+    }
+    return report;
 }

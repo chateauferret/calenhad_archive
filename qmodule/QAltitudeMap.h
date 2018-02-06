@@ -19,6 +19,7 @@ namespace calenhad {
     namespace controls {
         namespace altitudemap {
             class AltitudeMapEditor;
+            class AltitudeMapping;
         }
     }
     namespace qmodule {
@@ -36,7 +37,7 @@ namespace calenhad {
 
             QAltitudeMap* clone () override;
 
-            QVector<QPointF> entries() const;
+            QVector<calenhad::controls::altitudemap::AltitudeMapping> entries() const;
 
             virtual void inflate (const QDomElement& element) override;
 

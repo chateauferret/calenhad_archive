@@ -93,7 +93,6 @@ void QAngleControl::refresh() {
     QString decimalText = QString::number (std::abs (_value)) + "°" + letter;
     _tradDegreesText -> setText (tradText);
     _decimalDegreesText -> setText (decimalText);
-    std::cout << tradText.toStdString () << " : " << decimalText.toStdString () << "\n";
 }
 
 void QAngleControl::trimBox (QWidget* w) {

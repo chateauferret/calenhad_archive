@@ -11,9 +11,10 @@
 #include "AltitudeMapPlot.h"
 #include "AltitudeMapFitter.h"
 #include "nodeedit/Calenhad.h"
-#include "preferences/preferences.h"
 #include "TerraceMapFitter.h"
 #include <QMouseEvent>
+
+
 
 using namespace calenhad::controls::altitudemap;
 
@@ -55,7 +56,7 @@ void AltitudeMapPlot::changeEvent (QEvent *e) {
 
 }
 
-void AltitudeMapPlot::setEntries (const QVector<QPointF>& entries) {
+void AltitudeMapPlot::setEntries (const QVector<AltitudeMapping> entries) {
     _entries = entries;
     QPen pen (Qt::red);
     pen.setWidth (2);
@@ -64,12 +65,8 @@ void AltitudeMapPlot::setEntries (const QVector<QPointF>& entries) {
     _curve -> setPen (pen);
     _curve -> setStyle (QwtPlotCurve::Lines);
     _curve -> setRenderHint (QwtPlotItem::RenderAntialiased, true);
-
-    if (_curveType == CurveType::Altitude) {
-        _curve -> setSamples (_entries);
-    } else {
-        _curve -> setSamples (remapTerrace());
-    }
+    QVector<QPointF> points = samples();
+    _curve -> setSamples (points);
     _curve -> attach (this);
 
 }
@@ -77,21 +74,36 @@ void AltitudeMapPlot::setEntries (const QVector<QPointF>& entries) {
 // for a terrace, the points always fall on the line x = y, but the owner computes values between the points such that the gradient
 // from each point increases (or decreases) with the square of the distance from the point with the nearest lower x. This method remaps
 // the y value to match the x in that case, but without destroying any y values already held, in case we want to revert to an altitude curve.
-QVector<QPointF> AltitudeMapPlot::remapTerrace() {
-    QVector<QPointF> remapped;
-    for (QPointF point : _entries) {
-        remapped << QPointF (point.x(), point.x());
+QVector<AltitudeMapping> AltitudeMapPlot::remapTerrace (const QVector<AltitudeMapping>& entries) {
+    QVector<AltitudeMapping> remapped;
+    for (AltitudeMapping point : entries) {
+        remapped << AltitudeMapping (point.x(), point.x());
     }
     return remapped;
 }
 
-QVector<QPointF> AltitudeMapPlot::getEntries () {
+QVector<AltitudeMapping> AltitudeMapPlot::remapTerrace() {
+    return remapTerrace (_entries);
+}
+
+QVector<AltitudeMapping> AltitudeMapPlot::getEntries() {
     if (_curveType == CurveType::Altitude) {
         return _entries;
     } else {
         return remapTerrace();
     }
 }
+
+
+QVector<QPointF> AltitudeMapPlot::samples () {
+    QVector<AltitudeMapping> mappings = getEntries();
+    QVector<QPointF> samples;
+    for (AltitudeMapping mapping : mappings) {
+        samples << (QPointF) mapping;
+    }
+    return samples;
+}
+
 
 void AltitudeMapPlot::mouseCanvasPressEvent (QMouseEvent* event) {
     double x = invTransform (xBottom, event -> pos().x());
@@ -102,15 +114,15 @@ void AltitudeMapPlot::mouseCanvasPressEvent (QMouseEvent* event) {
         canvas()->setCursor (Qt::ClosedHandCursor);
     } else {
         _index = noneSelected;
-        _entries.append (QPointF (x, y));
-        sortEntries (_entries);
-        _curve -> setSamples (_entries);// (x, y, _entries.size());
+        _entries.append (AltitudeMapping (x, y));
+        std::sort (_entries.begin(), _entries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
+        _curve -> setSamples (samples ());
     }
     replot();
 }
 
 
-bool AltitudeMapPlot::isOnCanvas (QPointF point) {
+bool AltitudeMapPlot::isOnCanvas (const QPointF& point) {
     // return true if dropping a control point here would delete it - that is if it's outside the margins of the canvas and if there would still be enough points
     // left to make a curve.
     return (point.x() >= - 1 && point.x() <= 1 && point.y() >= - 1 && point.y() <= 1);
@@ -123,7 +135,7 @@ void AltitudeMapPlot::mouseCanvasReleaseEvent (QMouseEvent* event) {
         if (!isOnCanvas (point)) {
             _entries.remove (_index);
             _index = noneSelected;
-            _curve -> setSamples (_entries);
+            _curve -> setSamples (samples());
             replot ();
         }
     }
@@ -150,11 +162,20 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                     QVector<QPointF> tempEntries;
                     for (int i = 0; i < _entries.size(); i++) {
                         if (i != _index) {
-                            tempEntries << QPointF (_entries.at (i));
+                            tempEntries << AltitudeMapping (_entries.at (i));
                         }
                     }
-                    sortEntries (tempEntries);
-                    _curve -> setSamples (tempEntries);
+                    std::sort (tempEntries.begin(), tempEntries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
+                    if (_curveType == CurveType::Altitude) {
+                        _curve -> setSamples (tempEntries);
+                    } else {
+                        QVector<QPointF> points;
+                        QVector<AltitudeMapping> mappings = remapTerrace();
+                        for (AltitudeMapping mapping : mappings) {
+                            points << (QPointF) mapping;
+                        }
+                        _curve -> setSamples (points);
+                    }
                 } else {
                     // moved off the canvas, but can't drop the control point because of the minimum number of control points required.
                     // So keep the control point and keep it on the canvas.
@@ -188,7 +209,7 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
 }
 
 // Updates the coordinates of the point identified by _index to move it to the coordinates of the supplied QPointF.
-void AltitudeMapPlot::updatePoint (QPointF point) {
+void AltitudeMapPlot::updatePoint (QPointF& point) {
 
     // the X values of the first and last points in the curve to be clamped to -1 and 1 respectively so that there are no gaps at either end.
     // We can still move the point in the Y direction though.
@@ -216,9 +237,9 @@ void AltitudeMapPlot::updatePoint (QPointF point) {
     // update the point with the new position and reproduce the curve showing the change.
     _entries.replace (_index, point);
     if (isOnCanvas (point)) {
-        sortEntries (_entries);
+        std::sort (_entries.begin(), _entries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
     }
-    _curve -> setSamples (_entries);
+    _curve -> setSamples (samples());
     replot ();
 }
 
@@ -226,10 +247,6 @@ QPointF AltitudeMapPlot::toPlotCoordinates (const int& pixelX, const int& pixelY
     double x = invTransform (xBottom, pixelX);
     double y = invTransform (yLeft, pixelY);
     return QPointF (x, y);
-}
-
-void AltitudeMapPlot::sortEntries (QVector<QPointF>& entries) {
-    std::sort (entries.begin(), entries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
 }
 
 void AltitudeMapPlot::setCurveType (CurveType type) {
@@ -246,7 +263,7 @@ void AltitudeMapPlot::setCurveType (CurveType type) {
         f -> setInverted (type == CurveType::InvertedTerrace);
     }
     _curve -> setCurveFitter (_fitter);
-    _curve -> setSamples (_entries);
+    _curve -> setSamples (samples());
     replot();
 }
 

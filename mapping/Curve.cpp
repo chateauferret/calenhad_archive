@@ -26,7 +26,6 @@ void Curve::GetValues (float* outputs, int size, double& from, double& to) const
     for (int i = 0; i < size; i++) {
         float value = GetValue (i * dx + from);
         outputs [i] = value;
-        std::cout << i << " " << value << "\n";
     }
 }
 

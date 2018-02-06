@@ -17,7 +17,7 @@ namespace calenhad {
         namespace altitudemap {
 
             class AltitudeMapPlot;
-
+            class AltitudeMapping;
             class AltitudeMapEditor : public QDialog {
             Q_OBJECT
 
@@ -26,7 +26,7 @@ namespace calenhad {
 
                 ~AltitudeMapEditor ();
 
-                QVector<QPointF> getEntries ();
+                QVector<AltitudeMapping> getEntries ();
 
                 CurveType curveType ();
 
@@ -34,7 +34,7 @@ namespace calenhad {
 
             public slots:
 
-                void setEntries (const QVector<QPointF>& entries);
+                void setEntries (QVector<AltitudeMapping>& entries);
 
                 void accept ();
 

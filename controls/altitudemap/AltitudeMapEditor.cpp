@@ -9,12 +9,12 @@
 #include <qwt/qwt_symbol.h>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QDialogButtonBox>
-#include <iostream>
+#include "AltitudeMapping.h"
 
 using namespace calenhad::controls::altitudemap;
 
 AltitudeMapEditor::AltitudeMapEditor (QWidget* parent) : QDialog (parent),
-   _plot (new AltitudeMapPlot()) {
+   _plot (new AltitudeMapPlot (100, this)) {
     QVBoxLayout* layout = new QVBoxLayout();
     setLayout (layout);
     layout -> addWidget (_plot);
@@ -42,8 +42,8 @@ CurveType AltitudeMapEditor::curveType() {
     return _plot -> curveType();
 }
 
-QVector<QPointF> AltitudeMapEditor::getEntries() {
-    return _plot -> getEntries();
+QVector<AltitudeMapping> AltitudeMapEditor::getEntries() {
+    return _plot -> getEntries ();
 }
 
 void AltitudeMapEditor::accept() {
@@ -56,7 +56,7 @@ void AltitudeMapEditor::reject() {
     emit rejected();
 }
 
-void AltitudeMapEditor::setEntries (const QVector<QPointF>& entries) {
+void AltitudeMapEditor::setEntries (QVector<AltitudeMapping>& entries) {
    _plot -> setEntries (entries);
 }
 

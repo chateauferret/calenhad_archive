@@ -22,8 +22,7 @@
 #include <qmodule/QAltitudeMap.h>
 #include <qmodule/QRasterModule.h>
 #include "../messages/QNotificationHost.h"
-#include <QColor>
-#include "../icosphere/Bounds.h"
+#include "../controls/altitudemap/AltitudeMapping.h"
 
 using namespace calenhad;
 using namespace calenhad::nodeedit;
@@ -34,6 +33,7 @@ using namespace calenhad::mapping;
 using namespace calenhad::legend;
 using namespace icosphere;
 using namespace calenhad::expressions;
+using namespace calenhad::controls::altitudemap;
 using namespace exprtk;
 /*
 Graph::Graph (const QString& xml, const QString& nodeName) : _xml (xml), _nodeName (nodeName), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId = 0; {
@@ -107,12 +107,12 @@ QString Graph::glsl (QModule* module) {
             // if it's an altitude map, compile the decision tree
             if (type == CalenhadServices::preferences ()->calenhad_module_altitudemap) {
                 QAltitudeMap* am = static_cast<QAltitudeMap*> (qm);
-                QVector<QPointF> entries = am->entries ();
+                QVector<AltitudeMapping> entries = am -> entries ();
 
                 // input is below the bottom of the range
                 _code += "float %n (vec3 v) {\n";
                 _code += "  float value = %0 (v);\n";
-                _code += "  if (value < " + QString::number (entries.first ().x ()) + ") { return " + QString::number (entries.first ().y ()) + "; }\n";
+                _code += "  if (value < " + QString::number (entries.first().x ()) + ") { return " + QString::number (entries.first().y ()) + "; }\n";
 
                 for (QPointF point : entries) {
                     // Do we need to sort the entries?

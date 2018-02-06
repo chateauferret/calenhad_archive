@@ -4,13 +4,14 @@
 
 #include <mapping/CubicSpline.h>
 #include <mapping/TerraceCurve.h>
+#include <controls/altitudemap/AltitudeMapping.h>
 #include "QAltitudeMap.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
 #include "../controls/altitudemap/AltitudeMapEditor.h"
-#include "messages/QNotificationHost.h"
+#include "../controls/altitudemap/AltitudeMapping.h"
 #include "../nodeedit/qneport.h"
 #include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"
@@ -35,7 +36,7 @@ void QAltitudeMap::makeContentPanel() {
 
     addContentPanel();
     // prepare the editor
-    _editor = new AltitudeMapEditor ();
+    _editor = new AltitudeMapEditor (this);
     connect (_editor, SIGNAL (accepted()), this, SLOT (updateEntries()));
     connect (_editor, SIGNAL (rejected()), this, SLOT (editingFinished()));
 
@@ -59,13 +60,14 @@ void QAltitudeMap::editAltitudeMap() {
     // preserve the existing state so that we can undo
     preserve();
 
-    QVector<QPointF> e = entries ();
-    _editor -> setEntries (e);
+
     if (dynamic_cast<TerraceCurve*> (_curve)) {
         _editor -> setCurveType (dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted() ? CurveType::InvertedTerrace : CurveType::Terrace);
     } else {
         _editor -> setCurveType (CurveType::Altitude);
     }
+    QVector<calenhad::controls::altitudemap::AltitudeMapping> points = entries();
+    _editor -> setEntries (points);
     _editor -> exec();
 }
 
@@ -76,9 +78,9 @@ void QAltitudeMap::updateEntries() {
     CurveType curveType = _editor -> curveType();
     _curve = _curves.find (curveType).value();
     clearMap();
-    QVector<QPointF> e = _editor -> getEntries();
+    QVector<calenhad::controls::altitudemap::AltitudeMapping> e = _editor -> getEntries();
 
-    for (QPointF point : e) {
+    for (AltitudeMapping point : e) {
         addEntry (point.x (), point.y ());
     }
 
@@ -116,12 +118,12 @@ void QAltitudeMap::addEntry (const double& in, const double& out) {
     }
 }
 
-QVector<QPointF>  QAltitudeMap::entries () const {
-    QVector<QPointF> e;
+QVector<AltitudeMapping>  QAltitudeMap::entries () const {
+    QVector<AltitudeMapping> e;
     int count = _curve -> GetControlPointCount();
     const ControlPoint* points = _curve -> GetControlPointArray();
     for (int i = 0; i < count; i++) {
-        e.append (QPointF ((points + i) -> inputValue, (points + i) -> outputValue));
+        e << AltitudeMapping ((points + i) -> inputValue, (points + i) -> outputValue);
     }
 
     std::sort (e.begin(), e.end(), [] (const QPointF & a, const QPointF & b) -> bool { return a.x() < b.x(); });
@@ -192,8 +194,8 @@ void QAltitudeMap::serialize (QDomDocument& doc) {
     if (isFunctionInverted()) {
         mapElement.setAttribute ("inverted", true);
     }
-    QVector<QPointF> e = entries ();
-    for (QPointF entry : e) {
+    QVector<AltitudeMapping> e = entries ();
+    for (AltitudeMapping entry : e) {
         QDomElement entryElement = _document.createElement ("entry");
         entryElement.setAttribute ("x", entry.x());
         entryElement .setAttribute ("y", entry.y());

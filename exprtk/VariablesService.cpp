@@ -7,7 +7,7 @@
 #include "VariablesService.h"
 #include "../preferences/PreferencesService.h"
 #include "../messages/QNotificationHost.h"
-#include <vector>
+
 
 using namespace exprtk;
 using namespace calenhad::expressions;
@@ -153,6 +153,40 @@ QStringList VariablesService::errors () {
     return _errors;
 }
 
+bool VariablesService::hasErrors() {
+    return ! _errors.isEmpty();
+}
+
+exprtk::expression<double> VariablesService::makeExpression (const QString& expression) {
+    _errors.clear();
+    QMap<QString, CalenhadVariable> _variables = CalenhadServices::calculator() -> variables();
+    symbol_table<double> symbols;
+    std::string keys [_variables.size()];
+    double values [_variables.size()];
+
+    for (int i = 0; i < _variables.size(); i++) {
+        CalenhadVariable cv = _variables.values ().at (i);
+        keys [i] = cv._name.toStdString ();
+        values [i] = cv._value;
+        symbols.add_variable (keys [i], values [i]);
+    }
+
+    parser<double> p;
+    exprtk::expression<double> exp;
+    exp.register_symbol_table (symbols);
+
+    QString e;
+    if (! (p.compile (expression.toStdString(), exp))) {
+        for (std::size_t i = 0; i < p.error_count(); ++i) {
+            parser_error::type error = p.get_error (i);
+            QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
+            _errors.append (e);
+            std::cout << "Error " << e.toStdString () << "\n";
+        }
+    }
+    return exp;
+}
+
 
 CalenhadVariable::CalenhadVariable (const QString& name, const QString& notes, const double& value) : _name (name), _notes (notes), _value (value) {
 
@@ -161,3 +195,5 @@ CalenhadVariable::CalenhadVariable (const QString& name, const QString& notes, c
 CalenhadVariable::CalenhadVariable (const CalenhadVariable& other) : _name (other._name), _notes (other._notes), _value (other._value){
 
 }
+
+

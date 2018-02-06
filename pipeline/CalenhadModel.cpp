@@ -136,7 +136,6 @@ bool CalenhadModel::existsPath (QNodeBlock* output, QNodeBlock* input) {
                 if (connection -> otherEnd (outputPort) == inputPort) {
                     return true;
                 } else {
-                    std::cout << "Looking for path " << outputPort -> owner() -> name().toStdString () << " - " << inputPort -> owner() -> name().toStdString () << "\n";
                     if (! (inputPort -> connections().isEmpty())) {
                         QNEConnection* c = inputPort -> connections()[ 0];
                         return existsPath (outputPort->block (), c -> otherEnd (inputPort) -> block());
@@ -609,7 +608,6 @@ void CalenhadModel::serialize (const QString& filename, const CalenhadFileType& 
     QTextStream ds (&file);
     QDomDocument doc = serialize (fileType);
 
-    std::cout << doc.toString().toStdString();
     std::cout.flush();
     if (! file.open (QIODevice::WriteOnly | QIODevice::Text )) {
         CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
@@ -914,7 +912,6 @@ QString CalenhadModel::uniqueName (QString original) {
     QString suffix;
     while (nameExists (original + suffix)) {
         suffix = "_" + QString::number (i++);
-        std::cout << (original + suffix).toStdString () << "\n";
     } ;
     return (original + suffix);
 }

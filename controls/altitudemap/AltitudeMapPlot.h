@@ -14,6 +14,7 @@
 #include "../qmodule/QAltitudeMap.h"
 #include <qwt/qwt_plot_panner.h>
 #include <qwt/qwt_plot_magnifier.h>
+#include "AltitudeMapping.h"
 
 class QwtSymbol;
 
@@ -23,7 +24,6 @@ namespace calenhad {
 
 
             class AltitudeMapFitter;
-
             class AltitudeMapPlotCanvas : public QwtPlotCanvas {
             public:
                 AltitudeMapPlotCanvas();
@@ -47,9 +47,9 @@ namespace calenhad {
 
                 ~AltitudeMapPlot ();
 
-                void setEntries (const QVector<QPointF>& entries);
+                void setEntries (const QVector<AltitudeMapping> entries);
 
-                QVector<QPointF> getEntries ();
+                QVector<AltitudeMapping> getEntries ();
 
                 void mouseCanvasPressEvent (QMouseEvent* event);
 
@@ -71,25 +71,26 @@ namespace calenhad {
                 QwtPlotCurve* _curve;
                 QwtCurveFitter* _fitter;
                 QwtSymbol* _symbol;
-                QVector<QPointF> _entries;
+                QVector<AltitudeMapping> _entries;
                 int _index;
                 bool _drag;
                 CurveType _curveType;
                 int _resolution;
 
-                bool isOnCanvas (QPointF point);
+                bool isOnCanvas (const QPointF& point);
 
-                void updatePoint (QPointF point);
+                void updatePoint (QPointF& point);
 
-                QVector<QPointF> remapTerrace ();
-
+                QVector<AltitudeMapping> remapTerrace ();
+                QVector<AltitudeMapping> remapTerrace (const QVector<AltitudeMapping>& entries);
                 bool canDeleteSelected ();
 
-                void sortEntries (QVector<QPointF>& entries);
 
                 AltitudeMapPlotCanvas* _canvas;
                 QwtPlotPanner* _panner;
                 QwtPlotMagnifier* _zoomer;
+
+                QVector<QPointF> samples ();
             };
 
 

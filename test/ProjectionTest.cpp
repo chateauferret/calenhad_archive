@@ -108,7 +108,6 @@ void ProjectionTest::equirectangularProjectionForwardTest() {
     */
     g = Geolocation (lat, lon, geoutils::Units::Degrees);
     proj  -> forward (g, p);
-    std::cout << "Geolocation lat " << lat << " lon " << lon << " - >  (" << p.x() << ", " << p.y() << ")\n";
     delete proj;
 }
 

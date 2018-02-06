@@ -36,6 +36,8 @@ namespace calenhad {
             const QString& text();
             bool isValid ();
             double value();
+            QString errors();
+
         public slots:
 
             bool prepare();
@@ -46,8 +48,11 @@ namespace calenhad {
 
         signals:
             void compiled (const double& value);
-            void expressionChanged ();
+            void expressionChanged();
             void errorFound();
+            void editingText();
+            void editingFinished();
+            void validated();
 
         protected:
             QCompleter* _completer;
@@ -70,7 +75,7 @@ namespace calenhad {
             exprtk::expression<double> makeExpression (const QString& e);
 
             bool hasErrors ();
-
+            void focusInEvent (QFocusEvent* e) override;
             double _value;
         };
     }

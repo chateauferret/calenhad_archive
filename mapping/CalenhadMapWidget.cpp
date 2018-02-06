@@ -301,7 +301,6 @@ void CalenhadMapWidget::setGraph (Graph* g) {
     _shader = _shaderTemplate;
     QString code = g->glsl ();
     if (code != QString::null) {
-        std::cout << code.toStdString () << "\n";
         _graph = g;
 
         _shader.replace ("// inserted code //", code);
