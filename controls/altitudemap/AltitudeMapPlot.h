@@ -8,6 +8,7 @@
 #include <qwt/qwt_plot.h>
 #include <qwt/qwt_plot_curve.h>
 #include <qwt/qwt_plot_canvas.h>
+#include <qwt/qwt_plot_marker.h>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QComboBox>
@@ -15,6 +16,7 @@
 #include <qwt/qwt_plot_panner.h>
 #include <qwt/qwt_plot_magnifier.h>
 #include "AltitudeMapping.h"
+#include "AltitudeMappingDialog.h"
 
 class QwtSymbol;
 
@@ -65,12 +67,16 @@ namespace calenhad {
 
                 CurveType curveType ();
 
+            public slots:
+                void updateFromDialog ();
+                void plotPoints ();
+
             protected:
                 void changeEvent (QEvent* e);
 
                 QwtPlotCurve* _curve;
                 QwtCurveFitter* _fitter;
-                QwtSymbol* _symbol;
+                QwtSymbol* _symbol, * _selectedSymbol;
                 QVector<AltitudeMapping> _entries;
                 int _index;
                 bool _drag;
@@ -91,6 +97,13 @@ namespace calenhad {
                 QwtPlotMagnifier* _zoomer;
 
                 QVector<QPointF> samples ();
+
+                void showAltitudeMapping (const QPoint& pos);
+
+
+
+                AltitudeMappingDialog* _dialog;
+                QwtPlotMarker* _selectedMarker;
             };
 
 

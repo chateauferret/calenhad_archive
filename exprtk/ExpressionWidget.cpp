@@ -20,11 +20,11 @@ using namespace calenhad::expressions;
 using namespace calenhad::qmodule;
 using namespace calenhad::controls;
 
-ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser (new parser<double>()), _goosed (false), _validator (nullptr) {
+ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser (new parser<double>()), _goosed (false), _validator (new AcceptAnyRubbish()) {
     QLayout* l = new QHBoxLayout();
-    l -> setContentsMargins (5, 0, 5, 0);
+    l -> setContentsMargins (0, 0, 0, 0);
     setLayout (l);
-
+    setFocusPolicy (Qt::StrongFocus);
     _statusLabel = new QLabel (this);
 
     _statusOrright = QPixmap (":/appicons/status/orright.png");
@@ -43,14 +43,14 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
     _longBoxButton = new QPushButton (this);
     _longBoxButton -> setText ("...");
 
-
     _completer = new QCompleter (this);
     _completer -> setCompletionMode (QCompleter::PopupCompletion);
-    _completer->setModelSorting (QCompleter::CaseInsensitivelySortedModel);
-    _completer->setCaseSensitivity (Qt::CaseInsensitive);
-    _completer->setWrapAround  (false);
-    _expressionShortBox->setCompleter (_completer);
-    _expressionLongBox->setCompleter (_completer);
+    _completer -> setModelSorting (QCompleter::CaseInsensitivelySortedModel);
+    _completer -> setCaseSensitivity (Qt::CaseInsensitive);
+    _completer -> setWrapAround (false);
+    _expressionShortBox -> setCompleter (_completer);
+    _expressionLongBox -> setCompleter (_completer);
+    setFocusProxy (_expressionShortBox);
     connect (_longBoxButton, &QPushButton::pressed, this, &ExpressionWidget::openLongBox);
     connect (_expressionShortBox, &QLineEdit::textChanged, this, &ExpressionWidget::editText);
     // whenever the text of the expression is changed, try to recompile it
@@ -71,6 +71,9 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
     layout() -> addWidget (_longBoxButton);
 
     connect (CalenhadServices::calculator(), &VariablesService::variableChanged, this, &ExpressionWidget::variableChanged);
+    layout() -> setMargin (0);
+    setContentsMargins (0, 0, 0, 0);
+    adjustSize();
 }
 
 
@@ -79,7 +82,6 @@ ExpressionWidget::~ExpressionWidget() {
     delete _completer;
     if (_validator) { delete _validator; }
 }
-
 
 void ExpressionWidget::variableChanged (const QString& name, const double& value) {
     if (_text == QString::null || _text.contains (name)) {
@@ -114,6 +116,7 @@ void ExpressionWidget::openLongBox() {
     _expressionLongBox -> setText (_expressionShortBox -> text());
     _expressionLongBox -> move (mapToGlobal (_expressionShortBox -> pos()));
     _expressionLongBox -> setWindowFlags (Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+    _expressionLongBox -> setFocus();
     _expressionLongBox -> show();
 }
 
@@ -172,7 +175,7 @@ void ExpressionWidget::reportErrors () {
 
 void ExpressionWidget::setText (QString text) {
     if (_expressionShortBox -> text() != text) {
-        _expressionShortBox->setText (text);
+        _expressionShortBox -> setText (text);
     }
 }
 
@@ -187,11 +190,12 @@ void ExpressionWidget::setValidator (calenhad::qmodule::ParamValidator* validato
 
 void ExpressionWidget::focusOutEvent (QFocusEvent* event) {
     prepare();
-    emit editingFinished();
+    QWidget::focusOutEvent (event);
 }
 
-void ExpressionWidget::focusInEvent (QFocusEvent* e) {
+void ExpressionWidget::focusInEvent (QFocusEvent* event) {
     emit editingText();
+    QWidget::focusInEvent (event);
 }
 
 QString ExpressionWidget::errors () {
@@ -199,5 +203,6 @@ QString ExpressionWidget::errors () {
     for (QString error : _errors) {
         report += error + "\n";
     }
+
     return report;
 }

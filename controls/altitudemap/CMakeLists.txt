@@ -4,6 +4,8 @@ SET(ALTITUDEMAP_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.h
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapping.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapping.h
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMappingDialog.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMappingDialog.h
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapEditor.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapEditor.h
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.cpp

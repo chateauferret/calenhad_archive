@@ -32,6 +32,10 @@ QAltitudeMap::~QAltitudeMap() {
     if (_editor) { delete _editor; }
 }
 
+void QAltitudeMap::initialise() {
+    QModule::initialise();
+}
+
 void QAltitudeMap::makeContentPanel() {
 
     addContentPanel();
@@ -68,7 +72,8 @@ void QAltitudeMap::editAltitudeMap() {
     }
     QVector<calenhad::controls::altitudemap::AltitudeMapping> points = entries();
     _editor -> setEntries (points);
-    _editor -> exec();
+    _editor -> setModal (false);
+    _editor -> show();
 }
 
 // retrieve parameters from the curve editing dialog: control points and curve type (function)
@@ -126,7 +131,7 @@ QVector<AltitudeMapping>  QAltitudeMap::entries () const {
         e << AltitudeMapping ((points + i) -> inputValue, (points + i) -> outputValue);
     }
 
-    std::sort (e.begin(), e.end(), [] (const QPointF & a, const QPointF & b) -> bool { return a.x() < b.x(); });
+    std::sort (e.begin(), e.end(), [] (const AltitudeMapping & a, const AltitudeMapping & b) -> bool { return a.x() < b.x(); });
     return e;
 };
 

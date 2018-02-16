@@ -40,11 +40,11 @@ void ExpressionEdit::focusOutEvent (QFocusEvent* e) {
 ExpressionLineEdit::ExpressionLineEdit (QWidget* parent) : QLineEdit (parent) { }
 
 void ExpressionLineEdit::focusInEvent (QFocusEvent* e) {
-    QLineEdit::focusInEvent (e);
     // update the completer with the current variables list
-    QStringList words = CalenhadServices::calculator () -> reservedWords;
+    QStringList words = CalenhadServices::calculator() -> reservedWords;
     words.append (CalenhadServices::calculator() -> variables().keys());
     words.sort (Qt::CaseInsensitive);
     QAbstractItemModel* model = new QStringListModel (words, completer());
     completer() -> setModel (model);
+    QLineEdit::focusInEvent (e);
 }

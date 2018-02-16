@@ -114,12 +114,11 @@ QString Graph::glsl (QModule* module) {
                 _code += "  float value = %0 (v);\n";
                 _code += "  if (value < " + QString::number (entries.first().x ()) + ") { return " + QString::number (entries.first().y ()) + "; }\n";
 
-                for (QPointF point : entries) {
+                for (int j = 0; j < entries.size(); j++) {
                     // Do we need to sort the entries?
                     QString mapFunction;
 
                     // compose the mapping function
-                    int j = entries.indexOf (point);
                     // spline function
                     if (am->curveFunction () == "spline") {
                         double x[4], y[4];
@@ -127,8 +126,8 @@ QString Graph::glsl (QModule* module) {
                         for (int i = 0; i < 4; i++) {
                             int k = std::max (j + i - 2, 0);
                             k = std::min (k, entries.size () - 1);
-                            x[i] = entries.at (k).x ();
-                            y[i] = entries.at (k).y ();
+                            x[i] = entries.at (k).x();
+                            y[i] = entries.at (k).y();
                         }
 
                         // Compute the alpha value used for cubic interpolation.

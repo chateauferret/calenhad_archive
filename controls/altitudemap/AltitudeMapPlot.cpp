@@ -13,7 +13,8 @@
 #include "nodeedit/Calenhad.h"
 #include "TerraceMapFitter.h"
 #include <QMouseEvent>
-
+#include <CalenhadServices.h>
+#include "../../preferences/PreferencesService.h"
 
 
 using namespace calenhad::controls::altitudemap;
@@ -21,8 +22,11 @@ using namespace calenhad::controls::altitudemap;
 AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (parent),
         _curve (new QwtPlotCurve()),
         _drag (false),
+        _dialog (nullptr),
         _index (noneSelected),
         _symbol (new QwtSymbol),
+        _selectedSymbol (new QwtSymbol),
+        _selectedMarker (new QwtPlotMarker()),
         _fitter (nullptr),
         _resolution (resolution) {
     setTitle ("Altitude map");
@@ -34,22 +38,35 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
     setAxisScale ( QwtPlot::yLeft, -1.0, 1.0);
     setAxisScale ( QwtPlot::xBottom, -1.0, 1.0);
 
+    _symbol -> setStyle (QwtSymbol::Rect);
+    int symbolSize = CalenhadServices::preferences() -> calenhad_altitudemap_marker_normal_size;
+    _symbol -> setSize (symbolSize, symbolSize);
+    _symbol -> setBrush (CalenhadServices::preferences() -> calenhad_altitudemap_marker_normal_color);
+    _symbol -> setPen (CalenhadServices::preferences() -> calenhad_altitudemap_marker_normal_color.darker());
+    _curve -> setSymbol (_symbol);
+
+    _selectedSymbol -> setStyle (QwtSymbol::Rect);
+    int markerSize = CalenhadServices::preferences() -> calenhad_altitudemap_marker_selected_size;
+    _selectedSymbol -> setSize (markerSize, markerSize);
+    _selectedSymbol -> setBrush (CalenhadServices::preferences() -> calenhad_altitudemap_marker_selected_color);
+    _selectedSymbol -> setPen (CalenhadServices::preferences() -> calenhad_altitudemap_marker_selected_color.darker());
+    _selectedMarker -> setSymbol (_selectedSymbol);
+
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid -> attach (this);
     resize (600, 400);
 
-    _symbol -> setStyle(QwtSymbol::Rect);
-    _symbol -> setSize(10, 10);
-    _symbol -> setBrush (Qt::red);
-    _symbol -> setPen (Qt::black);
 }
 
 AltitudeMapPlot::~AltitudeMapPlot() {
     _curve -> detach(); // automatically deletes the curve
     delete _symbol;
+    delete _selectedSymbol;
     if (_fitter) { delete _fitter; }
     if (_zoomer) { delete _zoomer; }
     if (_panner) { delete _panner; }
+    if (_dialog) { delete _dialog; }
+    if (_selectedMarker) { delete _selectedMarker; }
 }
 
 void AltitudeMapPlot::changeEvent (QEvent *e) {
@@ -58,17 +75,16 @@ void AltitudeMapPlot::changeEvent (QEvent *e) {
 
 void AltitudeMapPlot::setEntries (const QVector<AltitudeMapping> entries) {
     _entries = entries;
-    QPen pen (Qt::red);
-    pen.setWidth (2);
-    _curve -> setSymbol (_symbol);
+    QPen pen (CalenhadServices::preferences() -> calenhad_altitudemap_curve_color);
+    pen.setWidth (CalenhadServices::preferences() -> calenhad_altitudemap_curve_width);
+    QVector<QPointF> points = samples();
+
     _curve -> setCurveAttribute (QwtPlotCurve::Fitted, true);
     _curve -> setPen (pen);
     _curve -> setStyle (QwtPlotCurve::Lines);
     _curve -> setRenderHint (QwtPlotItem::RenderAntialiased, true);
-    QVector<QPointF> points = samples();
     _curve -> setSamples (points);
     _curve -> attach (this);
-
 }
 
 // for a terrace, the points always fall on the line x = y, but the owner computes values between the points such that the gradient
@@ -99,28 +115,70 @@ QVector<QPointF> AltitudeMapPlot::samples () {
     QVector<AltitudeMapping> mappings = getEntries();
     QVector<QPointF> samples;
     for (AltitudeMapping mapping : mappings) {
-        samples << (QPointF) mapping;
+        samples << mapping.point();
     }
     return samples;
 }
 
-
 void AltitudeMapPlot::mouseCanvasPressEvent (QMouseEvent* event) {
-    double x = invTransform (xBottom, event -> pos().x());
-    double y = invTransform (yLeft, event -> pos().y());
+    double x = invTransform (xBottom, event -> pos().x ());
+    double y = invTransform (yLeft, event -> pos().y ());
     double dist;
-    _index = _curve -> closestPoint (event->pos (), &dist);
+    _index = _curve -> closestPoint (event -> pos(), &dist);
     if (dist < 8) {
-        canvas()->setCursor (Qt::ClosedHandCursor);
+        canvas ()->setCursor (Qt::ClosedHandCursor);
+        showAltitudeMapping (event -> pos());
     } else {
         _index = noneSelected;
         _entries.append (AltitudeMapping (x, y));
-        std::sort (_entries.begin(), _entries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
-        _curve -> setSamples (samples ());
     }
-    replot();
+    plotPoints();
 }
 
+void AltitudeMapPlot::showAltitudeMapping (const QPoint& p) {
+    if (!_dialog) {
+        _dialog = new AltitudeMappingDialog (this);
+        connect (_dialog, &QDialog::accepted, this, &AltitudeMapPlot::updateFromDialog);
+        connect (_dialog, &QDialog::rejected, this, &AltitudeMapPlot::plotPoints);
+    }
+    _dialog -> setIndex (_index);
+    _dialog -> setMapping (_entries.at (_index));
+    plotPoints();
+    QPoint q (mapToGlobal (pos()).x() + p.x() + 32, mapToGlobal (pos()).y() + p.y() + 24);
+    _dialog -> move (q);
+    _dialog -> show ();
+}
+
+void AltitudeMapPlot::plotPoints() {
+    std::sort (_entries.begin(), _entries.end(), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x() < b.x(); });
+    _curve -> setSamples (samples ());
+
+    replot();
+
+   // clear any existing selection marker
+    if (_selectedMarker) {
+        _selectedMarker -> detach();
+    }
+
+    // define a separate marker for the selected entry so that it's highlighted
+    if (_dialog && _dialog -> isVisible () && _dialog -> index() != noneSelected) {
+
+        _selectedMarker -> attach (this);
+        _selectedMarker -> setValue (_entries.at (_dialog -> index()).point ());
+    }
+}
+
+void AltitudeMapPlot::updateFromDialog() {
+    AltitudeMapping mapping = _dialog -> mapping();
+    _index = _dialog -> index();
+
+    if (_index >= 0 && _index < _entries.size()) {
+        _entries.replace (_index, mapping);
+        std::sort (_entries.begin (), _entries.end (), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x () < b.x (); });
+        _curve -> setSamples (samples ());
+        plotPoints();
+    }
+}
 
 bool AltitudeMapPlot::isOnCanvas (const QPointF& point) {
     // return true if dropping a control point here would delete it - that is if it's outside the margins of the canvas and if there would still be enough points
@@ -131,12 +189,12 @@ bool AltitudeMapPlot::isOnCanvas (const QPointF& point) {
 void AltitudeMapPlot::mouseCanvasReleaseEvent (QMouseEvent* event) {
     // if the control point was dragged off the canvas, we delete it, provided the deletion preserves the curve's integrity as defined by canDeleteSelected()
     if (canDeleteSelected()) {
-        QPointF point = toPlotCoordinates (event -> x (), event -> y ());
+        QPointF point = toPlotCoordinates (event -> x(), event -> y());
         if (!isOnCanvas (point)) {
             _entries.remove (_index);
             _index = noneSelected;
             _curve -> setSamples (samples());
-            replot ();
+            plotPoints();
         }
     }
 
@@ -162,7 +220,7 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                     QVector<QPointF> tempEntries;
                     for (int i = 0; i < _entries.size(); i++) {
                         if (i != _index) {
-                            tempEntries << AltitudeMapping (_entries.at (i));
+                            tempEntries << AltitudeMapping (_entries.at (i)).point();
                         }
                     }
                     std::sort (tempEntries.begin(), tempEntries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
@@ -172,7 +230,7 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                         QVector<QPointF> points;
                         QVector<AltitudeMapping> mappings = remapTerrace();
                         for (AltitudeMapping mapping : mappings) {
-                            points << (QPointF) mapping;
+                            points << mapping.point();
                         }
                         _curve -> setSamples (points);
                     }
@@ -186,17 +244,17 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                     // if the  control point stays on the canvas we just move it about, reordering the points if one is moved past another in the x direction
                     updatePoint (point);
                 }
-                replot ();
+                plotPoints();
             } else {
                 canvas() -> setCursor (Qt::ClosedHandCursor);
 
                 // if the  control point stays on the canvas we just move it about, reordering the points if one is moved past another in the x direction
                 updatePoint (point);
-                _index = _curve -> closestPoint (event->pos (), &dist);
+                _index = _curve -> closestPoint (event -> pos(), &dist);
             }
         }
     } else {
-        _index = _curve -> closestPoint (event -> pos (), &dist);
+        _index = _curve -> closestPoint (event -> pos(), &dist);
         if (dist < 8) {
             canvas() -> setCursor (Qt::OpenHandCursor);
             _panner -> setEnabled (false);
@@ -222,14 +280,14 @@ void AltitudeMapPlot::updatePoint (QPointF& point) {
 
     // no two points are to have the same X value
     if (_index > 0) {
-        if (point.x () == _entries.at (_index - 1).x ()) {
-            point.setX (_entries.at (_index - 1).x () + (2.0d / _resolution));
+        if (point.x() == _entries.at (_index - 1).x()) {
+            point.setX (_entries.at (_index - 1).x() + (2.0d / _resolution));
         }
     }
 
     if (_index < _entries.size () - 1) {
-        if (point.x () == _entries.at (_index + 1).x ()) {
-            point.setX (_entries.at (_index + 1).x () - (2.0d / _resolution));
+        if (point.x () == _entries.at (_index + 1).x()) {
+            point.setX (_entries.at (_index + 1).x() - (2.0d / _resolution));
         }
     }
 
@@ -237,10 +295,10 @@ void AltitudeMapPlot::updatePoint (QPointF& point) {
     // update the point with the new position and reproduce the curve showing the change.
     _entries.replace (_index, point);
     if (isOnCanvas (point)) {
-        std::sort (_entries.begin(), _entries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
+        std::sort (_entries.begin(), _entries.end(), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x() < b.x(); });
     }
     _curve -> setSamples (samples());
-    replot ();
+    plotPoints();
 }
 
 QPointF AltitudeMapPlot::toPlotCoordinates (const int& pixelX, const int& pixelY) {
@@ -264,7 +322,7 @@ void AltitudeMapPlot::setCurveType (CurveType type) {
     }
     _curve -> setCurveFitter (_fitter);
     _curve -> setSamples (samples());
-    replot();
+    plotPoints();
 }
 
 // Tell whether the point selected (the one identified by _index) may be deleted, returning false if to do so would leave the curve unusable.

@@ -37,7 +37,7 @@ namespace calenhad {
             bool isValid ();
             double value();
             QString errors();
-
+            bool hasErrors ();
         public slots:
 
             bool prepare();
@@ -74,9 +74,9 @@ namespace calenhad {
 
             exprtk::expression<double> makeExpression (const QString& e);
 
-            bool hasErrors ();
             void focusInEvent (QFocusEvent* e) override;
             double _value;
+
         };
     }
 }

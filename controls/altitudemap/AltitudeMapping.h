@@ -14,17 +14,28 @@ namespace calenhad {
     namespace controls {
         namespace altitudemap {
 
-            class AltitudeMapping : public QPointF {
+            class AltitudeMapping {
 
             public:
-                AltitudeMapping (const QPointF& point);
                 AltitudeMapping();
+                AltitudeMapping (const QPointF& point);
                 AltitudeMapping (const double& x, const double& y);
 
                 virtual ~AltitudeMapping();
 
-            protected:
+                void setPoint (const double& x, const double& y);
+                void setPoint (const QString& x, const QString& y);
+                void setPoint (const QPointF& point);
+                QPointF point()const;
+                double x()const;
+                double y()const;
+                QString expressionX()const;
+                QString expressionY()const;
+                void setExpressionX (const QString& x);
+                void setExpressionY (const QString& y);
 
+            protected:
+                QString _x, _y;
 
             };
 
