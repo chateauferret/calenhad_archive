@@ -43,8 +43,8 @@ namespace calenhad {
 
             virtual void serialize (QDomDocument& doc) override;
 
-            void addEntry (const double& in, const double& out = 0);
-
+            void addEntry (const QString& in, const QString& out = 0);
+            void addEntry (const controls::altitudemap::AltitudeMapping& entry);
             QString curveFunction ();
 
             bool isFunctionInverted ();
@@ -71,6 +71,8 @@ namespace calenhad {
             mapping::Curve* _curve;
 
             void initialise() override;
+
+
         };
     }
 }

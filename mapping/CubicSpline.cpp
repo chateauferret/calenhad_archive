@@ -36,15 +36,15 @@ CubicSpline::~CubicSpline() {
 
 
 float CubicSpline::GetValue (const float& sourceModuleValue) const {
-    if (m_controlPointCount < 4) {
+    if (count()  < 4) {
         return sourceModuleValue;
     }
 
     // Find the first element in the control point array that has an input value
     // larger than the output value from the source module.
     int indexPos;
-    for (indexPos = 0; indexPos < m_controlPointCount; indexPos++) {
-        if (sourceModuleValue < m_pControlPoints[indexPos].inputValue) {
+    for (indexPos = 0; indexPos < count(); indexPos++) {
+        if (sourceModuleValue < _mappings[indexPos].x()) {
             break;
         }
     }
@@ -52,31 +52,31 @@ float CubicSpline::GetValue (const float& sourceModuleValue) const {
 
     // Find the four nearest control points so that we can perform cubic
     // interpolation.
-    int index0 = noise::utils::Interpolation::ClampValue (indexPos - 2, 0, m_controlPointCount - 1);
-    int index1 = noise::utils::Interpolation::ClampValue (indexPos - 1, 0, m_controlPointCount - 1);
-    int index2 = noise::utils::Interpolation::ClampValue (indexPos    , 0, m_controlPointCount - 1);
-    int index3 = noise::utils::Interpolation::ClampValue (indexPos + 1, 0, m_controlPointCount - 1);
+    int index0 = noise::utils::Interpolation::ClampValue (indexPos - 2, 0, count() - 1);
+    int index1 = noise::utils::Interpolation::ClampValue (indexPos - 1, 0, count() - 1);
+    int index2 = noise::utils::Interpolation::ClampValue (indexPos    , 0, count() - 1);
+    int index3 = noise::utils::Interpolation::ClampValue (indexPos + 1, 0, count() - 1);
 
     // If some control points are missing (which occurs if the value from the
     // source module is greater than the largest input value or less than the
     // smallest input value of the control point array), get the corresponding
     // output value of the nearest control point and exit now.
     if (index1 == index2) {
-        return m_pControlPoints[index1].outputValue;
+        return _mappings[index1].y();
     }
 
     // Compute the alpha value used for cubic interpolation.
-    float input0 = m_pControlPoints[index1].inputValue;
-    float input1 = m_pControlPoints[index2].inputValue;
+    float input0 = _mappings[index1].x();
+    float input1 = _mappings[index2].x();
     float alpha = (sourceModuleValue - input0) / (input1 - input0);
 
 
     // Now perform the cubic interpolation given the alpha value.
     double map_out = noise::utils::Interpolation::cubicInterp (
-            m_pControlPoints[index0].outputValue,
-            m_pControlPoints[index1].outputValue,
-            m_pControlPoints[index2].outputValue,
-            m_pControlPoints[index3].outputValue,
+            _mappings[index0].y(),
+            _mappings[index1].y(),
+            _mappings[index2].y(),
+            _mappings[index3].y(),
             alpha);
 
     return map_out;

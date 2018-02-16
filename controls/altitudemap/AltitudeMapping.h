@@ -20,6 +20,7 @@ namespace calenhad {
                 AltitudeMapping();
                 AltitudeMapping (const QPointF& point);
                 AltitudeMapping (const double& x, const double& y);
+                AltitudeMapping (const QString& x, const QString& y);
 
                 virtual ~AltitudeMapping();
 

@@ -16,6 +16,10 @@ AltitudeMapping::AltitudeMapping (const QPointF& point) : _x (QString::number (p
 
 }
 
+AltitudeMapping::AltitudeMapping (const QString& x, const QString& y) : _x (x), _y (y) {
+
+}
+
 
 AltitudeMapping::AltitudeMapping (const double& x, const double& y) : AltitudeMapping (QPointF (x, y)) {
 

@@ -86,7 +86,7 @@ void QAltitudeMap::updateEntries() {
     QVector<calenhad::controls::altitudemap::AltitudeMapping> e = _editor -> getEntries();
 
     for (AltitudeMapping point : e) {
-        addEntry (point.x (), point.y ());
+        addEntry (point);
     }
 
     // preserve the change for undo purposes
@@ -109,45 +109,33 @@ void QAltitudeMap::editingFinished() {
     }
 }
 
+void QAltitudeMap::addEntry (const QString& x, const QString& y) {
+    addEntry (AltitudeMapping (x, y));
+}
 
-void QAltitudeMap::addEntry (const double& in, const double& out) {
+void QAltitudeMap::addEntry (const AltitudeMapping& entry) {
     for (Curve* curve : _curves.values ()) {
-        if (dynamic_cast<CubicSpline*> (curve)) {
-            CubicSpline* c = dynamic_cast<CubicSpline*> (curve);
-            c->AddControlPoint (in, out);
-        }
-        if (dynamic_cast<TerraceCurve*> (curve)) {
-            TerraceCurve* t = dynamic_cast<TerraceCurve*> (curve);
-            t->AddControlPoint (in, in);
-        }
+        curve -> addMapping (entry);
     }
 }
 
 QVector<AltitudeMapping>  QAltitudeMap::entries () const {
-    QVector<AltitudeMapping> e;
-    int count = _curve -> GetControlPointCount();
-    const ControlPoint* points = _curve -> GetControlPointArray();
-    for (int i = 0; i < count; i++) {
-        e << AltitudeMapping ((points + i) -> inputValue, (points + i) -> outputValue);
-    }
-
-    std::sort (e.begin(), e.end(), [] (const AltitudeMapping & a, const AltitudeMapping & b) -> bool { return a.x() < b.x(); });
-    return e;
+    return _curve -> mappings();
 };
 
 void QAltitudeMap::resetMap () {
     clearMap();
-    addEntry (-1.0, -1.0);
-    addEntry (1.0, 1.0);
-    addEntry (0.0, 0.0);
-    addEntry (-0.5, -0.5);
-    addEntry (0.5, 0.5);
+    addEntry ("-1.0", "-1.0");
+    addEntry ("1.0", "1.0");
+    addEntry ("0.0", "0.0");
+    addEntry ("-0.5", "-0.5");
+    addEntry ("0.5", "0.5");
     emit nodeChanged();
 }
 
 void QAltitudeMap::clearMap() {
     for (Curve* curve : _curves) {
-        curve -> ClearAllControlPoints();
+        curve -> clear();
     }
 }
 
@@ -176,18 +164,10 @@ void QAltitudeMap::inflate (const QDomElement& element) {
     clearMap ();
     for (int i = 0; i < entryElements.size(); i++) {
         QDomNamedNodeMap attributes = entryElements.at (i).attributes();
-        double x, y;
-        bool ok;
-        x = attributes.namedItem ("x").nodeValue().toDouble (&ok);
-        if (ok) {
-            y = attributes.namedItem ("y").nodeValue ().toDouble (&ok);
-        }
-        if (ok) {
-            addEntry (x, y);
-        } else {
-            CalenhadServices::messages() -> message ("warning", "Couldn't read coordinates (" + attributes.namedItem ("x").nodeValue() + ", " + attributes.namedItem ("y").nodeValue()
-                    + " for " + nodeType () + " owner " + name());
-        }
+        QString x, y;
+        x = attributes.namedItem ("x").nodeValue();
+        y = attributes.namedItem ("y").nodeValue ();
+        addEntry (x, y);
     }
 }
 
@@ -202,8 +182,8 @@ void QAltitudeMap::serialize (QDomDocument& doc) {
     QVector<AltitudeMapping> e = entries ();
     for (AltitudeMapping entry : e) {
         QDomElement entryElement = _document.createElement ("entry");
-        entryElement.setAttribute ("x", entry.x());
-        entryElement .setAttribute ("y", entry.y());
+        entryElement.setAttribute ("x", entry.expressionX());
+        entryElement .setAttribute ("y", entry.expressionY());
         mapElement.appendChild (entryElement);
     }
 }
