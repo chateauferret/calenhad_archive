@@ -15,7 +15,6 @@ using namespace calenhad::expressions;
 AltitudeMappingDialog::AltitudeMappingDialog (QWidget* parent) : QDialog (parent), _index (-1) {
     QWidget* widget = new QWidget (this);
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-
     connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect (buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     QFormLayout* layout = new QFormLayout (this);
@@ -29,10 +28,7 @@ AltitudeMappingDialog::AltitudeMappingDialog (QWidget* parent) : QDialog (parent
     _from -> setFocus();
     setTabOrder (_from, _to);
     adjustSize();
-    //setWindowFlags (Qt::Window | Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint);
     setContentsMargins (0, 0, 0, 0);
-    adjustSize();
-
 }
 
 AltitudeMappingDialog::~AltitudeMappingDialog() {

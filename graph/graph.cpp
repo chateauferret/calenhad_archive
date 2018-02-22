@@ -235,7 +235,7 @@ void Graph::parseLegend () {
     }
 
     QString legendName = _module -> legend() -> name();
-    QList<LegendEntry> legendElements = _module -> legend() -> entries();
+    QVector<LegendEntry> legendElements = _module -> legend() -> entries();
 
     float dx = (1 / (float) size) * 2 ;
     for (int i = 0; i < size * 4; i+= 4)  {

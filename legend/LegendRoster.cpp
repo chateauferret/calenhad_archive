@@ -85,8 +85,8 @@ Legend* LegendRoster::defaultLegend() {
     // if there are no legends at all, make one up and add it to the roster
     Legend* legend = new Legend();
     _legends.insert ("default", legend);
-    legend -> addEntry (-1.0, Qt::black);
-    legend -> addEntry (1.0, Qt::white);
+    legend -> addEntry (LegendEntry ("-1.0", Qt::black));
+    legend -> addEntry (LegendEntry ("1.0", Qt::white));
     legend -> setName ("default");
     provide (legend);
     return legend;

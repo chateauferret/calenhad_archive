@@ -8,11 +8,12 @@
 #include "LegendWidget.h"
 #include "CalenhadServices.h"
 #include <QIcon>
+#include "../exprtk/VariablesService.h"
 
 using namespace calenhad::legend;
+using namespace calenhad::expressions;
 
 Legend::Legend (const QString& name) : _interpolate (true), _name (name), _notes (QString()), _widget (nullptr) {
-
 
 }
 
@@ -39,18 +40,23 @@ int Legend::size() {
 }
 
 QColor Legend::lookup (const double& index) {
+    std::map<double, QColor> colorMap;
+    for (LegendEntry entry : _entries) {
+        colorMap.insert (std::make_pair (entry.keyValue (), entry.color()));
+    }
+
     if (_interpolate) {
-        std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
+        std::map<double, QColor>::iterator i = std::find_if_not (colorMap.begin(), colorMap.end(), [&index] (std::pair<double, QColor> entry) -> bool {
             return entry.first <= index;
         });
         std::map<double, QColor>::iterator j = i;
-        if (j == _entries.begin()) {
-            return _entries.begin() -> second;
+        if (j == colorMap.begin()) {
+            return colorMap.begin() -> second;
         } else {
             return interpolateColors (i, --j, index);
         }
     } else {
-        std::map<double, QColor>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (std::pair<double, QColor> entry) -> bool {
+        std::map<double, QColor>::iterator i = std::find_if_not (colorMap.begin(), colorMap.end(), [&index] (std::pair<double, QColor> entry) -> bool {
             return entry.first <= index;
         });
         return (--i) -> second;
@@ -89,18 +95,21 @@ const bool& Legend::isInterpolated () const {
 
 
 // Replace the entry if it exists, add it in otherwise.
-void Legend::addEntry (const double& value, const QColor& colour) {
-    _entries [value] = colour;
+void Legend::addEntry (const LegendEntry& entry) {
+    for (LegendEntry e : _entries) {
+        if (e.key() == entry.key()) {
+            _entries.remove (_entries.indexOf (e));
+        }
+    }
+    _entries.append (entry);
     CalenhadServices::legends() -> setDirty();
 }
 
 unsigned Legend::removeEntries (const double& from, const double& unto) {
     unsigned count = 0;
-
-    for (std::map<double, QColor>::iterator i = _entries.begin(); i != _entries.end(); i++) {
-        std::pair<const double, QColor> entry = *i;
-        if (entry.first > from && entry.first < unto) {
-            _entries.erase (i);
+    for (LegendEntry e : _entries) {
+        if (e.keyValue() > from && e.keyValue() < unto) {
+            _entries.remove (_entries.indexOf (e));
             count++;
         }
     }
@@ -108,14 +117,8 @@ unsigned Legend::removeEntries (const double& from, const double& unto) {
     return count;
 }
 
-const QList<LegendEntry> Legend::entries() const {
-    QList<LegendEntry> entries;
-    std::map<double, QColor>::const_iterator i;
-    for (i = _entries.begin (); i != _entries.end (); i++) {
-        std::pair<const double, QColor> entry = *i;
-        entries.append (LegendEntry (entry.first, entry.second));
-    }
-    return entries;
+const QVector<LegendEntry>& Legend::entries() const {
+    return _entries;
 }
 
 LegendEntry Legend::at (int i) {
@@ -133,12 +136,8 @@ LegendWidget* Legend::widget() {
     return _widget;
 }
 
-void Legend::setEntries (const QList<LegendEntry>& entries) {
-    _entries.clear ();
-    for (LegendEntry entry : entries) {
-        std::pair<qreal, QColor> item = std::make_pair (entry.first, entry.second);
-        _entries.insert (item);
-    }
+void Legend::setEntries (const QVector<LegendEntry>& entries) {
+    _entries = entries;
     CalenhadServices::legends() -> setDirty();
     emit legendChanged();
 }
@@ -200,12 +199,9 @@ void Legend::inflate (const QDomNode& n) {
         QDomNodeList nodes = e.elementsByTagName ("entry");
         for (int i = 0; i < nodes.size (); i++) {
             QDomElement element = nodes.item (i).toElement ();
-            bool ok;
-            double index = element.attribute ("index").toDouble (&ok);
-            if (ok) {
-                QColor c = QColor (element.attribute ("color"));
-                addEntry (index, c);
-            }
+            QString index = element.attribute ("index");
+            QColor c = QColor (element.attribute ("color"));
+            addEntry (LegendEntry (index, c));
         }
     }
 }
@@ -225,8 +221,8 @@ void Legend::serialise (QDomDocument doc) {
     e.appendChild (notesNode);
     for (LegendEntry entry : entries()) {
         QDomElement entryElement = doc.createElement ("entry");
-        entryElement.setAttribute ("index", entry.first);
-        entryElement.setAttribute ("color", entry.second.name());
+        entryElement.setAttribute ("index", entry.key());
+        entryElement.setAttribute ("color", entry.color().name());
 
         e.appendChild (entryElement);
     }

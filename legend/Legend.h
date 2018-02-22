@@ -10,12 +10,12 @@
 #include <QWidget>
 #include <QtXml/QDomNode>
 #include <experimental/optional>
+#include <legend/LegendEntry.h>
 
 namespace calenhad {
     namespace legend {
 
         class LegendWidget;
-        typedef QPair<qreal, QColor> LegendEntry;
 
         class Legend : public QObject {
         Q_OBJECT
@@ -39,11 +39,11 @@ namespace calenhad {
 
             const bool& isInterpolated () const;
 
-            void addEntry (const double& value, const QColor& colour);
+            void addEntry (const LegendEntry& entry);
 
             unsigned int removeEntries (const double& from, const double& unto);
 
-            const QList<LegendEntry> entries () const;
+            const QVector<LegendEntry>& entries () const;
 
             int size ();
 
@@ -70,7 +70,7 @@ namespace calenhad {
 
         public slots:
 
-            void setEntries (const QList<LegendEntry>& entries);
+            void setEntries (const QVector<LegendEntry>& entries);
 
             void setInterpolated (const bool& interpolate);
 
@@ -84,7 +84,7 @@ namespace calenhad {
 
         protected:
             bool _interpolate;
-            std::map<qreal, QColor> _entries;
+            QVector<LegendEntry> _entries;
             LegendWidget* _widget;
             QColor _defaultColor;
             QString _notes;

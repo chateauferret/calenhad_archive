@@ -38,7 +38,7 @@ namespace calenhad {
 
             void showEvent (QShowEvent* event) override;
 
-            QList<LegendEntry> entries ();
+            QVector<LegendEntry> entries ();
 
             void focusNameField ();
 
@@ -54,7 +54,7 @@ namespace calenhad {
 
             void iconChanged (QIcon);
 
-            void legendChanged (QList<LegendEntry>);
+            void legendChanged (const QVector<LegendEntry>&);
 
         protected:
             LegendService* _service;

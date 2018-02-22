@@ -7,8 +7,10 @@
 #include "LegendEditorSliderPanel.h"
 #include "LegendEditorSlider.h"
 #include "LegendEditor.h"
+#include "../../legend/Legend.h"
 
 using namespace calenhad::controls::legend;
+using namespace calenhad::legend;
 
 LegendEditorSliderPanel::LegendEditorSliderPanel (QWidget* parent) : QWidget (parent), activeSlider_ (-1) {
     setContentsMargins (0, 0, 0, 0);
@@ -19,7 +21,7 @@ void LegendEditorSliderPanel::mousePressEvent (QMouseEvent* e) {
         if (_editor->_sliders.size () < 2) { return; }
         for (int i = 1; i < _editor->_sliders.size () - 1; i++) {
             QRect srec = _editor->_sliders[i]->geometry ();
-            if (srec.contains (e->pos (), true)) {
+            if (srec.contains (e -> pos (), true)) {
                 activeSlider_ = i;
                 break;
             }
@@ -53,10 +55,9 @@ void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
             }
 
             _editor -> updateValue (_editor->_sliders[activeSlider_]);
-            qSort (_editor->_sliders.begin (), _editor->_sliders.end (), LegendEditor::SliderSort);
-            if (_editor->slideUpdate_) { _editor->updateRamp (); }
+            qSort (_editor -> _sliders.begin (), _editor -> _sliders.end (), LegendEditor::SliderSort);
+            if (_editor -> slideUpdate_) { _editor -> updateRamp (); }
         }
-        _editor -> updateRamp();
     }
 }
 
@@ -78,10 +79,19 @@ void LegendEditorSliderPanel::mouseDoubleClickEvent (QMouseEvent* e) {
             }
         }
         if (index >= 0) {
-            if (_editor  ->_colorChooser) {
-                _editor ->_colorChooser -> exec ();
-                _editor -> setSliderColor (index, _editor -> _colorChooser -> selectedColor());
-                _editor -> updateRamp ();
+            if (_editor -> _dialog) {
+                _editor -> setSlider (index, _editor -> _legend -> entries ().at (index).key(), _editor -> _legend -> entries ().at (index).color());
+                _editor -> _dialog -> setColor (_editor -> _legend -> entries ().at (index).color());
+                _editor -> _dialog -> setIndex (_editor -> _legend -> entries ().at (index).key ());
+                _editor -> _dialog -> show();
+                connect (_editor -> _dialog, &QDialog::accepted, this, [=] () {
+                    QColor color = _editor -> _dialog -> color();
+                    QString key = _editor -> _dialog -> index();
+                    LegendEntry entry = _editor -> _legend -> entries().at (index);
+                    _editor -> setSlider (index, key, color);
+                    _editor -> updatePos (_editor -> _sliders [index]);
+                    _editor -> updateRamp();
+                });
             }
         }
     }

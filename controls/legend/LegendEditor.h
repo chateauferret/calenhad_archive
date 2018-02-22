@@ -19,6 +19,8 @@
 
 #include <iostream>
 #include <qwt/qwt_scale_widget.h>
+#include "legend/LegendEntry.h"
+#include "LegendEntryDialog.h"
 
 
 namespace calenhad {
@@ -91,12 +93,12 @@ namespace calenhad {
             signals:
 
                 /// signal that hide is changed
-                void legendChanged (const QList<QPair<qreal, QColor>>&);
+                void legendChanged (const QVector<calenhad::legend::LegendEntry>);
 
             public slots:
 
                 /// set the color of a slider to zero
-                void setSliderColor (int index, QColor col);
+                void setSlider (const int& index, const QString& key, const QColor& col);
 
             protected slots:
 
@@ -142,7 +144,7 @@ namespace calenhad {
                 int activeSlider_;
 
                 /// a color chooser dlg
-                QColorDialog* _colorChooser;
+                calenhad::controls::legend::LegendEntryDialog* _dialog;
 
                 /// flag to visualize the mapping
                 bool visText_;

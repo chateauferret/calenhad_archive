@@ -36,6 +36,7 @@ namespace calenhad {
 
         protected:
             QLineEdit* _shortBox;
+
         };
 
         class ExpressionLineEdit : public QLineEdit {

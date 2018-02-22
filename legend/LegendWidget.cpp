@@ -111,7 +111,7 @@ void LegendWidget::updateName() {
     }
 }
 
-QList<LegendEntry> LegendWidget::entries () {
+QVector<LegendEntry> LegendWidget::entries () {
     return _legend -> entries();
 }
 

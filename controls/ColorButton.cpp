@@ -16,7 +16,10 @@ ColorButton::~ColorButton () {
 }
 
 void ColorButton::showEvent (QShowEvent* event) {
-    connect (this, &QPushButton::pressed, _dialog, &QDialog::open);
+    connect (this, &QPushButton::pressed, this, [=] () {
+        _dialog -> exec();
+        _color = _dialog -> currentColor();
+    });
     connect (_dialog, &QDialog::accepted, this, [=] () {
         QColor c = _dialog -> selectedColor();
         setColor (c);

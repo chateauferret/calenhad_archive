@@ -25,13 +25,13 @@ namespace calenhad {
                 /// get the color
                 QColor color ();
                 qreal value() const;
-
-                void setValue (const qreal& value);
+                QString key();
+                void setKey (const QString& value);
 
             protected:
 
-                // the value
-                qreal _value;
+                // the value (as a Calenhad expression)
+                QString _key;
 
                 /// the color of the slider
                 QColor _color;

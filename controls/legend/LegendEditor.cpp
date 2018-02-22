@@ -15,19 +15,21 @@
 #include "LegendEditorScale.h"
 #include <cmath>
 #include "CalenhadServices.h"
-
+#include "LegendEntryDialog.h"
+#include "../../exprtk/VariablesService.h"
 
 using namespace calenhad::controls::legend;
 using namespace calenhad::legend;
+using namespace calenhad::expressions;
 
 // -----------------------------------------------------------
 // LegendEditor ------------------------------------------
 // -----------------------------------------------------------
 LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : QWidget (parent), _legend (legend),
-                                                                        _orientation (orientation),
-                                                                        activeSlider_ (-1), slideUpdate_ (false),
-                                                                        bspace_ (5), _zoom (1.0), _pan (0.0),
-                                                                        visText_ (false), textColor_ (Qt::white), textAcc_ (1) {
+     _orientation (orientation),
+    activeSlider_ (-1), slideUpdate_ (false),
+    bspace_ (5), _zoom (1.0), _pan (0.0),
+    visText_ (false), textColor_ (Qt::white), textAcc_ (1) {
     if (_orientation == Qt::Horizontal) {
         setMinimumSize (50, 40);
     } else {
@@ -76,22 +78,19 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
     layout ()->addWidget (_scale);
     _scale->setVisible (true);
 
-    _colorChooser = new QColorDialog (this);
+    _dialog = new LegendEntryDialog (this);
+    //connect (CalenhadServices::calculator(), &VariablesService::variableChanged, this, &LegendEditor::updateRamp);
 }
 
 // -----------------------------------------------------------
 LegendEditor::~LegendEditor () {
     for (int i = 0; i < _sliders.size (); i++) delete (_sliders[i]);
+    if (_dialog) { delete _dialog; }
 }
 
 // -----------------------------------------------------------
 int LegendEditor::getSliderCount () {
     return _sliders.size ();
-}
-
-// -----------------------------------------------------------
-void LegendEditor::setColorChoose (QColorDialog* coldlg) {
-    _colorChooser = coldlg;
 }
 
 // -----------------------------------------------------------
@@ -120,8 +119,8 @@ void LegendEditor::showEvent (QShowEvent* e) {
     double range = maximum() - minimum();
     // create sliders
     for (int i = 0; i < _legend -> size(); i++) {
-        LegendEditorSlider* sl = new LegendEditorSlider (_orientation, _legend -> at (i).second, slidewid_);
-        sl -> setValue (_legend -> at (i).first);
+        LegendEditorSlider* sl = new LegendEditorSlider (_orientation, _legend -> at (i).color(), slidewid_);
+        sl -> setKey (_legend -> at (i).key());
         _sliders.push_back (sl);
         updatePos (sl);
         sl->show ();
@@ -152,10 +151,10 @@ qreal LegendEditor::updateValue (LegendEditorSlider* sl) {
     QRect crec = slidewid_->contentsRect ();
     if (_orientation == Qt::Horizontal) {
         crec.adjust (bspace_, 0, -bspace_, 0);
-        sl -> setValue (valueAt (sl -> pos ().x () - bspace_));
+        sl -> setKey (QString::number (valueAt (sl -> pos ().x () - bspace_)));
     } else {
         crec.adjust (0, bspace_, 0, -bspace_);
-        sl->setValue (valueAt (sl->pos ().y () - bspace_));
+        sl-> setKey (QString::number (valueAt (sl->pos ().y () - bspace_)));
     }
     sl -> setToolTip (QString::number (sl -> value()));
     return sl -> value();
@@ -170,12 +169,17 @@ int LegendEditor::updatePos (LegendEditorSlider* sl) {
     } else {
         sl -> move (0, (int) pos);
     }
+
+    if (_scale-> isVisible ()) { _scale -> update(); }
+    emit legendChanged (legend() -> entries());
+    update ();
     return (int) pos;
 }
 
-void LegendEditor::setSliderColor (int index, QColor col) {
+void LegendEditor::setSlider (const int& index, const QString& key, const QColor& col) {
     if (index < 0 || index >= _sliders.size ()) { return; }
     _sliders [index] -> setColor (col);
+    _sliders [index] -> setKey (key);
     emit legendChanged (legend() -> entries());
 }
 
@@ -239,10 +243,10 @@ void LegendEditor::updateRamp () {
     _legend -> clear();
     for (LegendEditorSlider* slider : _sliders) {
         updatePos (slider);
-        _legend -> addEntry (slider -> value(), slider-> color());
+        _legend -> addEntry (LegendEntry (slider -> value(), slider-> color()));
     }
 
-    if (_scale-> isVisible ()) { _scale->update(); }
+    if (_scale-> isVisible ()) { _scale -> update(); }
     emit legendChanged (legend() -> entries());
     update ();
 }
