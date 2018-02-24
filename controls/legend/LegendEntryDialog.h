@@ -6,6 +6,7 @@
 #define CALENHAD_LEGENDENTRYDIALOG_H
 
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QCheckBox>
 
 namespace calenhad {
     namespace expressions {
@@ -17,13 +18,14 @@ namespace calenhad {
             class LegendEntryDialog : public QDialog {
 
             public:
-                LegendEntryDialog (QWidget* parent = 0);
+                LegendEntryDialog (const bool& canDelete, QWidget* parent = 0);
                 ~LegendEntryDialog();
                 QColor color();
                 QString index();
+                bool isDelete();
                 void setColor (const QColor& color);
                 void setIndex (const QString& index) const;
-
+                void preventDelete (const bool& prevented);
 
             public slots:
                 void selectColor();
@@ -32,6 +34,11 @@ namespace calenhad {
                 calenhad::expressions::ExpressionWidget* _indexEdit;
                 QColorButton* _colorButton;
                 QColorDialog* _dialog;
+                QCheckBox* _deleteCheck;
+
+                void showEvent (QShowEvent* event) override;
+
+
             };
         }
     }

@@ -8,7 +8,7 @@
 #include "LegendWidget.h"
 #include "CalenhadServices.h"
 #include <QIcon>
-#include "../exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 
 using namespace calenhad::legend;
 using namespace calenhad::expressions;
@@ -243,4 +243,10 @@ QIcon Legend::icon() {
     }
     QIcon icon (pixmap);
     return icon;
+}
+
+void Legend::setEntry (const int& index, const QString& key, const QColor& color) {
+    LegendEntry entry (key, color);
+    _entries.replace (index, entry);
+
 }

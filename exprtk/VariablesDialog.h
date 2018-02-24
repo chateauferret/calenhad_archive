@@ -9,7 +9,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QDialogButtonBox>
-#include "VariablesService.h"
+#include "Calculator.h"
 
 namespace calenhad {
     namespace expressions {

@@ -6,13 +6,14 @@
 #include <QMouseEvent>
 #include "LegendEditorSliderPanel.h"
 #include "LegendEditorSlider.h"
+#include "LegendEditorScale.h"
 #include "LegendEditor.h"
 #include "../../legend/Legend.h"
 
 using namespace calenhad::controls::legend;
 using namespace calenhad::legend;
 
-LegendEditorSliderPanel::LegendEditorSliderPanel (QWidget* parent) : QWidget (parent), activeSlider_ (-1) {
+LegendEditorSliderPanel::LegendEditorSliderPanel (QWidget* parent) : QWidget (parent), _activeSlider (-1) {
     setContentsMargins (0, 0, 0, 0);
 }
 
@@ -22,7 +23,7 @@ void LegendEditorSliderPanel::mousePressEvent (QMouseEvent* e) {
         for (int i = 1; i < _editor->_sliders.size () - 1; i++) {
             QRect srec = _editor->_sliders[i]->geometry ();
             if (srec.contains (e -> pos (), true)) {
-                activeSlider_ = i;
+                _activeSlider = i;
                 break;
             }
         }
@@ -30,7 +31,7 @@ void LegendEditorSliderPanel::mousePressEvent (QMouseEvent* e) {
 }
 
 void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
-    if (activeSlider_ >= 0) {
+    if (_activeSlider >= 0) {
         QRect crec = contentsRect ();
 
         qreal pos;
@@ -43,18 +44,15 @@ void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
         }
 
         if (pos < 0.0 || pos > 1.0) {
-            delete (_editor->_sliders[activeSlider_]);
-            _editor->_sliders.removeAt (activeSlider_);
-            activeSlider_ = -1;
-            _editor->updateRamp ();
+            _editor -> deleteSlider (_activeSlider);
         } else {
-            if (_editor->_orientation == Qt::Horizontal) {
-                _editor->_sliders[activeSlider_]->move (e->pos ().x (), 0);
+            if (_editor ->_orientation == Qt::Horizontal) {
+                _editor ->_sliders[_activeSlider]->move (e->pos ().x (), 0);
             } else {
-                _editor->_sliders[activeSlider_]->move (0, e->pos ().y ());
+                _editor ->_sliders[_activeSlider]->move (0, e->pos ().y ());
             }
 
-            _editor -> updateValue (_editor->_sliders[activeSlider_]);
+            _editor -> updateKey (_editor->_sliders[_activeSlider]);
             qSort (_editor -> _sliders.begin (), _editor -> _sliders.end (), LegendEditor::SliderSort);
             if (_editor -> slideUpdate_) { _editor -> updateRamp (); }
         }
@@ -63,7 +61,7 @@ void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
 
 void LegendEditorSliderPanel::mouseReleaseEvent (QMouseEvent* e) {
     if (e->button () == Qt::LeftButton) {
-        activeSlider_ = -1;
+        _activeSlider = -1;
         _editor -> updateRamp ();
     }
 }
@@ -83,14 +81,18 @@ void LegendEditorSliderPanel::mouseDoubleClickEvent (QMouseEvent* e) {
                 _editor -> setSlider (index, _editor -> _legend -> entries ().at (index).key(), _editor -> _legend -> entries ().at (index).color());
                 _editor -> _dialog -> setColor (_editor -> _legend -> entries ().at (index).color());
                 _editor -> _dialog -> setIndex (_editor -> _legend -> entries ().at (index).key ());
+                _editor -> _dialog -> preventDelete (! (index == 0 || index == _editor -> _legend -> entries().size()));
                 _editor -> _dialog -> show();
                 connect (_editor -> _dialog, &QDialog::accepted, this, [=] () {
                     QColor color = _editor -> _dialog -> color();
                     QString key = _editor -> _dialog -> index();
                     LegendEntry entry = _editor -> _legend -> entries().at (index);
-                    _editor -> setSlider (index, key, color);
-                    _editor -> updatePos (_editor -> _sliders [index]);
-                    _editor -> updateRamp();
+                    if (_editor -> _dialog -> isDelete()) {
+                        _editor -> deleteSlider (index);
+                    } else {
+                        _editor->setSlider (index, key, color);
+                        _editor->updatePos (_editor ->_sliders[index]);
+                    }
                 });
             }
         }

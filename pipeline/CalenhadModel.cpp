@@ -17,7 +17,7 @@
 #include "../nodeedit/QNodeGroupBlock.h"
 #include "../nodeedit/qneport.h"
 #include "../qmodule/QModule.h"
-#include "exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "../libnoiseutils/nullmodule.h"
 #include <QGraphicsSceneMouseEvent>
 #include <actions/ContextAction.h>
@@ -59,6 +59,10 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
     _connectMenu = new QMenu();
     _connectSubMenu = new QMenu (_connectMenu);
+
+    // Load legends from default legends file
+    QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
+    inflate (file, CalenhadFileType::CalenhadLegendFile);
 }
 
 // determine whether connection from given input to given output is allowed
@@ -624,6 +628,9 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
     doc.appendChild (root);
     writeMetadata (doc);
 
+    // Always include all variables in the file
+    CalenhadServices::calculator() -> serialize (doc);
+
     // Always include all known legends in the file
     QDomElement legendsElement = doc.createElement ("legends");
     root.appendChild (legendsElement);
@@ -632,7 +639,6 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
     }
 
     if (fileType == CalenhadFileType::CalenhadModelFile) {
-        CalenhadServices::calculator() -> serialize (doc);
         for (QNode* qm : nodes ()) {
             qm->serialize (doc);
         }
@@ -834,15 +840,18 @@ void CalenhadModel::highlightGroupAt (QPointF pos) {
 }
 
 void CalenhadModel::commitLegends () {
-    QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
+    QString file = CalenhadServices::preferences() -> calenhad_legends_filename_temp;
     serialize (file, CalenhadFileType::CalenhadLegendFile);
     _changed = true;
 }
 
 void CalenhadModel::rollbackLegends() {
     CalenhadServices::legends() -> clear();
-    QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
+
+    // Load legends from temp legends file
+    QString file = CalenhadServices::preferences() -> calenhad_legends_filename_temp;
     inflate (file, CalenhadFileType::CalenhadLegendFile);
+    _changed = false;
 }
 
 QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {

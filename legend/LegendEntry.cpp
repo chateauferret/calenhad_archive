@@ -3,7 +3,7 @@
 //
 
 #include <CalenhadServices.h>
-#include "exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "LegendEntry.h"
 
 using namespace calenhad::legend;
@@ -42,7 +42,7 @@ QString LegendEntry::key ()const {
 }
 
 double LegendEntry::keyValue () {
-    return CalenhadServices::calculator() -> makeExpression (_key).value();
+    return CalenhadServices::calculator() -> compute (_key);
 }
 
 QString LegendEntry::label () {

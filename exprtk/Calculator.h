@@ -9,6 +9,7 @@
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtCore/QObject>
+#include <QtCore/QCache>
 #include "exprtk.hpp"
 #include "Serializable.h"
 
@@ -25,7 +26,7 @@ namespace calenhad {
             double _value;
         };
 
-        class VariablesService : public QObject, Serializable {
+        class Calculator : public QObject, Serializable {
             Q_OBJECT
 
         public:
@@ -40,9 +41,9 @@ namespace calenhad {
                                                "root", "roundn", "round", "sec", "sgn", "shl", "shr", "sinc", "sinh", "sin",
                                                "sqrt", "sum", "swap", "switch", "tanh", "tan", "true", "trunc", "until", "var", "while", "xnor", "xor" };
 
-            VariablesService ();
+            Calculator();
 
-            virtual ~VariablesService ();
+            virtual ~Calculator ();
 
             QMap<QString, CalenhadVariable> variables ();
 
@@ -64,7 +65,7 @@ namespace calenhad {
 
             void inflate (const QDomElement& element) override;
 
-            exprtk::expression<double> makeExpression (const QString& exp);
+            double compute (const QString& exp);
 
             void publish();
 
@@ -78,7 +79,7 @@ namespace calenhad {
 
             bool isReservedWord (const QString& term);
 
-
+            QCache<QString, exprtk::expression<double>> _cache;
             QDomNode _element;
             QStringList _errors;
 

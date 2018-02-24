@@ -63,7 +63,6 @@ void SplashDialog::showEvent (QShowEvent* e) {
         QFile f (entry);
         QDomDocument doc;
         doc.setContent (&f);
-        std::cout << doc.toString().toStdString () << "\n";
         QDomElement metadataElement = doc.documentElement ().firstChildElement ("metadata");
         QDomElement titleElement = metadataElement.firstChildElement ("title");
         QString title = titleElement.text ();

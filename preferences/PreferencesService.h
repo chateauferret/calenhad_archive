@@ -76,6 +76,7 @@ namespace calenhad {
             // Configuration
 
             QString calenhad_legends_filename;
+            QString calenhad_legends_filename_temp;
             QString calenhad_recentfiles_filename;
             int calenhad_variables_name_maxlength;
             int calenhad_port_name_minLength;

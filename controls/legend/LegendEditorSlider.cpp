@@ -5,7 +5,7 @@
 #include "LegendEditorSlider.h"
 #include <QPainter>
 #include <CalenhadServices.h>
-#include "../../exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 
 using namespace calenhad::controls::legend;
 
@@ -49,10 +49,13 @@ void LegendEditorSlider::paintEvent (QPaintEvent* e) {
 }
 
 qreal LegendEditorSlider::value() const {
-    double v = CalenhadServices::calculator() -> makeExpression (_key).value ();
-    return CalenhadServices::calculator() -> hasErrors() ? 0.0 : v;
+    return CalenhadServices::calculator() -> compute (_key);
 }
 
 void LegendEditorSlider::setKey (const QString& key) {
     _key = key;
+}
+
+QString LegendEditorSlider::key() {
+    return _key;
 }

@@ -7,14 +7,14 @@
 #include <legend/QColorButton.h>
 #include <QtWidgets/QDialogButtonBox>
 #include <CalenhadServices.h>
-#include <exprtk/VariablesService.h>
+#include <exprtk/Calculator.h>
 #include "LegendEntryDialog.h"
 #include "../../exprtk/ExpressionWidget.h"
 
 using namespace calenhad::controls::legend;
 using namespace calenhad::expressions;
 
-LegendEntryDialog::LegendEntryDialog (QWidget* parent) {
+LegendEntryDialog::LegendEntryDialog (const bool& canDelete, QWidget* parent) {
     QWidget* widget = new QWidget (this);
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
     connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -23,9 +23,15 @@ LegendEntryDialog::LegendEntryDialog (QWidget* parent) {
     widget -> setLayout (layout);
     _indexEdit = new ExpressionWidget (this);
     _colorButton = new QColorButton (this);
-
+    _deleteCheck = new QCheckBox (this);
     layout -> addRow ("Index", _indexEdit);
     layout -> addRow ("Color", _colorButton);
+    layout -> addRow ("Delete", _deleteCheck);
+    connect (_deleteCheck, &QCheckBox::stateChanged, this, [=] () {
+            _indexEdit->setEnabled (!(_deleteCheck->isChecked ()));
+            _colorButton->setEnabled (!(_deleteCheck->isChecked ()));
+    });
+
     widget -> layout() -> addWidget (buttonBox);
     widget -> adjustSize();
     _indexEdit -> setFocus();
@@ -38,6 +44,15 @@ LegendEntryDialog::LegendEntryDialog (QWidget* parent) {
 
 LegendEntryDialog::~LegendEntryDialog() {
 
+}
+
+void LegendEntryDialog::preventDelete (const bool& prevented) {
+    _deleteCheck -> setChecked (false);
+    _deleteCheck -> setEnabled (prevented);
+}
+
+void LegendEntryDialog::showEvent (QShowEvent* event) {
+    _deleteCheck -> setChecked (false);
 }
 
 void LegendEntryDialog::setColor (const QColor& color) {
@@ -54,4 +69,8 @@ QColor LegendEntryDialog::color () {
 
 QString LegendEntryDialog::index () {
     return _indexEdit -> text();
+}
+
+bool LegendEntryDialog::isDelete () {
+    return _deleteCheck -> isChecked();
 }

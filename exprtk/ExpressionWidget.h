@@ -72,7 +72,7 @@ namespace calenhad {
 
             void focusOutEvent (QFocusEvent* event) override;
 
-            exprtk::expression<double> makeExpression (const QString& e);
+            double compute (const QString& e);
 
             void focusInEvent (QFocusEvent* e) override;
             double _value;

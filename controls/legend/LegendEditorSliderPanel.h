@@ -33,7 +33,7 @@ namespace calenhad {
 
             protected:
                 /// the active slider
-                int activeSlider_;
+                int _activeSlider;
             };
         }
     }

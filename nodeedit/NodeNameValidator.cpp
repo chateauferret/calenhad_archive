@@ -7,7 +7,7 @@
 #include <iostream>
 #include "NodeNameValidator.h"
 #include "../preferences/PreferencesService.h"
-#include "exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "../qmodule/QNode.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/QNodeBlock.h"

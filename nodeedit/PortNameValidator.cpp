@@ -4,7 +4,7 @@
 
 #include "../CalenhadServices.h"
 #include "../preferences/PreferencesService.h"
-#include "exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "PortNameValidator.h"
 #include "qneport.h"
 #include "../qmodule/QNode.h"

@@ -4,7 +4,7 @@
 
 #include "ExpressionWidget.h"
 #include "../CalenhadServices.h"
-#include "VariablesService.h"
+#include "Calculator.h"
 #include <QtWidgets/QHBoxLayout>
 #include "../qmodule/ParamValidator.h"
 #include <iostream>
@@ -70,7 +70,7 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
     _longBoxButton -> setFixedWidth (_longBoxButton -> height());
     layout() -> addWidget (_longBoxButton);
 
-    connect (CalenhadServices::calculator(), &VariablesService::variableChanged, this, &ExpressionWidget::variableChanged);
+    connect (CalenhadServices::calculator(), &Calculator::variableChanged, this, &ExpressionWidget::variableChanged);
     layout() -> setMargin (0);
     setContentsMargins (0, 0, 0, 0);
     adjustSize();
@@ -120,8 +120,8 @@ void ExpressionWidget::openLongBox() {
     _expressionLongBox -> show();
 }
 
-expression<double> ExpressionWidget::makeExpression (const QString& e) {
-    return CalenhadServices::calculator() -> makeExpression (e);
+double ExpressionWidget::compute (const QString& e) {
+    return CalenhadServices::calculator ()->compute (e);
 }
 
 
@@ -133,7 +133,7 @@ bool ExpressionWidget::prepare() {
     _errors.clear();
     QString text = _expressionShortBox -> text();
     std::cout << "Prepare " << text.toStdString () << "\n";
-    exprtk::expression<double> exp = makeExpression (text);
+    double v = compute (text);
     _errors.append (CalenhadServices::calculator() -> errors());
     if (hasErrors()) {
         _goosed = true;
@@ -141,7 +141,6 @@ bool ExpressionWidget::prepare() {
          reportErrors ();
          emit errorFound();
     } else {
-        double v = exp.value();
         if (! (_validator -> isInValidSet (v))) {
             _errors.append (_validator -> toString (v));
             _goosed = true;

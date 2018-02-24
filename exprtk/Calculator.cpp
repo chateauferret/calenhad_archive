@@ -4,30 +4,31 @@
 
 #include <CalenhadServices.h>
 #include <iostream>
-#include "VariablesService.h"
+#include "Calculator.h"
 #include "../preferences/PreferencesService.h"
 #include "../messages/QNotificationHost.h"
-
+#include <QCache>
 
 using namespace exprtk;
 using namespace calenhad::expressions;
 
-VariablesService::VariablesService ()  {
+Calculator::Calculator() {
 
 }
 
-VariablesService::~VariablesService () {
+Calculator::~Calculator () {
+
 }
 
-QMap<QString, CalenhadVariable> VariablesService::variables () {
+QMap<QString, CalenhadVariable> Calculator::variables () {
     return _variables;
 }
 
-void VariablesService::publish() {
+void Calculator::publish() {
     emit variableChanged();
 }
 
-void VariablesService::insertVariable (QString name, const QString& notes, const double& value, const bool& publish) {
+void Calculator::insertVariable (QString name, const QString& notes, const double& value, const bool& publish) {
     CalenhadVariable cv (name, notes, value);
     _variables.insert (name, cv);
     if (publish) {
@@ -35,7 +36,7 @@ void VariablesService::insertVariable (QString name, const QString& notes, const
     }
 }
 
-void VariablesService::updateVariable (const QString& name, const QString& notes, const double& value, const bool& publish) {
+void Calculator::updateVariable (const QString& name, const QString& notes, const double& value, const bool& publish) {
     if (_variables.keys().contains (name)) {
         _variables.find (name).value()._value = value;
         _variables.find (name).value()._notes = notes;
@@ -47,15 +48,15 @@ void VariablesService::updateVariable (const QString& name, const QString& notes
     }
 }
 
-void VariablesService::deleteVariable (const QString& name) {
+void Calculator::deleteVariable (const QString& name) {
     _variables.remove (name);
 }
 
-void VariablesService::clear () {
+void Calculator::clear () {
     _variables.clear();
 }
 
-bool VariablesService::validateVariableName (const QString& name, QString& message) {
+bool Calculator::validateVariableName (const QString& name, QString& message) {
     bool result = true;
     // name is required
     if (name.isNull () || name.isEmpty ()) {
@@ -92,7 +93,7 @@ bool VariablesService::validateVariableName (const QString& name, QString& messa
     return result;
 }
 
-bool VariablesService::validateVariableValue (const QString& value, QString& message) {
+bool Calculator::validateVariableValue (const QString& value, QString& message) {
     bool result = true;
     // value is required
     if (value.isNull () || value.isEmpty ()) {
@@ -109,12 +110,12 @@ bool VariablesService::validateVariableValue (const QString& value, QString& mes
     return result;
 }
 
-bool VariablesService::isReservedWord (const QString& term) {
+bool Calculator::isReservedWord (const QString& term) {
     return reservedWords.contains (term, Qt::CaseInsensitive);
 }
 
 
-void VariablesService::inflate (const QDomElement& element) {
+void Calculator::inflate (const QDomElement& element) {
     _variables.clear();
     _element = element;
     QDomNodeList items = ((QDomElement) element).elementsByTagName ("variable");
@@ -133,7 +134,7 @@ void VariablesService::inflate (const QDomElement& element) {
     }
 }
 
-void VariablesService::serialize (QDomDocument& doc) {
+void Calculator::serialize (QDomDocument& doc) {
     _element = doc.createElement ("variables");
     doc.documentElement().appendChild (_element);
     for (QString key : _variables.keys()) {
@@ -149,42 +150,46 @@ void VariablesService::serialize (QDomDocument& doc) {
     }
 }
 
-QStringList VariablesService::errors () {
+QStringList Calculator::errors () {
     return _errors;
 }
 
-bool VariablesService::hasErrors() {
+bool Calculator::hasErrors() {
     return ! _errors.isEmpty();
 }
 
-exprtk::expression<double> VariablesService::makeExpression (const QString& expression) {
-    _errors.clear();
-    QMap<QString, CalenhadVariable> _variables = CalenhadServices::calculator() -> variables();
-    symbol_table<double> symbols;
-    std::string keys [_variables.size()];
-    double values [_variables.size()];
+double Calculator::compute (const QString& expression) {
+    if (! _cache.contains (expression)) {
+        _errors.clear ();
+        QMap<QString, CalenhadVariable> _variables = CalenhadServices::calculator() -> variables();
+        symbol_table<double> symbols;
+        std::string keys[_variables.size()];
+        double values[_variables.size()];
 
-    for (int i = 0; i < _variables.size(); i++) {
-        CalenhadVariable cv = _variables.values ().at (i);
-        keys [i] = cv._name.toStdString ();
-        values [i] = cv._value;
-        symbols.add_variable (keys [i], values [i]);
-    }
-
-    parser<double> p;
-    exprtk::expression<double> exp;
-    exp.register_symbol_table (symbols);
-
-    QString e;
-    if (! (p.compile (expression.toStdString(), exp))) {
-        for (std::size_t i = 0; i < p.error_count(); ++i) {
-            parser_error::type error = p.get_error (i);
-            QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str ()));
-            _errors.append (e);
-            std::cout << "Error " << e.toStdString () << "\n";
+        for (int i = 0; i < _variables.size (); i++) {
+            CalenhadVariable cv = _variables.values().at (i);
+            keys[i] = cv._name.toStdString();
+            values[i] = cv._value;
+            symbols.add_variable (keys[i], values[i]);
         }
+
+        parser<double> p;
+        exprtk::expression<double>* exp = new exprtk::expression<double>();
+        exp -> register_symbol_table (symbols);
+
+        QString e;
+        if (!(p.compile (expression.toStdString(), *exp))) {
+            for (std::size_t i = 0; i < p.error_count (); ++i) {
+                parser_error::type error = p.get_error (i);
+                QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str()));
+                _errors.append (e);
+                std::cout << "Error " << e.toStdString () << "\n";
+            }
+        }
+        _cache.insert (expression, exp);
     }
-    return exp;
+
+    return _cache [expression] -> value();
 }
 
 

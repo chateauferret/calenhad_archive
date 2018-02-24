@@ -4,7 +4,7 @@
 #include "nodeedit/Calenhad.h"
 #include "pipeline/CalenhadModel.h"
 #include "icosphere/icosphere.h"
-#include "exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "messages/QNotificationHost.h"
 #include "nodeedit/qnetoolbox.h"
 #include "preferences/preferences.h"
@@ -70,7 +70,7 @@ int main (int argc, char **argv) {
     CalenhadServices::provideProjections (projections);
 
     // Calculator service
-    VariablesService* calculator = new VariablesService();
+    Calculator* calculator = new Calculator();
     CalenhadServices::provideCalculator (calculator);
 
 

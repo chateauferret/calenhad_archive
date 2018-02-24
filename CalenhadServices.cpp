@@ -7,7 +7,7 @@
 #include <QtCore/QFile>
 #include "CalenhadServices.h"
 #include "pipeline/ModuleFactory.h"
-#include "exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "preferences/PreferencesService.h"
 #include "messages/QNotificationHost.h"
 #include "legend/LegendService.h"
@@ -28,7 +28,7 @@ ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
 ModuleFactory* CalenhadServices::_modules;
-VariablesService* CalenhadServices::_calculator;
+Calculator* CalenhadServices::_calculator;
 
 PreferencesService* CalenhadServices::preferences () {
     return _preferences;
@@ -91,10 +91,10 @@ ModuleFactory* CalenhadServices::modules () {
     return _modules;
 }
 
-void CalenhadServices::provideCalculator (VariablesService* calculator) {
+void CalenhadServices::provideCalculator (Calculator* calculator) {
     _calculator = calculator;
 }
 
-VariablesService* CalenhadServices::calculator () {
+Calculator* CalenhadServices::calculator () {
     return _calculator;
 }

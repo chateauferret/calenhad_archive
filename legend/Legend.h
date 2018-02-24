@@ -20,6 +20,8 @@ namespace calenhad {
         class Legend : public QObject {
         Q_OBJECT
 
+
+
         public:
             Legend (const QString& name = "Legend");
 
@@ -40,7 +42,7 @@ namespace calenhad {
             const bool& isInterpolated () const;
 
             void addEntry (const LegendEntry& entry);
-
+            void setEntry (const int& index, const QString& key, const QColor& color);
             unsigned int removeEntries (const double& from, const double& unto);
 
             const QVector<LegendEntry>& entries () const;

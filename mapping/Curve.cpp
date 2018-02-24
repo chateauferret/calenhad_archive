@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <CalenhadServices.h>
-#include "../exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "Curve.h"
 #include "CubicSpline.h"
 

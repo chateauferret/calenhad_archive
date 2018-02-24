@@ -17,7 +17,7 @@
 #include "../mapping/TerraceCurve.h"
 #include "../mapping/CubicSpline.h"
 #include "../legend/Legend.h"
-#include "exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include <QList>
 #include <qmodule/QAltitudeMap.h>
 #include <qmodule/QRasterModule.h>
@@ -81,7 +81,6 @@ QString Graph::glsl (QModule* module) {
         // Compile any antecedent modules recurisvely
         for (QNEPort* port : module->ports ()) {
             if (port->portType () != QNEPort::OutputPort && !port->connections ().empty ()) {
-                std::cout << port->portName ().toStdString () << ": " << port->type () << "\n";
                 for (QNEConnection* c : port->connections ()) {
                     QNEPort* p = c->otherEnd (port);
                     if (p) {

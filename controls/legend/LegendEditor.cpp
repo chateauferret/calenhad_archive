@@ -16,7 +16,7 @@
 #include <cmath>
 #include "CalenhadServices.h"
 #include "LegendEntryDialog.h"
-#include "../../exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 
 using namespace calenhad::controls::legend;
 using namespace calenhad::legend;
@@ -79,7 +79,7 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
     _scale->setVisible (true);
 
     _dialog = new LegendEntryDialog (this);
-    //connect (CalenhadServices::calculator(), &VariablesService::variableChanged, this, &LegendEditor::updateRamp);
+    //connect (CalenhadServices::calculator(), &Calculator::variableChanged, this, &LegendEditor::updateRamp);
 }
 
 // -----------------------------------------------------------
@@ -147,7 +147,7 @@ void LegendEditor::setMappingTextAccuracy (int acc) {
     update ();
 }
 
-qreal LegendEditor::updateValue (LegendEditorSlider* sl) {
+qreal LegendEditor::updateKey (LegendEditorSlider* sl) {
     QRect crec = slidewid_->contentsRect ();
     if (_orientation == Qt::Horizontal) {
         crec.adjust (bspace_, 0, -bspace_, 0);
@@ -156,12 +156,12 @@ qreal LegendEditor::updateValue (LegendEditorSlider* sl) {
         crec.adjust (0, bspace_, 0, -bspace_);
         sl-> setKey (QString::number (valueAt (sl->pos ().y () - bspace_)));
     }
-    sl -> setToolTip (QString::number (sl -> value()));
+    sl -> setToolTip (sl -> key() + " = " + QString::number (sl -> value()));
     return sl -> value();
 }
 
 int LegendEditor::updatePos (LegendEditorSlider* sl) {
-    QRect crec = slidewid_->contentsRect ();
+    QRect crec = slidewid_-> contentsRect ();
     double pos = posForValue (sl -> value());
     pos += bspace_;
     if (_orientation == Qt::Horizontal) {
@@ -170,7 +170,7 @@ int LegendEditor::updatePos (LegendEditorSlider* sl) {
         sl -> move (0, (int) pos);
     }
 
-    if (_scale-> isVisible ()) { _scale -> update(); }
+    if (_scale -> isVisible ()) { _scale -> update(); }
     emit legendChanged (legend() -> entries());
     update ();
     return (int) pos;
@@ -180,6 +180,15 @@ void LegendEditor::setSlider (const int& index, const QString& key, const QColor
     if (index < 0 || index >= _sliders.size ()) { return; }
     _sliders [index] -> setColor (col);
     _sliders [index] -> setKey (key);
+    _legend -> setEntry (index, key, col);
+    emit legendChanged (legend() -> entries());
+}
+
+void LegendEditor::deleteSlider (const int& index) {
+    delete (_sliders [index]);
+    _sliders.removeAt (index);
+    activeSlider_ = -1;
+    updateRamp();
     emit legendChanged (legend() -> entries());
 }
 
@@ -199,7 +208,7 @@ void LegendEditor::mousePressEvent (QMouseEvent* e) {
                 LegendEditorSlider* sl = new LegendEditorSlider (_orientation, Qt::white, slidewid_);
                 _sliders.push_back (sl);
                 sl -> move (e->pos().x(), 0);
-                updateValue (sl);
+                updateKey (sl);
                 sl -> show();
                 qSort (_sliders.begin(), _sliders.end (), LegendEditor::SliderSort);
                 updateRamp();
@@ -210,7 +219,7 @@ void LegendEditor::mousePressEvent (QMouseEvent* e) {
                 LegendEditorSlider* sl = new LegendEditorSlider (_orientation, Qt::white, slidewid_);
                 _sliders.push_back (sl);
                 sl->move (0, e -> pos().y());
-                updateValue (sl);
+                updateKey (sl);
                 sl->show ();
                 qSort (_sliders.begin(), _sliders.end(), LegendEditor::SliderSort);
                 updateRamp();
@@ -243,7 +252,7 @@ void LegendEditor::updateRamp () {
     _legend -> clear();
     for (LegendEditorSlider* slider : _sliders) {
         updatePos (slider);
-        _legend -> addEntry (LegendEntry (slider -> value(), slider-> color()));
+        _legend -> addEntry (LegendEntry (slider -> key(), slider-> color()));
     }
 
     if (_scale-> isVisible ()) { _scale -> update(); }

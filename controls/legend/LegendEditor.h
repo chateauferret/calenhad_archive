@@ -75,7 +75,7 @@ namespace calenhad {
                 void setMappingTextAccuracy (int);
 
                 /// get the value of a slider
-                qreal updateValue (LegendEditorSlider* sl);
+                qreal updateKey (LegendEditorSlider* sl);
 
                 /// get the position
                 int updatePos (LegendEditorSlider* sl);
@@ -89,6 +89,7 @@ namespace calenhad {
                 double minimum();
 
                 double valueAt (const double& pos);
+                void deleteSlider (const int& index);
 
             signals:
 
@@ -97,7 +98,7 @@ namespace calenhad {
 
             public slots:
 
-                /// set the color of a slider to zero
+                /// set the index and color of a slider
                 void setSlider (const int& index, const QString& key, const QColor& col);
 
             protected slots:

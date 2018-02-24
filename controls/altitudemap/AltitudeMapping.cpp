@@ -3,7 +3,7 @@
 //
 
 #include <CalenhadServices.h>
-#include "../../exprtk/VariablesService.h"
+#include "exprtk/Calculator.h"
 #include "AltitudeMapping.h"
 using namespace calenhad::controls::altitudemap;
 
@@ -43,24 +43,24 @@ void AltitudeMapping::setPoint (const QPointF& point) {
     setPoint (point.x(), point.y());
 }
 
-QPointF AltitudeMapping::point ()const {
+QPointF AltitudeMapping::point() const {
     return QPointF (x(), y());
 }
 
 double AltitudeMapping::x ()const {
-    return CalenhadServices::calculator() -> makeExpression (_x).value();
+    return CalenhadServices::calculator() -> compute (_x);
 }
 
 double AltitudeMapping::y ()const {
-    return CalenhadServices::calculator() -> makeExpression (_y).value();
+    return CalenhadServices::calculator() -> compute (_y);
 }
 
-QString AltitudeMapping::expressionX ()const {
+QString AltitudeMapping::expressionX() const {
     return _x;
 }
 
 
-QString AltitudeMapping::expressionY ()const {
+QString AltitudeMapping::expressionY() const {
     return _y;
 }
 

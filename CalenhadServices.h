@@ -12,7 +12,7 @@ namespace calenhad {
         class ModuleFactory;
     }
     namespace expressions {
-        class VariablesService;
+        class Calculator;
     }
     namespace preferences {
         class PreferencesService;
@@ -49,7 +49,7 @@ namespace calenhad {
 
         static calenhad::pipeline::ModuleFactory* modules ();
 
-        static calenhad::expressions::VariablesService* calculator ();
+        static calenhad::expressions::Calculator* calculator ();
 
         static void providePreferences (calenhad::preferences::PreferencesService* service);
 
@@ -61,7 +61,7 @@ namespace calenhad {
 
         static bool readXml (const QString& fname, QDomDocument& doc);
 
-        static void provideCalculator (calenhad::expressions::VariablesService* calculator);
+        static void provideCalculator (calenhad::expressions::Calculator* calculator);
 
     private:
         static calenhad::preferences::PreferencesService* _preferences;
@@ -70,7 +70,7 @@ namespace calenhad {
         static calenhad::mapping::projection::ProjectionService* _projections;
         static calenhad::controls::globe::StatisticsService* _statistics;
         static calenhad::pipeline::ModuleFactory* _modules;
-        static calenhad::expressions::VariablesService* _calculator;
+        static calenhad::expressions::Calculator* _calculator;
 
     };
 }

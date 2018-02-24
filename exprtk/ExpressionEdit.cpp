@@ -5,7 +5,7 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QStringListModel>
 #include "CalenhadServices.h"
-#include "VariablesService.h"
+#include "Calculator.h"
 #include "ExpressionEdit.h"
 #include <QCompleter>
 #include <iostream>
