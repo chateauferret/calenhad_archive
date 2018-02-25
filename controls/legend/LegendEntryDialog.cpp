@@ -14,7 +14,7 @@
 using namespace calenhad::controls::legend;
 using namespace calenhad::expressions;
 
-LegendEntryDialog::LegendEntryDialog (const bool& canDelete, QWidget* parent) {
+LegendEntryDialog::LegendEntryDialog (QWidget* parent) {
     QWidget* widget = new QWidget (this);
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
     connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -31,6 +31,7 @@ LegendEntryDialog::LegendEntryDialog (const bool& canDelete, QWidget* parent) {
             _indexEdit->setEnabled (!(_deleteCheck->isChecked ()));
             _colorButton->setEnabled (!(_deleteCheck->isChecked ()));
     });
+
 
     widget -> layout() -> addWidget (buttonBox);
     widget -> adjustSize();

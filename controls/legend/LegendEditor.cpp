@@ -27,7 +27,7 @@ using namespace calenhad::expressions;
 // -----------------------------------------------------------
 LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : QWidget (parent), _legend (legend),
      _orientation (orientation),
-    activeSlider_ (-1), slideUpdate_ (false),
+    activeSlider_ (-1), _slideUpdate (false),
     bspace_ (5), _zoom (1.0), _pan (0.0),
     visText_ (false), textColor_ (Qt::white), textAcc_ (1) {
     if (_orientation == Qt::Horizontal) {
@@ -53,17 +53,17 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
 
     layout() -> addWidget (rampwid_);
 
-    slidewid_ = new LegendEditorSliderPanel ();
-    slidewid_->_editor = this;
+    _sliderWidget_ = new LegendEditorSliderPanel ();
+    _sliderWidget_->_editor = this;
     if (_orientation == Qt::Horizontal) {
-        slidewid_->setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed);
-        slidewid_->setFixedHeight (16);
+        _sliderWidget_->setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed);
+        _sliderWidget_->setFixedHeight (16);
     } else {
-        slidewid_->setSizePolicy (QSizePolicy::Fixed, QSizePolicy::Expanding);
-        slidewid_->setFixedWidth (16);
+        _sliderWidget_->setSizePolicy (QSizePolicy::Fixed, QSizePolicy::Expanding);
+        _sliderWidget_->setFixedWidth (16);
     }
-    slidewid_->setContentsMargins (0, 0, 0, 0);
-    layout ()->addWidget (slidewid_);
+    _sliderWidget_->setContentsMargins (0, 0, 0, 0);
+    layout ()->addWidget (_sliderWidget_);
 
     _scale = new LegendEditorScale ();
     _scale -> setEditor (this);
@@ -95,7 +95,7 @@ int LegendEditor::getSliderCount () {
 
 // -----------------------------------------------------------
 void LegendEditor::setSlideUpdate (bool val) {
-    slideUpdate_ = val;
+    _slideUpdate = val;
 }
 
 bool LegendEditor::SliderSort (const LegendEditorSlider* a1, const LegendEditorSlider* a2) {
@@ -119,7 +119,7 @@ void LegendEditor::showEvent (QShowEvent* e) {
     double range = maximum() - minimum();
     // create sliders
     for (int i = 0; i < _legend -> size(); i++) {
-        LegendEditorSlider* sl = new LegendEditorSlider (_orientation, _legend -> at (i).color(), slidewid_);
+        LegendEditorSlider* sl = new LegendEditorSlider (_orientation, _legend -> at (i).color(), _sliderWidget_);
         sl -> setKey (_legend -> at (i).key());
         _sliders.push_back (sl);
         updatePos (sl);
@@ -127,7 +127,7 @@ void LegendEditor::showEvent (QShowEvent* e) {
     }
 
     //emit legendChanged();
-    slidewid_->update ();
+    _sliderWidget_ -> update ();
     update ();
 }
 
@@ -148,7 +148,7 @@ void LegendEditor::setMappingTextAccuracy (int acc) {
 }
 
 qreal LegendEditor::updateKey (LegendEditorSlider* sl) {
-    QRect crec = slidewid_->contentsRect ();
+    QRect crec = _sliderWidget_->contentsRect ();
     if (_orientation == Qt::Horizontal) {
         crec.adjust (bspace_, 0, -bspace_, 0);
         sl -> setKey (QString::number (valueAt (sl -> pos ().x () - bspace_)));
@@ -161,7 +161,7 @@ qreal LegendEditor::updateKey (LegendEditorSlider* sl) {
 }
 
 int LegendEditor::updatePos (LegendEditorSlider* sl) {
-    QRect crec = slidewid_-> contentsRect ();
+    QRect crec = _sliderWidget_-> contentsRect ();
     double pos = posForValue (sl -> value());
     pos += bspace_;
     if (_orientation == Qt::Horizontal) {
@@ -205,7 +205,7 @@ void LegendEditor::mousePressEvent (QMouseEvent* e) {
         if (_orientation == Qt::Horizontal) {
             crec.adjust (bspace_, 0, -bspace_, 0);
             if (crec.contains (e -> pos(), true)) {
-                LegendEditorSlider* sl = new LegendEditorSlider (_orientation, Qt::white, slidewid_);
+                LegendEditorSlider* sl = new LegendEditorSlider (_orientation, Qt::white, _sliderWidget_);
                 _sliders.push_back (sl);
                 sl -> move (e->pos().x(), 0);
                 updateKey (sl);
@@ -216,7 +216,7 @@ void LegendEditor::mousePressEvent (QMouseEvent* e) {
         } else {
             crec.adjust (0, bspace_, 0, -bspace_);
             if (crec.contains (e -> pos(), true)) {
-                LegendEditorSlider* sl = new LegendEditorSlider (_orientation, Qt::white, slidewid_);
+                LegendEditorSlider* sl = new LegendEditorSlider (_orientation, Qt::white, _sliderWidget_);
                 _sliders.push_back (sl);
                 sl->move (0, e -> pos().y());
                 updateKey (sl);
@@ -237,13 +237,13 @@ void LegendEditor::mouseMoveEvent (QMouseEvent* e) {
 }
 
 double LegendEditor::valueAt (const double& pos) {
-    QRect crec = slidewid_->contentsRect();
+    QRect crec = _sliderWidget_->contentsRect();
     crec.adjust (bspace_, 0, -bspace_, 0);
     return minimum() + ((pos / crec.width()) * (maximum() - minimum()));
 }
 
 double LegendEditor::posForValue (const double& value) {
-    QRect crec = slidewid_-> contentsRect();
+    QRect crec = _sliderWidget_-> contentsRect();
     crec.adjust (bspace_, 0, -bspace_, 0);
     return (value - minimum()) / (maximum() - minimum()) * crec.width();
 }

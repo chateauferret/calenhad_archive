@@ -18,7 +18,7 @@ namespace calenhad {
             class LegendEntryDialog : public QDialog {
 
             public:
-                LegendEntryDialog (const bool& canDelete, QWidget* parent = 0);
+                LegendEntryDialog (QWidget* parent = 0);
                 ~LegendEntryDialog();
                 QColor color();
                 QString index();

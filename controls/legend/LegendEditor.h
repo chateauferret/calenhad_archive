@@ -138,7 +138,7 @@ namespace calenhad {
 
                 /// the widgets drawint the ramp, the sliders, the text
                 LegendPreview* rampwid_;
-                LegendEditorSliderPanel* slidewid_;
+                LegendEditorSliderPanel* _sliderWidget_;
                 LegendEditorScale* _scale;
 
                 /// the index of the active slider
@@ -157,7 +157,7 @@ namespace calenhad {
                 int textAcc_;
 
                 /// continous update?
-                bool slideUpdate_;
+                bool _slideUpdate;
 
                 void showEvent (QShowEvent* e);
 
