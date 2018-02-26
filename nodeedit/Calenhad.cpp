@@ -252,11 +252,11 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 
     QAction* manageLegendsAction = createAction (QIcon (":/appicons/controls/legend.png"), tr ("&Legends"), "Manage the list of map legends");
     connect (manageLegendsAction, &QAction::triggered, this, [=] () {
-        if (! _legendDialog) {
-            _legendDialog = new CalenhadLegendDialog (this);
-        }
+        _legendDialog = new CalenhadLegendDialog (this);
+        _legendDialog -> setAttribute(Qt::WA_DeleteOnClose);
         _legendDialog -> show();
     });
+
     editToolbar -> addAction (manageLegendsAction);
     // Menu
 

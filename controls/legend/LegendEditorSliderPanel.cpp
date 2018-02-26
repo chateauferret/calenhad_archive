@@ -31,7 +31,7 @@ void LegendEditorSliderPanel::mousePressEvent (QMouseEvent* e) {
 }
 
 void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
-//    if (_activeSlider >= 0) {
+    if (_activeSlider >= 0) {
         QRect crec = contentsRect();
 
         qreal pos;
@@ -57,7 +57,7 @@ void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
             if (_editor -> _slideUpdate) { _editor -> updateRamp(); }
         }
     }
-//}
+}
 
 void LegendEditorSliderPanel::mouseReleaseEvent (QMouseEvent* e) {
     if (e->button () == Qt::LeftButton) {
