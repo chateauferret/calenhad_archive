@@ -65,3 +65,9 @@ QColor LegendEntry::color ()const {
 bool LegendEntry::operator== (const LegendEntry& other) {
         return key() == other.key() && color() == other.color();
 };
+
+bool LegendEntry::isComputed()const {
+    bool ok;
+    double v = _key.toDouble (&ok);
+    return ! ok;
+}

@@ -26,9 +26,7 @@ namespace calenhad {
         protected:
 
             calenhad::legend::LegendManager* _legendManager;
-
-
-            void showEvent (QShowEvent* event);
+            void showEvent (QShowEvent* event) override;
         };
     }
 }

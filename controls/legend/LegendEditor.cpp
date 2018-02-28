@@ -120,7 +120,11 @@ void LegendEditor::showEvent (QShowEvent* e) {
     // create sliders
     for (int i = 0; i < _legend -> size(); i++) {
         LegendEditorSlider* sl = new LegendEditorSlider (_orientation, _legend -> at (i).color(), _sliderWidget_);
-        sl -> setKey (_legend -> at (i).key());
+        QString key = _legend -> at (i).key();
+        sl -> setKey (key);
+        bool ok;
+        key.toDouble (&ok);
+        sl -> setComputed (! ok);
         _sliders.push_back (sl);
         updatePos (sl);
         sl->show ();
@@ -133,7 +137,7 @@ void LegendEditor::showEvent (QShowEvent* e) {
 
 void LegendEditor::setMappingTextVisualize (bool vis) {
     visText_ = vis;
-    _scale->setVisible (visText_);
+    _scale -> setVisible (visText_);
     update ();
 }
 
@@ -180,6 +184,9 @@ void LegendEditor::setSlider (const int& index, const QString& key, const QColor
     if (index < 0 || index >= _sliders.size ()) { return; }
     _sliders [index] -> setColor (col);
     _sliders [index] -> setKey (key);
+    bool ok;
+    key.toDouble (&ok);
+    _sliders [index] -> setComputed (! ok);
     _legend -> setEntry (index, key, col);
     emit legendChanged (legend() -> entries());
 }

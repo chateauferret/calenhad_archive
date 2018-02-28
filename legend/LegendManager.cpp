@@ -100,7 +100,6 @@ void LegendManager::deleteLegend() {
 
 void LegendManager::showEvent (QShowEvent* e) {
     _chooser -> refresh();
-
     // turn up the right widget for the legend currently in use
     if (_legend) {
         ((QStackedLayout*) _legendDetailArea->layout ())->setCurrentWidget (_legend->widget ());

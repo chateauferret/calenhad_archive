@@ -251,9 +251,11 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     fileToolbar -> addAction (xmlAction);
 
     QAction* manageLegendsAction = createAction (QIcon (":/appicons/controls/legend.png"), tr ("&Legends"), "Manage the list of map legends");
+
     connect (manageLegendsAction, &QAction::triggered, this, [=] () {
-        _legendDialog = new CalenhadLegendDialog (this);
-        _legendDialog -> setAttribute(Qt::WA_DeleteOnClose);
+        if (! _legendDialog) {
+            _legendDialog = new CalenhadLegendDialog (this);
+        }
         _legendDialog -> show();
     });
 
@@ -358,6 +360,7 @@ Calenhad::~Calenhad() {
     delete _viewDrawer;
     delete _editDrawer;
     delete _addModuleDrawer;
+    if (_legendDialog) { delete _legendDialog; }
 }
 
 void Calenhad::resizeEvent (QResizeEvent* event) {

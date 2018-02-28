@@ -15,15 +15,19 @@ using namespace calenhad::legend;
 
 LegendEditorSliderPanel::LegendEditorSliderPanel (QWidget* parent) : QWidget (parent), _activeSlider (-1) {
     setContentsMargins (0, 0, 0, 0);
+    setMouseTracking (true);
 }
 
 void LegendEditorSliderPanel::mousePressEvent (QMouseEvent* e) {
     if (e -> button () == Qt::LeftButton) {
-        if (_editor ->_sliders.size () < 2) { return; }
         for (int i = 0; i < _editor->_sliders.size(); i++) {
-            QRect srec = _editor->_sliders[i]->geometry ();
-            if (srec.contains (e -> pos(), true)) {
-                _activeSlider = i;
+            QRect srec = _editor->_sliders[i] -> geometry ();
+            if (srec.contains (e -> pos())) {
+                // only allow an entry to be dragged about if its key is a literal value, so as not to destroy expressions
+                if (! (_editor -> _legend -> entries().at (i).isComputed())) {
+                    _activeSlider = i;
+                    _editor -> _sliders[i] -> setCursor (Qt::ClosedHandCursor);
+                }
                 break;
             }
         }
@@ -43,9 +47,9 @@ void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
             pos = 1.0 * (e -> pos().y() - _editor -> bspace_) / (crec.height());
         }
 
-        if (pos < 0.0 || pos > 1.0) {
-            _editor -> deleteSlider (_activeSlider);
-        } else {
+
+        if (crec.contains (e -> pos()))  {
+            _editor -> _sliders[_activeSlider] -> assignCursor();
             if (_editor -> _orientation == Qt::Horizontal) {
                 _editor -> _sliders[_activeSlider] -> move (e -> pos().x(), 0);
             } else {
@@ -55,14 +59,24 @@ void LegendEditorSliderPanel::mouseMoveEvent (QMouseEvent* e) {
             _editor -> updateKey (_editor->_sliders[_activeSlider]);
             qSort (_editor -> _sliders.begin (), _editor -> _sliders.end(), LegendEditor::SliderSort);
             if (_editor -> _slideUpdate) { _editor -> updateRamp(); }
+        } else {
+            _editor -> _sliders[_activeSlider] -> setCursor (Qt::ForbiddenCursor);
         }
     }
 }
 
 void LegendEditorSliderPanel::mouseReleaseEvent (QMouseEvent* e) {
     if (e->button () == Qt::LeftButton) {
+        if (_activeSlider >= 0) {
+            if (rect().contains (e -> pos())) {
+                _editor ->_sliders[_activeSlider] -> assignCursor();
+            } else {
+                // delete the slider if it was dragged off the panel and dropped
+                _editor -> deleteSlider (_activeSlider);
+            }
+        }
         _activeSlider = -1;
-        _editor -> updateRamp();
+        _editor -> updateRamp ();
     }
 }
 
@@ -71,7 +85,7 @@ void LegendEditorSliderPanel::mouseDoubleClickEvent (QMouseEvent* e) {
         int index = -1;
         for (int i = 0; i < _editor->_sliders.size (); i++) {
             QRect srec = _editor->_sliders[i] -> geometry();
-            if (srec.contains (e -> pos (), true)) {
+            if (srec.contains (e -> pos(), true)) {
                 index = i;
                 break;
             }

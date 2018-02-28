@@ -250,3 +250,12 @@ void Legend::setEntry (const int& index, const QString& key, const QColor& color
     _entries.replace (index, entry);
 
 }
+
+bool Legend::isComputed() {
+    for (LegendEntry entry : _entries) {
+        if (entry.isComputed()) {
+            return true;
+        }
+    }
+    return false;
+}

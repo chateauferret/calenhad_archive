@@ -68,6 +68,7 @@ namespace calenhad {
             QIcon icon ();
 
 
+            bool isComputed ();
             LegendWidget* widget ();
 
         public slots:
@@ -91,6 +92,7 @@ namespace calenhad {
             QColor _defaultColor;
             QString _notes;
             QString _name;
+
         };
     }
 }

@@ -27,7 +27,9 @@ namespace calenhad {
                 qreal value() const;
                 QString key();
                 void setKey (const QString& value);
-
+                void setComputed (const bool& computed);
+                bool isComputed();
+                void assignCursor ();
             protected:
 
                 // the value (as a Calenhad expression)
@@ -39,10 +41,13 @@ namespace calenhad {
                 /// the orientation
                 int _orientation;
 
+                bool _computed;
+
             protected slots:
 
                 /// paint the widget
                 virtual void paintEvent (QPaintEvent* event);
+
 
             };
 

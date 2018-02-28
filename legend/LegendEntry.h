@@ -36,6 +36,7 @@ namespace calenhad {
 
                 bool operator== (const LegendEntry& other);
 
+                bool isComputed ()const;
             protected:
                 QString _key;
                 QColor _color;
