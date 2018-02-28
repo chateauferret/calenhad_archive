@@ -47,11 +47,11 @@ QPointF AltitudeMapping::point() const {
     return QPointF (x(), y());
 }
 
-double AltitudeMapping::x ()const {
+double AltitudeMapping::x() const {
     return CalenhadServices::calculator() -> compute (_x);
 }
 
-double AltitudeMapping::y ()const {
+double AltitudeMapping::y() const {
     return CalenhadServices::calculator() -> compute (_y);
 }
 
@@ -70,4 +70,18 @@ void AltitudeMapping::setExpressionX (const QString& x) {
 
 void AltitudeMapping::setExpressionY (const QString& y) {
     _y = y;
+}
+
+bool AltitudeMapping::isComputed()const {
+    bool ok;
+    _x.toDouble (&ok);
+    if (ok) { _y.toDouble (&ok); }
+
+    return ! ok;
+}
+
+bool AltitudeMapping::isValid () const {
+    CalenhadServices::calculator() -> compute (_x);
+    CalenhadServices::calculator() -> compute (_y);
+    return ! CalenhadServices::calculator() -> hasErrors();
 }

@@ -33,7 +33,7 @@ namespace calenhad {
 
             virtual ~ExpressionWidget ();
             void setText (QString text);
-            const QString& text();
+            const QString text();
             bool isValid ();
             double value();
             QString errors();
@@ -65,7 +65,6 @@ namespace calenhad {
 
             void reportErrors ();
 
-            QString _text;
             ExpressionEdit* _expressionLongBox;
             QLabel* _statusLabel;
             calenhad::qmodule::ParamValidator* _validator;
@@ -77,6 +76,7 @@ namespace calenhad {
             void focusInEvent (QFocusEvent* e) override;
             double _value;
 
+            void showEvent (QShowEvent* event) override;
         };
     }
 }

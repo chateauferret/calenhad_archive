@@ -159,8 +159,8 @@ bool Calculator::hasErrors() {
 }
 
 double Calculator::compute (const QString& expression) {
+    _errors.clear ();
     if (! _cache.contains (expression)) {
-        _errors.clear ();
         QMap<QString, CalenhadVariable> _variables = CalenhadServices::calculator() -> variables();
         symbol_table<double> symbols;
         std::string keys[_variables.size()];
@@ -179,11 +179,11 @@ double Calculator::compute (const QString& expression) {
 
         QString e;
         if (!(p.compile (expression.toStdString(), *exp))) {
-            for (std::size_t i = 0; i < p.error_count (); ++i) {
+            for (std::size_t i = 0; i < p.error_count(); ++i) {
                 parser_error::type error = p.get_error (i);
                 QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str()));
                 _errors.append (e);
-                std::cout << "Error " << e.toStdString () << "\n";
+                std::cout << expression.toStdString() << ": Error " << e.toStdString () << "\n";
             }
         }
         _cache.insert (expression, exp);

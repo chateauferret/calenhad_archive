@@ -59,6 +59,7 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
 }
 
 AltitudeMapPlot::~AltitudeMapPlot() {
+    if (_selectedMarker) {  _selectedMarker -> detach(); }
     _curve -> detach(); // automatically deletes the curve
     delete _symbol;
     delete _selectedSymbol;
@@ -66,7 +67,7 @@ AltitudeMapPlot::~AltitudeMapPlot() {
     if (_zoomer) { delete _zoomer; }
     if (_panner) { delete _panner; }
     if (_dialog) { delete _dialog; }
-    if (_selectedMarker) { delete _selectedMarker; }
+
 }
 
 void AltitudeMapPlot::changeEvent (QEvent *e) {
@@ -170,13 +171,15 @@ void AltitudeMapPlot::plotPoints() {
 
 void AltitudeMapPlot::updateFromDialog() {
     AltitudeMapping mapping = _dialog -> mapping();
-    _index = _dialog -> index();
+    if (mapping.isValid()) {
+        _index = _dialog->index ();
 
-    if (_index >= 0 && _index < _entries.size()) {
-        _entries.replace (_index, mapping);
-        std::sort (_entries.begin (), _entries.end (), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x () < b.x (); });
-        _curve -> setSamples (samples ());
-        plotPoints();
+        if (_index >= 0 && _index < _entries.size ()) {
+            _entries.replace (_index, mapping);
+            std::sort (_entries.begin (), _entries.end (), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x () < b.x (); });
+            _curve->setSamples (samples ());
+            plotPoints ();
+        }
     }
 }
 
@@ -202,7 +205,11 @@ void AltitudeMapPlot::mouseCanvasReleaseEvent (QMouseEvent* event) {
     if (_index == noneSelected) {
         canvas() -> setCursor (Qt::CrossCursor);
     } else {
-        canvas() -> setCursor (Qt::OpenHandCursor);
+        if (_entries.at (_index).isComputed()) {
+            canvas ()->setCursor (Qt::PointingHandCursor);
+        } else {
+            canvas() -> setCursor (Qt::OpenHandCursor);
+        }
     }
 }
 
@@ -216,7 +223,7 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                 if (canDeleteSelected()) {
                     // we can delete the point so show what the curve would look like without it - but keep this in a temporary object so that we can revert
                     // the change if the user brings the point back onto the canvas.
-                    canvas () -> setCursor (Qt::ForbiddenCursor);
+                    canvas() -> setCursor (Qt::ForbiddenCursor);
                     QVector<QPointF> tempEntries;
                     for (int i = 0; i < _entries.size(); i++) {
                         if (i != _index) {
@@ -256,7 +263,11 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
     } else {
         _index = _curve -> closestPoint (event -> pos(), &dist);
         if (dist < 8) {
-            canvas() -> setCursor (Qt::OpenHandCursor);
+            if (_entries.at (_index).isComputed()) {
+                canvas() -> setCursor (Qt::PointingHandCursor);
+            } else {
+                canvas() -> setCursor (Qt::OpenHandCursor);
+            }
             _panner -> setEnabled (false);
         } else {
             canvas() -> setCursor (Qt::CrossCursor);
@@ -268,37 +279,38 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
 
 // Updates the coordinates of the point identified by _index to move it to the coordinates of the supplied QPointF.
 void AltitudeMapPlot::updatePoint (QPointF& point) {
-
-    // the X values of the first and last points in the curve to be clamped to -1 and 1 respectively so that there are no gaps at either end.
-    // We can still move the point in the Y direction though.
-    if (_index == 0) {
-        point.setX (-1);
-    }
-    if (_index == _entries.size() - 1) {
-        point.setX (1);
-    }
-
-    // no two points are to have the same X value
-    if (_index > 0) {
-        if (point.x() == _entries.at (_index - 1).x()) {
-            point.setX (_entries.at (_index - 1).x() + (2.0d / _resolution));
+    if (! _entries.at (_index).isComputed()) {
+        // the X values of the first and last points in the curve to be clamped to -1 and 1 respectively so that there are no gaps at either end.
+        // We can still move the point in the Y direction though.
+        if (_index == 0) {
+            point.setX (-1);
         }
-    }
-
-    if (_index < _entries.size () - 1) {
-        if (point.x () == _entries.at (_index + 1).x()) {
-            point.setX (_entries.at (_index + 1).x() - (2.0d / _resolution));
+        if (_index == _entries.size () - 1) {
+            point.setX (1);
         }
-    }
+
+        // no two points are to have the same X value
+        if (_index > 0) {
+            if (point.x () == _entries.at (_index - 1).x ()) {
+                point.setX (_entries.at (_index - 1).x () + (2.0d / _resolution));
+            }
+        }
+
+        if (_index < _entries.size () - 1) {
+            if (point.x () == _entries.at (_index + 1).x ()) {
+                point.setX (_entries.at (_index + 1).x () - (2.0d / _resolution));
+            }
+        }
 
 
-    // update the point with the new position and reproduce the curve showing the change.
-    _entries.replace (_index, point);
-    if (isOnCanvas (point)) {
-        std::sort (_entries.begin(), _entries.end(), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x() < b.x(); });
+        // update the point with the new position and reproduce the curve showing the change.
+        _entries.replace (_index, point);
+        if (isOnCanvas (point)) {
+            std::sort (_entries.begin (), _entries.end (), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x () < b.x (); });
+        }
+        _curve->setSamples (samples ());
+        plotPoints ();
     }
-    _curve -> setSamples (samples());
-    plotPoints();
 }
 
 QPointF AltitudeMapPlot::toPlotCoordinates (const int& pixelX, const int& pixelY) {

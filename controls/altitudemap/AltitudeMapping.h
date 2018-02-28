@@ -34,7 +34,8 @@ namespace calenhad {
                 QString expressionY()const;
                 void setExpressionX (const QString& x);
                 void setExpressionY (const QString& y);
-
+                bool isComputed() const;
+                bool isValid() const;
             protected:
                 QString _x, _y;
 

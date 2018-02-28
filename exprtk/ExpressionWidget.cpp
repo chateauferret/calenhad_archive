@@ -84,7 +84,8 @@ ExpressionWidget::~ExpressionWidget() {
 }
 
 void ExpressionWidget::variableChanged (const QString& name, const double& value) {
-    if (_text == QString::null || _text.contains (name)) {
+    QString text = _expressionShortBox -> text();
+    if (text == QString::null || text.contains (name)) {
         prepare();
     }
 }
@@ -97,7 +98,7 @@ void ExpressionWidget::editText() {
 
     if (sender() == _expressionShortBox) {
         // If text in the short box is close to its capacity, bring up the long box
-        _text = _expressionShortBox->text ();
+
         if (!(_expressionLongBox->isVisible ())) {
             if (_expressionLongBox->toPlainText () != _expressionShortBox->text ()) {
                 QFont f = _expressionShortBox->font ();
@@ -132,7 +133,7 @@ bool ExpressionWidget::hasErrors() {
 bool ExpressionWidget::prepare() {
     _errors.clear();
     QString text = _expressionShortBox -> text();
-    std::cout << "Prepare " << text.toStdString () << "\n";
+
     double v = compute (text);
     _errors.append (CalenhadServices::calculator() -> errors());
     if (hasErrors()) {
@@ -161,6 +162,7 @@ bool ExpressionWidget::prepare() {
         }
     }
     emit expressionChanged();
+    std::cout << "Prepare " << text.toStdString () << " = " << _value << "\n";
     return ! _goosed;
 }
 
@@ -174,17 +176,23 @@ void ExpressionWidget::reportErrors () {
 
 void ExpressionWidget::setText (QString text) {
     if (_expressionShortBox -> text() != text) {
-        _expressionShortBox -> setText (text);
+        _expressionShortBox->setText (text);
     }
+    prepare();
 }
 
-const QString& ExpressionWidget::text () {
-    return _text;
+const QString ExpressionWidget::text () {
+    return _expressionShortBox -> text();
 }
 
 void ExpressionWidget::setValidator (calenhad::qmodule::ParamValidator* validator) {
     if (_validator) { delete _validator; }
     _validator = validator;
+}
+
+void ExpressionWidget::showEvent (QShowEvent* event) {
+    prepare();
+    QWidget::showEvent (event);
 }
 
 void ExpressionWidget::focusOutEvent (QFocusEvent* event) {
