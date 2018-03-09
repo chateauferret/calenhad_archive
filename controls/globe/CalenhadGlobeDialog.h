@@ -35,7 +35,7 @@ namespace calenhad {
 using namespace calenhad::mapping::projection;
 namespace calenhad {
     namespace qmodule {
-        class QModule;
+        class Module;
     }
     namespace legend {
         class Legend;
@@ -56,7 +56,7 @@ namespace calenhad {
 
             public:
 
-                CalenhadGlobeDialog (QWidget* parent, qmodule::QModule* source);
+                CalenhadGlobeDialog (QWidget* parent, qmodule::Module* source);
 
                 virtual ~CalenhadGlobeDialog ();
 

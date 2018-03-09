@@ -3,13 +3,13 @@
 //
 
 #include "CreateConnectionCommand.h"
-#include "../nodeedit/qneconnection.h"
+#include "nodeedit/Connection.h"
 #include "../pipeline/CalenhadModel.h"
 using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::pipeline;
 
-CreateConnectionCommand::CreateConnectionCommand (QNEPort* from, QNEPort* to, CalenhadModel* model) : _connection (nullptr), _from (from), _to (to), _model (model) {
+CreateConnectionCommand::CreateConnectionCommand (Port* from, Port* to, CalenhadModel* model) : _connection (nullptr), _from (from), _to (to), _model (model) {
     setText ("Create connection"); // to do - identify connection by owner/port names
 }
 

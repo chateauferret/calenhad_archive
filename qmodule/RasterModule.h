@@ -5,7 +5,7 @@
 #ifndef CALENHAD_QRASTERMODULE_H
 #define CALENHAD_QRASTERMODULE_H
 
-#include "QModule.h"
+#include "Module.h"
 #include "../icosphere/Bounds.h"
 
 namespace calenhad {
@@ -13,15 +13,16 @@ namespace calenhad {
         class QAngleControl;
     }
     namespace qmodule {
-        class QRasterModule : public QModule {
+        class RasterModule : public Module {
         public:
-            QRasterModule (QModule* parent = 0);
-            virtual ~QRasterModule();
+            RasterModule (Module* parent = 0);
+            virtual ~RasterModule();
             void setRaster (const QImage& raster);
             QImage* raster();
             void initialise() override;
             bool isComplete() override;
             icosphere::Bounds bounds();
+            QString glsl() override;
         protected:
             QString _filename;
             QImage* _raster;

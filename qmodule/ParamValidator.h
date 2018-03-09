@@ -49,7 +49,7 @@ namespace calenhad {
         class AcceptAngleDegrees : public ParamValidator {
             bool isInValidSet (const double& value) override { return value >= -180 && value <= 180; }
             bool isInBestSet (const double& value) override { return isInValidSet (value);  }
-            QString toString (const double& value) { return "Enter any value between -1 and 1 inclusive"; }
+            QString toString (const double& value) { return "Enter any value between -180 and 180 inclusive"; }
         };
 
         class AcceptRange : public ParamValidator {
@@ -104,4 +104,6 @@ namespace calenhad {
         };
     }
 }
-#endif //CALENHAD_PARAMVALIDATOR_H
+
+
+#endif

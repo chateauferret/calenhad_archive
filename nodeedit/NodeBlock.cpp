@@ -23,20 +23,20 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include "QNodeBlock.h"
+#include "NodeBlock.h"
 #include <QPainter>
 #include <controls/QColoredIcon.h>
 #include "Calenhad.h"
-#include "../qmodule/QModule.h"
+#include "qmodule/Module.h"
 #include "EditableLabel.h"
 #include "../CalenhadServices.h"
-#include "qneconnection.h"
-#include "QNodeGroupBlock.h"
-#include "../qmodule/QNodeGroup.h"
+#include "Connection.h"
+#include "NodeGroupBlock.h"
+#include "qmodule/NodeGroup.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../preferences/PreferencesService.h"
 #include "../nodeedit/CalenhadView.h"
-#include "../nodeedit/qneport.h"
+#include "Port.h"
 #include <QGraphicsSceneMouseEvent>
 #include "../pipeline/CalenhadModel.h"
 #include "NodeNameValidator.h"
@@ -48,7 +48,7 @@ using namespace calenhad::qmodule;
 
 
 
-QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr),
+NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr),
    _endorsementOrright (QPixmap (":/appicons/status/orright.png")),
    _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
     _pixmap = CalenhadServices::modules() -> getIcon (node -> nodeType());
@@ -58,12 +58,12 @@ QNodeBlock::QNodeBlock (QNode* node, QGraphicsItem* parent) : QGraphicsPathItem 
     setZValue (0);
 }
 
-QNodeBlock::~QNodeBlock() {
+NodeBlock::~NodeBlock() {
     if (_icon) { delete _icon; }
 }
 
 
-void QNodeBlock::initialise() {
+void NodeBlock::initialise() {
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
@@ -79,11 +79,11 @@ void QNodeBlock::initialise() {
         QString name = _label -> toPlainText();
         _node -> propertyChangeRequested ("name", name);
     });
-    connect (_node, &QNode::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
+    connect (_node, &Node::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
     setPath (makePath ());
 }
 
-QPainterPath QNodeBlock::makePath() {
+QPainterPath NodeBlock::makePath() {
 
     _label -> setPos (10 - (_label -> boundingRect().width() / 2 ), _size.height() + _margin);
     // shape of the block's body
@@ -96,7 +96,7 @@ QPainterPath QNodeBlock::makePath() {
     return p;
 }
 
-void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED (option)
 
     _brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected : CalenhadServices::preferences() -> calenhad_module_brush_color_normal);
@@ -114,7 +114,7 @@ void QNodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 }
 
-void QNodeBlock::assignIcon() {
+void NodeBlock::assignIcon() {
     if (_pixmap) {
         if (_icon) { delete _icon; }
         _icon = new QColoredIcon ();
@@ -127,7 +127,7 @@ void QNodeBlock::assignIcon() {
     }
 }
 
-QNEPort* QNodeBlock::addPort (QNEPort* port) {
+Port* NodeBlock::addPort (Port* port) {
     port -> setParentItem (this);
 
     int vertMargin = _margin;
@@ -137,9 +137,9 @@ QNEPort* QNodeBlock::addPort (QNEPort* port) {
     int w = fm.width (port -> portName());
     int h = fm.height();
     foreach (QGraphicsItem* port_, childItems()) {
-        if (port_->type () == QNEPort::Type) {
-            QNEPort* port = (QNEPort*) port_;
-            if (port -> portType () == QNEPort::OutputPort) {
+        if (port_->type () == Port::Type) {
+            Port* port = (Port*) port_;
+            if (port -> portType () == Port::OutputPort) {
                 port -> setPos (_size.width() + 2 * _margin + port -> radius(), yOutput + vertMargin);
                 yOutput += h;
             } else {
@@ -151,32 +151,32 @@ QNEPort* QNodeBlock::addPort (QNEPort* port) {
 
     port -> setBlock (this);
     port -> initialise();
-    connect (port, &QNEPort::connected, _node, &QNode::invalidate);
-    connect (port, &QNEPort::disconnected, _node, &QNode::invalidate);
+    connect (port, &Port::connected, _node, &Node::invalidate);
+    connect (port, &Port::disconnected, _node, &Node::invalidate);
     return port;
 }
 
-QVector<QNEPort*> QNodeBlock::ports() {
-    QVector<QNEPort*> res;
+QVector<Port*> NodeBlock::ports() {
+    QVector<Port*> res;
             foreach(QGraphicsItem* port_, childItems ()) {
-                if (port_ -> type () == QNEPort::Type) {
-                res.append ((QNEPort*) port_);
+                if (port_ -> type () == Port::Type) {
+                res.append ((Port*) port_);
             }
         }
     return res;
 }
 
-QVariant QNodeBlock::itemChange (GraphicsItemChange change, const QVariant& value) {
+QVariant NodeBlock::itemChange (GraphicsItemChange change, const QVariant& value) {
     Q_UNUSED(change);
     return value;
 }
 
-QVector<QNEPort*> QNodeBlock::inputs() {
-    QVector<QNEPort*> res;
+QVector<Port*> NodeBlock::inputs() {
+    QVector<Port*> res;
             foreach (QGraphicsItem* port_, childItems()) {
-            if (port_ -> type() == QNEPort::Type) {
-                QNEPort* port = (QNEPort*) port_;
-                if (port -> portType() != QNEPort::InputPort) {
+            if (port_ -> type() == Port::Type) {
+                Port* port = (Port*) port_;
+                if (port -> portType() != Port::InputPort) {
                     res.append (port);
                 }
             }
@@ -184,12 +184,12 @@ QVector<QNEPort*> QNodeBlock::inputs() {
     return res;
 }
 
-QVector<QNEPort*> QNodeBlock::outputs() {
-    QVector<QNEPort*> res;
+QVector<Port*> NodeBlock::outputs() {
+    QVector<Port*> res;
             foreach (QGraphicsItem* port_, childItems()) {
-            if (port_ -> type () == QNEPort::Type) {
-                QNEPort* port = (QNEPort*) port_;
-                if (port -> portType() != QNEPort::OutputPort) {
+            if (port_ -> type () == Port::Type) {
+                Port* port = (Port*) port_;
+                if (port -> portType() != Port::OutputPort) {
                     res.append (port);
                 }
             }
@@ -197,12 +197,12 @@ QVector<QNEPort*> QNodeBlock::outputs() {
     return res;
 }
 
-QVector<QNEPort*> QNodeBlock::controls() {
-    QVector<QNEPort*> res;
+QVector<Port*> NodeBlock::controls() {
+    QVector<Port*> res;
     foreach (QGraphicsItem* p, parentItem() -> childItems()) {
-        if (p -> type() == QNEPort::Type) {
-            QNEPort* p = (QNEPort*) p;
-            if (p -> portType () != QNEPort::ControlPort) {
+        if (p -> type() == Port::Type) {
+            Port* p = (Port*) p;
+            if (p -> portType () != Port::ControlPort) {
                 res.append (p);
             }
         }
@@ -210,7 +210,7 @@ QVector<QNEPort*> QNodeBlock::controls() {
     return res;
 }
 
-void QNodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
+void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
 
     QGraphicsItem::mouseMoveEvent (event);
     if (event->buttons() | Qt::LeftButton) {
@@ -219,28 +219,28 @@ void QNodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
         // highlight a group if we are dragging over it
         QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
         QList<QGraphicsItem*>::iterator i = items.begin ();
-        while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+        while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
             i++;
         }
-        QNodeGroupBlock* target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+        NodeGroupBlock* target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
         for (QGraphicsItem* item : scene ()->items ()) {
-            if (dynamic_cast<QNodeGroupBlock*> (item)) {
-                ((QNodeGroupBlock*) item) -> setHighlight (item == target);
+            if (dynamic_cast<NodeGroupBlock*> (item)) {
+                ((NodeGroupBlock*) item) -> setHighlight (item == target);
             }
         }
 
         // keep item on top of any group it's being dragged over
         items = collidingItems (Qt::IntersectsItemShape);
         i = items.begin ();
-        while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+        while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
             i++;
         }
-        target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+        target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
         if (! target) {
             if (! parent()) { setZValue (-1000); }
         } else {
             for (QGraphicsItem* item : scene ()->items ()) {
-                if (dynamic_cast<QNodeGroupBlock*> (item)) {
+                if (dynamic_cast<NodeGroupBlock*> (item)) {
                     if (! parent ()) { setZValue (target->zValue() + 1); }
                 }
             }
@@ -252,51 +252,51 @@ void QNodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
     //event -> accept();
 }
 
-void QNodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
+void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
     detach();
     setCursor (Qt::ClosedHandCursor);
     QGraphicsItem::mousePressEvent (event);
     _oldZ = zValue();
 }
 
-void QNodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
+void NodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     setCursor (Qt::OpenHandCursor);
     assignGroup();
     for (QGraphicsItem* item : scene() -> items()) {
-        if (dynamic_cast<QNodeGroupBlock*> (item)) {
-            ((QNodeGroupBlock*) item) -> setHighlight (false);
+        if (dynamic_cast<NodeGroupBlock*> (item)) {
+            ((NodeGroupBlock*) item) -> setHighlight (false);
         }
     }
 
     QGraphicsItem::mouseReleaseEvent (event);
 }
 
-void QNodeBlock::assignGroup() {
+void NodeBlock::assignGroup() {
     detach();
     QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
     QList<QGraphicsItem*>::iterator i = items.begin ();
-    while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+    while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
         i++;
     }
-    QNodeGroupBlock* target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+    NodeGroupBlock* target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
     // assign this node to the target group, if there is one (and if not already assigned)
     //setZValue (0);
     if (target) {
-        _node -> setGroup ((QNodeGroup*) target -> node ());
+        _node -> setGroup ((NodeGroup*) target -> node ());
         attach (target);
     } else {
         _node -> setGroup (nullptr);
     }
 }
 
-void QNodeBlock::detach() {
+void NodeBlock::detach() {
     QPointF p = scenePos();
     setParentItem (nullptr);
     setPos (p);
     setSelected (false);
 }
 
-void QNodeBlock::attach (QGraphicsItem* target) {
+void NodeBlock::attach (QGraphicsItem* target) {
     if (target -> parentItem() != this && target != parentItem()) {
         QPointF p = mapToItem (target, pos ());
         setParentItem (target);
@@ -304,10 +304,10 @@ void QNodeBlock::attach (QGraphicsItem* target) {
     }
 }
 
-QRectF QNodeBlock::boundingRect() const {
+QRectF NodeBlock::boundingRect() const {
     QRectF r = QGraphicsPathItem::boundingRect();
         foreach (QGraphicsItem* item, childItems ()) {
-            if (item -> type() == QNEPort::Type) {
+            if (item -> type() == Port::Type) {
                 r = r.united (item -> boundingRect());
             }
         }
@@ -315,15 +315,15 @@ QRectF QNodeBlock::boundingRect() const {
     return r;
 }
 
-QNode* QNodeBlock::node () {
+Node* NodeBlock::node () {
     return _node;
 }
 
-void QNodeBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
+void NodeBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
     _node -> showParameters (true);
 }
 
-void QNodeBlock::nodeChanged () {
+void NodeBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
     _label -> setPos (_size.width() - (_label -> boundingRect().width() / 2 ), _size.height() + 3 * _margin);
     _node -> invalidate();

@@ -1,12 +1,12 @@
 //
 // Created by martin on 16/12/16.
 //
-#include "QNode.h"
+#include "Node.h"
 #include <QDialog>
 #include <QString>
 #include <QCloseEvent>
 #include <iostream>
-#include "../nodeedit/qneconnection.h"
+#include "nodeedit/Connection.h"
 #include <QMenu>
 #include <nodeedit/NodeNameValidator.h>
 #include <actions/CreateConnectionCommand.h>
@@ -14,8 +14,8 @@
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
 #include "../pipeline/ModuleFactory.h"
-#include "../nodeedit/qneport.h"
-#include "../nodeedit/QNodeBlock.h"
+#include "nodeedit/Port.h"
+#include "nodeedit/NodeBlock.h"
 #include "../actions/ChangeModuleCommand.h"
 #include "../preferences/PreferencesService.h"
 
@@ -26,7 +26,7 @@ using namespace calenhad::pipeline;
 using namespace calenhad::expressions;
 using namespace calenhad::actions;
 
-QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (parent),
+Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     _model (nullptr),
     _dialog (nullptr),
     _handle (nullptr),
@@ -34,13 +34,12 @@ QNode::QNode (const QString& nodeType, int inputs, QWidget* parent) : QWidget (p
     _contentLayout (nullptr),
     _palette (nullptr),
     _validator (nullptr),
-    _inputCount (inputs),
     _connectMenu (nullptr),
     _nodeType (nodeType) {
 
 }
 
-QNode::~QNode () {
+Node::~Node () {
     if (_dialog) { delete _dialog; }
     if (_validator) { delete _validator; }
     if (_palette) { delete _palette; }
@@ -48,7 +47,7 @@ QNode::~QNode () {
 }
 
 
-void QNode::initialise() {
+void Node::initialise() {
     _ports.clear();
     addInputPorts();
 
@@ -81,7 +80,7 @@ void QNode::initialise() {
     connect (_nameEdit, &QLineEdit::editingFinished, this, [=] () {
         propertyChangeRequested ("name", _nameEdit -> text());
     });
-    connect (this, &QNode::nameChanged, this, [=] () { _nameEdit -> setText (_name); });
+    connect (this, &Node::nameChanged, this, [=] () { _nameEdit -> setText (_name); });
 
     _notesEdit = new QTextEdit (about);
     _notesEdit -> setFixedHeight (100);
@@ -91,7 +90,7 @@ void QNode::initialise() {
     connect (_notesEdit, &QTextEdit::textChanged, this, [=] () {
         propertyChangeRequested ("notes", _notesEdit -> document() -> toPlainText());
     });
-    connect (this, &QNode::notesChanged, this, [=] () { _notesEdit -> setText (_notes); });
+    connect (this, &Node::notesChanged, this, [=] () { _notesEdit -> setText (_notes); });
 
     addPanel ("About", about);
     QLayout* l = new QVBoxLayout();
@@ -112,13 +111,13 @@ void QNode::initialise() {
     });
 }
 
-QString QNode::name() {
+QString Node::name() {
     return _name;
 }
 
 // setName assumes the name has been validated using CalenhadModel::validateName - it is the caller's
 // responsibility to call this first (since we don't know if the caller wants messages).
-void QNode::setName (const QString& name) {
+void Node::setName (const QString& name) {
     if (! (name.isNull()) && (name != _name)) {
         _name = name;
         _name = _name.replace (" ", "_");
@@ -131,7 +130,7 @@ void QNode::setName (const QString& name) {
     }
 }
 
-void QNode::setNotes (const QString& notes) {
+void Node::setNotes (const QString& notes) {
     if (! notes.isNull()) {
         if (! (notes == _notesEdit -> toPlainText())) {
             _notes = notes;
@@ -141,30 +140,32 @@ void QNode::setNotes (const QString& notes) {
     emit (notesChanged (notes));
 }
 
-QString QNode::notes() {
+QString Node::notes() {
     return _notes;
 }
 
-int QNode::addPanel (const QString& title, QWidget* widget) {
+int Node::addPanel (const QString& title, QWidget* widget) {
     return _expander -> addItem (widget, title);
 }
 
-QNodeBlock* QNode::handle() {
+NodeBlock* Node::handle() {
     return _handle;
 }
 
-void QNode::addPort (QNEPort* port) {
+void Node::addPort (Port* port, const unsigned& index) {
     _ports.append (port);
-    if (port -> portType () == QNEPort::OutputPort) {
+    if (port -> portType () == Port::OutputPort) {
         _output = port;
+    } else {
+        _inputs.insert (index, port);
     }
 }
 
-QList<QNEPort*> QNode::ports() {
+QVector<Port*> Node::ports() {
     return _ports;
 }
 
-bool QNode::isComplete() {
+bool Node::isComplete() {
     bool complete = true;
     QList<ExpressionWidget *> widgets = findChildren<ExpressionWidget*>();
     if (! (widgets.isEmpty())) {
@@ -176,8 +177,8 @@ bool QNode::isComplete() {
         }
     }
     if (complete) {
-        for (QNEPort* p : _ports) {
-            if (p->portType () != QNEPort::OutputPort) {
+        for (Port* p : _ports) {
+            if (p->portType () != Port::OutputPort) {
                 if (!(p->hasConnection ())) {
                     complete = false;
                     break;
@@ -188,19 +189,19 @@ bool QNode::isComplete() {
     return complete;
 }
 
-void QNode::invalidate() {
+void Node::invalidate() {
     if (_handle) {
         _handle -> update ();
     }
     emit nodeChanged();
 }
 
-void QNode::setModel (CalenhadModel* model) {
+void Node::setModel (CalenhadModel* model) {
         _model = model;
 
 }
 
-void QNode::showParameters (const bool& visible) {
+void Node::showParameters (const bool& visible) {
     if (visible) {
         _dialog -> setWindowTitle (name () + " (" + nodeType () + ")");
         _dialog -> setAttribute (Qt::WA_DeleteOnClose, false);
@@ -210,7 +211,7 @@ void QNode::showParameters (const bool& visible) {
     }
 }
 
-void QNode::inflate (const QDomElement& element) {
+void Node::inflate (const QDomElement& element) {
     _element = element;
         QDomElement notesNode = element.firstChildElement ("name");
         QString name = notesNode.text ();
@@ -222,7 +223,7 @@ void QNode::inflate (const QDomElement& element) {
             QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
             QString name = portNameNode.text ();
             if (okIndex && okType) {
-                for (QNEPort* p : _ports) {
+                for (Port* p : _ports) {
                     if (p -> index () == portIndex && p -> portType() == portType) {
                         p -> setName (name);
                     }
@@ -241,7 +242,7 @@ void QNode::inflate (const QDomElement& element) {
         }
 }
 
-void QNode::serialize (QDomDocument& doc) {
+void Node::serialize (QDomDocument& doc) {
     _element = doc.createElement ("module");
     doc.documentElement().appendChild (_element);
     QDomElement nameElement = doc.createElement ("name");
@@ -255,7 +256,7 @@ void QNode::serialize (QDomDocument& doc) {
         QDomText notesContent = doc.createTextNode (_notes);
         notesElement.appendChild (notesContent);
     }
-    for (QNEPort* p : _ports) {
+    for (Port* p : _ports) {
         QDomElement portElement = doc.createElement ("port");
         _element.appendChild (portElement);
         portElement.setAttribute ("index", p -> index());
@@ -275,7 +276,7 @@ void QNode::serialize (QDomDocument& doc) {
     }
 }
 
-void QNode::propertyChangeRequested (const QString& p, const QVariant& value) {
+void Node::propertyChangeRequested (const QString& p, const QVariant& value) {
     if (_model && (property (p.toStdString ().c_str ()) != value)) {
         ChangeModuleCommand* c = new ChangeModuleCommand (this, p, property (p.toStdString ().c_str ()), value);
         if (_model) {
@@ -285,17 +286,17 @@ void QNode::propertyChangeRequested (const QString& p, const QVariant& value) {
     }
 }
 
-void QNode::showEvent (QShowEvent* event) {
+void Node::showEvent (QShowEvent* event) {
     _nameEdit -> setText (_name);
     resize (300, 200);
     QWidget::showEvent (event);
 }
 
-CalenhadModel* QNode::model () {
+CalenhadModel* Node::model () {
     return _model;
 }
 
-QString QNode::propertyName (const QString& name) {
+QString Node::propertyName (const QString& name) {
     QString result;
     QString text = name.trimmed();
     for (int i = 0; i < text.size(); i++) {
@@ -313,28 +314,28 @@ QString QNode::propertyName (const QString& name) {
     return result;
 }
 
-void QNode::closeEvent (QCloseEvent* event) {
+void Node::closeEvent (QCloseEvent* event) {
     event -> ignore();
     showParameters (false);
 }
 
-bool QNode::hasParameters () {
+bool Node::hasParameters () {
     return ! (_parameters.isEmpty());
 }
 
-void QNode::setGroup (QNodeGroup* group) {
+void Node::setGroup (NodeGroup* group) {
     _group = group;
 }
 
-QString QNode::nodeType() {
+QString Node::nodeType() {
     return _nodeType;
 }
 
-QNodeGroup* QNode::group () {
+NodeGroup* Node::group () {
     return _group;
 }
 
-ExpressionWidget* QNode::addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator, QWidget* _panel) {
+ExpressionWidget* Node::addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator, QWidget* _panel) {
 
     // create a panel to hold the parameter widgets, if we haven't done this already
     if (! _panel) {
@@ -346,10 +347,10 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
 
     if (dynamic_cast<QFormLayout*> (_panel -> layout())) {
         ExpressionWidget* widget = new ExpressionWidget (this);
-        connect (widget, &ExpressionWidget::compiled, this, &QNode::nodeChanged);
-        connect (widget, &ExpressionWidget::errorFound, this, &QNode::nodeChanged);
-        connect (widget, &ExpressionWidget::expressionChanged, this, &QNode::nodeChanged);
-        connect (widget, &ExpressionWidget::expressionChanged, this, &QNode::parameterChanged);
+        connect (widget, &ExpressionWidget::compiled, this, &Node::nodeChanged);
+        connect (widget, &ExpressionWidget::errorFound, this, &Node::nodeChanged);
+        connect (widget, &ExpressionWidget::expressionChanged, this, &Node::nodeChanged);
+        connect (widget, &ExpressionWidget::expressionChanged, this, &Node::parameterChanged);
         ((QFormLayout*) _panel->layout ()) -> addRow (label, widget);
         _parameters.insert (name, widget);
         widget->setValidator (validator);
@@ -360,32 +361,32 @@ ExpressionWidget* QNode::addParameter (const QString& label, const QString& name
     }
 }
 
-void QNode::parameterChanged() {
+void Node::parameterChanged() {
     invalidate();
 }
 
-void QNode::setParameter (const QString& name, const QString& text) {
+void Node::setParameter (const QString& name, const QString& text) {
     _parameters.find (name).value() -> setText (text);
 }
 
-void QNode::setParameter (const QString& name, const double& value) {
+void Node::setParameter (const QString& name, const double& value) {
     _parameters.find (name).value() -> setText (QString::number (value));
 }
 
-QString QNode::parameter (const QString& name) {
+QString Node::parameter (const QString& name) {
     return _parameters.value (name) -> text();
 }
 
 
-double QNode::parameterValue (const QString& name) {
+double Node::parameterValue (const QString& name) {
     return _parameters.value (name) -> value();
 }
 
-QStringList QNode::parameters () {
+QStringList Node::parameters () {
     return _parameters.keys();
 }
 
-void QNode::addContentPanel() {
+void Node::addContentPanel() {
     _contentLayout = new QFormLayout();
     _contentLayout -> setContentsMargins (5, 0, 5, 0);
     _contentLayout -> setVerticalSpacing (0);
@@ -394,26 +395,26 @@ void QNode::addContentPanel() {
     addPanel (tr ("Parameters"), _content);
 }
 
-int QNode::id () {
+int Node::id () {
     return _id;
 }
 
-QNEPort* QNode::output () {
+Port* Node::output () {
     return _output;
 }
 
-QNodeBlock* QNode::makeHandle() {
-    _handle = new QNodeBlock (this);
+NodeBlock* Node::makeHandle() {
+    _handle = new NodeBlock (this);
     _handle -> initialise();
     return _handle;
 }
 
-QNode* QNode::clone() {
+Node* Node::clone() {
     QDomDocument doc;
     QDomElement root = doc.createElement ("clone");
     doc.appendChild (root);
     serialize (doc);
-    QNode* _copy = CalenhadServices::modules() -> createModule (nodeType());
+    Node* _copy = CalenhadServices::modules() -> createModule (nodeType());
     _copy -> setModel (_model);
     _copy -> inflate (doc.documentElement().firstChildElement ("module"));
     _copy -> setName (_model -> uniqueName (_name));
@@ -421,15 +422,15 @@ QNode* QNode::clone() {
     return _copy;
 }
 
-void QNode::connectMenu (QMenu* menu, QNEPort* p) {
+void Node::connectMenu (QMenu* menu, Port* p) {
     int portType = p -> portType ();
 
-        if (portType == QNEPort::OutputPort) {
+        if (portType == Port::OutputPort) {
             if (! _connectMenu) { _connectMenu = new QMenu(); }
             _connectMenu -> clear();
             _connectMenu -> setTitle (name());
-            for (QNEPort* port : _ports) {
-                if (port -> portType() != QNEPort::OutputPort) {
+            for (Port* port : _ports) {
+                if (port -> portType() != Port::OutputPort) {
                     QAction* action = new QAction();
                     action -> setText (port -> portName());
                     _connectMenu -> addAction (action);
@@ -449,4 +450,8 @@ void QNode::connectMenu (QMenu* menu, QNEPort* p) {
             });
             menu -> addAction (action);
         }
+}
+
+void Node::addInputPorts() {
+
 }

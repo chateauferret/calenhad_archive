@@ -40,15 +40,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../CalenhadServices.h"
 #include "controls/QIconPalette.h"
 #include "../exprtk/VariablesDialog.h"
-#include "../qmodule/QNode.h"
+#include "qmodule/Node.h"
 #include "../legend/LegendService.h"
-#include "qneconnection.h"
-#include "QNodeBlock.h"
-#include "qneport.h"
+#include "Connection.h"
+#include "NodeBlock.h"
+#include "Port.h"
 #include "ProjectPropertiesDialog.h"
 #include <QClipboard>
 #include <QtWidgets/QMessageBox>
 #include <controls/SplashDialog.h>
+#include "../pipeline/ModuleFactory.h"
 
 
 using namespace icosphere;
@@ -70,7 +71,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     CalenhadServices::provideMessages (this);
 
     _controller = new CalenhadController (this);
-    _toolbox = new QNEToolBox();
+    _toolbox = new ToolBox();
 
     // tool drawers - tools in the same drawer are grouped in the UI
     _addModuleDrawer = new ToolDrawer ("Modules");
@@ -131,31 +132,14 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _addModuleMenu = new QMenu ("Add module");
 
     // tools to create modules
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_perlin, "Perlin noise");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_billow, "Billow noise");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "Ridged multifractal noise");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_cylinders, "Cylindrical distance function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_spheres, "Spherical distance function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_exponent, "Exponent function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_translate, "Translation function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_rotate, "Rotation function");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_scalepoint, "Scale points");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_scalebias, "Scale and bias");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_add, "Add values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_diff, "Difference between values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_clamp, "Clamp values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_constant, "Constant value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_abs, "Absolute value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_blend, "Blend points");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_invert, "Invert values");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_max, "Maximum value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_min, "Minimum value");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_voronoi, "Voronoi pattern");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_select, "Select input");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_turbulence, "Turbulence");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
+
+    //addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
     addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
     QAction* nodeGroupTool = addModuleTool (CalenhadServices::preferences() -> calenhad_nodegroup, "Node group");
+    QStringList types = CalenhadServices::modules() -> types();
+    for (QString key :  types) {
+        addModuleTool (CalenhadServices::modules() -> label (key), CalenhadServices::modules() -> description (key));
+    }
 
     // A tool for adding a new node group
     QAction* tool = createTool (QIcon (":/sppicons/controls/group_add.png"), "NodeGroup", "Add a new group", "NodeGroup", _addModuleDrawer, true);
@@ -438,7 +422,7 @@ bool Calenhad::readXml (const QString& fname, QDomDocument& doc) {
     return false;
 }
 
-void Calenhad::addToolbar (QToolBar* toolbar, QNode* node) {
+void Calenhad::addToolbar (QToolBar* toolbar, Node* node) {
     QDockWidget* paramsDock = new QDockWidget (node -> name(), this);
     paramsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     paramsDock -> setParent (this);

@@ -10,7 +10,7 @@ namespace calenhad {
         class CalenhadModel;
     }
     namespace qmodule {
-        class QModule;
+        class Module;
     }
     namespace graph {
 
@@ -18,7 +18,7 @@ namespace calenhad {
         public:
             //Graph (const QString& xml, const QString& nodeName);
             //Graph (const QDomDocument& doc, const QString& nodeName);
-            Graph (calenhad::qmodule::QModule* module);
+            Graph (calenhad::qmodule::Module* module);
             ~Graph();
             QString glsl();
             float* colorMapBuffer();
@@ -26,9 +26,9 @@ namespace calenhad {
             int rasterCount ();
             QImage* raster (const int& index);
         protected:
-            QString glsl (calenhad::qmodule::QModule* node);
+            QString glsl (calenhad::qmodule::Module* node);
             void parseLegend ();
-            calenhad::qmodule::QModule* _module;
+            calenhad::qmodule::Module* _module;
             pipeline::CalenhadModel* _model;
             QString _code;
             QString _nodeName;

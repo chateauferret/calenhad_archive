@@ -9,7 +9,7 @@
 #include <QtCore/QPointF>
 #include <QtXml/QtXml>
 
-// A wrapper for a QPointF with some functionality to support AltitudeMapPlot and QAltitudeMap
+// A wrapper for a QPointF with some functionality to support AltitudeMapPlot and AltitudeMap
 namespace calenhad {
     namespace controls {
         namespace altitudemap {

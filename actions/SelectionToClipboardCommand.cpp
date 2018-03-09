@@ -7,10 +7,10 @@
 #include <QClipboard>
 #include "SelectionToClipboardCommand.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../qmodule/QModule.h"
-#include "../nodeedit/qneport.h"
-#include "../nodeedit/qneconnection.h"
-#include "../nodeedit/QNodeBlock.h"
+#include "qmodule/Module.h"
+#include "nodeedit/Port.h"
+#include "nodeedit/Connection.h"
+#include "nodeedit/NodeBlock.h"
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
@@ -36,9 +36,9 @@ void SelectionToClipboardCommand::redo () {
     doc.appendChild (root);
 
     // copy any connections that are between nodes that are both in the selection
-    for (QNEConnection* c : _model -> connections()) {
-        QNode* n0 = c -> port1() -> owner();
-        QNode* n1 = c -> port2() -> owner();
+    for (Connection* c : _model -> connections()) {
+        Node* n0 = c -> port1() -> owner();
+        Node* n1 = c -> port2() -> owner();
         if (n1 -> handle() -> isSelected() && n0 -> handle() -> isSelected()) {
             c -> setSelected (true);
         }
@@ -46,12 +46,12 @@ void SelectionToClipboardCommand::redo () {
 
     // serialise all selected items to the document
     for (QGraphicsItem* item : _model -> selectedItems()) {
-        QNodeBlock* b = dynamic_cast<QNodeBlock*> (item);
+        NodeBlock* b = dynamic_cast<NodeBlock*> (item);
         if (b) {
-            QNode* n = b -> node();
+            Node* n = b -> node();
             n -> serialize (doc);
         }
-        QNEConnection* c = dynamic_cast<QNEConnection*> (item);
+        Connection* c = dynamic_cast<Connection*> (item);
         if (c) {
             c -> serialise (doc);
         }

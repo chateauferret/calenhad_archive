@@ -10,7 +10,7 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
+        class Node;
     }
     namespace pipeline {
         class CalenhadModel;
@@ -20,7 +20,7 @@ namespace calenhad {
 
         class DuplicateNodeCommand : public QUndoCommand {
         public:
-            DuplicateNodeCommand (calenhad::qmodule::QNode* node, calenhad::pipeline::CalenhadModel* model);
+            DuplicateNodeCommand (calenhad::qmodule::Node* node, calenhad::pipeline::CalenhadModel* model);
 
             virtual ~DuplicateNodeCommand();
 
@@ -30,7 +30,7 @@ namespace calenhad {
 
         protected:
             calenhad::pipeline::CalenhadModel* _model = nullptr;
-            calenhad::qmodule::QNode* _node, * _copy;
+            calenhad::qmodule::Node* _node, * _copy;
         };
     }
 }

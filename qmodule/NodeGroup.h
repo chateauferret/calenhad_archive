@@ -6,17 +6,17 @@
 #define CALENHAD_QWIDGETGROUP_H
 
 
-#include <nodeedit/QNodeGroupBlock.h>
-#include "QNode.h"
+#include <nodeedit/NodeGroupBlock.h>
+#include "Node.h"
 
 namespace calenhad {
     namespace qmodule {
 
-        class QNodeGroup : public QNode {
+        class NodeGroup : public Node {
         Q_OBJECT
         public:
-            QNodeGroup (QWidget* parent = 0);
-            virtual ~QNodeGroup ();
+            NodeGroup (QWidget* parent = 0);
+            virtual ~NodeGroup ();
 
             enum {
                 Type = QGraphicsItem::UserType + 5
@@ -33,7 +33,7 @@ namespace calenhad {
 
             void initialise () override;
 
-            calenhad::nodeedit::QNodeBlock* makeHandle() override;
+            calenhad::nodeedit::NodeBlock* makeHandle() override;
 
         signals:
 

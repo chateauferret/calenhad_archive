@@ -11,13 +11,13 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
+        class Node;
     }
     namespace actions {
 
         class XmlCommand : public QUndoCommand {
         public:
-            XmlCommand (calenhad::qmodule::QNode* node, const QString& oldXml, const QString& newXml);
+            XmlCommand (calenhad::qmodule::Node* node, const QString& oldXml, const QString& newXml);
 
             virtual ~XmlCommand ();
 
@@ -27,7 +27,7 @@ namespace calenhad {
 
         protected:
             QString _oldXml, _newXml;
-            calenhad::qmodule::QNode* _node;
+            calenhad::qmodule::Node* _node;
         };
     }
 }

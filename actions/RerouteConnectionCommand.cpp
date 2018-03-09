@@ -4,13 +4,13 @@
 
 #include "RerouteConnectionCommand.h"
 #include "CreateConnectionCommand.h"
-#include "../nodeedit/qneconnection.h"
+#include "nodeedit/Connection.h"
 #include "../pipeline/CalenhadModel.h"
 using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::pipeline;
 
-RerouteConnectionCommand::RerouteConnectionCommand (nodeedit::QNEPort* from, nodeedit::QNEPort* oldPort, nodeedit::QNEPort* newPort, pipeline::CalenhadModel* model) :
+RerouteConnectionCommand::RerouteConnectionCommand (nodeedit::Port* from, nodeedit::Port* oldPort, nodeedit::Port* newPort, pipeline::CalenhadModel* model) :
         _from (from), _oldPort (oldPort), _newPort (newPort), _model (model) {
     setText ("Reroute connection"); // to do - identify connection by owner/port names
 }

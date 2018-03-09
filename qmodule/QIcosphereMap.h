@@ -6,7 +6,7 @@
 #define CALENHAD_QICOSPHERENODE_H
 
 
-#include "QModule.h"
+#include "Module.h"
 #include "../icosphere/Bounds.h"
 #include <memory>
 #include <QPushButton>

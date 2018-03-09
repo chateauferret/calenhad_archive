@@ -162,7 +162,6 @@ bool ExpressionWidget::prepare() {
         }
     }
     emit expressionChanged();
-    std::cout << "Prepare " << text.toStdString () << " = " << _value << "\n";
     return ! _goosed;
 }
 

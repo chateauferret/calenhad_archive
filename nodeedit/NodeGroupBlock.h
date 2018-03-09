@@ -6,14 +6,14 @@
 #define CALENHAD_QNODEGROUPBLOCK_H
 
 
-#include <qmodule/QNodeGroup.h>
-#include "QNodeBlock.h"
+#include <qmodule/NodeGroup.h>
+#include "NodeBlock.h"
 #include "../controls/SizeGripItem.h"
 
 namespace calenhad {
     namespace qmodule {
-        class QModule;
-        class QNodeGroup;
+        class Module;
+        class NodeGroup;
     }
     namespace nodeedit {
 
@@ -21,7 +21,7 @@ namespace calenhad {
             TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight, NoHandle
         };
 
-        class QNodeGroupBlock : public QNodeBlock {
+        class NodeGroupBlock : public NodeBlock {
         Q_OBJECT
 
         public:
@@ -29,9 +29,9 @@ namespace calenhad {
                 Type = QGraphicsItem::UserType + 8
             };
 
-            QNodeGroupBlock (calenhad::qmodule::QNodeGroup* node, QGraphicsItem* parent = 0);
+            NodeGroupBlock (calenhad::qmodule::NodeGroup* node, QGraphicsItem* parent = 0);
 
-            virtual ~QNodeGroupBlock ();
+            virtual ~NodeGroupBlock ();
 
             void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
@@ -61,7 +61,7 @@ namespace calenhad {
         class NodeGroupResizer : public calenhad::controls::SizeGripItem::Resizer {
         public:
             virtual void operator() (QGraphicsItem* item, const QRectF& rect) {
-                QNodeGroupBlock* group = dynamic_cast<QNodeGroupBlock*> (item);
+                NodeGroupBlock* group = dynamic_cast<NodeGroupBlock*> (item);
                 if (group) {
                     group->setRect (rect);
                 }

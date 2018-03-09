@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<palette>
+
+
+    <module name="constant" label="Constant">
+        <documentation>Constant value</documentation>
+        <parameters>
+            <parameter type="double" name="value" default="4">
+                <documentation>Constant value</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return %value; }</glsl>
+    </module>
+
+    <module name="abs" label="Absolute">
+        <documentation>Absolute value</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return abs (%0 (v)); }</glsl>
+    </module>
+
+    <module name="invert" label="Invert">
+        <documentation>Inverse value</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return - %0 (v); }</glsl>
+    </module>
+
+    <module name="add" label="Add">
+        <documentation>Addition of two values</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input 1"/>
+            <input index="1" mode="value" name="Input 2"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return %0 (v) + %1 (v); }</glsl>
+    </module>
+
+    <module name="max" label="Maximum">
+        <documentation>Maximum of two values</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input 1"/>
+            <input index="1" tmode="value" name="Input 2"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return max (%0 (v), %1 (v)); }</glsl>
+    </module>
+
+    <module name="min" label="Minimum">
+        <documentation>Minimum of two values</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input 1"/>
+            <input index="1" mode="value" name="Input 2"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return min (%0 (v), %1 (v)); }</glsl>
+    </module>
+
+    <module name="multiply" label="Multiply">
+        <documentation>Product of two values</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input 1"/>
+            <input index="1" mode="value" name="Input 2"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return %0 (v) * %1 (v); }</glsl>
+    </module>
+
+    <module name="power" label="Power">
+        <documentation>Raise base to the power of an exponent</documentation>
+        <ports>
+            <input index="0" mode="value" name="Base"/>
+            <input index="1" mode="value" name="Exponent"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return pow (%0 (v), %1 (v)); }</glsl>
+    </module>
+
+    <module name="diff">
+        <documentation>Subtract a subtrahend from a minuend</documentation>
+        <ports>
+            <input index="0" mode="value" name="Minuend"/>
+            <input index="1" mode="value" name="Subtrahend"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return %0 (v) - %1 (v); }</glsl>
+    </module>
+
+    <module name="blend" label="Blend">
+        <documentation>Blend two inputs, weighting each according to the value of a control</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input 1"/>
+            <input index="1" mode="value" name="Input 2"/>
+            <input index="2" mode="control" name="Control"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return mix (%0 (v), %1 (v), %2 (v)); }</glsl>
+    </module>
+
+    <module name="translate" label="Translate">
+        <documentation>Take the value from a point displaced from the input point by a vector</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+            <input index="1" mode="control" name="X"/>
+            <input index="2" mode="control" name="Y"/>
+            <input index="3" mode="control" name="Z"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return %0 (v + vec3 (%1 (v), %2 (v), %3 (v))); }</glsl>
+    </module>
+
+    <module name="rotate" label="Rotate">
+        <documentation>Take the value from a point rotated from the input point around each axis</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+            <input index="1" mode="control" name="X"/>
+            <input index="2" mode="control" name="Y"/>
+            <input index="3" mode="control" name="Z"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return %0 (rotate (v, vec3 (%1, %2, %3))); }</glsl>
+    </module>
+
+    <module name="scalepoint">
+        <documentation>Scale the noise relative to a point</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+            <input index="1" mode="control" name="X"/>
+            <input index="2" mode="control" name="Y"/>
+            <input index="3" mode="control" name="Z"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return %0 (v * vec3 (%1 (v), %2 (v), %3 (v))); }</glsl>
+    </module>
+
+    <module name="cylinders" label="Cylinders">
+        <documentation>Cylinder function</documentation>
+        <ports>
+            <input index="0" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the cylinder function (radius of one cylinder)</documentation>
+            </input>
+        </ports>
+        <glsl>float %n (vec3 v) { return cylinders (v, %0 (v)); }</glsl>
+    </module>
+
+    <module name="spheres" label="Spheres">
+        <documentation>Sphere function</documentation>
+        <ports>
+            <input index="0" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the sphere function (radius of one sphere)</documentation>
+            </input>
+        </ports>
+        <glsl>float %n (vec3 v) { return spheres (v, %0 (v)); }\</glsl>
+    </module>
+
+    <module name="clamp" label="Clamp">
+        <documentation>Clamp the value between minimum and maximum values</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+            <input index="1" mode="control" name="minimum"/>
+            <input index="2" mode="control" name="maximum"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return clamp (%0 (v), %1 (v), %2 (v); }</glsl>
+    </module>
+
+
+    <module name="perlin" label="Perlin noise">
+        <documentation>Perlin noise function</documentation>
+        <ports>
+            <input index="0" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
+            </input>
+            <input index="1" mode="value"  name="lacunarity" default="2.0">
+                <documentation>Lacunarity of the noise function</documentation>
+            </input>
+            <input index="2" mode="value" name="persistence" default="1.0">
+                <documentation>Persistence of the noise function: reduction of amplitude between octaves</documentation>
+            </input>
+        </ports>
+        <parameters>
+            <parameter type="integer" name="octaves" default="4">
+                <documentation>Number of octaves applied of the noise function</documentation>
+                <validator type="AcceptRange" min="1" max="30"/>
+            </parameter>
+            <parameter type="integer" name="seed" default="0">
+                <documentation>Random seed</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return perlin (v, %0 (v), %1 (v), %2 (v), %octaves, %seed); }</glsl>
+    </module>
+
+
+    <module name="simplex" label="Simplex noise">
+        <documentation>Perlin noise function</documentation>
+        <ports>
+            <input index="0" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
+            </input>
+            <input index="1" mode="value"  name="lacunarity" default="2.0">
+                <documentation>Lacunarity of the noise function</documentation>
+            </input>
+            <input index="2" mode="value" name="persistence" default="1.0">
+                <documentation>Persistence of the noise function: reduction of amplitude between octaves</documentation>
+            </input>
+        </ports>
+        <parameters>
+            <parameter type="integer" name="octaves" default="4">
+                <documentation>Number of octaves applied of the noise function</documentation>
+                <validator type="AcceptRange" min="1" max="30"/>
+            </parameter>
+            <parameter type="integer" name="seed" default="0">
+                <documentation>Random seed</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return simplex (v, %0 (v), %1 (v), %2 (v), %octaves, %seed); }</glsl>
+    </module>
+
+    <module name="billow" label="Billow noise">
+        <documentation>Perlin noise function</documentation>
+        <ports>
+            <input index="0" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
+            </input>
+            <input index="1" mode="value"  name="lacunarity" default="2.0">
+                <documentation>Lacunarity of the noise function</documentation>
+            </input>
+            <input index="2" mode="value" name="persistence" default="1.0">
+                <documentation>Persistence of the noise function: reduction of amplitude between octaves</documentation>
+            </input>
+        </ports>
+        <parameters>
+            <parameter type="integer" name="octaves" default="4">
+                <documentation>Number of octaves applied of the noise function</documentation>
+                <validator type="AcceptRange" min="1" max="30"/>
+            </parameter>
+            <parameter type="integer" name="seed" default="0">
+                <documentation>Random seed</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return billow (v, %0 (v), %1 (v), %2 (v), %octaves, %seed); }</glsl>
+    </module>
+
+    <module name="ridgedmultifractal" label="Ridged multifractal">
+        <documentation>Perlin noise function</documentation>
+        <ports>
+            <input index="0" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
+            </input>
+            <input index="1" mode="value"  name="lacunarity" default="2.0">
+                <documentation>Lacunarity of the noise function</documentation>
+            </input>
+        </ports>
+        <parameters>
+            <parameter type="integer" name="octaves" default="4">
+                <documentation>Number of octaves applied of the noise function</documentation>
+                <validator type="AcceptRange" min="1" max="30"/>
+            </parameter>
+            <parameter type="integer" name="seed" default="0">
+                <documentation>Random seed</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return ridgedmulti (v, %0 (v), %1 (v), %octaves, %seed, 1.0, 1.0, 2.0, 2.0); }</glsl>
+    </module>
+
+
+    <module name="scaleandbias" label="Scale and bias">
+        <documentation>Scale and bias the input to alter its range</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+            <input index="1" mode="control" name="scale"/>
+            <input index="2" mode="control" name="bias"/>
+        </ports>
+        <glsl>float %n (vec3 v) { return %0 (v) * %1 (v) + %2 (v); }</glsl>
+    </module>
+
+    <module name="select" label="Select">
+        <documentation>Select one or the other input based on control relative to threshold</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input 1"/>
+            <input index="1" mode="value" name="Input 2"/>
+            <input index="2" mode="control" name="Control"/>
+        </ports>
+        <parameters>
+            <parameter type="double" name="lowerBound" default="-1.0">
+                <documentation>Lower bound of the selection range</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+            <parameter type="double" name="upperBound" default="1.0">
+                <documentation>Upper bound of the selection range</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+            <parameter type="double" name="falloff" default="1.0">
+                <documentation>Width of the edge falloff range</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return select (%0 (v), %1 (v), %2 (v), %lowerBound, %upperBound, %falloff); }</glsl>
+    </module>
+
+    <module name="turbulence" label="Turbulence">
+        <documentation>Turbulence function</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input"/>
+            <input index="1" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the turbulence function</documentation>
+            </input>
+            <input index="2" mode="value"  name="power" deowerfault="2.0">
+                <documentation>Power of the turbulence function</documentation>
+            </input>
+            <input index="3" mode="value" name="roughness" default="1.0">
+                <documentation>Roughness of the turbulence</documentation>
+            </input>
+        </ports>
+        <parameters>
+            <parameter type="integer" name="octaves" default="4">
+                <documentation>Number of octaves applied of the noise function</documentation>
+                <validator type="AcceptRange" min="1" max="30"/>
+            </parameter>
+            <parameter type="integer" name="seed" default="0">
+                <documentation>Random seed</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return %0 (turbulence (v, %1 (v), %2 (v), %3 (v), %seed)); }</glsl>
+    </module>
+
+    <module name="voronoi" label="Voronoi noise">
+        <documentation>Voronoi noise function</documentation>
+        <ports>
+            <input index="0" mode="value" name="frequency" default="1.0">
+                <documentation>Frequency of the voronoi function</documentation>
+            </input>
+            <input index="1" mode="value"  name="displacement" deowerfault="2.0">
+            <documentation>Displacement of the <voronoi></voronoi> function</documentation>
+        </input>
+        </ports>
+        <parameters>
+            <parameter type="boolean" name="enableDistance" default="false">
+                <documentation>Whether the distance function is enabled</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+            <parameter type="integer" name="seed" default="0">
+                <documentation>Random seed</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+        <glsl>float %n (vec3 v) { return voronoi (v, %0 (v), %1 (v), %enableDistance, %seed); }</glsl>
+    </module>
+
+</palette>

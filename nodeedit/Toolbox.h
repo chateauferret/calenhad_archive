@@ -77,13 +77,13 @@
              DeleteConnectionAction, DeleteModuleAction, DeleteSelectionAction, DuplicateModuleAction
          };
 
-         class QNEToolBox : public QObject {
+         class ToolBox : public QObject {
          Q_OBJECT
          public:
 
-             QNEToolBox ();
+             ToolBox ();
 
-             ~QNEToolBox ();
+             ~ToolBox ();
 
              calenhad::nodeedit::CalenhadToolBar* toolbar (const QString& drawer);
 

@@ -6,12 +6,12 @@
 #include "../preferences/PreferencesService.h"
 #include "exprtk/Calculator.h"
 #include "PortNameValidator.h"
-#include "qneport.h"
-#include "../qmodule/QNode.h"
+#include "Port.h"
+#include "qmodule/Node.h"
 
 using namespace calenhad::nodeedit;
 
-PortNameValidator::PortNameValidator (QNEPort* port) : NodeNameValidator (port -> owner()), _port (port) {
+PortNameValidator::PortNameValidator (Port* port) : NodeNameValidator (port -> owner()), _port (port) {
 
 }
 
@@ -47,7 +47,7 @@ QValidator::State PortNameValidator::validate (QString& input, int& pos) const {
     }
 
     // make sure name isn't a duplicate (another port on the same node)
-    foreach (QNEPort* p, _node -> ports()) {
+    foreach (Port* p, _node -> ports()) {
         if (p -> portName() == input && p != _port) {
             errors += ("Name must be unique among all ports in a node\n");
             state = QValidator::Intermediate;

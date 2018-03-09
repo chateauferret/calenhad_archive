@@ -18,6 +18,7 @@ Preferences::~Preferences () {
 
 void Preferences::loadSettings() {
     bool ok;
+
     // Colours and style
 
     calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/martin/.config/calenhad/darkorange.css").toString();
@@ -82,6 +83,8 @@ void Preferences::loadSettings() {
 
     calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/.config/calenhad/legends.xml").toString ();
     calenhad_legends_filename_temp = _settings -> value ("calenhad/legends/filename/temp", "/home/martin/.config/calenhad/legends.temp.xml").toString ();
+    calenhad_moduletypes_icons_path = _settings -> value ("calenhad/moduletypes/icons/path", "//home/martin/.config/calenhad/modules/icons/").toString();
+    calenhad_moduletypes_filename = _settings -> value ("calenhad/moduletypes/filename", "/home/martin/.config/calenhad/modules.xml").toString();
     calenhad_recentfiles_filename = _settings -> value ("calenhad/recentfiles/filename", "/home/martin/.config/calenhad/recentfiles.txt").toString ();
     calenhad_variables_name_maxlength = _settings -> value ("calenhad/variables/name/maxlength", 50).toUInt();
     calenhad_port_name_minLength = _settings -> value ("calenhad/port/name_minlength", 1).toUInt();
@@ -116,32 +119,6 @@ void Preferences::loadSettings() {
 
     // Module names
 
-    calenhad_module_perlin = _settings -> value ("calenhad/module/perlin", "Perlin").toString();
-    calenhad_module_simplex = _settings -> value ("calenhad/module/simplex", "Simplex").toString();
-    calenhad_module_cylinders = _settings -> value ("calenhad/module/cylinders", "Cylinders").toString();
-    calenhad_module_spheres = _settings -> value ("calenhad/module/spheres", "Spheres").toString();
-    calenhad_module_exponent = _settings -> value ("calenhad/module/exponent", "Exponent").toString();
-    calenhad_module_translate = _settings -> value ("calenhad/module/translate", "Translate").toString();
-    calenhad_module_rotate = _settings -> value ("calenhad/module/rotate", "Rotate").toString();
-    calenhad_module_clamp = _settings -> value ("calenhad/module/clamp", "Clamp").toString();
-    calenhad_module_constant = _settings -> value ("calenhad/module/constant", "Constant").toString();
-    calenhad_module_add = _settings -> value ("calenhad/module/add", "Add").toString();
-    calenhad_module_abs = _settings -> value ("calenhad/module/abs", "Abs").toString();
-    calenhad_module_blend = _settings -> value ("calenhad/module/blend", "Blend").toString();
-    calenhad_module_invert = _settings -> value ("calenhad/module/invert", "Invert").toString();
-    calenhad_module_max = _settings -> value ("calenhad/module/max", "Max").toString();
-    calenhad_module_min = _settings -> value ("calenhad/module/min", "Min").toString();
-    calenhad_module_multiply = _settings -> value ("calenhad/module/multiply", "Multiply").toString();
-    calenhad_module_power = _settings -> value ("calenhad/module/power", "Power").toString();
-    calenhad_module_displace = _settings -> value ("calenhad/module/displace", "Displace").toString();
-    calenhad_module_diff = _settings -> value ("calenhad/module/diff", "Diff").toString();
-    calenhad_module_billow = _settings -> value ("calenhad/module/billow", "Billow").toString();
-    calenhad_module_ridgedmulti = _settings -> value ("calenhad/module/ridgedmulti", "Ridged multifractal").toString();
-    calenhad_module_scalebias = _settings -> value ("calenhad/module/scalebias", "Scale and bias").toString();
-    calenhad_module_select = _settings -> value ("calenhad/module/select", "Select").toString();
-    calenhad_module_turbulence = _settings -> value ("calenhad/module/turbulence", "Turbulence").toString();
-    calenhad_module_voronoi = _settings -> value ("calenhad/module/voronoi", "Voronoi").toString();
-    calenhad_module_scalepoint = _settings -> value ("calenhad/module/scalepoint", "Scalepoint").toString();
     calenhad_module_icospheremap = _settings -> value ("calenhad/module/icospheremap", "Icosphere map").toString();
     calenhad_module_altitudemap = _settings -> value ("calenhad/module/altitudemap", "Altitude map").toString();
     calenhad_module_raster = _settings -> value ("calenhad/module/raster", "Raster").toString();
@@ -216,6 +193,8 @@ void Preferences::saveSettings() {
 
     _settings -> setValue ("calenhad/legends/filename", calenhad_legends_filename);
     _settings -> setValue ("calenhad/legends/filename/temp", calenhad_legends_filename_temp);
+    _settings -> setValue ("calenhad/moduletypes/icons/path", calenhad_moduletypes_icons_path);
+    _settings -> setValue ("calenhad/moduletypes/filename", calenhad_moduletypes_filename);
     _settings -> setValue ("calenhad/recentfiles/filename", calenhad_recentfiles_filename);
     _settings -> setValue ("calenhad/variables/name/maxlength", calenhad_variables_name_maxlength);
     _settings -> setValue ("calenhad/port/name_minlength", calenhad_port_name_minLength);
@@ -250,32 +229,6 @@ void Preferences::saveSettings() {
 
     // Modules
 
-    _settings -> setValue ("calenhad/module/perlin", calenhad_module_perlin);
-    _settings -> setValue ("calenhad/module/simplex", calenhad_module_simplex);
-    _settings -> setValue ("calenhad/module/cylinders", calenhad_module_cylinders);
-    _settings -> setValue ("calenhad/module/spheres", calenhad_module_spheres);
-    _settings -> setValue ("calenhad/module/exponent", calenhad_module_exponent);
-    _settings -> setValue ("calenhad/module/translate", calenhad_module_translate);
-    _settings -> setValue ("calenhad/module/rotate", calenhad_module_rotate);
-    _settings -> setValue ("calenhad/module/clamp", calenhad_module_clamp);
-    _settings -> setValue ("calenhad/module/constant", calenhad_module_constant);
-    _settings -> setValue ("calenhad/module/add", calenhad_module_add);
-    _settings -> setValue ("calenhad/module/abs", calenhad_module_abs);
-    _settings -> setValue ("calenhad/module/blend", calenhad_module_blend);
-    _settings -> setValue ("calenhad/module/invert", calenhad_module_invert);
-    _settings -> setValue ("calenhad/module/max", calenhad_module_max);
-    _settings -> setValue ("calenhad/module/min", calenhad_module_min);
-    _settings -> setValue ("calenhad/module/multiply", calenhad_module_multiply);
-    _settings -> setValue ("calenhad/module/power", calenhad_module_power);
-    _settings -> setValue ("calenhad/module/displace", calenhad_module_displace);
-    _settings -> setValue ("calenhad/module/diff", calenhad_module_diff);
-    _settings -> setValue ("calenhad/module/billow", calenhad_module_billow);
-    _settings -> setValue ("calenhad/module/ridgedmulti", calenhad_module_ridgedmulti);
-    _settings -> setValue ("calenhad/module/scalebias", calenhad_module_scalebias);
-    _settings -> setValue ("calenhad/module/select", calenhad_module_select);
-    _settings -> setValue ("calenhad/module/turbulence", calenhad_module_turbulence);
-    _settings -> setValue ("calenhad/module/voronoi", calenhad_module_voronoi);
-    _settings -> setValue ("calenhad/module/scalepoint", calenhad_module_scalepoint);
     _settings -> setValue ("calenhad/module/icospheremap", calenhad_module_icospheremap);
     _settings -> setValue ("calenhad/module/altitudemap", calenhad_module_altitudemap);
     _settings -> setValue ("calenhad/module/raster", calenhad_module_raster);

@@ -6,7 +6,7 @@
 #include "icosphere/icosphere.h"
 #include "exprtk/Calculator.h"
 #include "messages/QNotificationHost.h"
-#include "nodeedit/qnetoolbox.h"
+#include "nodeedit/Toolbox.h"
 #include "preferences/preferences.h"
 #include "controls/altitudemap/AltitudeMapPlot.h"
 #include "CalenhadServices.h"

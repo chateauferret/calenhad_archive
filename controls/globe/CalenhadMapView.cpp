@@ -3,9 +3,8 @@
 #include "CalenhadMapView.h"
 #include <CalenhadServices.h>
 #include "nodeedit/Calenhad.h"
-#include "../../qmodule/QModule.h"
+#include "qmodule/Module.h"
 #include "../../legend/Legend.h"
-#include "../../pipeline/ImageRenderJob.h"
 #include "../../graph/graph.h"
 #include "../../pipeline/CalenhadModel.h"
 #include "../../mapping/projection/ProjectionService.h"
@@ -50,13 +49,13 @@ void CalenhadMapView::render() {
     }
 }
 
-QModule* CalenhadMapView::source() {
+Module* CalenhadMapView::source() {
     return _source;
 }
 
-void CalenhadMapView::setSource (QModule* qm) {
+void CalenhadMapView::setSource (Module* qm) {
     _source = qm;
-    connect (qm, &QNode::nodeChanged, this, &CalenhadMapView::render);
+    connect (qm, &Node::nodeChanged, this, &CalenhadMapView::render);
     render();
 }
 

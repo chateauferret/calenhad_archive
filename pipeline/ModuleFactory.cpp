@@ -4,300 +4,193 @@
 
 #include <iostream>
 #include "ModuleFactory.h"
-#include "../libnoiseutils/diff.h"
 //#include "../qmodule/QIcosphereMap.h"
-#include "../qmodule/QNodeGroup.h"
+#include "qmodule/NodeGroup.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
-#include "../qmodule/QAltitudeMap.h"
+#include "qmodule/AltitudeMap.h"
 #include "../CalenhadServices.h"
 #include "../exprtk/ExpressionWidget.h"
 #include <QPixmap>
 #include <QList>
-#include <qmodule/QRasterModule.h>
+#include <qmodule/RasterModule.h>
+#include <nodeedit/Port.h>
 #include "../noiseconstants.h"
 
-using namespace noise::module;
 using namespace calenhad;
 using namespace calenhad::pipeline;
 using namespace calenhad::qmodule;
 using namespace calenhad::expressions;
+using namespace calenhad::nodeedit;
 
-ModuleFactory::ModuleFactory() : _codes (nullptr) {
-    for (QString type : types()) {
-        QString icon = type.toLower();
+ModuleFactory::ModuleFactory() {
+    initialise ();
+    QStringList list = types ();
+    for (QString type : list) {
+        QString icon = type.toLower ();
         icon.replace (" ", "");
-        QPixmap* pixmap = new QPixmap (":/appicons/tools/" + icon + ".png");
+        QString iconFile = CalenhadServices::preferences ()->calenhad_moduletypes_icons_path + icon + ".png";
+        QPixmap* pixmap = new QPixmap (iconFile);
         _icons.insert (type, pixmap);
-        _codes = new QMap<QString, QString>();
-        provideCodes();
-        provideParamNames();
+
     }
 }
 
+
 ModuleFactory:: ~ModuleFactory() {
     for (QPixmap* icon : _icons) { delete icon; }
-    if (_codes) { delete _codes; }
 }
 
 QPixmap* ModuleFactory::getIcon (const QString& type) {
    return _icons.value (type);
 }
 
-QStringList ModuleFactory::types () {
-    QStringList list;
-    list    << CalenhadServices::preferences() -> calenhad_module_abs
-            << CalenhadServices::preferences() -> calenhad_module_add
-            << CalenhadServices::preferences() -> calenhad_module_altitudemap
-            << CalenhadServices::preferences() -> calenhad_module_billow
-            << CalenhadServices::preferences() -> calenhad_module_blend
-            << CalenhadServices::preferences() -> calenhad_module_clamp
-            << CalenhadServices::preferences() -> calenhad_module_constant
-            << CalenhadServices::preferences() -> calenhad_module_cylinders
-            << CalenhadServices::preferences() -> calenhad_module_diff
-            << CalenhadServices::preferences() -> calenhad_module_displace
-            << CalenhadServices::preferences() -> calenhad_module_exponent
-         // << CalenhadServices::preferences() -> calenhad_module_icospheremap
-            << CalenhadServices::preferences() -> calenhad_module_invert
-            << CalenhadServices::preferences() -> calenhad_module_max
-            << CalenhadServices::preferences() -> calenhad_module_min
-            << CalenhadServices::preferences() -> calenhad_module_multiply
-            << CalenhadServices::preferences() -> calenhad_nodegroup
-            << CalenhadServices::preferences() -> calenhad_module_power
-            << CalenhadServices::preferences() -> calenhad_module_perlin
-            << CalenhadServices::preferences() -> calenhad_module_simplex
-            << CalenhadServices::preferences() -> calenhad_module_scalepoint
-            << CalenhadServices::preferences() -> calenhad_module_spheres
-            << CalenhadServices::preferences() -> calenhad_module_ridgedmulti
-            << CalenhadServices::preferences() -> calenhad_module_rotate
-            << CalenhadServices::preferences() -> calenhad_module_scalebias
-            << CalenhadServices::preferences() -> calenhad_module_select
-            << CalenhadServices::preferences() -> calenhad_module_translate
-            << CalenhadServices::preferences() -> calenhad_module_turbulence
-            << CalenhadServices::preferences() -> calenhad_module_voronoi
-            << CalenhadServices::preferences() -> calenhad_module_raster;
+void ModuleFactory::initialise() {
+    QDomDocument doc;
+    if (CalenhadServices::readXml (CalenhadServices::preferences() -> calenhad_moduletypes_filename, doc)) {
+        std::cout << "Modules definition at " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
+        QDomElement paletteElement = doc.documentElement ();
+        QDomNodeList nodes = paletteElement.elementsByTagName ("module");
+        for (int i = 0; i < nodes.size (); i++) {
+            QDomElement element = nodes.at (i).toElement ();
+            QString type = element.attribute ("name");
+            _types.insert (type, element);
 
-    return list;
+            // Create code snippet to be inserted into the compute shader to realise each module's function.
+            // %n - will be replaced with the module's name which will serve as the method name representing it in the generated shader code.
+            // %0, %1, etc - will be replaced with calls to the module outputs serving the corresponding port as input.
+            // %frequency, %lacunarity etc - will be replaced with the value of that parameter, for parameters named in calenhad::graph::Graph::_params.
+
+            QDomElement glslElement = element.firstChildElement ("glsl");
+            QString glsl = glslElement.text ();
+            _moduleCodes.insert (type, glsl);
+        }
+    } else {
+        std::cout << "Couldn't read file " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
+    }
 }
 
-QNode* ModuleFactory::createModule (const QString& type) {
+Node* ModuleFactory::inflateModule (const QString& type) {
+    if (_types.keys().contains (type)) {
+        QDomElement element = _types.value (type);
+        Module* qm = new Module (type);
+        QString label = element.attribute ("label");
+        _moduleLabels.insert (type, label);
+        QDomElement descriptionElement = element.firstChildElement ("documentation");
+        QString description = descriptionElement.text ();
+        _moduleDescriptions.insert (type, description);
+        QDomElement portsElement = element.firstChildElement ("ports");
+        QDomNodeList portNodesList = portsElement.elementsByTagName ("input");
+        for (int i = 0; i < portNodesList.size (); i++) {
+            QDomElement portNode = portNodesList.at (i).toElement ();
+            QString portType = portNode.attribute ("type");
+            int pt = portType == "value" ? Port::InputPort : Port::ControlPort;
+            QString portName = portNode.attribute ("name");
+            bool ok;
+            int index = portNode.attribute ("index").toInt (&ok);
+            if (ok) {
+                qm -> addInputPort (index, pt, portName);
+            }
+        }
+        QDomElement paramsElement = element.firstChildElement ("parameters");
+        QDomNodeList paramNodesList = paramsElement.elementsByTagName ("parameter");
+        for (int i = 0; i < paramNodesList.size (); i++) {
+            QDomElement paramElement = paramNodesList.at (i).toElement ();
+            QString paramName = paramElement.attribute ("name");
+            if (!_paramNames.contains (paramName)) {
+                _paramNames << paramName;
+            }
+            QString paramType = paramElement.attribute ("type");
+            QString paramLabel = paramElement.hasAttribute ("label") ? paramElement.attribute ("label") : paramName;
+            if (paramType == "boolean") {
+                bool initial = false;
+                if (paramElement.hasAttribute ("default")) {
+                    initial = paramElement.attribute ("default") == "true";
+                }
+                qm -> addParameter (paramLabel, paramName, initial);
+            } else {
+                bool ok;
+                double initial = paramElement.attribute ("default").toDouble (&ok);;
+                if (!ok) { initial = 0; }
+                QString validatorType = paramElement.firstChildElement ("validator").text ();
+                ParamValidator* v;
+                if (validatorType == "AcceptRange") {
+                    bool ok;
+                    double min = paramElement.attribute ("minimum").toDouble (&ok);
+                    if (! ok) { min = -1.0; }
+                    double max = paramElement.attribute ("maximum").toDouble (&ok);
+                    if (! ok) { max = std::min (1.0, min); }
+                    double bestMin = paramElement.attribute ("bestMinimum").toDouble (&ok);
+                    if (! ok) { bestMin = min; }
+                    double bestMax = paramElement.attribute ("bestMaximum").toDouble (&ok);
+                    if (! ok) { bestMax = max; }
+                    v = new AcceptRange (bestMin, bestMax, min, max);
+                } else {
+                    v = validator (validatorType);
+                }
+                qm -> addParameter (paramLabel, paramName, initial, v);
+            }
 
-    if (type == CalenhadServices::preferences() -> calenhad_module_abs) { return new QModule (type, 1); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_invert) { return new QModule (type, 1); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_add) { return new QModule (type, 2); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_max) { return new QModule (type, 2); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_min) { return new QModule (type, 2); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_multiply) { return new QModule (type, 2); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_power) { return new QModule (type, 2); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_diff) { return new QModule (type, 2); }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_blend) { return new QModule (type, 3); }
-    if (type == CalenhadServices::preferences() -> calenhad_module_displace) { return new QModule (type, 4); }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_cylinders) {
-        QModule* qm = new QModule (type);
-        qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_CYLINDERS_FREQUENCY, new AcceptPositive());
+        }
         return qm;
+    } else {
+        return nullptr;
     }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_spheres) {
-        QModule* qm = new QModule (type);
-        qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_SPHERES_FREQUENCY, new AcceptPositive());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_exponent) {
-        QModule* qm = new QModule (type, 1);
-        qm -> addParameter ("Exponent", "exponent", noiseconstants::DEFAULT_EXPONENT, new AcceptAnyRubbish());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_translate) {
-        QModule* qm = new QModule (type, 1);
-        qm -> addParameter ("X", "x", noiseconstants::DEFAULT_TRANSLATE_POINT_X, new PreferNoiseValue());
-        qm -> addParameter ("Y", "y", noiseconstants::DEFAULT_TRANSLATE_POINT_Y, new PreferNoiseValue());
-        qm -> addParameter ("Z", "z", noiseconstants::DEFAULT_TRANSLATE_POINT_Z, new PreferNoiseValue());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_rotate) {
-        QModule* qm = new QModule (type, 1);
-        qm -> addParameter ("X", "x", noiseconstants::DEFAULT_ROTATE_X, new AcceptAngleDegrees());
-        qm -> addParameter ("Y", "y", noiseconstants::DEFAULT_ROTATE_Y, new AcceptAngleDegrees());
-        qm -> addParameter ("Z", "z", noiseconstants::DEFAULT_ROTATE_Z, new AcceptAngleDegrees());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_clamp) {
-        QModule* qm = new QModule (type, 1);
-        qm -> addParameter ("Lower bound", "lowerBound", noiseconstants::DEFAULT_CLAMP_LOWER_BOUND, new AcceptNoiseValue());
-        qm -> addParameter ("Upper bound", "upperBound", noiseconstants::DEFAULT_CLAMP_UPPER_BOUND, new AcceptNoiseValue());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_constant) {
-        QModule* qm = new QModule (type);
-        qm -> addParameter ("Constant value", "constValue", noiseconstants::DEFAULT_CONST_VALUE, new AcceptNoiseValue());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_perlin || type == CalenhadServices::preferences() -> calenhad_module_simplex) {
-        QModule* qm = new QModule (type);
-        qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_PERLIN_FREQUENCY, new AcceptPositive());
-        qm -> addParameter ("Lacunarity", "lacunarity", noiseconstants::DEFAULT_PERLIN_LACUNARITY, new AcceptRange (1.5, 3.5));
-        qm -> addParameter ("Persistence", "persistence", noiseconstants::DEFAULT_PERLIN_PERSISTENCE, new AcceptRange (0, 1));
-        qm -> addParameter ("Octaves", "octaves", noiseconstants::DEFAULT_PERLIN_OCTAVE_COUNT, new PreferInteger());
-        qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_billow) {
-        QModule* qm = new QModule (type);
-        qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_BILLOW_FREQUENCY, new AcceptPositive());
-        qm -> addParameter ("Lacunarity", "lacunarity", noiseconstants::DEFAULT_BILLOW_LACUNARITY, new AcceptRange (1.5, 3.5));
-        qm -> addParameter ("Persistence", "persistence", noiseconstants::DEFAULT_BILLOW_PERSISTENCE, new AcceptRange (0, 1));
-        qm -> addParameter ("Octaves", "octaves", noiseconstants::DEFAULT_BILLOW_OCTAVE_COUNT, new PreferInteger());
-        qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_ridgedmulti) {
-        QModule* qm = new QModule (type);
-        qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_RIDGED_FREQUENCY, new AcceptPositive());
-        qm -> addParameter ("Lacunarity", "lacunarity", noiseconstants::DEFAULT_RIDGED_LACUNARITY, new AcceptRange (1.5, 3.5));
-        qm -> addParameter ("Octaves", "octaves", noiseconstants::DEFAULT_RIDGED_OCTAVE_COUNT, new PreferInteger());
-        qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_scalebias) {
-        QModule* qm = new QModule (type, 1);
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_select) {
-        QModule* qm = new QModule (type, 3);
-        qm -> addParameter ("Lower bound", "lowerBound", noiseconstants::DEFAULT_SELECT_LOWER_BOUND, new AcceptNoiseValue());
-        qm -> addParameter ("Upper bound", "upperBound", noiseconstants::DEFAULT_SELECT_UPPER_BOUND, new AcceptNoiseValue());
-        qm -> addParameter ("Falloff", "falloff", noiseconstants::DEFAULT_SELECT_EDGE_FALLOFF);
-        return qm;
-    }
-    if (type == CalenhadServices::preferences() -> calenhad_module_turbulence) {
-        QModule* qm = new QModule (type, 1);
-        qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_TURBULENCE_FREQUENCY, new AcceptPositive());
-        qm -> addParameter ("Power", "power", noiseconstants::DEFAULT_TURBULENCE_POWER, new AcceptAnyRubbish());
-        qm -> addParameter ("Roughness", "roughness", noiseconstants::DEFAULT_TURBULENCE_ROUGHNESS, new AcceptAnyRubbish());
-        qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_voronoi) {
-        QModule* qm = new QModule (type);
-        qm -> addParameter ("Frequency", "frequency", noiseconstants::DEFAULT_VORONOI_FREQUENCY, new AcceptPositive());
-        qm -> addParameter ("Displacement", "displacement", noiseconstants::DEFAULT_VORONOI_DISPLACEMENT, new PreferNoiseValue());
-        qm -> addParameter ("Enable distance", "enableDistance", 1.0, new AcceptAnyRubbish);
-        qm -> addParameter ("Seed", "seed", noiseconstants::DEFAULT_PERLIN_SEED, new AcceptInteger());
-        return qm;
-    }
-
-    if (type == CalenhadServices::preferences() -> calenhad_module_scalepoint) {
-        QModule* qm = new QModule (type, 1);
-        qm -> addParameter ("X", "x", noiseconstants::DEFAULT_SCALE_POINT_X, new PreferNoiseValue());
-        qm -> addParameter ("Y", "y", noiseconstants::DEFAULT_SCALE_POINT_Y, new PreferNoiseValue());
-        qm -> addParameter ("Z", "z", noiseconstants::DEFAULT_SCALE_POINT_Z, new PreferNoiseValue());
-        return qm;
-    }
-
-    //if (type == CalenhadServices::preferences() -> calenhad_module_icospheremap) { QIcosphereMap* qm = new QIcosphereMap(); return qm; }
-    if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { QAltitudeMap* qm = new QAltitudeMap(); return qm; }
-    if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { QNodeGroup* group = new QNodeGroup(); return group; }
-    if (type == CalenhadServices::preferences() -> calenhad_module_raster) { QRasterModule* qm = new QRasterModule(); return qm; }
-    return nullptr;
 }
 
-QNode* ModuleFactory::clone (QNode* other) {
-    QNode* n = createModule (other -> nodeType());
+ParamValidator* ModuleFactory::validator (const QString& validatorType) {
+    if (validatorType == "AcceptPositive") { return new AcceptPositive(); }
+    if (validatorType == "AcceptNoiseValue") { return new AcceptNoiseValue(); }
+    if (validatorType == "PreferNoiseValue") { return new PreferNoiseValue(); }
+    if (validatorType == "AcceptAngleDegrees") { return new AcceptAngleDegrees (); }
+    if (validatorType == "AcceptRange") { return new AcceptRange (-1.0, 1.0); }
+    if (validatorType == "AcceptInteger") { return new AcceptInteger(); }
+    if (validatorType == "PreferInteger") { return new PreferInteger(); }
+    return new AcceptAnyRubbish();
+}
+
+Node* ModuleFactory::createModule (const QString& type) {
+
+    // special types which need more than generic construction code
+    if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { AltitudeMap* qm = new AltitudeMap(); return qm; }
+    if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { NodeGroup* group = new NodeGroup(); return group; }
+    if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* qm = new RasterModule(); return qm; }
+
+    return inflateModule (type);
+    
+}
+
+Node* ModuleFactory::clone (Node* other) {
+    Node* n = createModule (other -> nodeType());
     for (QString key : n -> parameters()) {
         n -> setParameter (key, other -> parameter (key));
     }
-}
-
-void ModuleFactory::setNoiseQuality (const noise::NoiseQuality& noiseQuality) {
-    _noiseQuality = noiseQuality;
-    emit noiseQualityChanged (noiseQuality);
 }
 
 int ModuleFactory::seed () {
     return _seed;
 }
 
-noise::NoiseQuality ModuleFactory::noiseQuality () {
-    return _noiseQuality;
-}
-
 QStringList ModuleFactory::paramNames() {
     return _paramNames;
 }
 
-void ModuleFactory::provideParamNames() {
-    _paramNames << "frequency"
-                << "lacunarity"
-                << "persistence"
-                << "octaves"
-                << "seed"
-                << "lowerBound"
-                << "upperBound"
-                << "enableDistance"
-                << "constValue"
-                << "falloff"
-                << "x" << "y" << "z"
-                << "scale" << "bias"
-                << "displacement"
-                << "enableDistance"
-                << "exponent"
-                << "roughness"
-                << "power"
-                << "index"
-                << "bounds";
+QString ModuleFactory::label (const QString& type) {
+    return _moduleLabels.contains (type) ? _moduleLabels.value (type) : QString();
 }
 
-QMap<QString, QString>* ModuleFactory::codes() {
-    return _codes;
+QString ModuleFactory::description (const QString& type) {
+    return _moduleDescriptions.contains (type) ? _moduleDescriptions.value (type) : QString();
 };
 
-// Create code snippets to be inserted into the compute shader to realise each module's function.
-// %n - will be replaced with the module's name which will serve as the method name representing it in the generated shader code.
-// %0, %1, etc - will be replaced with calls to the module outputs serving the corresponding port as input.
-// %frequency, %lacunarity etc - will be replaced with the value of that parameter, for parameters named in calenhad::graph::Graph::_params.
-void ModuleFactory::provideCodes() {
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_perlin, "float %n (vec3 v) { return perlin (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_simplex, "float %n (vec3 v) { return simplex (v, %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_billow, "float %n (vec3 v) { return billow (v,  %frequency, %lacunarity, %persistence, %octaves, %seed); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_ridgedmulti, "float %n (vec3 v) { return ridgedmulti (v, %frequency, %lacunarity, %octaves, %seed, 1.0, 1.0, 2.0, 2.0); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_voronoi, "float %n (vec3 v) { return voronoi (v, %frequency, %displacement, %enableDistance, %seed); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_add, "float %n (vec3 v) { return %0 (v) + %1 (v); }\n" );
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_multiply, "float %n (vec3 v) { return %0 (v) * %1 (v); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_diff, "float %n (vec3 v) { return %0 (v) - %1 (v); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_exponent, "float %n (vec3 v) { return pow (abs ((%0 (v) + 1.0) / 2.0), %exponent) * 2.0 - 1.0; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_cylinders, "float %n (vec3 v) { return cylinders (v, %frequency); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_spheres, "float %n (vec3 v) { return spheres (v, %frequency); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_translate, "float %n (vec3 v) { return %0 (v + vec3 (%x, %y, %z)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_rotate, "float %n (vec3 v) { return %0 (rotate (v, vec3 (%x, %y, %z))); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_clamp, "float %n  (vec3 v) { return clamp (%0 (v), float (%lowerBound), float (%upperBound)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_constant, "float %n (vec3 v) { return %constValue; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_abs, "float %n (vec3 v) { return abs (%0 (v)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_blend, "float %n (vec3 v) { return mix (%0 (v), %1 (v), %2 (v)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_invert, "float %n (vec3 v) { return - %0 (v); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_max, "float %n (vec3 v) { return max (%0 (v), %1 (v)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_min, "float %n (vec3 v) { return min (%0 (v), %1 (v)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_power, "float %n (vec3 v) { return pow (%0 (v), %1 (v)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_displace, "float %n (vec3 v) { return %0 (v + vec3 (%1 (v), %2 (v), %3 (v))); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_scalebias, "float %n (vec3 v) { return %0 (v) * %scale + %bias; }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_select, "float %n (vec3 v) { return select (%2 (v), %1 (v), %0 (v), %lowerBound, %upperBound, %falloff); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_turbulence, "float %n (vec3 v) { return %0 (turbulence (v, %frequency, %power, %roughness, %seed)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_scalepoint, "float %n (vec3 v) { return %0 (v * vec3 (%x, %y, %z)); }\n");
-    _codes -> insert (CalenhadServices::preferences() -> calenhad_module_raster, "float %n (vec3 v) { return raster (v, %index, %bounds, %0 (v)); }\n");
-    // altitudemap generates code in its own methods - do not inject here
+QString ModuleFactory::glsl (const QString& type) {
+    return _moduleCodes.contains (type) ? _moduleCodes.value (type) : QString();
+}
 
-
+QStringList ModuleFactory::types () {
+    QStringList list = _types.keys ();
+    list << CalenhadServices::preferences ()->calenhad_module_altitudemap;
+    list << CalenhadServices::preferences ()->calenhad_module_raster;
+    list << CalenhadServices::preferences ()->calenhad_nodegroup;
+    return list;
 }

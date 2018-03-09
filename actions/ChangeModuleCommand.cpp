@@ -4,14 +4,14 @@
 
 #include <QtXml/QDomDocument>
 #include "ChangeModuleCommand.h"
-#include "../qmodule/QModule.h"
-#include "../nodeedit/qneport.h"
+#include "qmodule/Module.h"
+#include "nodeedit/Port.h"
 
 using namespace calenhad::actions;
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 
-ChangeModuleCommand::ChangeModuleCommand (QNode* node,  const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex, const int& portType) :
+ChangeModuleCommand::ChangeModuleCommand (Node* node,  const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex, const int& portType) :
     _node (node),
     _property (property),
     _oldValue (oldValue),
@@ -35,7 +35,7 @@ void ChangeModuleCommand::redo() {
             _node->setProperty (_property.toStdString ().c_str (), _newValue);
         }
     } else {
-        for (QNEPort* port : _node -> ports()) {
+        for (Port* port : _node -> ports()) {
             if (port->index() == _portIndex && port -> portType() == _portType) {
                 if (port -> property (_property.toStdString ().c_str ()) != _newValue) {
                     port->setProperty (_property.toStdString ().c_str (), _newValue);
@@ -51,7 +51,7 @@ void ChangeModuleCommand::undo () {
             _node->setProperty (_property.toStdString ().c_str (), _oldValue);
         }
     } else {
-        for (QNEPort* port : _node -> ports()) {
+        for (Port* port : _node -> ports()) {
             if (port->index () == _portIndex && port -> portType() == _portType) {
                 if (port -> property (_property.toStdString ().c_str ()) != _oldValue) {
                     port->setProperty (_property.toStdString ().c_str (), _oldValue);

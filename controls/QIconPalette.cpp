@@ -140,7 +140,7 @@ QIconPalette::QIconPalette (QWidget *parent) : QWidget (parent), _iconSize (Cale
     iconPanels.append (_verticalIconPanel);
     iconPanels.append (_iconsPanel);
 
-    _types = CalenhadServices::modules() -> types ();
+    _types = CalenhadServices::modules() -> types();
     for (QString type : _types) {
         for (QWidget* panel : iconPanels) {
             QColoredIcon* icon = new QColoredIcon (this);
@@ -153,7 +153,7 @@ QIconPalette::QIconPalette (QWidget *parent) : QWidget (parent), _iconSize (Cale
             icon -> setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
             icon -> setMouseOverColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_mouseover);
             icon->setObjectName (type);
-            panel->layout ()->addWidget (icon);
+            panel -> layout() -> addWidget (icon);
             icon -> setAttribute (Qt::WA_DeleteOnClose);
         }
     }

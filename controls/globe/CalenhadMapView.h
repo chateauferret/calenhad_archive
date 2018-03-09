@@ -19,7 +19,7 @@ namespace calenhad {
         class ImageRenderJob;
     }
     namespace qmodule {
-        class QModule;
+        class Module;
     }
     namespace controls {
         namespace globe {
@@ -36,9 +36,9 @@ namespace calenhad {
 
                 virtual ~CalenhadMapView ();
 
-                calenhad::qmodule::QModule* source ();
+                calenhad::qmodule::Module* source ();
 
-                void setSource (calenhad::qmodule::QModule* qm);
+                void setSource (calenhad::qmodule::Module* qm);
 
                 void zoomInTo (const icosphere::Bounds& target);
 
@@ -68,7 +68,7 @@ namespace calenhad {
             protected:
                 icosphere::Bounds _bounds;
                 OverviewPreviewType _previewType;
-                calenhad::qmodule::QModule* _source;
+                calenhad::qmodule::Module* _source;
                 void showEvent (QShowEvent* e) override;
 
                 icosphere::Bounds _zoomBox;

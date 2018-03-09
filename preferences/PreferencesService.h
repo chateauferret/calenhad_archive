@@ -14,9 +14,7 @@ namespace calenhad {
         class PreferencesService {
         public:
             virtual void saveSettings () = 0;
-
             virtual void loadSettings () = 0;
-
             virtual QSettings* settings () = 0;
 
             // Colours and styles
@@ -77,6 +75,8 @@ namespace calenhad {
 
             QString calenhad_legends_filename;
             QString calenhad_legends_filename_temp;
+            QString calenhad_moduletypes_icons_path;
+            QString calenhad_moduletypes_filename;
             QString calenhad_recentfiles_filename;
             int calenhad_variables_name_maxlength;
             int calenhad_port_name_minLength;
@@ -115,32 +115,6 @@ namespace calenhad {
 
             // Modules
 
-            QString calenhad_module_perlin;
-            QString calenhad_module_simplex;
-            QString calenhad_module_cylinders;
-            QString calenhad_module_spheres;
-            QString calenhad_module_exponent;
-            QString calenhad_module_translate;
-            QString calenhad_module_rotate;
-            QString calenhad_module_clamp;
-            QString calenhad_module_constant;
-            QString calenhad_module_add;
-            QString calenhad_module_abs;
-            QString calenhad_module_blend;
-            QString calenhad_module_invert;
-            QString calenhad_module_max;
-            QString calenhad_module_min;
-            QString calenhad_module_multiply;
-            QString calenhad_module_power;
-            QString calenhad_module_displace;
-            QString calenhad_module_diff;
-            QString calenhad_module_billow;
-            QString calenhad_module_ridgedmulti;
-            QString calenhad_module_scalebias;
-            QString calenhad_module_select;
-            QString calenhad_module_turbulence;
-            QString calenhad_module_voronoi;
-            QString calenhad_module_scalepoint;
             QString calenhad_module_icospheremap;
             QString calenhad_module_altitudemap;
             QString calenhad_module_raster;
@@ -148,8 +122,6 @@ namespace calenhad {
             QColor calenhad_toolpalette_icon_color_normal;
             QColor calenhad_toolpalette_icon_color_mouseover;
             QColor calenhad_toolpalette_icon_color_shadow;
-
-
         };
     }
 }

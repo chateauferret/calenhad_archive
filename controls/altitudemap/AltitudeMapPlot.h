@@ -12,7 +12,7 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QComboBox>
-#include "../qmodule/QAltitudeMap.h"
+#include "qmodule/AltitudeMap.h"
 #include <qwt/qwt_plot_panner.h>
 #include <qwt/qwt_plot_magnifier.h>
 #include "AltitudeMapping.h"

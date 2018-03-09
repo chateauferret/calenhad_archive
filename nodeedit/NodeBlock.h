@@ -33,48 +33,48 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 namespace calenhad {
 	namespace qmodule {
-        class QNode;
+        class Node;
 	}
 	namespace controls {
 		class QColoredIcon;
 	}
 	namespace nodeedit {
-		class QNEPort;
+		class Port;
 		class NodeNameValidator;
 		class EditableLabel;
 
-		class QNodeGroupBlock;
+		class NodeGroupBlock;
 
-		class QNodeBlock : public QObject, public QGraphicsPathItem {
+		class NodeBlock : public QObject, public QGraphicsPathItem {
 		Q_OBJECT
 		public:
 			enum {
 				Type = QGraphicsItem::UserType + 3
 			};
 
-			QNodeBlock (calenhad::qmodule::QNode* node, QGraphicsItem* parent = 0);
+			NodeBlock (calenhad::qmodule::Node* node, QGraphicsItem* parent = 0);
 
-			virtual ~QNodeBlock ();
+			virtual ~NodeBlock ();
 
-			QNEPort* addPort (QNEPort* port);
+			Port* addPort (Port* port);
 
 			void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
-			QVector<QNEPort*> ports ();
+			QVector<Port*> ports ();
 
 			int type () const { return Type; }
 
-			QVector<QNEPort*> inputs ();
+			QVector<Port*> inputs ();
 
-			QVector<QNEPort*> outputs ();
+			QVector<Port*> outputs ();
 
-			QVector<QNEPort*> controls ();
+			QVector<Port*> controls ();
 
 			virtual QRectF boundingRect () const;
 
 			virtual void initialise ();
 
-			calenhad::qmodule::QNode* node ();
+			calenhad::qmodule::Node* node ();
 
 			void assignGroup ();
 
@@ -96,7 +96,7 @@ namespace calenhad {
 		protected:
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
 
-			calenhad::qmodule::QNode* _node;
+			calenhad::qmodule::Node* _node;
 			EditableLabel* _label;
 			QBrush _brush;
 			QPen _pen;

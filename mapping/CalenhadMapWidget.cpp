@@ -299,7 +299,7 @@ void CalenhadMapWidget::resizeGL(int width, int height) {
 void CalenhadMapWidget::setGraph (Graph* g) {
     makeCurrent ();
     _shader = _shaderTemplate;
-    QString code = g->glsl ();
+    QString code = g -> glsl ();
     if (code != QString::null) {
         _graph = g;
 

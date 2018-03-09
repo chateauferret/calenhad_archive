@@ -26,22 +26,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 #include "../actions/ZoomCommand.h"
 #include "../actions/DeleteConnectionCommand.h"
-#include "QNodeBlock.h"
-#include "qnetoolbox.h"
-#include "qneconnection.h"
+#include "NodeBlock.h"
+#include "Toolbox.h"
+#include "Connection.h"
 #include "../actions/CommandGroup.h"
 #include "../actions/DuplicateNodeCommand.h"
 #include "../CalenhadServices.h"
 #include "../actions/DeleteNodeCommand.h"
-#include "../qmodule/QNodeGroup.h"
+#include "qmodule/NodeGroup.h"
 #include "Calenhad.h"
 #include "../preferences/PreferencesService.h"
 #include <QGraphicsScene>
 #include "../nodeedit/CalenhadView.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../pipeline/ModuleFactory.h"
-#include "../nodeedit/qneport.h"
-#include "../qmodule/QModule.h"
+#include "Port.h"
+#include "qmodule/Module.h"
 #include <QAction>
 #include <actions/ContextAction.h>
 #include <actions/SelectionToClipboardCommand.h>
@@ -99,7 +99,7 @@ void CalenhadController::toolSelected (bool state) {
             QPixmap* pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString ());
             QCursor cursor = QCursor ((*pixmap).scaled (iconSize, iconSize));
             view -> viewport () -> setCursor (cursor);
-            for (QNodeGroup* group : _model -> nodeGroups ()) {
+            for (NodeGroup* group : _model -> nodeGroups ()) {
                 group -> handle() -> setCursor (cursor);
             }
             view -> setDragMode (QGraphicsView::NoDrag);
@@ -121,9 +121,9 @@ void CalenhadController::actionTriggered() {
     QAction* action = (QAction*) sender();
     ContextAction<QGraphicsItem>* ca = dynamic_cast<ContextAction<QGraphicsItem>*> (action);
     if (ca) {
-        if (action->data () == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<QNEConnection*> (ca -> context()), _model)); }
-        if (action->data () == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand ((static_cast<QNodeBlock*> (ca -> context())) -> node (), _model)); }
-        if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<QNodeBlock*> (ca -> context())) -> node(), _model)); }
+        if (action->data () == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<Connection*> (ca -> context()), _model)); }
+        if (action->data () == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand ((static_cast<NodeBlock*> (ca -> context())) -> node (), _model)); }
+        if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<NodeBlock*> (ca -> context())) -> node(), _model)); }
     }
     if (action -> data() == CalenhadAction::ZoomInAction) { doCommand (new ZoomCommand (0.1, _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomOutAction) { doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
@@ -138,9 +138,9 @@ void CalenhadController::actionTriggered() {
             for (QGraphicsItem* item : _model->selectedItems ()) {
                 // to do - delete other kinds of node
                 if (item->type () == QGraphicsItem::UserType + 3) { // block
-                    QNode* node = ((QNodeBlock*) item)->node ();
+                    Node* node = ((NodeBlock*) item)->node ();
                     // to do - generalise this to delete groups too
-                    QModule* module = dynamic_cast<QModule*> (node);
+                    Module* module = dynamic_cast<Module*> (node);
                     if (module) {
                         DeleteNodeCommand* command = new DeleteNodeCommand (module, _model);
                         group->addCommand (command);
@@ -169,7 +169,7 @@ void CalenhadController::doCommand (QUndoCommand* c) {
     showMessage (c -> text());
 }
 
-void CalenhadController::addParamsWidget (QToolBar* toolbar, QNode* node) {
+void CalenhadController::addParamsWidget (QToolBar* toolbar, Node* node) {
     Calenhad* mainWindow = (Calenhad*) parent();
     mainWindow -> addToolbar (toolbar, node);
 }

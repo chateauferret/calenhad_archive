@@ -3,13 +3,13 @@
 //
 
 #include "DeleteConnectionCommand.h"
-#include "../nodeedit/qneconnection.h"
+#include "nodeedit/Connection.h"
 #include "../pipeline/CalenhadModel.h"
 using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::pipeline;
 
-DeleteConnectionCommand::DeleteConnectionCommand (QNEConnection* connection, CalenhadModel* model) : _connection (connection), _model (model) {
+DeleteConnectionCommand::DeleteConnectionCommand (Connection* connection, CalenhadModel* model) : _connection (connection), _model (model) {
     setText ("Delete connection"); // to do - identify connection by owner/port names
 }
 

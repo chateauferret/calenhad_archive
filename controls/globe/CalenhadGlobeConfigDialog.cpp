@@ -21,7 +21,7 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QGroupBox>
 #include <controls/ColorButton.h>
-#include "qmodule/QModule.h"
+#include "qmodule/Module.h"
 #include "../../mapping/Graticule.h"
 
 using namespace calenhad::controls::globe;

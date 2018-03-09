@@ -13,15 +13,15 @@
 
 namespace calenhad {
 	namespace nodeedit {
-		class QNEConnection;
-		class QNodeBlock;
+		class Connection;
+		class NodeBlock;
 	}
 	namespace pipeline {
 		class CalenhadModel;
 	}
 	namespace qmodule {
-		class QNode;
-		class QModule;
+		class Node;
+		class Module;
 	}
 	namespace nodeedit {
 		class CalenhadView;
@@ -49,7 +49,7 @@ namespace calenhad {
 
 			void doCommand (QUndoCommand* c);
 
-			void addParamsWidget (QToolBar* toolbar, calenhad::qmodule::QNode* node);
+			void addParamsWidget (QToolBar* toolbar, calenhad::qmodule::Node* node);
             bool canUndo();
             bool canRedo();
 

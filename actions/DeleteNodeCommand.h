@@ -10,7 +10,7 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
+        class Node;
     }
     namespace pipeline {
         class CalenhadModel;
@@ -21,7 +21,7 @@ namespace calenhad {
         class DeleteNodeCommand : public QUndoCommand {
 
         public:
-            DeleteNodeCommand (calenhad::qmodule::QNode* node, calenhad::pipeline::CalenhadModel* model);
+            DeleteNodeCommand (calenhad::qmodule::Node* node, calenhad::pipeline::CalenhadModel* model);
 
             virtual ~DeleteNodeCommand ();
 
@@ -31,7 +31,7 @@ namespace calenhad {
 
         protected:
             calenhad::pipeline::CalenhadModel* _model = nullptr;
-            calenhad::qmodule::QNode* _node;
+            calenhad::qmodule::Node* _node;
             QString _xml;
         };
     }

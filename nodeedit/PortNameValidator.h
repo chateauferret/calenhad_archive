@@ -8,16 +8,16 @@
 
 namespace calenhad {
     namespace nodeedit {
-        class QNEPort;
+        class Port;
 
         class PortNameValidator : public NodeNameValidator {
         public:
-            PortNameValidator (calenhad::nodeedit::QNEPort* port);
+            PortNameValidator (calenhad::nodeedit::Port* port);
             ~PortNameValidator();
             virtual QValidator::State validate (QString &input, int &pos) const override;
 
         protected:
-            QNEPort* _port;
+            Port* _port;
         };
     }
 }

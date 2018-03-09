@@ -17,7 +17,7 @@
 #include <QWindow>
 #include <QtWidgets/QFileDialog>
 #include "../../mapping/projection/Projection.h"
-#include "../../qmodule/QModule.h"
+#include "qmodule/Module.h"
 #include "../legend/LegendEditorScale.h"
 #include "../../mapping/Graticule.h"
 
@@ -35,7 +35,7 @@ using namespace calenhad::graph;
 using namespace calenhad::qmodule;
 using namespace geoutils;
 
-CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, QModule* source) : QDialog (parent),
+CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, Module* source) : QDialog (parent),
     _configDialog (nullptr),
     _contextMenu (nullptr),
     _moveFrom (QPoint (0, 0)),

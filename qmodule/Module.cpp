@@ -3,9 +3,9 @@
 //
 
 
-#include "QModule.h"
-#include "../nodeedit/QNodeBlock.h"
-#include "../nodeedit/qneport.h"
+#include "Module.h"
+#include "nodeedit/NodeBlock.h"
+#include "nodeedit/Port.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
@@ -16,7 +16,7 @@
 #include <controls/globe/CalenhadGlobeDialog.h>
 #include <controls/globe/CalenhadStatsPanel.h>
 #include <QtWidgets/QCheckBox>
-#include "../nodeedit/qneconnection.h"
+#include "nodeedit/Connection.h"
 
 using namespace icosphere;
 using namespace calenhad::qmodule;
@@ -28,45 +28,44 @@ using namespace calenhad::legend;
 using namespace calenhad::mapping;
 
 
-int QModule::seed = 0;
+int Module::seed = 0;
 
-QModule::QModule (const QString& nodeType, int inputs, QWidget* parent) : QNode (nodeType, inputs, parent),
+Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, parent),
     _globe (nullptr),
     _stats (nullptr) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
 }
 
-QModule::~QModule () {
+Module::~Module () {
     if (_globe) { delete _globe; }
     if (_stats) { delete _stats; }
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
-void QModule::initialise() {
-    QNode::initialise();
+void Module::initialise() {
+    Node::initialise();
     // all modules have an output
-    QNEPort* output = new QNEPort (QNEPort::OutputPort, 0, "Output");
+    Port* output = new Port (Port::OutputPort, 0, "Output");
     addPort (output);
     setContextMenuPolicy(Qt::CustomContextMenu);
     _contextMenu = new QMenu (this);
     QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
-    connect (globeAction, &QAction::triggered, this, &QModule::showGlobe);
+    connect (globeAction, &QAction::triggered, this, &Module::showGlobe);
     _contextMenu -> addAction (globeAction);
-
 }
 
-void QModule::showGlobe() {
+void Module::showGlobe() {
     if (!_globe) {
         _globe = new CalenhadGlobeDialog (this, this);
         _globe -> initialise ();
         _globe -> resize (640, 320);
-        connect (_globe -> globe(), &CalenhadMapWidget::rendered, this, &QModule::rendered);
+        connect (_globe -> globe(), &CalenhadMapWidget::rendered, this, &Module::rendered);
     }
     _globe -> show();
 }
 
-void QModule::setupPreview() {
+void Module::setupPreview() {
     _preview = new CalenhadMapView (this);
     _preview -> setSource (this);
     _previewIndex = addPanel (tr ("Preview"), _preview);
@@ -83,54 +82,39 @@ void QModule::setupPreview() {
     connect (_preview, &CalenhadMapWidget::rendered, statsPanel, &CalenhadStatsPanel::refresh);
     QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
     connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
-    connect (_preview, &QWidget::customContextMenuRequested, this, &QModule::showContextMenu);
-    connect (_preview, &CalenhadMapWidget::rendered, this, &QModule::rendered);
+    connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
+    connect (_preview, &CalenhadMapWidget::rendered, this, &Module::rendered);
     _contextMenu -> addAction (statsAction);
 }
 
-void QModule::showContextMenu (const QPoint& point) {
+void Module::showContextMenu (const QPoint& point) {
     _contextMenu -> exec (QCursor::pos());
 }
 
 
-void QModule::addInputPorts() {
-    // Rules: if there are < 3 inputs none of them are controls,
-    // if there are 3 inputs, 0 and 1 are data and 2 is control,
-    // if there are > 3 inputs, 1 is data and the rest are controls
-    int portType;
-    QString name;
-
-    for (int i = 0; i < _inputCount; i++) {
-        if (_inputCount < 3 || i == 0 || (i == 1 && _inputCount == 3)) {
-            name = "Input " + QString::number (i + 1);
-            portType = QNEPort::InputPort;
-        } else {
-            name = "Control " + QString::number (i - 1);
-            portType = QNEPort::ControlPort;
-        }
-        QNEPort* input = new QNEPort (portType, i, name);
-        addPort (input);
-    }
+void Module::addInputPort (const int& index, const int& portType, const QString& name) {
+    Port* input = new Port (portType, index, name);
+    addPort (input, index);
 }
 
-QNode* QModule::sourceModule (int portIndex) {
-    QNEPort* p = _ports.at (portIndex);
-    if (p -> portType () == QNEPort::OutputPort || p -> connections().isEmpty()) {
+Node* Module::sourceModule (int portIndex) {
+    Port* p = _ports.at (portIndex);
+    if (p -> portType () == Port::OutputPort || p -> connections().isEmpty()) {
         return nullptr;
     }
-    QNEConnection* c = p -> connections().first();
+    Connection* c = p -> connections().first();
     return c -> otherEnd (p) -> owner ();
 }
 
-void QModule::inflate (const QDomElement& element) {
-    QNode::inflate (element);
+void Module::inflate (const QDomElement& element) {
+    Node::inflate (element);
     QString legendName = element.attribute ("legend", "default");
     _legend = CalenhadServices::legends() -> find (legendName);
     // position is retrieved in CalenhadModel
 }
 
-void QModule::serialize (QDomDocument& doc) {
-    QNode::serialize (doc);
+void Module::serialize (QDomDocument& doc) {
+    Node::serialize (doc);
     _element.setAttribute ("legend", _legend -> name());
     QDomElement positionElement = doc.createElement ("position");
     _element.appendChild (positionElement);
@@ -139,39 +123,39 @@ void QModule::serialize (QDomDocument& doc) {
     _element.setAttribute ("type", nodeType ());
 }
 
-void QModule::rendered (const bool& success) {
+void Module::rendered (const bool& success) {
 
 }
 
-void QModule::setModel (CalenhadModel* model) {
-    QNode::setModel (model);
+void Module::setModel (CalenhadModel* model) {
+    Node::setModel (model);
     setupPreview();
 }
 
-void QModule::setLegend (Legend* legend) {
+void Module::setLegend (Legend* legend) {
     _legend = legend;
     emit nodeChanged();
 }
 
-Legend* QModule::legend () {
+Legend* Module::legend () {
     return _legend;
 }
 
-bool QModule::generateMap () {
+bool Module::generateMap () {
     return true;
 }
 
-bool QModule::isComplete() {
-    bool complete = QNode::isComplete();
+bool Module::isComplete() {
+    bool complete = Node::isComplete();
     _expander -> setItemEnabled (_previewIndex, complete);
     return complete;
 }
 
-void QModule::contextMenuEvent (QContextMenuEvent* e) {
+void Module::contextMenuEvent (QContextMenuEvent* e) {
     _contextMenu -> exec();
 }
 
-bool QModule::range (double& min, double& max) {
+bool Module::range (double& min, double& max) {
     if (_preview) {
         Statistics statistics = _preview->statistics ();
         min = statistics._min;
@@ -182,10 +166,27 @@ bool QModule::range (double& min, double& max) {
     }
 }
 
-calenhad::controls::globe::CalenhadMapView* QModule::preview () {
+calenhad::controls::globe::CalenhadMapView* Module::preview () {
     return _preview;
 };
 
-void QModule::parameterChanged() {
-    QNode::parameterChanged();
+void Module::parameterChanged() {
+    Node::parameterChanged();
+}
+
+QString Module::label () {
+    return CalenhadServices::modules() -> label (_nodeType);
+}
+
+QString Module::description () {
+    return CalenhadServices::modules() -> description (_nodeType);
+}
+
+
+QString Module::glsl () {
+    return CalenhadServices::modules() -> glsl (_nodeType);
+}
+
+QMap<unsigned, Port*> Module::inputs () {
+    return _inputs;
 }

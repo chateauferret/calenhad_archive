@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtWidgets/QUndoStack>
 #include <QtWidgets/QGraphicsItem>
 #include "../messages/QNotificationHost.h"
-#include "qnetoolbox.h"
+#include "Toolbox.h"
 
 namespace calenhad {
     namespace controls {
@@ -57,12 +57,12 @@ namespace calenhad {
         class QNotificationStack;
     }
     namespace qmodule {
-        class QNode;
+        class Node;
     }
     namespace nodeedit {
         class CalenhadController;
         class CalenhadView;
-        class QNEToolBox;
+        class ToolBox;
 
         enum CalenhadFileType { CalenhadModelFile, CalenhadLegendFile, CalenhadModelFragment };
 
@@ -74,7 +74,7 @@ namespace calenhad {
 
             ~Calenhad ();
 
-            QNEToolBox* _toolbox;
+            ToolBox* _toolbox;
 
             void setModel (calenhad::pipeline::CalenhadModel* model);
 
@@ -82,7 +82,7 @@ namespace calenhad {
 
             void initialiseLegends ();
 
-            void addToolbar (QToolBar* toolbar, calenhad::qmodule::QNode* node);
+            void addToolbar (QToolBar* toolbar, calenhad::qmodule::Node* node);
 
             CalenhadController* controller ();
 

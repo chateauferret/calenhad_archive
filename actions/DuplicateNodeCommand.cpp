@@ -4,11 +4,11 @@
 
 #include "DuplicateNodeCommand.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../nodeedit/QNodeBlock.h"
+#include "nodeedit/NodeBlock.h"
 #include "../preferences/preferences.h"
 #include "../CalenhadServices.h"
-#include "../qmodule/QModule.h"
-#include "../qmodule/QNodeGroup.h"
+#include "qmodule/Module.h"
+#include "qmodule/NodeGroup.h"
 #include "../pipeline/ModuleFactory.h"
 
 using namespace calenhad::actions;
@@ -16,7 +16,7 @@ using namespace calenhad::qmodule;
 using namespace calenhad::pipeline;
 
 
-DuplicateNodeCommand::DuplicateNodeCommand (QNode* node, CalenhadModel* model) : _node (node), _model (model), _copy (nullptr) {
+DuplicateNodeCommand::DuplicateNodeCommand (Node* node, CalenhadModel* model) : _node (node), _model (model), _copy (nullptr) {
 
 }
 

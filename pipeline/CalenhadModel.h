@@ -26,16 +26,16 @@ namespace noise {
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
-        class QModule;
-        class QNodeGroup;
+        class Node;
+        class Module;
+        class NodeGroup;
     }
     namespace nodeedit {
         class CalenhadController;
-        class QNodeGroupBlock;
-        class QNEConnection;
-        class QNEPort;
-        class QNodeBlock;
+        class NodeGroupBlock;
+        class Connection;
+        class Port;
+        class NodeBlock;
     }
     namespace pipeline {
 
@@ -49,24 +49,24 @@ namespace calenhad {
 
             virtual ~CalenhadModel ();
 
-            qmodule::QNode* findModule (const QString& name);
+            qmodule::Node* findModule (const QString& name);
 
-            calenhad::qmodule::QNodeGroup* findGroup (const QString& name);
+            calenhad::qmodule::NodeGroup* findGroup (const QString& name);
 
-            calenhad::qmodule::QNode* addNode (const QPointF& initPos, const QString& type);
+            calenhad::qmodule::Node* addNode (const QPointF& initPos, const QString& type);
 
-            calenhad::qmodule::QModule* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
+            calenhad::qmodule::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
 
-            calenhad::qmodule::QNodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
+            calenhad::qmodule::NodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
 
-            void deleteNode (calenhad::qmodule::QNode* node);
+            void deleteNode (calenhad::qmodule::Node* node);
 
-            bool canConnect (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input, const bool& verbose = false);
+            bool canConnect (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input, const bool& verbose = false);
 
-            nodeedit::QNEConnection* connectPorts (calenhad::nodeedit::QNEPort* output, calenhad::nodeedit::QNEPort* input);
+            nodeedit::Connection* connectPorts (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input);
 
-            void disconnectPorts (calenhad::nodeedit::QNEConnection* connection);
-            void rerouteConnection (nodeedit::QNEPort* from, nodeedit::QNEPort* oldPort, nodeedit::QNEPort* newPort);
+            void disconnectPorts (calenhad::nodeedit::Connection* connection);
+            void rerouteConnection (nodeedit::Port* from, nodeedit::Port* oldPort, nodeedit::Port* newPort);
             bool eventFilter (QObject* o, QEvent* e);
 
             void setActiveTool (QAction* tool);
@@ -84,11 +84,11 @@ namespace calenhad {
             bool isChanged();
 
 
-            QList<calenhad::qmodule::QNode*> nodes ();
+            QList<calenhad::qmodule::Node*> nodes ();
 
-            QList<calenhad::qmodule::QNodeGroup*> nodeGroups ();
+            QList<calenhad::qmodule::NodeGroup*> nodeGroups ();
 
-            QList<calenhad::nodeedit::QNEConnection*> connections ();
+            QList<calenhad::nodeedit::Connection*> connections ();
 
             QString readParameter (const QDomElement& element, const QString param);
 
@@ -96,13 +96,13 @@ namespace calenhad {
 
             void highlightGroupAt (QPointF pos);
 
-            calenhad::qmodule::QNode* addNode (calenhad::qmodule::QNode* node, const QPointF& initPos);
+            calenhad::qmodule::Node* addNode (calenhad::qmodule::Node* node, const QPointF& initPos);
             bool nameExists (const QString& name);
             QString uniqueName (QString original);
             public slots:
             void commitLegends();
             void rollbackLegends();
-            bool existsPath (calenhad::nodeedit::QNodeBlock* output, calenhad::nodeedit::QNodeBlock* input);
+            bool existsPath (calenhad::nodeedit::NodeBlock* output, calenhad::nodeedit::NodeBlock* input);
 
 
             const QString& description();
@@ -134,8 +134,8 @@ namespace calenhad {
             QPointF lastClick;
 
             QAction* _activeTool = nullptr;
-            calenhad::nodeedit::QNEConnection* conn;
-            calenhad::nodeedit::QNEPort* _port = nullptr; // last port we coloured in as dropping on
+            calenhad::nodeedit::Connection* conn;
+            calenhad::nodeedit::Port* _port = nullptr; // last port we coloured in as dropping on
             calenhad::nodeedit::CalenhadController* _controller = nullptr;
 
             QString _title, _author, _description;
@@ -145,7 +145,7 @@ namespace calenhad {
 
             void readMetadata (const QDomDocument& doc);
 
-            calenhad::nodeedit::QNodeGroupBlock* _highlighted;
+            calenhad::nodeedit::NodeGroupBlock* _highlighted;
 
 
 
@@ -160,7 +160,7 @@ namespace calenhad {
             QString _filename;
             const QDateTime _lastSaved;
             bool _existingConnection;
-            calenhad::nodeedit::QNEPort* _wasConnectedTo;
+            calenhad::nodeedit::Port* _wasConnectedTo;
 
         };
     }

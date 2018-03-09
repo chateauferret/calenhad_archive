@@ -29,35 +29,35 @@ namespace calenhad {
         class QNotificationFactory;
     }
     namespace nodeedit {
-        class QNEPort;
-        class QNodeBlock;
+        class Port;
+        class NodeBlock;
         class NodeNameValidator;
     }
     namespace expressions {
         class ExpressionWidget;
     }
     namespace qmodule {
-        class QModule;
-        class QNodeGroup;
+        class Module;
+        class NodeGroup;
 
-        class QNode : public QWidget, public Serializable {
+        class Node : public QWidget, public Serializable {
         Q_OBJECT
 
 
 
         public:
-            QNode (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
-            QNode (QWidget* parent) {
+            Node (const QString& nodeType, QWidget* parent = 0);
+            Node (QWidget* parent) {
                  // just for now
             }
 
-            void connectMenu (QMenu* menu, calenhad::nodeedit::QNEPort* port);
+            void connectMenu (QMenu* menu, calenhad::nodeedit::Port* port);
 
             enum {
                 Type = QGraphicsItem::UserType + 6
             };
 
-            virtual ~QNode ();
+            virtual ~Node ();
 
             virtual void initialise ();
 
@@ -69,13 +69,13 @@ namespace calenhad {
 
             virtual QString nodeType();
 
-            void setGroup (QNodeGroup* group);
+            void setGroup (NodeGroup* group);
 
-            QNodeGroup* group ();
+            NodeGroup* group ();
 
-            calenhad::nodeedit::QNodeBlock* handle ();
+            calenhad::nodeedit::NodeBlock* handle ();
 
-            virtual QNode* clone();
+            virtual Node* clone();
 
             QString name ();
 
@@ -83,9 +83,9 @@ namespace calenhad {
 
             QString notes ();
 
-            void addPort (calenhad::nodeedit::QNEPort* port);
+            void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
 
-            QList<calenhad::nodeedit::QNEPort*> ports ();
+            QVector<nodeedit::Port*> ports ();
 
             void showEvent (QShowEvent* event) override;
 
@@ -108,8 +108,8 @@ namespace calenhad {
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
             int id();
-            calenhad::nodeedit::QNEPort* output();
-            virtual nodeedit::QNodeBlock* makeHandle ();
+            calenhad::nodeedit::Port* output();
+            virtual nodeedit::NodeBlock* makeHandle ();
             double parameterValue (const QString& name);
 
         public slots:
@@ -129,22 +129,22 @@ namespace calenhad {
 
         protected:
             int _id;
-            QNodeGroup* _group;
+            NodeGroup* _group;
             QDialog* _dialog;
-            calenhad::nodeedit::QNodeBlock* _handle;
+            calenhad::nodeedit::NodeBlock* _handle;
             QString _name;
             QString _notes;
             QLineEdit* _nameEdit;
             QTextEdit* _notesEdit;
             QToolBox* _expander;
-            QList<calenhad::nodeedit::QNEPort*> _ports;
-            calenhad::nodeedit::QNEPort* _output;
+            QVector<calenhad::nodeedit::Port*> _ports;
+            calenhad::nodeedit::Port* _output;
+            QMap<unsigned, calenhad::nodeedit::Port*> _inputs;
             QWidget* _content;
-            int _inputCount;
             calenhad::pipeline::CalenhadModel* _model;
 
             QMap<QString, calenhad::expressions::ExpressionWidget*> _parameters;
-            virtual void addInputPorts () = 0;
+            virtual void addInputPorts();
 
             int addPanel (const QString& name, QWidget* widget);
 

@@ -5,14 +5,14 @@
 #include <mapping/CubicSpline.h>
 #include <mapping/TerraceCurve.h>
 #include <controls/altitudemap/AltitudeMapping.h>
-#include "QAltitudeMap.h"
+#include "AltitudeMap.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
 #include "../controls/altitudemap/AltitudeMapEditor.h"
 #include "../controls/altitudemap/AltitudeMapping.h"
-#include "../nodeedit/qneport.h"
+#include "nodeedit/Port.h"
 #include "../actions/XmlCommand.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../CalenhadServices.h"
@@ -23,20 +23,20 @@ using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::mapping;
 
-QAltitudeMap::QAltitudeMap (QWidget* parent) : QModule (CalenhadServices::preferences() -> calenhad_module_altitudemap, 1), _editor (nullptr) {
+AltitudeMap::AltitudeMap (QWidget* parent) : Module (CalenhadServices::preferences() -> calenhad_module_altitudemap), _editor (nullptr) {
     makeContentPanel();
 }
 
-QAltitudeMap::~QAltitudeMap() {
+AltitudeMap::~AltitudeMap() {
     for (Curve* c : _curves.values ()) { delete c; }
     if (_editor) { delete _editor; }
 }
 
-void QAltitudeMap::initialise() {
-    QModule::initialise();
+void AltitudeMap::initialise() {
+    Module::initialise();
 }
 
-void QAltitudeMap::makeContentPanel() {
+void AltitudeMap::makeContentPanel() {
 
     addContentPanel();
     // prepare the editor
@@ -60,7 +60,7 @@ void QAltitudeMap::makeContentPanel() {
     resetMap ();
 }
 
-void QAltitudeMap::editAltitudeMap() {
+void AltitudeMap::editAltitudeMap() {
     // preserve the existing state so that we can undo
     preserve();
 
@@ -78,7 +78,7 @@ void QAltitudeMap::editAltitudeMap() {
 
 // retrieve parameters from the curve editing dialog: control points and curve type (function)
 // based on those assign the relevant owner and set tbe control points on it,
-void QAltitudeMap::updateEntries() {
+void AltitudeMap::updateEntries() {
 
     CurveType curveType = _editor -> curveType();
     _curve = _curves.find (curveType).value();
@@ -103,27 +103,27 @@ void QAltitudeMap::updateEntries() {
     editingFinished();
 }
 
-void QAltitudeMap::editingFinished() {
+void AltitudeMap::editingFinished() {
     if (_editor) {
         _editor -> hide();
     }
 }
 
-void QAltitudeMap::addEntry (const QString& x, const QString& y) {
+void AltitudeMap::addEntry (const QString& x, const QString& y) {
     addEntry (AltitudeMapping (x, y));
 }
 
-void QAltitudeMap::addEntry (const AltitudeMapping& entry) {
+void AltitudeMap::addEntry (const AltitudeMapping& entry) {
     for (Curve* curve : _curves.values ()) {
         curve -> addMapping (entry);
     }
 }
 
-QVector<AltitudeMapping>  QAltitudeMap::entries () const {
+QVector<AltitudeMapping>  AltitudeMap::entries () const {
     return _curve -> mappings();
 };
 
-void QAltitudeMap::resetMap () {
+void AltitudeMap::resetMap () {
     clearMap();
     addEntry ("-1.0", "-1.0");
     addEntry ("1.0", "1.0");
@@ -133,14 +133,14 @@ void QAltitudeMap::resetMap () {
     emit nodeChanged();
 }
 
-void QAltitudeMap::clearMap() {
+void AltitudeMap::clearMap() {
     for (Curve* curve : _curves) {
         curve -> clear();
     }
 }
 
-QAltitudeMap* QAltitudeMap::clone () {
-    QAltitudeMap* n = (QAltitudeMap*) QNode::clone();
+AltitudeMap* AltitudeMap::clone () {
+    AltitudeMap* n = (AltitudeMap*) Node::clone();
     QDomDocument doc;
     QDomElement root = doc.createElement ("model");
     doc.appendChild (root);
@@ -148,8 +148,8 @@ QAltitudeMap* QAltitudeMap::clone () {
     inflate (root.firstChildElement ("map"));
 }
 
-void QAltitudeMap::inflate (const QDomElement& element) {
-    QModule::inflate (element);
+void AltitudeMap::inflate (const QDomElement& element) {
+    Module::inflate (element);
     QDomElement mapElement = element.firstChildElement ("map");
     if (mapElement.attribute ("function") == "terrace") {
         if (mapElement.attribute ("inverted") == "true") {
@@ -171,8 +171,8 @@ void QAltitudeMap::inflate (const QDomElement& element) {
     }
 }
 
-void QAltitudeMap::serialize (QDomDocument& doc) {
-    QModule::serialize (doc);
+void AltitudeMap::serialize (QDomDocument& doc) {
+    Module::serialize (doc);
     QDomElement mapElement = _document.createElement ("map");
     _element.appendChild (mapElement);
     mapElement.setAttribute ("function", curveFunction());
@@ -188,7 +188,7 @@ void QAltitudeMap::serialize (QDomDocument& doc) {
     }
 }
 
-QString QAltitudeMap::curveFunction() {
+QString AltitudeMap::curveFunction() {
     if (dynamic_cast<TerraceCurve*> (_curve)) {
         return ("terrace");
     } else {
@@ -197,7 +197,7 @@ QString QAltitudeMap::curveFunction() {
 
 }
 
-bool QAltitudeMap::isFunctionInverted() {
+bool AltitudeMap::isFunctionInverted() {
     if (curveFunction() == "terrace") {
         return dynamic_cast<TerraceCurve*> (_curve)->IsTerracesInverted();
     } else {
@@ -205,7 +205,7 @@ bool QAltitudeMap::isFunctionInverted() {
     }
 }
 
-void QAltitudeMap::preserve () {
+void AltitudeMap::preserve () {
     QDomDocument doc;
     QDomElement root = doc.createElement ("model");
     doc.appendChild (root);

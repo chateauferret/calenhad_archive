@@ -10,14 +10,14 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
+        class Node;
     }
 
     namespace actions {
 
         class ChangeModuleCommand : public QUndoCommand {
         public:
-            ChangeModuleCommand (calenhad::qmodule::QNode* node, const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex = -1, const int& portType = -1);
+            ChangeModuleCommand (calenhad::qmodule::Node* node, const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex = -1, const int& portType = -1);
 
             virtual ~ChangeModuleCommand ();
 
@@ -28,7 +28,7 @@ namespace calenhad {
         protected:
             QString _property;
             QVariant _oldValue, _newValue;
-            calenhad::qmodule::QNode* _node;
+            calenhad::qmodule::Node* _node;
             int _portIndex;
             int _portType;
         };

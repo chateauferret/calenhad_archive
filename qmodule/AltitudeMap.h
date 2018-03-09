@@ -7,7 +7,7 @@
 
 #include <QtCore/QString>
 #include <QtXml/QDomElement>
-#include "QModule.h"
+#include "Module.h"
 #include "../controls/altitudemap/AltitudeMapConstants.h"
 
 
@@ -25,17 +25,17 @@ namespace calenhad {
     namespace qmodule {
 
 
-        class QAltitudeMap : public QModule {
+        class AltitudeMap : public Module {
         Q_OBJECT
         public:
 
-            QAltitudeMap (QWidget* parent = 0);
+            AltitudeMap (QWidget* parent = 0);
 
-            virtual ~QAltitudeMap ();
+            virtual ~AltitudeMap ();
 
             void makeContentPanel();
 
-            QAltitudeMap* clone () override;
+            AltitudeMap* clone () override;
 
             QVector<calenhad::controls::altitudemap::AltitudeMapping> entries() const;
 

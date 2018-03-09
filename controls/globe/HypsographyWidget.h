@@ -12,7 +12,7 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QModule;
+        class Module;
     }
     namespace mapping {
         class CalenhadMapWidget;

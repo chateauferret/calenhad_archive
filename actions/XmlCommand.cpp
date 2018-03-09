@@ -3,13 +3,13 @@
 //
 
 #include "XmlCommand.h"
-#include "../qmodule/QNode.h"
+#include "qmodule/Node.h"
 
 using namespace calenhad::actions;
 using namespace calenhad::qmodule;
 
 
-XmlCommand::XmlCommand (QNode* node, const QString& oldXml, const QString& newXml) :
+XmlCommand::XmlCommand (Node* node, const QString& oldXml, const QString& newXml) :
     _node (node), _oldXml (oldXml), _newXml (newXml) {
 }
 

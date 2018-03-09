@@ -8,9 +8,9 @@
 #include "NodeNameValidator.h"
 #include "../preferences/PreferencesService.h"
 #include "exprtk/Calculator.h"
-#include "../qmodule/QNode.h"
+#include "qmodule/Node.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../nodeedit/QNodeBlock.h"
+#include "NodeBlock.h"
 
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
@@ -18,7 +18,7 @@ using namespace calenhad::preferences;
 using namespace calenhad::pipeline;
 using namespace calenhad;
 
-NodeNameValidator::NodeNameValidator (QNode* node) :
+NodeNameValidator::NodeNameValidator (Node* node) :
     QRegularExpressionValidator (QRegularExpression (CalenhadServices::preferences() -> calenhad_node_name_validChars)),
     _node (node) {
 }
@@ -56,8 +56,8 @@ QValidator::State NodeNameValidator::validate (QString& input, int& pos) const {
     // make sure name isn't a duplicate (another node)
     CalenhadModel* m = _node -> model();
     foreach (QGraphicsItem* item, m -> items()) {
-        if (item -> type() == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
-            QNodeBlock* handle = (QNodeBlock*) item;
+        if (item -> type() == QGraphicsItem::UserType + 3) {  // is a NodeBlock
+            NodeBlock* handle = (NodeBlock*) item;
             if (input == handle -> node() -> name() && handle -> node() != _node) {
                 errors += ("Name must be unique among all objects in a model\n");
                 state = QValidator::Intermediate;

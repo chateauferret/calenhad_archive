@@ -1,18 +1,16 @@
 
 SET(QMODULE_SOURCE_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/QNode.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QModule.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/Node.h
+        ${CMAKE_CURRENT_LIST_DIR}/Node.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/Module.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/Module.h
        # ${CMAKE_CURRENT_LIST_DIR}/QIcosphereMap.cpp
        # ${CMAKE_CURRENT_LIST_DIR}/QIcosphereMap.h
-        ${CMAKE_CURRENT_LIST_DIR}/QAltitudeMap.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QAltitudeMap.h
-        ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/QNodeGroup.h
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMap.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMap.h
+        ${CMAKE_CURRENT_LIST_DIR}/NodeGroup.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/NodeGroup.h
         ${CMAKE_CURRENT_LIST_DIR}/ParamValidator.h
-        ${CMAKE_CURRENT_LIST_DIR}/QRasterModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/QRasterModule.cpp
-
-        )
+        ${CMAKE_CURRENT_LIST_DIR}/RasterModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/RasterModule.cpp)
 

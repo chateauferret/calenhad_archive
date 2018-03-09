@@ -7,11 +7,11 @@
 #include <QThread>
 #include <messages/QProgressNotification.h>
 #include <icosphere/IcosphereBuilder.h>
-#include "../nodeedit/qneconnection.h"
+#include "nodeedit/Connection.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
 #include "../CalenhadServices.h"
-#include "../nodeedit/qneport.h"
+#include "nodeedit/Port.h"
 #include "../controls/QNoiseMapViewer.h"
 #include <QMenu>
 

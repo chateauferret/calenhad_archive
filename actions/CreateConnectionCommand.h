@@ -11,14 +11,14 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
+        class Node;
     }
     namespace pipeline {
         class CalenhadModel;
     }
     namespace nodeedit {
-        class QNEConnection;
-        class QNEPort;
+        class Connection;
+        class Port;
     }
 
     namespace actions {
@@ -28,7 +28,7 @@ namespace calenhad {
 
         public:
 
-            CreateConnectionCommand (nodeedit::QNEPort* from, nodeedit::QNEPort* to, pipeline::CalenhadModel* model);
+            CreateConnectionCommand (nodeedit::Port* from, nodeedit::Port* to, pipeline::CalenhadModel* model);
 
             virtual ~CreateConnectionCommand ();
 
@@ -37,10 +37,10 @@ namespace calenhad {
             virtual void redo () override;
 
         protected:
-            calenhad::nodeedit::QNEConnection* _connection = nullptr;
+            calenhad::nodeedit::Connection* _connection = nullptr;
             calenhad::pipeline::CalenhadModel* _model = nullptr;
-            calenhad::nodeedit::QNEPort* _from = nullptr;
-            calenhad::nodeedit::QNEPort* _to = nullptr;
+            calenhad::nodeedit::Port* _from = nullptr;
+            calenhad::nodeedit::Port* _to = nullptr;
 
         };
     }

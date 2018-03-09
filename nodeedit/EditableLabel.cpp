@@ -6,7 +6,7 @@
 #include <QGraphicsScene>
 #include <iostream>
 #include <CalenhadServices.h>
-#include "QNodeBlock.h"
+#include "NodeBlock.h"
 #include "NodeNameValidator.h"
 #include "../preferences/PreferencesService.h"
 

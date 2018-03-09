@@ -15,7 +15,7 @@
 
 #include <memory>
 #include <QtWidgets/QCheckBox>
-#include "QNode.h"
+#include "Node.h"
 
 
 namespace calenhad {
@@ -23,8 +23,8 @@ namespace calenhad {
         class Legend;
     }
     namespace nodeedit {
-        class QNodeBlock;
-        class QNEPort;
+        class NodeBlock;
+        class Port;
     }
     namespace notification {
         class QNotificationFactory;
@@ -38,14 +38,20 @@ namespace calenhad {
     }
     namespace qmodule {
         class RangeFinder;
-        class QModule : public QNode {
+        class Module : public Node {
         Q_OBJECT
+
+
+
+
         Q_ENUMS (ModuleType)
         public:
-            QModule (const QString& nodeType, int inputs = 0, QWidget* parent = 0);
+            Module (const QString& nodeType, QWidget* parent = 0);
 
-            virtual ~QModule ();
-
+            virtual ~Module ();
+            QString label();
+            QString description();
+            virtual QString glsl();
             virtual void inflate (const QDomElement& element) override;
 
             virtual void serialize (QDomDocument& doc) override;
@@ -54,18 +60,18 @@ namespace calenhad {
 
             // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.
             // If it returns false, rendering does not take place.
-            virtual bool generateMap ();
+            virtual bool generateMap();
 
             void setModel (calenhad::pipeline::CalenhadModel* model) override;
 
             void setLegend (calenhad::legend::Legend* legend);
-            QNode* sourceModule (int portIndex);
+            Node* sourceModule (int portIndex);
             calenhad::legend::Legend* legend ();
-
+            virtual void addInputPort (const int& index, const int& portType, const QString& name);
             void showContextMenu (const QPoint& point);
             bool isComplete() override;
             bool range (double& min, double& max);
-
+            QMap<unsigned, calenhad::nodeedit::Port*> inputs();
         public slots:
             void setupPreview ();
             void showGlobe ();
@@ -76,7 +82,7 @@ namespace calenhad {
 
             virtual void contextMenuEvent (QContextMenuEvent* e) override;
 
-            virtual void addInputPorts ();
+
 
             void initialise () override;
 
@@ -92,8 +98,6 @@ namespace calenhad {
 
             int _statsIndex;
             QDialog* _stats;
-
-
 
         };
     }

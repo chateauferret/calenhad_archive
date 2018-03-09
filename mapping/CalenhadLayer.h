@@ -12,7 +12,7 @@
 #include <marble/TileId.h>
 #include <marble/GeoDataLatLonAltBox.h>
 #include <QtCore/QMutex>
-#include "../qmodule/QModule.h"
+#include "qmodule/Module.h"
 //#include "../pipeline/GlobeRenderJob.h"
 
 #include "RenderPoint.h"

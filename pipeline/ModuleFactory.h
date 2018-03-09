@@ -5,8 +5,6 @@
 #ifndef CALENHAD_MODULEFACTORY_H
 #define CALENHAD_MODULEFACTORY_H
 
-
-#include <libnoise/module/modulebase.h>
 #include <QString>
 #include <QObject>
 #include <QWidget>
@@ -14,14 +12,14 @@
 #include <QLineEdit>
 #include <QFormLayout>
 #include <QtWidgets/QDoubleSpinBox>
-#include <libnoise/noise.h>
-#include <libnoise/module/abs.h>
 #include <QtCore/QSet>
+#include <QtXml/QDomNode>
+#include <qmodule/ParamValidator.h>
 
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
+        class Node;
     }
 
     namespace pipeline {
@@ -30,45 +28,46 @@ namespace calenhad {
         class ModuleFactory : public QObject {
         Q_OBJECT
 
-            int getSourceModuleCount (QString moduleType);
+
+
             Q_ENUMS (ModuleType)
         public:
             ModuleFactory ();
 
             ~ModuleFactory ();
-
-            calenhad::qmodule::QNode* createModule (const QString& moduleType);
-
-            void setNoiseQuality (const noise::NoiseQuality& noiseQuality);
+            QStringList types ();
+            calenhad::qmodule::Node* createModule (const QString& moduleType);
 
             int seed ();
 
-            noise::NoiseQuality noiseQuality ();
-
             QPixmap* getIcon (const QString& type);
 
-            QStringList types ();
 
-            qmodule::QNode* clone (qmodule::QNode* other);
-            QMap<QString, QString>* codes ();
+
+            qmodule::Node* clone (qmodule::Node* other);
+
             QStringList paramNames();
-
+            QString label (const QString& type);
+            QString description (const QString& type);
+            QString glsl (const QString& type);
         signals:
 
             void seedChanged (const int& seed);
 
-            void noiseQualityChanged (const noise::NoiseQuality& noiseQuality);
 
         private:
-            noise::NoiseQuality _noiseQuality = noise::NoiseQuality::QUALITY_STD;
             int _seed = 0;
             QMap<QString, QPixmap*> _icons;
-            QMap<QString, QString>* _codes;
             QStringList _paramNames;
-            void provideCodes ();
-            void provideParamNames();
+            QMap<QString, QDomElement> _types;
+            void initialise();
+            qmodule::Node* inflateModule (const QString& type);
 
+            QMap<QString, QString> _moduleLabels;
+            QMap<QString, QString> _moduleDescriptions;
+            QMap<QString, QString> _moduleCodes;
 
+            qmodule::ParamValidator* validator (const QString& validatorType);
         };
     }
 }

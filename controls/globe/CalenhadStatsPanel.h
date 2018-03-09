@@ -15,7 +15,7 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QModule;
+        class Module;
     }
     namespace controls {
         namespace globe {
@@ -24,7 +24,7 @@ namespace calenhad {
 
             class CalenhadStatsPanel : public QWidget {
             public:
-                CalenhadStatsPanel (calenhad::qmodule::QModule* source, CalenhadGlobeDialog* parent = 0);
+                CalenhadStatsPanel (calenhad::qmodule::Module* source, CalenhadGlobeDialog* parent = 0);
 
                 virtual ~CalenhadStatsPanel ();
 
@@ -38,7 +38,7 @@ namespace calenhad {
                 QLabel* _mapExtremesLabel, * _worldExtremesLabel;
                 QLabel* _worldMeanLabel;
                 calenhad::controls::globe::HypsographyWidget* _worldHypsography;
-                calenhad::qmodule::QModule* _source;
+                calenhad::qmodule::Module* _source;
 
 
             };

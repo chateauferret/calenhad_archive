@@ -7,16 +7,16 @@
 #include "../CalenhadServices.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../nodeedit/CalenhadView.h"
-#include "../nodeedit/qneconnection.h"
-#include "../nodeedit/QNodeBlock.h"
-#include "../qmodule/QNodeGroup.h"
+#include "nodeedit/Connection.h"
+#include "nodeedit/NodeBlock.h"
+#include "qmodule/NodeGroup.h"
 #include "../icosphere/icosphere.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../actions/DuplicateNodeCommand.h"
 #include "../actions/AddNodeCommand.h"
-#include "../nodeedit/QNodeGroupBlock.h"
-#include "../nodeedit/qneport.h"
-#include "../qmodule/QModule.h"
+#include "nodeedit/NodeGroupBlock.h"
+#include "nodeedit/Port.h"
+#include "qmodule/Module.h"
 #include "exprtk/Calculator.h"
 #include "../libnoiseutils/nullmodule.h"
 #include <QGraphicsSceneMouseEvent>
@@ -66,7 +66,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
 }
 
 // determine whether connection from given input to given output is allowed
-bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& verbose) {
+bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) {
     //To do: externalise message strings
     if (output && input) {
 
@@ -79,7 +79,7 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
         }
 
         // can only connect an output port to an input port
-        if (input -> portType() ==  QNEPort::OutputPort) {
+        if (input -> portType() ==  Port::OutputPort) {
             if (verbose) {
                 CalenhadServices::messages() -> message ("Cannot connect", "Cannot make connection to another owner output");
             }
@@ -113,18 +113,18 @@ bool CalenhadModel::canConnect (QNEPort* output, QNEPort* input, const bool& ver
 
 // Return true if there is a direct or indirect path from a given output port to a given input port.
 // If there would be a path from output to input on the same node we can't create a new connection between them as that would complete a circuit.
-bool CalenhadModel::existsPath (QNodeBlock* output, QNodeBlock* input) {
+bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
     if (output -> outputs().isEmpty ()) {
         return false;
     }
-    QNode* outputNode = output -> node();
-    QNEPort* outputPort = output -> outputs() [0];
-    QModule* outputModule = dynamic_cast<QModule*> (outputNode);
-    QModule* inputModule = dynamic_cast<QModule*> (input -> node());
+    Node* outputNode = output -> node();
+    Port* outputPort = output -> outputs() [0];
+    Module* outputModule = dynamic_cast<Module*> (outputNode);
+    Module* inputModule = dynamic_cast<Module*> (input -> node());
     if (outputPort -> connections().isEmpty()) {
         return false;
     } else {
-        QNEConnection* connection = outputPort->connections ()[0];
+        Connection* connection = outputPort->connections ()[0];
         // we're only interested in QModules here
         if ((!outputModule) || (!inputModule)) {
             return false;
@@ -136,12 +136,12 @@ bool CalenhadModel::existsPath (QNodeBlock* output, QNodeBlock* input) {
 
             // see if the two blocks are connected
         } else {
-            for (QNEPort* inputPort: inputModule -> handle() -> inputs()) {
+            for (Port* inputPort: inputModule -> handle() -> inputs()) {
                 if (connection -> otherEnd (outputPort) == inputPort) {
                     return true;
                 } else {
                     if (! (inputPort -> connections().isEmpty())) {
-                        QNEConnection* c = inputPort -> connections()[ 0];
+                        Connection* c = inputPort -> connections()[ 0];
                         return existsPath (outputPort->block (), c -> otherEnd (inputPort) -> block());
                     }
                 }
@@ -151,9 +151,9 @@ bool CalenhadModel::existsPath (QNodeBlock* output, QNodeBlock* input) {
     return false;
 }
 
-QNEConnection* CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
+Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
     if (canConnect (output, input, true)) {
-        QNEConnection* c = new QNEConnection ();
+        Connection* c = new Connection ();
         c -> setParentItem (0);
         c -> setZValue (-900);
         addItem (c);
@@ -170,7 +170,7 @@ QNEConnection* CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
         connect (output -> owner(), SIGNAL (nodeChanged()), input -> owner(), SLOT (invalidate()));
 
         // colour the input to show its connected status
-        input -> setHighlight (QNEPort::PortHighlight::CONNECTED);
+        input -> setHighlight (Port::PortHighlight::CONNECTED);
 
         // tell the target owner to declare change requiring rerender
         output -> owner () -> invalidate();
@@ -184,13 +184,13 @@ QNEConnection* CalenhadModel::connectPorts (QNEPort* output, QNEPort* input) {
     }
 }
 
-void CalenhadModel::disconnectPorts (QNEConnection* connection) {
+void CalenhadModel::disconnectPorts (Connection* connection) {
     if (connection -> port1()) { connection -> port1() -> initialise(); }
     if (connection -> port2()) { connection -> port2() -> initialise(); }
 
     // colour the input port to show its availability
-    if (connection -> port1() -> type() != QNEPort::OutputPort) { connection -> port1() -> setHighlight (QNEPort::PortHighlight::NONE); }
-    if (connection -> port2() -> type() != QNEPort::OutputPort) { connection -> port2() -> setHighlight (QNEPort::PortHighlight::NONE); }
+    if (connection -> port1() -> type() != Port::OutputPort) { connection -> port1() -> setHighlight (Port::PortHighlight::NONE); }
+    if (connection -> port2() -> type() != Port::OutputPort) { connection -> port2() -> setHighlight (Port::PortHighlight::NONE); }
 
     // reproduce the renders to reflect the change
 //    connection -> port2() -> invalidateRenders();
@@ -202,16 +202,16 @@ void CalenhadModel::disconnectPorts (QNEConnection* connection) {
     update();
 }
 
-void CalenhadModel::rerouteConnection (QNEPort* from, QNEPort* oldPort, QNEPort* newPort) {
+void CalenhadModel::rerouteConnection (Port* from, Port* oldPort, Port* newPort) {
     if (! canConnect (from, newPort, true)) {
         newPort = oldPort;
     }
 
     // disconnect the old port
     if (oldPort) { oldPort->initialise (); }
-    oldPort->setHighlight (QNEPort::PortHighlight::NONE);
+    oldPort->setHighlight (Port::PortHighlight::NONE);
     if (! oldPort -> connections().isEmpty()) {
-        QNEConnection* oldConn = oldPort -> connections ().first();
+        Connection* oldConn = oldPort -> connections ().first();
         if (oldConn) {
             removeItem (oldConn);
             delete oldConn;
@@ -219,7 +219,7 @@ void CalenhadModel::rerouteConnection (QNEPort* from, QNEPort* oldPort, QNEPort*
     }
 
     // connect to the new port
-    QNEConnection* c = new QNEConnection();
+    Connection* c = new Connection();
     c -> setParentItem (0);
     c -> setZValue (-900);
     addItem (c);
@@ -233,10 +233,10 @@ void CalenhadModel::rerouteConnection (QNEPort* from, QNEPort* oldPort, QNEPort*
     oldPort -> owner ()->invalidate ();
 
     // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
-    connect (from -> owner(), &QNode::nodeChanged, newPort -> owner(), &QNode::invalidate);
+    connect (from -> owner(), &Node::nodeChanged, newPort -> owner(), &Node::invalidate);
 
     // colour the input to show its connected status
-    newPort -> setHighlight (QNEPort::PortHighlight::CONNECTED);
+    newPort -> setHighlight (Port::PortHighlight::CONNECTED);
 
     // tell the target owner to declare change requiring rerender
    from -> owner() -> invalidate();
@@ -278,18 +278,18 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                         }
 
                         // click on an output port - create a connection which we can connect to another owner's input or control port
-                        if (item && item->type () == QNEPort::Type) {
+                        if (item && item->type () == Port::Type) {
                             // only allow connections from output ports to input ports
-                            QNEPort* port = ((QNEPort*) item);
+                            Port* port = ((Port*) item);
 
                             for (QGraphicsView* view : views ()) {
                                 view->setDragMode (QGraphicsView::NoDrag);
                             }
                             if (conn) { delete conn; }
-                            if (port->portType () == QNEPort::OutputPort) {
-                                conn = new QNEConnection (0);
+                            if (port->portType () == Port::OutputPort) {
+                                conn = new Connection (0);
                                 addItem (conn);
-                                conn -> setPort1 ((QNEPort*) item);
+                                conn -> setPort1 ((Port*) item);
                                 conn -> setPos1 (item -> scenePos());
                                 conn -> setPos2 (me->scenePos ());
                                 conn -> updatePath ();
@@ -350,19 +350,19 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
                 QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos ());
                 foreach (QGraphicsItem* item, items) {
-                        if (item && item->type () == QNEPort::Type) {
-                            QNEPort* port = (QNEPort*) item;
+                        if (item && item->type () == Port::Type) {
+                            Port* port = (Port*) item;
                             if (port != conn -> port1 () && !(port->hasConnection ())) {
                                 if (canConnect (conn -> port1 (), port)) {
                                     // Change colour of a port if we mouse over it and can make a connection to it
-                                    port -> setHighlight (QNEPort::PortHighlight::CAN_CONNECT);
+                                    port -> setHighlight (Port::PortHighlight::CAN_CONNECT);
                                     _port = port;
                                 }
                             }
                         } else {
                             if (_port) {
                                 // If we moved off a port without making a connection to it, set it back to its unoccupied colour
-                                _port -> setHighlight (QNEPort::PortHighlight::NONE);
+                                _port -> setHighlight (Port::PortHighlight::NONE);
                                 _port = nullptr;
                             }
                         }
@@ -373,7 +373,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (! _activeTool) {
                     for (QGraphicsView* view : views()) {
                         view -> viewport() -> setCursor (Qt::ArrowCursor);
-                        for (QNodeGroup* group : nodeGroups ()) {
+                        for (NodeGroup* group : nodeGroups ()) {
                             group -> handle() -> setCursor (Qt::ClosedHandCursor);
                         }
                     }
@@ -395,9 +395,9 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (conn && me -> button() == Qt::LeftButton) {
                     QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                     foreach (QGraphicsItem* item, items) {
-                        if (item && item->type () == QNEPort::Type) {
-                            QNEPort* port1 = conn -> port1 ();
-                            QNEPort* port2 = (QNEPort*) item;
+                        if (item && item->type () == Port::Type) {
+                            Port* port1 = conn -> port1 ();
+                            Port* port2 = (Port*) item;
 
                             if (_existingConnection) {
                                 RerouteConnectionCommand* rcc = new RerouteConnectionCommand (conn -> port1(),_wasConnectedTo, port2, this);
@@ -431,25 +431,27 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
     return QObject::eventFilter (o, e);
 }
 
-QNode* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
+Node* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
     QString name = "New_" + type;
     int i = 0;
-    QNode* n;
+    Node* n;
     if (type == "NodeGroup") {
         n = addNodeGroup (initPos, name);
     } else {
         n = addModule (initPos, type, name);
     }
     _changed = true;
+    return n;
 }
 
-QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
+Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
+    std::cout << "Add module " << type.toStdString () << " " << name.toStdString () << "\n";
     if (type != QString::null) {
-        QModule* module = (QModule*) CalenhadServices::modules() -> createModule (type);
+        Module* module = (Module*) CalenhadServices::modules() -> createModule (type);
         module -> setModel (this);
         AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
         _controller -> doCommand (command);
-        module = (QModule*) command -> node();
+        module = (Module*) command -> node();
         module -> setName (uniqueName (name));
         module -> setLegend (CalenhadServices::legends() -> lastUsed());
        return module;
@@ -459,25 +461,25 @@ QModule* CalenhadModel::addModule (const QPointF& initPos, const QString& type, 
     }
 }
 
-QNodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& name) {
-    QNodeGroup* group = new QNodeGroup();
+NodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& name) {
+    NodeGroup* group = new NodeGroup();
     group -> setModel (this);
     group -> initialise();
     AddNodeCommand* command = new AddNodeCommand (group, initPos, this);
     _controller -> doCommand (command);
-    group = (QNodeGroup*) command -> node();
+    group = (NodeGroup*) command -> node();
     group -> setName (uniqueName (name));
 
     return group;
 }
 
-QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
-    QNodeBlock* b = node -> makeHandle();
+Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
+    NodeBlock* b = node -> makeHandle();
     addItem (b);
     b -> setPos (initPos.x(), initPos.y());
 
-    connect (node, &QNode::nameChanged, b, &QNodeBlock::nodeChanged);
-    for (QNEPort* port : node -> ports ()) {
+    connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
+    for (Port* port : node -> ports ()) {
         b -> addPort (port);
     }
 
@@ -488,7 +490,7 @@ QNode* CalenhadModel::addNode (QNode* node, const QPointF& initPos) {
 }
 
 bool CalenhadModel::nameExists (const QString& name) {
-    for (QNode* n : nodes()) {
+    for (Node* n : nodes()) {
         if (name == n -> name ()) {
             return true;
         }
@@ -496,12 +498,12 @@ bool CalenhadModel::nameExists (const QString& name) {
     return false;
 }
 
-void CalenhadModel::deleteNode (QNode* node) {
+void CalenhadModel::deleteNode (Node* node) {
     // first delete any connections to or from the module
     for (QGraphicsItem* item : items()) {
-        if (item -> type() == QNEConnection::Type) {
-            for (QNEPort* p : node -> ports ()) {
-                if (((QNEConnection*) item) -> port1() == p || ((QNEConnection*) item) -> port2() == p) {
+        if (item -> type() == Connection::Type) {
+            for (Port* p : node -> ports ()) {
+                if (((Connection*) item) -> port1() == p || ((Connection*) item) -> port2() == p) {
                     removeItem (item);
                     delete item;
                     _changed = true;
@@ -511,12 +513,12 @@ void CalenhadModel::deleteNode (QNode* node) {
     }
 
     noise::module::Module* m = nullptr;
-    QModule* module = dynamic_cast<QModule*> (node);
+    Module* module = dynamic_cast<Module*> (node);
 
     // remove the visible appartions from the display
 
     for (QGraphicsItem* item : items()) {
-        if (item -> type () == QNodeBlock::Type && ((QNodeBlock*) item) -> node() == node) {
+        if (item -> type () == NodeBlock::Type && ((NodeBlock*) item) -> node() == node) {
             removeItem (item -> parentItem());
             delete item;
         }
@@ -527,43 +529,47 @@ void CalenhadModel::deleteNode (QNode* node) {
 }
 
 CalenhadModel::~CalenhadModel() {
+    // if we don't turn off the signals on the nodes it will keep trying to render them whilst connections are being removed by the destructor.
+    for (Node* n : nodes()) {
+        n -> blockSignals (true);
+    }
     if (_menu) { delete _menu; }
 }
 
-QList<QNodeGroup*> CalenhadModel::nodeGroups() {
-    QList<QNodeGroup*> groups;
+QList<NodeGroup*> CalenhadModel::nodeGroups() {
+    QList<NodeGroup*> groups;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
-            if (type == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
-                QNodeBlock* handle = (QNodeBlock*) item;
-                QNode* node = handle -> node();
-                if (dynamic_cast<QNodeGroup*> (node)) {
-                    groups.append (dynamic_cast<QNodeGroup*> (node));
+            if (type == QGraphicsItem::UserType + 3) {  // is a NodeBlock
+                NodeBlock* handle = (NodeBlock*) item;
+                Node* node = handle -> node();
+                if (dynamic_cast<NodeGroup*> (node)) {
+                    groups.append (dynamic_cast<NodeGroup*> (node));
                 }
             }
         }
     return groups;
 }
 
-QList<QNode*> CalenhadModel::nodes() {
-    QList<QNode*> nodes;
+QList<Node*> CalenhadModel::nodes() {
+    QList<Node*> nodes;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
-            if (type == QGraphicsItem::UserType + 3) {  // is a QNodeBlock
-                QNodeBlock* handle = (QNodeBlock*) item;
-                QNode* node = handle -> node();
+            if (type == QGraphicsItem::UserType + 3) {  // is a NodeBlock
+                NodeBlock* handle = (NodeBlock*) item;
+                Node* node = handle -> node();
                 nodes.append (node);
             }
         }
     return nodes;
 }
 
-QList<QNEConnection*> CalenhadModel::connections() {
-    QList<QNEConnection*> connections;
+QList<Connection*> CalenhadModel::connections() {
+    QList<Connection*> connections;
             foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
-            if (type == QGraphicsItem::UserType + 2) {  // is a QNEConnection
-                QNEConnection* c = (QNEConnection*) item;
+            if (type == QGraphicsItem::UserType + 2) {  // is a Connection
+                Connection* c = (Connection*) item;
                 connections.append (c);
             }
         }
@@ -571,8 +577,8 @@ QList<QNEConnection*> CalenhadModel::connections() {
 }
 
 
-QNodeGroup* CalenhadModel::findGroup (const QString& name) {
-    for (QNodeGroup* qm : nodeGroups()) {
+NodeGroup* CalenhadModel::findGroup (const QString& name) {
+    for (NodeGroup* qm : nodeGroups()) {
         if ((! qm -> name().isNull ()) && (qm -> name() == name)) {
             return qm;
         }
@@ -581,8 +587,8 @@ QNodeGroup* CalenhadModel::findGroup (const QString& name) {
 }
 
 
-QNode* CalenhadModel::findModule (const QString& name) {
-    for (QNode* qm : nodes()) {
+Node* CalenhadModel::findModule (const QString& name) {
+    for (Node* qm : nodes()) {
         if ((! qm -> name().isNull ()) && (qm -> name() == name)) {
             return qm;
         }
@@ -639,10 +645,10 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
     }
 
     if (fileType == CalenhadFileType::CalenhadModelFile) {
-        for (QNode* qm : nodes ()) {
+        for (Node* qm : nodes ()) {
             qm->serialize (doc);
         }
-        for (QNEConnection* c : connections ()) {
+        for (Connection* c : connections ()) {
             c->serialise (doc);
         }
         _changed = false;
@@ -745,7 +751,7 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
             QDomElement nameNode = moduleNodes.at (i).firstChildElement ("name");
             QString name = nameNode.text ();
             QString newName = uniqueName (name);
-            QModule* qm = addModule (pos, type, newName);
+            Module* qm = addModule (pos, type, newName);
             qm -> handle() -> setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
             qm->inflate (moduleNodes.at (i).toElement ());
 
@@ -766,31 +772,31 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
 
         // In the connections, we save and retrieve the types of output ports in case we ever have further types of output ports.
         // Does not support a port serving as both input and output (because index presently not unique across both).
-        // For the time being however all output ports will be of type 2 (QNEPort::Output).
+        // For the time being however all output ports will be of type 2 (Port::Output).
 
 
         for (int i = 0; i < connectionNodes.count (); i++) {
             QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
             QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-            QNode* fromNode = findModule (fromElement.attributes ().namedItem ("module").nodeValue ());
-            QNode* toNode = findModule (toElement.attributes ().namedItem ("module").nodeValue ());
+            Node* fromNode = findModule (fromElement.attributes ().namedItem ("module").nodeValue ());
+            Node* toNode = findModule (toElement.attributes ().namedItem ("module").nodeValue ());
             if (fromNode && toNode) {
-                QNEPort* fromPort = nullptr, * toPort = nullptr;
-                for (QNEPort* port : fromNode->ports ()) {
+                Port* fromPort = nullptr, * toPort = nullptr;
+                for (Port* port : fromNode->ports ()) {
                     bool okIndex;
                     int index = fromElement.attribute ("output").toInt (&okIndex);
                     if (okIndex) {
-                        if (port->index () == index && port->portType () == QNEPort::OutputPort) {
+                        if (port->index () == index && port->portType () == Port::OutputPort) {
                             fromPort = port;
                             fromPort->setName (fromElement.attribute ("name"));
                         }
                     }
                 }
-                for (QNEPort* port : toNode->ports ()) {
+                for (Port* port : toNode->ports ()) {
                     bool okIndex;
                     int index = toElement.attribute ("input").toInt (&okIndex);
                     if (okIndex) {
-                        if (port->index () == index && port->portType () != QNEPort::OutputPort) {
+                        if (port->index () == index && port->portType () != Port::OutputPort) {
                             toPort = port;
                             toPort->setName (fromElement.attribute ("name"));
                         }
@@ -828,13 +834,13 @@ void CalenhadModel::writeParameter (QDomElement& element, const QString& param, 
 void CalenhadModel::highlightGroupAt (QPointF pos) {
     QList<QGraphicsItem*> list = items (pos, Qt::ContainsItemShape);
     QList<QGraphicsItem*>::iterator i = list.begin ();
-    while ( i != list.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+    while ( i != list.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
         i++;
     }
-    QNodeGroupBlock* target = i == list.end() ? nullptr : (QNodeGroupBlock*) *i;
+    NodeGroupBlock* target = i == list.end() ? nullptr : (NodeGroupBlock*) *i;
     for (QGraphicsItem* item : items()) {
-        if (dynamic_cast<QNodeGroupBlock*> (item)) {
-            ((QNodeGroupBlock*) item) -> setHighlight (item == target);
+        if (dynamic_cast<NodeGroupBlock*> (item)) {
+            ((NodeGroupBlock*) item) -> setHighlight (item == target);
         }
     }
 }
@@ -860,21 +866,21 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
         _menu = new QMenu ("Model");
     }
     // construct menu for whatever item type here because QGraphicsItem does not extend QObject, so we can't call connect within QGraphicsItem
-    if (dynamic_cast<QNEPort*> (item)) {
-        QNEPort* port = static_cast<QNEPort*> (item);
+    if (dynamic_cast<Port*> (item)) {
+        Port* port = static_cast<Port*> (item);
         _menu = new QMenu ("Port");
         _menu -> addMenu (port -> connectMenu ());
         return _menu;
     }
-    if (dynamic_cast<QNEConnection*> (item)) {
+    if (dynamic_cast<Connection*> (item)) {
         // connection actions
         _menu = new QMenu ("Connection");
-        QNEConnection* c = static_cast<QNEConnection*> (item);
+        Connection* c = static_cast<Connection*> (item);
         _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/disconnect.png"), "Disconnect", "Delete this connection from the model", CalenhadAction::DeleteConnectionAction, c));
     }
-    if (dynamic_cast<QNodeBlock*> (item)) {
-        QNodeBlock* block = static_cast<QNodeBlock*> (item);
-        QNode* n = block -> node();
+    if (dynamic_cast<NodeBlock*> (item)) {
+        NodeBlock* block = static_cast<NodeBlock*> (item);
+        Node* n = block -> node();
         _menu = new QMenu (n -> name() + " (" + n -> nodeType() + ")");
         _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, block));
         _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/delete.png"), tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, block));
@@ -886,9 +892,9 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
         connect (editAction, &QAction::triggered, this, [=] () { n -> showParameters (true); });
         _menu -> addAction (editAction);
 
-        if (dynamic_cast<QModule*> (n)) {
+        if (dynamic_cast<Module*> (n)) {
             QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
-            connect (globeAction, &QAction::triggered, (QModule*) n, &QModule::showGlobe);
+            connect (globeAction, &QAction::triggered, (Module*) n, &Module::showGlobe);
             _menu->addAction (globeAction);
         }
     }

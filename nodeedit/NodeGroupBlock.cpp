@@ -2,21 +2,21 @@
 // Created by martin on 07/06/17.
 //
 
-#include "QNodeGroupBlock.h"
+#include "NodeGroupBlock.h"
 #include "../CalenhadServices.h"
 #include "EditableLabel.h"
 #include "../pipeline/CalenhadModel.h"
 #include <QGraphicsSceneMouseEvent>
 #include "../preferences/PreferencesService.h"
 #include <QPainter>
-#include "../qmodule/QNode.h"
+#include "qmodule/Node.h"
 
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
 using namespace calenhad::controls;
 
 
-QNodeGroupBlock::QNodeGroupBlock (QNodeGroup* node, QGraphicsItem* parent) : QNodeBlock (node, parent) {
+NodeGroupBlock::NodeGroupBlock (NodeGroup* node, QGraphicsItem* parent) : NodeBlock (node, parent) {
     _rect = QRectF (0, 0, 240, 120);
     setAcceptHoverEvents (true);
     setAcceptDrops (true);
@@ -25,12 +25,12 @@ QNodeGroupBlock::QNodeGroupBlock (QNodeGroup* node, QGraphicsItem* parent) : QNo
     setAcceptDrops (true);
 }
 
-QNodeGroupBlock::~QNodeGroupBlock () {
+NodeGroupBlock::~NodeGroupBlock () {
 
 }
 
 
-void QNodeGroupBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void NodeGroupBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED (option);
     _brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_nodegroup_brush_color_selected : CalenhadServices::preferences() -> calenhad_nodegroup_brush_color_normal);
     if (_highlighted) {
@@ -44,11 +44,11 @@ void QNodeGroupBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* 
 
 }
 
-QRectF QNodeGroupBlock::boundingRect () const {
+QRectF NodeGroupBlock::boundingRect () const {
     return _rect;
 }
 
-QPainterPath QNodeGroupBlock::makePath() {
+QPainterPath NodeGroupBlock::makePath() {
 
     // shape of the block's body
     QPainterPath p;
@@ -59,13 +59,13 @@ QPainterPath QNodeGroupBlock::makePath() {
     return p;
 }
 
-void QNodeGroupBlock::nodeChanged () {
+void NodeGroupBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
     _node -> invalidate();
 }
 
-void QNodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
-    QNodeBlock::mouseReleaseEvent (event);
+void NodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
+    NodeBlock::mouseReleaseEvent (event);
     if (parentItem ()) {
         setZValue (parentItem () -> zValue () + 1);
     } else {
@@ -73,12 +73,12 @@ void QNodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     }
 }
 
-void QNodeGroupBlock::setHighlight (bool highlighted) {
+void NodeGroupBlock::setHighlight (bool highlighted) {
     _highlighted = highlighted;
 
 }
 
-void QNodeGroupBlock::setRect (const QRectF& rect) {
+void NodeGroupBlock::setRect (const QRectF& rect) {
     _rect = rect;
     setPath (makePath());
 

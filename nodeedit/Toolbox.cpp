@@ -3,32 +3,32 @@
 //
 
 #include <QtWidgets/QGraphicsView>
-#include "qnetoolbox.h"
+#include "Toolbox.h"
 #include "CalenhadToolBar.h"
 
 using namespace calenhad::nodeedit;
 
-QNEToolBox::QNEToolBox() : QObject(),
+ToolBox::ToolBox() : QObject(),
     _drawers  (QMap<QString, ToolDrawer*>()),
     _groups  (QList<ToolGroup*>()) {
 
 }
 
-QNEToolBox::~QNEToolBox() { }
+ToolBox::~ToolBox() { }
 
-CalenhadToolBar* QNEToolBox::toolbar (const QString& drawer) {
+CalenhadToolBar* ToolBox::toolbar (const QString& drawer) {
     return _drawers.value (drawer) -> toolbar();
 }
 
-QMenu* QNEToolBox::menu (const QString& drawer) {
+QMenu* ToolBox::menu (const QString& drawer) {
     return _drawers.value (drawer) -> menu();
 }
 
-void QNEToolBox::addDrawer (ToolDrawer* drawer) {
+void ToolBox::addDrawer (ToolDrawer* drawer) {
     _drawers.insert (drawer -> name (), drawer);
 }
 
-void QNEToolBox::addGroup (ToolGroup* group) {
+void ToolBox::addGroup (ToolGroup* group) {
     _groups.append (group);
 }
 

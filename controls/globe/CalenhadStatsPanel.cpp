@@ -6,13 +6,13 @@
 #include <QtWidgets/QGroupBox>
 #include "CalenhadStatsPanel.h"
 #include "CalenhadGlobeDialog.h"
-#include "../../qmodule/QModule.h"
+#include "qmodule/Module.h"
 
 using namespace calenhad::controls::globe;
 using namespace calenhad::mapping;
 using namespace calenhad::qmodule;
 
-CalenhadStatsPanel::CalenhadStatsPanel (QModule* source, CalenhadGlobeDialog* parent) : QWidget (parent), _source (source), dialog (parent) {
+CalenhadStatsPanel::CalenhadStatsPanel (Module* source, CalenhadGlobeDialog* parent) : QWidget (parent), _source (source), dialog (parent) {
     setLayout (new QVBoxLayout());
     QGroupBox* worldHypsographyBox = new QGroupBox ("Planet hypsograph", this);
     worldHypsographyBox -> setLayout (new QVBoxLayout());

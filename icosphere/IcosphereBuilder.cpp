@@ -6,7 +6,7 @@
 #include "IcosphereBuilder.h"
 #include "vertex.h"
 #include <QMutexLocker>
-#include <qmodule/QModule.h>
+#include <qmodule/Module.h>
 
 using namespace noise::utils;
 using namespace noise::module;

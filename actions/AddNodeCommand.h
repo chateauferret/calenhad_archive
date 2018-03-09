@@ -11,7 +11,7 @@
 
 namespace calenhad {
     namespace qmodule {
-        class QNode;
+        class Node;
     }
     namespace pipeline {
         class CalenhadModel;
@@ -21,7 +21,7 @@ namespace calenhad {
         class AddNodeCommand : public QUndoCommand {
 
         public:
-            AddNodeCommand (calenhad::qmodule::QNode* node, const QPointF pos, calenhad::pipeline::CalenhadModel* model);
+            AddNodeCommand (calenhad::qmodule::Node* node, const QPointF pos, calenhad::pipeline::CalenhadModel* model);
 
             virtual ~AddNodeCommand ();
 
@@ -29,11 +29,11 @@ namespace calenhad {
 
             virtual void redo () override;
 
-            calenhad::qmodule::QNode* node ();
+            calenhad::qmodule::Node* node ();
 
         protected:
             calenhad::pipeline::CalenhadModel* _model = nullptr;
-            calenhad::qmodule::QNode* _node, * _copy;
+            calenhad::qmodule::Node* _node, * _copy;
             QPointF _pos;
 
 

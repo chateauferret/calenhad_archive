@@ -6,12 +6,12 @@
 #include <CalenhadServices.h>
 #include <QMap>
 #include <iostream>
-#include "../nodeedit/qneport.h"
+#include "nodeedit/Port.h"
 #include "preferences/preferences.h"
 #include "graph.h"
-#include "../qmodule/QModule.h"
-#include "../nodeedit/QNodeBlock.h"
-#include "../nodeedit/qneconnection.h"
+#include "qmodule/Module.h"
+#include "nodeedit/NodeBlock.h"
+#include "nodeedit/Connection.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../mapping/Curve.h"
 #include "../mapping/TerraceCurve.h"
@@ -19,8 +19,8 @@
 #include "../legend/Legend.h"
 #include "exprtk/Calculator.h"
 #include <QList>
-#include <qmodule/QAltitudeMap.h>
-#include <qmodule/QRasterModule.h>
+#include <qmodule/AltitudeMap.h>
+#include <qmodule/RasterModule.h>
 #include "../messages/QNotificationHost.h"
 #include "../controls/altitudemap/AltitudeMapping.h"
 
@@ -46,7 +46,7 @@ Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _no
 }
 */
 
-Graph::Graph (calenhad::qmodule::QModule* module) : _module (module), _nodeName (module -> name()), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId (0) {
+Graph::Graph (calenhad::qmodule::Module* module) : _module (module), _nodeName (module -> name()), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId (0) {
 
 }
 
@@ -66,7 +66,7 @@ Graph::~Graph () {
 QString Graph::glsl() {
     _code =  glsl (_module);
     if (_code != QString::null) {
-        _code.append ("float value (vec3 cartesian) {\n");
+        _code.append ("\n\nfloat value (vec3 cartesian) {\n");
         _code.append ("    return _" + _nodeName + " (cartesian);\n");
         _code.append ("}\n");
         parseLegend ();
@@ -74,19 +74,19 @@ QString Graph::glsl() {
     return _code;
 };
 
-QString Graph::glsl (QModule* module) {
+QString Graph::glsl (Module* module) {
     if (module -> isComplete()) {
-        QString name = module->name ();
-
+        QString name = module -> name ();
         // Compile any antecedent modules recurisvely
-        for (QNEPort* port : module->ports ()) {
-            if (port->portType () != QNEPort::OutputPort && !port->connections ().empty ()) {
-                for (QNEConnection* c : port->connections ()) {
-                    QNEPort* p = c->otherEnd (port);
+        for (unsigned p: module -> inputs().keys()) {
+            Port* port = module -> inputs().value (p);
+            if (! port->connections ().empty ()) {
+                for (Connection* c : port->connections ()) {
+                    Port* p = c->otherEnd (port);
                     if (p) {
-                        QNode* other = p->owner ();
+                        Node* other = p->owner ();
                         if (other && other != module) {
-                            QModule* qm = static_cast<QModule*> (other);
+                            Module* qm = static_cast<Module*> (other);
                             if (qm) {
                                 _code = glsl (qm);
                             }
@@ -96,16 +96,15 @@ QString Graph::glsl (QModule* module) {
             }
         }
 
-        QModule* qm = static_cast<QModule*> (module);
+        Module* qm = static_cast<Module*> (module);
         if (qm) {
 
             // Find out what type of module this node wants and construct glsl for it
             QString type = qm->nodeType ();
-            std::cout << type.toStdString () << "\n";
 
             // if it's an altitude map, compile the decision tree
             if (type == CalenhadServices::preferences ()->calenhad_module_altitudemap) {
-                QAltitudeMap* am = static_cast<QAltitudeMap*> (qm);
+                AltitudeMap* am = static_cast<AltitudeMap*> (qm);
                 QVector<AltitudeMapping> entries = am -> entries ();
 
                 // input is below the bottom of the range
@@ -166,12 +165,13 @@ QString Graph::glsl (QModule* module) {
                 _code += "}\n";
 
             } else {
-                _code.append (CalenhadServices::modules ()->codes ()->value (type));
+                QString func = qm -> glsl ();
+                _code.append (func);
             }
 
             // if it's a raster module, compile and upload the raster content to the raster buffer
             if (type == CalenhadServices::preferences ()->calenhad_module_raster) {
-                QRasterModule* rm = (QRasterModule*) qm;
+                RasterModule* rm = (RasterModule*) qm;
                 Bounds bounds = rm->bounds ();
                 QImage* image = rm->raster ();
                 QString boundsCode;
@@ -191,23 +191,21 @@ QString Graph::glsl (QModule* module) {
 
             // replace the input module markers with their names referencing their member variables in glsl
             int i = 0;
-            for (QNEPort* port : qm->ports ()) {
-                if (port->portType () != QNEPort::OutputPort) {
-                    QString index = QString::number (i);
-                    QNode* other = port->connections ()[0]->otherEnd (port)->owner ();
+            for (Port* port : qm->inputs ()) {
+                    QString index = QString::number (i++);
+                    Node* other = port->connections ()[0]->otherEnd (port)->owner ();
                     QString source = other->name ();
                     _code.replace ("%" + index, "_" + source);
-                }
             }
             // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
             for (QString param : CalenhadServices::modules ()->paramNames ()) {
-                if (qm->parameters ().contains (param)) {
+                if (qm -> parameters ().contains (param)) {
                     _code.replace ("%" + param, QString::number (qm -> parameterValue (param)));
                 }
             }
 
             // populate index number for a raster
-            QRasterModule* rm = dynamic_cast<QRasterModule*> (module);
+            RasterModule* rm = dynamic_cast<RasterModule*> (module);
             if (rm) {
                 _code.replace ("%index", QString::number (_rasterId - 1));
             }

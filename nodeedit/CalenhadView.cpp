@@ -6,8 +6,8 @@
 #include "Calenhad.h"
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
-#include "../qmodule/QNodeGroup.h"
-#include "../nodeedit/QNodeGroupBlock.h"
+#include "qmodule/NodeGroup.h"
+#include "NodeGroupBlock.h"
 #include <QDragEnterEvent>
 #include <QMimeData>
 using namespace calenhad::pipeline;
@@ -63,8 +63,8 @@ void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
 
 void CalenhadView::dragLeaveEvent (QDragLeaveEvent *event) {
     for (QGraphicsItem* item : scene ()->items ()) {
-        if (dynamic_cast<QNodeGroupBlock*> (item)) {
-            ((QNodeGroupBlock*) item)->setHighlight (false);
+        if (dynamic_cast<NodeGroupBlock*> (item)) {
+            ((NodeGroupBlock*) item)->setHighlight (false);
         }
     }
 }
@@ -75,13 +75,13 @@ void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
     CalenhadModel* model = (CalenhadModel*) scene();
     QList<QGraphicsItem*> items = model -> items (pos);
     QList<QGraphicsItem*>::iterator i = items.begin ();
-    while ( i != items.end() && ! (dynamic_cast<QNodeGroupBlock*> (*i))) {
+    while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
         i++;
     }
-    QNodeGroupBlock* target = i == items.end() ? nullptr : (QNodeGroupBlock*) *i;
+    NodeGroupBlock* target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
     for (QGraphicsItem* item : scene ()->items ()) {
-        if (dynamic_cast<QNodeGroupBlock*> (item)) {
-             ((QNodeGroupBlock*) item)->setHighlight (item == target);
+        if (dynamic_cast<NodeGroupBlock*> (item)) {
+             ((NodeGroupBlock*) item)->setHighlight (item == target);
         }
     }
 
@@ -101,8 +101,8 @@ void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
 void CalenhadView::dropEvent(QDropEvent *event) {
 
     for (QGraphicsItem* item : scene ()->items ()) {
-        if (dynamic_cast<QNodeGroupBlock*> (item)) {
-            ((QNodeGroupBlock*) item)->setHighlight (false);
+        if (dynamic_cast<NodeGroupBlock*> (item)) {
+            ((NodeGroupBlock*) item)->setHighlight (false);
         }
     }
 
