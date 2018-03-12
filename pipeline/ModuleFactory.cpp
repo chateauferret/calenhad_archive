@@ -70,10 +70,15 @@ void ModuleFactory::initialise() {
     }
 }
 
-Node* ModuleFactory::inflateModule (const QString& type) {
+QDomElement ModuleFactory::xml (const QString& type) {
+    return _types.value (type);
+}
+
+Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
     if (_types.keys().contains (type)) {
         QDomElement element = _types.value (type);
         Module* qm = new Module (type);
+        qm -> setModel (model);
         QString label = element.attribute ("label");
         _moduleLabels.insert (type, label);
         QDomElement descriptionElement = element.firstChildElement ("documentation");
@@ -89,9 +94,19 @@ Node* ModuleFactory::inflateModule (const QString& type) {
             bool ok;
             int index = portNode.attribute ("index").toInt (&ok);
             if (ok) {
-                qm -> addInputPort (index, pt, portName);
+                if (portNode.hasAttribute ("default")) {
+                    double defaultValue = portNode.attribute ("default").toDouble (&ok);
+                        if (ok) {
+                            qm -> addInputPort (index, pt, portName, defaultValue);
+                        } else {
+                            qm->addInputPort (index, pt, portName);
+                        }
+                    } else {
+                        qm->addInputPort (index, pt, portName);
+                    }
+                }
             }
-        }
+
         QDomElement paramsElement = element.firstChildElement ("parameters");
         QDomNodeList paramNodesList = paramsElement.elementsByTagName ("parameter");
         for (int i = 0; i < paramNodesList.size (); i++) {
@@ -149,19 +164,19 @@ ParamValidator* ModuleFactory::validator (const QString& validatorType) {
     return new AcceptAnyRubbish();
 }
 
-Node* ModuleFactory::createModule (const QString& type) {
+Node* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
 
     // special types which need more than generic construction code
-    if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { AltitudeMap* qm = new AltitudeMap(); return qm; }
-    if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { NodeGroup* group = new NodeGroup(); return group; }
-    if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* qm = new RasterModule(); return qm; }
+    if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { AltitudeMap* qm = new AltitudeMap(); qm -> setModel (model); return qm; }
+    if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { NodeGroup* group = new NodeGroup(); group -> setModel (model); return group; }
+    if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* qm = new RasterModule(); qm -> setModel (model); return qm; }
 
-    return inflateModule (type);
+    return inflateModule (type, model);
     
 }
 
 Node* ModuleFactory::clone (Node* other) {
-    Node* n = createModule (other -> nodeType());
+    Node* n = createModule (other -> nodeType(), other -> model());
     for (QString key : n -> parameters()) {
         n -> setParameter (key, other -> parameter (key));
     }

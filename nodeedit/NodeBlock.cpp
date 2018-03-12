@@ -133,15 +133,14 @@ Port* NodeBlock::addPort (Port* port) {
     int vertMargin = _margin;
     QFontMetrics fm (scene() -> font());
     int yInput = port -> radius();
-    int yOutput = yInput;
     int w = fm.width (port -> portName());
     int h = fm.height();
     foreach (QGraphicsItem* port_, childItems()) {
         if (port_->type () == Port::Type) {
             Port* port = (Port*) port_;
             if (port -> portType () == Port::OutputPort) {
-                port -> setPos (_size.width() + 2 * _margin + port -> radius(), yOutput + vertMargin);
-                yOutput += h;
+                double v = (boundingRect().height() / 2) - port -> radius();
+                port -> setPos (_size.width() + 2 * _margin + port -> radius(), v);
             } else {
                 port -> setPos (-port -> radius (), yInput + vertMargin);
                 yInput += h;

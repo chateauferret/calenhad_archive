@@ -447,8 +447,8 @@ Node* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
 Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
     std::cout << "Add module " << type.toStdString () << " " << name.toStdString () << "\n";
     if (type != QString::null) {
-        Module* module = (Module*) CalenhadServices::modules() -> createModule (type);
-        module -> setModel (this);
+        Module* module = (Module*) CalenhadServices::modules() -> createModule (type, this);
+
         AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
         _controller -> doCommand (command);
         module = (Module*) command -> node();
@@ -480,11 +480,13 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
 
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
     for (Port* port : node -> ports ()) {
-        b -> addPort (port);
+        b->addPort (port);
+        b->assignGroup ();
+        b->assignIcon ();
     }
 
-    b -> assignGroup();
-    b -> assignIcon();
+    node -> addDependentNodes();
+
     update();
     return node;
 }

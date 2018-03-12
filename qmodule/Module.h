@@ -67,11 +67,15 @@ namespace calenhad {
             void setLegend (calenhad::legend::Legend* legend);
             Node* sourceModule (int portIndex);
             calenhad::legend::Legend* legend ();
-            virtual void addInputPort (const int& index, const int& portType, const QString& name);
+            virtual void addInputPort (const unsigned int& index, const int& portType, const QString& name);
+            void addInputPort (const unsigned int& index, const int& portType, const QString& name, const double& defaultValue);
+
             void showContextMenu (const QPoint& point);
             bool isComplete() override;
             bool range (double& min, double& max);
             QMap<unsigned, calenhad::nodeedit::Port*> inputs();
+            void addDependentNodes ();
+
         public slots:
             void setupPreview ();
             void showGlobe ();
@@ -98,6 +102,7 @@ namespace calenhad {
 
             int _statsIndex;
             QDialog* _stats;
+
 
         };
     }

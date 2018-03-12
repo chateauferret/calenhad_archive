@@ -41,14 +41,16 @@ using namespace calenhad::qmodule;
 using namespace calenhad::actions;
 using namespace calenhad::pipeline;
 
-Port::Port (int type, int index, const QString& name, NodeBlock* parent) :
+Port::Port (int type, int index, const QString& name, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent) :
         QGraphicsPathItem (parent),
         _radius (CalenhadServices::preferences() -> calenhad_port_radius),
         _margin (CalenhadServices::preferences() -> calenhad_port_margin),
         _index (index),
-        _block (nullptr),
+        _block (parent),
         _portType (type),
         _portName (name),
+        _hasDefaultValue (hasDefaultValue),
+        _defaultValue (defaultValue),
         _connectMenu (new QMenu()){
     QPainterPath p;
     QPolygonF polygon;
@@ -69,7 +71,7 @@ Port::Port (int type, int index, const QString& name, NodeBlock* parent) :
     });
 
     if (type == OutputPort) {
-        polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);
+        polygon << QPointF (-_radius,  - _radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, - _radius);
         setPen (QPen (CalenhadServices::preferences() -> calenhad_port_out_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight));
         setBrush (CalenhadServices::preferences() -> calenhad_port_out_fill_color);
         setCursor (Qt::ArrowCursor);
@@ -85,6 +87,15 @@ Port::Port (int type, int index, const QString& name, NodeBlock* parent) :
     p.addPolygon (polygon);
     setPath (p);
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
+}
+
+Port::Port (int type, int index, const QString& name, NodeBlock* parent) : Port (type, index, name, 0.0, false, parent) {
+
+}
+
+
+Port::Port (int type, int index, const QString& name, const double& defaultValue, NodeBlock* parent) : Port (type, index, name, defaultValue, true, parent) {
+
 }
 
 Port::~Port () {
@@ -257,4 +268,12 @@ QMenu* Port::connectMenu() {
         }
     }
     return _connectMenu;
+}
+
+bool Port::hasDefaultValue() const {
+    return _hasDefaultValue;
+}
+
+double Port::defaultValue () const {
+    return _defaultValue;
 }

@@ -17,6 +17,7 @@
 #include <controls/globe/CalenhadStatsPanel.h>
 #include <QtWidgets/QCheckBox>
 #include "nodeedit/Connection.h"
+#include "../nodeedit/CalenhadView.h"
 
 using namespace icosphere;
 using namespace calenhad::qmodule;
@@ -91,10 +92,31 @@ void Module::showContextMenu (const QPoint& point) {
     _contextMenu -> exec (QCursor::pos());
 }
 
-
-void Module::addInputPort (const int& index, const int& portType, const QString& name) {
+void Module::addInputPort (const unsigned& index, const int& portType, const QString& name) {
     Port* input = new Port (portType, index, name);
     addPort (input, index);
+}
+
+
+void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const double& defaultValue) {
+    Port* input = new Port (portType, index, name, defaultValue);
+    addPort (input, index);
+
+}
+
+void Module::addDependentNodes() {
+    Node::addDependentNodes();
+    for (const unsigned& index : inputs().keys()) {
+        // if the port has a default value, create a constant value module to feed it
+        Port* input = inputs().value (index);
+        if (input -> hasDefaultValue()) {
+            QString constName = _name + "_" + input -> portName ();
+            QPointF constPos = (QPointF (handle() -> pos().x() - 50 * (index + 2), handle() -> pos().y() + input -> pos().y() * index - 30));
+            Module* constModule = _model -> addModule (constPos, "constant", constName);
+            constModule -> setParameter ("value", input -> defaultValue());
+            _model -> connectPorts (constModule -> output (), input);
+        }
+    }
 }
 
 Node* Module::sourceModule (int portIndex) {
@@ -103,7 +125,7 @@ Node* Module::sourceModule (int portIndex) {
         return nullptr;
     }
     Connection* c = p -> connections().first();
-    return c -> otherEnd (p) -> owner ();
+    return c -> otherEnd (p) -> owner();
 }
 
 void Module::inflate (const QDomElement& element) {

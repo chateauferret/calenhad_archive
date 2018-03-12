@@ -111,6 +111,7 @@ namespace calenhad {
             calenhad::nodeedit::Port* output();
             virtual nodeedit::NodeBlock* makeHandle ();
             double parameterValue (const QString& name);
+            virtual void addDependentNodes();
 
         public slots:
             void showParameters (const bool& visible = true);

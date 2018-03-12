@@ -36,7 +36,7 @@ namespace calenhad {
 
             ~ModuleFactory ();
             QStringList types ();
-            calenhad::qmodule::Node* createModule (const QString& moduleType);
+            calenhad::qmodule::Node* createModule (const QString& moduleType, CalenhadModel* model);
 
             int seed ();
 
@@ -46,6 +46,7 @@ namespace calenhad {
 
             qmodule::Node* clone (qmodule::Node* other);
 
+            QDomElement xml (const QString& type);
             QStringList paramNames();
             QString label (const QString& type);
             QString description (const QString& type);
@@ -61,13 +62,14 @@ namespace calenhad {
             QStringList _paramNames;
             QMap<QString, QDomElement> _types;
             void initialise();
-            qmodule::Node* inflateModule (const QString& type);
+            qmodule::Node* inflateModule (const QString& type, CalenhadModel* model);
 
             QMap<QString, QString> _moduleLabels;
             QMap<QString, QString> _moduleDescriptions;
             QMap<QString, QString> _moduleCodes;
 
             qmodule::ParamValidator* validator (const QString& validatorType);
+
         };
     }
 }

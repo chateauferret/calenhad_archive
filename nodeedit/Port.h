@@ -41,6 +41,8 @@ namespace calenhad {
 
 		class Port : public QObject, public QGraphicsPathItem {
 		Q_OBJECT
+
+
 		public:
 
             enum PortHighlight {
@@ -53,7 +55,9 @@ namespace calenhad {
 				ControlPort = 0, InputPort = 1, OutputPort = 2
 			};
 
-			Port (int type, int index, const QString& name, NodeBlock* parent = 0);
+            Port (int type, int index, const QString& name, NodeBlock* parent = 0);
+
+			Port (int type, int index, const QString& name, const double& defaultValue, NodeBlock* parent = 0);
 
 			~Port ();
 
@@ -95,6 +99,10 @@ namespace calenhad {
 
 			Q_PROPERTY (QString name READ portName WRITE setName MEMBER	_portName);
             QMenu* connectMenu ();
+            bool hasDefaultValue () const;
+
+            double defaultValue () const;
+
 		public slots:
 
 			void setName (const QString& n);
@@ -109,7 +117,7 @@ namespace calenhad {
 
 		protected:
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
-
+            Port (int type, int index, const QString& name, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent = 0);
 		private:
 			NodeBlock* _block;
 			QString _portName;
@@ -124,8 +132,8 @@ namespace calenhad {
 
 
             NodeNameValidator* _nameValidator;
-
-
+			bool _hasDefaultValue;
+			double _defaultValue;
 
             QMenu* _connectMenu;
         };

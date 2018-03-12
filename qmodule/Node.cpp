@@ -414,7 +414,7 @@ Node* Node::clone() {
     QDomElement root = doc.createElement ("clone");
     doc.appendChild (root);
     serialize (doc);
-    Node* _copy = CalenhadServices::modules() -> createModule (nodeType());
+    Node* _copy = CalenhadServices::modules() -> createModule (nodeType(), _model);
     _copy -> setModel (_model);
     _copy -> inflate (doc.documentElement().firstChildElement ("module"));
     _copy -> setName (_model -> uniqueName (_name));
@@ -453,5 +453,9 @@ void Node::connectMenu (QMenu* menu, Port* p) {
 }
 
 void Node::addInputPorts() {
+
+}
+
+void Node::addDependentNodes () {
 
 }

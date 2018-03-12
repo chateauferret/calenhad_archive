@@ -69,7 +69,7 @@
         <documentation>Raise base to the power of an exponent</documentation>
         <ports>
             <input index="0" mode="value" name="Base"/>
-            <input index="1" mode="value" name="Exponent"/>
+            <input index="1" mode="value" name="Exponent" default="2.0"/>
         </ports>
         <glsl>float %n (vec3 v) { return pow (%0 (v), %1 (v)); }</glsl>
     </module>
@@ -150,8 +150,8 @@
         <documentation>Clamp the value between minimum and maximum values</documentation>
         <ports>
             <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="control" name="minimum"/>
-            <input index="2" mode="control" name="maximum"/>
+            <input index="1" mode="control" name="minimum" default="-1.0"/>
+            <input index="2" mode="control" name="maximum" default="1.0"/>
         </ports>
         <glsl>float %n (vec3 v) { return clamp (%0 (v), %1 (v), %2 (v); }</glsl>
     </module>
@@ -264,8 +264,8 @@
         <documentation>Scale and bias the input to alter its range</documentation>
         <ports>
             <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="control" name="scale"/>
-            <input index="2" mode="control" name="bias"/>
+            <input index="1" mode="control" name="scale" default="1.0"/>
+            <input index="2" mode="control" name="bias" default="0.0"/>
         </ports>
         <glsl>float %n (vec3 v) { return %0 (v) * %1 (v) + %2 (v); }</glsl>
     </module>
@@ -286,7 +286,7 @@
                 <documentation>Upper bound of the selection range</documentation>
                 <validator type="AcceptAny"/>
             </parameter>
-            <parameter type="double" name="falloff" default="1.0">
+            <parameter type="double" name="falloff" default="0.1">
                 <documentation>Width of the edge falloff range</documentation>
                 <validator type="AcceptAny"/>
             </parameter>
@@ -327,7 +327,7 @@
             <input index="0" mode="value" name="frequency" default="1.0">
                 <documentation>Frequency of the voronoi function</documentation>
             </input>
-            <input index="1" mode="value"  name="displacement" deowerfault="2.0">
+            <input index="1" mode="value"  name="displacement" default="2.0">
             <documentation>Displacement of the <voronoi></voronoi> function</documentation>
         </input>
         </ports>
