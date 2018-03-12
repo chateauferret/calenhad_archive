@@ -96,7 +96,7 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
         }
 
         // can't connect to a port that's already connected to another output
-        if (! (input -> connections().empty ())) {
+        if (! (input -> connections().empty())) {
             if (verbose) {
                 CalenhadServices::messages() -> message ("Cannot connect", "Port is already connected");
                 return false;
@@ -114,7 +114,7 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
 // Return true if there is a direct or indirect path from a given output port to a given input port.
 // If there would be a path from output to input on the same node we can't create a new connection between them as that would complete a circuit.
 bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
-    if (output -> outputs().isEmpty ()) {
+    if (output -> outputs().isEmpty()) {
         return false;
     }
     Node* outputNode = output -> node();
@@ -124,14 +124,14 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
     if (outputPort -> connections().isEmpty()) {
         return false;
     } else {
-        Connection* connection = outputPort->connections ()[0];
+        Connection* connection = outputPort->connections()[0];
         // we're only interested in QModules here
         if ((!outputModule) || (!inputModule)) {
             return false;
         }
 
         // base case: block with no inputs can't have any paths to it
-        if (inputModule->handle ()->inputs ().isEmpty ()) {
+        if (inputModule->handle() -> inputs().isEmpty()) {
             return false;
 
             // see if the two blocks are connected
@@ -142,7 +142,7 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
                 } else {
                     if (! (inputPort -> connections().isEmpty())) {
                         Connection* c = inputPort -> connections()[ 0];
-                        return existsPath (outputPort->block (), c -> otherEnd (inputPort) -> block());
+                        return existsPath (outputPort->block(), c -> otherEnd (inputPort) -> block());
                     }
                 }
             }
@@ -153,7 +153,7 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
 
 Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
     if (canConnect (output, input, true)) {
-        Connection* c = new Connection ();
+        Connection* c = new Connection();
         c -> setParentItem (0);
         c -> setZValue (-900);
         addItem (c);
@@ -173,7 +173,7 @@ Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
         input -> setHighlight (Port::PortHighlight::CONNECTED);
 
         // tell the target owner to declare change requiring rerender
-        output -> owner () -> invalidate();
+        output -> owner() -> invalidate();
 
         // model has changed so save if close
         _changed = true;
@@ -208,10 +208,10 @@ void CalenhadModel::rerouteConnection (Port* from, Port* oldPort, Port* newPort)
     }
 
     // disconnect the old port
-    if (oldPort) { oldPort->initialise (); }
+    if (oldPort) { oldPort->initialise(); }
     oldPort->setHighlight (Port::PortHighlight::NONE);
     if (! oldPort -> connections().isEmpty()) {
-        Connection* oldConn = oldPort -> connections ().first();
+        Connection* oldConn = oldPort -> connections().first();
         if (oldConn) {
             removeItem (oldConn);
             delete oldConn;
@@ -230,7 +230,7 @@ void CalenhadModel::rerouteConnection (Port* from, Port* oldPort, Port* newPort)
 
 
     // tell the target owner to declare change requiring rerender
-    oldPort -> owner ()->invalidate ();
+    oldPort -> owner() -> invalidate();
 
     // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
     connect (from -> owner(), &Node::nodeChanged, newPort -> owner(), &Node::invalidate);
@@ -243,7 +243,7 @@ void CalenhadModel::rerouteConnection (Port* from, Port* oldPort, Port* newPort)
 
     // model has changed so save if close
     _changed = true;
-    update ();
+    update();
     _wasConnectedTo = nullptr;
 }
 
@@ -259,7 +259,7 @@ void CalenhadModel::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
     QGraphicsSceneMouseEvent* me = (QGraphicsSceneMouseEvent*) e;
-    switch ((int) e -> type ()) {
+    switch ((int) e -> type()) {
 
         case QEvent::GraphicsSceneMousePress: {
             switch ((int) me -> button()) {
@@ -269,30 +269,30 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     foreach (QGraphicsItem* item, items) {
                         // click on nothing - deselect anything selected
                         if (!item && !conn) {
-                            for (QGraphicsItem* modelItem : QGraphicsScene::items ()) {
-                                if (modelItem->isSelected ()) {
+                            for (QGraphicsItem* modelItem : QGraphicsScene::items()) {
+                                if (modelItem->isSelected()) {
                                     modelItem->setSelected (false);
-                                    modelItem->update ();
+                                    modelItem->update();
                                 }
                             }
                         }
 
                         // click on an output port - create a connection which we can connect to another owner's input or control port
-                        if (item && item->type () == Port::Type) {
+                        if (item && item->type() == Port::Type) {
                             // only allow connections from output ports to input ports
                             Port* port = ((Port*) item);
 
-                            for (QGraphicsView* view : views ()) {
+                            for (QGraphicsView* view : views()) {
                                 view->setDragMode (QGraphicsView::NoDrag);
                             }
                             if (conn) { delete conn; }
-                            if (port->portType () == Port::OutputPort) {
+                            if (port->portType() == Port::OutputPort) {
                                 conn = new Connection (0);
                                 addItem (conn);
                                 conn -> setPort1 ((Port*) item);
                                 conn -> setPos1 (item -> scenePos());
-                                conn -> setPos2 (me->scenePos ());
-                                conn -> updatePath ();
+                                conn -> setPos2 (me->scenePos());
+                                conn -> updatePath();
                                 conn -> canDrop = false;
                                 _existingConnection = false;
                             } else {
@@ -313,17 +313,17 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 case Qt::RightButton: {
 
                     if (! conn) {
-                        QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos ());
-                        if (items.empty ()) {
+                        QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
+                        if (items.empty()) {
                             QMenu* menu = makeMenu (nullptr);
                             if (menu) {
-                                menu -> exec (me->screenPos ());
+                                menu -> exec (me->screenPos());
                             }
                         } else {
                             foreach (QGraphicsItem* item, items) {
                                 QMenu* menu = makeMenu (item);
                                 if (menu) {
-                                    menu -> exec (me->screenPos ());
+                                    menu -> exec (me->screenPos());
                                     break;
                                 }
                             }
@@ -337,7 +337,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
             // if we moved off a port, set it back to its ordinary style
             if (_port) {
-                _port -> initialise ();
+                _port -> initialise();
             }
             if (conn) {
                // _viewToolsGroup -> toolToggled (false);
@@ -345,15 +345,15 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 conn -> setZValue (1000);
 
                 conn -> setPos2 (me -> scenePos());
-                conn -> updatePath ();
+                conn -> updatePath();
                 conn -> canDrop = false;
 
-                QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos ());
+                QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                 foreach (QGraphicsItem* item, items) {
-                        if (item && item->type () == Port::Type) {
+                        if (item && item->type() == Port::Type) {
                             Port* port = (Port*) item;
-                            if (port != conn -> port1 () && !(port->hasConnection ())) {
-                                if (canConnect (conn -> port1 (), port)) {
+                            if (port != conn -> port1() && !(port->hasConnection())) {
+                                if (canConnect (conn -> port1(), port)) {
                                     // Change colour of a port if we mouse over it and can make a connection to it
                                     port -> setHighlight (Port::PortHighlight::CAN_CONNECT);
                                     _port = port;
@@ -373,7 +373,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (! _activeTool) {
                     for (QGraphicsView* view : views()) {
                         view -> viewport() -> setCursor (Qt::ArrowCursor);
-                        for (NodeGroup* group : nodeGroups ()) {
+                        for (NodeGroup* group : nodeGroups()) {
                             group -> handle() -> setCursor (Qt::ClosedHandCursor);
                         }
                     }
@@ -383,7 +383,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         }
 
         case QEvent::GraphicsSceneMouseRelease: {
-            for (QGraphicsView* view : views ()) {
+            for (QGraphicsView* view : views()) {
                 view -> setDragMode (QGraphicsView::RubberBandDrag);
             }
             lastClick = me -> scenePos();
@@ -395,8 +395,8 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (conn && me -> button() == Qt::LeftButton) {
                     QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                     foreach (QGraphicsItem* item, items) {
-                        if (item && item->type () == Port::Type) {
-                            Port* port1 = conn -> port1 ();
+                        if (item && item->type() == Port::Type) {
+                            Port* port1 = conn -> port1();
                             Port* port2 = (Port*) item;
 
                             if (_existingConnection) {
@@ -413,8 +413,8 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             }
             if (_activeTool) {
                 QString type = _activeTool -> data().toString();
-                if (! type.isNull ()) {
-                    addNode (me->scenePos (), type);
+                if (! type.isNull()) {
+                    addNode (me->scenePos(), type);
                 }
                 ((Calenhad*) _controller -> parent()) -> clearTools();
                 setActiveTool (nullptr);
@@ -445,7 +445,7 @@ Node* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
 }
 
 Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
-    std::cout << "Add module " << type.toStdString () << " " << name.toStdString () << "\n";
+    std::cout << "Add module " << type.toStdString() << " " << name.toStdString() << "\n";
     if (type != QString::null) {
         Module* module = (Module*) CalenhadServices::modules() -> createModule (type, this);
 
@@ -479,10 +479,10 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     b -> setPos (initPos.x(), initPos.y());
 
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
-    for (Port* port : node -> ports ()) {
+    for (Port* port : node -> ports()) {
         b->addPort (port);
-        b->assignGroup ();
-        b->assignIcon ();
+        b->assignGroup();
+        b->assignIcon();
     }
 
     node -> addDependentNodes();
@@ -493,7 +493,7 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
 
 bool CalenhadModel::nameExists (const QString& name) {
     for (Node* n : nodes()) {
-        if (name == n -> name ()) {
+        if (name == n -> name()) {
             return true;
         }
     }
@@ -504,7 +504,7 @@ void CalenhadModel::deleteNode (Node* node) {
     // first delete any connections to or from the module
     for (QGraphicsItem* item : items()) {
         if (item -> type() == Connection::Type) {
-            for (Port* p : node -> ports ()) {
+            for (Port* p : node -> ports()) {
                 if (((Connection*) item) -> port1() == p || ((Connection*) item) -> port2() == p) {
                     removeItem (item);
                     delete item;
@@ -520,7 +520,7 @@ void CalenhadModel::deleteNode (Node* node) {
     // remove the visible appartions from the display
 
     for (QGraphicsItem* item : items()) {
-        if (item -> type () == NodeBlock::Type && ((NodeBlock*) item) -> node() == node) {
+        if (item -> type() == NodeBlock::Type && ((NodeBlock*) item) -> node() == node) {
             removeItem (item -> parentItem());
             delete item;
         }
@@ -581,7 +581,7 @@ QList<Connection*> CalenhadModel::connections() {
 
 NodeGroup* CalenhadModel::findGroup (const QString& name) {
     for (NodeGroup* qm : nodeGroups()) {
-        if ((! qm -> name().isNull ()) && (qm -> name() == name)) {
+        if ((! qm -> name().isNull()) && (qm -> name() == name)) {
             return qm;
         }
     }
@@ -591,7 +591,7 @@ NodeGroup* CalenhadModel::findGroup (const QString& name) {
 
 Node* CalenhadModel::findModule (const QString& name) {
     for (Node* qm : nodes()) {
-        if ((! qm -> name().isNull ()) && (qm -> name() == name)) {
+        if ((! qm -> name().isNull()) && (qm -> name() == name)) {
             return qm;
         }
     }
@@ -610,7 +610,7 @@ void CalenhadModel::setController (CalenhadController* controller) {
     }
 }
 
-CalenhadController* CalenhadModel::controller () {
+CalenhadController* CalenhadModel::controller() {
     return _controller;
 }
 
@@ -624,8 +624,8 @@ void CalenhadModel::serialize (const QString& filename, const CalenhadFileType& 
     if (! file.open (QIODevice::WriteOnly | QIODevice::Text )) {
         CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
     } else {
-        ds << doc.toString ();
-        file.close ();
+        ds << doc.toString();
+        file.close();
         CalenhadServices::messages() -> message ("info", "Wrote file " + filename);
     }
 }
@@ -642,15 +642,15 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
     // Always include all known legends in the file
     QDomElement legendsElement = doc.createElement ("legends");
     root.appendChild (legendsElement);
-    for (Legend* legend : CalenhadServices::legends () -> all()) {
+    for (Legend* legend : CalenhadServices::legends() -> all()) {
         legend -> serialise (doc);
     }
 
     if (fileType == CalenhadFileType::CalenhadModelFile) {
-        for (Node* qm : nodes ()) {
+        for (Node* qm : nodes()) {
             qm->serialize (doc);
         }
-        for (Connection* c : connections ()) {
+        for (Connection* c : connections()) {
             c->serialise (doc);
         }
         _changed = false;
@@ -715,7 +715,7 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
     readMetadata (doc);
 
     // Always retrieve all legends from the file
-    QDomNodeList legendNodes = doc.documentElement ().elementsByTagName ("legend");
+    QDomNodeList legendNodes = doc.documentElement().elementsByTagName ("legend");
     for (int i = 0; i < legendNodes.size(); i++) {
         Legend* legend = new Legend();
         legend -> inflate (legendNodes.at (i));
@@ -730,36 +730,36 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
     }
 
     if (fileType == CalenhadFileType::CalenhadModelFile || fileType == CalenhadFileType::CalenhadModelFragment) {
-        QDomElement variablesElement = doc.documentElement ().firstChildElement ("variables");
+        QDomElement variablesElement = doc.documentElement().firstChildElement ("variables");
         CalenhadServices::calculator() -> inflate (variablesElement);
-        QDomNodeList moduleNodes = doc.documentElement ().elementsByTagName ("module");
-        QDomNodeList connectionNodes = doc.documentElement ().elementsByTagName ("connection");
-        for (int i = 0; i < moduleNodes.count (); i++) {
+        QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("module");
+        QDomNodeList connectionNodes = doc.documentElement().elementsByTagName ("connection");
+        for (int i = 0; i < moduleNodes.count(); i++) {
 
             // put the node at the requested position on the canvas
             QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");
-            int x = positionElement.attributes ().namedItem ("x").nodeValue ().toInt ();
-            int y = positionElement.attributes ().namedItem ("y").nodeValue ().toInt ();
+            int x = positionElement.attributes().namedItem ("x").nodeValue().toInt();
+            int y = positionElement.attributes().namedItem ("y").nodeValue().toInt();
             QPointF pos (x, y);
 
 
             // if we are pasting, offset the positions so that we can see copied and pasted items separately
             if (fileType == CalenhadFileType::CalenhadModelFragment) {
-                pos.setX (pos.x () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_x);
-                pos.setY (pos.y () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_y);
+                pos.setX (pos.x() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_x);
+                pos.setY (pos.y() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_y);
             }
 
-            QString type = moduleNodes.at (i).attributes ().namedItem ("type").nodeValue ();
+            QString type = moduleNodes.at (i).attributes().namedItem ("type").nodeValue();
             QDomElement nameNode = moduleNodes.at (i).firstChildElement ("name");
-            QString name = nameNode.text ();
+            QString name = nameNode.text();
             QString newName = uniqueName (name);
             Module* qm = addModule (pos, type, newName);
             qm -> handle() -> setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
-            qm->inflate (moduleNodes.at (i).toElement ());
+            qm->inflate (moduleNodes.at (i).toElement());
 
             // update connection names so that the module is still found if it was renamed
 
-            for (int i = 0; i < connectionNodes.count (); i++) {
+            for (int i = 0; i < connectionNodes.count(); i++) {
                 QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
                 QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
                 if (fromElement.attribute ("module") == name) {
@@ -777,28 +777,28 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
         // For the time being however all output ports will be of type 2 (Port::Output).
 
 
-        for (int i = 0; i < connectionNodes.count (); i++) {
+        for (int i = 0; i < connectionNodes.count(); i++) {
             QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
             QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-            Node* fromNode = findModule (fromElement.attributes ().namedItem ("module").nodeValue ());
-            Node* toNode = findModule (toElement.attributes ().namedItem ("module").nodeValue ());
+            Node* fromNode = findModule (fromElement.attributes().namedItem ("module").nodeValue());
+            Node* toNode = findModule (toElement.attributes().namedItem ("module").nodeValue());
             if (fromNode && toNode) {
                 Port* fromPort = nullptr, * toPort = nullptr;
-                for (Port* port : fromNode->ports ()) {
+                for (Port* port : fromNode->ports()) {
                     bool okIndex;
                     int index = fromElement.attribute ("output").toInt (&okIndex);
                     if (okIndex) {
-                        if (port->index () == index && port->portType () == Port::OutputPort) {
+                        if (port->index() == index && port->portType() == Port::OutputPort) {
                             fromPort = port;
                             fromPort->setName (fromElement.attribute ("name"));
                         }
                     }
                 }
-                for (Port* port : toNode->ports ()) {
+                for (Port* port : toNode->ports()) {
                     bool okIndex;
                     int index = toElement.attribute ("input").toInt (&okIndex);
                     if (okIndex) {
-                        if (port->index () == index && port->portType () != Port::OutputPort) {
+                        if (port->index() == index && port->portType() != Port::OutputPort) {
                             toPort = port;
                             toPort->setName (fromElement.attribute ("name"));
                         }
@@ -808,8 +808,8 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
                     connectPorts (fromPort, toPort);
                 } else {
                     // to do - message couldn't connect ports - but first need to implement connection names
-                    if (!fromPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect source"); }
-                    if (!toPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect target"); }
+                    if (!fromPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect source"); }
+                    if (!toPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect target"); }
                 }
             }
         }
@@ -819,8 +819,8 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
 QString CalenhadModel::readParameter (const QDomElement& element, const QString param) {
     QDomElement e = element.firstChildElement ("parameter");
     for (; ! e.isNull(); e = e.nextSiblingElement ("parameter")) {
-        if (e.attributeNode ("name").value () == param) {
-            return e.attributeNode ("value").value ();
+        if (e.attributeNode ("name").value() == param) {
+            return e.attributeNode ("value").value();
         }
     }
     return QString::null;
@@ -835,7 +835,7 @@ void CalenhadModel::writeParameter (QDomElement& element, const QString& param, 
 
 void CalenhadModel::highlightGroupAt (QPointF pos) {
     QList<QGraphicsItem*> list = items (pos, Qt::ContainsItemShape);
-    QList<QGraphicsItem*>::iterator i = list.begin ();
+    QList<QGraphicsItem*>::iterator i = list.begin();
     while ( i != list.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
         i++;
     }
@@ -847,7 +847,7 @@ void CalenhadModel::highlightGroupAt (QPointF pos) {
     }
 }
 
-void CalenhadModel::commitLegends () {
+void CalenhadModel::commitLegends() {
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename_temp;
     serialize (file, CalenhadFileType::CalenhadLegendFile);
     _changed = true;
@@ -871,7 +871,7 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     if (dynamic_cast<Port*> (item)) {
         Port* port = static_cast<Port*> (item);
         _menu = new QMenu ("Port");
-        _menu -> addMenu (port -> connectMenu ());
+        _menu -> addMenu (port -> connectMenu());
         return _menu;
     }
     if (dynamic_cast<Connection*> (item)) {
@@ -891,7 +891,7 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
 
         QAction* editAction = new QAction (QIcon (":/appicons/controls/edit.png"), tr ("Edit"));
         editAction -> setToolTip ("Edit module's details and parameters");
-        connect (editAction, &QAction::triggered, this, [=] () { n -> showParameters (true); });
+        connect (editAction, &QAction::triggered, this, [=]() { n -> showParameters (true); });
         _menu -> addAction (editAction);
 
         if (dynamic_cast<Module*> (n)) {
@@ -902,16 +902,16 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     }
 
         // actions that operate on selections
-        _menu->addSeparator ();
+        _menu->addSeparator();
         QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
         _menu->addAction (copy);
         QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
         _menu->addAction (cut);
         QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
         _menu->addAction (deleteSelection);
-        copy->setEnabled (selectedItems ().size () > 0);
-        cut->setEnabled (selectedItems ().size () > 0);
-        deleteSelection->setEnabled (selectedItems ().size () > 0);
+        copy->setEnabled (selectedItems().size() > 0);
+        cut->setEnabled (selectedItems().size() > 0);
+        deleteSelection->setEnabled (selectedItems().size() > 0);
     return _menu;
 }
 
@@ -937,23 +937,23 @@ bool CalenhadModel::isChanged() {
     return _changed;
 }
 
-const QString& CalenhadModel::title () {
+const QString& CalenhadModel::title() {
     return _title;
 }
 
-const QString& CalenhadModel::author () {
+const QString& CalenhadModel::author() {
     return _author;
 }
 
-const QDateTime& CalenhadModel::lastSave () {
+const QDateTime& CalenhadModel::lastSave() {
     return _lastSaved;
 }
 
-const QString& CalenhadModel::filename () {
+const QString& CalenhadModel::filename() {
     return _filename;
 }
 
-const QString& CalenhadModel::description () {
+const QString& CalenhadModel::description() {
     return _description;
 }
 

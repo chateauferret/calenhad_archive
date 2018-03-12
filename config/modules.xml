@@ -2,7 +2,7 @@
 <palette>
 
 
-    <module name="constant" label="Constant">
+    <module name="constant" label="Constant" render="false">
         <documentation>Constant value</documentation>
         <parameters>
             <parameter type="double" name="value" default="4">

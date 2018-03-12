@@ -15,7 +15,6 @@
 #include <QDialogButtonBox>
 #include <controls/globe/CalenhadGlobeDialog.h>
 #include <controls/globe/CalenhadStatsPanel.h>
-#include <QtWidgets/QCheckBox>
 #include "nodeedit/Connection.h"
 #include "../nodeedit/CalenhadView.h"
 
@@ -31,8 +30,9 @@ using namespace calenhad::mapping;
 
 int Module::seed = 0;
 
-Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, parent),
+Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* parent) : Node (nodeType, parent),
     _globe (nullptr),
+    _suppressRender (suppressRender),
     _stats (nullptr) {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
@@ -57,13 +57,15 @@ void Module::initialise() {
 }
 
 void Module::showGlobe() {
-    if (!_globe) {
-        _globe = new CalenhadGlobeDialog (this, this);
-        _globe -> initialise ();
-        _globe -> resize (640, 320);
-        connect (_globe -> globe(), &CalenhadMapWidget::rendered, this, &Module::rendered);
+    if (! _suppressRender) {
+        if (!_globe) {
+            _globe = new CalenhadGlobeDialog (this, this);
+            _globe->initialise ();
+            _globe->resize (640, 320);
+            connect (_globe->globe (), &CalenhadMapWidget::rendered, this, &Module::rendered);
+        }
+        _globe->show ();
     }
-    _globe -> show();
 }
 
 void Module::setupPreview() {
@@ -110,11 +112,11 @@ void Module::addDependentNodes() {
         // if the port has a default value, create a constant value module to feed it
         Port* input = inputs().value (index);
         if (input -> hasDefaultValue()) {
-            QString constName = _name + "_" + input -> portName ();
+            QString constName = _name + "_" + input -> portName();
             QPointF constPos = (QPointF (handle() -> pos().x() - 50 * (index + 2), handle() -> pos().y() + input -> pos().y() * index - 30));
             Module* constModule = _model -> addModule (constPos, "constant", constName);
             constModule -> setParameter ("value", input -> defaultValue());
-            _model -> connectPorts (constModule -> output (), input);
+            _model -> connectPorts (constModule -> output(), input);
         }
     }
 }
@@ -151,7 +153,9 @@ void Module::rendered (const bool& success) {
 
 void Module::setModel (CalenhadModel* model) {
     Node::setModel (model);
-    setupPreview();
+    if (! _suppressRender) {
+        setupPreview ();
+    }
 }
 
 void Module::setLegend (Legend* legend) {

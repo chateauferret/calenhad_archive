@@ -105,8 +105,8 @@ void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option
     painter -> setPen (_pen);
     painter -> drawPath (path());
     if (_icon) {
-        _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark ()
-                                       : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark ());
+        _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark()
+                                       : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark());
         painter->drawPixmap (_margin, _margin, _icon->grab ());
     }
     QPixmap _endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
@@ -153,16 +153,6 @@ Port* NodeBlock::addPort (Port* port) {
     connect (port, &Port::connected, _node, &Node::invalidate);
     connect (port, &Port::disconnected, _node, &Node::invalidate);
     return port;
-}
-
-QVector<Port*> NodeBlock::ports() {
-    QVector<Port*> res;
-            foreach(QGraphicsItem* port_, childItems ()) {
-                if (port_ -> type () == Port::Type) {
-                res.append ((Port*) port_);
-            }
-        }
-    return res;
 }
 
 QVariant NodeBlock::itemChange (GraphicsItemChange change, const QVariant& value) {

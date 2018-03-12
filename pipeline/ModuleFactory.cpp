@@ -4,14 +4,11 @@
 
 #include <iostream>
 #include "ModuleFactory.h"
-//#include "../qmodule/QIcosphereMap.h"
 #include "qmodule/NodeGroup.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
 #include "qmodule/AltitudeMap.h"
 #include "../CalenhadServices.h"
-#include "../exprtk/ExpressionWidget.h"
-#include <QPixmap>
 #include <QList>
 #include <qmodule/RasterModule.h>
 #include <nodeedit/Port.h>
@@ -77,7 +74,8 @@ QDomElement ModuleFactory::xml (const QString& type) {
 Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
     if (_types.keys().contains (type)) {
         QDomElement element = _types.value (type);
-        Module* qm = new Module (type);
+        bool suppressRender = element.hasAttribute ("render") && element.attribute ("render").toLower() == "false";
+        Module* qm = new Module (type, suppressRender);
         qm -> setModel (model);
         QString label = element.attribute ("label");
         _moduleLabels.insert (type, label);
@@ -99,10 +97,10 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                         if (ok) {
                             qm -> addInputPort (index, pt, portName, defaultValue);
                         } else {
-                            qm->addInputPort (index, pt, portName);
+                            qm -> addInputPort (index, pt, portName);
                         }
                     } else {
-                        qm->addInputPort (index, pt, portName);
+                        qm -> addInputPort (index, pt, portName);
                     }
                 }
             }

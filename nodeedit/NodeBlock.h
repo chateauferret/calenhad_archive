@@ -54,35 +54,33 @@ namespace calenhad {
 
 			NodeBlock (calenhad::qmodule::Node* node, QGraphicsItem* parent = 0);
 
-			virtual ~NodeBlock ();
+			virtual ~NodeBlock();
 
 			Port* addPort (Port* port);
 
 			void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
-			QVector<Port*> ports ();
+			int type() const { return Type; }
 
-			int type () const { return Type; }
+			QVector<Port*> inputs();
 
-			QVector<Port*> inputs ();
+			QVector<Port*> outputs();
 
-			QVector<Port*> outputs ();
+			QVector<Port*> controls();
 
-			QVector<Port*> controls ();
+			virtual QRectF boundingRect() const;
 
-			virtual QRectF boundingRect () const;
+			virtual void initialise();
 
-			virtual void initialise ();
+			calenhad::qmodule::Node* node();
 
-			calenhad::qmodule::Node* node ();
+			void assignGroup();
 
-			void assignGroup ();
-
-			void assignIcon ();
+			void assignIcon();
 
 		public slots:
 
-			virtual void nodeChanged ();
+			virtual void nodeChanged();
 
 			void mousePressEvent (QGraphicsSceneMouseEvent* event) override;
 
@@ -91,7 +89,7 @@ namespace calenhad {
 			void mouseMoveEvent (QGraphicsSceneMouseEvent* event) override;
 
 			void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) override;
-			//void showParameters ();
+			//void showParameters();
 
 		protected:
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
@@ -102,11 +100,11 @@ namespace calenhad {
 			QPen _pen;
 			QPixmap* _pixmap;
 
-			virtual QPainterPath makePath ();
+			virtual QPainterPath makePath();
 
 			qreal _oldZ;
 
-			void detach ();
+			void detach();
 
 			void attach (QGraphicsItem* target);
 

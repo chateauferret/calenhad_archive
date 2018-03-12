@@ -46,7 +46,7 @@ namespace calenhad {
 
         Q_ENUMS (ModuleType)
         public:
-            Module (const QString& nodeType, QWidget* parent = 0);
+            Module (const QString& nodeType, const bool& suppressRender = false, QWidget* parent = 0);
 
             virtual ~Module ();
             QString label();
@@ -89,7 +89,7 @@ namespace calenhad {
 
 
             void initialise () override;
-
+            bool _suppressRender;
             QFormLayout* _previewLayout;
             calenhad::controls::globe::CalenhadMapView* _preview;
 
