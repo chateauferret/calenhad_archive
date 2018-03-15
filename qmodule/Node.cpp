@@ -201,7 +201,7 @@ void Node::setModel (CalenhadModel* model) {
 
 }
 
-void Node::showParameters (const bool& visible) {
+void Node::showModuleDetail (const bool& visible) {
     if (visible) {
         _dialog -> setWindowTitle (name () + " (" + nodeType () + ")");
         _dialog -> setAttribute (Qt::WA_DeleteOnClose, false);
@@ -316,7 +316,7 @@ QString Node::propertyName (const QString& name) {
 
 void Node::closeEvent (QCloseEvent* event) {
     event -> ignore();
-    showParameters (false);
+    showModuleDetail (false);
 }
 
 bool Node::hasParameters () {
@@ -340,7 +340,7 @@ ExpressionWidget* Node::addParameter (const QString& label, const QString& name,
     // create a panel to hold the parameter widgets, if we haven't done this already
     if (! _panel) {
         if (!(_content)) {
-            addContentPanel ();
+            addContentPanel();
         }
         _panel = _content;
     }

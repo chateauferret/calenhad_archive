@@ -2,10 +2,10 @@
 <palette>
 
 
-    <module name="constant" label="Constant" render="false">
+    <module name="constant" label="Constant" render="false" height="0.5" width="1.5">
         <documentation>Constant value</documentation>
         <parameters>
-            <parameter type="double" name="value" default="4">
+            <parameter type="double" name="value" default="1.0" display="edit">
                 <documentation>Constant value</documentation>
                 <validator type="AcceptAny"/>
             </parameter>

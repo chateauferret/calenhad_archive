@@ -114,7 +114,7 @@ namespace calenhad {
             virtual void addDependentNodes();
 
         public slots:
-            void showParameters (const bool& visible = true);
+            virtual void showModuleDetail (const bool& visible = true);
             virtual void invalidate ();
             void setName (const QString& name);
             virtual void parameterChanged();

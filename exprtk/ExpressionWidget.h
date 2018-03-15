@@ -29,7 +29,7 @@ namespace calenhad {
             Q_OBJECT
 
         public:
-            ExpressionWidget (QWidget* parent);
+            ExpressionWidget (QWidget* parent = 0);
 
             virtual ~ExpressionWidget ();
             void setText (QString text);

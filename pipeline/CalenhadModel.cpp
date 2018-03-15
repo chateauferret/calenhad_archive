@@ -131,7 +131,7 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
         }
 
         // base case: block with no inputs can't have any paths to it
-        if (inputModule->handle() -> inputs().isEmpty()) {
+        if (inputModule -> handle() -> inputs().isEmpty()) {
             return false;
 
             // see if the two blocks are connected
@@ -142,7 +142,7 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
                 } else {
                     if (! (inputPort -> connections().isEmpty())) {
                         Connection* c = inputPort -> connections()[ 0];
-                        return existsPath (outputPort->block(), c -> otherEnd (inputPort) -> block());
+                        return existsPath (outputPort -> block(), c -> otherEnd (inputPort) -> block());
                     }
                 }
             }
@@ -193,7 +193,7 @@ void CalenhadModel::disconnectPorts (Connection* connection) {
     if (connection -> port2() -> type() != Port::OutputPort) { connection -> port2() -> setHighlight (Port::PortHighlight::NONE); }
 
     // reproduce the renders to reflect the change
-//    connection -> port2() -> invalidateRenders();
+    //    connection -> port2() -> invalidateRenders();
 
     // update the model
     removeItem (connection);
@@ -267,24 +267,11 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     QPointF pos = me -> scenePos();
                     QList<QGraphicsItem*> items = QGraphicsScene::items (pos) ;
                     foreach (QGraphicsItem* item, items) {
-                        // click on nothing - deselect anything selected
-                        if (!item && !conn) {
-                            for (QGraphicsItem* modelItem : QGraphicsScene::items()) {
-                                if (modelItem->isSelected()) {
-                                    modelItem->setSelected (false);
-                                    modelItem->update();
-                                }
-                            }
-                        }
 
                         // click on an output port - create a connection which we can connect to another owner's input or control port
-                        if (item && item->type() == Port::Type) {
+                        if (item && item -> type() == Port::Type) {
                             // only allow connections from output ports to input ports
                             Port* port = ((Port*) item);
-
-                            for (QGraphicsView* view : views()) {
-                                view->setDragMode (QGraphicsView::NoDrag);
-                            }
                             if (conn) { delete conn; }
                             if (port->portType() == Port::OutputPort) {
                                 conn = new Connection (0);
@@ -481,12 +468,11 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
     for (Port* port : node -> ports()) {
         b->addPort (port);
-        b->assignGroup();
-        b->assignIcon();
     }
 
     node -> addDependentNodes();
-
+    b->assignGroup();
+    b->assignIcon();
     update();
     return node;
 }
@@ -891,7 +877,7 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
 
         QAction* editAction = new QAction (QIcon (":/appicons/controls/edit.png"), tr ("Edit"));
         editAction -> setToolTip ("Edit module's details and parameters");
-        connect (editAction, &QAction::triggered, this, [=]() { n -> showParameters (true); });
+        connect (editAction, &QAction::triggered, this, [=]() { n->showModuleDetail (true); });
         _menu -> addAction (editAction);
 
         if (dynamic_cast<Module*> (n)) {

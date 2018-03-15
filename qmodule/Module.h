@@ -41,13 +41,10 @@ namespace calenhad {
         class Module : public Node {
         Q_OBJECT
 
-
-
-
         Q_ENUMS (ModuleType)
+
         public:
             Module (const QString& nodeType, const bool& suppressRender = false, QWidget* parent = 0);
-
             virtual ~Module ();
             QString label();
             QString description();
@@ -63,7 +60,6 @@ namespace calenhad {
             virtual bool generateMap();
 
             void setModel (calenhad::pipeline::CalenhadModel* model) override;
-
             void setLegend (calenhad::legend::Legend* legend);
             Node* sourceModule (int portIndex);
             calenhad::legend::Legend* legend ();
@@ -75,6 +71,8 @@ namespace calenhad {
             bool range (double& min, double& max);
             QMap<unsigned, calenhad::nodeedit::Port*> inputs();
             void addDependentNodes ();
+            void showParameter (QString paramName, bool editable);
+
 
         public slots:
             void setupPreview ();
@@ -92,7 +90,6 @@ namespace calenhad {
             bool _suppressRender;
             QFormLayout* _previewLayout;
             calenhad::controls::globe::CalenhadMapView* _preview;
-
             int _previewIndex;
             calenhad::legend::Legend* _legend;
 
@@ -104,6 +101,10 @@ namespace calenhad {
             QDialog* _stats;
 
 
+            QString _shownParameter;
+            bool _editable;
+
+            void showModuleDetail (const bool& visible) override;
         };
     }
 }

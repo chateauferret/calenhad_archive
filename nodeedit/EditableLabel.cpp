@@ -25,8 +25,8 @@ void EditableLabel::setValidator (NodeNameValidator* v) {
     _validator = v;
     connect (_validator, &NodeNameValidator::message, this, &EditableLabel::showMessage);
     connect (_validator, &NodeNameValidator::success, this, &EditableLabel::clearMessage);
-    if (_textEdit) {
-        _textEdit -> setValidator (v);
+    if (textEdit()) {
+        textEdit() -> setValidator (v);
     }
 }
 
@@ -49,29 +49,31 @@ void EditableLabel::mousePressEvent (QGraphicsSceneMouseEvent* event) {
     if (! _proxy) {
         _proxy = new QGraphicsProxyWidget (this);
     }
-
-    if (! _textEdit) {
-        _textEdit = new QLineEdit ();
-        _textEdit -> setAlignment (_alignment);
-        _proxy -> setWidget (_textEdit);
-        connect (_textEdit, &QLineEdit::editingFinished, this, &EditableLabel::finishedEditing);
-        _textEdit -> setValidator (_validator);
+    QLineEdit* te = textEdit();
+    if (! te) {
+        te = new QLineEdit ();
+        _textEdit = te;
+        te -> setAlignment (_alignment);
+        _proxy -> setWidget (te);
+        connect (te, &QLineEdit::editingFinished, this, &EditableLabel::finishedEditing);
+        te -> setValidator (_validator);
         if (_alignment == Qt::AlignRight) {
-            _textEdit -> move (- (_textEdit -> width() - boundingRect ().width () + 4) , 0);
+            te -> move (- (te -> width() - boundingRect ().width () + 4) , 0);
         }
     }
 
-    if (_textEdit) {
-        _textEdit -> setText (toPlainText ());
-        _textEdit -> selectAll ();
-        _textEdit -> setFocus ();
-        _textEdit -> show ();
+
+    if (te) {
+        te -> setText (toPlainText ());
+        te -> selectAll ();
+        te -> setFocus ();
+        te -> show ();
         emit editingStateChanged (true);
     }
 }
 
 void EditableLabel::finishedEditing() {
-    QString text = _textEdit -> text();
+    QString text = textEdit() -> text();
     setPlainText (text);
     _textEdit -> hide();
 
@@ -82,7 +84,7 @@ void EditableLabel::finishedEditing() {
 }
 
 QString EditableLabel::proposedText () {
-    return _textEdit -> text();
+    return textEdit() -> text();
 }
 
 
@@ -107,6 +109,10 @@ Qt::AlignmentFlag EditableLabel::alignment() {
 void EditableLabel::setAlignment (Qt::AlignmentFlag flag) {
     _alignment = flag;
     if (_textEdit) {
-        _textEdit->setAlignment (flag);
+        textEdit() -> setAlignment (flag);
     }
+}
+
+QLineEdit* EditableLabel::textEdit () {
+    return (QLineEdit*) _textEdit;
 }

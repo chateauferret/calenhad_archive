@@ -26,10 +26,9 @@ ModuleFactory::ModuleFactory() {
     for (QString type : list) {
         QString icon = type.toLower ();
         icon.replace (" ", "");
-        QString iconFile = CalenhadServices::preferences ()->calenhad_moduletypes_icons_path + icon + ".png";
+        QString iconFile = CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + icon + ".png";
         QPixmap* pixmap = new QPixmap (iconFile);
         _icons.insert (type, pixmap);
-
     }
 }
 
@@ -46,7 +45,7 @@ void ModuleFactory::initialise() {
     QDomDocument doc;
     if (CalenhadServices::readXml (CalenhadServices::preferences() -> calenhad_moduletypes_filename, doc)) {
         std::cout << "Modules definition at " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
-        QDomElement paletteElement = doc.documentElement ();
+        QDomElement paletteElement = doc.documentElement();
         QDomNodeList nodes = paletteElement.elementsByTagName ("module");
         for (int i = 0; i < nodes.size (); i++) {
             QDomElement element = nodes.at (i).toElement ();
@@ -59,7 +58,7 @@ void ModuleFactory::initialise() {
             // %frequency, %lacunarity etc - will be replaced with the value of that parameter, for parameters named in calenhad::graph::Graph::_params.
 
             QDomElement glslElement = element.firstChildElement ("glsl");
-            QString glsl = glslElement.text ();
+            QString glsl = glslElement.text();
             _moduleCodes.insert (type, glsl);
         }
     } else {
@@ -73,9 +72,25 @@ QDomElement ModuleFactory::xml (const QString& type) {
 
 Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
     if (_types.keys().contains (type)) {
+        bool ok;
         QDomElement element = _types.value (type);
+
         bool suppressRender = element.hasAttribute ("render") && element.attribute ("render").toLower() == "false";
         Module* qm = new Module (type, suppressRender);
+
+       double height = 1.0, width = 1.0;
+        if (element.hasAttribute ("height")) {
+            double h = element.attribute ("height").toDouble (&ok);
+            height = ok ? h : 1.0;
+        }
+        if (element.hasAttribute ("width")) {
+            double w = element.attribute ("width").toDouble (&ok);
+            width = ok ? w : 1.0;
+        }
+
+        QSizeF scale (width, height);
+        _moduleScales.insert (type, scale);
+
         qm -> setModel (model);
         QString label = element.attribute ("label");
         _moduleLabels.insert (type, label);
@@ -89,7 +104,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
             QString portType = portNode.attribute ("type");
             int pt = portType == "value" ? Port::InputPort : Port::ControlPort;
             QString portName = portNode.attribute ("name");
-            bool ok;
+
             int index = portNode.attribute ("index").toInt (&ok);
             if (ok) {
                 if (portNode.hasAttribute ("default")) {
@@ -115,6 +130,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
             }
             QString paramType = paramElement.attribute ("type");
             QString paramLabel = paramElement.hasAttribute ("label") ? paramElement.attribute ("label") : paramName;
+
             if (paramType == "boolean") {
                 bool initial = false;
                 if (paramElement.hasAttribute ("default")) {
@@ -123,7 +139,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                 qm -> addParameter (paramLabel, paramName, initial);
             } else {
                 bool ok;
-                double initial = paramElement.attribute ("default").toDouble (&ok);;
+                double initial = paramElement.attribute ("default").toDouble (&ok);
                 if (!ok) { initial = 0; }
                 QString validatorType = paramElement.firstChildElement ("validator").text ();
                 ParamValidator* v;
@@ -142,6 +158,9 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                     v = validator (validatorType);
                 }
                 qm -> addParameter (paramLabel, paramName, initial, v);
+                if (paramElement.hasAttribute ("display")) {
+                    qm -> showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
+                }
             }
 
         }
@@ -190,6 +209,10 @@ QStringList ModuleFactory::paramNames() {
 
 QString ModuleFactory::label (const QString& type) {
     return _moduleLabels.contains (type) ? _moduleLabels.value (type) : QString();
+}
+
+QSizeF ModuleFactory::scale (const QString& type) {
+    return _moduleScales.contains (type) ? _moduleScales.value (type) : QSizeF (1.0, 1.0);
 }
 
 QString ModuleFactory::description (const QString& type) {

@@ -31,12 +31,14 @@ using namespace calenhad::mapping;
 int Module::seed = 0;
 
 Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* parent) : Node (nodeType, parent),
-    _globe (nullptr),
-    _suppressRender (suppressRender),
-    _stats (nullptr) {
+                                                            _globe (nullptr),
+                                                            _shownParameter (QString::null),
+                                                            _suppressRender (false),
+                                                            _stats (nullptr)   {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
 }
+
 
 Module::~Module () {
     if (_globe) { delete _globe; }
@@ -51,7 +53,7 @@ void Module::initialise() {
     addPort (output);
     setContextMenuPolicy(Qt::CustomContextMenu);
     _contextMenu = new QMenu (this);
-    QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
+    QAction* globeAction =  new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
     connect (globeAction, &QAction::triggered, this, &Module::showGlobe);
     _contextMenu -> addAction (globeAction);
 }
@@ -62,32 +64,34 @@ void Module::showGlobe() {
             _globe = new CalenhadGlobeDialog (this, this);
             _globe->initialise ();
             _globe->resize (640, 320);
-            connect (_globe->globe (), &CalenhadMapWidget::rendered, this, &Module::rendered);
+            connect (_globe -> globe(), &CalenhadMapWidget::rendered, this, &Module::rendered);
         }
-        _globe->show ();
+        _globe -> show();
     }
 }
 
 void Module::setupPreview() {
-    _preview = new CalenhadMapView (this);
-    _preview -> setSource (this);
-    _previewIndex = addPanel (tr ("Preview"), _preview);
-    _stats = new QDialog (this);
-    _stats -> setLayout (new QVBoxLayout (_stats));
-    CalenhadStatsPanel* statsPanel = new CalenhadStatsPanel (this);
-    _stats -> layout() -> addWidget (statsPanel);
-    QDialogButtonBox* box = new QDialogButtonBox (QDialogButtonBox::Ok);
-    _stats -> layout() -> addWidget (box);
-    connect (box, &QDialogButtonBox::accepted, _stats, &QDialog::accept);
-    _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
-    _stats -> setMinimumSize (400, 400);
-    _stats -> move (_dialog -> pos().x() + 400, _dialog -> pos().y() + 300);
-    connect (_preview, &CalenhadMapWidget::rendered, statsPanel, &CalenhadStatsPanel::refresh);
-    QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
-    connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
-    connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
-    connect (_preview, &CalenhadMapWidget::rendered, this, &Module::rendered);
-    _contextMenu -> addAction (statsAction);
+    if (!(_shownParameter.isNull () || _shownParameter.isEmpty ())) {
+        _preview = new CalenhadMapView (this);
+        _preview->setSource (this);
+        _previewIndex = addPanel (tr ("Preview"), _preview);
+        _stats = new QDialog (this);
+        _stats -> setLayout (new QVBoxLayout (_stats));
+        CalenhadStatsPanel* statsPanel = new CalenhadStatsPanel (this);
+        _stats->layout ()->addWidget (statsPanel);
+        QDialogButtonBox* box = new QDialogButtonBox (QDialogButtonBox::Ok);
+        _stats -> layout ()->addWidget (box);
+        connect (box, &QDialogButtonBox::accepted, _stats, &QDialog::accept);
+        _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
+        _stats -> setMinimumSize (400, 400);
+        _stats -> move (_dialog->pos().x() + 400, _dialog->pos().y() + 300);
+        connect (_preview, &CalenhadMapWidget::rendered, statsPanel, &CalenhadStatsPanel::refresh);
+        QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
+        connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
+        connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
+        connect (_preview, &CalenhadMapWidget::rendered, this, &Module::rendered);
+        _contextMenu -> addAction (statsAction);
+    }
 }
 
 void Module::showContextMenu (const QPoint& point) {
@@ -99,11 +103,9 @@ void Module::addInputPort (const unsigned& index, const int& portType, const QSt
     addPort (input, index);
 }
 
-
 void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const double& defaultValue) {
     Port* input = new Port (portType, index, name, defaultValue);
     addPort (input, index);
-
 }
 
 void Module::addDependentNodes() {
@@ -118,6 +120,14 @@ void Module::addDependentNodes() {
             constModule -> setParameter ("value", input -> defaultValue());
             _model -> connectPorts (constModule -> output(), input);
         }
+    }
+}
+
+void Module::showModuleDetail (const bool& visible) {
+    Node::showModuleDetail (visible);
+    if (visible && ! (_shownParameter.isNull() || _shownParameter.isEmpty())) {
+        _expander -> setCurrentWidget (_content);
+        _parameters.value (_shownParameter) -> setFocus();
     }
 }
 
@@ -183,7 +193,7 @@ void Module::contextMenuEvent (QContextMenuEvent* e) {
 
 bool Module::range (double& min, double& max) {
     if (_preview) {
-        Statistics statistics = _preview->statistics ();
+        Statistics statistics = _preview -> statistics ();
         min = statistics._min;
         max = statistics._max;
         return true;
@@ -192,12 +202,15 @@ bool Module::range (double& min, double& max) {
     }
 }
 
-calenhad::controls::globe::CalenhadMapView* Module::preview () {
+calenhad::controls::globe::CalenhadMapView* Module::preview() {
     return _preview;
 };
 
 void Module::parameterChanged() {
     Node::parameterChanged();
+    if (sender() == _parameters.find (_shownParameter).value()) {
+        _handle -> setText (_parameters.find (_shownParameter).value() -> text());
+    }
 }
 
 QString Module::label () {
@@ -208,11 +221,15 @@ QString Module::description () {
     return CalenhadServices::modules() -> description (_nodeType);
 }
 
-
 QString Module::glsl () {
     return CalenhadServices::modules() -> glsl (_nodeType);
 }
 
 QMap<unsigned, Port*> Module::inputs () {
     return _inputs;
+}
+
+void Module::showParameter (QString paramName, bool editable) {
+    _shownParameter = paramName;
+    _editable = editable;
 }

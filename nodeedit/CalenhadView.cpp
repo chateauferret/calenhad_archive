@@ -17,7 +17,6 @@ using namespace calenhad::nodeedit;
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::IntersectsItemShape);
-    //setContextMenuPolicy(Qt::CustomContextMenu);
     setZoom (1.0);
 }
 

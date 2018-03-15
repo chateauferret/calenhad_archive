@@ -78,6 +78,9 @@ namespace calenhad {
 
 			void assignIcon();
 
+            void setText (const QString& text);
+
+
 		public slots:
 
 			virtual void nodeChanged();
@@ -89,7 +92,7 @@ namespace calenhad {
 			void mouseMoveEvent (QGraphicsSceneMouseEvent* event) override;
 
 			void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) override;
-			//void showParameters();
+			//void showModuleDetail();
 
 		protected:
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
@@ -108,7 +111,7 @@ namespace calenhad {
 
 			void attach (QGraphicsItem* target);
 
-			QSize _size;
+			QSizeF _size;
 			int _margin;
 			QGraphicsProxyWidget* _iconProxy;
 
@@ -116,10 +119,11 @@ namespace calenhad {
 			calenhad::controls::QColoredIcon* _icon;
 			QPixmap _iconImage;
             const QPixmap _endorsementOrright, _endorsementGoosed;
-
+            QString _text;
             QString _oldName;
             calenhad::nodeedit::NodeNameValidator* _nameValidator;
 
+            EditableLabel* _textLabel;
         };
 	}
 }

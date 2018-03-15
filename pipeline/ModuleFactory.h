@@ -51,6 +51,7 @@ namespace calenhad {
             QString label (const QString& type);
             QString description (const QString& type);
             QString glsl (const QString& type);
+            QSizeF scale (const QString& type);
         signals:
 
             void seedChanged (const int& seed);
@@ -67,7 +68,7 @@ namespace calenhad {
             QMap<QString, QString> _moduleLabels;
             QMap<QString, QString> _moduleDescriptions;
             QMap<QString, QString> _moduleCodes;
-
+            QMap<QString, QSizeF> _moduleScales;
             qmodule::ParamValidator* validator (const QString& validatorType);
 
         };

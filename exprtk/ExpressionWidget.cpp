@@ -175,7 +175,7 @@ void ExpressionWidget::reportErrors () {
 
 void ExpressionWidget::setText (QString text) {
     if (_expressionShortBox -> text() != text) {
-        _expressionShortBox->setText (text);
+        _expressionShortBox -> setText (text);
     }
     prepare();
 }
@@ -202,6 +202,7 @@ void ExpressionWidget::focusOutEvent (QFocusEvent* event) {
 void ExpressionWidget::focusInEvent (QFocusEvent* event) {
     emit editingText();
     QWidget::focusInEvent (event);
+    _expressionShortBox -> selectAll();
 }
 
 QString ExpressionWidget::errors () {

@@ -102,7 +102,6 @@ void CalenhadController::toolSelected (bool state) {
             for (NodeGroup* group : _model -> nodeGroups ()) {
                 group -> handle() -> setCursor (cursor);
             }
-            view -> setDragMode (QGraphicsView::NoDrag);
         }
     } else {
         _model -> setActiveTool (nullptr);

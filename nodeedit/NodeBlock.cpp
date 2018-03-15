@@ -48,11 +48,10 @@ using namespace calenhad::qmodule;
 
 
 
-NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr),
+NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr), _text (QString::null),
    _endorsementOrright (QPixmap (":/appicons/status/orright.png")),
    _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
     _pixmap = CalenhadServices::modules() -> getIcon (node -> nodeType());
-    _size = QSize (CalenhadServices::preferences() -> calenhad_handle_module_width, CalenhadServices::preferences() -> calenhad_handle_module_height);
     _margin = CalenhadServices::preferences() -> calenhad_handle_module_margin;
     _nameValidator = new NodeNameValidator (_node);
     setZValue (0);
@@ -64,6 +63,10 @@ NodeBlock::~NodeBlock() {
 
 
 void NodeBlock::initialise() {
+    QSizeF scale = CalenhadServices::modules() -> scale (_node -> nodeType());
+    double height = CalenhadServices::preferences() -> calenhad_handle_module_height * scale.height();
+    double width = CalenhadServices::preferences() -> calenhad_handle_module_width * scale.width();
+    _size = QSizeF (width, height);
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
@@ -79,8 +82,21 @@ void NodeBlock::initialise() {
         QString name = _label -> toPlainText();
         _node -> propertyChangeRequested ("name", name);
     });
+
+    if (_text != QString::null) {
+        _textLabel = new EditableLabel (this);
+        _label -> setText (_text);
+        _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+        _label -> setValidator (_nameValidator);
+        connect (_label, &EditableLabel::textEdited, this, [=] () {
+            QString name = _label -> toPlainText();
+            _node -> propertyChangeRequested ("name", name);
+        });
+    }
+
     connect (_node, &Node::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
     setPath (makePath ());
+
 }
 
 QPainterPath NodeBlock::makePath() {
@@ -104,14 +120,18 @@ void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_module_text_color_selected : CalenhadServices::preferences() -> calenhad_module_text_color_normal);
     painter -> setPen (_pen);
     painter -> drawPath (path());
-    if (_icon) {
-        _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark()
-                                       : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark());
-        painter->drawPixmap (_margin, _margin, _icon->grab ());
+    // text, if any
+    if (! (_text.isNull() || _text.isEmpty())) {
+        painter -> drawText (16, 14, _text);
+    } else {
+        if (_icon) {
+            _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark () : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark ());
+            QPixmap pix = _icon->grab ();
+            painter->drawPixmap (_margin, _margin, pix);
+        }
     }
     QPixmap _endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
     painter -> drawPixmap (0, 0, _endorsement);
-
 }
 
 void NodeBlock::assignIcon() {
@@ -120,16 +140,13 @@ void NodeBlock::assignIcon() {
         _icon = new QColoredIcon ();
         _icon->setToolTip (node ()->nodeType ());
         _icon->setAlignment (Qt::AlignCenter);
-        _icon->setPixmap (_pixmap->scaled (32, 32));
-        _icon->setFixedSize (_pixmap->size ());
+        _icon->setPixmap (_pixmap -> scaled (QSize ((int) _size.width(), (int) _size.height())));
         _icon->setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
-        _icon->setFixedSize (32, 32);
     }
 }
 
 Port* NodeBlock::addPort (Port* port) {
     port -> setParentItem (this);
-
     int vertMargin = _margin;
     QFontMetrics fm (scene() -> font());
     int yInput = port -> radius();
@@ -190,9 +207,9 @@ QVector<Port*> NodeBlock::controls() {
     QVector<Port*> res;
     foreach (QGraphicsItem* p, parentItem() -> childItems()) {
         if (p -> type() == Port::Type) {
-            Port* p = (Port*) p;
-            if (p -> portType () != Port::ControlPort) {
-                res.append (p);
+            Port* port = (Port*) p;
+            if (port -> portType () != Port::ControlPort) {
+                res.append (port);
             }
         }
     }
@@ -244,8 +261,8 @@ void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
 void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
     detach();
     setCursor (Qt::ClosedHandCursor);
-    QGraphicsItem::mousePressEvent (event);
     _oldZ = zValue();
+    // don't raise the event to the superclass because this would cancel the selection
 }
 
 void NodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
@@ -309,11 +326,15 @@ Node* NodeBlock::node () {
 }
 
 void NodeBlock::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
-    _node -> showParameters (true);
+    _node -> showModuleDetail (true);
 }
 
 void NodeBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
     _label -> setPos (_size.width() - (_label -> boundingRect().width() / 2 ), _size.height() + 3 * _margin);
     _node -> invalidate();
+}
+
+void NodeBlock::setText (const QString& text) {
+    _text = text;
 }

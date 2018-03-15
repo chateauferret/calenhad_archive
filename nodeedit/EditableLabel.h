@@ -42,8 +42,8 @@ namespace calenhad {
 
         protected:
             QGraphicsProxyWidget* _proxy;
-            QLineEdit* _textEdit;
-
+            QWidget* _textEdit;
+            QLineEdit* textEdit();
 
             QPalette* _palette;
 
