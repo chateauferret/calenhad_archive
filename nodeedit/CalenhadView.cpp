@@ -115,7 +115,7 @@ void CalenhadView::dropEvent(QDropEvent *event) {
         dataStream >> type;
 
         QPointF pos = mapToScene (event -> pos());
-        ((CalenhadModel*) scene()) -> addNode (pos, type);
+        ((CalenhadModel*) scene()) -> createNode (pos, type);
 
         if (event -> source () == this) {
             event -> setDropAction (Qt::MoveAction);

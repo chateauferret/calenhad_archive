@@ -459,3 +459,7 @@ void Node::addInputPorts() {
 void Node::addDependentNodes () {
 
 }
+
+QVector<Node*> Node::dependants() {
+    return _dependants;
+}

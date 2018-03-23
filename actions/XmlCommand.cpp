@@ -7,10 +7,11 @@
 
 using namespace calenhad::actions;
 using namespace calenhad::qmodule;
+using namespace calenhad::pipeline;
 
 
-XmlCommand::XmlCommand (Node* node, const QString& oldXml, const QString& newXml) :
-    _node (node), _oldXml (oldXml), _newXml (newXml) {
+XmlCommand::XmlCommand (CalenhadModel* model, const QString& oldXml, const QString& newXml) :
+    _model (model), _oldXml (oldXml), _newXml (newXml) {
 }
 
 XmlCommand::~XmlCommand () {
@@ -19,28 +20,14 @@ XmlCommand::~XmlCommand () {
 
 void XmlCommand::redo () {
     // populate the new state
-    QDomDocument doc;
-    doc.setContent (_newXml);
-    QDomElement element = doc.documentElement().firstChildElement ("model");
-    QDomNodeList list = element.elementsByTagName ("module");
-    for (int i = 0; i < list.size(); i++) {
-        QDomNode nameNode = list.at (i).firstChildElement ("name");
-        if (_node -> name() == nameNode.toElement().text()) {
-            _node -> inflate (list.at (i).toElement ());
-        }
-    }
+    _model -> restore (_newXml);
 
 }
 
 void XmlCommand::undo() {
-    QDomDocument doc;
-    doc.setContent (_oldXml);
-    QDomElement element = doc.documentElement();
-    QDomNodeList list = element.elementsByTagName ("module");
-    for (int i = 0; i < list.size(); i++) {
-        QDomNode nameNode = list.at (i).firstChildElement ("name");
-        if (_node -> name() == nameNode.toElement().text()) {
-            _node -> inflate (list.at (i).toElement ());
-        }
-    }
+    _model -> restore (_oldXml);
+}
+
+void XmlCommand::setNewXml (const QString& xml) {
+    _newXml = xml;
 }

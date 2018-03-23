@@ -13,8 +13,7 @@
 #include "../icosphere/icosphere.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../actions/DuplicateNodeCommand.h"
-#include "../actions/AddNodeCommand.h"
-#include "nodeedit/NodeGroupBlock.h"
+#include "../actions/XmlCommand.h"
 #include "nodeedit/Port.h"
 #include "qmodule/Module.h"
 #include "exprtk/Calculator.h"
@@ -28,6 +27,7 @@
 #include <actions/DeleteConnectionCommand.h>
 #include <actions/CommandGroup.h>
 #include <actions/RerouteConnectionCommand.h>
+#include <actions/XmlCommand.h>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -258,10 +258,12 @@ void CalenhadModel::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
+
     QGraphicsSceneMouseEvent* me = (QGraphicsSceneMouseEvent*) e;
     switch ((int) e -> type()) {
 
         case QEvent::GraphicsSceneMousePress: {
+            preserve();
             switch ((int) me -> button()) {
                 case Qt::LeftButton: {
                     QPointF pos = me -> scenePos();
@@ -397,11 +399,13 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                         }
                     }
                 }
+            } else {
+                setRestorePoint ();
             }
             if (_activeTool) {
                 QString type = _activeTool -> data().toString();
                 if (! type.isNull()) {
-                    addNode (me->scenePos(), type);
+                    createNode (me->scenePos(), type);
                 }
                 ((Calenhad*) _controller -> parent()) -> clearTools();
                 setActiveTool (nullptr);
@@ -415,10 +419,12 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             conn = nullptr;
         }
     }
+
     return QObject::eventFilter (o, e);
 }
 
-Node* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
+Node* CalenhadModel::createNode (const QPointF& initPos, const QString& type) {
+    preserve();
     QString name = "New_" + type;
     int i = 0;
     Node* n;
@@ -426,8 +432,15 @@ Node* CalenhadModel::addNode (const QPointF& initPos, const QString& type) {
         n = addNodeGroup (initPos, name);
     } else {
         n = addModule (initPos, type, name);
+        n -> addDependentNodes();
     }
     _changed = true;
+
+    QString newXml = snapshot();
+    XmlCommand* command = new XmlCommand (this, _oldXml);
+    _controller -> doCommand (command);
+    command -> setNewXml (newXml);
+
     return n;
 }
 
@@ -436,11 +449,10 @@ Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, c
     if (type != QString::null) {
         Module* module = (Module*) CalenhadServices::modules() -> createModule (type, this);
 
-        AddNodeCommand* command = new AddNodeCommand (module, initPos, this);
-        _controller -> doCommand (command);
-        module = (Module*) command -> node();
+
         module -> setName (uniqueName (name));
         module -> setLegend (CalenhadServices::legends() -> lastUsed());
+        addNode (module, initPos);
        return module;
     } else {
         CalenhadServices::messages() -> message ("error", "Couldn't create module of type " + type + "\n");
@@ -452,9 +464,7 @@ NodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& n
     NodeGroup* group = new NodeGroup();
     group -> setModel (this);
     group -> initialise();
-    AddNodeCommand* command = new AddNodeCommand (group, initPos, this);
-    _controller -> doCommand (command);
-    group = (NodeGroup*) command -> node();
+    addNode (group, initPos);
     group -> setName (uniqueName (name));
 
     return group;
@@ -470,7 +480,7 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
         b->addPort (port);
     }
 
-    node -> addDependentNodes();
+
     b->assignGroup();
     b->assignIcon();
     update();
@@ -953,4 +963,43 @@ void CalenhadModel::setAuthor (const QString& author) {
 
 void CalenhadModel::setDescription (const QString& description) {
     _description = description;
+}
+
+void CalenhadModel::preserve() {
+        QDomDocument doc = serialize (CalenhadFileType::CalenhadModelFile);
+        _oldXml = doc.toString();
+}
+
+void CalenhadModel::removeAll() {
+    for (Node* n : nodes()) {
+        deleteNode (n);
+    }
+    clear();
+}
+
+QString CalenhadModel::snapshot () {
+    QDomDocument doc = serialize (CalenhadFileType::CalenhadModelFile);
+    QString newXml = doc.toString();
+    return newXml;
+}
+
+QString CalenhadModel::lastSnapshot () {
+    return _oldXml;
+}
+
+void CalenhadModel::restore (const QString& xml) {
+    if (! xml.isNull()) {
+        removeAll();
+        QDomDocument doc;
+        doc.setContent (xml);
+        inflate (doc);
+    }
+}
+
+void CalenhadModel::setRestorePoint () {
+    QString newXml = snapshot();
+    QString old = lastSnapshot();
+    XmlCommand* command = new XmlCommand (this, old, QString::null);
+    _controller -> doCommand (command);
+    command->setNewXml (newXml);
 }

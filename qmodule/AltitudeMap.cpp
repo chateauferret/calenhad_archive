@@ -96,7 +96,7 @@ void AltitudeMap::updateEntries() {
     serialize (doc);
     QString newXml = doc.toString();
 
-    XmlCommand* c = new XmlCommand (this, _oldXml, newXml);
+    XmlCommand* c = new XmlCommand (_model, _oldXml, newXml);
     _model -> controller() -> doCommand (c);
 
     emit nodeChanged();

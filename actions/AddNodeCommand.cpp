@@ -21,12 +21,16 @@ AddNodeCommand::~AddNodeCommand () {
 
 void AddNodeCommand::undo() {
     _copy = _node -> clone();
-    _model->deleteNode (_node);
+    for (Node* n : _node -> dependants()) {
+        _model -> deleteNode (n);
+    }
+    _model -> deleteNode (_node);
 }
 
 void AddNodeCommand::redo() {
     _node = _copy;
     _model -> addNode (_node, _pos);
+    _node -> addDependentNodes();
 
 }
 

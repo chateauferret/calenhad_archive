@@ -113,6 +113,7 @@ namespace calenhad {
             double parameterValue (const QString& name);
             virtual void addDependentNodes();
 
+            QVector<Node*> dependants();
         public slots:
             virtual void showModuleDetail (const bool& visible = true);
             virtual void invalidate ();
@@ -141,6 +142,7 @@ namespace calenhad {
             QVector<calenhad::nodeedit::Port*> _ports;
             calenhad::nodeedit::Port* _output;
             QMap<unsigned, calenhad::nodeedit::Port*> _inputs;
+            QVector<Node*> _dependants;
             QWidget* _content;
             calenhad::pipeline::CalenhadModel* _model;
 

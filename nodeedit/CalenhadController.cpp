@@ -48,6 +48,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <actions/PasteCommand.h>
 #include <QtGui/QGuiApplication>
 #include <QClipboard>
+#include <actions/XmlCommand.h>
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
@@ -181,3 +182,4 @@ bool CalenhadController::canUndo () {
 bool CalenhadController::canRedo () {
     return _undoStack -> canRedo();
 }
+

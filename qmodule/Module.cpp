@@ -119,6 +119,7 @@ void Module::addDependentNodes() {
             Module* constModule = _model -> addModule (constPos, "constant", constName);
             constModule -> setParameter ("value", input -> defaultValue());
             _model -> connectPorts (constModule -> output(), input);
+            _dependants.append (constModule);
         }
     }
 }

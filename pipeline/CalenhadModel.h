@@ -42,8 +42,6 @@ namespace calenhad {
         class CalenhadModel : public QGraphicsScene {
         Q_OBJECT
 
-
-
         public:
             CalenhadModel ();
 
@@ -53,7 +51,7 @@ namespace calenhad {
 
             calenhad::qmodule::NodeGroup* findGroup (const QString& name);
 
-            calenhad::qmodule::Node* addNode (const QPointF& initPos, const QString& type);
+            calenhad::qmodule::Node* createNode (const QPointF& initPos, const QString& type);
 
             calenhad::qmodule::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
 
@@ -82,6 +80,13 @@ namespace calenhad {
             void inflate (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void inflate (const QDomDocument& doc, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             bool isChanged();
+
+            QString snapshot ();
+
+            QString lastSnapshot ();
+
+
+
 
 
             QList<calenhad::qmodule::Node*> nodes ();
@@ -120,7 +125,9 @@ namespace calenhad {
 
             void setTitle (const QString& title);
 
+            void restore (const QString& xml);
 
+            void removeAll ();
         signals:
 
             void showMessage (QString);
@@ -161,6 +168,11 @@ namespace calenhad {
             const QDateTime _lastSaved;
             bool _existingConnection;
             calenhad::nodeedit::Port* _wasConnectedTo;
+
+            QString _oldXml;
+
+            void setRestorePoint ();
+            void preserve ();
 
         };
     }

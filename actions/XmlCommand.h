@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtWidgets/QUndoCommand>
+#include "../pipeline/CalenhadModel.h"
 
 namespace calenhad {
     namespace qmodule {
@@ -17,7 +18,7 @@ namespace calenhad {
 
         class XmlCommand : public QUndoCommand {
         public:
-            XmlCommand (calenhad::qmodule::Node* node, const QString& oldXml, const QString& newXml);
+            XmlCommand (calenhad::pipeline::CalenhadModel* model, const QString& oldXml, const QString& newXml = QString::null);
 
             virtual ~XmlCommand ();
 
@@ -25,9 +26,12 @@ namespace calenhad {
 
             virtual void undo () override;
 
+            void setNewXml (const QString& xml);
+
         protected:
             QString _oldXml, _newXml;
-            calenhad::qmodule::Node* _node;
+            calenhad::pipeline::CalenhadModel* _model;
+
         };
     }
 }

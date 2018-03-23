@@ -70,6 +70,7 @@ namespace calenhad {
 
             QUndoStack* _undoStack;
 
+
 		};
 
 	}
