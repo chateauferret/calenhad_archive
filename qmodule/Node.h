@@ -114,6 +114,10 @@ namespace calenhad {
             virtual void addDependentNodes();
 
             QVector<Node*> dependants();
+            void showName (const bool& visible);
+            bool nameVisible();
+
+
         public slots:
             virtual void showModuleDetail (const bool& visible = true);
             virtual void invalidate ();
@@ -165,6 +169,7 @@ namespace calenhad {
 
             QMenu* _connectMenu;
 
+            bool _nameVisible;
         };
 
     } // namespace qmodule

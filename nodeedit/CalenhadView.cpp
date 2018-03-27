@@ -74,16 +74,25 @@ void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
     CalenhadModel* model = (CalenhadModel*) scene();
     QList<QGraphicsItem*> items = model -> items (pos);
     QList<QGraphicsItem*>::iterator i = items.begin ();
-    while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
+    qreal topLevel = -1000;
+    NodeGroupBlock* found = nullptr;
+    while ( i != items.end()) {
+        if (dynamic_cast<NodeGroupBlock*> (*i)) {
+            NodeGroupBlock* target = i == items.end () ? nullptr : (NodeGroupBlock*) *i;
+            if (target && target -> zValue () > topLevel) {
+                found = target;
+                topLevel = target -> zValue();
+            }
+        }
         i++;
     }
-    NodeGroupBlock* target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
-    for (QGraphicsItem* item : scene ()->items ()) {
-        if (dynamic_cast<NodeGroupBlock*> (item)) {
-             ((NodeGroupBlock*) item)->setHighlight (item == target);
+    if (found) {
+        for (QGraphicsItem* item : scene() -> items ()) {
+            if (dynamic_cast<NodeGroupBlock*> (item)) {
+                ((NodeGroupBlock*) item)->setHighlight (item == found);
+            }
         }
     }
-
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);

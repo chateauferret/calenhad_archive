@@ -21,6 +21,12 @@ namespace calenhad {
             TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight, NoHandle
         };
 
+
+        class NodeGroupResizer : public calenhad::controls::SizeGripItem::Resizer {
+        public:
+            virtual void operator() (QGraphicsItem* item, const QRectF& rect);
+        };
+
         class NodeGroupBlock : public NodeBlock {
         Q_OBJECT
 
@@ -51,23 +57,13 @@ namespace calenhad {
 
         protected:
             QPainterPath makePath ();
-
+            calenhad::controls::SizeGripItem* _rectSizeGripItem;
             QRectF _rect;
             bool _highlighted;
 
+            void hoverEnterEvent (QGraphicsSceneHoverEvent* event) override;
+            void hoverLeaveEvent (QGraphicsSceneHoverEvent* event) override;
         };
-
-
-        class NodeGroupResizer : public calenhad::controls::SizeGripItem::Resizer {
-        public:
-            virtual void operator() (QGraphicsItem* item, const QRectF& rect) {
-                NodeGroupBlock* group = dynamic_cast<NodeGroupBlock*> (item);
-                if (group) {
-                    group->setRect (rect);
-                }
-            }
-        };
-
     }
 }
 #endif //CALENHAD_QNODEGROUPBLOCK_H

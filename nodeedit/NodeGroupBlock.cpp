@@ -19,9 +19,8 @@ using namespace calenhad::controls;
 NodeGroupBlock::NodeGroupBlock (NodeGroup* node, QGraphicsItem* parent) : NodeBlock (node, parent) {
     _rect = QRectF (0, 0, 240, 120);
     setAcceptHoverEvents (true);
-    setAcceptDrops (true);
     setZValue (-1000);
-    SizeGripItem* rectSizeGripItem = new SizeGripItem (new NodeGroupResizer, this);
+    _rectSizeGripItem = new SizeGripItem (new NodeGroupResizer, this);
     setAcceptDrops (true);
 }
 
@@ -59,6 +58,14 @@ QPainterPath NodeGroupBlock::makePath() {
     return p;
 }
 
+void NodeGroupBlock::hoverEnterEvent (QGraphicsSceneHoverEvent* event) {
+   // _rectSizeGripItem -> setVisible (true);
+}
+
+void NodeGroupBlock::hoverLeaveEvent (QGraphicsSceneHoverEvent* event) {
+  //  _rectSizeGripItem -> setVisible (false);
+}
+
 void NodeGroupBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
     _node -> invalidate();
@@ -71,6 +78,7 @@ void NodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     } else {
         setZValue (-1000);
     }
+    _rectSizeGripItem -> setZValue (zValue());
 }
 
 void NodeGroupBlock::setHighlight (bool highlighted) {
@@ -82,4 +90,11 @@ void NodeGroupBlock::setRect (const QRectF& rect) {
     _rect = rect;
     setPath (makePath());
 
+}
+
+void NodeGroupResizer::operator() (QGraphicsItem* item, const QRectF& rect) {
+    NodeGroupBlock* group = dynamic_cast<NodeGroupBlock*> (item);
+    if (group) {
+        group -> setRect (rect);
+    }
 }

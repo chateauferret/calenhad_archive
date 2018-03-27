@@ -115,7 +115,7 @@ void Module::addDependentNodes() {
         Port* input = inputs().value (index);
         if (input -> hasDefaultValue()) {
             QString constName = _name + "_" + input -> portName();
-            QPointF constPos = (QPointF (handle() -> pos().x() - 50 * (index + 2), handle() -> pos().y() + input -> pos().y() * index - 30));
+            QPointF constPos = (QPointF (handle() -> pos().x() - 75 * (index + 2), handle() -> pos().y() + input -> pos().y() - input -> boundingRect ().height () / 2));
             Module* constModule = _model -> addModule (constPos, "constant", constName);
             constModule -> setParameter ("value", input -> defaultValue());
             _model -> connectPorts (constModule -> output(), input);

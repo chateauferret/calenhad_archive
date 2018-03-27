@@ -96,12 +96,11 @@ void NodeBlock::initialise() {
 
     connect (_node, &Node::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
     setPath (makePath ());
-
 }
 
 QPainterPath NodeBlock::makePath() {
+    _label -> setPos (_size.width() / 2  - (_label -> boundingRect().width() / 2 ), _size.height() + _margin);
 
-    _label -> setPos (10 - (_label -> boundingRect().width() / 2 ), _size.height() + _margin);
     // shape of the block's body
     QPainterPath p;
     QPolygonF polygon;
@@ -114,7 +113,7 @@ QPainterPath NodeBlock::makePath() {
 
 void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED (option)
-
+    _label -> setVisible (_node -> nameVisible());
     _brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected : CalenhadServices::preferences() -> calenhad_module_brush_color_normal);
     painter -> setBrush (_brush);
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_module_text_color_selected : CalenhadServices::preferences() -> calenhad_module_text_color_normal);

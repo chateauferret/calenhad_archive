@@ -463,3 +463,11 @@ void Node::addDependentNodes () {
 QVector<Node*> Node::dependants() {
     return _dependants;
 }
+
+void Node::showName (const bool& visible) {
+    _nameVisible = visible;
+}
+
+bool Node::nameVisible() {
+    return _nameVisible;
+}

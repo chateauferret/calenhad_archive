@@ -83,6 +83,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
             double h = element.attribute ("height").toDouble (&ok);
             height = ok ? h : 1.0;
         }
+
         if (element.hasAttribute ("width")) {
             double w = element.attribute ("width").toDouble (&ok);
             width = ok ? w : 1.0;
@@ -164,6 +165,14 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
             }
 
         }
+
+        bool showName = true;
+        if (element.hasAttribute ("showName")) {
+            showName = element.attribute ("showName") == "true";
+        }
+
+        qm -> showName (showName);
+
         return qm;
     } else {
         return nullptr;

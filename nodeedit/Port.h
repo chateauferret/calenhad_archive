@@ -136,6 +136,8 @@ namespace calenhad {
 			double _defaultValue;
 
             QMenu* _connectMenu;
+
+            void alignLabel ();
         };
 	}
 }

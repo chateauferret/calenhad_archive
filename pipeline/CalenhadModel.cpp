@@ -448,8 +448,6 @@ Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, c
     std::cout << "Add module " << type.toStdString() << " " << name.toStdString() << "\n";
     if (type != QString::null) {
         Module* module = (Module*) CalenhadServices::modules() -> createModule (type, this);
-
-
         module -> setName (uniqueName (name));
         module -> setLegend (CalenhadServices::legends() -> lastUsed());
         addNode (module, initPos);
