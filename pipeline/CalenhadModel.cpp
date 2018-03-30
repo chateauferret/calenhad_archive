@@ -65,6 +65,15 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     inflate (file, CalenhadFileType::CalenhadLegendFile);
 }
 
+
+CalenhadModel::~CalenhadModel() {
+    // if we don't turn off the signals on the nodes it will keep trying to render them whilst connections are being removed by the destructor.
+    for (Node* n : nodes()) {
+        n -> blockSignals (true);
+    }
+    if (_menu) { delete _menu; }
+}
+
 // determine whether connection from given input to given output is allowed
 bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) {
     //To do: externalise message strings
@@ -324,6 +333,9 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         }
         case QEvent::GraphicsSceneMouseMove: {
 
+            // if we move over a nodegroup, highlight it
+            highlightGroupAt (me -> scenePos());
+
             // if we moved off a port, set it back to its ordinary style
             if (_port) {
                 _port -> initialise();
@@ -372,6 +384,14 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         }
 
         case QEvent::GraphicsSceneMouseRelease: {
+            for (QGraphicsItem* item : items()) {
+                NodeGroupBlock* block = dynamic_cast<NodeGroupBlock*> (item);
+                if (block) {
+                    block->setHighlight (false);
+                }
+            }
+
+
             for (QGraphicsView* view : views()) {
                 view -> setDragMode (QGraphicsView::RubberBandDrag);
             }
@@ -428,7 +448,7 @@ Node* CalenhadModel::createNode (const QPointF& initPos, const QString& type) {
     QString name = "New_" + type;
     int i = 0;
     Node* n;
-    if (type == "NodeGroup") {
+    if (type == "nodegroup") {
         n = addNodeGroup (initPos, name);
     } else {
         n = addModule (initPos, type, name);
@@ -470,17 +490,21 @@ NodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& n
 
 Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     NodeBlock* b = node -> makeHandle();
-    addItem (b);
-    b -> setPos (initPos.x(), initPos.y());
 
+    b -> setPos (initPos.x(), initPos.y());
+    addItem (b);
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
     for (Port* port : node -> ports()) {
         b->addPort (port);
     }
 
-
     b->assignGroup();
     b->assignIcon();
+
+    if (node -> group()) {
+        node -> group() -> handle() -> setSelected (false);
+    }
+
     update();
     return node;
 }
@@ -522,14 +546,6 @@ void CalenhadModel::deleteNode (Node* node) {
     delete node;
     update();
     _port = nullptr; // otherwise it keeps trying to do stuff to the deleted port
-}
-
-CalenhadModel::~CalenhadModel() {
-    // if we don't turn off the signals on the nodes it will keep trying to render them whilst connections are being removed by the destructor.
-    for (Node* n : nodes()) {
-        n -> blockSignals (true);
-    }
-    if (_menu) { delete _menu; }
 }
 
 QList<NodeGroup*> CalenhadModel::nodeGroups() {
@@ -828,15 +844,21 @@ void CalenhadModel::writeParameter (QDomElement& element, const QString& param, 
 }
 
 void CalenhadModel::highlightGroupAt (QPointF pos) {
-    QList<QGraphicsItem*> list = items (pos, Qt::ContainsItemShape);
-    QList<QGraphicsItem*>::iterator i = list.begin();
-    while ( i != list.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
-        i++;
+    for (NodeGroup* group : nodeGroups()) {
+        ((NodeGroupBlock*) group -> handle()) -> setHighlight (false);
     }
-    NodeGroupBlock* target = i == list.end() ? nullptr : (NodeGroupBlock*) *i;
-    for (QGraphicsItem* item : items()) {
-        if (dynamic_cast<NodeGroupBlock*> (item)) {
-            ((NodeGroupBlock*) item) -> setHighlight (item == target);
+
+    qreal top = -1000;
+    QList<QGraphicsItem*> items = QGraphicsScene::items (pos);
+    NodeGroupBlock* target = nullptr;
+    for (QGraphicsItem* item : items) {
+        NodeGroupBlock* block = dynamic_cast<NodeGroupBlock*> (item);
+        if (block) {
+            if (block->zValue () >= top) {
+                target = block;
+                target -> setHighlight (true);
+                top = target->zValue ();
+            }
         }
     }
 }
@@ -858,9 +880,7 @@ void CalenhadModel::rollbackLegends() {
 
 QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     if (_menu) { delete _menu; _menu = nullptr; }
-    if (! item) {
-        _menu = new QMenu ("Model");
-    }
+    _menu = nullptr;
     // construct menu for whatever item type here because QGraphicsItem does not extend QObject, so we can't call connect within QGraphicsItem
     if (dynamic_cast<Port*> (item)) {
         Port* port = static_cast<Port*> (item);
@@ -895,17 +915,27 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
         }
     }
 
-        // actions that operate on selections
-        _menu->addSeparator();
-        QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
-        _menu->addAction (copy);
-        QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
-        _menu->addAction (cut);
-        QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
-        _menu->addAction (deleteSelection);
-        copy->setEnabled (selectedItems().size() > 0);
-        cut->setEnabled (selectedItems().size() > 0);
-        deleteSelection->setEnabled (selectedItems().size() > 0);
+    if (dynamic_cast<NodeGroupBlock*> (item)) {
+        NodeGroupBlock* block = static_cast<NodeGroupBlock*> (item);
+        NodeGroup* group = (NodeGroup*) block -> node();
+        _menu = new QMenu (group -> name() + " (Node group)");
+    }
+
+    if (! _menu) {
+        _menu = new QMenu ("Model");
+    }
+
+    // actions that operate on selections
+    _menu->addSeparator();
+    QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
+    _menu->addAction (copy);
+    QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
+    _menu->addAction (cut);
+    QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
+    _menu->addAction (deleteSelection);
+    copy->setEnabled (selectedItems().size() > 0);
+    cut->setEnabled (selectedItems().size() > 0);
+    deleteSelection->setEnabled (selectedItems().size() > 0);
     return _menu;
 }
 

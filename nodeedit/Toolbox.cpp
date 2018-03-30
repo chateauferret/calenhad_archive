@@ -3,6 +3,7 @@
 //
 
 #include <QtWidgets/QGraphicsView>
+#include <iostream>
 #include "Toolbox.h"
 #include "CalenhadToolBar.h"
 
@@ -11,7 +12,6 @@ using namespace calenhad::nodeedit;
 ToolBox::ToolBox() : QObject(),
     _drawers  (QMap<QString, ToolDrawer*>()),
     _groups  (QList<ToolGroup*>()) {
-
 }
 
 ToolBox::~ToolBox() { }
@@ -25,7 +25,7 @@ QMenu* ToolBox::menu (const QString& drawer) {
 }
 
 void ToolBox::addDrawer (ToolDrawer* drawer) {
-    _drawers.insert (drawer -> name (), drawer);
+    _drawers.insert (drawer -> name(), drawer);
 }
 
 void ToolBox::addGroup (ToolGroup* group) {
@@ -42,6 +42,7 @@ ToolCollection::~ToolCollection() {
 
 void ToolCollection::addTool (QAction* tool) {
     QString key = tool -> data().toString();
+    std::cout << "Add tool " << tool -> data ().toString ().toStdString () << "\n";
     _tools.insert (key, tool);
 }
 
@@ -98,10 +99,8 @@ QMenu* ToolDrawer::menu() {
 void ToolGroup::addTool (QAction* tool)  {
     ToolCollection::addTool (tool);
     if (tool -> isCheckable ()) {
-        //connect (tool, SIGNAL (toggled (bool)), this, SLOT (toolToggled (bool)));
         connect (tool, &QAction::toggled, this, &ToolGroup::toolToggled);
     } else {
-        //connect (tool, SIGNAL (triggered()), this, SLOT (actionTriggered()));
         connect (tool, &QAction::triggered, this, &ToolGroup::toolToggled);
     }
 }

@@ -22,14 +22,6 @@ using namespace calenhad::nodeedit;
 
 ModuleFactory::ModuleFactory() {
     initialise ();
-    QStringList list = types ();
-    for (QString type : list) {
-        QString icon = type.toLower ();
-        icon.replace (" ", "");
-        QString iconFile = CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + icon + ".png";
-        QPixmap* pixmap = new QPixmap (iconFile);
-        _icons.insert (type, pixmap);
-    }
 }
 
 
@@ -38,6 +30,7 @@ ModuleFactory:: ~ModuleFactory() {
 }
 
 QPixmap* ModuleFactory::getIcon (const QString& type) {
+    std::cout << "Icon for " << type.toStdString () << "\n";
    return _icons.value (type);
 }
 
@@ -61,6 +54,35 @@ void ModuleFactory::initialise() {
             QString glsl = glslElement.text();
             _moduleCodes.insert (type, glsl);
         }
+
+        // Create types metadata
+        QStringList list = _types.keys ();
+        for (QString key : list) {
+            QDomElement element = _types.value (key);
+            QString label = element.attribute ("label");
+            _moduleLabels.insert (key, label);
+            QDomElement descriptionElement = element.firstChildElement ("documentation");
+            QString description = descriptionElement.text ();
+            _moduleDescriptions.insert (key, description);
+            QString icon = key.toLower ();
+            icon.replace (" ", "");
+            QString iconFile = CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + icon + ".png";
+            QPixmap* pixmap = new QPixmap (iconFile);
+            _icons.insert (key, pixmap);
+            std::cout << "Create type " << key.toStdString () << "\n";
+        }
+
+        _moduleLabels.insert ("altitudemap", "Altitude map");
+        _moduleLabels.insert ("nodegroup", "Node group");
+        _moduleLabels.insert ("raster", "Raster");
+
+        _moduleDescriptions.insert ("altitudemap", "Altitude map");
+        _moduleDescriptions.insert ("nodegroup", "Node group");
+        _moduleDescriptions.insert ("raster", "Raster");
+
+        _icons.insert ("altitudemap", new QPixmap (CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + "altitudemap.png"));
+        _icons.insert ("nodegroup", new QPixmap (CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + "nodegroup.png"));
+        _icons.insert ("raster", new QPixmap (CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + "raster.png"));
     } else {
         std::cout << "Couldn't read file " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
     }
@@ -76,7 +98,19 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         QDomElement element = _types.value (type);
 
         bool suppressRender = element.hasAttribute ("render") && element.attribute ("render").toLower() == "false";
-        Module* qm = new Module (type, suppressRender);
+
+        // special types which need more than generic construction code
+        Node* n = nullptr;
+        Module* qm = nullptr;
+        if (type == "altitudemap") { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
+        if (type == "nodegroup") { NodeGroup* ng = new NodeGroup(); n = ng; }
+        if (type == "raster") { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
+
+        if (! n) {
+            qm = new Module (type, suppressRender);
+            n = qm;
+        }
+
 
        double height = 1.0, width = 1.0;
         if (element.hasAttribute ("height")) {
@@ -92,88 +126,84 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         QSizeF scale (width, height);
         _moduleScales.insert (type, scale);
 
-        qm -> setModel (model);
-        QString label = element.attribute ("label");
-        _moduleLabels.insert (type, label);
-        QDomElement descriptionElement = element.firstChildElement ("documentation");
-        QString description = descriptionElement.text ();
-        _moduleDescriptions.insert (type, description);
-        QDomElement portsElement = element.firstChildElement ("ports");
-        QDomNodeList portNodesList = portsElement.elementsByTagName ("input");
-        for (int i = 0; i < portNodesList.size (); i++) {
-            QDomElement portNode = portNodesList.at (i).toElement ();
-            QString portType = portNode.attribute ("type");
-            int pt = portType == "value" ? Port::InputPort : Port::ControlPort;
-            QString portName = portNode.attribute ("name");
+        n -> setModel (model);
 
-            int index = portNode.attribute ("index").toInt (&ok);
-            if (ok) {
-                if (portNode.hasAttribute ("default")) {
-                    double defaultValue = portNode.attribute ("default").toDouble (&ok);
+        if (qm) {
+            QDomElement portsElement = element.firstChildElement ("ports");
+            QDomNodeList portNodesList = portsElement.elementsByTagName ("input");
+            for (int i = 0; i < portNodesList.size (); i++) {
+                QDomElement portNode = portNodesList.at (i).toElement ();
+                QString portType = portNode.attribute ("type");
+                int pt = portType == "value" ? Port::InputPort : Port::ControlPort;
+                QString portName = portNode.attribute ("name");
+
+                int index = portNode.attribute ("index").toInt (&ok);
+                if (ok) {
+                    if (portNode.hasAttribute ("default")) {
+                        double defaultValue = portNode.attribute ("default").toDouble (&ok);
                         if (ok) {
-                            qm -> addInputPort (index, pt, portName, defaultValue);
+                            qm->addInputPort (index, pt, portName, defaultValue);
                         } else {
-                            qm -> addInputPort (index, pt, portName);
+                            qm->addInputPort (index, pt, portName);
                         }
                     } else {
-                        qm -> addInputPort (index, pt, portName);
+                        qm->addInputPort (index, pt, portName);
                     }
                 }
             }
 
-        QDomElement paramsElement = element.firstChildElement ("parameters");
-        QDomNodeList paramNodesList = paramsElement.elementsByTagName ("parameter");
-        for (int i = 0; i < paramNodesList.size (); i++) {
-            QDomElement paramElement = paramNodesList.at (i).toElement ();
-            QString paramName = paramElement.attribute ("name");
-            if (!_paramNames.contains (paramName)) {
-                _paramNames << paramName;
-            }
-            QString paramType = paramElement.attribute ("type");
-            QString paramLabel = paramElement.hasAttribute ("label") ? paramElement.attribute ("label") : paramName;
-
-            if (paramType == "boolean") {
-                bool initial = false;
-                if (paramElement.hasAttribute ("default")) {
-                    initial = paramElement.attribute ("default") == "true";
+            QDomElement paramsElement = element.firstChildElement ("parameters");
+            QDomNodeList paramNodesList = paramsElement.elementsByTagName ("parameter");
+            for (int i = 0; i < paramNodesList.size (); i++) {
+                QDomElement paramElement = paramNodesList.at (i).toElement ();
+                QString paramName = paramElement.attribute ("name");
+                if (!_paramNames.contains (paramName)) {
+                    _paramNames << paramName;
                 }
-                qm -> addParameter (paramLabel, paramName, initial);
-            } else {
-                bool ok;
-                double initial = paramElement.attribute ("default").toDouble (&ok);
-                if (!ok) { initial = 0; }
-                QString validatorType = paramElement.firstChildElement ("validator").text ();
-                ParamValidator* v;
-                if (validatorType == "AcceptRange") {
-                    bool ok;
-                    double min = paramElement.attribute ("minimum").toDouble (&ok);
-                    if (! ok) { min = -1.0; }
-                    double max = paramElement.attribute ("maximum").toDouble (&ok);
-                    if (! ok) { max = std::min (1.0, min); }
-                    double bestMin = paramElement.attribute ("bestMinimum").toDouble (&ok);
-                    if (! ok) { bestMin = min; }
-                    double bestMax = paramElement.attribute ("bestMaximum").toDouble (&ok);
-                    if (! ok) { bestMax = max; }
-                    v = new AcceptRange (bestMin, bestMax, min, max);
+                QString paramType = paramElement.attribute ("type");
+                QString paramLabel = paramElement.hasAttribute ("label") ? paramElement.attribute ("label") : paramName;
+
+                if (paramType == "boolean") {
+                    bool initial = false;
+                    if (paramElement.hasAttribute ("default")) {
+                        initial = paramElement.attribute ("default") == "true";
+                    }
+                    qm->addParameter (paramLabel, paramName, initial);
                 } else {
-                    v = validator (validatorType);
+                    bool ok;
+                    double initial = paramElement.attribute ("default").toDouble (&ok);
+                    if (!ok) { initial = 0; }
+                    QString validatorType = paramElement.firstChildElement ("validator").text ();
+                    ParamValidator* v;
+                    if (validatorType == "AcceptRange") {
+                        bool ok;
+                        double min = paramElement.attribute ("minimum").toDouble (&ok);
+                        if (!ok) { min = -1.0; }
+                        double max = paramElement.attribute ("maximum").toDouble (&ok);
+                        if (!ok) { max = std::min (1.0, min); }
+                        double bestMin = paramElement.attribute ("bestMinimum").toDouble (&ok);
+                        if (!ok) { bestMin = min; }
+                        double bestMax = paramElement.attribute ("bestMaximum").toDouble (&ok);
+                        if (!ok) { bestMax = max; }
+                        v = new AcceptRange (bestMin, bestMax, min, max);
+                    } else {
+                        v = validator (validatorType);
+                    }
+                    qm -> addParameter (paramLabel, paramName, initial, v);
+                    if (paramElement.hasAttribute ("display")) {
+                        qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
+                    }
                 }
-                qm -> addParameter (paramLabel, paramName, initial, v);
-                if (paramElement.hasAttribute ("display")) {
-                    qm -> showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
-                }
+
             }
-
         }
-
         bool showName = true;
         if (element.hasAttribute ("showName")) {
             showName = element.attribute ("showName") == "true";
         }
 
-        qm -> showName (showName);
-
-        return qm;
+        n -> showName (showName);
+        return n;
     } else {
         return nullptr;
     }
@@ -191,11 +221,7 @@ ParamValidator* ModuleFactory::validator (const QString& validatorType) {
 }
 
 Node* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
-
-    // special types which need more than generic construction code
-    if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { AltitudeMap* qm = new AltitudeMap(); qm -> setModel (model); return qm; }
-    if (type == CalenhadServices::preferences() -> calenhad_nodegroup) { NodeGroup* group = new NodeGroup(); group -> setModel (model); return group; }
-    if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* qm = new RasterModule(); qm -> setModel (model); return qm; }
+    std::cout << "Create module " << type.toStdString () << "\n";
 
     return inflateModule (type, model);
     
@@ -233,9 +259,7 @@ QString ModuleFactory::glsl (const QString& type) {
 }
 
 QStringList ModuleFactory::types () {
-    QStringList list = _types.keys ();
-    list << CalenhadServices::preferences ()->calenhad_module_altitudemap;
-    list << CalenhadServices::preferences ()->calenhad_module_raster;
-    list << CalenhadServices::preferences ()->calenhad_nodegroup;
+    QStringList list = _types.keys();
     return list;
 }
+

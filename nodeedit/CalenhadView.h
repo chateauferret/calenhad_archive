@@ -31,9 +31,7 @@ namespace calenhad {
             void dropEvent (QDropEvent* event) override;
 
             void dragMoveEvent (QDragMoveEvent* event) override;
-
             void dragEnterEvent (QDragEnterEvent* event) override;
-
             void dragLeaveEvent (QDragLeaveEvent* event) override;
 
         public slots:

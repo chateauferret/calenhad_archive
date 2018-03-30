@@ -122,7 +122,7 @@ namespace calenhad {
             QDockWidget* paramsDock;
 
 
-            QAction* addModuleTool (const QString& name, const QString& tooltip);
+            QAction* addModuleTool (const QString& name, const QString& label, const QString& tooltip);
 
             QMenu* _moduleContextMenu;
             QMenu* _connectionContextMenu;

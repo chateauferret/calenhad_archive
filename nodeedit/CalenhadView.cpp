@@ -16,7 +16,7 @@ using namespace calenhad::nodeedit;
 
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
-    setRubberBandSelectionMode (Qt::IntersectsItemShape);
+    setRubberBandSelectionMode (Qt::ContainsItemShape);
     setZoom (1.0);
 }
 
@@ -41,8 +41,6 @@ double CalenhadView::currentZoom() {
 void CalenhadView::setController (CalenhadController* controller) {
     if (! _controller) {
         _controller = controller;
-    } else {
-        std::cout << "Cannot reassign controller";
     }
 }
 
@@ -70,39 +68,17 @@ void CalenhadView::dragLeaveEvent (QDragLeaveEvent *event) {
 
 void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
     QPointF pos = mapToScene (event -> pos());
-    // highlight the group we are moving over
-    CalenhadModel* model = (CalenhadModel*) scene();
-    QList<QGraphicsItem*> items = model -> items (pos);
-    QList<QGraphicsItem*>::iterator i = items.begin ();
-    qreal topLevel = -1000;
-    NodeGroupBlock* found = nullptr;
-    while ( i != items.end()) {
-        if (dynamic_cast<NodeGroupBlock*> (*i)) {
-            NodeGroupBlock* target = i == items.end () ? nullptr : (NodeGroupBlock*) *i;
-            if (target && target -> zValue () > topLevel) {
-                found = target;
-                topLevel = target -> zValue();
-            }
-        }
-        i++;
-    }
-    if (found) {
-        for (QGraphicsItem* item : scene() -> items ()) {
-            if (dynamic_cast<NodeGroupBlock*> (item)) {
-                ((NodeGroupBlock*) item)->setHighlight (item == found);
-            }
-        }
-    }
+    ((CalenhadModel*) scene()) -> highlightGroupAt (pos);
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-        if (event->source() == this) {
-            event->setDropAction(Qt::MoveAction);
+        if (event -> source() == this) {
+            event -> setDropAction(Qt::MoveAction);
         } else {
-            event->acceptProposedAction();
+            event -> acceptProposedAction();
         }
     } else {
-        event->ignore();
+        event -> ignore();
     }
-    scene ()->update ();
+    scene()->update ();
 
 }
 

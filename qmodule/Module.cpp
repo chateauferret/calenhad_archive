@@ -5,6 +5,7 @@
 
 #include "Module.h"
 #include "nodeedit/NodeBlock.h"
+#include "../qmodule/NodeGroup.h"
 #include "nodeedit/Port.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
@@ -33,7 +34,7 @@ int Module::seed = 0;
 Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* parent) : Node (nodeType, parent),
                                                             _globe (nullptr),
                                                             _shownParameter (QString::null),
-                                                            _suppressRender (false),
+                                                            _suppressRender (suppressRender),
                                                             _stats (nullptr)   {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
@@ -71,7 +72,7 @@ void Module::showGlobe() {
 }
 
 void Module::setupPreview() {
-    if (!(_shownParameter.isNull () || _shownParameter.isEmpty ())) {
+    //if (!(_shownParameter.isNull () || _shownParameter.isEmpty ())) {
         _preview = new CalenhadMapView (this);
         _preview->setSource (this);
         _previewIndex = addPanel (tr ("Preview"), _preview);
@@ -91,7 +92,7 @@ void Module::setupPreview() {
         connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
         connect (_preview, &CalenhadMapWidget::rendered, this, &Module::rendered);
         _contextMenu -> addAction (statsAction);
-    }
+   // }
 }
 
 void Module::showContextMenu (const QPoint& point) {
@@ -111,11 +112,18 @@ void Module::addInputPort (const unsigned& index, const int& portType, const QSt
 void Module::addDependentNodes() {
     Node::addDependentNodes();
     for (const unsigned& index : inputs().keys()) {
-        // if the port has a default value, create a constant value module to feed it
+        // if the port has a default value, create a constant value module to feed it#
         Port* input = inputs().value (index);
         if (input -> hasDefaultValue()) {
             QString constName = _name + "_" + input -> portName();
-            QPointF constPos = (QPointF (handle() -> pos().x() - 75 * (index + 2), handle() -> pos().y() + input -> pos().y() - input -> boundingRect ().height () / 2));
+            QPointF p = handle() -> pos();
+            if (_group) {
+                p = handle() -> mapFromItem (_group -> handle(), p);
+            }
+            QPointF constPos = QPointF (p.x() - 75 * (index + 2), p.y() + 10 * index - input -> boundingRect().height () / 2);
+            if (_group) {
+                constPos = handle() -> mapToScene (constPos);
+            }
             Module* constModule = _model -> addModule (constPos, "constant", constName);
             constModule -> setParameter ("value", input -> defaultValue());
             _model -> connectPorts (constModule -> output(), input);

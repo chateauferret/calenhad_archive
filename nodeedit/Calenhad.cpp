@@ -134,17 +134,13 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     // tools to create modules
 
     //addModuleTool (CalenhadServices::preferences() -> calenhad_module_icospheremap, "Icosphere map");
-    addModuleTool (CalenhadServices::preferences() -> calenhad_module_altitudemap, "Altitude map");
-    QAction* nodeGroupTool = addModuleTool (CalenhadServices::preferences() -> calenhad_nodegroup, "Node group");
+    addModuleTool ("altitudemap", CalenhadServices::preferences() -> calenhad_module_altitudemap, "altitudemap");
+    QAction* nodeGroupTool = addModuleTool ("nodegroup", CalenhadServices::preferences() -> calenhad_nodegroup, "nodegroup");
     QStringList types = CalenhadServices::modules() -> types();
     for (QString key :  types) {
-        addModuleTool (CalenhadServices::modules() -> label (key), CalenhadServices::modules() -> description (key));
+        std::cout << "Add action " << key.toStdString () << " = " << CalenhadServices::modules() -> label (key).toStdString () << " = " << CalenhadServices::modules() -> description (key).toStdString () << "\n";
+        addModuleTool (key, CalenhadServices::modules() -> label (key), CalenhadServices::modules() -> description (key));
     }
-
-    // A tool for adding a new node group
-    QAction* tool = createTool (QIcon (":/sppicons/controls/group_add.png"), "NodeGroup", "Add a new group", "NodeGroup", _addModuleDrawer, true);
-    tool -> setCheckable (true);
-    _addModuleGroup -> addTool (tool);
 
     _zoomMenu = new QMenu ("Zoom");
     _defaultContextMenu -> addMenu (_toolbox -> menu ("Modules"));
@@ -470,8 +466,8 @@ QAction* Calenhad::createTool (const QIcon& icon, const QString& name, const QSt
     return tool;
 }
 
-QAction* Calenhad::addModuleTool (const QString& name, const QString& tooltip) {
-    QAction* tool = createTool (QIcon (":/resources/appicons/tools/" + name + ".png"), name, tooltip, name, _addModuleDrawer, true);
+QAction* Calenhad::addModuleTool (const QString& name, const QString& label, const QString& tooltip) {
+    QAction* tool = createTool (QIcon (":/resources/appicons/tools/" + name + ".png"), label, tooltip, name, _addModuleDrawer, true);
     tool -> setCheckable (true);
     _addModuleGroup -> addTool (tool);
     return tool;

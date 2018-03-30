@@ -61,8 +61,6 @@ namespace calenhad {
             QRectF _rect;
             bool _highlighted;
 
-            void hoverEnterEvent (QGraphicsSceneHoverEvent* event) override;
-            void hoverLeaveEvent (QGraphicsSceneHoverEvent* event) override;
         };
     }
 }

@@ -119,10 +119,10 @@ void Preferences::loadSettings() {
 
     // Module names
 
-    calenhad_module_icospheremap = _settings -> value ("calenhad/module/icospheremap", "Icosphere map").toString();
-    calenhad_module_altitudemap = _settings -> value ("calenhad/module/altitudemap", "Altitude map").toString();
-    calenhad_module_raster = _settings -> value ("calenhad/module/raster", "Raster").toString();
-    calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "NodeGroup").toString();
+    calenhad_module_icospheremap = _settings -> value ("calenhad/module/icospheremap", "icospheremap").toString();
+    calenhad_module_altitudemap = _settings -> value ("calenhad/module/altitudemap", "altitudemap").toString();
+    calenhad_module_raster = _settings -> value ("calenhad/module/raster", "raster").toString();
+    calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "nodegroup").toString();
 
 }
 

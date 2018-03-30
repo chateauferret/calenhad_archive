@@ -58,14 +58,6 @@ QPainterPath NodeGroupBlock::makePath() {
     return p;
 }
 
-void NodeGroupBlock::hoverEnterEvent (QGraphicsSceneHoverEvent* event) {
-   // _rectSizeGripItem -> setVisible (true);
-}
-
-void NodeGroupBlock::hoverLeaveEvent (QGraphicsSceneHoverEvent* event) {
-  //  _rectSizeGripItem -> setVisible (false);
-}
-
 void NodeGroupBlock::nodeChanged () {
     _label -> setPlainText (_node -> name());
     _node -> invalidate();

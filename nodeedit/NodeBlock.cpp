@@ -221,18 +221,9 @@ void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
     if (event->buttons() | Qt::LeftButton) {
         setCursor (Qt::ClosedHandCursor);
 
-        // highlight a group if we are dragging over it
-        QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
-        QList<QGraphicsItem*>::iterator i = items.begin ();
-        while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
-            i++;
-        }
-        NodeGroupBlock* target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
-        for (QGraphicsItem* item : scene ()->items ()) {
-            if (dynamic_cast<NodeGroupBlock*> (item)) {
-                ((NodeGroupBlock*) item) -> setHighlight (item == target);
-            }
-        }
+        QList<QGraphicsItem*> items;
+        QList<QGraphicsItem*>::iterator i;
+        NodeGroupBlock* target;
 
         // keep item on top of any group it's being dragged over
         items = collidingItems (Qt::IntersectsItemShape);
