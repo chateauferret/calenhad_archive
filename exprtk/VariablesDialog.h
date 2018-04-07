@@ -47,7 +47,7 @@ namespace calenhad {
             bool validate (int row);
 
             QDialogButtonBox* _buttonBox;
-            QMap<QString, CalenhadVariable> _oldVariables;
+            QMap<QString, CalenhadVariable*> _oldVariables;
 
             void showEvent (QShowEvent* e) override;
 

@@ -233,8 +233,9 @@ int Port::index() {
     return _index;
 }
 
-Node* Port::owner ()  {
-    return _block -> node();
+Module* Port::owner ()  {
+    Module* m = dynamic_cast<Module*> (_block -> node());
+    return m ? m : nullptr;
 }
 
 void Port::addConnection (Connection* c) {
@@ -255,8 +256,8 @@ QString& Port::portName() {
     return _portName;
 }
 
-Node* Port::source () {
-    if (owner() -> nodeType () == Port::OutputPort) {
+Module* Port::source () {
+    if (owner() -> nodeType() == Port::OutputPort) {
         return nullptr;
     } else {
         return _connections.first() -> otherEnd (this) -> owner();
@@ -264,15 +265,18 @@ Node* Port::source () {
 }
 
 QMenu* Port::connectMenu() {
-    Node* n = owner();
+    Module* n = owner();
     if (_connectMenu) { delete _connectMenu; }
     _connectMenu = new QMenu();
     _connectMenu -> setTitle (portName() + " of " + n -> name() + " (" + n -> nodeType() + ")");
 
-    // go through all the nodes and add to the connect menu any that can take a connection from this port
+    // go through all the modules and add to the connect menu any that can take a connection from this port
     for (Node* node : owner() -> model() -> nodes()) {
         if (node != owner()) {
-            node -> connectMenu (_connectMenu, this);
+            Module* m = dynamic_cast<Module*> (node);
+            if (m) {
+                m -> connectMenu (_connectMenu, this);
+            }
         }
     }
     return _connectMenu;

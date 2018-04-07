@@ -51,7 +51,7 @@ namespace calenhad {
             virtual QString glsl();
             virtual void inflate (const QDomElement& element) override;
 
-            virtual void serialize (QDomDocument& doc) override;
+            virtual void serialize (QDomElement& element) override;
             calenhad::controls::globe::CalenhadMapView* preview();
             static int seed;
 
@@ -73,7 +73,12 @@ namespace calenhad {
             void addDependentNodes ();
             void showParameter (QString paramName, bool editable);
 
+            void initialise () override;
+            void connectMenu (QMenu* menu, calenhad::nodeedit::Port* port);
+            calenhad::nodeedit::Port* output();
+            void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
 
+            QVector<nodeedit::Port*> ports ();
         public slots:
             void setupPreview ();
             void showGlobe ();
@@ -83,19 +88,21 @@ namespace calenhad {
         protected:
 
             virtual void contextMenuEvent (QContextMenuEvent* e) override;
+            virtual void addInputPorts();
 
 
-
-            void initialise () override;
             bool _suppressRender;
             QFormLayout* _previewLayout;
             calenhad::controls::globe::CalenhadMapView* _preview;
             int _previewIndex;
             calenhad::legend::Legend* _legend;
 
+            QMenu* _connectMenu;
             QMenu* _contextMenu;
             calenhad::controls::globe::CalenhadGlobeDialog* _globe;
-
+            QVector<calenhad::nodeedit::Port*> _ports;
+            calenhad::nodeedit::Port* _output;
+            QMap<unsigned, calenhad::nodeedit::Port*> _inputs;
 
             int _statsIndex;
             QDialog* _stats;

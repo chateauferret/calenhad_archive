@@ -104,7 +104,7 @@ void VariablesDialog::commit () {
         QString name = _table -> item (i, 0) -> text();
         QString notes = _table -> item (i, 2) -> text();
         double v = value (_table -> item (i, 1));
-        CalenhadServices::calculator() -> insertVariable (name, notes, v);
+        CalenhadServices::calculator() -> updateVariable (name, notes, v);
     }
     CalenhadServices::calculator() -> publish();
 }
@@ -141,9 +141,9 @@ void VariablesDialog::rollback() {
 
         for (QString key : _oldVariables.keys()) {
             QTableWidgetItem* item = new QTableWidgetItem (key);
-            CalenhadVariable cv (_oldVariables.value (key));
-            QTableWidgetItem* value = new QTableWidgetItem (QString::number (cv._value));
-            QTableWidgetItem* notes = new QTableWidgetItem (cv._notes);
+            CalenhadVariable* cv = _oldVariables.value (key);
+            QTableWidgetItem* value = new QTableWidgetItem (QString::number (cv -> _value));
+            QTableWidgetItem* notes = new QTableWidgetItem (cv -> _notes);
             _table->setItem (row, 0, item);
             _table->setItem (row, 1, value);
             _table->setItem (row, 2, notes);

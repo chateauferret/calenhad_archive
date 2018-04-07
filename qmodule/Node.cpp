@@ -9,7 +9,7 @@
 #include "nodeedit/Connection.h"
 #include <QMenu>
 #include <nodeedit/NodeNameValidator.h>
-#include <actions/CreateConnectionCommand.h>
+
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
@@ -34,7 +34,6 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     _contentLayout (nullptr),
     _palette (nullptr),
     _validator (nullptr),
-    _connectMenu (nullptr),
     _nodeType (nodeType) {
 
 }
@@ -43,13 +42,12 @@ Node::~Node () {
     if (_dialog) { delete _dialog; }
     if (_validator) { delete _validator; }
     if (_palette) { delete _palette; }
-    if (_connectMenu) { delete _connectMenu; }
+
 }
 
 
 void Node::initialise() {
-    _ports.clear();
-    addInputPorts();
+
 
     // these widgets are relevant for all modules
     _expander = new QToolBox();
@@ -152,19 +150,6 @@ NodeBlock* Node::handle() {
     return _handle;
 }
 
-void Node::addPort (Port* port, const unsigned& index) {
-    _ports.append (port);
-    if (port -> portType () == Port::OutputPort) {
-        _output = port;
-    } else {
-        _inputs.insert (index, port);
-    }
-}
-
-QVector<Port*> Node::ports() {
-    return _ports;
-}
-
 bool Node::isComplete() {
     bool complete = true;
     QList<ExpressionWidget *> widgets = findChildren<ExpressionWidget*>();
@@ -173,16 +158,6 @@ bool Node::isComplete() {
             if (!ew->isValid ()) {
                 complete = false;
                 break;
-            }
-        }
-    }
-    if (complete) {
-        for (Port* p : _ports) {
-            if (p->portType () != Port::OutputPort) {
-                if (!(p->hasConnection ())) {
-                    complete = false;
-                    break;
-                }
             }
         }
     }
@@ -212,28 +187,13 @@ void Node::showModuleDetail (const bool& visible) {
 }
 
 void Node::inflate (const QDomElement& element) {
+
+    // position is retrieved in CalenhadModel
+
     _element = element;
         QDomElement notesNode = element.firstChildElement ("name");
         QString name = notesNode.text ();
-        QDomNodeList portNodes = element.elementsByTagName ("port");
-        for (int i = 0; i < portNodes.count (); i++) {
-            bool okIndex, okType;
-            int portIndex = portNodes.at (i).attributes().namedItem ("index").nodeValue().toInt (&okIndex);
-            int portType = portNodes.at (i).attributes().namedItem ("type").nodeValue().toInt (&okType);
-            QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
-            QString name = portNameNode.text ();
-            if (okIndex && okType) {
-                for (Port* p : _ports) {
-                    if (p -> index () == portIndex && p -> portType() == portType) {
-                        p -> setName (name);
-                    }
-                }
-            } else {
-                QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue () + " port with index " +
-                            portNodes.at (i).attributes ().namedItem ("index").nodeValue () + " in owner " + _name;
-                CalenhadServices::messages() -> message ("warning", "Reverting to default port names. " + m);
-            }
-        }
+
         QDomNodeList paramNodes = element.elementsByTagName ("parameter");
         for (int i = 0; i < paramNodes.count (); i++) {
             QString paramName = paramNodes.at (i).attributes ().namedItem ("name").nodeValue ();
@@ -242,9 +202,10 @@ void Node::inflate (const QDomElement& element) {
         }
 }
 
-void Node::serialize (QDomDocument& doc) {
+void Node::serialize (QDomElement& element) {
+    QDomDocument doc = element . ownerDocument();
     _element = doc.createElement ("module");
-    doc.documentElement().appendChild (_element);
+    element.appendChild (_element);
     QDomElement nameElement = doc.createElement ("name");
     QDomText nameText = doc.createTextNode (_name);
     nameElement.appendChild (nameText);
@@ -256,16 +217,7 @@ void Node::serialize (QDomDocument& doc) {
         QDomText notesContent = doc.createTextNode (_notes);
         notesElement.appendChild (notesContent);
     }
-    for (Port* p : _ports) {
-        QDomElement portElement = doc.createElement ("port");
-        _element.appendChild (portElement);
-        portElement.setAttribute ("index", p -> index());
-        portElement.setAttribute ("type", p -> portType());
-        QDomElement portNameElement = doc.createElement ("name");
-        QDomText portNameText = doc.createTextNode (p -> portName());
-        portNameElement.appendChild (portNameText);
-        portElement.appendChild (portNameElement);
-    }
+
     if (! _parameters.isEmpty()) {
         for (QString key : _parameters.keys()) {
             QDomElement paramElement = doc.createElement ("parameter");
@@ -274,6 +226,12 @@ void Node::serialize (QDomDocument& doc) {
             _element.appendChild (paramElement);
         }
     }
+
+    QDomElement positionElement = doc.createElement ("position");
+    _element.appendChild (positionElement);
+    positionElement.setAttribute ("y", handle() -> scenePos().y());
+    positionElement.setAttribute ("x", handle() -> scenePos().x());
+    _element.setAttribute ("type", nodeType ());
 }
 
 void Node::propertyChangeRequested (const QString& p, const QVariant& value) {
@@ -399,10 +357,6 @@ int Node::id () {
     return _id;
 }
 
-Port* Node::output () {
-    return _output;
-}
-
 NodeBlock* Node::makeHandle() {
     _handle = new NodeBlock (this);
     _handle -> initialise();
@@ -413,47 +367,14 @@ Node* Node::clone() {
     QDomDocument doc;
     QDomElement root = doc.createElement ("clone");
     doc.appendChild (root);
-    serialize (doc);
+    QDomElement element = doc.documentElement();
+    serialize (element);
     Node* _copy = CalenhadServices::modules() -> createModule (nodeType(), _model);
     _copy -> setModel (_model);
     _copy -> inflate (doc.documentElement().firstChildElement ("module"));
     _copy -> setName (_model -> uniqueName (_name));
 
     return _copy;
-}
-
-void Node::connectMenu (QMenu* menu, Port* p) {
-    int portType = p -> portType ();
-
-        if (portType == Port::OutputPort) {
-            if (! _connectMenu) { _connectMenu = new QMenu(); }
-            _connectMenu -> clear();
-            _connectMenu -> setTitle (name());
-            for (Port* port : _ports) {
-                if (port -> portType() != Port::OutputPort) {
-                    QAction* action = new QAction();
-                    action -> setText (port -> portName());
-                    _connectMenu -> addAction (action);
-                    connect (action, &QAction::triggered, this, [=] () {
-                        CreateConnectionCommand* command = new CreateConnectionCommand (p, port, _model);
-                        _model -> controller() -> doCommand (command);
-                    });
-                }
-            }
-            menu -> addMenu (_connectMenu);
-        } else {
-            QAction* action = new QAction();
-            action -> setText (name());
-            connect (action, &QAction::triggered, this, [=] () {
-                CreateConnectionCommand* command = new CreateConnectionCommand (output(), p, _model);
-                _model -> controller() -> doCommand (command);
-            });
-            menu -> addAction (action);
-        }
-}
-
-void Node::addInputPorts() {
-
 }
 
 void Node::addDependentNodes () {

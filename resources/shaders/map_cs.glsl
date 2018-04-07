@@ -872,8 +872,4 @@ void main() {
         // out_y * resolution + out_x;
     imageStore (destTex, pos, color);
 
-
 }
-
-    // to do - normals pass
-    // to do - legends pass

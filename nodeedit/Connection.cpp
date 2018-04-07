@@ -112,10 +112,11 @@ Port* Connection::port2 () const {
     return m_port2;
 }
 
-void Connection::serialise (QDomDocument& doc) {
+void Connection::serialise (QDomElement& element) {
     if (m_port1 && m_port2) {
+        QDomDocument doc = element.ownerDocument();
         QDomElement connectionElement = doc.createElement ("connection");
-        doc.documentElement ().appendChild (connectionElement);
+        element.appendChild (connectionElement);
         QDomElement connectionFromElement = doc.createElement ("source");
         connectionElement.appendChild (connectionFromElement);
         QDomElement connectionToElement = doc.createElement ("target");

@@ -18,6 +18,8 @@
 #include <controls/globe/CalenhadStatsPanel.h>
 #include "nodeedit/Connection.h"
 #include "../nodeedit/CalenhadView.h"
+#include "../actions/CreateConnectionCommand.h"
+#include "../nodeedit/CalenhadController.h"
 
 using namespace icosphere;
 using namespace calenhad::qmodule;
@@ -27,7 +29,7 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::pipeline;
 using namespace calenhad::legend;
 using namespace calenhad::mapping;
-
+using namespace calenhad::actions;
 
 int Module::seed = 0;
 
@@ -35,6 +37,7 @@ Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* pa
                                                             _globe (nullptr),
                                                             _shownParameter (QString::null),
                                                             _suppressRender (suppressRender),
+                                                             _connectMenu (new QMenu()),
                                                             _stats (nullptr)   {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
@@ -44,11 +47,14 @@ Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* pa
 Module::~Module () {
     if (_globe) { delete _globe; }
     if (_stats) { delete _stats; }
+    if (_connectMenu) { delete _connectMenu; }
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
 void Module::initialise() {
     Node::initialise();
+    _ports.clear();
+    addInputPorts();
     // all modules have an output
     Port* output = new Port (Port::OutputPort, 0, "Output");
     addPort (output);
@@ -151,19 +157,44 @@ Node* Module::sourceModule (int portIndex) {
 
 void Module::inflate (const QDomElement& element) {
     Node::inflate (element);
+    QDomNodeList portNodes = element.elementsByTagName ("port");
+    for (int i = 0; i < portNodes.count (); i++) {
+        bool okIndex, okType;
+        int portIndex = portNodes.at (i).attributes().namedItem ("index").nodeValue().toInt (&okIndex);
+        int portType = portNodes.at (i).attributes().namedItem ("type").nodeValue().toInt (&okType);
+        QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
+        QString name = portNameNode.text ();
+        if (okIndex && okType) {
+            for (Port* p : _ports) {
+                if (p -> index () == portIndex && p -> portType() == portType) {
+                    p -> setName (name);
+                }
+            }
+        } else {
+            QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue () + " port with index " +
+                        portNodes.at (i).attributes ().namedItem ("index").nodeValue () + " in owner " + _name;
+            CalenhadServices::messages() -> message ("warning", "Reverting to default port names. " + m);
+        }
+    }
     QString legendName = element.attribute ("legend", "default");
     _legend = CalenhadServices::legends() -> find (legendName);
     // position is retrieved in CalenhadModel
 }
 
-void Module::serialize (QDomDocument& doc) {
-    Node::serialize (doc);
+void Module::serialize (QDomElement& element) {
+    Node::serialize (element);
+    QDomDocument doc = element.ownerDocument();
+    for (Port* p : _ports) {
+        QDomElement portElement = doc.createElement ("port");
+        _element.appendChild (portElement);
+        portElement.setAttribute ("index", p -> index());
+        portElement.setAttribute ("type", p -> portType());
+        QDomElement portNameElement = doc.createElement ("name");
+        QDomText portNameText = doc.createTextNode (p -> portName());
+        portNameElement.appendChild (portNameText);
+        portElement.appendChild (portNameElement);
+    }
     _element.setAttribute ("legend", _legend -> name());
-    QDomElement positionElement = doc.createElement ("position");
-    _element.appendChild (positionElement);
-    positionElement.setAttribute ("y", handle() -> scenePos().y());
-    positionElement.setAttribute ("x", handle() -> scenePos().x());
-    _element.setAttribute ("type", nodeType ());
 }
 
 void Module::rendered (const bool& success) {
@@ -192,6 +223,16 @@ bool Module::generateMap () {
 
 bool Module::isComplete() {
     bool complete = Node::isComplete();
+    if (complete) {
+        for (Port* p : _ports) {
+            if (p->portType () != Port::OutputPort) {
+                if (!(p->hasConnection ())) {
+                    complete = false;
+                    break;
+                }
+            }
+        }
+    }
     _expander -> setItemEnabled (_previewIndex, complete);
     return complete;
 }
@@ -241,4 +282,55 @@ QMap<unsigned, Port*> Module::inputs () {
 void Module::showParameter (QString paramName, bool editable) {
     _shownParameter = paramName;
     _editable = editable;
+}
+
+void Module::addPort (Port* port, const unsigned& index) {
+    _ports.append (port);
+    if (port -> portType () == Port::OutputPort) {
+        _output = port;
+    } else {
+        _inputs.insert (index, port);
+    }
+}
+
+QVector<Port*> Module::ports() {
+    return _ports;
+}
+
+void Module::connectMenu (QMenu* menu, Port* p) {
+    int portType = p -> portType ();
+
+    if (portType == Port::OutputPort) {
+        _connectMenu -> clear();
+        _connectMenu -> setTitle (name());
+        for (Port* port : _ports) {
+            if (port -> portType() != Port::OutputPort) {
+                QAction* action = new QAction();
+                action -> setText (port -> portName());
+                _connectMenu -> addAction (action);
+                connect (action, &QAction::triggered, this, [=] () {
+                    CreateConnectionCommand* command = new CreateConnectionCommand (p, port, _model);
+                    _model -> controller() -> doCommand (command);
+                });
+            }
+        }
+        menu -> addMenu (_connectMenu);
+    } else {
+        QAction* action = new QAction();
+        action -> setText (name());
+        connect (action, &QAction::triggered, this, [=] () {
+            CreateConnectionCommand* command = new CreateConnectionCommand (output(), p, _model);
+            _model -> controller() -> doCommand (command);
+        });
+        menu -> addAction (action);
+    }
+}
+
+
+Port* Module::output () {
+    return _output;
+}
+
+void Module::addInputPorts () {
+
 }

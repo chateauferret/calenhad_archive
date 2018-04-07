@@ -91,9 +91,10 @@ void AltitudeMap::updateEntries() {
 
     // preserve the change for undo purposes
     QDomDocument doc;
-    QDomElement root = doc.createElement ("model");
+    QDomElement root = doc.createElement ("calenhad");
     doc.appendChild (root);
-    serialize (doc);
+    QDomElement element = doc.documentElement();
+    serialize (element);
     QString newXml = doc.toString();
 
     XmlCommand* c = new XmlCommand (_model, _oldXml, newXml);
@@ -142,9 +143,10 @@ void AltitudeMap::clearMap() {
 AltitudeMap* AltitudeMap::clone () {
     AltitudeMap* n = (AltitudeMap*) Node::clone();
     QDomDocument doc;
-    QDomElement root = doc.createElement ("model");
+    QDomElement root = doc.createElement ("calenhad");
     doc.appendChild (root);
-    serialize (doc);
+    QDomElement element = doc.documentElement();
+    serialize (element);
     inflate (root.firstChildElement ("map"));
 }
 
@@ -171,8 +173,8 @@ void AltitudeMap::inflate (const QDomElement& element) {
     }
 }
 
-void AltitudeMap::serialize (QDomDocument& doc) {
-    Module::serialize (doc);
+void AltitudeMap::serialize (QDomElement& element) {
+    Module::serialize (element);
     QDomElement mapElement = _document.createElement ("map");
     _element.appendChild (mapElement);
     mapElement.setAttribute ("function", curveFunction());
@@ -207,9 +209,10 @@ bool AltitudeMap::isFunctionInverted() {
 
 void AltitudeMap::preserve () {
     QDomDocument doc;
-    QDomElement root = doc.createElement ("model");
+    QDomElement root = doc.createElement ("calenhad");
     doc.appendChild (root);
-    serialize (doc);
+    QDomElement element = doc.documentElement();
+    serialize (element);
     _oldXml = doc.toString();
 }
 

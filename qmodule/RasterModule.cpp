@@ -152,8 +152,8 @@ void RasterModule::inflate (const QDomElement& element) {
     openFile (filename);
 }
 
-void RasterModule::serialize (QDomDocument& doc) {
-    Module::serialize (doc);
+void RasterModule::serialize (QDomElement& element) {
+    Module::serialize (element);
     QDomElement rasterElement = _document.createElement ("filename");
     rasterElement.setAttribute ("filename", _filename);
     QDomElement boundsElement = _document.createElement ("bounds");

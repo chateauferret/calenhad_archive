@@ -6,6 +6,7 @@
 #include "ChangeModuleCommand.h"
 #include "qmodule/Module.h"
 #include "nodeedit/Port.h"
+#include "../qmodule/Module.h"
 
 using namespace calenhad::actions;
 using namespace calenhad::qmodule;
@@ -35,10 +36,13 @@ void ChangeModuleCommand::redo() {
             _node->setProperty (_property.toStdString ().c_str (), _newValue);
         }
     } else {
-        for (Port* port : _node -> ports()) {
-            if (port->index() == _portIndex && port -> portType() == _portType) {
-                if (port -> property (_property.toStdString ().c_str ()) != _newValue) {
-                    port->setProperty (_property.toStdString ().c_str (), _newValue);
+        Module* m = dynamic_cast<Module*> (_node);
+        if (m) {
+            for (Port* port : m -> ports ()) {
+                if (port->index () == _portIndex && port->portType () == _portType) {
+                    if (port->property (_property.toStdString ().c_str ()) != _newValue) {
+                        port->setProperty (_property.toStdString ().c_str (), _newValue);
+                    }
                 }
             }
         }
@@ -51,10 +55,13 @@ void ChangeModuleCommand::undo () {
             _node->setProperty (_property.toStdString ().c_str (), _oldValue);
         }
     } else {
-        for (Port* port : _node -> ports()) {
-            if (port->index () == _portIndex && port -> portType() == _portType) {
-                if (port -> property (_property.toStdString ().c_str ()) != _oldValue) {
-                    port->setProperty (_property.toStdString ().c_str (), _oldValue);
+        Module* m = dynamic_cast<Module*> (_node);
+        if (m) {
+            for (Port* port : m->ports ()) {
+                if (port->index () == _portIndex && port->portType () == _portType) {
+                    if (port->property (_property.toStdString ().c_str ()) != _oldValue) {
+                        port->setProperty (_property.toStdString ().c_str (), _oldValue);
+                    }
                 }
             }
         }

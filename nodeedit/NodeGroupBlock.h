@@ -50,7 +50,7 @@ namespace calenhad {
             void setHighlight (bool highlighted);
 
             void setRect (const QRectF& rect);
-
+            QRectF rect ();
         public slots:
 
             void nodeChanged () override;
@@ -60,6 +60,7 @@ namespace calenhad {
             calenhad::controls::SizeGripItem* _rectSizeGripItem;
             QRectF _rect;
             bool _highlighted;
+
 
         };
     }

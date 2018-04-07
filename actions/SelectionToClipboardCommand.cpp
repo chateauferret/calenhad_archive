@@ -49,11 +49,11 @@ void SelectionToClipboardCommand::redo () {
         NodeBlock* b = dynamic_cast<NodeBlock*> (item);
         if (b) {
             Node* n = b -> node();
-            n -> serialize (doc);
+            n -> serialize (root);
         }
         Connection* c = dynamic_cast<Connection*> (item);
         if (c) {
-            c -> serialise (doc);
+            c -> serialise (root);
         }
     }
 

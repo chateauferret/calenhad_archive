@@ -41,7 +41,7 @@ namespace calenhad {
 
             virtual void inflate (const QDomElement& element) override;
 
-            virtual void serialize (QDomDocument& doc) override;
+            virtual void serialize (QDomElement& element) override;
 
             void addEntry (const QString& in, const QString& out = 0);
             void addEntry (const controls::altitudemap::AltitudeMapping& entry);

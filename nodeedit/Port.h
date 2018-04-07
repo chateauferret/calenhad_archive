@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 namespace calenhad {
 	namespace qmodule {
-		class Node;
+		class Module;
 	}
 	namespace nodeedit {
 		class NodeBlock;
@@ -89,13 +89,13 @@ namespace calenhad {
 
 			bool isConnected (Port*);
 
-			calenhad::qmodule::Node* owner ();
+			calenhad::qmodule::Module* owner ();
 
 			void invalidateRenders ();
 
 			void setHighlight (const PortHighlight& highlight);
 
-			calenhad::qmodule::Node* source();
+			calenhad::qmodule::Module* source();
 
 			Q_PROPERTY (QString name READ portName WRITE setName MEMBER	_portName);
             QMenu* connectMenu ();

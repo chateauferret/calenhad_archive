@@ -35,15 +35,16 @@ namespace calenhad {
 
             calenhad::nodeedit::NodeBlock* makeHandle() override;
 
+            void inflate (const QDomElement& element) override;
+
+            void serialize (QDomElement& element) override;
+
         signals:
 
             void changedOctaves (const int&);
 
         protected:
             QRect _rect;
-
-            void addInputPorts () override;
-
 
         };
     }

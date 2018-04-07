@@ -67,7 +67,7 @@ namespace calenhad {
 
 			int type () const { return Type; }
 
-			void serialise (QDomDocument& doc);
+			void serialise (QDomElement& element);
 
 			void inflate (const QDomDocument& doc);
 

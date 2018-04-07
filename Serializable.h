@@ -13,7 +13,7 @@ namespace calenhad {
 
     public:
         virtual void inflate (const QDomElement& element) = 0;
-        virtual void serialize (QDomDocument& doc) = 0;
+        virtual void serialize (QDomElement& element) = 0;
     };
 
 } // namespace

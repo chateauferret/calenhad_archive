@@ -494,10 +494,13 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     b -> setPos (initPos.x(), initPos.y());
     addItem (b);
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
-    for (Port* port : node -> ports()) {
-        b->addPort (port);
-    }
 
+    Module* m = dynamic_cast<Module*> (node);
+    if (m) {
+        for (Port* port : m -> ports ()) {
+            b -> addPort (port);
+        }
+    }
     b->assignGroup();
     b->assignIcon();
 
@@ -522,11 +525,14 @@ void CalenhadModel::deleteNode (Node* node) {
     // first delete any connections to or from the module
     for (QGraphicsItem* item : items()) {
         if (item -> type() == Connection::Type) {
-            for (Port* p : node -> ports()) {
-                if (((Connection*) item) -> port1() == p || ((Connection*) item) -> port2() == p) {
-                    removeItem (item);
-                    delete item;
-                    _changed = true;
+            Module* m = dynamic_cast<Module*> (node);
+            if (m) {
+                for (Port* p : m -> ports ()) {
+                    if (((Connection*) item)->port1 () == p || ((Connection*) item)->port2 () == p) {
+                        removeItem (item);
+                        delete item;
+                        _changed = true;
+                    }
                 }
             }
         }
@@ -599,10 +605,11 @@ NodeGroup* CalenhadModel::findGroup (const QString& name) {
 }
 
 
-Node* CalenhadModel::findModule (const QString& name) {
+Module* CalenhadModel::findModule (const QString& name) {
     for (Node* qm : nodes()) {
         if ((! qm -> name().isNull()) && (qm -> name() == name)) {
-            return qm;
+            Module* m = dynamic_cast<Module*> (qm);
+            return m ? m : nullptr;
         }
     }
     return nullptr;
@@ -642,12 +649,12 @@ void CalenhadModel::serialize (const QString& filename, const CalenhadFileType& 
 
 QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
     QDomDocument doc;
-    QDomElement root = doc.createElement ("model");
+    QDomElement root = doc.createElement ("calenhad");
     doc.appendChild (root);
     writeMetadata (doc);
 
     // Always include all variables in the file
-    CalenhadServices::calculator() -> serialize (doc);
+    CalenhadServices::calculator() -> serialize (root);
 
     // Always include all known legends in the file
     QDomElement legendsElement = doc.createElement ("legends");
@@ -657,11 +664,23 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
     }
 
     if (fileType == CalenhadFileType::CalenhadModelFile) {
+        QDomElement modelElement = doc.createElement ("model");
+        root.appendChild (modelElement);
+        // serialize top-level nodes
+        // each group found will serialize its contents recursively
+        QDomElement nodesElement = doc.createElement ("nodes");
+        modelElement.appendChild (nodesElement);
         for (Node* qm : nodes()) {
-            qm->serialize (doc);
+            if (! (qm -> group())) {
+                qm -> serialize (nodesElement);
+            }
         }
+
+        // serialize connections
+        QDomElement connectionsElement = doc.createElement ("connections");
+        modelElement.appendChild (connectionsElement);
         for (Connection* c : connections()) {
-            c->serialise (doc);
+            c -> serialise (connectionsElement);
         }
         _changed = false;
     }
@@ -716,13 +735,14 @@ void CalenhadModel::readMetadata (const QDomDocument& doc) {
 void CalenhadModel::inflate (const QString& filename, const CalenhadFileType& fileType) {
     QDomDocument doc;
     if (CalenhadServices::readXml (filename, doc)) {
+        readMetadata (doc);
         inflate (doc, fileType);
     }
     _filename = filename;
 }
 
+
 void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fileType) {
-    readMetadata (doc);
 
     // Always retrieve all legends from the file
     QDomNodeList legendNodes = doc.documentElement().elementsByTagName ("legend");
@@ -734,94 +754,158 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
 
     // if we are pasting, clear the selection, so that we can select the pasted items instead
     if (fileType == CalenhadFileType::CalenhadModelFragment) {
-        foreach (QGraphicsItem* item, items()) {
+                foreach (QGraphicsItem* item, items()) {
                 item -> setSelected (false);
             }
     }
 
     if (fileType == CalenhadFileType::CalenhadModelFile || fileType == CalenhadFileType::CalenhadModelFragment) {
-        QDomElement variablesElement = doc.documentElement().firstChildElement ("variables");
-        CalenhadServices::calculator() -> inflate (variablesElement);
-        QDomNodeList moduleNodes = doc.documentElement().elementsByTagName ("module");
-        QDomNodeList connectionNodes = doc.documentElement().elementsByTagName ("connection");
-        for (int i = 0; i < moduleNodes.count(); i++) {
 
+        // inflate variables for the calculator
+        std::cout << doc.toString ().toStdString () << "\n";
+        QDomElement variablesElement = doc.documentElement ().firstChildElement ("variables");
+        CalenhadServices::calculator() -> inflate (variablesElement);
+
+        QDomElement element = doc.documentElement().firstChildElement ("model").firstChildElement ("nodes");
+
+        inflate (element, fileType);
+
+        inflateConnections (doc, fileType);
+
+    }
+}
+
+void CalenhadModel::inflateConnections (const QDomDocument& doc, const CalenhadFileType& fileType) {
+
+    // In the connections, we save and retrieve the types of output ports in case we ever have further types of output ports.
+    // Does not support a port serving as both input and output (because index presently not unique across both).
+    // For the time being however all output ports will be of type 2 (Port::Output).
+
+    QDomNodeList connectionNodes = doc.documentElement().firstChildElement ("model").firstChildElement ("connections").elementsByTagName ("connection");
+    for (int i = 0; i < connectionNodes.count (); i++) {
+        QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
+        QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
+        Module* fromNode = findModule (fromElement.attributes ().namedItem ("module").nodeValue ());
+        Module* toNode = findModule (toElement.attributes ().namedItem ("module").nodeValue ());
+        if (fromNode && toNode) {
+            Port* fromPort = nullptr, * toPort = nullptr;
+            for (Port* port : fromNode->ports ()) {
+                bool okIndex;
+                int index = fromElement.attribute ("output").toInt (&okIndex);
+                if (okIndex) {
+                    if (port->index () == index && port->portType () == Port::OutputPort) {
+                        fromPort = port;
+                        fromPort->setName (fromElement.attribute ("name"));
+                    }
+                }
+            }
+            for (Port* port : toNode->ports ()) {
+                bool okIndex;
+                int index = toElement.attribute ("input").toInt (&okIndex);
+                if (okIndex) {
+                    if (port->index () == index && port->portType () != Port::OutputPort) {
+                        toPort = port;
+                        toPort->setName (fromElement.attribute ("name"));
+                    }
+                }
+            }
+            if (fromPort && toPort) {
+                connectPorts (fromPort, toPort);
+            } else {
+                // to do - message couldn't connect ports - but first need to implement connection names
+                if (!fromPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect source"); }
+                if (!toPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect target"); }
+            }
+        }
+    }
+}
+
+void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& fileType) {
+
+    if (fileType == CalenhadFileType::CalenhadModelFile || fileType == CalenhadFileType::CalenhadModelFragment) {
+
+        // inflate modules group by group
+
+        QDomNode n = parent.firstChild();
+        while (! n.isNull()) {
+            QDomElement element = n.toElement();
+            QString type = n.attributes ().namedItem ("type").nodeValue ();
+            std::cout << "Inflating " << element.tagName().toStdString () << " - " << element.attribute ("name").toStdString () << " (" << type.toStdString () << ")\n";
+            QDomNodeList connectionNodes = element.ownerDocument().documentElement().firstChildElement ("connections").elementsByTagName ("connection");
             // put the node at the requested position on the canvas
-            QDomElement positionElement = moduleNodes.at (i).firstChildElement ("position");
-            int x = positionElement.attributes().namedItem ("x").nodeValue().toInt();
-            int y = positionElement.attributes().namedItem ("y").nodeValue().toInt();
+            QDomElement positionElement = n.firstChildElement ("position");
+            int x = positionElement.attributes ().namedItem ("x").nodeValue ().toInt ();
+            int y = positionElement.attributes ().namedItem ("y").nodeValue ().toInt ();
             QPointF pos (x, y);
 
 
             // if we are pasting, offset the positions so that we can see copied and pasted items separately
             if (fileType == CalenhadFileType::CalenhadModelFragment) {
-                pos.setX (pos.x() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_x);
-                pos.setY (pos.y() + CalenhadServices::preferences() -> calenhad_module_duplicate_offset_y);
+                pos.setX (pos.x () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_x);
+                pos.setY (pos.y () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_y);
             }
 
-            QString type = moduleNodes.at (i).attributes().namedItem ("type").nodeValue();
-            QDomElement nameNode = moduleNodes.at (i).firstChildElement ("name");
-            QString name = nameNode.text();
+
+            QDomElement nameNode = n.firstChildElement ("name");
+            QString name = nameNode.text ();
             QString newName = uniqueName (name);
-            Module* qm = addModule (pos, type, newName);
-            qm -> handle() -> setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
-            qm->inflate (moduleNodes.at (i).toElement());
 
-            // update connection names so that the module is still found if it was renamed
+            // if node is a group, add its contents recursively
+            if (type == "nodegroup") {
+                NodeGroup* ng = addNodeGroup (pos, newName);
 
-            for (int i = 0; i < connectionNodes.count(); i++) {
-                QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
-                QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-                if (fromElement.attribute ("module") == name) {
-                    fromElement.setAttribute ("module", newName);
+                // restore the nodegroup's size
+                NodeGroupBlock* block = (NodeGroupBlock*) ng -> handle();
+                bool ok;
+                double height = element.attribute ("height").toDouble (&ok);
+                double width = ok ? element.attribute ("width").toDouble (&ok) : 0.0;
+                if (ok) {
+                    block -> setRect (QRectF (0, 0, width, height));
                 }
-                if (toElement.attribute ("module") == name) {
-                    toElement.setAttribute ("module", newName);
-                }
-            }
-            _changed = false;
-        }
 
-        // In the connections, we save and retrieve the types of output ports in case we ever have further types of output ports.
-        // Does not support a port serving as both input and output (because index presently not unique across both).
-        // For the time being however all output ports will be of type 2 (Port::Output).
+                QDomElement nodesElement = n.firstChildElement ("nodes");
+                inflate (nodesElement, fileType);
 
-
-        for (int i = 0; i < connectionNodes.count(); i++) {
-            QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
-            QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-            Node* fromNode = findModule (fromElement.attributes().namedItem ("module").nodeValue());
-            Node* toNode = findModule (toElement.attributes().namedItem ("module").nodeValue());
-            if (fromNode && toNode) {
-                Port* fromPort = nullptr, * toPort = nullptr;
-                for (Port* port : fromNode->ports()) {
-                    bool okIndex;
-                    int index = fromElement.attribute ("output").toInt (&okIndex);
-                    if (okIndex) {
-                        if (port->index() == index && port->portType() == Port::OutputPort) {
-                            fromPort = port;
-                            fromPort->setName (fromElement.attribute ("name"));
-                        }
+                // if group is in another group, assign the group
+                if (element.attribute ("type") == "nodegroup") {
+                    NodeGroup* group = findGroup (element.attribute ("name"));
+                    if (group) {
+                        ng->setGroup (group);
                     }
                 }
-                for (Port* port : toNode->ports()) {
-                    bool okIndex;
-                    int index = toElement.attribute ("input").toInt (&okIndex);
-                    if (okIndex) {
-                        if (port->index() == index && port->portType() != Port::OutputPort) {
-                            toPort = port;
-                            toPort->setName (fromElement.attribute ("name"));
-                        }
+
+            } else {
+
+                Module* qm = addModule (pos, type, newName);
+                qm->handle ()->setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
+                qm->inflate (n.toElement ());
+
+                // if module is in a group, assign the group
+                if (element.attribute ("type") == "nodegroup") {
+                    NodeGroup* group = findGroup (element.attribute ("name"));
+                    if (group) {
+                        qm->setGroup (group);
                     }
                 }
-                if (fromPort && toPort) {
-                    connectPorts (fromPort, toPort);
-                } else {
-                    // to do - message couldn't connect ports - but first need to implement connection names
-                    if (!fromPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect source"); }
-                    if (!toPort) { CalenhadServices::messages() -> message ("error", "Couldn't connect target"); }
+
+
+
+                // update connection names so that the module is still found if it was renamed
+
+                for (int i = 0; i < connectionNodes.count (); i++) {
+                    QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
+                    QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
+                    if (fromElement.attribute ("module") == name) {
+                        fromElement.setAttribute ("module", newName);
+                    }
+                    if (toElement.attribute ("module") == name) {
+                        toElement.setAttribute ("module", newName);
+                    }
                 }
+
+                _changed = false;
             }
+            n = n.nextSibling ();
         }
     }
 }

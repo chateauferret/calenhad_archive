@@ -6,7 +6,7 @@
 #include "../pipeline/CalenhadModel.h"
 #include "nodeedit/Connection.h"
 #include "nodeedit/Port.h"
-#include "qmodule/Node.h"
+#include "qmodule/Module.h"
 
 using namespace calenhad::actions;
 using namespace calenhad::qmodule;
@@ -29,15 +29,18 @@ void DeleteNodeCommand::undo() {
 
 void DeleteNodeCommand::redo() {
     QDomDocument doc;
-    QDomElement root = doc.createElement ("model");
+    QDomElement root = doc.createElement ("calenhad");
     doc.appendChild (root);
-    _node -> serialize (doc);
+    _node -> serialize (root);
 
     // serialize also any connections to or from the deleted owner
     // don't delete them here - the model will do that for us when we delete the owner
     for (Connection* c : _model -> connections()) {
-        if (c->port1 ()->owner () == _node || c->port2 ()->owner () == _node) {
-            c -> serialise (doc);
+        Module* m = dynamic_cast<Module*> (_node);
+        if (m) {
+            if (c -> port1() -> owner() == m || c -> port2() -> owner() == m) {
+                c -> serialise (root);
+            }
         }
     }
 

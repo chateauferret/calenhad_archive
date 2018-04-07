@@ -84,9 +84,13 @@ void NodeGroupBlock::setRect (const QRectF& rect) {
 
 }
 
+QRectF NodeGroupBlock::rect() {
+    return _rect;
+}
+
 void NodeGroupResizer::operator() (QGraphicsItem* item, const QRectF& rect) {
-    NodeGroupBlock* group = dynamic_cast<NodeGroupBlock*> (item);
-    if (group) {
-        group -> setRect (rect);
+    NodeGroupBlock* block = dynamic_cast<NodeGroupBlock*> (item);
+    if (block) {
+        block -> setRect (rect);
     }
 }

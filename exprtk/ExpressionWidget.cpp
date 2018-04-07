@@ -122,7 +122,7 @@ void ExpressionWidget::openLongBox() {
 }
 
 double ExpressionWidget::compute (const QString& e) {
-    return CalenhadServices::calculator ()->compute (e);
+    return CalenhadServices::calculator() -> compute (e);
 }
 
 

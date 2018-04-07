@@ -36,7 +36,7 @@ namespace calenhad {
         protected slots:
             void fileDialogRequested();
             void openFile (const QString& filename);
-            void serialize (QDomDocument& doc);
+            void serialize (QDomElement& element);
             void inflate (const QDomElement& element);
             void updateBounds();
 

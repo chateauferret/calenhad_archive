@@ -51,7 +51,7 @@ namespace calenhad {
                  // just for now
             }
 
-            void connectMenu (QMenu* menu, calenhad::nodeedit::Port* port);
+
 
             enum {
                 Type = QGraphicsItem::UserType + 6
@@ -63,7 +63,7 @@ namespace calenhad {
 
             virtual void inflate (const QDomElement& element) override;
 
-            virtual void serialize (QDomDocument& doc) override;
+            virtual void serialize (QDomElement& element) override;
 
             virtual void setModel (calenhad::pipeline::CalenhadModel* model);
 
@@ -83,9 +83,6 @@ namespace calenhad {
 
             QString notes ();
 
-            void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
-
-            QVector<nodeedit::Port*> ports ();
 
             void showEvent (QShowEvent* event) override;
 
@@ -108,7 +105,7 @@ namespace calenhad {
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
             int id();
-            calenhad::nodeedit::Port* output();
+
             virtual nodeedit::NodeBlock* makeHandle ();
             double parameterValue (const QString& name);
             virtual void addDependentNodes();
@@ -131,8 +128,6 @@ namespace calenhad {
 
             void nodeChanged ();
 
-
-
         protected:
             int _id;
             NodeGroup* _group;
@@ -143,15 +138,13 @@ namespace calenhad {
             QLineEdit* _nameEdit;
             QTextEdit* _notesEdit;
             QToolBox* _expander;
-            QVector<calenhad::nodeedit::Port*> _ports;
-            calenhad::nodeedit::Port* _output;
-            QMap<unsigned, calenhad::nodeedit::Port*> _inputs;
+
             QVector<Node*> _dependants;
             QWidget* _content;
             calenhad::pipeline::CalenhadModel* _model;
 
             QMap<QString, calenhad::expressions::ExpressionWidget*> _parameters;
-            virtual void addInputPorts();
+
 
             int addPanel (const QString& name, QWidget* widget);
 
@@ -167,7 +160,6 @@ namespace calenhad {
             QPalette* _palette;
 
 
-            QMenu* _connectMenu;
 
             bool _nameVisible;
         };

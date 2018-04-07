@@ -47,7 +47,7 @@ namespace calenhad {
 
             virtual ~CalenhadModel ();
 
-            qmodule::Node* findModule (const QString& name);
+            qmodule::Module* findModule (const QString& name);
 
             calenhad::qmodule::NodeGroup* findGroup (const QString& name);
 
@@ -78,6 +78,7 @@ namespace calenhad {
             QDomDocument serialize (const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void serialize (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void inflate (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+            void inflate (const QDomElement& element, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void inflate (const QDomDocument& doc, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             bool isChanged();
 
@@ -174,6 +175,7 @@ namespace calenhad {
             void setRestorePoint ();
             void preserve ();
 
+            void inflateConnections (const QDomDocument& doc, const nodeedit::CalenhadFileType& fileType);
         };
     }
 }

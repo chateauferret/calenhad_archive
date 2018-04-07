@@ -45,7 +45,7 @@ namespace calenhad {
 
             virtual ~Calculator ();
 
-            QMap<QString, CalenhadVariable> variables ();
+            QMap<QString, CalenhadVariable*> variables ();
 
             QStringList errors();
 
@@ -61,7 +61,7 @@ namespace calenhad {
 
             void clear();
 
-            void serialize (QDomDocument& doc) override;
+            void serialize (QDomElement& doc) override;
 
             void inflate (const QDomElement& element) override;
 
@@ -75,7 +75,7 @@ namespace calenhad {
 
         protected:
 
-            QMap<QString, CalenhadVariable> _variables;
+            QMap<QString, CalenhadVariable*> _variables;
 
             bool isReservedWord (const QString& term);
 
@@ -83,7 +83,7 @@ namespace calenhad {
             QDomNode _element;
             QStringList _errors;
 
-
+            exprtk::symbol_table<double> _symbols;
         };
     }
 }

@@ -7,9 +7,11 @@
 #include "exprtk/Calculator.h"
 #include "PortNameValidator.h"
 #include "Port.h"
+#include "qmodule/Module.h"
 #include "qmodule/Node.h"
 
 using namespace calenhad::nodeedit;
+using namespace calenhad::qmodule;
 
 PortNameValidator::PortNameValidator (Port* port) : NodeNameValidator (port -> owner()), _port (port) {
 
@@ -47,11 +49,18 @@ QValidator::State PortNameValidator::validate (QString& input, int& pos) const {
     }
 
     // make sure name isn't a duplicate (another port on the same node)
-    foreach (Port* p, _node -> ports()) {
-        if (p -> portName() == input && p != _port) {
-            errors += ("Name must be unique among all ports in a node\n");
-            state = QValidator::Intermediate;
-        }
+    Module* m = dynamic_cast<Module*> (_node);
+    if (m) {
+                foreach (Port* p, m -> ports ()) {
+                if (p->portName () == input && p != _port) {
+                    errors += ("Name must be unique among all ports in a node\n");
+                    state = QValidator::Intermediate;
+                }
+            }
+    } else {
+        // this should never arise
+        errors += "Not a module";
+        state = QValidator::Invalid;
     }
 
     if (state != QValidator::Acceptable) {
