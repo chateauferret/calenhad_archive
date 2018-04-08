@@ -1,0 +1,101 @@
+<calenhad>
+ <metadata>
+  <title>/home/martin/.config/calenhad/legends.xml</title>
+  <date>06 April 2018 17:15</date>
+ </metadata>
+ <variables/>
+ <legends>
+  <legend type="gradient">
+   <name>default</name>
+   <notes></notes>
+   <entry color="#000000" index="-0.95935"/>
+   <entry color="#000000" index="-0.554286"/>
+   <entry color="#000000" index="-0.24"/>
+   <entry color="#ffffff" index="1"/>
+  </legend>
+  <legend type="gradient">
+   <name>earth</name>
+   <notes></notes>
+   <entry color="#180c49" index="-1"/>
+   <entry color="#3465a4" index="-0.5934959349593496"/>
+   <entry color="#729fcf" index="0.04878048780487809"/>
+   <entry color="#4e9a06" index="0.08130081300813008"/>
+   <entry color="#73d216" index="0.2682926829268293"/>
+   <entry color="#c4a000" index="0.5284552845528456"/>
+   <entry color="#e9b96e" index="0.7398373983739837"/>
+   <entry color="#ffffff" index="1"/>
+  </legend>
+ </legends>
+ <model>
+  <nodes>
+   <module type="nodegroup" width="816" height="229">
+    <name>New_nodegroup</name>
+    <position y="-586" x="-1037"/>
+    <nodes>
+     <module type="nodegroup" width="616" height="173">
+      <name>New_nodegroup_0</name>
+      <position y="-557" x="-991"/>
+      <nodes>
+       <module type="constant" legend="default">
+        <name>New_perlin_persistence</name>
+        <port type="2" index="0">
+         <name>Output</name>
+        </port>
+        <parameter value="0.5" name="value"/>
+        <position y="-502" x="-974"/>
+       </module>
+       <module type="constant" legend="default">
+        <name>New_perlin_lacunarity</name>
+        <port type="2" index="0">
+         <name>Output</name>
+        </port>
+        <parameter value="2" name="value"/>
+        <position y="-512" x="-899"/>
+       </module>
+       <module type="constant" legend="default">
+        <name>New_perlin_frequency</name>
+        <port type="2" index="0">
+         <name>Output</name>
+        </port>
+        <parameter value="1" name="value"/>
+        <position y="-522" x="-824"/>
+       </module>
+       <module type="perlin" legend="default">
+        <name>New_perlin</name>
+        <port type="2" index="0">
+         <name>Output</name>
+        </port>
+        <port type="0" index="0">
+         <name>frequency</name>
+        </port>
+        <port type="0" index="1">
+         <name>lacunarity</name>
+        </port>
+        <port type="0" index="2">
+         <name>persistence</name>
+        </port>
+        <parameter value="4" name="octaves"/>
+        <parameter value="0" name="seed"/>
+        <position y="-512" x="-674"/>
+       </module>
+      </nodes>
+     </module>
+    </nodes>
+   </module>
+  </nodes>
+  <connections>
+   <connection>
+    <source output="0" module="New_perlin_persistence"/>
+    <target module="New_perlin" input="2"/>
+   </connection>
+   <connection>
+    <source output="0" module="New_perlin_lacunarity"/>
+    <target module="New_perlin" input="1"/>
+   </connection>
+   <connection>
+    <source output="0" module="New_perlin_frequency"/>
+    <target module="New_perlin" input="0"/>
+   </connection>
+  </connections>
+ </model>
+</calenhad>

@@ -33,15 +33,17 @@ ChangeModuleCommand::~ChangeModuleCommand () {
 void ChangeModuleCommand::redo() {
     if (_portIndex < 0) {
         if (_node -> property (_property.toStdString ().c_str ()) != _newValue) {
-            _node->setProperty (_property.toStdString ().c_str (), _newValue);
+            std::cout << "Set property " << _property.toStdString() << " on " << _node -> name().toStdString () << " to " << _newValue.toString().toStdString () << "\n";
+             _node -> setProperty (_property.toStdString ().c_str (), _newValue);
+
         }
     } else {
         Module* m = dynamic_cast<Module*> (_node);
         if (m) {
             for (Port* port : m -> ports ()) {
                 if (port->index () == _portIndex && port->portType () == _portType) {
-                    if (port->property (_property.toStdString ().c_str ()) != _newValue) {
-                        port->setProperty (_property.toStdString ().c_str (), _newValue);
+                    if (port -> property (_property.toStdString ().c_str ()) != _newValue) {
+                        port -> setProperty (_property.toStdString ().c_str (), _newValue);
                     }
                 }
             }
@@ -52,7 +54,7 @@ void ChangeModuleCommand::redo() {
 void ChangeModuleCommand::undo () {
     if (_portIndex < 0) {
         if (_node -> property (_property.toStdString ().c_str ()) != _oldValue) {
-            _node->setProperty (_property.toStdString ().c_str (), _oldValue);
+            _node -> setProperty (_property.toStdString ().c_str (), _oldValue);
         }
     } else {
         Module* m = dynamic_cast<Module*> (_node);

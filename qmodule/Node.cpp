@@ -88,7 +88,11 @@ void Node::initialise() {
     connect (_notesEdit, &QTextEdit::textChanged, this, [=] () {
         propertyChangeRequested ("notes", _notesEdit -> document() -> toPlainText());
     });
-    connect (this, &Node::notesChanged, this, [=] () { _notesEdit -> setText (_notes); });
+    connect (this, &Node::notesChanged, this, [=] () {
+        if (_notesEdit -> toPlainText () != _notes) {
+            _notesEdit -> setText (_notes);
+        }
+    });
 
     addPanel ("About", about);
     QLayout* l = new QVBoxLayout();
@@ -130,8 +134,8 @@ void Node::setName (const QString& name) {
 
 void Node::setNotes (const QString& notes) {
     if (! notes.isNull()) {
+        _notes = notes;
         if (! (notes == _notesEdit -> toPlainText())) {
-            _notes = notes;
             _notesEdit -> setText (_notes);
         }
     }
