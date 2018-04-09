@@ -30,7 +30,6 @@ ModuleFactory:: ~ModuleFactory() {
 }
 
 QPixmap* ModuleFactory::getIcon (const QString& type) {
-    std::cout << "Icon for " << type.toStdString () << "\n";
    return _icons.value (type);
 }
 
@@ -69,7 +68,6 @@ void ModuleFactory::initialise() {
             QString iconFile = CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + icon + ".png";
             QPixmap* pixmap = new QPixmap (iconFile);
             _icons.insert (key, pixmap);
-            std::cout << "Create type " << key.toStdString () << "\n";
         }
 
         _moduleLabels.insert ("altitudemap", "Altitude map");

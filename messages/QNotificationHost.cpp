@@ -23,18 +23,18 @@ QNotificationHost::~QNotificationHost() {
 
 }
 
-QNotification* QNotificationHost::message (const QString& message, const QString& style,const int& duration) {
-    QNotification* notification = new QNotification (message, this, style);
-    notification->setDuration (duration);
-    notification->setFixedWidth (_width);
+QNotification* QNotificationHost::message (const QString& title, const QString& message, const NotificationStyle& style, const int& duration) {
+    QNotification* notification = new QNotification (title, message, this, style);
+    notification -> setDuration (duration);
+    notification -> setFixedWidth (_width);
     display (notification);
     return notification;
 }
 
 void QNotificationHost::display (QNotification* notification) {
     QTimer* timer = new QTimer (notification);
-    timer->setInterval (notification -> duration());
-    timer->setSingleShot (true);
+    timer -> setInterval (notification -> duration());
+    timer -> setSingleShot (true);
     connect (timer, SIGNAL (timeout()), notification, SLOT (dismiss()), Qt::QueuedConnection);
     connect (notification, SIGNAL (dismissed()), this, SLOT (clearMessage()), Qt::QueuedConnection);
     connect (notification, SIGNAL (complete()), timer, SLOT (start()), Qt::QueuedConnection);
@@ -43,8 +43,8 @@ void QNotificationHost::display (QNotification* notification) {
     reorder();
 }
 
-QProgressNotification* QNotificationHost::progress (const QString& message, const QString& style, const int& duration, const int& toDo, const int& delay) {
-    QProgressNotification* notification = new QProgressNotification (message, nullptr);
+QProgressNotification* QNotificationHost::progress (const QString& title, const QString& message, const NotificationStyle& style, const int& duration, const int& toDo, const int& delay) {
+    QProgressNotification* notification = new QProgressNotification (title, message, nullptr);
     notification -> setToDo (toDo);
     notification -> setDuration (duration);
     notification -> setFixedWidth (_width);

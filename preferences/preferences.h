@@ -24,8 +24,17 @@ namespace calenhad {
             QSettings* settings () override { return _settings; }
 
 
+
+            // stylesheet
+            static QString _styleSheet;
+
+            static void setStylesheet (QString styleSheet);
+
+            static QString styleSheet ();
+
         private:
             QSettings* _settings;
+
 
         };
     }

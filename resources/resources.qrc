@@ -53,6 +53,9 @@
         <file>appicons/status/goosed.png</file>
         <file>appicons/status/orright.png</file>
         <file>appicons/status/query.png</file>
+        <file>appicons/messages/error.png</file>
+        <file>appicons/messages/info.png</file>
+        <file>appicons/messages/warning.png</file>
         <file>shaders/map_cs.glsl</file>
         <file>shaders/map_fs.glsl</file>
         <file>shaders/map_vs.glsl</file>

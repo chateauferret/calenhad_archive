@@ -16,7 +16,7 @@ namespace calenhad {
         class QProgressNotification : public QNotification {
         Q_OBJECT
         public:
-            QProgressNotification (const QString& message, QWidget* parent);
+            QProgressNotification (const QString& title, const QString& message, QWidget* parent);
 
             virtual ~QProgressNotification ();
 

@@ -73,18 +73,10 @@ int main (int argc, char **argv) {
     Calculator* calculator = new Calculator();
     CalenhadServices::provideCalculator (calculator);
 
-
-    // Stylesheet
-    QString fileName = CalenhadServices::preferences() -> calenhad_stylesheet;
-    QFile file (fileName);
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String (file.readAll());
-    app.setStyleSheet (styleSheet);
-    std::cout << "Stylesheet: " << file.fileName().toStdString() << "\n";
-
     // Calenhad model - the arrangement of modules and connections between them
 
     Calenhad* window = new Calenhad();
+    window -> setStyleSheet (preferences -> styleSheet());
     window -> show();
 
 

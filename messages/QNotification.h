@@ -13,6 +13,7 @@
 #include <QPainter>
 #include <QObject>
 #include <QtCore/QUuid>
+#include "QNotificationHost.h"
 
 
 namespace calenhad {
@@ -22,7 +23,7 @@ namespace calenhad {
         Q_OBJECT
         public:
 
-            QNotification (const QString& message, QWidget* host, const QString& style = "info", const int& duration = 10000);
+            QNotification (const QString& title, const QString& message, QWidget* host, const NotificationStyle& style = NotificationStyle::InfoNotification, const int& duration = 10000);
 
             ~QNotification ();
 
@@ -32,6 +33,7 @@ namespace calenhad {
 
             void setDuration (const int& duration);
             int duration ();
+
         public slots:
 
             void dismiss ();
@@ -45,8 +47,9 @@ namespace calenhad {
         protected:
 
             QNotification ();
-
+            QLabel* _icon;
             QLabel* _message;
+            QLabel* _title;
             int _duration;
 
 

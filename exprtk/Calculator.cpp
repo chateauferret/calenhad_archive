@@ -136,7 +136,7 @@ void Calculator::inflate (const QDomElement& element) {
             _variables.insert (name, new CalenhadVariable (name, notes, value));
             emit variableChanged (name, value);
         } else {
-            CalenhadServices::messages() -> message ("Error", "Failed to parse value of variable " + name + " = " + value);
+            CalenhadServices::messages() -> message ("Calculator", "Failed to parse value of variable " + name + " = " + value);
         }
     }
 }

@@ -33,7 +33,6 @@ ChangeModuleCommand::~ChangeModuleCommand () {
 void ChangeModuleCommand::redo() {
     if (_portIndex < 0) {
         if (_node -> property (_property.toStdString ().c_str ()) != _newValue) {
-            std::cout << "Set property " << _property.toStdString() << " on " << _node -> name().toStdString () << " to " << _newValue.toString().toStdString () << "\n";
              _node -> setProperty (_property.toStdString ().c_str (), _newValue);
 
         }

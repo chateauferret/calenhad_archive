@@ -4,8 +4,12 @@
 
 #include "preferences.h"
 #include <iostream>
+#include <QtCore/QFile>
+#include <QtCore/QCoreApplication>
 
 using namespace calenhad::preferences;
+
+QString Preferences::_styleSheet;
 
 Preferences::Preferences() {
     _settings = new QSettings();
@@ -14,6 +18,14 @@ Preferences::Preferences() {
 
 Preferences::~Preferences () {
     if (_settings) { delete _settings; }
+}
+
+void Preferences::setStylesheet (QString styleSheet) {
+    _styleSheet = styleSheet;
+}
+
+QString Preferences::styleSheet() {
+    return _styleSheet;
 }
 
 void Preferences::loadSettings() {
@@ -104,7 +116,7 @@ void Preferences::loadSettings() {
     calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 32).toUInt();
     calenhad_handle_module_height = _settings -> value ("calenhad/handle/module/height", calenhad_handle_module_width).toUInt();
     calenhad_handle_module_margin = _settings -> value ("calenhad/handle/module/margin", 2).toUInt();
-    calenhad_notifications_width = _settings -> value ("calenhad/preferences/width", 150).toUInt();
+    calenhad_notifications_width = _settings -> value ("calenhad/preferences/width", 300).toUInt();
     calenhad_notifications_margin = _settings -> value ("calenhad/preferences/margin", 5).toUInt();
     calenhad_toolpalette_icon_size = _settings -> value ("calenhad/toolpalette/icon/size", 24).toInt();
     calenhad_toolpalette_icon_margin = _settings -> value ("calenhad/toolpalette/icon/margin", 4).toInt();
@@ -123,6 +135,16 @@ void Preferences::loadSettings() {
     calenhad_module_altitudemap = _settings -> value ("calenhad/module/altitudemap", "altitudemap").toString();
     calenhad_module_raster = _settings -> value ("calenhad/module/raster", "raster").toString();
     calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "nodegroup").toString();
+
+
+    // Make stylesheet available to the application
+    QString fileName =  calenhad_stylesheet;
+    QFile file (fileName);
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String (file.readAll());
+    std::cout << "Stylesheet: " << file.fileName().toStdString() << "\n";
+    setStylesheet (styleSheet);
+    _styleSheet = styleSheet;
 
 }
 

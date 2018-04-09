@@ -86,7 +86,6 @@ QNotificationStack {
     opacity: 50;
 }
 
-
 QNotification > QLabel {
     color: #000000;
 }

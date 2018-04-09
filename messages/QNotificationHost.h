@@ -19,6 +19,8 @@ namespace calenhad {
         class QNotification;
         class QProgressNotification;
 
+        enum NotificationStyle { InfoNotification, ErrorNotification, WarningNotification };
+
         class QNotificationHost : public QMainWindow {
         Q_OBJECT
         public:
@@ -27,9 +29,9 @@ namespace calenhad {
             ~QNotificationHost ();
 
 
-            QNotification* message (const QString& title, const QString& message, const int& duration = 10000);
+            QNotification* message (const QString& title, const QString& message, const NotificationStyle& style = NotificationStyle::InfoNotification , const int& duration = 10000);
 
-            QProgressNotification* progress (const QString& title, const QString& message, const int& duration = 10000, const int& toDo = 100, const int& delay = 500);
+            QProgressNotification* progress (const QString& title, const QString& message, const NotificationStyle& style, const int& duration = 10000, const int& toDo = 100, const int& delay = 500);
             void clearAll ();
         public slots:
 

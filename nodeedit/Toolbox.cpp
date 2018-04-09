@@ -42,7 +42,6 @@ ToolCollection::~ToolCollection() {
 
 void ToolCollection::addTool (QAction* tool) {
     QString key = tool -> data().toString();
-    std::cout << "Add tool " << tool -> data ().toString ().toStdString () << "\n";
     _tools.insert (key, tool);
 }
 
