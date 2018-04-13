@@ -38,6 +38,7 @@ using namespace calenhad::actions;
 using namespace calenhad::expressions;
 using namespace calenhad::preferences;
 using namespace calenhad::legend;
+using namespace calenhad::notification;
 
 CalenhadModel::CalenhadModel() : QGraphicsScene(),
     conn (nullptr),
@@ -82,7 +83,7 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
         // can't connect a block to itself
         if (output -> block() == input -> block()) {
             if (verbose) {
-                CalenhadServices::messages() -> message ("Cannot connect", "Cannot connect owner to itself");
+                CalenhadServices::messages() -> message ("Cannot connect", "Cannot connect owner to itself", NotificationStyle::ErrorNotification);
             }
             return false;
         }
@@ -90,7 +91,7 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
         // can only connect an output port to an input port
         if (input -> portType() ==  Port::OutputPort) {
             if (verbose) {
-                CalenhadServices::messages() -> message ("Cannot connect", "Cannot make connection to another owner output");
+                CalenhadServices::messages() -> message ("Cannot connect", "Cannot make connection to another owner output", NotificationStyle::ErrorNotification);
             }
             return false;
         }
@@ -99,7 +100,7 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
         // (in which case this connection would complete a circle)
         if (existsPath (output -> owner() -> handle(), input -> owner() -> handle())) {
             if (verbose) {
-                CalenhadServices::messages() -> message ("Cannot connect", "Connection would form a circuit within the network");
+                CalenhadServices::messages() -> message ("Cannot connect", "Connection would form a circuit within the network", NotificationStyle::ErrorNotification);
             }
             return false;
         }
@@ -107,7 +108,7 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
         // can't connect to a port that's already connected to another output
         if (! (input -> connections().empty())) {
             if (verbose) {
-                CalenhadServices::messages() -> message ("Cannot connect", "Port is already connected");
+                CalenhadServices::messages() -> message ("Cannot connect", "Port is already connected", NotificationStyle::ErrorNotification);
                 return false;
             }
         }
@@ -123,41 +124,43 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
 // Return true if there is a direct or indirect path from a given output port to a given input port.
 // If there would be a path from output to input on the same node we can't create a new connection between them as that would complete a circuit.
 bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
-    if (output -> outputs().isEmpty()) {
-        return false;
-    }
-    Node* outputNode = output -> node();
-    Port* outputPort = output -> outputs() [0];
-    Module* outputModule = dynamic_cast<Module*> (outputNode);
-    Module* inputModule = dynamic_cast<Module*> (input -> node());
-    if (outputPort -> connections().isEmpty()) {
-        return false;
-    } else {
-        Connection* connection = outputPort->connections()[0];
-        // we're only interested in QModules here
-        if ((!outputModule) || (!inputModule)) {
-            return false;
-        }
 
-        // base case: block with no inputs can't have any paths to it
-        if (inputModule -> handle() -> inputs().isEmpty()) {
+    Node* outputNode = output -> node ();
+    Port* outputPort = output -> output();
+    if (outputPort) {
+        Module* outputModule = dynamic_cast<Module*> (outputNode);
+        Module* inputModule = dynamic_cast<Module*> (input->node ());
+        if (outputPort->connections ().isEmpty ()) {
             return false;
-
-            // see if the two blocks are connected
         } else {
-            for (Port* inputPort: inputModule -> handle() -> inputs()) {
-                if (connection -> otherEnd (outputPort) == inputPort) {
-                    return true;
-                } else {
-                    if (! (inputPort -> connections().isEmpty())) {
-                        Connection* c = inputPort -> connections()[ 0];
-                        return existsPath (outputPort -> block(), c -> otherEnd (inputPort) -> block());
+            Connection* connection = outputPort->connections ()[0];
+            // we're only interested in QModules here
+            if ((!outputModule) || (!inputModule)) {
+                return false;
+            }
+
+            // base case: block with no inputs can't have any paths to it
+            if (inputModule->handle ()->inputs ().isEmpty ()) {
+                return false;
+
+                // see if the two blocks are connected
+            } else {
+                for (Port* inputPort: inputModule->handle ()->inputs ()) {
+                    if (connection->otherEnd (outputPort) == inputPort) {
+                        return true;
+                    } else {
+                        if (!(inputPort->connections ().isEmpty ())) {
+                            Connection* c = inputPort->connections ()[0];
+                            return existsPath (outputPort->block (), c->otherEnd (inputPort)->block ());
+                        }
                     }
                 }
             }
         }
+        return false;
+    } else {
+        return false;
     }
-    return false;
 }
 
 Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
@@ -281,10 +284,15 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
                         // click on an output port - create a connection which we can connect to another owner's input or control port
                         if (item && item -> type() == Port::Type) {
+
                             // only allow connections from output ports to input ports
                             Port* port = ((Port*) item);
                             if (conn) { delete conn; }
                             if (port->portType() == Port::OutputPort) {
+
+                                for (QGraphicsView* view : views()) {
+                                    view -> setDragMode (QGraphicsView::NoDrag);
+                                }
                                 conn = new Connection (0);
                                 addItem (conn);
                                 conn -> setPort1 ((Port*) item);
@@ -473,7 +481,7 @@ Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, c
         addNode (module, initPos);
        return module;
     } else {
-        CalenhadServices::messages() -> message ("error", "Couldn't create module of type " + type + "\n");
+        CalenhadServices::messages() -> message ("No such type", "Couldn't create module of type " + type, NotificationStyle::ErrorNotification);
         return nullptr;
     }
 }
@@ -639,11 +647,11 @@ void CalenhadModel::serialize (const QString& filename, const CalenhadFileType& 
 
     std::cout.flush();
     if (! file.open (QIODevice::WriteOnly | QIODevice::Text )) {
-        CalenhadServices::messages() -> message ("error", "Failed to open file for writing");
+        CalenhadServices::messages() -> message ("File error", "Failed to open file for writing", NotificationStyle::ErrorNotification);
     } else {
         ds << doc.toString();
         file.close();
-        CalenhadServices::messages() -> message ("info", "Wrote file " + filename);
+        CalenhadServices::messages() -> message ("Complete", "Wrote file " + filename, NotificationStyle::InfoNotification);
     }
 }
 
@@ -812,9 +820,8 @@ void CalenhadModel::inflateConnections (const QDomDocument& doc, const CalenhadF
             if (fromPort && toPort) {
                 connectPorts (fromPort, toPort);
             } else {
-                // to do - message couldn't connect ports - but first need to implement connection names
-                if (!fromPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect source"); }
-                if (!toPort) { CalenhadServices::messages ()->message ("error", "Couldn't connect target"); }
+                if (!fromPort) { CalenhadServices::messages ()->message ("Couldn't connect source", "No output port available for source", NotificationStyle::ErrorNotification); }
+                if (!toPort) { CalenhadServices::messages ()->message ("Couldn't connect target", "No input port available for target", NotificationStyle::ErrorNotification); }
             }
         }
     }
@@ -959,7 +966,6 @@ void CalenhadModel::rollbackLegends() {
     // Load legends from temp legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename_temp;
     inflate (file, CalenhadFileType::CalenhadLegendFile);
-    _changed = false;
 }
 
 QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {

@@ -30,6 +30,7 @@ using namespace calenhad::pipeline;
 using namespace calenhad::legend;
 using namespace calenhad::mapping;
 using namespace calenhad::actions;
+using namespace calenhad::notification;
 
 int Module::seed = 0;
 
@@ -171,9 +172,8 @@ void Module::inflate (const QDomElement& element) {
                 }
             }
         } else {
-            QString m = "Can't find " + portNodes.at (i).attributes ().namedItem ("type").nodeValue () + " port with index " +
-                        portNodes.at (i).attributes ().namedItem ("index").nodeValue () + " in owner " + _name;
-            CalenhadServices::messages() -> message ("warning", "Reverting to default port names. " + m);
+            QString m = "Can't find port" + portNodes.at (i).attributes ().namedItem ("name").nodeValue() + " + in module " + _name;
+            CalenhadServices::messages() -> message ("Reverting to default port name", m, NotificationStyle::WarningNotification);
         }
     }
     QString legendName = element.attribute ("legend", "default");

@@ -64,7 +64,7 @@ namespace calenhad {
 
 			QVector<Port*> inputs();
 
-			QVector<Port*> outputs();
+			Port* output();
 
 			QVector<Port*> controls();
 

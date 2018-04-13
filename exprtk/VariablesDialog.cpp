@@ -2,6 +2,7 @@
 // Created by martin on 20/07/17.
 //
 
+#include "../messages/QNotificationHost.h"
 #include "VariablesDialog.h"
 #include <CalenhadServices.h>
 #include <QVBoxLayout>
@@ -12,6 +13,7 @@
 #include <../messages/QNotificationHost.h>
 
 using namespace calenhad::expressions;
+using namespace calenhad::notification;
 
 VariablesDialog::VariablesDialog() : QDialog(), _table (new QTableWidget()), _dirty (false) {
     _table -> setSelectionMode (QTableWidget::SelectionMode::SingleSelection);
@@ -128,7 +130,7 @@ void VariablesDialog::rollback() {
         msgBox.setDefaultButton (QMessageBox::Cancel);
         ret = msgBox.exec ();
         if (ret == QMessageBox::Discard) {
-            CalenhadServices::messages() -> message ("", "Changes to variables were rolled back");
+            CalenhadServices::messages() -> message ("Cancelled", "Changes to variables were rolled back", NotificationStyle::InfoNotification);
         }
     }
 

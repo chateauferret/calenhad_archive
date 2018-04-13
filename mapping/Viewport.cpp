@@ -6,13 +6,14 @@
 #include "projection/Projection.h"
 #include "projection/ProjectionService.h"
 #include "../CalenhadServices.h"
-#include "../messages/QNotificationService.h"
+#include "../messages/QNotificationHost.h"
 
 
 using namespace geoutils;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 using namespace icosphere;
+using namespace calenhad::notification;
 
 
 Viewport::Viewport () : _projection (CalenhadServices::projections() -> fetch ("Equirectangular")), _size (QSize()), _datum (Geolocation (0.0, 0.0)), _zoom (1.0)  {
@@ -35,7 +36,7 @@ void Viewport::setProjection (const QString& projection) {
     _projection = CalenhadServices::projections () -> fetch (projection);
     if (! _projection) {
         _projection = CalenhadServices::projections() -> fetch ("Equirectangular");
-        CalenhadServices::messages() -> message ("Couldn't find projection " + projection, "Using Equirectangular projection instead.");
+        CalenhadServices::messages() -> message ("Projection not found", "Couldn't find projection " + projection, "Using Equirectangular projection instead", NotificationStyle::WarningNotification);
     }
     emit changed();
 }

@@ -26,9 +26,7 @@ namespace calenhad {
         class NodeBlock;
         class Port;
     }
-    namespace notification {
-        class QNotificationFactory;
-    }
+
     namespace controls {
         namespace globe {
             class CalenhadMapView;
@@ -37,7 +35,6 @@ namespace calenhad {
         }
     }
     namespace qmodule {
-        class RangeFinder;
         class Module : public Node {
         Q_OBJECT
 

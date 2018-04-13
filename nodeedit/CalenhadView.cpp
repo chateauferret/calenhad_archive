@@ -112,3 +112,11 @@ void CalenhadView::dropEvent(QDropEvent *event) {
         event -> ignore ();
     }
 }
+
+void CalenhadView::wheelEvent (QWheelEvent* event) {
+    if (event -> angleDelta().y() > 0) {
+        emit zoomInRequested ();
+    } else {
+        emit zoomOutRequested();
+    };
+}

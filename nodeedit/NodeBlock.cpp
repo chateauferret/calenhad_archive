@@ -177,29 +177,24 @@ QVariant NodeBlock::itemChange (GraphicsItemChange change, const QVariant& value
 }
 
 QVector<Port*> NodeBlock::inputs() {
-    QVector<Port*> res;
-            foreach (QGraphicsItem* port_, childItems()) {
-            if (port_ -> type() == Port::Type) {
-                Port* port = (Port*) port_;
-                if (port -> portType() != Port::InputPort) {
-                    res.append (port);
-                }
-            }
-        }
-    return res;
+    if (dynamic_cast<Module*> (_node)) {
+        Module* m = (Module*) _node;
+        QVector<Port*> ports = m -> ports();
+        Port* out = output();
+        ports.remove (ports.indexOf (out));
+        return ports;
+    } else {
+        return QVector<Port*>();
+    }
 }
 
-QVector<Port*> NodeBlock::outputs() {
-    QVector<Port*> res;
-            foreach (QGraphicsItem* port_, childItems()) {
-            if (port_ -> type () == Port::Type) {
-                Port* port = (Port*) port_;
-                if (port -> portType() != Port::OutputPort) {
-                    res.append (port);
-                }
-            }
-        }
-    return res;
+Port* NodeBlock::output() {
+    if (dynamic_cast<Module*> (_node)) {
+        Module* m = (Module*) _node;
+        return m -> output ();
+    } else {
+        return nullptr;
+    }
 }
 
 QVector<Port*> NodeBlock::controls() {

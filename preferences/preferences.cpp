@@ -128,6 +128,8 @@ void Preferences::loadSettings() {
     calenhad_globe_inset_x = _settings -> value ("calenhad/globe/inset/x", 8).toUInt (&ok);
     calenhad_globe_inset_y = _settings -> value ("calenhad/globe/inset/y", 8).toUInt (&ok);
     calenhad_globe_texture_height = _settings -> value ("calenhad/globe/texture/height", 1024).toUInt (&ok);
+    calenhad_desktop_zoomlimit_zoomin = _settings -> value ("calenhad/desktop/zoomlimit/zommin", 4).toDouble (&ok);
+    calenhad_desktop_zoomlimit_zoomout = _settings -> value ("calenhad/desktop/zoomlimit/zommin", 0.025).toDouble (&ok);
 
     // Module names
 
@@ -248,6 +250,8 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/globe/inset/x", calenhad_globe_inset_x);
     _settings -> setValue ("calenhad/globe/inset/y", calenhad_globe_inset_y);
     _settings -> setValue ("calenhad/globe/texture/height", calenhad_globe_texture_height);
+    _settings -> setValue ("calenhad/desktop/zoomlimit/zoomin", calenhad_desktop_zoomlimit_zoomin);
+    _settings -> setValue ("calenhad/desktop/zoomlimit/zoomout", calenhad_desktop_zoomlimit_zoomout);
 
     // Modules
 

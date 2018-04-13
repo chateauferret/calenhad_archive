@@ -2,6 +2,7 @@
 // Created by martin on 05/06/17.
 //
 
+#include "../messages/QNotificationHost.h"
 #include <CalenhadServices.h>
 #include <iostream>
 #include "Calculator.h"
@@ -11,6 +12,7 @@
 
 using namespace exprtk;
 using namespace calenhad::expressions;
+using namespace calenhad::notification;
 
 Calculator::Calculator() {
 
@@ -136,7 +138,7 @@ void Calculator::inflate (const QDomElement& element) {
             _variables.insert (name, new CalenhadVariable (name, notes, value));
             emit variableChanged (name, value);
         } else {
-            CalenhadServices::messages() -> message ("Calculator", "Failed to parse value of variable " + name + " = " + value);
+            CalenhadServices::messages() -> message ("Expression parse error", "Failed to parse value of variable " + name + " = " + value, NotificationStyle::WarningNotification);
         }
     }
 }

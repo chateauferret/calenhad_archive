@@ -53,6 +53,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
+using namespace calenhad::notification;
 using namespace calenhad::actions;
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()), _undoStack (new QUndoStack()) {
@@ -82,8 +83,6 @@ void CalenhadController::setModel (CalenhadModel* model) {
     connect (model, &QGraphicsScene::selectionChanged, this, [=] () {
         ((Calenhad*) parent()) -> setSelectionActionsEnabled (! (model -> selectedItems().isEmpty()));
     });
-
-    connect (model, SIGNAL (showMessage (QString)), this, SLOT (showMessage (QString)));
 }
 
 CalenhadModel* CalenhadController::model () {
@@ -112,9 +111,6 @@ void CalenhadController::toolSelected (bool state) {
     }
 }
 
-void CalenhadController::showMessage (QString message) {
-    CalenhadServices::messages() -> message ("info", message);
-}
 
 void CalenhadController::actionTriggered() {
     // fire the selected action
@@ -125,13 +121,20 @@ void CalenhadController::actionTriggered() {
         if (action->data () == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand ((static_cast<NodeBlock*> (ca -> context())) -> node (), _model)); }
         if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<NodeBlock*> (ca -> context())) -> node(), _model)); }
     }
-    if (action -> data() == CalenhadAction::ZoomInAction) { doCommand (new ZoomCommand (0.1, _views -> at (0))); }
-    if (action -> data() == CalenhadAction::ZoomOutAction) { doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
+    if (action -> data() == CalenhadAction::ZoomInAction) {
+        if (_views->at (0)->currentZoom () < CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomin) {
+            doCommand (new ZoomCommand (0.1, _views->at (0)));
+        }
+    }
+    if (action -> data() == CalenhadAction::ZoomOutAction) {
+        if (_views->at (0)->currentZoom () > CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomout) {
+            doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
+    }
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::PasteAction) { doCommand (new PasteCommand (_model)); }
     if (action -> data() == CalenhadAction::DeleteSelectionAction || action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
-        CommandGroup* group = new CommandGroup ();
+        CommandGroup* group = new CommandGroup();
 
 
         if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::DeleteSelectionAction) {
@@ -166,7 +169,6 @@ void CalenhadController::actionTriggered() {
 
 void CalenhadController::doCommand (QUndoCommand* c) {
     _undoStack->push (c);
-    showMessage (c -> text());
 }
 
 void CalenhadController::addParamsWidget (QToolBar* toolbar, Node* node) {

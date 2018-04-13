@@ -2,6 +2,7 @@
 // Created by martin on 02/06/17.
 //
 
+#include "../messages/QNotificationHost.h"
 #include <QtWidgets/QStackedLayout>
 #include <QtWidgets/QMessageBox>
 #include "Legend.h"
@@ -14,6 +15,7 @@
 #include "../messages/QNotificationHost.h"
 
 using namespace calenhad::legend;
+using namespace calenhad::notification;
 
 LegendManager::LegendManager (QWidget* parent) : QWidget (parent), _legend (nullptr) {
     _service = CalenhadServices::legends();
@@ -94,7 +96,7 @@ void LegendManager::deleteLegend() {
             _chooser -> removeItem (_chooser -> currentIndex());
         }
     } else {
-        CalenhadServices::messages() -> message ("warning", "Cannot delete the last legend. There must always be at least one legend available");
+        CalenhadServices::messages() -> message ("Last legend", "Cannot delete the last legend. There must always be at least one legend available", NotificationStyle::WarningNotification);
     }
 }
 

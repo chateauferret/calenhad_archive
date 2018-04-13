@@ -65,9 +65,8 @@ void CalenhadServices::provideLegends (LegendService* service) {
 
 
 bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
-    std::cout << "Opening file " << fname.toStdString() << "\n";
     if (fname.isEmpty()) {
-        CalenhadServices::messages() -> message ("error", "Couldn't read file " + fname);
+        CalenhadServices::messages() -> message ("File error", "Couldn't read file " + fname, NotificationStyle::ErrorNotification);
     }
     QFile f (fname);
     f.open (QFile::ReadOnly);
@@ -75,7 +74,7 @@ bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
     int errLine, errColumn;
 
     if (! doc.setContent (&f, false, &error, &errLine, &errColumn)) {
-        // CalenhadServices::messages() -> message ("error", "Couldn't read file " + fname + "\nError " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn) + "\n");
+        CalenhadServices::messages() -> message ("XML parsing error", "Couldn't parse " + fname + "\nError " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn), NotificationStyle::WarningNotification);
         return false;
     } else {
         return true;

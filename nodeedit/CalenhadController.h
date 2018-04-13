@@ -33,7 +33,7 @@ namespace calenhad {
 		Q_OBJECT
 
 
-		public:
+        public:
 
 			explicit CalenhadController (Calenhad* parent = 0);
 
@@ -57,21 +57,20 @@ namespace calenhad {
 
 			void toolSelected (bool);
 
-			void showMessage (QString message);
-
             void actionTriggered();
         signals:
             void canUndoChanged();
             void canRedoChanged();
 
 		protected:
-            QList<CalenhadView*>* _views;
+			QUndoStack* _undoStack;
+
+			QList<CalenhadView*>* _views;
             calenhad::pipeline::CalenhadModel* _model;
 
-            QUndoStack* _undoStack;
 
-
-		};
+            QAction* _zoomInAction, * _zoomOutAction;
+        };
 
 	}
 }

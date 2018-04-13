@@ -37,15 +37,16 @@ namespace calenhad {
         public slots:
 
         signals:
-
+            void zoomInRequested();
+            void zoomOutRequested();
             void viewZoomed (double oldFactor, double newFactor);
 
-        private:
+        protected:
             CalenhadController* _controller;
             int _steps = 0;
             qreal zoom = 1.0;
             QGraphicsItemGroup* g;
-
+            void wheelEvent (QWheelEvent* event) override;
 
         };
     }

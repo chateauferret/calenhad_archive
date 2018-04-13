@@ -138,7 +138,6 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     QAction* nodeGroupTool = addModuleTool ("nodegroup", CalenhadServices::preferences() -> calenhad_nodegroup, "nodegroup");
     QStringList types = CalenhadServices::modules() -> types();
     for (QString key :  types) {
-        std::cout << "Add action " << key.toStdString () << " = " << CalenhadServices::modules() -> label (key).toStdString () << " = " << CalenhadServices::modules() -> description (key).toStdString () << "\n";
         addModuleTool (key, CalenhadServices::modules() -> label (key), CalenhadServices::modules() -> description (key));
     }
 
@@ -159,6 +158,8 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     viewToolbar -> addAction (zoomOutAction);
     viewToolbar -> addAction (zoomToFitAction);
     viewToolbar -> addAction (zoomSelectionAction);
+    connect (_view, &CalenhadView::zoomInRequested, zoomInAction, &QAction::trigger);
+    connect (_view, &CalenhadView::zoomOutRequested, zoomOutAction, &QAction::trigger);
 
     // undo/redo apparatus
 
@@ -353,7 +354,6 @@ void Calenhad::moveEvent (QMoveEvent* event) {
 
 void Calenhad::setModel (CalenhadModel* model) {
     _model = model;
-    _model -> setSceneRect (-1000, -1000, 1000, 1000);
     _controller-> setModel (_model);
     _model -> setController (_controller);
     _view -> setController (_controller);
@@ -486,8 +486,8 @@ void Calenhad::setSelectionActionsEnabled (const bool& enabled) {
 void Calenhad::updateZoomActions() {
     if (! _controller -> views() -> isEmpty ()) {
         double z = _controller -> views() -> at (0) -> currentZoom ();
-        zoomInAction -> setEnabled (z < 4.0);
-        zoomOutAction -> setEnabled (z > 0.025);
+        zoomInAction -> setEnabled (z < CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomin); // 4
+        zoomOutAction -> setEnabled (z > CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomout); // 0.025);
     }
 }
 

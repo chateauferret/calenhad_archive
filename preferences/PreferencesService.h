@@ -112,6 +112,8 @@ namespace calenhad {
             unsigned calenhad_globe_inset_x;
             unsigned calenhad_globe_inset_y;
             unsigned calenhad_globe_texture_height;
+            double calenhad_desktop_zoomlimit_zoomin;
+            double calenhad_desktop_zoomlimit_zoomout;
 
             // Modules
 

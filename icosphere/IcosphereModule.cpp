@@ -45,7 +45,7 @@ void IcosphereModule::buildIcosphere (const Bounds& bounds, const int& depth) {
     if (depth > 6) {
         int estimate = bounds.estimateVertexCount (depth);
         if (_notification) { delete _notification; }
-        _notification = CalenhadServices::messages() -> progress ("info", "Constructing icosphere", 1000, estimate, 500);
+        _notification = CalenhadServices::messages() -> progress ("Icosphere", "Constructing icosphere", NotificationStyle::InfoNotification, 1000, estimate, 500);
         _notification -> setToDo (100);
         connect (builder, &IcosphereBuilder::abandoned, _notification, &QProgressNotification::kill, Qt::QueuedConnection);
         connect (builder, SIGNAL (progress (const int&)), _notification, SLOT (setProgress (const int&)), Qt::QueuedConnection);
