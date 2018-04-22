@@ -108,13 +108,14 @@ void Preferences::loadSettings() {
     // Geometry
 
     calenhad_port_radius = _settings -> value ("calenhad/port/radius", 5).toUInt();
-    calenhad_port_margin = _settings -> value ("calenhad/port//margin", 2).toUInt();
+    calenhad_port_margin = _settings -> value ("calenhad/port/margin", 2).toUInt();
+    calenhad_port_spacing = _settings -> value ("calenhad/port/spacing", 2).toUInt();
     calenhad_globe_scale_width = _settings -> value ("calenhad/globe/scale/width", 200).toUInt();
     calenhad_globe_scale_height = _settings -> value ("calenhad/globe/scale/height", 30).toUInt();
     calenhad_module_duplicate_offset_x = _settings -> value ("calenhad/module/duplicate/offset/x", 64).toUInt();
     calenhad_module_duplicate_offset_y = _settings -> value ("calenhad/module/duplicate/offset/y", 64).toUInt();
-    calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 32).toUInt();
-    calenhad_handle_module_height = _settings -> value ("calenhad/handle/module/height", calenhad_handle_module_width).toUInt();
+    calenhad_handle_module_height = _settings -> value ("calenhad/handle/module/height", 48).toUInt();
+    calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 96).toUInt();
     calenhad_handle_module_margin = _settings -> value ("calenhad/handle/module/margin", 2).toUInt();
     calenhad_notifications_width = _settings -> value ("calenhad/preferences/width", 300).toUInt();
     calenhad_notifications_margin = _settings -> value ("calenhad/preferences/margin", 5).toUInt();
@@ -231,6 +232,7 @@ void Preferences::saveSettings() {
 
     _settings -> setValue ("calenhad/port/radius", calenhad_port_radius);
     _settings -> setValue ("calenhad/port/margin", calenhad_port_margin);
+    _settings -> setValue ("calenhad/port/spacing", calenhad_port_spacing);
     _settings -> setValue ("calenhad/globe/scale/width", calenhad_globe_scale_width);
     _settings -> setValue ("calenhad/globe/scale/height", calenhad_globe_scale_height);
     _settings -> setValue ("calenhad/module/duplicate/offset/x", calenhad_module_duplicate_offset_x);

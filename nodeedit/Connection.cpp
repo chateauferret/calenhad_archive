@@ -83,18 +83,22 @@ void Connection::updatePath() {
 
     QPainterPath p;
     QPen pen;
+    QBrush brush;
 
     if (m_port2) {
         if (isSelected ()) {
             pen = QPen (CalenhadServices::preferences() -> calenhad_connector_selected_color, CalenhadServices::preferences() -> calenhad_connector_selected_weight);
+            brush = QBrush (CalenhadServices::preferences() -> calenhad_connector_selected_color);
         } else {
             pen = QPen (CalenhadServices::preferences() -> calenhad_connector_normal_color, CalenhadServices::preferences() -> calenhad_connector_normal_weight);
         }
     } else {
         pen = QPen (CalenhadServices::preferences() -> calenhad_connector_drawing_color, CalenhadServices::preferences() -> calenhad_connector_drawing_weight);
+        brush = QBrush (CalenhadServices::preferences() -> calenhad_connector_drawing_color);
     }
 
     setPen (pen);
+    setBrush (brush);
     p.moveTo (pos1);
     qreal dx = pos2.x () - pos1.x ();
     qreal dy = pos2.y () - pos1.y ();

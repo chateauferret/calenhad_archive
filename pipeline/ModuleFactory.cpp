@@ -133,18 +133,18 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                 QString portType = portNode.attribute ("type");
                 int pt = portType == "value" ? Port::InputPort : Port::ControlPort;
                 QString portName = portNode.attribute ("name");
-
+                QString label = portNode.attribute ("label");
                 int index = portNode.attribute ("index").toInt (&ok);
                 if (ok) {
                     if (portNode.hasAttribute ("default")) {
                         double defaultValue = portNode.attribute ("default").toDouble (&ok);
                         if (ok) {
-                            qm->addInputPort (index, pt, portName, defaultValue);
+                            qm->addInputPort (index, pt, portName, label, defaultValue);
                         } else {
-                            qm->addInputPort (index, pt, portName);
+                            qm->addInputPort (index, pt, portName, label);
                         }
                     } else {
-                        qm->addInputPort (index, pt, portName);
+                        qm->addInputPort (index, pt, portName, label);
                     }
                 }
             }

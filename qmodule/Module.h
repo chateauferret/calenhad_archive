@@ -60,8 +60,8 @@ namespace calenhad {
             void setLegend (calenhad::legend::Legend* legend);
             Node* sourceModule (int portIndex);
             calenhad::legend::Legend* legend ();
-            virtual void addInputPort (const unsigned int& index, const int& portType, const QString& name);
-            void addInputPort (const unsigned int& index, const int& portType, const QString& name, const double& defaultValue);
+            virtual void addInputPort (const unsigned int& index, const int& portType, const QString& name, const QString& label);
+            void addInputPort (const unsigned int& index, const int& portType, const QString& name, const QString& label, const double& defaultValue);
 
             void showContextMenu (const QPoint& point);
             bool isComplete() override;

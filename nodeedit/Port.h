@@ -27,6 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define QNEPORT_H
 
 #include <QGraphicsPathItem>
+#include <QtWidgets/QLabel>
 
 namespace calenhad {
 	namespace qmodule {
@@ -55,9 +56,9 @@ namespace calenhad {
 				ControlPort = 0, InputPort = 1, OutputPort = 2
 			};
 
-            Port (int type, int index, const QString& name, NodeBlock* parent = 0);
+            Port (int type, int index, const QString& name, const QString& label, NodeBlock* parent = 0);
 
-			Port (int type, int index, const QString& name, const double& defaultValue, NodeBlock* parent = 0);
+			Port (int type, int index, const QString& name, const QString& label, const double& defaultValue, NodeBlock* parent = 0);
 
 			~Port ();
 
@@ -103,6 +104,7 @@ namespace calenhad {
 
             double defaultValue () const;
 
+			const QString& porLabel ();
 		public slots:
 
 			void setName (const QString& n);
@@ -117,12 +119,11 @@ namespace calenhad {
 
 		protected:
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
-            Port (int type, int index, const QString& name, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent = 0);
+            Port (int type, int index, const QString& name, const QString& label, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent = 0);
 		private:
 			NodeBlock* _block;
 			QString _portName;
-			bool isOutput_;
-			EditableLabel* _label = nullptr;
+            QString _portLabel;
 			int _radius;
 			int _margin;
 			QVector<Connection*> _connections;
@@ -137,7 +138,10 @@ namespace calenhad {
 
             QMenu* _connectMenu;
 
-            void alignLabel ();
+
+
+            void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
         };
 	}
 }

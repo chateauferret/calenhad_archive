@@ -90,6 +90,7 @@ namespace calenhad {
 
             unsigned calenhad_port_radius;
             unsigned calenhad_port_margin;
+            unsigned calenhad_port_spacing;
             unsigned calenhad_module_duplicate_offset_x;
             unsigned calenhad_module_duplicate_offset_y;
             unsigned calenhad_altitudemap_deletemargin;

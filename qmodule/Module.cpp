@@ -57,7 +57,7 @@ void Module::initialise() {
     _ports.clear();
     addInputPorts();
     // all modules have an output
-    Port* output = new Port (Port::OutputPort, 0, "Output");
+    Port* output = new Port (Port::OutputPort, 0, "Output", QString::null);
     addPort (output);
     setContextMenuPolicy(Qt::CustomContextMenu);
     _contextMenu = new QMenu (this);
@@ -106,13 +106,13 @@ void Module::showContextMenu (const QPoint& point) {
     _contextMenu -> exec (QCursor::pos());
 }
 
-void Module::addInputPort (const unsigned& index, const int& portType, const QString& name) {
-    Port* input = new Port (portType, index, name);
+void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const QString& label) {
+    Port* input = new Port (portType, index, name, label);
     addPort (input, index);
 }
 
-void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const double& defaultValue) {
-    Port* input = new Port (portType, index, name, defaultValue);
+void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const QString& label, const double& defaultValue) {
+    Port* input = new Port (portType, index, name, label, defaultValue);
     addPort (input, index);
 }
 
@@ -127,7 +127,7 @@ void Module::addDependentNodes() {
             if (_group) {
                 p = handle() -> mapFromItem (_group -> handle(), p);
             }
-            QPointF constPos = QPointF (p.x() - 75 * (index + 2), p.y() + 10 * index - input -> boundingRect().height () / 2);
+            QPointF constPos = QPointF (p.x() - 116 * (index + 2) - 10, p.y() + 12 * index - 3);
             if (_group) {
                 constPos = handle() -> mapToScene (constPos);
             }

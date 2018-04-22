@@ -49,6 +49,7 @@ using namespace calenhad::qmodule;
 
 
 NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr), _text (QString::null),
+    _size (QSizeF (0, 0)),
    _endorsementOrright (QPixmap (":/appicons/status/orright.png")),
    _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
     _pixmap = CalenhadServices::modules() -> getIcon (node -> nodeType());
@@ -64,9 +65,10 @@ NodeBlock::~NodeBlock() {
 
 void NodeBlock::initialise() {
     QSizeF scale = CalenhadServices::modules() -> scale (_node -> nodeType());
-    double height = CalenhadServices::preferences() -> calenhad_handle_module_height * scale.height();
-    double width = CalenhadServices::preferences() -> calenhad_handle_module_width * scale.width();
-    _size = QSizeF (width, height);
+    if (_size.height() == 0) { _size.setHeight (CalenhadServices::preferences() -> calenhad_handle_module_height); }
+    if (_size.width() == 0) { _size.setWidth (CalenhadServices::preferences() -> calenhad_handle_module_width); }
+    _size.setHeight (_size.height()  * scale.height());
+    _size.setWidth (_size.width() * scale.width());
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
@@ -118,19 +120,24 @@ void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option
     painter -> setBrush (_brush);
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_module_text_color_selected : CalenhadServices::preferences() -> calenhad_module_text_color_normal);
     painter -> setPen (_pen);
-    painter -> drawPath (path());
+    QPainterPath p = makePath();
+    painter -> drawPath (p);
+    QPixmap endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
     // text, if any
     if (! (_text.isNull() || _text.isEmpty())) {
-        painter -> drawText (16, 14, _text);
+        painter -> drawText (_margin, (int) _size.height() + _margin, _text);
+        painter -> drawPixmap ((int) p.boundingRect().width() - endorsement.width() - _margin, (int) (_margin +  p.boundingRect().height() - endorsement.height()) / 2, endorsement);
     } else {
         if (_icon) {
             _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark () : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark ());
-            QPixmap pix = _icon->grab ();
-            painter->drawPixmap (_margin, _margin, pix);
+            QPixmap pix = _icon -> grab().scaled (_size.height() - _margin * 2, _size.height() - _margin * 2);
+            painter -> drawPixmap ((int) _size.width() - pix.height(), (int) _size.height() -  pix.height(), pix);
+            painter -> drawPixmap ((int) _size.width() + _margin - endorsement.width(), (int) _size.height() + _margin - endorsement.height(), endorsement);
         }
     }
-    QPixmap _endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
-    painter -> drawPixmap (0, 0, _endorsement);
+
+
+
 }
 
 void NodeBlock::assignIcon() {
@@ -146,20 +153,17 @@ void NodeBlock::assignIcon() {
 
 Port* NodeBlock::addPort (Port* port) {
     port -> setParentItem (this);
-    int vertMargin = _margin;
-    QFontMetrics fm (scene() -> font());
+    int vertMargin = CalenhadServices::preferences() -> calenhad_port_spacing;
     int yInput = port -> radius();
-    int w = fm.width (port -> portName());
-    int h = fm.height();
     foreach (QGraphicsItem* port_, childItems()) {
         if (port_->type () == Port::Type) {
             Port* port = (Port*) port_;
             if (port -> portType () == Port::OutputPort) {
-                double v = (boundingRect().height() / 2) - port -> radius();
+                double v = (_size.height() / 2) + _margin;
                 port -> setPos (_size.width() + 2 * _margin + port -> radius(), v);
             } else {
                 port -> setPos (-port -> radius (), yInput + vertMargin);
-                yInput += h;
+                yInput += port -> radius() * 2 + vertMargin;
             }
         }
     }

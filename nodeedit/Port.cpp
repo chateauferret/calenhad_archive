@@ -35,13 +35,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../nodeedit/CalenhadController.h"
 #include "../preferences/PreferencesService.h"
 #include "PortNameValidator.h"
+#include <QPainter>
 
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
 using namespace calenhad::actions;
 using namespace calenhad::pipeline;
 
-Port::Port (int type, int index, const QString& name, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent) :
+Port::Port (int type, int index, const QString& name, const QString& label, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent) :
         QGraphicsPathItem (parent),
         _radius (CalenhadServices::preferences() -> calenhad_port_radius),
         _margin (CalenhadServices::preferences() -> calenhad_port_margin),
@@ -49,27 +50,12 @@ Port::Port (int type, int index, const QString& name, const double& defaultValue
         _block (parent),
         _portType (type),
         _portName (name),
+        _portLabel (label),
         _hasDefaultValue (hasDefaultValue),
         _defaultValue (defaultValue),
-        _connectMenu (new QMenu()){
+        _connectMenu (new QMenu()) {
     QPainterPath p;
     QPolygonF polygon;
-
-    if (type != OutputPort) {
-        _label = new EditableLabel (this);
-
-
-        _label->setTextColor (CalenhadServices::preferences ()->calenhad_port_text_color);
-        if (type != OutputPort) {
-            _label->setAlignment (Qt::AlignRight);
-        }
-        connect (_label, SIGNAL (textEdited (
-                                         const QString&)), this, SLOT (nameChangeRequested (
-                                                                               const QString&)));
-        connect (_label, &EditableLabel::textChanged, this, [=] () {
-            alignLabel ();
-        });
-    }
 
     if (type == OutputPort) {
         polygon << QPointF (-_radius,  - _radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, - _radius);
@@ -90,12 +76,12 @@ Port::Port (int type, int index, const QString& name, const double& defaultValue
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
 }
 
-Port::Port (int type, int index, const QString& name, NodeBlock* parent) : Port (type, index, name, 0.0, false, parent) {
+Port::Port (int type, int index, const QString& name, const QString& label, NodeBlock* parent) : Port (type, index, name, label, 0.0, false, parent) {
 
 }
 
 
-Port::Port (int type, int index, const QString& name, const double& defaultValue, NodeBlock* parent) : Port (type, index, name, defaultValue, true, parent) {
+Port::Port (int type, int index, const QString& name,const QString& label, const double& defaultValue,  NodeBlock* parent) : Port (type, index, name, label, defaultValue, true, parent) {
 
 }
 
@@ -107,13 +93,23 @@ Port::~Port () {
 }
 
 
+void Port::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    Q_UNUSED (option)
+    QPen pen = QPen (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+    painter -> setPen (pen);
+    painter -> drawPath (path());
+    if (! _portLabel.isNull()) {
+        QFont f = painter -> font();
+        f.setPointSize (8);
+        painter -> setFont (f);
+        painter -> drawText (_radius + 2 * _margin, _radius, _portLabel);
+    }
+}
+
+
 void Port::setBlock (NodeBlock* b) {
     if (! _block) {
         _block = b;
-        if (portType() != OutputPort) {
-            _nameValidator = new PortNameValidator (this);
-            _label->setValidator (_nameValidator);
-        }
     }
 }
 
@@ -128,14 +124,7 @@ void Port::nameChangeRequested (const QString& value) {
 }
 
 void Port::setName (const QString& n) {
-
     _portName = n;
-    if (portType() != OutputPort) {
-        // if we are setting the name from outside, we need to update the display too
-        if (_label->toPlainText () != n) {
-            _label->setText (n);
-        }
-    }
 }
 
 int Port::radius () {
@@ -180,20 +169,7 @@ QVariant Port::itemChange (GraphicsItemChange change, const QVariant& value) {
 }
 
 void Port::initialise () {
-    if (portType() != OutputPort) {
-        _label->setPlainText (_portName);
-        alignLabel ();
-        _label->setDefaultTextColor (CalenhadServices::preferences ()->calenhad_port_text_color);
-        _nameValidator = new PortNameValidator (this);
-        _label->setValidator (_nameValidator);
-    }
-}
 
-void Port::alignLabel() {
-    if (portType() != OutputPort) {
-        double portLabelY = -2 * (_radius + 2);
-        _label->setPos (-(_label->boundingRect ().width () + 4), portLabelY);
-    }
 }
 
 void Port::setHighlight (const PortHighlight& highlight) {
@@ -254,6 +230,10 @@ void Port::removeConnection (Connection* c) {
 
 QString& Port::portName() {
     return _portName;
+}
+
+const QString& Port::porLabel() {
+    return _portLabel;
 }
 
 Module* Port::source () {

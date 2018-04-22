@@ -85,7 +85,7 @@ void CalenhadController::setModel (CalenhadModel* model) {
     });
 }
 
-CalenhadModel* CalenhadController::model () {
+CalenhadModel* CalenhadController::model() {
     return _model;
 }
 
@@ -95,17 +95,17 @@ void CalenhadController::toolSelected (bool state) {
         // activated
         _model -> setActiveTool (tool);
         int iconSize = CalenhadServices::preferences() -> calenhad_toolpalette_icon_size;
-        for (QGraphicsView* view : _model -> views ()) {
+        for (QGraphicsView* view : _model -> views()) {
             QPixmap* pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString ());
             QCursor cursor = QCursor ((*pixmap).scaled (iconSize, iconSize));
             view -> viewport () -> setCursor (cursor);
-            for (NodeGroup* group : _model -> nodeGroups ()) {
+            for (NodeGroup* group : _model -> nodeGroups()) {
                 group -> handle() -> setCursor (cursor);
             }
         }
     } else {
         _model -> setActiveTool (nullptr);
-        for (QGraphicsView* view : _model -> views ()) {
+        for (QGraphicsView* view : _model -> views()) {
             view -> setDragMode (QGraphicsView::RubberBandDrag);
         }
     }
