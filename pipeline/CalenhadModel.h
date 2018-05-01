@@ -10,7 +10,7 @@
 #include <QtCore/QDateTime>
 #include <QtXml/QDomDocument>
 #include <QAction>
-#include <libnoise/module/modulebase.h>
+#include "../qmodule/Module.h"
 #include <Serializable.h>
 #include "../nodeedit/Calenhad.h"
 
@@ -136,9 +136,6 @@ namespace calenhad {
 
         protected:
 
-
-
-            const noise::module::Module* _nullModule;
             QPointF lastClick;
 
             QAction* _activeTool = nullptr;

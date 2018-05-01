@@ -10,7 +10,6 @@
 #include <QSlider>
 #include <QDialog>
 #include <qwt/qwt_slider.h>
-#include "libnoise/model/sphere.h"
 #include <QtWidgets/QLabel>
 #include <QtCore/QMutex>
 #include <geoutils.h>

@@ -1,7 +1,6 @@
 #ifndef CALENHAD_GLOBE_LIBRARY_H
 #define CALENHAD_GLOBE_LIBRARY_H
 
-#include <libnoise/module/modulebase.h>
 #include <QtCore/QString>
 #include "../exprtk/exprtk.hpp"
 

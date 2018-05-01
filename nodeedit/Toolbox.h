@@ -73,7 +73,7 @@
 
          enum CalenhadAction {
              UndoAction, RedoAction, CutAction, CopyAction, PasteAction,
-             ZoomInAction, ZoomOutAction, ZoomToFitAction, ZoomToSelectionAction,
+             ZoomInAction, ZoomOutAction, ZoomToFitAction, ZoomToSelectionAction, CentreAction,
              DeleteConnectionAction, DeleteModuleAction, DeleteSelectionAction, DuplicateModuleAction
          };
 

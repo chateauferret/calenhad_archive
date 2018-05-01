@@ -127,7 +127,7 @@ void Module::addDependentNodes() {
             if (_group) {
                 p = handle() -> mapFromItem (_group -> handle(), p);
             }
-            QPointF constPos = QPointF (p.x() - 116 * (index + 2) - 10, p.y() + 12 * index - 3);
+            QPointF constPos = QPointF (p.x() - (handle() -> boundingRect().width () + 2) * (index + 1) - 10, p.y() + 12 * index - 3);
             if (_group) {
                 constPos = handle() -> mapToScene (constPos);
             }

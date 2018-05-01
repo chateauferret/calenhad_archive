@@ -2,7 +2,6 @@
 // Created by martin on 08/08/17.
 //
 
-#include <libnoise/module/perlin.h>
 #include <CalenhadServices.h>
 #include <QMap>
 #include <iostream>

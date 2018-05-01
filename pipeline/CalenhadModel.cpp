@@ -17,7 +17,6 @@
 #include "nodeedit/Port.h"
 #include "qmodule/Module.h"
 #include "exprtk/Calculator.h"
-#include "../libnoiseutils/nullmodule.h"
 #include <QGraphicsSceneMouseEvent>
 #include <actions/ContextAction.h>
 #include "../legend/LegendService.h"
