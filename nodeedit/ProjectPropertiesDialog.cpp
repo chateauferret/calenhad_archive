@@ -42,7 +42,6 @@ ProjectPropertiesDialog::ProjectPropertiesDialog (CalenhadModel* model) : QDialo
     form -> addRow ("Filename", _filenameLabel);
     form -> addRow ("Last updated", _dateLabel);
 
-    _descriptionBox = new QTextEdit();
     QWidget* descriptionPanel = new QWidget (this);
     descriptionPanel -> setLayout (new QVBoxLayout());
     descriptionPanel -> layout() -> addWidget (_descriptionBox);

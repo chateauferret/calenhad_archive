@@ -3,8 +3,7 @@
 //
 
 #include "AltitudeMapFitter.h"
-#include "libnoise/misc.h"
-#include "libnoise/interp.h"
+#include "../../libnoiseutils/Interpolation.h"
 #include <qwt/qwt_plot.h>
 
 using namespace calenhad::controls::altitudemap;
@@ -58,10 +57,10 @@ double AltitudeMapFitter::getY (const double& x, const QPolygonF& points) const 
 
     // Find the four nearest control points so that we can perform cubic
     // interpolation.
-    int index0 = noise::ClampValue (indexPos - 2, 0, points.size() - 1);
-    int index1 = noise::ClampValue (indexPos - 1, 0, points.size() - 1);
-    int index2 = noise::ClampValue (indexPos, 0, points.size() - 1);
-    int index3 = noise::ClampValue (indexPos + 1, 0, points.size() - 1);
+    int index0 = noise::utils::Interpolation::ClampValue (indexPos - 2, 0, points.size() - 1);
+    int index1 = noise::utils::Interpolation::ClampValue (indexPos - 1, 0, points.size() - 1);
+    int index2 = noise::utils::Interpolation::ClampValue (indexPos, 0, points.size() - 1);
+    int index3 = noise::utils::Interpolation::ClampValue (indexPos + 1, 0, points.size() - 1);
 
     // If some control points are missing (which occurs if the value from the
     // source owner is greater than the largest input value or less than the

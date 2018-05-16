@@ -56,6 +56,7 @@ namespace calenhad {
             calenhad::qmodule::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
 
             calenhad::qmodule::NodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
+            calenhad::qmodule::NodeGroup* addNodeGroup (const QPainterPath& path);
 
             void deleteNode (calenhad::qmodule::Node* node);
 
@@ -129,6 +130,8 @@ namespace calenhad {
             void restore (const QString& xml);
 
             void removeAll ();
+            void assignGroups ();
+
         signals:
 
             void showMessage (QString);
@@ -173,6 +176,8 @@ namespace calenhad {
             void preserve ();
 
             void inflateConnections (const QDomDocument& doc, const nodeedit::CalenhadFileType& fileType);
+
+
         };
     }
 }

@@ -17,10 +17,12 @@ using namespace calenhad::controls;
 
 
 NodeGroupBlock::NodeGroupBlock (NodeGroup* node, QGraphicsItem* parent) : NodeBlock (node, parent) {
-    _rect = QRectF (0, 0, 240, 120);
+    double w = CalenhadServices::preferences() -> calenhad_desktop_nodegroup_width_default;
+    double h = CalenhadServices::preferences() -> calenhad_desktop_nodegroup_height_default;
+    _rect = QRectF (0, 0, w, h);
     setAcceptHoverEvents (true);
     setZValue (-1000);
-    _rectSizeGripItem = new SizeGripItem (new NodeGroupResizer, this);
+    _sizeGrip = new SizeGripItem (new NodeGroupResizer, this);
     setAcceptDrops (true);
 }
 
@@ -52,7 +54,7 @@ QPainterPath NodeGroupBlock::makePath() {
     // shape of the block's body
     QPainterPath p;
     QPolygonF polygon;
-    polygon = QRectF (_rect);
+    polygon = QRectF (boundingRect());
     p.addPolygon (polygon);
      _label -> setPos (boundingRect().x(), boundingRect().y());
     return p;
@@ -70,7 +72,8 @@ void NodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     } else {
         setZValue (-1000);
     }
-    _rectSizeGripItem -> setZValue (zValue());
+    _sizeGrip -> setZValue (zValue());
+    node() -> model() -> assignGroups();
 }
 
 void NodeGroupBlock::setHighlight (bool highlighted) {
@@ -81,7 +84,16 @@ void NodeGroupBlock::setHighlight (bool highlighted) {
 void NodeGroupBlock::setRect (const QRectF& rect) {
     _rect = rect;
     setPath (makePath());
+    node() -> model() -> assignGroups();
 
+}
+
+void NodeGroupBlock::resize (const QRectF& rect) {
+    QRectF r = mapFromScene (rect).boundingRect();
+    _sizeGrip -> setLeft (r.left());
+    _sizeGrip -> setRight (r.right());
+    _sizeGrip -> setTop (r.top());
+    _sizeGrip -> setBottom (r.bottom());
 }
 
 QRectF NodeGroupBlock::rect() {

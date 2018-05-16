@@ -101,12 +101,11 @@ void VariablesDialog::resizeEvent (QResizeEvent* e) {
 }
 
 void VariablesDialog::commit () {
-    CalenhadServices::calculator() -> clear();
     for (int i = 0; i < _table -> rowCount(); i++) {
         QString name = _table -> item (i, 0) -> text();
         QString notes = _table -> item (i, 2) -> text();
         double v = value (_table -> item (i, 1));
-        CalenhadServices::calculator() -> updateVariable (name, notes, v);
+        CalenhadServices::calculator() -> updateVariable (name, notes, v, false);
     }
     CalenhadServices::calculator() -> publish();
 }

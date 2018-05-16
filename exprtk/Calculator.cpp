@@ -57,7 +57,7 @@ void Calculator::deleteVariable (const QString& name) {
     CalenhadVariable* cv = _variables.value (name);
     _variables.remove (name);
     delete cv;
-    _symbols.remove_variable (name.toStdString());
+-   _symbols.remove_variable (name.toStdString());
 }
 
 void Calculator::clear () {
@@ -135,8 +135,7 @@ void Calculator::inflate (const QDomElement& element) {
         QDomNode notesNode = items.at (i).firstChildElement ("notes");
         QString notes = notesNode.firstChild().toText().nodeValue ();
         if (ok) {
-            _variables.insert (name, new CalenhadVariable (name, notes, value));
-            emit variableChanged (name, value);
+            insertVariable (name, notes, value, false);
         } else {
             CalenhadServices::messages() -> message ("Expression parse error", "Failed to parse value of variable " + name + " = " + value, NotificationStyle::WarningNotification);
         }
@@ -181,15 +180,14 @@ double Calculator::compute (const QString& expression) {
             for (std::size_t i = 0; i < p.error_count(); ++i) {
                 parser_error::type error = p.get_error (i);
                 QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str()));
-                _errors.append (e);
-                std::cout << expression.toStdString() << ": Error " << e.toStdString () << "\n";
+                _errors.append (e);std::cout << expression.toStdString() << ": Error " << e.toStdString () << "\n";
+                return 0.0;
             }
         }
         _cache.insert (expression, exp);
     }
-
-    return _cache [expression] -> value();
-    //return exp -> value();
+    exprtk::expression<double>* e = _cache [expression];
+    return  e -> value();
 }
 
 CalenhadVariable::CalenhadVariable (const QString& name, const QString& notes, const double& value) : _name (name), _notes (notes), _value (value) {

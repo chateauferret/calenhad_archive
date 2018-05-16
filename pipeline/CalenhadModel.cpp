@@ -472,7 +472,7 @@ Node* CalenhadModel::createNode (const QPointF& initPos, const QString& type) {
 }
 
 Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
-    std::cout << "Add module " << type.toStdString() << " " << name.toStdString() << "\n";
+    std::cout << "Add module " << type.toStdString() << " " << name.toStdString() << " at " << initPos.x() << ", " << initPos.y() << "\n";
     if (type != QString::null) {
         Module* module = (Module*) CalenhadServices::modules() -> createModule (type, this);
         module -> setName (uniqueName (name));
@@ -491,13 +491,18 @@ NodeGroup* CalenhadModel::addNodeGroup (const QPointF& initPos, const QString& n
     group -> initialise();
     addNode (group, initPos);
     group -> setName (uniqueName (name));
+    return group;
+}
 
+NodeGroup* CalenhadModel::addNodeGroup (const QPainterPath& path) {
+    QString name = "New nodegroup";
+    NodeGroup* group = addNodeGroup (path.boundingRect().topLeft(), name);
+    ((NodeGroupBlock*) group -> handle()) -> resize (path.boundingRect());
     return group;
 }
 
 Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     NodeBlock* b = node -> makeHandle();
-
     b -> setPos (initPos.x(), initPos.y());
     addItem (b);
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
@@ -508,8 +513,8 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
             b -> addPort (port);
         }
     }
-    b->assignGroup();
-    b->assignIcon();
+    b -> assignGroup();
+    b -> assignIcon();
 
     if (node -> group()) {
         node -> group() -> handle() -> setSelected (false);
@@ -609,6 +614,13 @@ NodeGroup* CalenhadModel::findGroup (const QString& name) {
         }
     }
     return nullptr;
+}
+
+void CalenhadModel::assignGroups() {
+// work out resulting group memberships
+    for (Node* n : nodes ()) {
+        n->handle ()->assignGroup ();
+    }
 }
 
 
@@ -840,15 +852,14 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             QDomNodeList connectionNodes = element.ownerDocument().documentElement().firstChildElement ("connections").elementsByTagName ("connection");
             // put the node at the requested position on the canvas
             QDomElement positionElement = n.firstChildElement ("position");
-            int x = positionElement.attributes ().namedItem ("x").nodeValue ().toInt ();
-            int y = positionElement.attributes ().namedItem ("y").nodeValue ().toInt ();
+            double x = positionElement.attributes ().namedItem ("x").nodeValue ().toDouble();
+            double y = positionElement.attributes ().namedItem ("y").nodeValue ().toDouble();
             QPointF pos (x, y);
-
 
             // if we are pasting, offset the positions so that we can see copied and pasted items separately
             if (fileType == CalenhadFileType::CalenhadModelFragment) {
-                pos.setX (pos.x () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_x);
-                pos.setY (pos.y () + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_y);
+                pos.setX (pos.x() + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_x);
+                pos.setY (pos.y() + CalenhadServices::preferences ()->calenhad_module_duplicate_offset_y);
             }
 
 
@@ -866,7 +877,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                 double height = element.attribute ("height").toDouble (&ok);
                 double width = ok ? element.attribute ("width").toDouble (&ok) : 0.0;
                 if (ok) {
-                    block -> setRect (QRectF (0, 0, width, height));
+                    block -> resize (QRectF (0, 0, width, height));
                 }
 
                 QDomElement nodesElement = n.firstChildElement ("nodes");
@@ -883,8 +894,8 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             } else {
 
                 Module* qm = addModule (pos, type, newName);
-                qm->handle ()->setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
-                qm->inflate (n.toElement ());
+                qm -> handle ()->setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
+                qm -> inflate (n.toElement());
 
                 // if module is in a group, assign the group
                 if (element.attribute ("type") == "nodegroup") {
@@ -1015,16 +1026,18 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     }
 
     // actions that operate on selections
-    _menu->addSeparator();
+    _menu -> addSeparator();
     QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
-    _menu->addAction (copy);
+    _menu -> addAction (copy);
     QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
-    _menu->addAction (cut);
+    _menu -> addAction (cut);
     QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
-    _menu->addAction (deleteSelection);
-    copy->setEnabled (selectedItems().size() > 0);
-    cut->setEnabled (selectedItems().size() > 0);
-    deleteSelection->setEnabled (selectedItems().size() > 0);
+    _menu -> addAction (deleteSelection);
+    QAction* newGroupFromSelection = makeMenuItem (QIcon (":/appicons/controls/group_add.png"), tr ("New group from selection"), "New group from selection", CalenhadAction::NodeGroupFromSelectionAction, nullptr);
+    _menu -> addAction (newGroupFromSelection);
+    copy -> setEnabled (selectedItems().size() > 0);
+    cut -> setEnabled (selectedItems().size() > 0);
+    deleteSelection -> setEnabled (selectedItems().size() > 0);
     return _menu;
 }
 

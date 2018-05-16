@@ -119,7 +119,7 @@ namespace calenhad {
 			calenhad::controls::QColoredIcon* _icon;
 			QPixmap _iconImage;
             const QPixmap _endorsementOrright, _endorsementGoosed;
-            QString _text;
+            QString _expression;
             QString _oldName;
             calenhad::nodeedit::NodeNameValidator* _nameValidator;
 

@@ -48,7 +48,7 @@ namespace calenhad {
 
 
             void setHighlight (bool highlighted);
-
+            void resize (const QRectF& rect);
             void setRect (const QRectF& rect);
             QRectF rect ();
         public slots:
@@ -57,9 +57,10 @@ namespace calenhad {
 
         protected:
             QPainterPath makePath ();
-            calenhad::controls::SizeGripItem* _rectSizeGripItem;
+            calenhad::controls::SizeGripItem* _sizeGrip;
             QRectF _rect;
             bool _highlighted;
+
 
 
         };

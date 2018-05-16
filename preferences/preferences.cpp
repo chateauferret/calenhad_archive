@@ -129,8 +129,11 @@ void Preferences::loadSettings() {
     calenhad_globe_inset_x = _settings -> value ("calenhad/globe/inset/x", 8).toUInt (&ok);
     calenhad_globe_inset_y = _settings -> value ("calenhad/globe/inset/y", 8).toUInt (&ok);
     calenhad_globe_texture_height = _settings -> value ("calenhad/globe/texture/height", 1024).toUInt (&ok);
-    calenhad_desktop_zoomlimit_zoomin = _settings -> value ("calenhad/desktop/zoomlimit/zommin", 4).toDouble (&ok);
-    calenhad_desktop_zoomlimit_zoomout = _settings -> value ("calenhad/desktop/zoomlimit/zommin", 0.025).toDouble (&ok);
+    calenhad_desktop_zoom_limit_zoomin = _settings -> value ("calenhad/desktop/zoom/limit/zoomin", 4).toDouble (&ok);
+    calenhad_desktop_zoom_limit_zoomout = _settings -> value ("calenhad/desktop/zoom/limit/zoomin", 0.05).toDouble (&ok);
+    calenhad_desktop_zoom_default = _settings -> value ("calenhad/desktop/zoom/default", 0.5).toDouble (&ok);
+    calenhad_desktop_nodegroup_height_default = _settings -> value ("calenhad/desktop/nodegroup/height/default", 480).toUInt (&ok);
+    calenhad_desktop_nodegroup_width_default = _settings -> value ("calenhad/desktop/nodegroup/width/default", 960).toUInt (&ok);
 
     // Module names
 
@@ -252,8 +255,11 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/globe/inset/x", calenhad_globe_inset_x);
     _settings -> setValue ("calenhad/globe/inset/y", calenhad_globe_inset_y);
     _settings -> setValue ("calenhad/globe/texture/height", calenhad_globe_texture_height);
-    _settings -> setValue ("calenhad/desktop/zoomlimit/zoomin", calenhad_desktop_zoomlimit_zoomin);
-    _settings -> setValue ("calenhad/desktop/zoomlimit/zoomout", calenhad_desktop_zoomlimit_zoomout);
+    _settings -> setValue ("calenhad/desktop/zoomlimit/zoomin", calenhad_desktop_zoom_limit_zoomin);
+    _settings -> setValue ("calenhad/desktop/zoomlimit/zoomout", calenhad_desktop_zoom_limit_zoomout);
+    _settings -> setValue ("calenhad/desktop/zoom/default", calenhad_desktop_zoom_default);
+    _settings -> setValue ("calenhad/desktop/nodegroup/height/default", calenhad_desktop_nodegroup_height_default);
+    _settings -> setValue ("calenhad/desktop/nodegroup/width/default", calenhad_desktop_nodegroup_width_default);
 
     // Modules
 

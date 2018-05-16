@@ -5,7 +5,6 @@
 #ifndef CALENHAD_INTERPOLATION_H
 #define CALENHAD_INTERPOLATION_H
 
-#include <libnoise/basictypes.h>
 #include <QColor>
 #include "LittleEndian.h"
 #include <noise/interp.h>
@@ -16,10 +15,10 @@ namespace noise {
         class Interpolation {
         public:
             // Performs linear interpolation between two 8-bit channel values.
-            static inline noise::uint8 blendChannel (const int channel0, const int channel1, float alpha) {
+            static inline int blendChannel (const int channel0, const int channel1, float alpha) {
                 float c0 = (float) (channel0 / 255.0);
                 float c1 = (float) (channel1 / 255.0);
-                return (noise::uint8) (((c1 * alpha) + (c0 * (1.0f - alpha))) * 255.0f);
+                return (int) (((c1 * alpha) + (c0 * (1.0f - alpha))) * 255.0f);
             }
 
             // Performs linear interpolation between two colors and stores the result
@@ -124,6 +123,8 @@ namespace noise {
                     return value;
                 }
             }
+
+
 
 
         };

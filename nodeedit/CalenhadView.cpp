@@ -10,6 +10,9 @@
 #include "NodeGroupBlock.h"
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <CalenhadServices.h>
+#include "../preferences/PreferencesService.h"
+
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
 
@@ -17,7 +20,7 @@ using namespace calenhad::nodeedit;
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::ContainsItemShape);
-    setZoom (1.0);
+    setZoom (CalenhadServices::preferences() -> calenhad_desktop_zoom_default);
 }
 
 CalenhadView::~CalenhadView() {

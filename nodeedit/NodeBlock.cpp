@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsSceneMouseEvent>
 #include "../pipeline/CalenhadModel.h"
 #include "NodeNameValidator.h"
-
+#include "../exprtk/Calculator.h"
 
 using namespace calenhad::controls;
 using namespace calenhad::nodeedit;
@@ -48,7 +48,7 @@ using namespace calenhad::qmodule;
 
 
 
-NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr), _text (QString::null),
+NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _label (nullptr), _icon (nullptr), _expression (QString::null),
     _size (QSizeF (0, 0)),
    _endorsementOrright (QPixmap (":/appicons/status/orright.png")),
    _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
@@ -85,9 +85,9 @@ void NodeBlock::initialise() {
         _node -> propertyChangeRequested ("name", name);
     });
 
-    if (_text != QString::null) {
+    if (_expression != QString::null) {
         _textLabel = new EditableLabel (this);
-        _label -> setText (_text);
+        _label -> setText (_expression);
         _label -> setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
         _label -> setValidator (_nameValidator);
         connect (_label, &EditableLabel::textEdited, this, [=] () {
@@ -124,9 +124,13 @@ void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option
     painter -> drawPath (p);
     QPixmap endorsement = _node -> isComplete() ? _endorsementOrright : _endorsementGoosed;
     // text, if any
-    if (! (_text.isNull() || _text.isEmpty())) {
-        painter -> drawText (_margin, (int) _size.height() + _margin, _text);
-        painter -> drawPixmap ((int) p.boundingRect().width() - endorsement.width() - _margin, (int) (_margin +  p.boundingRect().height() - endorsement.height()) / 2, endorsement);
+    if (! (_expression.isNull() || _expression.isEmpty())) {
+        QFont f = painter -> font();
+        f.setPointSize (6);
+        painter -> setFont (f);
+        QString text = QString::number (CalenhadServices::calculator() -> compute (_expression));
+        painter -> drawText (_margin, (int) _size.height() + _margin - 2, text);
+        painter -> drawPixmap ((int) p.boundingRect().width() - endorsement.width() - _margin, (int) (_margin +  p.boundingRect().height() - endorsement.height()) / 2 - 1, endorsement);
     } else {
         if (_icon) {
             _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark () : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark ());
@@ -135,9 +139,6 @@ void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option
             painter -> drawPixmap ((int) _size.width() + _margin - endorsement.width(), (int) _size.height() + _margin - endorsement.height(), endorsement);
         }
     }
-
-
-
 }
 
 void NodeBlock::assignIcon() {
@@ -325,5 +326,5 @@ void NodeBlock::nodeChanged () {
 }
 
 void NodeBlock::setText (const QString& text) {
-    _text = text;
+    _expression = text;
 }

@@ -289,12 +289,18 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _moduleContextMenu -> addAction (deleteSelectionAction);
     editToolbar -> addAction (deleteSelectionAction);
 
+    newGroupFromSelectionAction = createTool (QIcon (":/appicons/controls/group_add.png"), tr ("New group from selection"), "New group from selection", CalenhadAction::NodeGroupFromSelectionAction, _editDrawer);
+    newGroupFromSelectionAction -> setEnabled (false);
+    _defaultContextMenu -> addAction (newGroupFromSelectionAction);
+    _moduleContextMenu -> addAction (newGroupFromSelectionAction);
+    editToolbar -> addAction (newGroupFromSelectionAction);
 
     QMenu* editMenu = menuBar() -> addMenu (tr ("&Edit"));
     editMenu -> setObjectName ("editMenu");
     editMenu -> addAction (cutAction);
     editMenu -> addAction (copyAction);
     editMenu -> addAction (pasteAction);
+    editMenu -> addAction (newGroupFromSelectionAction);
     editMenu -> addSeparator();
     editMenu -> addAction (manageLegendsAction);
 
@@ -481,13 +487,14 @@ void Calenhad::setSelectionActionsEnabled (const bool& enabled) {
     deleteSelectionAction -> setEnabled (enabled);
     cutAction -> setEnabled (enabled);
     copyAction -> setEnabled (enabled);
+    newGroupFromSelectionAction -> setEnabled (enabled);
 }
 
 void Calenhad::updateZoomActions() {
     if (! _controller -> views() -> isEmpty ()) {
         double z = _controller -> views() -> at (0) -> currentZoom ();
-        zoomInAction -> setEnabled (z < CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomin); // 4
-        zoomOutAction -> setEnabled (z > CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomout); // 0.025);
+        zoomInAction -> setEnabled (z < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin); // 4
+        zoomOutAction -> setEnabled (z > CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomout); // 0.025);
     }
 }
 

@@ -2,8 +2,6 @@
 // Created by martin on 05/04/17.
 //
 
-#include <libnoise/misc.h>
-#include <libnoise/interp.h>
 #include <iostream>
 #include <qwt/qwt_plot.h>
 #include <cmath>
@@ -68,8 +66,8 @@ double TerraceMapFitter::getY (const double& x, const QPolygonF& points) const {
 
     // Find the four nearest control points so that we can perform cubic
     // interpolation.
-    int index1 = noise::ClampValue (indexPos - 1, 0, points.size() - 1);
-    int index2 = noise::ClampValue (indexPos, 0, points.size() - 1);
+    int index1 = noise::utils::Interpolation::ClampValue (indexPos - 1, 0, points.size() - 1);
+    int index2 = noise::utils::Interpolation::ClampValue (indexPos, 0, points.size() - 1);
 
     // If some control points are missing (which occurs if the value from the
     // source owner is greater than the largest input value or less than the

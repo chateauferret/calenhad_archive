@@ -144,6 +144,8 @@ namespace calenhad {
             QAction* duplicateModuleAction;
             QAction* cutAction, * copyAction, * pasteAction;
             QAction* openAction, * newAction, * quitAction, * importAction;
+            QAction* newGroupFromSelectionAction;
+
             QMenu* openRecentMenu;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
@@ -180,6 +182,8 @@ namespace calenhad {
             void loadFile (const QString& fname, const CalenhadFileType& fileType);
             void openProject (const QString& fname);
             void open();
+
+
         };
     }
 }

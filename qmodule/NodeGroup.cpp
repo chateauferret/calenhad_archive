@@ -10,7 +10,7 @@
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 
-NodeGroup::NodeGroup (QWidget* parent) : Node (parent), _rect (QRect (0, 0, 100, 100)) {
+NodeGroup::NodeGroup (QWidget* parent) : Node (parent) {
 
 }
 
@@ -18,16 +18,8 @@ NodeGroup::~NodeGroup() {
 
 }
 
-void NodeGroup::setRect (const QRect& rect) {
-    _rect = rect;
-}
-
-QRect NodeGroup::rect () {
-    return _rect;
-}
-
 bool NodeGroup::isWithin (const QPoint& point) {
-    return _rect.contains (point);
+    return ((NodeGroupBlock*) _handle) -> rect().contains (point);
 }
 
 QString NodeGroup::nodeType () {

@@ -118,6 +118,7 @@ void Module::addInputPort (const unsigned& index, const int& portType, const QSt
 
 void Module::addDependentNodes() {
     Node::addDependentNodes();
+    int offset = 1;
     for (const unsigned& index : inputs().keys()) {
         // if the port has a default value, create a constant value module to feed it#
         Port* input = inputs().value (index);
@@ -127,7 +128,7 @@ void Module::addDependentNodes() {
             if (_group) {
                 p = handle() -> mapFromItem (_group -> handle(), p);
             }
-            QPointF constPos = QPointF (p.x() - (handle() -> boundingRect().width () + 2) * (index + 1) - 10, p.y() + 12 * index - 3);
+            QPointF constPos = QPointF (p.x() - (handle() -> boundingRect().width()) * 0.75 * offset - 12, p.y() + 12 * index - 1);
             if (_group) {
                 constPos = handle() -> mapToScene (constPos);
             }
@@ -136,6 +137,7 @@ void Module::addDependentNodes() {
             _model -> connectPorts (constModule -> output(), input);
             _dependants.append (constModule);
         }
+        offset = offset == 1 ? 2 : 1;
     }
 }
 

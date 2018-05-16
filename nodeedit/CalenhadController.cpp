@@ -26,6 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 #include "../actions/ZoomCommand.h"
 #include "../actions/DeleteConnectionCommand.h"
+#include "../actions/NodeGroupFromSelectionCommand.h"
 #include "NodeBlock.h"
 #include "Toolbox.h"
 #include "Connection.h"
@@ -122,14 +123,19 @@ void CalenhadController::actionTriggered() {
         if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<NodeBlock*> (ca -> context())) -> node(), _model)); }
     }
     if (action -> data() == CalenhadAction::ZoomInAction) {
-        if (_views->at (0)->currentZoom () < CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomin) {
+        if (_views -> at (0) -> currentZoom() < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin) {
             doCommand (new ZoomCommand (0.1, _views->at (0)));
         }
     }
     if (action -> data() == CalenhadAction::ZoomOutAction) {
-        if (_views->at (0)->currentZoom () > CalenhadServices::preferences() -> calenhad_desktop_zoomlimit_zoomout) {
+        if (_views->at (0)->currentZoom () > CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomout) {
             doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
     }
+    if (action -> data() == CalenhadAction::NodeGroupFromSelectionAction) {
+        QString oldXml = _model -> snapshot();
+        doCommand (new NodeGroupFromSelectionCommand (_model, oldXml));
+    }
+
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::PasteAction) { doCommand (new PasteCommand (_model)); }

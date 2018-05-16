@@ -22,6 +22,8 @@ SET(ACTIONS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/DeleteNodeCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/SelectionToClipboardCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/SelectionToClipboardCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/NodeGroupFromSelectionCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/NodeGroupFromSelectionCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/PasteCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/PasteCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/ContextAction.h

@@ -100,9 +100,9 @@ void Port::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWi
     painter -> drawPath (path());
     if (! _portLabel.isNull()) {
         QFont f = painter -> font();
-        f.setPointSize (8);
+        f.setPointSize (6);
         painter -> setFont (f);
-        painter -> drawText (_radius + 2 * _margin, _radius, _portLabel);
+        painter -> drawText (_radius + 2 * _margin, _radius - 1, _portLabel);
     }
 }
 

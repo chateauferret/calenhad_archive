@@ -22,10 +22,6 @@ namespace calenhad {
                 Type = QGraphicsItem::UserType + 5
             };
 
-            void setRect (const QRect& rect);
-
-            QRect rect ();
-
             bool isWithin (const QPoint& point);
 
             QString nodeType () override;
@@ -42,9 +38,6 @@ namespace calenhad {
         signals:
 
             void changedOctaves (const int&);
-
-        protected:
-            QRect _rect;
 
         };
     }
