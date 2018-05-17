@@ -73,7 +73,7 @@ namespace calenhad {
 
             NodeGroup* group ();
 
-            calenhad::nodeedit::NodeBlock* handle ();
+            calenhad::nodeedit::NodeBlock* handle();
 
             virtual Node* clone();
 

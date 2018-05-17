@@ -503,7 +503,6 @@ NodeGroup* CalenhadModel::addNodeGroup (const QPainterPath& path) {
 
 Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     NodeBlock* b = node -> makeHandle();
-    b -> setPos (initPos.x(), initPos.y());
     addItem (b);
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
 
@@ -519,7 +518,8 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     if (node -> group()) {
         node -> group() -> handle() -> setSelected (false);
     }
-
+    std::cout << "Add node " << node -> name().toStdString () << " at " << initPos.x() << ", " << initPos.y() << "\n";
+    b -> setPos (initPos.x(), initPos.y());
     update();
     return node;
 }
@@ -876,36 +876,30 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                 bool ok;
                 double height = element.attribute ("height").toDouble (&ok);
                 double width = ok ? element.attribute ("width").toDouble (&ok) : 0.0;
+
                 if (ok) {
-                    block -> resize (QRectF (0, 0, width, height));
+                    block -> resize (QRectF (pos.x(), pos.y(), width, height));
                 }
 
                 QDomElement nodesElement = n.firstChildElement ("nodes");
                 inflate (nodesElement, fileType);
 
-                // if group is in another group, assign the group
-                if (element.attribute ("type") == "nodegroup") {
-                    NodeGroup* group = findGroup (element.attribute ("name"));
-                    if (group) {
-                        ng->setGroup (group);
-                    }
-                }
-
             } else {
-
                 Module* qm = addModule (pos, type, newName);
-                qm -> handle ()->setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
+                qm -> handle() -> setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
                 qm -> inflate (n.toElement());
 
                 // if module is in a group, assign the group
-                if (element.attribute ("type") == "nodegroup") {
-                    NodeGroup* group = findGroup (element.attribute ("name"));
+                QDomElement gp = n.parentNode().parentNode().toElement();
+                std::cout << "In node " << gp.attribute ("name").toStdString () << "(" << gp.attribute ("type").toStdString () << ") \n";
+                if (gp.attribute ("type") == "nodegroup") {
+                    NodeGroup* group = findGroup (gp.firstChildElement ("name").text ());
                     if (group) {
-                        qm->setGroup (group);
+                        qm -> setGroup (group);
+                        qm -> handle() -> setParentItem (group -> handle ());
+                        qm -> handle() -> setPos (pos);
                     }
                 }
-
-
 
                 // update connection names so that the module is still found if it was renamed
 
