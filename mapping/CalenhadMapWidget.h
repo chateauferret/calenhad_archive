@@ -129,7 +129,7 @@ namespace calenhad {
 
             GLfloat* _heightMapBuffer;
             const char* name = "heightMapBuffer";
-
+            QString _code;
 
             float* _rasterBuffer;
         };

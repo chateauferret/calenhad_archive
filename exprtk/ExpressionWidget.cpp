@@ -114,11 +114,13 @@ void ExpressionWidget::editText() {
 
 void ExpressionWidget::openLongBox() {
     // move editing to _expressionLongBox when the smaller box is nearly full
-    _expressionLongBox -> setText (_expressionShortBox -> text());
-    _expressionLongBox -> move (mapToGlobal (_expressionShortBox -> pos()));
+    _expressionLongBox -> setText (_expressionShortBox->text ());
+    _expressionLongBox -> move (mapToGlobal (_expressionShortBox->pos ()));
     _expressionLongBox -> setWindowFlags (Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
-    _expressionLongBox -> setFocus();
-    _expressionLongBox -> show();
+    if (isVisible()) {
+        _expressionLongBox -> setFocus ();
+        _expressionLongBox -> show ();
+    }
 }
 
 double ExpressionWidget::compute (const QString& e) {
@@ -133,7 +135,6 @@ bool ExpressionWidget::hasErrors() {
 bool ExpressionWidget::prepare() {
     _errors.clear();
     QString text = _expressionShortBox -> text();
-
     double v = compute (text);
     _errors.append (CalenhadServices::calculator() -> errors());
     if (hasErrors()) {

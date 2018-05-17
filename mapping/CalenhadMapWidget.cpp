@@ -299,32 +299,36 @@ void CalenhadMapWidget::resizeGL(int width, int height) {
 void CalenhadMapWidget::setGraph (Graph* g) {
     makeCurrent ();
     _shader = _shaderTemplate;
-    QString code = g -> glsl ();
-    if (code != QString::null) {
-        _graph = g;
+    QString code = g -> glsl();
+    if (code != _code) {
+        _code = code;
+        if (_code != QString::null) {
+            _graph = g;
 
-        _shader.replace ("// inserted code //", code);
-        _shader.replace ("// inserted inverse //", CalenhadServices::projections ()->glslInverse ());
-        _shader.replace ("// inserted forward //", CalenhadServices::projections ()->glslForward ());
+            _shader.replace ("// inserted code //", _code);
+            _shader.replace ("// inserted inverse //", CalenhadServices::projections ()->glslInverse ());
+            _shader.replace ("// inserted forward //", CalenhadServices::projections ()->glslForward ());
 
-        if (_computeShader) {
-            _computeProgram->removeAllShaders ();
-            if (_computeShader->compileSourceCode (_shader)) {
-                _computeProgram->addShader (_computeShader);
-                _computeProgram->link ();
-                _computeProgram->bind ();
+            if (_computeShader) {
+                _computeProgram->removeAllShaders ();
+                if (_computeShader->compileSourceCode (_shader)) {
+                    _computeProgram->addShader (_computeShader);
+                    _computeProgram->link ();
+                    _computeProgram->bind ();
+                    compute ();
+                    emit rendered (true);
+                } else {
+                    std::cout << "Compute shader would not compile\n";
+                    emit rendered (false);
+                }
             } else {
-                std::cout << "Compute shader would not compile\n";
+                std::cout << "No compute shader\n";
                 emit rendered (false);
             }
-            compute ();
+            update ();
         } else {
-            std::cout << "No compute shader\n";
             emit rendered (false);
         }
-        update ();
-    } else {
-        emit rendered (false);
     }
 }
 
