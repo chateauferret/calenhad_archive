@@ -306,8 +306,8 @@ void CalenhadMapWidget::setGraph (Graph* g) {
             _graph = g;
 
             _shader.replace ("// inserted code //", _code);
-            _shader.replace ("// inserted inverse //", CalenhadServices::projections ()->glslInverse ());
-            _shader.replace ("// inserted forward //", CalenhadServices::projections ()->glslForward ());
+            _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
+            _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
 
             if (_computeShader) {
                 _computeProgram->removeAllShaders ();

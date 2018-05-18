@@ -165,8 +165,8 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 
     undoAction = createTool (QIcon (":/appicons/controls/undo.png"), tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);
     redoAction = createTool (QIcon (":/appicons/controls/redo.png"), tr ("Redo"), "Redo", CalenhadAction::RedoAction, _editDrawer);
-    undoAction -> setEnabled (_controller -> canUndo());
-    redoAction -> setEnabled (_controller -> canRedo());
+    undoAction -> setEnabled (false);
+    redoAction -> setEnabled (false);
     _defaultContextMenu -> addAction (undoAction);
     _defaultContextMenu -> addAction (redoAction);
     editToolbar -> addAction (undoAction);
@@ -521,6 +521,7 @@ void Calenhad::openProject (const QString& filename) {
     setModel (model);
     loadFile (filename, CalenhadFileType::CalenhadModelFile);
     setActive (true);
+    clearUndo();
 }
 
 
@@ -536,6 +537,7 @@ void Calenhad::newProject() {
     model -> inflate (fname, calenhad::nodeedit::CalenhadLegendFile);
     setModel (model);
     setActive (true);
+    clearUndo();
 }
 
 void Calenhad::closeProject() {
@@ -552,6 +554,7 @@ void Calenhad::closeProject() {
     }
     CalenhadServices::messages() -> clearAll();
     setActive (false);
+    clearUndo();
 }
 
 void Calenhad::quit() {
@@ -642,7 +645,7 @@ void Calenhad::makeRecentFilesMenu() {
         QFile f (entry);
         QDomDocument doc;
         doc.setContent (&f);
-        QDomElement metadataElement = doc.documentElement ().firstChildElement ("metadata");
+        QDomElement metadataElement = doc.documentElement().firstChildElement ("metadata");
         QDomElement titleElement = metadataElement.firstChildElement ("title");
         QString title = titleElement.text ();
         title += " (" + entry + ")";
@@ -664,4 +667,8 @@ void Calenhad::titleChanged (const QString& title) {
 void Calenhad::projectProperties () {
     ProjectPropertiesDialog* dialog = new ProjectPropertiesDialog (_model);
     dialog -> show();
+}
+
+void Calenhad::clearUndo () {
+    _controller -> clearUndo ();
 }

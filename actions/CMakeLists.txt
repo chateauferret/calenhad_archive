@@ -6,8 +6,6 @@ SET(ACTIONS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/CreateConnectionCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/AddNodeCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AddNodeCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/ChangeModuleCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ChangeModuleCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.cpp

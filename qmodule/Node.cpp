@@ -233,8 +233,8 @@ void Node::serialize (QDomElement& element) {
 
     QDomElement positionElement = doc.createElement ("position");
     _element.appendChild (positionElement);
-    positionElement.setAttribute ("y", handle() -> scenePos().y());
-    positionElement.setAttribute ("x", handle() -> scenePos().x());
+    positionElement.setAttribute ("y", handle() -> pos().y());
+    positionElement.setAttribute ("x", handle() -> pos().x());
     _element.setAttribute ("type", nodeType ());
 }
 

@@ -191,3 +191,9 @@ bool CalenhadController::canRedo () {
     return _undoStack -> canRedo();
 }
 
+void CalenhadController::clearUndo () {
+    _undoStack -> clear();
+    emit canUndoChanged();
+    emit canRedoChanged();
+}
+

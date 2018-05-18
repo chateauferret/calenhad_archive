@@ -33,6 +33,7 @@ namespace calenhad {
 		Q_OBJECT
 
 
+
         public:
 
 			explicit CalenhadController (Calenhad* parent = 0);
@@ -52,6 +53,7 @@ namespace calenhad {
 			void addParamsWidget (QToolBar* toolbar, calenhad::qmodule::Node* node);
             bool canUndo();
             bool canRedo();
+			void clearUndo ();
 
 		public slots:
 

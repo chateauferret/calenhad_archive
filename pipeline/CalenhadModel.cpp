@@ -1,8 +1,4 @@
-//
-// Created by martin on 06/01/17.
-//
-
-#include <controls/QColoredIcon.h>
+//f
 #include "CalenhadModel.h"
 #include "../CalenhadServices.h"
 #include "../nodeedit/CalenhadController.h"
@@ -784,11 +780,8 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
         std::cout << doc.toString ().toStdString () << "\n";
         QDomElement variablesElement = doc.documentElement ().firstChildElement ("variables");
         CalenhadServices::calculator() -> inflate (variablesElement);
-
         QDomElement element = doc.documentElement().firstChildElement ("model").firstChildElement ("nodes");
-
         inflate (element, fileType);
-
         inflateConnections (doc, fileType);
 
     }
@@ -871,7 +864,9 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             if (type == "nodegroup") {
                 NodeGroup* ng = addNodeGroup (pos, newName);
 
-                // restore the nodegroup's size
+                // if nodegroup is in another group, assign the group
+                QDomElement gp = n.parentNode().parentNode().toElement();
+                std::cout << "In node " << gp.attribute ("name").toStdString () << "(" << gp.attribute ("type").toStdString () << ") \n";
                 NodeGroupBlock* block = (NodeGroupBlock*) ng -> handle();
                 bool ok;
                 double height = element.attribute ("height").toDouble (&ok);
@@ -880,6 +875,20 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                 if (ok) {
                     block -> resize (QRectF (pos.x(), pos.y(), width, height));
                 }
+
+
+
+                // restore the nodegroup's size
+
+                if (gp.attribute ("type") == "nodegroup") {
+                    NodeGroup* group = findGroup (gp.firstChildElement ("name").text ());
+                    if (group) {
+                        ng -> setGroup (group);
+                        block -> setParentItem (group -> handle());
+                        block -> setPos (pos.x(), pos.y());
+                    }
+                }
+
 
                 QDomElement nodesElement = n.firstChildElement ("nodes");
                 inflate (nodesElement, fileType);
@@ -893,7 +902,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                 QDomElement gp = n.parentNode().parentNode().toElement();
                 std::cout << "In node " << gp.attribute ("name").toStdString () << "(" << gp.attribute ("type").toStdString () << ") \n";
                 if (gp.attribute ("type") == "nodegroup") {
-                    NodeGroup* group = findGroup (gp.firstChildElement ("name").text ());
+                    NodeGroup* group = findGroup (gp.firstChildElement ("name").text());
                     if (group) {
                         qm -> setGroup (group);
                         qm -> handle() -> setParentItem (group -> handle ());
@@ -916,6 +925,9 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
 
                 _changed = false;
             }
+
+
+
             n = n.nextSibling ();
         }
     }
@@ -1092,6 +1104,7 @@ void CalenhadModel::setDescription (const QString& description) {
 void CalenhadModel::preserve() {
         QDomDocument doc = serialize (CalenhadFileType::CalenhadModelFile);
         _oldXml = doc.toString();
+        std::cout << _oldXml.toStdString () << "\n";
 }
 
 void CalenhadModel::removeAll() {
@@ -1125,5 +1138,5 @@ void CalenhadModel::setRestorePoint () {
     QString old = lastSnapshot();
     XmlCommand* command = new XmlCommand (this, old, QString::null);
     _controller -> doCommand (command);
-    command->setNewXml (newXml);
+    command -> setNewXml (newXml);
 }

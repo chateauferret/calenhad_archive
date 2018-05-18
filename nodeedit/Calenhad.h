@@ -184,6 +184,7 @@ namespace calenhad {
             void open();
 
 
+            void clearUndo ();
         };
     }
 }
