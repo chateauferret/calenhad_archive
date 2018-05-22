@@ -132,6 +132,7 @@ namespace calenhad {
             QString _code;
 
             float* _rasterBuffer;
+            bool _render;
         };
     }
 }

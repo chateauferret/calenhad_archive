@@ -868,6 +868,9 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                 QDomElement gp = n.parentNode().parentNode().toElement();
                 std::cout << "In node " << gp.attribute ("name").toStdString () << "(" << gp.attribute ("type").toStdString () << ") \n";
                 NodeGroupBlock* block = (NodeGroupBlock*) ng -> handle();
+
+
+                // restore the nodegroup's size
                 bool ok;
                 double height = element.attribute ("height").toDouble (&ok);
                 double width = ok ? element.attribute ("width").toDouble (&ok) : 0.0;
@@ -876,10 +879,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                     block -> resize (QRectF (pos.x(), pos.y(), width, height));
                 }
 
-
-
-                // restore the nodegroup's size
-
+                // restore the nodegroup's position
                 if (gp.attribute ("type") == "nodegroup") {
                     NodeGroup* group = findGroup (gp.firstChildElement ("name").text ());
                     if (group) {
@@ -888,7 +888,6 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                         block -> setPos (pos.x(), pos.y());
                     }
                 }
-
 
                 QDomElement nodesElement = n.firstChildElement ("nodes");
                 inflate (nodesElement, fileType);
@@ -1139,4 +1138,8 @@ void CalenhadModel::setRestorePoint () {
     XmlCommand* command = new XmlCommand (this, old, QString::null);
     _controller -> doCommand (command);
     command -> setNewXml (newXml);
+}
+
+void CalenhadModel::setChanged () {
+    _changed = true;
 }

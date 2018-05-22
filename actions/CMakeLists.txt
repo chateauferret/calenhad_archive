@@ -25,4 +25,6 @@ SET(ACTIONS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/PasteCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/PasteCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/ContextAction.h
+        ${CMAKE_CURRENT_LIST_DIR}/RerouteConnectionCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/RerouteConnectionCommand.h
         )

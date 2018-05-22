@@ -77,14 +77,16 @@ void AltitudeMap::editAltitudeMap() {
 }
 
 // retrieve parameters from the curve editing dialog: control points and curve type (function)
-// based on those assign the relevant owner and set tbe control points on it,
+// based on those assign the relevant curve and set tbe control points on it,
 void AltitudeMap::updateEntries() {
 
     CurveType curveType = _editor -> curveType();
     _curve = _curves.find (curveType).value();
     clearMap();
     QVector<calenhad::controls::altitudemap::AltitudeMapping> e = _editor -> getEntries();
-
+    if (_editor) {
+        _editor -> hide();
+    }
     for (AltitudeMapping point : e) {
         addEntry (point);
     }
@@ -97,15 +99,16 @@ void AltitudeMap::updateEntries() {
     serialize (element);
     QString newXml = doc.toString();
 
-    XmlCommand* c = new XmlCommand (_model, _oldXml, newXml);
+    XmlCommand* c = new XmlCommand (_model, _oldXml);
     _model -> controller() -> doCommand (c);
+    c -> setNewXml (newXml);
 
     emit nodeChanged();
-    editingFinished();
+    //editingFinished();
 }
 
 void AltitudeMap::editingFinished() {
-    if (_editor) {
+    if (isVisible() && _editor) {
         _editor -> hide();
     }
 }

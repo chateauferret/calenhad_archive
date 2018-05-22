@@ -21,6 +21,7 @@ using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 
 CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
+    _render (true),
     _vertexBuffer (nullptr),
     _computeShader (nullptr),
     _computeProgram (nullptr),
@@ -159,6 +160,7 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::compute () {
+
     clock_t start = clock();
     makeCurrent();
 
@@ -174,8 +176,8 @@ void CalenhadMapWidget::compute () {
     static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram -> programId(), "rasterResolution");
 
     m_vao.bind();
-    _computeProgram->bind();
-    _globeTexture->bind();
+    _computeProgram -> bind();
+    _globeTexture -> bind();
 
     GLubyte c = 0;
     std::vector<GLubyte> emptyData (_globeTexture -> width() * _globeTexture -> height() * 4, 0);
@@ -244,7 +246,8 @@ void CalenhadMapWidget::compute () {
 }
 
 void CalenhadMapWidget::paintGL() {
-
+    if (! _render) { return; }
+    _render = false;
     QPainter p (this);
     p.beginNativePainting();
     compute();
@@ -300,35 +303,34 @@ void CalenhadMapWidget::setGraph (Graph* g) {
     makeCurrent ();
     _shader = _shaderTemplate;
     QString code = g -> glsl();
-    if (code != _code) {
+    _render = true;
+    if (code != QString::null) {
+        std::cout << code.toStdString () << "\n";
+        _graph = g;
         _code = code;
-        if (_code != QString::null) {
-            _graph = g;
+        _shader.replace ("// inserted code //", _code);
+        _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse());
+        _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward());
 
-            _shader.replace ("// inserted code //", _code);
-            _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
-            _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
-
-            if (_computeShader) {
-                _computeProgram->removeAllShaders ();
-                if (_computeShader->compileSourceCode (_shader)) {
-                    _computeProgram->addShader (_computeShader);
-                    _computeProgram->link ();
-                    _computeProgram->bind ();
-                    compute ();
-                    emit rendered (true);
-                } else {
-                    std::cout << "Compute shader would not compile\n";
-                    emit rendered (false);
-                }
+        if (_computeShader) {
+            _computeProgram -> removeAllShaders ();
+            if (_computeShader -> compileSourceCode (_shader)) {
+                _computeProgram -> addShader (_computeShader);
+                _computeProgram -> link ();
+                _computeProgram -> bind ();
+                //compute();
+                emit rendered (true);
             } else {
-                std::cout << "No compute shader\n";
+                std::cout << "Compute shader would not compile\n";
                 emit rendered (false);
             }
-            update ();
         } else {
+            std::cout << "No compute shader\n";
             emit rendered (false);
         }
+        update ();
+    } else {
+        emit rendered (false);
     }
 }
 

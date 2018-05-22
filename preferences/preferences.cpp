@@ -86,6 +86,7 @@ void Preferences::loadSettings() {
     calenhad_graticule_visible = _settings -> value ("calenhad/graticule/visible", true).toBool();
     calenhad_altitudemap_marker_normal_color = _settings -> value ("calenhad/altitudemap/marker/normal/color", "#7F7F7F").value<QColor>();
     calenhad_altitudemap_marker_selected_color = _settings -> value ("calenhad/altitudemap/marker/selected/color", "#FF0000").value<QColor>();
+    calenhad_altitudemap_marker_fixed_color = _settings -> value ("calenhad/altitudemap/marker/fixed/color", "#000000").value<QColor>();
     calenhad_altitudemap_marker_normal_size = _settings -> value ("calenhad/altitudemap/marker/normal/size", 8).toUInt();
     calenhad_altitudemap_marker_selected_size = _settings -> value ("calenhad/altitudemap/marker/selected/size", 8).toUInt();
     calenhad_altitudemap_curve_color = _settings -> value ("calenhad/altitudemap/curve/color", "#7F0000").value<QColor>();
@@ -212,7 +213,8 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/graticule/visible", calenhad_graticule_visible);
     _settings -> setValue ("calenhad/altitudemap/marker/normal/color", calenhad_altitudemap_marker_normal_color);
     _settings -> setValue ("calenhad/altitudemap/marker/selected/color", calenhad_altitudemap_marker_selected_color);
-    _settings -> setValue ("calenhad/altitudemap/marker/normal/size", calenhad_altitudemap_marker_normal_size);
+    _settings -> setValue ("calenhad/altitudemap/marker/selected/color", calenhad_altitudemap_marker_selected_color);
+    _settings -> setValue ("calenhad/altitudemap/marker/fixed/color", calenhad_altitudemap_marker_fixed_color);
     _settings -> setValue ("calenhad/altitudemap/marker/selected/size", calenhad_altitudemap_marker_selected_size);
     _settings -> setValue ("calenhad/altitudemap/curve/color", calenhad_altitudemap_curve_color);
     _settings -> setValue ("calenhad/altitudemap/curve/width", calenhad_altitudemap_curve_width);

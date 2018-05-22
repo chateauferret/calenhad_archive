@@ -27,6 +27,7 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
         _symbol (new QwtSymbol),
         _selectedSymbol (new QwtSymbol),
         _selectedMarker (new QwtPlotMarker()),
+        _fixedSymbol (new QwtSymbol()),
         _fitter (nullptr),
         _resolution (resolution) {
     setTitle ("Altitude map");
@@ -45,6 +46,11 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
     _symbol -> setPen (CalenhadServices::preferences() -> calenhad_altitudemap_marker_normal_color.darker());
     _curve -> setSymbol (_symbol);
 
+    _fixedSymbol -> setStyle (QwtSymbol::Rect);
+    _fixedSymbol -> setSize (symbolSize, symbolSize);
+    _fixedSymbol -> setBrush (CalenhadServices::preferences() -> calenhad_altitudemap_marker_fixed_color);
+    _fixedSymbol -> setPen (CalenhadServices::preferences() -> calenhad_altitudemap_marker_fixed_color.darker());
+
     _selectedSymbol -> setStyle (QwtSymbol::Rect);
     int markerSize = CalenhadServices::preferences() -> calenhad_altitudemap_marker_selected_size;
     _selectedSymbol -> setSize (markerSize, markerSize);
@@ -60,9 +66,11 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
 
 AltitudeMapPlot::~AltitudeMapPlot() {
     if (_selectedMarker) {  _selectedMarker -> detach(); }
+    for (QwtPlotMarker* marker : _markers) { marker -> detach(); }
     _curve -> detach(); // automatically deletes the curve
     delete _symbol;
     delete _selectedSymbol;
+    delete _fixedSymbol;
     if (_fitter) { delete _fitter; }
     if (_zoomer) { delete _zoomer; }
     if (_panner) { delete _panner; }
@@ -163,10 +171,25 @@ void AltitudeMapPlot::plotPoints() {
 
     // define a separate marker for the selected entry so that it's highlighted
     if (_dialog && _dialog -> isVisible () && _dialog -> index() != noneSelected) {
-
         _selectedMarker -> attach (this);
-        _selectedMarker -> setValue (_entries.at (_dialog -> index()).point ());
+        _selectedMarker -> setValue (_entries.at (_dialog -> index()).point());
     }
+
+    // fixed markers for points that can't be draggged about
+    for (QwtPlotMarker* marker : _markers) {
+        marker -> detach();
+    }
+    for (AltitudeMapping mapping : _entries) {
+        _markers.clear();
+        if (mapping.isComputed()) {
+            QwtPlotMarker* marker = new QwtPlotMarker;
+            marker -> setSymbol (_fixedSymbol);
+            marker -> attach (this);
+            _markers.append (marker);
+            marker -> setValue (mapping.point());
+        }
+    }
+
 }
 
 void AltitudeMapPlot::updateFromDialog() {
@@ -178,7 +201,7 @@ void AltitudeMapPlot::updateFromDialog() {
             _entries.replace (_index, mapping);
             std::sort (_entries.begin (), _entries.end (), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x () < b.x (); });
             _curve->setSamples (samples ());
-            plotPoints ();
+            plotPoints();
         }
     }
 }
@@ -186,7 +209,9 @@ void AltitudeMapPlot::updateFromDialog() {
 bool AltitudeMapPlot::isOnCanvas (const QPointF& point) {
     // return true if dropping a control point here would delete it - that is if it's outside the margins of the canvas and if there would still be enough points
     // left to make a curve.
-    return (point.x() >= - 1 && point.x() <= 1 && point.y() >= - 1 && point.y() <= 1);
+    QwtInterval xInterval = axisInterval (xBottom);
+    QwtInterval yInterval = axisInterval (yLeft);
+    return point.x() > xInterval.minValue() && point.x() < xInterval.maxValue() && point.y() > yInterval.minValue() && point.y() < yInterval.maxValue();
 }
 
 void AltitudeMapPlot::mouseCanvasReleaseEvent (QMouseEvent* event) {
@@ -206,7 +231,7 @@ void AltitudeMapPlot::mouseCanvasReleaseEvent (QMouseEvent* event) {
         canvas() -> setCursor (Qt::CrossCursor);
     } else {
         if (_entries.at (_index).isComputed()) {
-            canvas ()->setCursor (Qt::PointingHandCursor);
+            canvas()->setCursor (Qt::PointingHandCursor);
         } else {
             canvas() -> setCursor (Qt::OpenHandCursor);
         }
@@ -244,10 +269,12 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                 } else {
                     // moved off the canvas, but can't drop the control point because of the minimum number of control points required.
                     // So keep the control point and keep it on the canvas.
-                    if (point.x() < -1 ) { point.setX (-1); }
-                    if (point.x() > 1 ) { point.setX (1); }
-                    if (point.y() < -1 ) { point.setY (-1); }
-                    if (point.y() > 1 ) { point.setY (1); }
+                    QwtInterval xInterval = axisInterval (xBottom);
+                    QwtInterval yInterval = axisInterval (yLeft);
+                    if (point.x() < xInterval.minValue() ) { point.setX (xInterval.minValue()); }
+                    if (point.x() > xInterval.maxValue() ) { point.setX (xInterval.maxValue()); }
+                    if (point.y() < yInterval.minValue() ) { point.setY (yInterval.minValue()); }
+                    if (point.y() > yInterval.maxValue() ) { point.setY (yInterval.maxValue()); }
                     // if the  control point stays on the canvas we just move it about, reordering the points if one is moved past another in the x direction
                     updatePoint (point);
                 }
@@ -280,14 +307,6 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
 // Updates the coordinates of the point identified by _index to move it to the coordinates of the supplied QPointF.
 void AltitudeMapPlot::updatePoint (QPointF& point) {
     if (! _entries.at (_index).isComputed()) {
-        // the X values of the first and last points in the curve to be clamped to -1 and 1 respectively so that there are no gaps at either end.
-        // We can still move the point in the Y direction though.
-        if (_index == 0) {
-            point.setX (-1);
-        }
-        if (_index == _entries.size () - 1) {
-            point.setX (1);
-        }
 
         // no two points are to have the same X value
         if (_index > 0) {
@@ -340,7 +359,7 @@ void AltitudeMapPlot::setCurveType (CurveType type) {
 // Tell whether the point selected (the one identified by _index) may be deleted, returning false if to do so would leave the curve unusable.
 // A point cannot be deleted if it is at either end of the curve or if too few points would remain for y to be computed for any value of x.
 bool AltitudeMapPlot::canDeleteSelected () {
-   return  _entries.size() > 4 && _index > 0 && _index < _entries.size() - 1;
+   return  _entries.size() > 4;
 }
 
 CurveType AltitudeMapPlot::curveType () {

@@ -76,7 +76,7 @@ namespace calenhad {
 
                 QwtPlotCurve* _curve;
                 QwtCurveFitter* _fitter;
-                QwtSymbol* _symbol, * _selectedSymbol;
+                QwtSymbol* _symbol, * _selectedSymbol, * _fixedSymbol;
                 QVector<AltitudeMapping> _entries;
                 int _index;
                 bool _drag;
@@ -104,6 +104,7 @@ namespace calenhad {
 
                 AltitudeMappingDialog* _dialog;
                 QwtPlotMarker* _selectedMarker;
+                QVector<QwtPlotMarker*> _markers;
             };
 
 

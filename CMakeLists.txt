@@ -18,7 +18,6 @@ find_package(GeographicLib 1.34 REQUIRED)
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
 
-
 message (STATUS "QtCore v" ${Qt5Core_VERSION})
 message (STATUS "QtWidgets v" ${Qt5Widgets_VERSION})
 message (STATUS "QtGui v" ${Qt5Gui_VERSION})
@@ -26,14 +25,14 @@ message (STATUS "QtXml v" ${Qt5Xml_VERSION})
 message (STATUS "QtOpenGL v" ${Qt5OpenGL_VERSION})
 
 MESSAGE (STATUS "Current source dir " ${CMAKE_CURRENT_SOURCE_DIR})
-set(FASTNOISE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fastnoise_simd)
-set(QMODULE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/qmodule)
-set(NODEEDIT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nodeedit)
-set(CONTROLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/controls)
-set(PIPELINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pipeline)
-set(ACTIONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/actions)
-set(MAPPING_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mapping)
-set(LIBNOISEUTILS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libnoiseutils)
+set (MESSAGES_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/messages)
+set (QMODULE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/qmodule)
+set (NODEEDIT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nodeedit)
+set (CONTROLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/controls)
+set (PIPELINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pipeline)
+set (ACTIONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/actions)
+set (MAPPING_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mapping)
+set (LIBNOISEUTILS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libnoiseutils)
 set (ICOSPHERE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/icosphere)
 set (EXPRTK_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/exprtk)
 set (LEGEND_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/legend)
@@ -45,9 +44,9 @@ include_directories(
         ${QtWebApp_INCLUDE_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
-
 )
 
+INCLUDE(${MESSAGES_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${QMODULE_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${NODEEDIT_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${CONTROLS_SOURCE_DIR}/CMakeLists.txt)
@@ -61,8 +60,6 @@ INCLUDE(${LEGEND_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${GRAPH_SOURCE_DIR}/CMakeLists.txt)
 INCLUDE(${PREFERENCES_SOURCE_DIR}/CMakeLists.txt)
 
-add_subdirectory (test)
-add_subdirectory (messages)
 
 set(CMAKE_AUTOMOC ON)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -80,7 +77,7 @@ set(SOURCE_FILES ${SOURCE_FILES}
         matrices.cpp
         matrices.h
         noiseconstants.h
-        ${FASTNOISE_SIMD_SOURCE_FILES}
+        ${MESSAGES_SOURCE_FILES}
         ${QMODULE_SOURCE_FILES}
         ${NODEEDIT_SOURCE_FILES}
         ${CONTROLS_SOURCE_FILES}
@@ -94,24 +91,18 @@ set(SOURCE_FILES ${SOURCE_FILES}
         ${LEGEND_SOURCE_FILES}
         ${GRAPH_SOURCE_FILES}
         ${PREFERENCES_SOURCE_FILES}
-        )
-
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -ccbin gcc-5 -std c++11)
-set (CUDA_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/cudatest.cu)
+)
 
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
-add_library (core ${SOURCE_FILES})
-add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES} controls/SplashDialog.cpp controls/SplashDialog.h actions/CreateConnectionCommand.cpp actions/CreateConnectionCommand.h actions/RerouteConnectionCommand.cpp actions/RerouteConnectionCommand.h controls/altitudemap/AltitudeMapping.cpp controls/altitudemap/AltitudeMapping.h)
+add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES})
 add_definitions (${GeographicLib_DEFINITIONS})
 
-target_link_libraries (core Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
-        messages
+target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
         ${GeographicLib_LIBRARIES}
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}
         ${QWT_LIBRARY}
         ${OPENGL_LIBRARIES})
 
-target_link_libraries (calenhad core)
 

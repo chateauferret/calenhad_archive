@@ -174,7 +174,8 @@ void CalenhadController::actionTriggered() {
 }
 
 void CalenhadController::doCommand (QUndoCommand* c) {
-    _undoStack->push (c);
+    _undoStack -> push (c);
+    _model -> setChanged();
 }
 
 void CalenhadController::addParamsWidget (QToolBar* toolbar, Node* node) {

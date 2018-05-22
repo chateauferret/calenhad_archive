@@ -42,6 +42,8 @@ namespace calenhad {
         class CalenhadModel : public QGraphicsScene {
         Q_OBJECT
 
+
+
         public:
             CalenhadModel ();
 
@@ -87,7 +89,7 @@ namespace calenhad {
 
             QString lastSnapshot ();
 
-
+            void setChanged ();
 
 
 

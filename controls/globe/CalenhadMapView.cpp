@@ -204,7 +204,7 @@ void CalenhadMapView::wheelEvent (QWheelEvent* event) {
 void CalenhadMapView::mouseReleaseEvent (QMouseEvent* e) {
     _zoomDrag = false;
     if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
-        if (e->modifiers () & Qt::ControlModifier) {
+        if (e -> modifiers () & Qt::ControlModifier) {
             zoomOutFrom (_zoomBox);
         } else {
             zoomInTo (_zoomBox);

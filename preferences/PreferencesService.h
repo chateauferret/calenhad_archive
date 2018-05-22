@@ -66,6 +66,7 @@ namespace calenhad {
             bool calenhad_graticule_visible;
             QColor calenhad_altitudemap_marker_normal_color;
             QColor calenhad_altitudemap_marker_selected_color;
+            QColor calenhad_altitudemap_marker_fixed_color;
             unsigned calenhad_altitudemap_marker_normal_size;
             unsigned calenhad_altitudemap_marker_selected_size;
             QColor calenhad_altitudemap_curve_color;

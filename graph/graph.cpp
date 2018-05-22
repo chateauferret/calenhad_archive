@@ -64,6 +64,7 @@ Graph::~Graph () {
 
 QString Graph::glsl() {
     _code =  glsl (_module);
+    _code += "\n";
     if (_code != QString::null) {
         _code.append ("\n\nfloat value (vec3 cartesian) {\n");
         _code.append ("    return _" + _nodeName + " (cartesian);\n");
@@ -164,7 +165,7 @@ QString Graph::glsl (Module* module) {
                 _code += "}\n";
 
             } else {
-                QString func = qm -> glsl ();
+                QString func = qm -> glsl () + "\n";
                 _code.append (func);
             }
 
