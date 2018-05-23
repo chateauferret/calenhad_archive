@@ -89,8 +89,10 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _view -> setRenderHint (QPainter::Antialiasing, true);
     _view -> centerOn (0, 0);
 
-
-    setCentralWidget (_view);
+    QScrollArea* scroll = new QScrollArea();
+    scroll -> setWidgetResizable (true);
+    scroll -> setWidget (_view);
+    setCentralWidget (scroll);
     setDockNestingEnabled (true);
 
     // Legends

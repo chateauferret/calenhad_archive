@@ -48,18 +48,17 @@ void CalenhadView::setController (CalenhadController* controller) {
 }
 
 void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
-    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-        if (event->source() == this) {
-            event->setDropAction(Qt::MoveAction);
-            event->accept();
+    if (event -> mimeData() -> hasFormat("application/x-dnditemdata")) {
+        if (event -> source() == this) {
+            event -> setDropAction(Qt::MoveAction);
+            event -> accept();
         } else {
             event->acceptProposedAction();
         }
     } else {
-        event->ignore();
+        event -> ignore();
     }
 }
-
 
 void CalenhadView::dragLeaveEvent (QDragLeaveEvent *event) {
     for (QGraphicsItem* item : scene ()->items ()) {
@@ -81,19 +80,17 @@ void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
     } else {
         event -> ignore();
     }
-    scene()->update ();
-
+    scene() -> update ();
 }
 
 void CalenhadView::dropEvent(QDropEvent *event) {
-
     for (QGraphicsItem* item : scene ()->items ()) {
         if (dynamic_cast<NodeGroupBlock*> (item)) {
             ((NodeGroupBlock*) item)->setHighlight (false);
         }
     }
 
-    if (event->mimeData ()->hasFormat ("application/x-dnditemdata")) {
+    if (event -> mimeData ()->hasFormat ("application/x-dnditemdata")) {
         QByteArray itemData = event -> mimeData () -> data ("application/x-dnditemdata");
         QDataStream dataStream (&itemData, QIODevice::ReadOnly);
 
@@ -105,7 +102,7 @@ void CalenhadView::dropEvent(QDropEvent *event) {
         QPointF pos = mapToScene (event -> pos());
         ((CalenhadModel*) scene()) -> createNode (pos, type);
 
-        if (event -> source () == this) {
+        if (event -> source() == this) {
             event -> setDropAction (Qt::MoveAction);
             event -> accept ();
         } else {
@@ -118,7 +115,7 @@ void CalenhadView::dropEvent(QDropEvent *event) {
 
 void CalenhadView::wheelEvent (QWheelEvent* event) {
     if (event -> angleDelta().y() > 0) {
-        emit zoomInRequested ();
+        emit zoomInRequested();
     } else {
         emit zoomOutRequested();
     };

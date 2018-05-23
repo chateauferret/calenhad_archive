@@ -84,9 +84,9 @@ void Preferences::loadSettings() {
     calenhad_graticule_minor_text_color = _settings -> value ("calenhad/graticule/major/text/color", "#00FFFF").value<QColor>();
     calenhad_graticule_density = _settings -> value ("calenhad/graticule/density", 2).toUInt();
     calenhad_graticule_visible = _settings -> value ("calenhad/graticule/visible", true).toBool();
-    calenhad_altitudemap_marker_normal_color = _settings -> value ("calenhad/altitudemap/marker/normal/color", "#7F7F7F").value<QColor>();
+    calenhad_altitudemap_marker_normal_color = _settings -> value ("calenhad/altitudemap/marker/normal/color", "#0000FF").value<QColor>();
     calenhad_altitudemap_marker_selected_color = _settings -> value ("calenhad/altitudemap/marker/selected/color", "#FF0000").value<QColor>();
-    calenhad_altitudemap_marker_fixed_color = _settings -> value ("calenhad/altitudemap/marker/fixed/color", "#000000").value<QColor>();
+    calenhad_altitudemap_marker_fixed_color = _settings -> value ("calenhad/altitudemap/marker/fixed/color", "#7F7F7F").value<QColor>();
     calenhad_altitudemap_marker_normal_size = _settings -> value ("calenhad/altitudemap/marker/normal/size", 8).toUInt();
     calenhad_altitudemap_marker_selected_size = _settings -> value ("calenhad/altitudemap/marker/selected/size", 8).toUInt();
     calenhad_altitudemap_curve_color = _settings -> value ("calenhad/altitudemap/curve/color", "#7F0000").value<QColor>();
@@ -135,6 +135,7 @@ void Preferences::loadSettings() {
     calenhad_desktop_zoom_default = _settings -> value ("calenhad/desktop/zoom/default", 0.5).toDouble (&ok);
     calenhad_desktop_nodegroup_height_default = _settings -> value ("calenhad/desktop/nodegroup/height/default", 480).toUInt (&ok);
     calenhad_desktop_nodegroup_width_default = _settings -> value ("calenhad/desktop/nodegroup/width/default", 960).toUInt (&ok);
+    calenhad_model_extent = _settings -> value ("calenhad/model/extent", 2000.0).toDouble (&ok);
 
     // Module names
 
@@ -262,6 +263,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/desktop/zoom/default", calenhad_desktop_zoom_default);
     _settings -> setValue ("calenhad/desktop/nodegroup/height/default", calenhad_desktop_nodegroup_height_default);
     _settings -> setValue ("calenhad/desktop/nodegroup/width/default", calenhad_desktop_nodegroup_width_default);
+    _settings -> setValue ("calenhad/model/extent", calenhad_model_extent);
 
     // Modules
 

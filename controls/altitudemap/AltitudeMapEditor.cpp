@@ -18,9 +18,9 @@ AltitudeMapEditor::AltitudeMapEditor (QWidget* parent) : QDialog (parent),
     QVBoxLayout* layout = new QVBoxLayout();
     setLayout (layout);
     layout -> addWidget (_plot);
-    QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-    connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect (buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect (buttonBox, &QDialogButtonBox::accepted, this, &AltitudeMapEditor::accept);
+    connect (buttonBox, &QDialogButtonBox::rejected, this, &AltitudeMapEditor::reject);
     _curveTypeCombo = new QComboBox();
     _curveTypeOptions.insert ("Altitude curve", CurveType::Altitude);
     _curveTypeOptions.insert ("Terrace", CurveType::Terrace);
@@ -28,6 +28,7 @@ AltitudeMapEditor::AltitudeMapEditor (QWidget* parent) : QDialog (parent),
     _curveTypeCombo -> addItems (_curveTypeOptions.keys());
     connect (_curveTypeCombo, SIGNAL (currentIndexChanged (int)), this, SLOT (curveTypeSelected (int)));
     layout -> addWidget (_curveTypeCombo);
+    layout -> addWidget (buttonBox);
 }
 
 AltitudeMapEditor::~AltitudeMapEditor() {
@@ -47,12 +48,12 @@ QVector<AltitudeMapping> AltitudeMapEditor::getEntries() {
 }
 
 void AltitudeMapEditor::accept() {
-   // close();
+    QDialog::accept();
     emit accepted();
 }
 
 void AltitudeMapEditor::reject() {
-   // close();
+   QDialog::reject();
     emit rejected();
 }
 

@@ -55,7 +55,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
     _connectMenu = new QMenu();
     _connectSubMenu = new QMenu (_connectMenu);
-
+    double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
+    setSceneRect (QRectF (-extent / 2, -extent / 2, extent, extent));
     // Load legends from default legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
     inflate (file, CalenhadFileType::CalenhadLegendFile);
@@ -183,7 +184,7 @@ Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
         output -> owner() -> invalidate();
 
         // model has changed so save if close
-        _changed = true;
+        setChanged();
 
         return c;
     } else {
@@ -204,7 +205,7 @@ void CalenhadModel::disconnectPorts (Connection* connection) {
 
     // update the model
     removeItem (connection);
-    _changed = true;
+    setChanged();
     delete connection;
     update();
 }
@@ -249,7 +250,7 @@ void CalenhadModel::rerouteConnection (Port* from, Port* oldPort, Port* newPort)
    from -> owner() -> invalidate();
 
     // model has changed so save if close
-    _changed = true;
+    setChanged();
     update();
     _wasConnectedTo = nullptr;
 }
@@ -423,7 +424,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     }
                 }
             } else {
-                setRestorePoint ();
+                setRestorePoint();
             }
             if (_activeTool) {
                 QString type = _activeTool -> data().toString();
@@ -457,18 +458,16 @@ Node* CalenhadModel::createNode (const QPointF& initPos, const QString& type) {
         n = addModule (initPos, type, name);
         n -> addDependentNodes();
     }
-    _changed = true;
+    setChanged();
 
     QString newXml = snapshot();
     XmlCommand* command = new XmlCommand (this, _oldXml);
     _controller -> doCommand (command);
     command -> setNewXml (newXml);
-
     return n;
 }
 
 Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name) {
-    std::cout << "Add module " << type.toStdString() << " " << name.toStdString() << " at " << initPos.x() << ", " << initPos.y() << "\n";
     if (type != QString::null) {
         Module* module = (Module*) CalenhadServices::modules() -> createModule (type, this);
         module -> setName (uniqueName (name));
@@ -514,9 +513,8 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
     if (node -> group()) {
         node -> group() -> handle() -> setSelected (false);
     }
-    std::cout << "Add node " << node -> name().toStdString () << " at " << initPos.x() << ", " << initPos.y() << "\n";
+
     b -> setPos (initPos.x(), initPos.y());
-    update();
     return node;
 }
 
@@ -539,7 +537,7 @@ void CalenhadModel::deleteNode (Node* node) {
                     if (((Connection*) item)->port1 () == p || ((Connection*) item)->port2 () == p) {
                         removeItem (item);
                         delete item;
-                        _changed = true;
+                        setChanged();
                     }
                 }
             }
@@ -924,9 +922,6 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
 
                 _changed = false;
             }
-
-
-
             n = n.nextSibling ();
         }
     }
@@ -972,7 +967,7 @@ void CalenhadModel::highlightGroupAt (QPointF pos) {
 void CalenhadModel::commitLegends() {
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename_temp;
     serialize (file, CalenhadFileType::CalenhadLegendFile);
-    _changed = true;
+    setChanged();
 }
 
 void CalenhadModel::rollbackLegends() {
@@ -1140,6 +1135,11 @@ void CalenhadModel::setRestorePoint () {
     command -> setNewXml (newXml);
 }
 
-void CalenhadModel::setChanged () {
-    _changed = true;
+void CalenhadModel::setChanged (const bool& changed) {
+    _changed = changed;
+
+    // make sure the scene canvas entirely contains all the nodes on it - otherwise they end up half off the edge when we scroll
+    if (itemsBoundingRect().contains (sceneRect())) {
+        setSceneRect (itemsBoundingRect ());
+    }
 }

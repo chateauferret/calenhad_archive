@@ -89,7 +89,7 @@ namespace calenhad {
 
             QString lastSnapshot ();
 
-            void setChanged ();
+            void setChanged (const bool& changed = true);
 
 
 

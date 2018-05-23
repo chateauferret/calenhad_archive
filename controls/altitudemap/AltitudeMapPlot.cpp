@@ -166,21 +166,16 @@ void AltitudeMapPlot::plotPoints() {
 
    // clear any existing selection marker
     if (_selectedMarker) {
+        _selectedMarker -> hide();
         _selectedMarker -> detach();
-    }
-
-    // define a separate marker for the selected entry so that it's highlighted
-    if (_dialog && _dialog -> isVisible () && _dialog -> index() != noneSelected) {
-        _selectedMarker -> attach (this);
-        _selectedMarker -> setValue (_entries.at (_dialog -> index()).point());
     }
 
     // fixed markers for points that can't be draggged about
     for (QwtPlotMarker* marker : _markers) {
+        _markers.remove (_markers.indexOf (marker));
         marker -> detach();
     }
     for (AltitudeMapping mapping : _entries) {
-        _markers.clear();
         if (mapping.isComputed()) {
             QwtPlotMarker* marker = new QwtPlotMarker;
             marker -> setSymbol (_fixedSymbol);
@@ -190,6 +185,11 @@ void AltitudeMapPlot::plotPoints() {
         }
     }
 
+    // marker for the selected entry when editing, so that it's highlighted
+    if (_dialog && _dialog -> isVisible () && _dialog -> index() != noneSelected) {
+        _selectedMarker -> attach (this);
+        _selectedMarker -> setValue (_entries.at (_dialog -> index()).point());
+    }
 }
 
 void AltitudeMapPlot::updateFromDialog() {
