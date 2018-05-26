@@ -30,6 +30,12 @@ CalenhadView::~CalenhadView() {
 void CalenhadView::setZoom (const qreal& z) {
     qreal factor = z / zoom;
     scale (factor, factor);
+    if (scene()) {
+        double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
+        QRectF minRect (-extent / 2, -extent / 2, extent, extent);
+        QRectF bounds = scene() -> itemsBoundingRect();
+        setSceneRect (minRect.contains (bounds) ? minRect : bounds);
+    }
     zoom = z;
     QTransform xf = transform();
     double oldZoom = zoom;

@@ -3,13 +3,14 @@
 //
 
 #include "CalenhadNavigator.h"
-#include "CalenhadMapView.h"
 #include <QTimer>
 #include <QMouseEvent>
 #include <qwt/qwt_compass_rose.h>
 #include <QPainter>
 #include <iostream>
 #include <cmath>
+#include "../../mapping/CalenhadMapWidget.h"
+#include <geoutils.h>
 
 using namespace calenhad::controls::globe;
 using namespace GeographicLib;
@@ -73,7 +74,7 @@ void CalenhadNavigator::mouseMoveEvent (QMouseEvent* e) {
     int v = (int) (scrolledTo (e -> pos ())) % 360;
     setValue (v);
 
-    CalenhadMapView* view = static_cast<CalenhadMapView*> (parent());
+    calenhad::mapping::CalenhadMapWidget* view = static_cast<calenhad::mapping::CalenhadMapWidget*> (parent());
     if (view) {
         double lat, lon;
         double azimuth = value();

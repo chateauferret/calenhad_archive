@@ -39,13 +39,14 @@ CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, Module* source) : QDi
     _configDialog (nullptr),
     _contextMenu (nullptr),
     _moveFrom (QPoint (0, 0)),
-    _globe (new CalenhadMapView (this)),
+    _globe (new CalenhadMapWidget (this)),
     _graph (nullptr),
-    _geodesic (new Geodesic (1, 0)) {
+    _geodesic (new Geodesic (1, 0)),
+    _zoomSlider (nullptr),
+    _navigator (nullptr) {
 
     // Turn on mouse tracking so that we can keep showing the mouse pointer coordinates.
     _globe -> setMouseTracking (true);
-    _globe -> setContextMenuPolicy (Qt::CustomContextMenu);
     connect (_globe, &QWidget::customContextMenuRequested, this, &CalenhadGlobeDialog::showContextMenu);
     _globe -> setSource (source);
     _globe -> setProjection ("Orthographic");
@@ -62,7 +63,7 @@ void CalenhadGlobeDialog::initialise() {
     _zoomSlider -> move (width() - 20, height() - 20);
     _zoomSlider -> setFixedSize (40, 150);
     //_zoomSlider -> setScaleEngine (new QwtLogScaleEngine());
-    connect (_globe, &CalenhadMapView::zoomRequested, _zoomSlider, &QwtSlider::setValue);
+    connect (_globe, &CalenhadMapWidget::zoomRequested, _zoomSlider, &QwtSlider::setValue);
     connect (_zoomSlider, SIGNAL (valueChanged (const double&)), this, SLOT (setZoom (const double&)));
     _zoomSlider -> setValue (1.0);
 
@@ -70,7 +71,7 @@ void CalenhadGlobeDialog::initialise() {
     _navigator = new CalenhadNavigator (this);
     _navigator -> move (width() - 20, 20);
     _zoomSlider -> setFixedSize (100, 100);
-    connect (_navigator, &CalenhadNavigator::navigationRequested, _globe, &CalenhadMapView::navigate);
+    connect (_navigator, &CalenhadNavigator::navigationRequested, _globe, &CalenhadMapWidget::navigate);
     connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
     _positionLabel = new QLabel (this);
 
@@ -80,8 +81,6 @@ void CalenhadGlobeDialog::initialise() {
     _scale -> move (20, height() - 20);
     _scale -> setMargin (5);
     _scale -> setVisible (true);
-
-    invalidate();
 }
 
 CalenhadGlobeDialog::~CalenhadGlobeDialog() {
@@ -91,6 +90,7 @@ CalenhadGlobeDialog::~CalenhadGlobeDialog() {
 }
 
 void CalenhadGlobeDialog::invalidate () {
+    std::cout << "invalidate: updates enabled " << _globe -> updatesEnabled() << "\n";
     _globe -> update();
 }
 
@@ -105,11 +105,15 @@ void CalenhadGlobeDialog::resizeEvent (QResizeEvent* e) {
             _globe -> setFixedSize (height * 2, height);
         }
         // update positions and sizes of the control widgets
-        _zoomSlider -> move (std::max (20, width - 20 - _zoomSlider -> width()), std::max (20, height - 20 - _zoomSlider -> height()));
-        _zoomSlider -> setFixedSize (40, std::max (150, height - 200));
-        _navigator -> setFixedSize (100, 100);
-        _navigator -> move (std::max (20, width - 20 - _navigator -> height()), 20);
-
+        if (_zoomSlider) {
+            _zoomSlider->move (std::max (20, width - 20 - _zoomSlider->width ()), std::max (20, height - 20 - _zoomSlider->height ()));
+            _zoomSlider->setFixedSize (40, std::max (150, height - 200));
+        }
+        if (_navigator) {
+            _navigator->setFixedSize (100, 100);
+            _navigator->move (std::max (20, width - 20 - _navigator->height ()), 20);
+        }
+        invalidate();
         emit resized (QSize (e -> size().width(), height));
 }
 
@@ -131,29 +135,30 @@ void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
 
 void CalenhadGlobeDialog::showOverviewMap (const bool& show) {
     _globe -> setInset (show);
-    update();
 }
 
 
 void CalenhadGlobeDialog::showZoomSlider (const bool& show) {
-    _zoomSlider -> setVisible (show);
-    update();
+    if (_zoomSlider) {
+        _zoomSlider->setVisible (show);
+    }
 }
 
 void CalenhadGlobeDialog::showNavigator (const bool& show) {
-    _navigator -> setVisible (show);
-    update();
+    if (_navigator) {
+        _navigator->setVisible (show);
+    }
 }
 
 void CalenhadGlobeDialog::setZoom (const double& zoom) {
     if (zoom <= CalenhadServices::preferences() -> calenhad_globe_zoom_max && zoom >= CalenhadServices::preferences() -> calenhad_globe_zoom_min) {
         _globe -> setScale (std::pow (10, - zoom));
-        invalidate ();
+        invalidate();
     }
 }
 
 double CalenhadGlobeDialog::zoom() {
-    return _globe->scale ();
+    return _globe -> scale ();
 }
 
 bool CalenhadGlobeDialog::isZoomBarVisible () {
@@ -200,14 +205,18 @@ void CalenhadGlobeDialog::updateConfig () {
 }
 
 bool CalenhadGlobeDialog::isScaleVisible () {
-    return ((QWidget*) _scale -> parent()) -> isVisible();
+    if (_scale) {
+        return ((QWidget*) _scale->parent ())->isVisible ();
+    } else return false;
 }
 
 void CalenhadGlobeDialog::setScalebarVisible (const bool& visible) {
-    ((QWidget*) _scale -> parent()) -> setVisible (visible);
+    if (_scale) {
+        ((QWidget*) _scale -> parent()) -> setVisible (visible);
+    }
 }
 
-CalenhadMapView* CalenhadGlobeDialog::globe () {
+CalenhadMapWidget* CalenhadGlobeDialog::globe () {
     return _globe;
 }
 
@@ -216,7 +225,7 @@ bool CalenhadGlobeDialog::isOverviewVisible () {
 }
 
 void CalenhadGlobeDialog::captureGreyscale() {
-    QImage* image = _globe->heightmap ();
+    QImage* image = _globe -> heightmap ();
     QString fileName = QFileDialog::getSaveFileName (this, tr("Save heightmap image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
     image -> save (fileName);
 }

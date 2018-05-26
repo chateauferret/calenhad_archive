@@ -13,12 +13,15 @@
 #include "../../preferences/PreferencesService.h"
 
 namespace calenhad {
+    namespace mapping {
+        class CalenhadMapWidget;
+    }
     namespace controls {
         namespace globe {
             class CalenhadMapView;
             class GlobeScaleWidget : public QwtScaleWidget {
             public:
-                GlobeScaleWidget (CalenhadMapView* _globe, QWidget* parent = 0, const double& radius = CalenhadServices::preferences() -> calenhad_default_planet_radius);
+                GlobeScaleWidget (calenhad::mapping::CalenhadMapWidget* _globe, QWidget* parent = 0, const double& radius = CalenhadServices::preferences() -> calenhad_default_planet_radius);
                 virtual ~GlobeScaleWidget();
                 void setOrientation (Qt::Orientation orientation);
             protected:
@@ -28,7 +31,7 @@ namespace calenhad {
                 void paintEvent (QPaintEvent* e) override;
 
                 Qt::Orientation _orientation;
-                CalenhadMapView*  _globe;
+                calenhad::mapping::CalenhadMapWidget*  _globe;
                 double _radius;
                 GeographicLib::Geodesic* _geodesic;
                 double _metresPerUnit;

@@ -16,7 +16,7 @@
 #include <mapping/CalenhadMapWidget.h>
 #include "../../icosphere/Bounds.h"
 #include "CalenhadGlobeConstants.h"
-#include "CalenhadMapView.h"
+#include "../../mapping/CalenhadMapWidget.h"
 #include "GlobeScaleWidget.h"
 
 namespace GeographicLib {
@@ -71,7 +71,7 @@ namespace calenhad {
 
                 bool isScaleVisible ();
 
-                CalenhadMapView* globe ();
+                calenhad::mapping::CalenhadMapWidget* globe ();
 
             public slots:
 
@@ -118,7 +118,7 @@ namespace calenhad {
 
                 //Marble::Projection _projection;
                 bool _graticuleVisible;
-                CalenhadMapView* _globe;
+                calenhad::mapping::CalenhadMapWidget* _globe;
                 icosphere::Bounds _bounds;
                 graph::Graph* _graph;
                 calenhad::controls::globe::GlobeScaleWidget* _scale;

@@ -33,8 +33,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtCore/QMap>
 #include <QtWidgets/QUndoStack>
 #include <QtWidgets/QGraphicsItem>
+#include <QtWidgets/QScrollArea>
 #include "../messages/QNotificationHost.h"
 #include "Toolbox.h"
+#include <QScrollArea>
 
 namespace calenhad {
     namespace controls {
@@ -90,7 +92,7 @@ namespace calenhad {
             void setSelectionActionsEnabled (const bool& enabled);
 
             QStringList recentFiles ();
-
+            void fixScrollBars ();
         public slots:
             void titleChanged (const QString& title);
 
@@ -166,6 +168,7 @@ namespace calenhad {
             void setActive (QWidget* widget, bool enabled);
             calenhad::controls::SplashDialog* _splash;
             void makeRecentFilesMenu();
+            QScrollArea* _scroll;
 
         private slots:
             void projectProperties();
@@ -182,9 +185,8 @@ namespace calenhad {
             void loadFile (const QString& fname, const CalenhadFileType& fileType);
             void openProject (const QString& fname);
             void open();
+            void clearUndo();
 
-
-            void clearUndo ();
         };
     }
 }

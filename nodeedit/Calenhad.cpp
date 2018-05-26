@@ -26,6 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtCore/QCoreApplication>
 #include <QMenuBar>
 #include <QToolBar>
+#include <QScrollBar>
+#include <QScrollArea>
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QtCore/QTextStream>
@@ -89,10 +91,10 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _view -> setRenderHint (QPainter::Antialiasing, true);
     _view -> centerOn (0, 0);
 
-    QScrollArea* scroll = new QScrollArea();
-    scroll -> setWidgetResizable (true);
-    scroll -> setWidget (_view);
-    setCentralWidget (scroll);
+    //_scroll = new QScrollArea (this);
+    //_scroll -> setWidgetResizable (true);
+    //_scroll -> setWidget (_view);
+    setCentralWidget (_view);
     setDockNestingEnabled (true);
 
     // Legends
@@ -673,4 +675,15 @@ void Calenhad::projectProperties () {
 
 void Calenhad::clearUndo () {
     _controller -> clearUndo ();
+}
+
+void Calenhad::fixScrollBars() {
+    QSize areaSize = _view -> viewport() -> size();
+    QSize  widgetSize = _view -> size();
+    _view -> verticalScrollBar()->setPageStep(areaSize.height());
+    _view -> horizontalScrollBar()->setPageStep(areaSize.width());
+    _view -> verticalScrollBar()->setRange(0, widgetSize.height() - areaSize.height());
+    _view -> horizontalScrollBar()->setRange(0, widgetSize.width() - areaSize.width());
+    //_view -> updateWidgetPosition();
+
 }

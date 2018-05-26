@@ -1038,6 +1038,12 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     copy -> setEnabled (selectedItems().size() > 0);
     cut -> setEnabled (selectedItems().size() > 0);
     deleteSelection -> setEnabled (selectedItems().size() > 0);
+    newGroupFromSelection -> setEnabled (selectedItems().size() > 0);
+
+    // actions that operate on the canvas
+    // ...
+
+
     return _menu;
 }
 
@@ -1139,7 +1145,10 @@ void CalenhadModel::setChanged (const bool& changed) {
     _changed = changed;
 
     // make sure the scene canvas entirely contains all the nodes on it - otherwise they end up half off the edge when we scroll
-    if (itemsBoundingRect().contains (sceneRect())) {
-        setSceneRect (itemsBoundingRect ());
-    }
+    CalenhadView* view =(CalenhadView*)  views().at (0);
+    QPointF centre = view -> sceneRect().center();
+    //setSceneRect (itemsBoundingRect ());
+    view -> centerOn (centre);
+
 }
+

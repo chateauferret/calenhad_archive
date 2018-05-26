@@ -10,7 +10,7 @@
 #include "../CalenhadServices.h"
 #include "../controls/QAngleControl.h"
 #include "../preferences/PreferencesService.h"
-#include "../controls/globe/CalenhadMapView.h"
+#include "../mapping/CalenhadMapWidget.h"
 
 
 using namespace calenhad::qmodule;

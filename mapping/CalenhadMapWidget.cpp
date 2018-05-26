@@ -9,7 +9,11 @@
 #include <QWindow>
 #include <QtXml/QtXml>
 #include <QtGui/QPainter>
+#include <controls/globe/CalenhadGlobeConstants.h>
+#include <GeographicLib/Geodesic.hpp>
+#include <QtWidgets/QToolTip>
 #include "Graticule.h"
+#include "../qmodule/Module.h"
 
 
 using namespace calenhad;
@@ -19,8 +23,20 @@ using namespace icosphere;
 using namespace calenhad::graph;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
+using namespace calenhad::pipeline;
+using namespace calenhad::qmodule;
+using namespace calenhad::controls::globe;
+using namespace calenhad::legend;
+using namespace GeographicLib;
 
 CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
+     _datumFormat (DatumFormat::Scaled),
+    _zoomDrag (false),
+    _sensitivity (0.5),
+    _mouseDoubleClickMode (CalenhadGlobeDoubleClickMode::Goto),
+    _bounds (Bounds (-M_PI_2, M_PI_2, 0, M_2_PI)),
+    _source (nullptr), _previewType (OverviewPreviewType::WholeWorld),
+    _geodesic (new Geodesic (1, 0)),
     _render (true),
     _vertexBuffer (nullptr),
     _computeShader (nullptr),
@@ -42,7 +58,6 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _rotation (Geolocation (0, 0)),
     _insetHeight (CalenhadServices::preferences() -> calenhad_globe_inset_height),
     _insetPos (QPoint (CalenhadServices::preferences() -> calenhad_globe_inset_x, CalenhadServices::preferences() -> calenhad_globe_inset_y)) {
-
 
     QSurfaceFormat format;
     format.setSamples(8);
@@ -83,6 +98,7 @@ CalenhadMapWidget::~CalenhadMapWidget() {
     if (_indexBuffer)  { delete _indexBuffer; }
     if (_vertexBuffer) { delete _vertexBuffer; }
     if (_graticule) { delete _graticule; }
+    delete _geodesic;
 }
 
 void CalenhadMapWidget::initializeGL() {
@@ -242,12 +258,10 @@ void CalenhadMapWidget::compute () {
     memcpy (_heightMapBuffer, heightData, _globeTexture -> height() * _globeTexture -> width() * sizeof (GLfloat));
 
     clock_t end = clock();
-    std::cout << "Render " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
+    std::cout << "Computed in " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
 }
 
 void CalenhadMapWidget::paintGL() {
-    if (! _render) { return; }
-    _render = false;
     QPainter p (this);
     p.beginNativePainting();
     compute();
@@ -268,8 +282,8 @@ void CalenhadMapWidget::paintGL() {
         _graticule -> drawGraticule (p);
     }
 
-
     emit rendered (true);
+    std::cout << "done\n";
 }
 
 GLfloat* CalenhadMapWidget::heightMapBuffer() const {
@@ -281,7 +295,7 @@ QSize CalenhadMapWidget::heightMapSize() const {
 }
 
 
-void CalenhadMapWidget::resizeGL(int width, int height) {
+void CalenhadMapWidget::resizeGL (int width, int height) {
     if (height == 0) height = 1;
     float aspectRatio = (float) width / (float)height;
     glViewport(0, 0, width, height);
@@ -300,42 +314,40 @@ void CalenhadMapWidget::resizeGL(int width, int height) {
 
 // Insert the given code into the compute shader to realise the noise pipeline
 void CalenhadMapWidget::setGraph (Graph* g) {
-    makeCurrent ();
-    _shader = _shaderTemplate;
-    QString code = g -> glsl();
-    _render = true;
-    if (code != QString::null) {
-        std::cout << code.toStdString () << "\n";
+    if (_graph != g) {
         _graph = g;
-        _code = code;
-        _shader.replace ("// inserted code //", _code);
-        _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse());
-        _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward());
+        makeCurrent ();
+        _shader = _shaderTemplate;
+        QString code = g->glsl ();
+        if (code != QString::null) {
+            std::cout << code.toStdString () << "\n";
+            _code = code;
+            _shader.replace ("// inserted code //", _code);
+            _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
+            _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
 
-        if (_computeShader) {
-            _computeProgram -> removeAllShaders ();
-            if (_computeShader -> compileSourceCode (_shader)) {
-                _computeProgram -> addShader (_computeShader);
-                _computeProgram -> link ();
-                _computeProgram -> bind ();
-                //compute();
-                emit rendered (true);
+            if (_computeShader) {
+                _computeProgram -> removeAllShaders ();
+                if (_computeShader -> compileSourceCode (_shader)) {
+                    _computeProgram -> addShader (_computeShader);
+                    _computeProgram -> link ();
+                    _computeProgram -> bind ();
+                } else {
+                    std::cout << "Compute shader would not compile\n";
+                    emit rendered (false);
+                }
             } else {
-                std::cout << "Compute shader would not compile\n";
+                std::cout << "No compute shader\n";
                 emit rendered (false);
             }
         } else {
-            std::cout << "No compute shader\n";
             emit rendered (false);
         }
-        update ();
-    } else {
-        emit rendered (false);
     }
 }
 
 void CalenhadMapWidget::showEvent (QShowEvent* e) {
-    update();
+    //updateGL();
 }
 
 
@@ -496,4 +508,206 @@ Statistics CalenhadMapWidget::statistics () {
 
     Statistics statistics = Statistics (_min, _max, _sum, count);
     return statistics;
+}
+
+void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
+    std::cout << "paintEvent\n";
+    QOpenGLWidget::paintEvent (e);
+}
+
+void CalenhadMapWidget::render() {
+    if (_source -> isComplete()) {
+        Graph* g = new Graph (_source);
+        setGraph (g);
+    } else {
+    }
+}
+
+Module* CalenhadMapWidget::source() {
+    return _source;
+}
+
+void CalenhadMapWidget::setSource (Module* qm) {
+    _source = qm;
+    connect (qm, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    render();
+}
+
+// Zoom so that the region enclosed in the whole viewport is compressed into the target _box.
+void CalenhadMapWidget::zoomOutFrom (const Bounds& target) {
+    /*double newRadius = _bounds.width ();
+    Geolocation centre = target.center ();
+
+    if(target.height() && target.width()) {
+        //work out the needed scale level
+        QPointF nw, se;
+        double nx, sx, wx, ex;
+        screenCoordinates (Geolocation (target.north(), target.west()), nw);
+        screenCoordinates (Geolocation (target.east(), target.south()), se);
+        double const horizontalRadius = (std::abs (nw.x() - se.x()) / _bounds.height()) / ( 0.25 * M_PI );
+        double const verticalRadius = (std::abs (ex - wx) / _bounds.width()) / ( 0.25 * M_PI );
+        std::cout << horizontalRadius << " " << verticalRadius << "\n";
+        newRadius = qMin<double>(horizontalRadius, verticalRadius );
+        newRadius = qMax<double> (100, qMin<double>(newRadius, 1e+08));
+    }
+    goTo (target.center()); // in radians
+    _zoomSlider -> setValue (radiusToZoomFactor (newRadius));
+    */
+}
+
+// Zoom so that the region enclosed in the target _box fills the whole viewport.
+void CalenhadMapWidget::zoomInTo (const Bounds& target) {
+    /*double newRadius = std::max (_bounds.width (), _bounds.height ());
+    if(target.height() && target.width()) {
+        double const horizontalRadius = ( 0.25 * M_PI ) * (_bounds.height() / target.height());
+        double const verticalRadius = ( 0.25 * M_PI ) * (_bounds.width() / target.width());
+        newRadius = qMin<double>(horizontalRadius, verticalRadius );
+        newRadius = qMax<double> (100, qMin<double>(newRadius, 1e+08));
+    }
+    goTo (target.center()); // in radians
+    _zoomSlider -> setValue (radiusToZoomFactor (newRadius)); */
+}
+
+void CalenhadMapWidget::setDatumFormat (DatumFormat format) {
+    _datumFormat = format;
+}
+
+void CalenhadMapWidget::setSensitivity (double sensitivity) {
+    _sensitivity = sensitivity;
+}
+
+DatumFormat CalenhadMapWidget::datumFormat () {
+    return _datumFormat;
+}
+
+double CalenhadMapWidget::sensitivity () {
+    return _sensitivity;
+}
+
+void CalenhadMapWidget::goTo (const Geolocation& geolocation) {
+    rotate (geolocation);
+}
+
+void CalenhadMapWidget::mousePressEvent (QMouseEvent* e) {
+    Geolocation loc;
+    if (e -> button () == Qt::LeftButton) {
+        if (geoCoordinates (e -> pos(), loc)) {
+            _moveFrom = e -> pos ();
+            setCursor (Qt::OpenHandCursor);
+        }
+    }
+}
+
+void CalenhadMapWidget::mouseDoubleClickEvent (QMouseEvent* e) {
+    if (_mouseDoubleClickMode == CalenhadGlobeDoubleClickMode::Goto) {
+        Geolocation loc;
+        if (geoCoordinates (e -> pos(), loc)) {
+            goTo (loc);
+        }
+    }
+    if (_mouseDoubleClickMode == CalenhadGlobeDoubleClickMode::Place) {
+        // to do
+    }
+}
+
+void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
+    Geolocation se, nw;
+
+    if (e -> buttons() & Qt::LeftButton) {
+        if (cursor().shape () != Qt::ClosedHandCursor) {
+            setCursor (Qt::ClosedHandCursor);
+        }
+
+        double dx = e -> pos().x() - _moveFrom.x();
+        double dy = e -> pos().y() - _moveFrom.y();
+
+        if (_mouseDragMode == CalenhadGlobeDragMode::Pan) {
+            double dLon = 180.0 * _scale * _sensitivity * dx / 50;
+            double dLat = 180.0 * _scale * _sensitivity * dy / 50;
+            _moveFrom = e -> pos();
+            goTo (Geolocation (_rotation.latitude() + qDegreesToRadians (dLat), _rotation.longitude() - qDegreesToRadians (dLon)));
+        }
+
+        if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
+            double dz = dy * _sensitivity / 10;
+            emit zoomRequested (_scale + dz);
+            _moveFrom = e -> pos();
+            update();
+        }
+    } else {
+        setCursor (Qt::CrossCursor);
+        if  ( _coordinatesFormat != CoordinatesFormat::NoCoordinates) {
+            Geolocation loc;
+            QPointF point;
+            point.setX ((double) e -> pos().x());
+            point.setY ((double) e -> pos().y());
+
+            if (geoCoordinates (point, loc)) {
+                QString text = geoutils::Math::geoLocationString (loc, _coordinatesFormat);
+                double value;
+                if (_globeTexture) {
+                    QPoint tc = texCoordinates (point);
+                    if (isInViewport (loc)) {
+                        text += ": " + QString::number (tc.x()) + ", " + QString::number (tc.y());
+                        text += ": " + QString::number (tc.y() * _globeTexture -> width() + tc.x()) + " ";
+                        if (valueAt (point, value)) {
+                            text += ": " + QString::number (value);
+                        }
+                        QToolTip::showText (e->globalPos (), text, this);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void CalenhadMapWidget::wheelEvent (QWheelEvent* event) {
+    double dz =  - event -> delta() * _sensitivity / 1200;
+    emit zoomRequested (_scale + dz);
+    update();
+}
+
+void CalenhadMapWidget::mouseReleaseEvent (QMouseEvent* e) {
+    _zoomDrag = false;
+    if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
+        if (e -> modifiers () & Qt::ControlModifier) {
+            zoomOutFrom (_zoomBox);
+        } else {
+            zoomInTo (_zoomBox);
+        }
+    }
+    Geolocation loc;
+
+    // rollback cursor for mouse move without buttons
+    if (geoCoordinates (e -> pos(), loc)) {
+        setCursor (Qt::CrossCursor);
+    } else {
+        setCursor (Qt::ArrowCursor);
+    }
+}
+
+
+void CalenhadMapWidget::setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode& mode) {
+    _mouseDoubleClickMode = mode;
+}
+
+void CalenhadMapWidget::setMouseDragMode (const CalenhadGlobeDragMode& mode) {
+    _mouseDragMode = mode;
+}
+
+CalenhadGlobeDoubleClickMode CalenhadMapWidget::mouseDoubleClickMode () {
+    return _mouseDoubleClickMode;
+}
+
+CalenhadGlobeDragMode CalenhadMapWidget::mouseDragMode () {
+    return _mouseDragMode;
+}
+
+// move the view centre along a given azimuth
+void CalenhadMapWidget::navigate (const NavigationEvent& e) {
+    // move the viewport centre in the chosen direction by the distance multiplied by the current scale
+    double lat, lon;
+    double distance = e.distance() * scale();
+    _geodesic -> Direct (rotation().latitude (Units::Degrees), rotation().longitude (Units::Degrees), e.azimuth(), distance, lat, lon);
+    goTo (Geolocation (lat, lon, Units::Degrees));
 }

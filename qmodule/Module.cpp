@@ -19,6 +19,7 @@
 #include "nodeedit/Connection.h"
 #include "../nodeedit/CalenhadView.h"
 #include "../actions/CreateConnectionCommand.h"
+#include "../mapping/CalenhadMapWidget.h"
 #include "../nodeedit/CalenhadController.h"
 
 using namespace icosphere;
@@ -70,8 +71,8 @@ void Module::showGlobe() {
     if (! _suppressRender) {
         if (!_globe) {
             _globe = new CalenhadGlobeDialog (this, this);
-            _globe->initialise ();
-            _globe->resize (640, 320);
+            _globe -> initialise ();
+            _globe -> resize (640, 320);
             connect (_globe -> globe(), &CalenhadMapWidget::rendered, this, &Module::rendered);
         }
         _globe -> show();
@@ -80,7 +81,7 @@ void Module::showGlobe() {
 
 void Module::setupPreview() {
     //if (!(_shownParameter.isNull () || _shownParameter.isEmpty ())) {
-        _preview = new CalenhadMapView (this);
+        _preview = new CalenhadMapWidget (this);
         _preview->setSource (this);
         _previewIndex = addPanel (tr ("Preview"), _preview);
         _stats = new QDialog (this);
@@ -254,7 +255,7 @@ bool Module::range (double& min, double& max) {
     }
 }
 
-calenhad::controls::globe::CalenhadMapView* Module::preview() {
+CalenhadMapWidget* Module::preview() {
     return _preview;
 };
 

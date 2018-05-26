@@ -1,7 +1,5 @@
 SET (GLOBE_SOURCE_FILES
 
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMapView.h
-        ${CMAKE_CURRENT_LIST_DIR}/CalenhadMapView.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadNavigator.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadNavigator.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeContextMenu.cpp

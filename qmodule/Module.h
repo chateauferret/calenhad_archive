@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <QtWidgets/QCheckBox>
+#include <mapping/CalenhadMapWidget.h>
 #include "Node.h"
 
 
@@ -49,7 +50,7 @@ namespace calenhad {
             virtual void inflate (const QDomElement& element) override;
 
             virtual void serialize (QDomElement& element) override;
-            calenhad::controls::globe::CalenhadMapView* preview();
+            mapping::CalenhadMapWidget* preview();
             static int seed;
 
             // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.
@@ -90,7 +91,7 @@ namespace calenhad {
 
             bool _suppressRender;
             QFormLayout* _previewLayout;
-            calenhad::controls::globe::CalenhadMapView* _preview;
+            calenhad::mapping::CalenhadMapWidget* _preview;
             int _previewIndex;
             calenhad::legend::Legend* _legend;
 
