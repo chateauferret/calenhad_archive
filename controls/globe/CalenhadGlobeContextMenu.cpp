@@ -204,6 +204,6 @@ void CalenhadGlobeContextMenu::initialise () {
 void CalenhadGlobeContextMenu::projectionSelected (const bool& selected) {
     QAction* action = (QAction*) sender();
     if (selected) {
-        emit projectionSelected (action -> text());
+        emit projectionChangeRequested (action -> text());
     }
 }

@@ -49,7 +49,7 @@ namespace calenhad {
 
                 void doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&);
 
-                void projectionSelected (QString projection);
+                void projectionChangeRequested (const QString& projection);
 
                 void scaleVisibleSelected (const bool&);
 

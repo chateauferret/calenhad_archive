@@ -80,7 +80,7 @@ QString Graph::glsl (Module* module) {
         // Compile any antecedent modules recurisvely
         for (unsigned p: module -> inputs().keys()) {
             Port* port = module -> inputs().value (p);
-            if (! port->connections ().empty ()) {
+            if (! port -> connections ().empty ()) {
                 for (Connection* c : port->connections ()) {
                     Port* p = c->otherEnd (port);
                     if (p) {

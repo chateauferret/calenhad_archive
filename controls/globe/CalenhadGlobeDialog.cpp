@@ -120,15 +120,15 @@ void CalenhadGlobeDialog::resizeEvent (QResizeEvent* e) {
 void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
     if (! _contextMenu) {
         _contextMenu = new CalenhadGlobeContextMenu (this);
-        connect (_contextMenu, SIGNAL (showOverviewMap (const bool&)), this, SLOT (showOverviewMap (const bool&)));
-        connect (_contextMenu, SIGNAL (showZoomSlider (const bool&)), this, SLOT (showZoomSlider (const bool&)));
-        connect (_contextMenu, SIGNAL (scaleVisibleSelected (const bool&)), this, SLOT (setScalebarVisible (const bool&)));
-        connect (_contextMenu, SIGNAL (showNavigator (const bool&)), this, SLOT (showNavigator (const bool&)));
+        connect (_contextMenu, &CalenhadGlobeContextMenu::showOverviewMap, this, &CalenhadGlobeDialog::showOverviewMap);
+        connect (_contextMenu, &CalenhadGlobeContextMenu::showZoomSlider, this, &CalenhadGlobeDialog::showZoomSlider);
+        connect (_contextMenu, &CalenhadGlobeContextMenu::scaleVisibleSelected, this, &CalenhadGlobeDialog::setScalebarVisible);
+        connect (_contextMenu, &CalenhadGlobeContextMenu::showNavigator, this, &CalenhadGlobeDialog::showNavigator);
         connect (_contextMenu, &CalenhadGlobeContextMenu::showGraticule, _globe, &CalenhadMapWidget::setGraticuleVisible);
-        connect (_contextMenu, SIGNAL (dragModeSelected (const CalenhadGlobeDragMode&)), _globe, SLOT (setMouseDragMode (const CalenhadGlobeDragMode&)));
-        connect (_contextMenu, SIGNAL (doubleClickModeSelected (const CalenhadGlobeDoubleClickMode&)), _globe, SLOT (setMouseDoubleClickMode (const CalenhadGlobeDoubleClickMode&)));
-        connect (_contextMenu, SIGNAL (projectionSelected (QString)), _globe, SLOT (setProjection (const QString&)));
-        connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
+        connect (_contextMenu, &CalenhadGlobeContextMenu::dragModeSelected, _globe, &CalenhadMapWidget::setMouseDragMode);
+        connect (_contextMenu, &CalenhadGlobeContextMenu::doubleClickModeSelected, _globe, &CalenhadMapWidget::setMouseDoubleClickMode);
+        connect (_contextMenu, &CalenhadGlobeContextMenu::projectionChangeRequested,_globe, &CalenhadMapWidget::setProjection);
+        connect (this, &CalenhadGlobeDialog::customContextMenuRequested, this,  &CalenhadGlobeDialog::showContextMenu);
     }
     _contextMenu -> exec (mapToGlobal (pos));
 }

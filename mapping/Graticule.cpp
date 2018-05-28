@@ -178,35 +178,43 @@ void Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
     // extend the meridian in segments to the north and south
     p.setPen (g.second / q == std::floor (g.second / q) ? _majorPen : _minorPen);
     _globe -> screenCoordinates (Geolocation (g.first - interval, g.second, Units::Degrees), start);
+
     double lat0 = g.first - interval;
     for (int i = 0; i <= segments; i++) {
-        Geolocation g0 = Geolocation (lat0, g.second, Units::Degrees);
-        bool visible = _globe -> screenCoordinates (g0, end);
-        if (visible) {
-            if (lat0 > -90.0 && lat0 < 90.0) {             // removes an artefact which appears if both poles are visible
-                QPointF point;
-                QLineF line = QLineF (start, end);
-                if (! _longitudesLabelled.contains (g.second)) {
-                    if (_globe -> inset() && line.intersect (_insetTop, &point) == QLineF::IntersectType::BoundedIntersection) {
-                        drawLongitudeLabel (p, point, longitudeLabel (g.second));
-                        _longitudesLabelled.append (g.second);
+        if (!isinf (start.x ()) && !isinf (start.y ()) && !isinf (end.x ()) && !isinf (end.y ())) {
+            Geolocation g0 = Geolocation (lat0, g.second, Units::Degrees);
+            bool visible = _globe->screenCoordinates (g0, end);
+            if (visible) {
+                if (lat0 > -90.0 && lat0 < 90.0) {             // removes an artefact which appears if both poles are visible
+                    QPointF point;
+                    QLineF line = QLineF (start, end);
+                    if (start.x() > 0 && start.y() > 0) {
+                        if (!_longitudesLabelled.contains (g.second)) {
+                            if (_globe->inset () && line.intersect (_insetTop, &point) == QLineF::IntersectType::BoundedIntersection) {
+                                drawLongitudeLabel (p, point, longitudeLabel (g.second));
+                                _longitudesLabelled.append (g.second);
+                            }
+                            if (line.intersect (_bottom, &point) == QLineF::IntersectType::BoundedIntersection) {
+                                drawLongitudeLabel (p, point, longitudeLabel (g.second));
+                                _longitudesLabelled.append (g.second);
+                            }
+                        }
+                        if (!_globe->inset () || (!_globe->insetRect ().contains (start) && !_globe->insetRect ().contains (end))) {
+
+                            p.drawLine (line);
+                        }
                     }
-                    if (line.intersect (_bottom, &point) == QLineF::IntersectType::BoundedIntersection) {
-                        drawLongitudeLabel (p, point, longitudeLabel (g.second));
-                        _longitudesLabelled.append (g.second);
-                    }
-                }
-                if (!_globe -> inset () || (! _globe -> insetRect ().contains (start) && !_globe -> insetRect ().contains (end))) {
-                    p.drawLine (line);
                 }
             }
         }
         start = end;
         lat0 += interval / segments;
     }
+
 }
 
 void Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level) {
+    std::cout << "Lon Intersection " << g.first << ", " << g.second << "\n";
     QPointF start, end;
 
     double interval = pitch (level);
@@ -218,27 +226,32 @@ void Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, doub
     _globe->screenCoordinates (Geolocation (g.first, g.second - interval, Units::Degrees), start);
     double lon0 = g.second - interval;
     for (int i = 0; i <= segments; i++) {
-        Geolocation g0 = Geolocation (g.first, lon0, Units::Degrees);
-        bool visible = _globe -> screenCoordinates (g0, end);
-        if (visible) {
-            QPointF point;
-            QLineF line = QLineF (start, end);
-            if (! _latitudesLabelled.contains (g.first)) {
-                if (_globe -> inset() && line.intersect (_insetRight, &point) == QLineF::IntersectType::BoundedIntersection) {
-                    drawLatitudeLabel (p, point, latitudeLabel (g.first));
-                    _latitudesLabelled.append (g.first);
+        if (!isinf (start.x ()) && !isinf (start.y ()) && !isinf (end.x ()) && !isinf (end.y ())) {
+            Geolocation g0 = Geolocation (g.first, lon0, Units::Degrees);
+            bool visible = _globe -> screenCoordinates (g0, end);
+            if (visible) {
+                QPointF point;
+                QLineF line = QLineF (start, end);
+                if (start.x() > -20 && start.y() > 0) {
+                    if (!_latitudesLabelled.contains (g.first)) {
+                        if (_globe->inset () && line.intersect (_insetRight, &point) == QLineF::IntersectType::BoundedIntersection) {
+                            drawLatitudeLabel (p, point, latitudeLabel (g.first));
+                            _latitudesLabelled.append (g.first);
+                        }
+                        if (line.intersect (_left, &point) == QLineF::IntersectType::BoundedIntersection) {
+                            drawLatitudeLabel (p, point, latitudeLabel (g.first));
+                            _latitudesLabelled.append (g.first);
+                        }
+                    }
+                    if (!_globe->inset () || (!_globe->insetRect ().contains (start) && !_globe->insetRect ().contains (end))) {
+                        p.drawLine (line);
+                    }
                 }
-                if (line.intersect (_left, &point) == QLineF::IntersectType::BoundedIntersection) {
-                    drawLatitudeLabel (p, point, latitudeLabel (g.first));
-                    _latitudesLabelled.append (g.first);
-                }
+
             }
-            if (! _globe -> inset() || (! _globe -> insetRect().contains (start) && ! _globe -> insetRect().contains (end))) {
-                p.drawLine (line);
-            }
-            start = end;
-            lon0 += interval / segments;
         }
+        start = end;
+        lon0 += interval / segments;
     }
 }
 

@@ -27,7 +27,9 @@ ProjectionService::~ProjectionService() {
 }
 
 Projection* ProjectionService::fetch (const QString& name) {
-    return _projections.value (name, _projections.value ("Equirectangular"));
+    Projection* p = _projections.value (name, _projections.value ("Equirectangular"));
+    std::cout << "Fetching projection " << p -> name().toStdString () << "\n";
+    return p;
 }
 
 const QMap<QString, Projection*>& ProjectionService::all () const {

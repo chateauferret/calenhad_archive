@@ -46,7 +46,7 @@ QString EquirectangularProjection::notes () {
 }
 
 int EquirectangularProjection::id () {
-    return 0; // see map_cs.glslInverse
+    return 0; // see map_cs.glsl
 }
 
 QString EquirectangularProjection::glslInverse() {
