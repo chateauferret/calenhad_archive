@@ -214,7 +214,6 @@ void Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
 }
 
 void Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level) {
-    std::cout << "Lon Intersection " << g.first << ", " << g.second << "\n";
     QPointF start, end;
 
     double interval = pitch (level);

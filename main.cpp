@@ -12,6 +12,7 @@
 #include "CalenhadServices.h"
 #include "legend/LegendRoster.h"
 #include "mapping/projection/ProjectionService.h"
+#include "pipeline/ModuleFactory.h"
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -60,8 +61,11 @@ int main (int argc, char **argv) {
     preferences -> loadSettings();
     CalenhadServices::providePreferences (preferences);
 
-    // Legends service
+    // Modules service
+    ModuleFactory* modules = new ModuleFactory();
+    CalenhadServices::provideModules (modules);
 
+    // Legends service
     LegendRoster* roster = new LegendRoster();
     CalenhadServices::provideLegends (roster);
 
@@ -74,8 +78,8 @@ int main (int argc, char **argv) {
     CalenhadServices::provideCalculator (calculator);
 
     // Calenhad model - the arrangement of modules and connections between them
-
     Calenhad* window = new Calenhad();
+
     window -> setStyleSheet (preferences -> styleSheet());
     window -> show();
 

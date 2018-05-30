@@ -23,7 +23,7 @@ using namespace calenhad::expressions;
 using namespace calenhad::mapping::projection;
 
 PreferencesService* CalenhadServices::_preferences;
-QNotificationHost* CalenhadServices::_messages;
+QNotificationHost* CalenhadServices::_messages = nullptr;
 ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
@@ -34,7 +34,7 @@ PreferencesService* CalenhadServices::preferences () {
     return _preferences;
 }
 
-QNotificationHost* CalenhadServices::messages () {
+QNotificationHost* CalenhadServices::messages() {
     return _messages;
 }
 
@@ -52,7 +52,10 @@ StatisticsService* CalenhadServices::statistics() {
 
 void CalenhadServices::providePreferences (PreferencesService* service) {
     _preferences = service;
-    _modules = new ModuleFactory();
+}
+
+void CalenhadServices::provideModules (ModuleFactory* modules) {
+    _modules = modules;
 }
 
 void CalenhadServices::provideMessages (QNotificationHost* service) {
@@ -65,8 +68,13 @@ void CalenhadServices::provideLegends (LegendService* service) {
 
 
 bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
+    QNotificationHost* messages = CalenhadServices::messages();
     if (fname.isEmpty()) {
-        CalenhadServices::messages() -> message ("File error", "Couldn't read file " + fname, NotificationStyle::ErrorNotification);
+        if (_messages) {
+            _messages->message ("File error", "Couldn't read file " + fname, NotificationStyle::ErrorNotification);
+        } else {
+            std::cout << "File error: Couldn't read file " << fname.toStdString() << "\n";
+        }
     }
     QFile f (fname);
     f.open (QFile::ReadOnly);
@@ -74,7 +82,10 @@ bool CalenhadServices::readXml (const QString& fname, QDomDocument& doc) {
     int errLine, errColumn;
 
     if (! doc.setContent (&f, false, &error, &errLine, &errColumn)) {
-        CalenhadServices::messages() -> message ("XML parsing error", "Couldn't parse " + fname + "\nError " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn), NotificationStyle::WarningNotification);
+        if (_messages) {
+            _messages -> message ("Parse error", "Couldn't parse " + fname + "\nError " + error + " at line " + QString::number (errLine) + " col " + QString::number (errColumn), NotificationStyle::ErrorNotification);
+        }
+        std::cout << "Couldn't parse " << fname.toStdString () << "\nError " << error.toStdString () << " at line " << errLine << " col " << errColumn << "\n";
         return false;
     } else {
         return true;

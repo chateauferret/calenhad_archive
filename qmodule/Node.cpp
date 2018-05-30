@@ -195,8 +195,8 @@ void Node::inflate (const QDomElement& element) {
     // position is retrieved in CalenhadModel
 
     _element = element;
-        QDomElement notesNode = element.firstChildElement ("name");
-        QString name = notesNode.text ();
+        QDomElement notesNode = element.firstChildElement ("notes");
+        setNotes (notesNode.text ());
 
         QDomNodeList paramNodes = element.elementsByTagName ("parameter");
         for (int i = 0; i < paramNodes.count (); i++) {
@@ -309,6 +309,7 @@ ExpressionWidget* Node::addParameter (const QString& label, const QString& name,
 
     if (dynamic_cast<QFormLayout*> (_panel -> layout())) {
         ExpressionWidget* widget = new ExpressionWidget (this);
+        widget -> setObjectName (name);
         connect (widget, &ExpressionWidget::compiled, this, &Node::nodeChanged);
         connect (widget, &ExpressionWidget::errorFound, this, &Node::nodeChanged);
         connect (widget, &ExpressionWidget::expressionChanged, this, &Node::nodeChanged);
@@ -380,7 +381,7 @@ Node* Node::clone() {
 
     return _copy;
 }
-
+/*
 void Node::addDependentNodes () {
 
 }
@@ -396,3 +397,4 @@ void Node::showName (const bool& visible) {
 bool Node::nameVisible() {
     return _nameVisible;
 }
+*/

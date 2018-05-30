@@ -108,11 +108,11 @@ namespace calenhad {
 
             virtual nodeedit::NodeBlock* makeHandle ();
             double parameterValue (const QString& name);
-            virtual void addDependentNodes();
+            //virtual void addDependentNodes();
 
-            QVector<Node*> dependants();
-            void showName (const bool& visible);
-            bool nameVisible();
+            //QVector<Node*> dependants();
+            //void showName (const bool& visible);
+            //bool nameVisible();
 
 
         public slots:
@@ -139,7 +139,7 @@ namespace calenhad {
             QTextEdit* _notesEdit;
             QToolBox* _expander;
 
-            QVector<Node*> _dependants;
+            //QVector<Node*> _dependants;
             QWidget* _content;
             calenhad::pipeline::CalenhadModel* _model;
 
@@ -161,7 +161,7 @@ namespace calenhad {
 
 
 
-            bool _nameVisible;
+            // bool _nameVisible;
         };
 
     } // namespace qmodule

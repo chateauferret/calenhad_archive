@@ -64,7 +64,6 @@ Graph::~Graph () {
 
 QString Graph::glsl() {
     _code =  glsl (_module);
-    _code += "\n";
     if (_code != QString::null) {
         _code.append ("\n\nfloat value (vec3 cartesian) {\n");
         _code.append ("    return _" + _nodeName + " (cartesian);\n");
@@ -139,7 +138,7 @@ QString Graph::glsl (Module* module) {
                     }
 
                     // terrace function
-                    if (am->curveFunction () == "terrace") {
+                    if (am -> curveFunction () == "terrace") {
                         double x[2], y[2];
                         for (int i = 0; i < 2; i++) {
                             int k = std::max (j + i - 1, 0);
@@ -165,8 +164,8 @@ QString Graph::glsl (Module* module) {
                 _code += "}\n";
 
             } else {
-                QString func = qm -> glsl () + "\n";
-                _code.append (func);
+                QString func = qm -> glsl();
+                _code.append ("float _" + name + " (vec3 v) { return " + func);
             }
 
             // if it's a raster module, compile and upload the raster content to the raster buffer
@@ -187,19 +186,25 @@ QString Graph::glsl (Module* module) {
 
 
             // replace the name marker with the name of the module which will be the member variable name for its output in glsl
-            _code.replace ("%n", "_" + name);
+            //_code.replace ("%n", "float _" + name + " (vec3 v) { return ");
+            _code += "; }\n";
 
             // replace the input module markers with their names referencing their member variables in glsl
             int i = 0;
-            for (Port* port : qm->inputs ()) {
+            for (Port* port : qm -> inputs ()) {
                     QString index = QString::number (i++);
-                    Node* other = port->connections ()[0]->otherEnd (port)->owner ();
-                    QString source = other->name ();
-                    _code.replace ("%" + index, "_" + source);
+                    if (port -> connections().isEmpty()) {
+                        _code.replace ("%" + index, QString::number (qm -> parameterValue (port -> portName())));
+                    } else {
+                        Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
+                        QString source = other -> name ();
+                        _code.replace ("%" + index, "_" + source  + " (v)");
+                    }
             }
+
             // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
-            for (QString param : CalenhadServices::modules ()->paramNames ()) {
-                if (qm -> parameters ().contains (param)) {
+            for (QString param : CalenhadServices::modules() -> paramNames()) {
+                if (qm -> parameters().contains (param)) {
                     _code.replace ("%" + param, QString::number (qm -> parameterValue (param)));
                 }
             }

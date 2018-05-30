@@ -188,18 +188,18 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                     }
                     qm -> addParameter (paramLabel, paramName, initial, v);
                     if (paramElement.hasAttribute ("display")) {
-                        qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
+//                        qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
                     }
                 }
 
             }
         }
         bool showName = true;
-        if (element.hasAttribute ("showName")) {
-            showName = element.attribute ("showName") == "true";
-        }
+        //if (element.hasAttribute ("showName")) {
+        //    showName = element.attribute ("showName") == "true";
+        //}
 
-        n -> showName (showName);
+        // n -> showName (showName);
         return n;
     } else {
         return nullptr;

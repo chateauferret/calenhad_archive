@@ -90,7 +90,6 @@ CalenhadGlobeDialog::~CalenhadGlobeDialog() {
 }
 
 void CalenhadGlobeDialog::invalidate () {
-    std::cout << "invalidate: updates enabled " << _globe -> updatesEnabled() << "\n";
     _globe -> update();
 }
 

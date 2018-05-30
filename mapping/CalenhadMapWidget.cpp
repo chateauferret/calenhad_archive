@@ -282,7 +282,6 @@ void CalenhadMapWidget::paintGL() {
     }
 
     emit rendered (true);
-    std::cout << "done\n";
 }
 
 GLfloat* CalenhadMapWidget::heightMapBuffer() const {
@@ -493,7 +492,7 @@ geoutils::CoordinatesFormat CalenhadMapWidget::coordinatesFormat () {
     return _coordinatesFormat;
 }
 
-Statistics CalenhadMapWidget::statistics () {
+Statistics CalenhadMapWidget::statistics() {
     double _min = 0, _max = 0, _sum = 0;
     int count = 0;
     for (int i = 0; i < _globeTexture -> height() * _globeTexture -> width(); i++) {
@@ -510,7 +509,6 @@ Statistics CalenhadMapWidget::statistics () {
 }
 
 void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
-    std::cout << "paintEvent\n";
     QOpenGLWidget::paintEvent (e);
 }
 

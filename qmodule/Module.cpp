@@ -32,6 +32,7 @@ using namespace calenhad::legend;
 using namespace calenhad::mapping;
 using namespace calenhad::actions;
 using namespace calenhad::notification;
+using namespace calenhad::expressions;
 
 int Module::seed = 0;
 
@@ -108,47 +109,19 @@ void Module::showContextMenu (const QPoint& point) {
 }
 
 void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const QString& label) {
-    Port* input = new Port (portType, index, name, label);
-    addPort (input, index);
+    addInputPort (index, portType, name, label, 0.0);
 }
 
 void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const QString& label, const double& defaultValue) {
     Port* input = new Port (portType, index, name, label, defaultValue);
+    ExpressionWidget* param = addParameter (name, name, defaultValue, new AcceptAnyRubbish(), _content);
+
+    // if a port is connected to an input, that input supersedes any value the user provides at the parameter's widget, so disable it
+    connect (input, &Port::connected, this, [=] () { param -> setEnabled (false); });
+    connect (input, &Port::disconnected, this, [=] () { param -> setEnabled (true); });
     addPort (input, index);
 }
 
-void Module::addDependentNodes() {
-    Node::addDependentNodes();
-    int offset = 1;
-    for (const unsigned& index : inputs().keys()) {
-        // if the port has a default value, create a constant value module to feed it#
-        Port* input = inputs().value (index);
-        if (input -> hasDefaultValue()) {
-            QString constName = _name + "_" + input -> portName();
-            QPointF p = handle() -> pos();
-            if (_group) {
-                p = handle() -> mapFromItem (_group -> handle(), p);
-            }
-            QPointF constPos = QPointF (p.x() - (handle() -> boundingRect().width()) * 0.75 * offset - 12, p.y() + 12 * index - 1);
-            if (_group) {
-                constPos = handle() -> mapToScene (constPos);
-            }
-            Module* constModule = _model -> addModule (constPos, "constant", constName);
-            constModule -> setParameter ("value", input -> defaultValue());
-            _model -> connectPorts (constModule -> output(), input);
-            _dependants.append (constModule);
-        }
-        offset = offset == 1 ? 2 : 1;
-    }
-}
-
-void Module::showModuleDetail (const bool& visible) {
-    Node::showModuleDetail (visible);
-    if (visible && ! (_shownParameter.isNull() || _shownParameter.isEmpty())) {
-        _expander -> setCurrentWidget (_content);
-        _parameters.value (_shownParameter) -> setFocus();
-    }
-}
 
 Node* Module::sourceModule (int portIndex) {
     Port* p = _ports.at (portIndex);
@@ -161,24 +134,6 @@ Node* Module::sourceModule (int portIndex) {
 
 void Module::inflate (const QDomElement& element) {
     Node::inflate (element);
-    QDomNodeList portNodes = element.elementsByTagName ("port");
-    for (int i = 0; i < portNodes.count (); i++) {
-        bool okIndex, okType;
-        int portIndex = portNodes.at (i).attributes().namedItem ("index").nodeValue().toInt (&okIndex);
-        int portType = portNodes.at (i).attributes().namedItem ("type").nodeValue().toInt (&okType);
-        QDomElement portNameNode = portNodes.at (i).firstChildElement ("name");
-        QString name = portNameNode.text ();
-        if (okIndex && okType) {
-            for (Port* p : _ports) {
-                if (p -> index () == portIndex && p -> portType() == portType) {
-                    p -> setName (name);
-                }
-            }
-        } else {
-            QString m = "Can't find port" + portNodes.at (i).attributes ().namedItem ("name").nodeValue() + " + in module " + _name;
-            CalenhadServices::messages() -> message ("Reverting to default port name", m, NotificationStyle::WarningNotification);
-        }
-    }
     QString legendName = element.attribute ("legend", "default");
     _legend = CalenhadServices::legends() -> find (legendName);
     // position is retrieved in CalenhadModel
@@ -187,16 +142,6 @@ void Module::inflate (const QDomElement& element) {
 void Module::serialize (QDomElement& element) {
     Node::serialize (element);
     QDomDocument doc = element.ownerDocument();
-    for (Port* p : _ports) {
-        QDomElement portElement = doc.createElement ("port");
-        _element.appendChild (portElement);
-        portElement.setAttribute ("index", p -> index());
-        portElement.setAttribute ("type", p -> portType());
-        QDomElement portNameElement = doc.createElement ("name");
-        QDomText portNameText = doc.createTextNode (p -> portName());
-        portNameElement.appendChild (portNameText);
-        portElement.appendChild (portNameElement);
-    }
     _element.setAttribute ("legend", _legend -> name());
 }
 
@@ -225,17 +170,24 @@ bool Module::generateMap () {
 }
 
 bool Module::isComplete() {
-    bool complete = Node::isComplete();
-    if (complete) {
-        for (Port* p : _ports) {
-            if (p->portType () != Port::OutputPort) {
-                if (!(p->hasConnection ())) {
-                    complete = false;
-                    break;
+
+    bool complete = true;
+    QList<ExpressionWidget *> widgets = findChildren<ExpressionWidget*>();
+    if (! (widgets.isEmpty())) {
+        for (ExpressionWidget* ew: widgets) {
+            if (!ew->isValid ()) {
+                for (Port* p : _ports) {
+                    if (p->portName () == ew->objectName () && p->portType () != Port::OutputPort) {
+                        if (!(p->hasConnection ())) {
+                            complete = false;
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
+
     _expander -> setItemEnabled (_previewIndex, complete);
     return complete;
 }
@@ -280,11 +232,6 @@ QString Module::glsl () {
 
 QMap<unsigned, Port*> Module::inputs () {
     return _inputs;
-}
-
-void Module::showParameter (QString paramName, bool editable) {
-    _shownParameter = paramName;
-    _editable = editable;
 }
 
 void Module::addPort (Port* port, const unsigned& index) {

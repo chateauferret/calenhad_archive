@@ -456,7 +456,6 @@ Node* CalenhadModel::createNode (const QPointF& initPos, const QString& type) {
         n = addNodeGroup (initPos, name);
     } else {
         n = addModule (initPos, type, name);
-        n -> addDependentNodes();
     }
     setChanged();
 

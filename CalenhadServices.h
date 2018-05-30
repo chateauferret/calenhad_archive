@@ -37,31 +37,21 @@ namespace calenhad {
     class CalenhadServices {
 
     public:
-        static calenhad::preferences::PreferencesService* preferences ();
-
-        static calenhad::notification::QNotificationHost* messages ();
-
-        static calenhad::legend::LegendService* legends ();
-
-        static calenhad::mapping::projection::ProjectionService* projections ();
-
-        static calenhad::controls::globe::StatisticsService* statistics ();
-
-        static calenhad::pipeline::ModuleFactory* modules ();
-
-        static calenhad::expressions::Calculator* calculator ();
-
+        static calenhad::preferences::PreferencesService* preferences();
+        static calenhad::notification::QNotificationHost* messages();
+        static calenhad::legend::LegendService* legends();
+        static calenhad::mapping::projection::ProjectionService* projections();
+        static calenhad::controls::globe::StatisticsService* statistics();
+        static calenhad::pipeline::ModuleFactory* modules();
+        static calenhad::expressions::Calculator* calculator();
         static void providePreferences (calenhad::preferences::PreferencesService* service);
-
         static void provideMessages (calenhad::notification::QNotificationHost* service);
-
         static void provideLegends (calenhad::legend::LegendService* service);
-
         static void provideProjections (calenhad::mapping::projection::ProjectionService* service);
 
         static bool readXml (const QString& fname, QDomDocument& doc);
-
         static void provideCalculator (calenhad::expressions::Calculator* calculator);
+        static void provideModules (pipeline::ModuleFactory* modules);
 
     private:
         static calenhad::preferences::PreferencesService* _preferences;
@@ -71,6 +61,7 @@ namespace calenhad {
         static calenhad::controls::globe::StatisticsService* _statistics;
         static calenhad::pipeline::ModuleFactory* _modules;
         static calenhad::expressions::Calculator* _calculator;
+
 
     };
 }

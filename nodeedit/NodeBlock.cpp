@@ -115,7 +115,7 @@ QPainterPath NodeBlock::makePath() {
 
 void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED (option)
-    _label -> setVisible (_node -> nameVisible());
+//    _label -> setVisible (_node -> nameVisible());
     _brush = QBrush (isSelected() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected : CalenhadServices::preferences() -> calenhad_module_brush_color_normal);
     painter -> setBrush (_brush);
     _pen = QPen (isSelected() ? CalenhadServices::preferences() -> calenhad_module_text_color_selected : CalenhadServices::preferences() -> calenhad_module_text_color_normal);

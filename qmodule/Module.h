@@ -68,8 +68,6 @@ namespace calenhad {
             bool isComplete() override;
             bool range (double& min, double& max);
             QMap<unsigned, calenhad::nodeedit::Port*> inputs();
-            void addDependentNodes ();
-            void showParameter (QString paramName, bool editable);
 
             void initialise () override;
             void connectMenu (QMenu* menu, calenhad::nodeedit::Port* port);
@@ -109,7 +107,6 @@ namespace calenhad {
             QString _shownParameter;
             bool _editable;
 
-            void showModuleDetail (const bool& visible) override;
         };
     }
 }
