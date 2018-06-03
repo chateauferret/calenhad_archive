@@ -28,7 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "NodeBlock.h"
 #include "Toolbox.h"
 #include "Connection.h"
-#include "../actions/CommandGroup.h"
 #include "../CalenhadServices.h"
 #include "qmodule/NodeGroup.h"
 #include "Calenhad.h"

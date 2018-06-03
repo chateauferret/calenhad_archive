@@ -17,10 +17,10 @@
 #include "../legend/LegendService.h"
 #include "../preferences/PreferencesService.h"
 #include <QList>
-#include <actions/CommandGroup.h>
 #include <actions/XmlCommand.h>
 #include <QGraphicsItem>
 #include <QtGui/QGuiApplication>
+#include <QClipboard>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -238,15 +238,15 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
                         // click on an output port - create a connection which we can connect to another owner's input or control port
                         if (item && item -> type() == Port::Type) {
-
+                            for (QGraphicsView* view : views()) {
+                                view -> setDragMode (QGraphicsView::NoDrag);
+                            }
                             // only allow connections from output ports to input ports
                             Port* port = ((Port*) item);
                             if (conn) { delete conn; }
                             if (port->portType() == Port::OutputPort) {
 
-                                for (QGraphicsView* view : views()) {
-                                    view -> setDragMode (QGraphicsView::NoDrag);
-                                }
+
                                 conn = new Connection (0);
                                 addItem (conn);
                                 conn -> setPort1 ((Port*) item);
@@ -974,9 +974,13 @@ QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
     _menu -> addAction (deleteSelection);
     QAction* newGroupFromSelection = makeMenuItem (QIcon (":/appicons/controls/group_add.png"), tr ("New group from selection"), "New group from selection", CalenhadAction::NodeGroupFromSelectionAction, nullptr);
     _menu -> addAction (newGroupFromSelection);
+    _menu -> addSeparator();
+    QAction* paste = makeMenuItem (QIcon (":/appicons.controls.paste.png"), tr ("Paste"), "Paste", CalenhadAction::PasteAction, nullptr);
+    _menu -> addAction (paste);
     copy -> setEnabled (selectedItems().size() > 0);
     cut -> setEnabled (selectedItems().size() > 0);
     deleteSelection -> setEnabled (selectedItems().size() > 0);
+    paste -> setEnabled (QGuiApplication::clipboard() -> text() != "");
     newGroupFromSelection -> setEnabled (selectedItems().size() > 0);
 
     // actions that operate on the canvas

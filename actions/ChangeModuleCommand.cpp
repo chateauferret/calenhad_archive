@@ -39,7 +39,7 @@ void ChangeModuleCommand::redo() {
     } else {
         Module* m = dynamic_cast<Module*> (_node);
         if (m) {
-            for (Port* port : m -> ports ()) {
+            for (Port* port : m -> ports()) {
                 if (port->index () == _portIndex && port->portType () == _portType) {
                     if (port -> property (_property.toStdString ().c_str ()) != _newValue) {
                         port -> setProperty (_property.toStdString ().c_str (), _newValue);
