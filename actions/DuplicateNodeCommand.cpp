@@ -25,7 +25,7 @@ DuplicateNodeCommand::~DuplicateNodeCommand () {
 }
 
 void DuplicateNodeCommand::undo() {
-    _model -> deleteNode (_copy);
+    _model -> doDeleteNode (_copy);
 }
 
 void DuplicateNodeCommand::redo() {

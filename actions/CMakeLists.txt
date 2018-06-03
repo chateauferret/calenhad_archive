@@ -2,29 +2,13 @@
 SET(ACTIONS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/ZoomCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ZoomCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/CreateConnectionCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CreateConnectionCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/DeleteConnectionCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/ChangeModuleCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ChangeModuleCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/XmlCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/XmlCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/CommandGroup.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CommandGroup.h
-        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/DuplicateNodeCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/DeleteNodeCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/DeleteNodeCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/SelectionToClipboardCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/SelectionToClipboardCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/NodeGroupFromSelectionCommand.h
-        ${CMAKE_CURRENT_LIST_DIR}/NodeGroupFromSelectionCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/PasteCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/PasteCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/ContextAction.h
-        ${CMAKE_CURRENT_LIST_DIR}/RerouteConnectionCommand.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/RerouteConnectionCommand.h
         )

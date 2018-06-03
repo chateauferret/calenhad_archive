@@ -10,6 +10,16 @@
 #include <QtWidgets/QUndoCommand>
 #include "../pipeline/CalenhadModel.h"
 
+/* Preserves the state before an operation, and allows toggling between the pre-existing state and a new state.
+ * Pattern for use in CalenhadModel:
+ *
+ *   preserve();        // store the pre-existing state in _oldXml
+ *   doStuff();         // make the requested change to the model in response to UI action
+ *   setChanged();      // mark the model dirty so that save is offered if discarding
+ *   setRestorePoint(); // store the changed state and push it to the undo stack
+ *
+ */
+
 namespace calenhad {
     namespace qmodule {
         class Node;

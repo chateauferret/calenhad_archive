@@ -101,7 +101,6 @@ namespace calenhad {
 
             QStringList parameters();
 
-            void setParameter (const QString& name, const double& value);
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
             int id();

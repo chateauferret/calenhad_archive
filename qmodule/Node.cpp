@@ -25,6 +25,7 @@ using namespace calenhad::controls;
 using namespace calenhad::pipeline;
 using namespace calenhad::expressions;
 using namespace calenhad::actions;
+using namespace calenhad::notification;
 
 Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     _model (nullptr),
@@ -328,21 +329,25 @@ void Node::parameterChanged() {
     invalidate();
 }
 
-void Node::setParameter (const QString& name, const QString& text) {
-    _parameters.find (name).value() -> setText (text);
-}
-
-void Node::setParameter (const QString& name, const double& value) {
-    _parameters.find (name).value() -> setText (QString::number (value));
+void Node::setParameter (const QString& key, const QString& text) {
+    QMap<QString, ExpressionWidget*>::iterator item = _parameters.find (key);
+    if (item == _parameters.end()) {
+        CalenhadServices::messages() -> message ("No such parameter", "Parameter " + key + " not found for node " + name() + " of type " + nodeType(), NotificationStyle::WarningNotification);
+    } else {
+        item.value ()->setText (text);
+    }
 }
 
 QString Node::parameter (const QString& name) {
     return _parameters.value (name) -> text();
 }
 
-
 double Node::parameterValue (const QString& name) {
-    return _parameters.value (name) -> value();
+    if (_parameters.keys().contains (name)) {
+        return _parameters.value (name)->value ();
+    } else {
+        return 0.0;
+    }
 }
 
 QStringList Node::parameters () {
@@ -381,20 +386,3 @@ Node* Node::clone() {
 
     return _copy;
 }
-/*
-void Node::addDependentNodes () {
-
-}
-
-QVector<Node*> Node::dependants() {
-    return _dependants;
-}
-
-void Node::showName (const bool& visible) {
-    _nameVisible = visible;
-}
-
-bool Node::nameVisible() {
-    return _nameVisible;
-}
-*/

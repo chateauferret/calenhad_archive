@@ -18,7 +18,6 @@
 #include <controls/globe/CalenhadStatsPanel.h>
 #include "nodeedit/Connection.h"
 #include "../nodeedit/CalenhadView.h"
-#include "../actions/CreateConnectionCommand.h"
 #include "../mapping/CalenhadMapWidget.h"
 #include "../nodeedit/CalenhadController.h"
 
@@ -30,7 +29,6 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::pipeline;
 using namespace calenhad::legend;
 using namespace calenhad::mapping;
-using namespace calenhad::actions;
 using namespace calenhad::notification;
 using namespace calenhad::expressions;
 
@@ -259,8 +257,7 @@ void Module::connectMenu (QMenu* menu, Port* p) {
                 action -> setText (port -> portName());
                 _connectMenu -> addAction (action);
                 connect (action, &QAction::triggered, this, [=] () {
-                    CreateConnectionCommand* command = new CreateConnectionCommand (p, port, _model);
-                    _model -> controller() -> doCommand (command);
+                    _model -> createConnection (p, port);
                 });
             }
         }
@@ -269,8 +266,7 @@ void Module::connectMenu (QMenu* menu, Port* p) {
         QAction* action = new QAction();
         action -> setText (name());
         connect (action, &QAction::triggered, this, [=] () {
-            CreateConnectionCommand* command = new CreateConnectionCommand (output(), p, _model);
-            _model -> controller() -> doCommand (command);
+            _model -> createConnection (output(), p);
         });
         menu -> addAction (action);
     }

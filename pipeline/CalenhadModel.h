@@ -53,21 +53,22 @@ namespace calenhad {
 
             calenhad::qmodule::NodeGroup* findGroup (const QString& name);
 
-            calenhad::qmodule::Node* createNode (const QPointF& initPos, const QString& type);
+            calenhad::qmodule::Node* doCreateNode (const QPointF& initPos, const QString& type);
 
             calenhad::qmodule::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
 
             calenhad::qmodule::NodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
-            calenhad::qmodule::NodeGroup* addNodeGroup (const QPainterPath& path);
+            calenhad::qmodule::NodeGroup* doAddNodeGroup (const QPainterPath& path);
 
-            void deleteNode (calenhad::qmodule::Node* node);
+            void doDeleteNode (calenhad::qmodule::Node* node);
 
             bool canConnect (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input, const bool& verbose = false);
 
-            nodeedit::Connection* connectPorts (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input);
 
-            void disconnectPorts (calenhad::nodeedit::Connection* connection);
-            void rerouteConnection (nodeedit::Port* from, nodeedit::Port* oldPort, nodeedit::Port* newPort);
+            // undoable commands
+            void doDisconnectPorts (calenhad::nodeedit::Connection* connection);
+            void doDuplicateNode  (calenhad::qmodule::Node* node);
+            nodeedit::Connection* doConnectPorts (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input);
             bool eventFilter (QObject* o, QEvent* e);
 
             void setActiveTool (QAction* tool);
@@ -90,7 +91,9 @@ namespace calenhad {
             QString lastSnapshot ();
 
             void setChanged (const bool& changed = true);
-
+            void setRestorePoint (const QString& text = "Command");
+            void preserve ();
+            void setUndoEnabled (const bool& enabled);
 
 
             QList<calenhad::qmodule::Node*> nodes ();
@@ -98,10 +101,6 @@ namespace calenhad {
             QList<calenhad::qmodule::NodeGroup*> nodeGroups ();
 
             QList<calenhad::nodeedit::Connection*> connections ();
-
-            QString readParameter (const QDomElement& element, const QString param);
-
-            void writeParameter (QDomElement& element, const QString& param, const QString& value);
 
             void highlightGroupAt (QPointF pos);
 
@@ -112,8 +111,9 @@ namespace calenhad {
             void commitLegends();
             void rollbackLegends();
             bool existsPath (calenhad::nodeedit::NodeBlock* output, calenhad::nodeedit::NodeBlock* input);
+            void createConnection (calenhad::nodeedit::Port* from, calenhad::nodeedit::Port* to);
 
-
+            QString selectionToXml ();
             const QString& description();
 
             const QString& filename();
@@ -173,9 +173,8 @@ namespace calenhad {
             calenhad::nodeedit::Port* _wasConnectedTo;
 
             QString _oldXml;
+            bool _undoEnabled;
 
-            void setRestorePoint ();
-            void preserve ();
 
             void inflateConnections (const QDomDocument& doc, const nodeedit::CalenhadFileType& fileType);
 

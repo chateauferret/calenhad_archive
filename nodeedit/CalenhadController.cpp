@@ -25,15 +25,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "CalenhadController.h"
 #include "../actions/ZoomCommand.h"
-#include "../actions/DeleteConnectionCommand.h"
-#include "../actions/NodeGroupFromSelectionCommand.h"
 #include "NodeBlock.h"
 #include "Toolbox.h"
 #include "Connection.h"
 #include "../actions/CommandGroup.h"
-#include "../actions/DuplicateNodeCommand.h"
 #include "../CalenhadServices.h"
-#include "../actions/DeleteNodeCommand.h"
 #include "qmodule/NodeGroup.h"
 #include "Calenhad.h"
 #include "../preferences/PreferencesService.h"
@@ -45,8 +41,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qmodule/Module.h"
 #include <QAction>
 #include <actions/ContextAction.h>
-#include <actions/SelectionToClipboardCommand.h>
-#include <actions/PasteCommand.h>
 #include <QtGui/QGuiApplication>
 #include <QClipboard>
 #include <actions/XmlCommand.h>
@@ -118,9 +112,9 @@ void CalenhadController::actionTriggered() {
     QAction* action = (QAction*) sender();
     ContextAction<QGraphicsItem>* ca = dynamic_cast<ContextAction<QGraphicsItem>*> (action);
     if (ca) {
-        if (action->data () == CalenhadAction::DeleteConnectionAction) { doCommand (new DeleteConnectionCommand (static_cast<Connection*> (ca -> context()), _model)); }
-        if (action->data () == CalenhadAction::DeleteModuleAction) { doCommand (new DeleteNodeCommand ((static_cast<NodeBlock*> (ca -> context())) -> node (), _model)); }
-        if (action->data () == CalenhadAction::DuplicateModuleAction) { doCommand (new DuplicateNodeCommand ((static_cast<NodeBlock*> (ca -> context())) -> node(), _model)); }
+        if (action->data () == CalenhadAction::DeleteConnectionAction) { _model -> doDisconnectPorts ((Connection*) ca->context ()); }
+        if (action->data () == CalenhadAction::DeleteModuleAction) { _model -> doDeleteNode (static_cast<NodeBlock*> (ca -> context()) -> node ()); }
+        if (action->data () == CalenhadAction::DuplicateModuleAction) { _model -> doDuplicateNode ((static_cast<NodeBlock*> (ca -> context())) -> node()); }
     }
     if (action -> data() == CalenhadAction::ZoomInAction) {
         if (_views -> at (0) -> currentZoom() < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin) {
@@ -132,50 +126,63 @@ void CalenhadController::actionTriggered() {
             doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
     }
     if (action -> data() == CalenhadAction::NodeGroupFromSelectionAction) {
-        QString oldXml = _model -> snapshot();
-        doCommand (new NodeGroupFromSelectionCommand (_model, oldXml));
+        QPainterPath path = _model -> selectionArea();
+        _model->doAddNodeGroup (path);
     }
 
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
-    if (action -> data() == CalenhadAction::PasteAction) { doCommand (new PasteCommand (_model)); }
-    if (action -> data() == CalenhadAction::DeleteSelectionAction || action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
-        CommandGroup* group = new CommandGroup();
+    if (action -> data() == CalenhadAction::PasteAction) {
+        QClipboard* clipboard = QGuiApplication::clipboard ();
+        QString xml = clipboard -> text();
+            QDomDocument doc;
+            if (doc.setContent (xml)) {
+                std::cout << xml.toStdString () << "\n";
+                _model -> preserve();
+                _model -> inflate (doc, CalenhadFileType::CalenhadModelFragment);
+                _model -> setChanged (true);
+                _model -> setRestorePoint();
+            }
+    }
 
+    if (action -> data() == CalenhadAction::DeleteSelectionAction || action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
+        QString xml = QString::null;
+
+        if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
+            xml = _model -> selectionToXml();
+            QClipboard* clipboard = QGuiApplication::clipboard ();
+            clipboard -> setText (xml);
+        }
 
         if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::DeleteSelectionAction) {
+            _model -> preserve();
+            _model -> setUndoEnabled (false);
             for (QGraphicsItem* item : _model->selectedItems ()) {
                 // to do - delete other kinds of node
-                if (item->type () == QGraphicsItem::UserType + 3) { // block
+                if (item -> type () == QGraphicsItem::UserType + 3) { // block
                     Node* node = ((NodeBlock*) item)->node ();
                     // to do - generalise this to delete groups too
                     Module* module = dynamic_cast<Module*> (node);
                     if (module) {
-                        DeleteNodeCommand* command = new DeleteNodeCommand (module, _model);
-                        group->addCommand (command);
+                        _model -> doDeleteNode (module);
                     }
                 }
             }
+
+            _model -> setChanged (true);
+            _model -> setUndoEnabled (true);
+            _model -> setRestorePoint();
         }
 
-
-        if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
-            SelectionToClipboardCommand* command = new SelectionToClipboardCommand (_model);
-            group -> addCommand (command);
-        }
-
-        doCommand (group);
-        ((Calenhad*) parent()) -> setSelectionActionsEnabled (! (_model -> selectedItems().isEmpty()));
     }
 
-    if (action -> data() == CalenhadAction::UndoAction) { _undoStack -> undo(); }
-    if (action -> data() == CalenhadAction::RedoAction) { _undoStack -> redo(); }
+    if (action -> data() == CalenhadAction::UndoAction) { if (_undoStack -> canUndo()) { _undoStack -> undo(); } }
+    if (action -> data() == CalenhadAction::RedoAction) { if (_undoStack -> canRedo()) { _undoStack -> redo(); } }
 
 }
 
 void CalenhadController::doCommand (QUndoCommand* c) {
     _undoStack -> push (c);
-    _model -> setChanged();
 }
 
 void CalenhadController::addParamsWidget (QToolBar* toolbar, Node* node) {

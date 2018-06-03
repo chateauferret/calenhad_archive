@@ -107,8 +107,8 @@ QString Graph::glsl (Module* module) {
                 QVector<AltitudeMapping> entries = am -> entries ();
 
                 // input is below the bottom of the range
-                _code += "float %n (vec3 v) {\n";
-                _code += "  float value = %0 (v);\n";
+                _code += "float _" + name + " (vec3 v) {\n";
+                _code += "  float value = %0 ;\n";
                 _code += "  if (value < " + QString::number (entries.first().x ()) + ") { return " + QString::number (entries.first().y ()) + "; }\n";
 
                 for (int j = 0; j < entries.size(); j++) {
@@ -166,6 +166,7 @@ QString Graph::glsl (Module* module) {
             } else {
                 QString func = qm -> glsl();
                 _code.append ("float _" + name + " (vec3 v) { return " + func);
+                _code.append ("; }\n");
             }
 
             // if it's a raster module, compile and upload the raster content to the raster buffer
@@ -183,11 +184,6 @@ QString Graph::glsl (Module* module) {
                 boundsCode.append ("vec2 (" + QString::number (bounds.east ()) + ", " + QString::number (bounds.south ()) + ")");
                 _code.replace ("%bounds", boundsCode);
             }
-
-
-            // replace the name marker with the name of the module which will be the member variable name for its output in glsl
-            //_code.replace ("%n", "float _" + name + " (vec3 v) { return ");
-            _code += "; }\n";
 
             // replace the input module markers with their names referencing their member variables in glsl
             int i = 0;
