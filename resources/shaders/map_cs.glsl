@@ -584,12 +584,11 @@ float simplex (vec3 cartesian, float frequency, float lacunarity, float persiste
     return (noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed)) * SIMPLEX_SCALE;
 }
 
-
 float billow (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
     float value = 0.0;
     float signal = 0.0;
     float curPersistence = 1.0;
-    vec3 n = cartesian;// vec3 (makeInt32Range (cartesian.x), makeInt32Range (cartesian.y), makeInt32Range (cartesian.z));
+    vec3 n = cartesian; // vec3 (makeInt32Range (cartesian.x), makeInt32Range (cartesian.y), makeInt32Range (cartesian.z));
 
     n *= frequency;
 
@@ -607,7 +606,7 @@ float billow (vec3 cartesian, float frequency, float lacunarity, float persisten
 }
 
 vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, int seed) {
-  // Get the values from the three noise::module::Perlin noise modules and
+  // Get the values from the three Perlin noise modules and
   // add each value to each coordinate of the input value.  There are also
   // some offsets added to the coordinates of the input values.  This prevents
   // the distortion modules from returning zero if the (x, y, z) coordinates,

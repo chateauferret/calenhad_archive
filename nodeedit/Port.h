@@ -56,9 +56,7 @@ namespace calenhad {
 				ControlPort = 0, InputPort = 1, OutputPort = 2
 			};
 
-            Port (int type, int index, const QString& name, const QString& label, NodeBlock* parent = 0);
-
-			Port (int type, int index, const QString& name, const QString& label, const double& defaultValue, NodeBlock* parent = 0);
+			Port (int type, int index, const QString& name, const QString& label, const double& defaultValue = 0.0, const bool& required = false);
 
 			~Port ();
 
@@ -100,11 +98,10 @@ namespace calenhad {
 
 			Q_PROPERTY (QString name READ portName WRITE setName MEMBER	_portName);
             QMenu* connectMenu ();
-            bool hasDefaultValue () const;
 
-            double defaultValue () const;
+            bool isRequired();
 
-			const QString& porLabel ();
+            const QString& porLabel ();
 		public slots:
 
 			void setName (const QString& n);
@@ -119,7 +116,7 @@ namespace calenhad {
 
 		protected:
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value);
-            Port (int type, int index, const QString& name, const QString& label, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent = 0);
+
 		private:
 			NodeBlock* _block;
 			QString _portName;
@@ -129,6 +126,7 @@ namespace calenhad {
 			QVector<Connection*> _connections;
 			int _portType;
 			int _index;
+			bool _required;
 			quint64 _ptr;
 
 

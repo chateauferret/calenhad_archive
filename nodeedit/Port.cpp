@@ -42,47 +42,40 @@ using namespace calenhad::qmodule;
 using namespace calenhad::actions;
 using namespace calenhad::pipeline;
 
-Port::Port (int type, int index, const QString& name, const QString& label, const double& defaultValue, const bool& hasDefaultValue, NodeBlock* parent) :
-        QGraphicsPathItem (parent),
+Port::Port (int type, int index, const QString& name, const QString& label, const double& defaultValue, const bool& required) :
+        QGraphicsPathItem (nullptr),
         _radius (CalenhadServices::preferences() -> calenhad_port_radius),
         _margin (CalenhadServices::preferences() -> calenhad_port_margin),
         _index (index),
-        _block (parent),
+        _block (nullptr),
         _portType (type),
         _portName (name),
         _portLabel (label),
-        _hasDefaultValue (hasDefaultValue),
         _defaultValue (defaultValue),
+        _required (required),
         _connectMenu (new QMenu()) {
     QPainterPath p;
     QPolygonF polygon;
 
     if (type == OutputPort) {
         polygon << QPointF (-_radius,  - _radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, - _radius);
+        p.addPolygon (polygon);
         setPen (QPen (CalenhadServices::preferences() -> calenhad_port_out_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight));
         setBrush (CalenhadServices::preferences() -> calenhad_port_out_fill_color);
         setCursor (Qt::ArrowCursor);
-    }
-    if (type == InputPort) {
-        polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);
+    } else {
+        if (_required) {
+            p.addEllipse (QRectF (-_radius, -_radius, _radius * 2, _radius * 2));
+        } else {
+            polygon << QPointF (-_radius, -_radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, -_radius);
+            p.addPolygon (polygon);
+        }
         setHighlight (PortHighlight::NONE);
     }
-    if (type == ControlPort) {
-        polygon = QRectF (-_radius, -_radius, _radius * 2, _radius * 2);
-        setHighlight (PortHighlight::NONE);
-    }
-    p.addPolygon (polygon);
+
+
     setPath (p);
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
-}
-
-Port::Port (int type, int index, const QString& name, const QString& label, NodeBlock* parent) : Port (type, index, name, label, 0.0, false, parent) {
-
-}
-
-
-Port::Port (int type, int index, const QString& name,const QString& label, const double& defaultValue,  NodeBlock* parent) : Port (type, index, name, label, defaultValue, true, parent) {
-
 }
 
 Port::~Port () {
@@ -262,10 +255,6 @@ QMenu* Port::connectMenu() {
     return _connectMenu;
 }
 
-bool Port::hasDefaultValue() const {
-    return _hasDefaultValue;
-}
-
-double Port::defaultValue () const {
-    return _defaultValue;
+bool Port::isRequired () {
+    return _required;
 }

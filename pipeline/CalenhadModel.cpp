@@ -215,7 +215,7 @@ void CalenhadModel::doDisconnectPorts (Connection* connection) {
 
 // This handler is required to stop a right-click which brings up the context menu from clearing the selection.
 // Left clicking in space however should discard any current selection.
-void CalenhadModel::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+void CalenhadModel::mousePressEvent (QGraphicsSceneMouseEvent *event) {
     if (event -> button() != Qt::LeftButton) {
         event -> accept();
         return;

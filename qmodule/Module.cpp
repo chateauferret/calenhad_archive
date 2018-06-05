@@ -106,17 +106,17 @@ void Module::showContextMenu (const QPoint& point) {
     _contextMenu -> exec (QCursor::pos());
 }
 
-void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const QString& label) {
-    addInputPort (index, portType, name, label, 0.0);
-}
+void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const QString& label, const double& defaultValue, const bool& required) {
+    Port* input = new Port (portType, index, name, label, defaultValue, required);
 
-void Module::addInputPort (const unsigned& index, const int& portType, const QString& name, const QString& label, const double& defaultValue) {
-    Port* input = new Port (portType, index, name, label, defaultValue);
-    ExpressionWidget* param = addParameter (name, name, defaultValue, new AcceptAnyRubbish(), _content);
+    // unless a port must be filled, provide an ExpressionWidget so that a constant value can be provided instead of a source module
+    if (! required) {
+        ExpressionWidget* param = addParameter (name, name, defaultValue, new AcceptAnyRubbish (), _content);
 
-    // if a port is connected to an input, that input supersedes any value the user provides at the parameter's widget, so disable it
-    connect (input, &Port::connected, this, [=] () { param -> setEnabled (false); });
-    connect (input, &Port::disconnected, this, [=] () { param -> setEnabled (true); });
+        // if a port is connected to an input, that input supersedes any value the user provides at the parameter's widget, so disable it
+        connect (input, &Port::connected, this, [=] () { param->setEnabled (false); });
+        connect (input, &Port::disconnected, this, [=] () { param->setEnabled (true); });
+    }
     addPort (input, index);
 }
 
@@ -169,11 +169,17 @@ bool Module::generateMap () {
 
 bool Module::isComplete() {
 
+    for (Port* p : _ports) {
+        if (p -> isRequired() && ! p -> hasConnection()) {
+            return false;
+        }
+    }
+
     bool complete = true;
     QList<ExpressionWidget *> widgets = findChildren<ExpressionWidget*>();
     if (! (widgets.isEmpty())) {
         for (ExpressionWidget* ew: widgets) {
-            if (!ew->isValid ()) {
+            if (!ew -> isValid ()) {
                 for (Port* p : _ports) {
                     if (p->portName () == ew->objectName () && p->portType () != Port::OutputPort) {
                         if (!(p->hasConnection ())) {

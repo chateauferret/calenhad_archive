@@ -53,14 +53,12 @@ namespace calenhad {
 
             calenhad::qmodule::NodeGroup* findGroup (const QString& name);
 
-            calenhad::qmodule::Node* doCreateNode (const QPointF& initPos, const QString& type);
+
 
             calenhad::qmodule::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null);
 
             calenhad::qmodule::NodeGroup* addNodeGroup (const QPointF& initPos, const QString& name);
-            calenhad::qmodule::NodeGroup* doAddNodeGroup (const QPainterPath& path);
 
-            void doDeleteNode (calenhad::qmodule::Node* node);
 
             bool canConnect (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input, const bool& verbose = false);
 
@@ -69,6 +67,10 @@ namespace calenhad {
             void doDisconnectPorts (calenhad::nodeedit::Connection* connection);
             void doDuplicateNode  (calenhad::qmodule::Node* node);
             nodeedit::Connection* doConnectPorts (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input);
+            calenhad::qmodule::Node* doCreateNode (const QPointF& initPos, const QString& type);
+            calenhad::qmodule::NodeGroup* doAddNodeGroup (const QPainterPath& path);
+            void doDeleteNode (calenhad::qmodule::Node* node);
+
             bool eventFilter (QObject* o, QEvent* e);
 
             void setActiveTool (QAction* tool);
@@ -87,9 +89,7 @@ namespace calenhad {
             bool isChanged();
 
             QString snapshot ();
-
             QString lastSnapshot ();
-
             void setChanged (const bool& changed = true);
             void setRestorePoint (const QString& text = "Command");
             void preserve ();

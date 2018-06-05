@@ -194,7 +194,8 @@ QString Graph::glsl (Module* module) {
                     } else {
                         Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
                         QString source = other -> name ();
-                        _code.replace ("%" + index, "_" + source  + " (v)");
+                        _code.replace ("%" + index, "_" + source  + " (v)");    // "%0" is shorthand for "$0 (v)"
+                        _code.replace ("$" + index, "_" + source);
                     }
             }
 
