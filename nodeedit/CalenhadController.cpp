@@ -136,7 +136,7 @@ void CalenhadController::actionTriggered() {
         QString xml = clipboard -> text();
             QDomDocument doc;
             if (doc.setContent (xml)) {
-                std::cout << xml.toStdString () << "\n";
+                //std::cout << xml.toStdString () << "\n";
                 _model -> preserve();
                 _model -> inflate (doc, CalenhadFileType::CalenhadModelFragment);
                 _model -> setChanged (true);

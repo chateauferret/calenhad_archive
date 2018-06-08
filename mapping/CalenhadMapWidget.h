@@ -164,9 +164,7 @@ namespace calenhad {
             static const int PASS_STATISTICS = 3;
 
             // inset geometry
-            int _insetHeight;
-            QPoint _insetPos;
-
+            double _insetHeight;
 
             // boilerplate code for compute, vertex and fragment shaders
             QString _shaderTemplate;

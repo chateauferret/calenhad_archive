@@ -126,9 +126,7 @@ void Preferences::loadSettings() {
     calenhad_toolpalette_arrow_size = _settings -> value ("calenhad/toolpalette/arrow/size", 16).toInt();
     calenhad_globe_zoom_min = _settings -> value ("calenhad/globe/zoom/min", 0.0).toDouble (&ok);
     calenhad_globe_zoom_max = _settings -> value ("calenhad/globe/zoom/max", 4.0).toDouble (&ok);
-    calenhad_globe_inset_height = _settings -> value ("calenhad/globe/inset/height", 192).toUInt (&ok);
-    calenhad_globe_inset_x = _settings -> value ("calenhad/globe/inset/x", 8).toUInt (&ok);
-    calenhad_globe_inset_y = _settings -> value ("calenhad/globe/inset/y", 8).toUInt (&ok);
+    calenhad_globe_inset_height = _settings -> value ("calenhad/globe/inset/height", 64).toUInt (&ok);
     calenhad_globe_texture_height = _settings -> value ("calenhad/globe/texture/height", 1024).toUInt (&ok);
     calenhad_desktop_zoom_limit_zoomin = _settings -> value ("calenhad/desktop/zoom/limit/zoomin", 4).toDouble (&ok);
     calenhad_desktop_zoom_limit_zoomout = _settings -> value ("calenhad/desktop/zoom/limit/zoomin", 0.05).toDouble (&ok);
@@ -255,8 +253,6 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/globe/zoom/min", calenhad_globe_zoom_min);
     _settings -> setValue ("calenhad/globe/zoom/max", calenhad_globe_zoom_max);
     _settings -> setValue ("calenhad/globe/inset/height", calenhad_globe_inset_height);
-    _settings -> setValue ("calenhad/globe/inset/x", calenhad_globe_inset_x);
-    _settings -> setValue ("calenhad/globe/inset/y", calenhad_globe_inset_y);
     _settings -> setValue ("calenhad/globe/texture/height", calenhad_globe_texture_height);
     _settings -> setValue ("calenhad/desktop/zoomlimit/zoomin", calenhad_desktop_zoom_limit_zoomin);
     _settings -> setValue ("calenhad/desktop/zoomlimit/zoomout", calenhad_desktop_zoom_limit_zoomout);

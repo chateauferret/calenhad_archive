@@ -79,27 +79,26 @@ void Module::showGlobe() {
 }
 
 void Module::setupPreview() {
-    //if (!(_shownParameter.isNull () || _shownParameter.isEmpty ())) {
-        _preview = new CalenhadMapWidget (this);
-        _preview->setSource (this);
-        _previewIndex = addPanel (tr ("Preview"), _preview);
-        _stats = new QDialog (this);
-        _stats -> setLayout (new QVBoxLayout (_stats));
-        CalenhadStatsPanel* statsPanel = new CalenhadStatsPanel (this);
-        _stats->layout ()->addWidget (statsPanel);
-        QDialogButtonBox* box = new QDialogButtonBox (QDialogButtonBox::Ok);
-        _stats -> layout ()->addWidget (box);
-        connect (box, &QDialogButtonBox::accepted, _stats, &QDialog::accept);
-        _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
-        _stats -> setMinimumSize (400, 400);
-        _stats -> move (_dialog->pos().x() + 400, _dialog->pos().y() + 300);
-        connect (_preview, &CalenhadMapWidget::rendered, statsPanel, &CalenhadStatsPanel::refresh);
-        QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
-        connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
-        connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
-        connect (_preview, &CalenhadMapWidget::rendered, this, &Module::rendered);
-        _contextMenu -> addAction (statsAction);
-   // }
+    _preview = new CalenhadMapWidget (this);
+    _preview->setSource (this);
+    _previewIndex = addPanel (tr ("Preview"), _preview);
+    _stats = new QDialog (this);
+
+    _stats -> setLayout (new QVBoxLayout (_stats));
+    CalenhadStatsPanel* statsPanel = new CalenhadStatsPanel (this);
+    _stats->layout ()->addWidget (statsPanel);
+    QDialogButtonBox* box = new QDialogButtonBox (QDialogButtonBox::Ok);
+    _stats -> layout ()->addWidget (box);
+    connect (box, &QDialogButtonBox::accepted, _stats, &QDialog::accept);
+    _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
+    _stats -> setMinimumSize (400, 400);
+    _stats -> move (_dialog->pos().x() + 400, _dialog->pos().y() + 300);
+    connect (_preview, &CalenhadMapWidget::rendered, statsPanel, &CalenhadStatsPanel::refresh);
+    QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
+    connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
+    connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
+    connect (_preview, &CalenhadMapWidget::rendered, this, &Module::rendered);
+    _contextMenu -> addAction (statsAction);
 }
 
 void Module::showContextMenu (const QPoint& point) {
@@ -149,9 +148,7 @@ void Module::rendered (const bool& success) {
 
 void Module::setModel (CalenhadModel* model) {
     Node::setModel (model);
-    if (! _suppressRender) {
-        setupPreview ();
-    }
+    setupPreview ();
 }
 
 void Module::setLegend (Legend* legend) {
@@ -168,32 +165,35 @@ bool Module::generateMap () {
 }
 
 bool Module::isComplete() {
-
-    for (Port* p : _ports) {
-        if (p -> isRequired() && ! p -> hasConnection()) {
-            return false;
+    if (! _suppressRender) {
+        for (Port* p : _ports) {
+            if (p->isRequired () && !p->hasConnection ()) {
+                return false;
+            }
         }
-    }
 
-    bool complete = true;
-    QList<ExpressionWidget *> widgets = findChildren<ExpressionWidget*>();
-    if (! (widgets.isEmpty())) {
-        for (ExpressionWidget* ew: widgets) {
-            if (!ew -> isValid ()) {
-                for (Port* p : _ports) {
-                    if (p->portName () == ew->objectName () && p->portType () != Port::OutputPort) {
-                        if (!(p->hasConnection ())) {
-                            complete = false;
-                            break;
+        bool complete = true;
+        QList<ExpressionWidget*> widgets = findChildren<ExpressionWidget*> ();
+        if (!(widgets.isEmpty ())) {
+            for (ExpressionWidget* ew: widgets) {
+                if (!ew->isValid ()) {
+                    for (Port* p : _ports) {
+                        if (p->portName () == ew->objectName () && p->portType () != Port::OutputPort) {
+                            if (!(p->hasConnection ())) {
+                                complete = false;
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
-    }
 
-    _expander -> setItemEnabled (_previewIndex, complete);
-    return complete;
+        _expander->setItemEnabled (_previewIndex, complete);
+        return complete;
+    } else {
+        return false;
+    }
 }
 
 void Module::contextMenuEvent (QContextMenuEvent* e) {

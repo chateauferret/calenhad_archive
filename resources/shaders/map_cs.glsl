@@ -51,7 +51,6 @@ uniform int projection = PROJ_ORTHOGRAPHIC;
 
 // overview map inset parameters
 uniform int insetHeight;                                // height (pixels) - width will be 2 x height - 0 means no inset
-uniform ivec2 insetPos;                                 // inset top left corner x, y (pixels)
 uniform vec4 insetBorder = vec4 (1.0, 1.0, 1.0, 1.0);   // border color
 
 // pass identifiers
@@ -565,7 +564,8 @@ float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, fl
 
   for (int curOctave = 0; curOctave < octaves; curOctave++) {
     seed = (seed + curOctave) & 0xffffffff;
-    signal = simplex ? snoise (vec4 (n.xyz, seed)) : cnoise (vec4 (n.xyz, seed));
+    //signal = simplex ? snoise (vec4 (n.xyz, seed)) : cnoise (vec4 (n.xyz, seed));
+    signal = snoise (vec4 (n.xyz, seed));
     value += signal * curPersistence;
 
     // Prepare the next octave.
@@ -577,7 +577,8 @@ float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, fl
 }
 
 float perlin (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
-    return (noise (cartesian, false, frequency, lacunarity, persistence, octaves, seed) + PERLIN_BIAS) * PERLIN_SCALE;
+    // rewired to use simplex noise for now as faster - maybe no need to implement perlin
+    return (noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed) + PERLIN_BIAS) * PERLIN_SCALE;
 }
 
 float simplex (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
@@ -822,7 +823,7 @@ vec3 inverse (vec2 i, bool inset) {
 }
 
 bool inInset (ivec2 pos) {
-    return pos.x > insetPos.x && pos.x < insetPos.x + insetHeight * 2 && pos.y > insetPos.y && pos.y < insetPos.y + insetHeight;
+    return pos.x < insetHeight * 2 && pos.y < insetHeight;
 }
 
 vec4 toGreyscale (vec4 color) {

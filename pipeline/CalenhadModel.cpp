@@ -724,7 +724,7 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
         foreach (QGraphicsItem* item, items()) {
             item -> setSelected (false);
         }
-        std::cout << doc.toString ().toStdString () << "\n";
+        //std::cout << doc.toString ().toStdString () << "\n";
         QDomElement element = doc.documentElement().firstChildElement ("fragment").firstChildElement ("nodes");
         inflate (element, fileType);
         inflateConnections (doc, fileType);
@@ -790,12 +790,10 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
     if (fileType == CalenhadFileType::CalenhadModelFile || fileType == CalenhadFileType::CalenhadModelFragment) {
 
         // inflate modules group by group
-        std::cout << "Parent " << parent.tagName().toStdString () << "\n";
         QDomNode n = parent.firstChild();
         while (! n.isNull()) {
             QDomElement element = n.toElement();
             QString type = n.attributes ().namedItem ("type").nodeValue ();
-            std::cout << "Inflating " << element.tagName().toStdString () << " - " << element.attribute ("name").toStdString () << " (" << type.toStdString () << ")\n";
             QDomNodeList connectionNodes = element.ownerDocument().documentElement().firstChildElement ("connections").elementsByTagName ("connection");
             // put the node at the requested position on the canvas
             QDomElement positionElement = n.firstChildElement ("position");
@@ -820,7 +818,6 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
 
                 // if nodegroup is in another group, assign the group
                 QDomElement gp = n.parentNode().parentNode().toElement();
-                std::cout << "In node " << gp.attribute ("name").toStdString () << "(" << gp.attribute ("type").toStdString () << ") \n";
                 NodeGroupBlock* block = (NodeGroupBlock*) ng -> handle();
 
 
@@ -853,7 +850,6 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
 
                 // if module is in a group, assign the group
                 QDomElement gp = n.parentNode().parentNode().toElement();
-                std::cout << "In node " << gp.attribute ("name").toStdString () << "(" << gp.attribute ("type").toStdString () << ") \n";
                 if (gp.attribute ("type") == "nodegroup") {
                     NodeGroup* group = findGroup (gp.firstChildElement ("name").text());
                     if (group) {
@@ -1062,7 +1058,6 @@ void CalenhadModel::removeAll() {
 QString CalenhadModel::snapshot () {
     QDomDocument doc = serialize (CalenhadFileType::CalenhadModelFile);
     QString newXml = doc.toString();
-    std::cout << newXml.toStdString () << "\n";
     return newXml;
 }
 

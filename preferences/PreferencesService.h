@@ -111,8 +111,6 @@ namespace calenhad {
             int calenhad_globe_scale_width;
             int calenhad_globe_scale_height;
             unsigned calenhad_globe_inset_height;
-            unsigned calenhad_globe_inset_x;
-            unsigned calenhad_globe_inset_y;
             unsigned calenhad_globe_texture_height;
             double calenhad_desktop_zoom_limit_zoomin;
             double calenhad_desktop_zoom_limit_zoomout;
