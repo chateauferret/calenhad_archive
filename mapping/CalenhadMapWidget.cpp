@@ -134,18 +134,7 @@ void CalenhadMapWidget::initializeGL() {
         _indexBuffer->bind ();
         _indexBuffer->allocate (g_element_buffer_data, sizeof (g_element_buffer_data));
 
-        // texture for the map
-        glActiveTexture (GL_TEXTURE0);
-        _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
-        _globeTexture->create ();
-        _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-        _globeTexture->setSize (height() * 2, height());
-        _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
-        _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
-        _globeTexture->allocateStorage ();
-        _globeTexture->bind ();
-        _heightMapBuffer = new float[_globeTexture->height () * _globeTexture->width ()];
-        glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+
 
         _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
         _vertexShader = new QOpenGLShader (QOpenGLShader::Vertex);
@@ -245,9 +234,10 @@ void CalenhadMapWidget::compute () {
         glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
         int x = _globeTexture -> width() / 16;
-        int y = _globeTexture -> height() / 16;
-        std::cout << "glDispatchCompute (" << x << ", " << y << ", 1)\n";
-        glDispatchCompute (x, y, 1);
+        int xp = 1; while (xp < x) { xp *= 2; }
+        xp /= 2;
+        std::cout << "glDispatchCompute (" << xp << ", " << xp << ", 1)\n";
+        glDispatchCompute (xp, xp, 1);
         glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
         // retrieve the height map data from the GPU
@@ -264,6 +254,8 @@ void CalenhadMapWidget::compute () {
 
 void CalenhadMapWidget::paintGL() {
     if (_graph) {
+
+
         QPainter p (this);
         p.beginNativePainting ();
         compute ();
@@ -296,21 +288,38 @@ QSize CalenhadMapWidget::heightMapSize() const {
     return QSize (_globeTexture -> width(), _globeTexture -> height());
 }
 
-
 void CalenhadMapWidget::resizeGL (int width, int height) {
     if (_graph) {
-        if (height == 0) height = 1;
-        float aspectRatio = (float) width / (float) height;
-        glViewport (0, 0, width, height);
+       // if (!_globeTexture || abs (_globeTexture->width () - width) > width * 0.1 || abs (_globeTexture->height () - height) > height * 0.1) {
+            // texture for the map
+            glActiveTexture (GL_TEXTURE0);
+            if (_globeTexture) { delete _globeTexture; }
+            if (_heightMapBuffer) { delete _heightMapBuffer; }
+            _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
+            _globeTexture->create ();
+            _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
+            _globeTexture->setSize (height * 2, height);
+            _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
+            _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
+            _globeTexture->allocateStorage ();
+            _globeTexture->bind ();
+            _heightMapBuffer = new float[_globeTexture->height () * _globeTexture->width ()];
+            glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+/*
+            if (height == 0) height = 1;
+            float aspectRatio = (float) width / (float) height;
+            glViewport (0, 0, width, height);
 
-        glMatrixMode (GL_PROJECTION); /* switch to projection matrix */
-        glLoadIdentity ();
-        if (width >= height) {
-            glOrtho (-0.5f * aspectRatio, 0.5f * aspectRatio, 0.0f, 1.0f, -1, 1);
-        } else {
-            glOrtho (-0.5f, 0.5f, 0.0, 1.0 / aspectRatio, -1, 1);
-        }
-        glMatrixMode (GL_MODELVIEW);
+            glMatrixMode (GL_PROJECTION); // switch to projection matrix
+            glLoadIdentity ();
+            if (width >= height) {
+                glOrtho (-0.5f * 2.0, 0.5f * 2.0, 0.0f, 1.0f, -1, 1);
+            } else {
+                glOrtho (-0.5f, 0.5f, 0.0, 1.0 / 2.0, -1, 1);
+            }
+            glMatrixMode (GL_MODELVIEW);
+*/          std::cout << "Aspect ratio " << width << ", " << height  << "\n";
+    //    }
     }
 }
 

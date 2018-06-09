@@ -188,6 +188,8 @@ namespace calenhad {
             QString _code;
 
             float* _rasterBuffer;
+
+
         };
     }
 }
