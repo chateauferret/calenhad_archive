@@ -227,7 +227,7 @@ void CalenhadMapWidget::compute () {
 
         // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
         GLuint heightMap = 1;
-
+        _heightMapBuffer = new float[_globeTexture->height () * _globeTexture->width ()];
         glGenBuffers (1, &heightMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
         glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * _globeTexture -> height() * _globeTexture -> width(), NULL, GL_DYNAMIC_READ);
@@ -290,21 +290,24 @@ QSize CalenhadMapWidget::heightMapSize() const {
 
 void CalenhadMapWidget::resizeGL (int width, int height) {
     if (_graph) {
-       // if (!_globeTexture || abs (_globeTexture->width () - width) > width * 0.1 || abs (_globeTexture->height () - height) > height * 0.1) {
-            // texture for the map
-            glActiveTexture (GL_TEXTURE0);
-            if (_globeTexture) { delete _globeTexture; }
-            if (_heightMapBuffer) { delete _heightMapBuffer; }
-            _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
-            _globeTexture->create ();
-            _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-            _globeTexture->setSize (height * 2, height);
-            _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
-            _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
-            _globeTexture->allocateStorage ();
-            _globeTexture->bind ();
-            _heightMapBuffer = new float[_globeTexture->height () * _globeTexture->width ()];
-            glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+        // if (!_globeTexture || abs (_globeTexture->width () - width) > width * 0.1 || abs (_globeTexture->height () - height) > height * 0.1) {
+        // texture for the map
+        glActiveTexture (GL_TEXTURE0);
+        if (_globeTexture) { delete _globeTexture; }
+        if (_heightMapBuffer) { delete _heightMapBuffer; }
+        _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
+        _globeTexture->create ();
+        _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
+
+        // the texture dimensions had better be powers of two or else the heightmap capture goes bonkers - God knows why
+        int xp = 1; while (xp < width) { xp *= 2; }
+        xp /= 2;
+        _globeTexture->setSize (xp * 2, xp);
+        _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
+        _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
+        _globeTexture->allocateStorage();
+        _globeTexture->bind();
+        glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 /*
             if (height == 0) height = 1;
             float aspectRatio = (float) width / (float) height;
@@ -413,7 +416,7 @@ QImage* CalenhadMapWidget::heightmap() {
     int h = _globeTexture -> height();
     for (int y = h - 1; y >= 0; y--) {
         for (int x = 0; x < w; x++) {
-            float value = (float) _heightMapBuffer [y * w + x];
+            float value = (float) _heightMapBuffer [(h - y) * w + x];
             value = std::min (std::max (-1.0f, value), 1.0f);
             int k = (int) ((value + 1) / 2 * 256);
             image -> setPixelColor (x, y, QColor (k, k, k));
