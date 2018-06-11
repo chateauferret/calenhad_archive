@@ -56,6 +56,8 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _coordinatesFormat (CoordinatesFormat::Traditional),
     _inset (false),
     _rotation (Geolocation (0, 0)),
+    _renderQuality (RenderQualityDecent),
+    _renderTime (0),
     _insetHeight (CalenhadServices::preferences() -> calenhad_globe_inset_height) {
 
     QSurfaceFormat format;
@@ -133,8 +135,6 @@ void CalenhadMapWidget::initializeGL() {
         _indexBuffer->setUsagePattern (QOpenGLBuffer::StaticDraw);
         _indexBuffer->bind ();
         _indexBuffer->allocate (g_element_buffer_data, sizeof (g_element_buffer_data));
-
-
 
         _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
         _vertexShader = new QOpenGLShader (QOpenGLShader::Vertex);
@@ -233,7 +233,8 @@ void CalenhadMapWidget::compute () {
         glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * _globeTexture -> height() * _globeTexture -> width(), NULL, GL_DYNAMIC_READ);
         glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
-        int x = _globeTexture -> width() / 16;
+        int quality = 3;
+        int x = (int) (_globeTexture -> width() / pow (2, quality));
         int xp = 1; while (xp < x) { xp *= 2; }
         xp /= 2;
         std::cout << "glDispatchCompute (" << xp << ", " << xp << ", 1)\n";
@@ -248,7 +249,9 @@ void CalenhadMapWidget::compute () {
         memcpy (_heightMapBuffer, heightData, _globeTexture -> height () * _globeTexture -> width () * sizeof (GLfloat));
 
         clock_t end = clock ();
-        std::cout << "Computed in " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
+
+        _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+        std::cout << "Computed in " << _renderTime << " milliseconds\n";
     }
 }
 
@@ -519,7 +522,7 @@ Statistics CalenhadMapWidget::statistics() {
         }
     }
 
-    Statistics statistics = Statistics (_min, _max, _sum, count);
+    Statistics statistics = Statistics (_min, _max, _sum, count, _renderTime, _globeTexture -> height());
     return statistics;
 }
 
@@ -723,4 +726,13 @@ void CalenhadMapWidget::navigate (const NavigationEvent& e) {
     double distance = e.distance() * scale();
     _geodesic -> Direct (rotation().latitude (Units::Degrees), rotation().longitude (Units::Degrees), e.azimuth(), distance, lat, lon);
     goTo (Geolocation (lat, lon, Units::Degrees));
+}
+
+void CalenhadMapWidget::setRenderQuality (const RenderQuality& quality) {
+    _renderQuality = quality;
+    update();
+}
+
+RenderQuality CalenhadMapWidget::renderQuality() {
+    return _renderQuality;
 }

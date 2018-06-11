@@ -6,7 +6,7 @@
 using namespace calenhad::mapping;
 
 
-Statistics::Statistics (const double& min, const double& max, const double& sum, const int& count) : _min (min), _max (max), _sum (sum), _count (count) {
+Statistics::Statistics (double min, double max, double sum, int count, int renderTime, int size) : _min (min), _max (max), _sum (sum), _count (count), _renderTime (renderTime), _size (size) {
 
 }
 

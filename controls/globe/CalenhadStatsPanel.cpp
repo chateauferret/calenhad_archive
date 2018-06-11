@@ -29,6 +29,10 @@ CalenhadStatsPanel::CalenhadStatsPanel (Module* source, CalenhadGlobeDialog* par
 
     worldForm -> addRow ("Mean value in world", _worldMeanLabel);
 
+    _renderSizeLabel = new QLabel (this);
+    worldForm -> addRow ("Render size", _renderSizeLabel);
+    _renderTimeLabel = new QLabel (this);
+    worldForm -> addRow ("Render time", _renderTimeLabel);
     layout() -> addWidget (worldHypsographyBox);
 
 }
@@ -43,13 +47,24 @@ void CalenhadStatsPanel::showEvent (QShowEvent* e) {
 
 void CalenhadStatsPanel::refresh() {
     Statistics worldStats = _worldHypsography -> statistics();
+    _renderSizeLabel -> setText ("");
+    _renderSizeLabel -> setEnabled (false);
+    _renderTimeLabel -> setText ("");
+    _renderTimeLabel -> setEnabled (false);
+    _worldExtremesLabel -> setText ("");
+    _worldExtremesLabel -> setEnabled (false);
+    _worldMeanLabel -> setText ("");
     if (worldStats.ok()) {
-        _worldExtremesLabel -> setText (QString::number (worldStats._min) + " to " + QString::number (worldStats._max));
-        _worldExtremesLabel -> setEnabled (true);
-        _worldMeanLabel -> setText (QString::number (worldStats.mean()));
-    } else {
-        _worldExtremesLabel -> setText ("");
-        _worldExtremesLabel -> setEnabled (false);
-        _worldMeanLabel -> setText ("");
+        _worldExtremesLabel->setText (QString::number (worldStats._min) + " to " + QString::number (worldStats._max));
+        _worldExtremesLabel->setEnabled (true);
+        _worldMeanLabel->setText (QString::number (worldStats.mean ()));
+        if (worldStats._size > 0) {
+            _renderSizeLabel->setEnabled (true);
+            _renderSizeLabel->setText (QString::number (worldStats._size * 2) + " x " + QString::number (worldStats._size));
+        }
+        if (worldStats._renderTime > 0) {
+            _renderTimeLabel->setEnabled (true);
+            _renderTimeLabel->setText (QString::number (worldStats._renderTime) + " ms");
+        }
     }
 }

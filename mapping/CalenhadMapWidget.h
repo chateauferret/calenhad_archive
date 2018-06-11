@@ -37,6 +37,13 @@ namespace calenhad {
             WholeWorld, ExplorerBounds
         };
 
+        enum RenderQuality {
+            RenderQualityBest = 1,
+            RenderQualityDecent = 2,
+            RenderQualityDraft = 3,
+            RenderQualityShite = 4
+        };
+
         class Graticule;
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
@@ -46,7 +53,7 @@ namespace calenhad {
 
             CalenhadMapWidget (QWidget* parent = 0);
 
-            ~CalenhadMapWidget ();
+            ~CalenhadMapWidget();
 
             void setGraph (calenhad::graph::Graph* g);
 
@@ -100,7 +107,8 @@ namespace calenhad {
             void setSensitivity (double sensitivity);
             double sensitivity();
             void goTo (const geoutils::Geolocation& geolocation);
-
+            void setRenderQuality (const RenderQuality& quality);
+            RenderQuality renderQuality();
 
         public slots:
             void compute ();
@@ -187,9 +195,8 @@ namespace calenhad {
             const char* name = "heightMapBuffer";
             QString _code;
 
-            float* _rasterBuffer;
-
-
+            RenderQuality _renderQuality;
+            int _renderTime;
         };
     }
 }

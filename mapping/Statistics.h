@@ -10,9 +10,10 @@ namespace calenhad {
 
         class Statistics {
         public:
-            Statistics (const double& min, const double& max, const double& sum, const int& count);
+            Statistics (double min, double max, double sum, int count, int renderTime, int size);
             double _min, _max, _sum;
             int _count;
+            int _renderTime, _size;
             double range();
             double mean();
             bool ok();

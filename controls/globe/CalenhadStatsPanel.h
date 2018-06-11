@@ -41,6 +41,7 @@ namespace calenhad {
                 calenhad::qmodule::Module* _source;
 
 
+                QLabel*  _renderTimeLabel, * _renderSizeLabel;
             };
         }
     }

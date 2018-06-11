@@ -18,7 +18,7 @@ using namespace calenhad::mapping;
 HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe,  QWidget* parent) : QWidget (parent),
     _globe (globe),
     _plot (new QwtPlot()),
-    _statistics (Statistics (0.0, 0.0, 0.0, 0)) {
+    _statistics (Statistics (0.0, 0.0, 0.0, 0, 0, 0)) {
     setLayout (new QVBoxLayout());
     _plot -> setSizePolicy (QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding));
     layout() -> addWidget (_plot);
