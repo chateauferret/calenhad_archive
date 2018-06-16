@@ -13,6 +13,7 @@
 #include <qwt/qwt_slider.h>
 
 #include "CalenhadGlobeConstants.h"
+#include "../../mapping/CalenhadMapWidget.h"
 #include "../../geoutils.h"
 
 
@@ -35,6 +36,7 @@ namespace calenhad {
 
             class CalenhadGlobeConfigDialog : public QDialog {
             Q_OBJECT
+
 
 
 
@@ -64,7 +66,7 @@ namespace calenhad {
                 calenhad::mapping::projection::Projection* selectedProjection ();
 
                 calenhad::legend::Legend* selectedLegend ();
-
+                const calenhad::controls::globe::RenderQuality selectedRenderQuality ();
                 void commitChanges ();
 
                 geoutils::CoordinatesFormat coordinatesFormat ();
@@ -109,6 +111,7 @@ namespace calenhad {
                 QSlider* _graticuleMinorWeightSlider;
                 QWidget* _graticuleTab;
 
+                QComboBox* _renderQualityCombo;
             };
         }
     }

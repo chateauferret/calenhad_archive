@@ -192,6 +192,7 @@ void CalenhadGlobeDialog::updateConfig () {
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
     _globe -> setProjection (_configDialog -> selectedProjection() -> name ());
+    _globe -> setRenderQuality (_configDialog -> selectedRenderQuality());
     _configDialog -> update();
     _contextMenu -> update();
     for (Legend* legend : CalenhadServices::legends() -> all()) {

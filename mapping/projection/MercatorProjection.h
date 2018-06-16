@@ -28,7 +28,7 @@ namespace calenhad {
 
                 QString notes () override;
 
-                int id() override;
+                ProjectionId id() override;
 
                 void setDatum (const geoutils::Geolocation& datum) override;
 

@@ -13,6 +13,9 @@
 namespace calenhad {
     namespace mapping {
         namespace projection {
+
+            enum ProjectionId { ProjectionMercator = 1, ProjectioonEquirectangular = 0, ProjectionOrthographic = 2 };
+
             class Projection {
             public:
                 Projection() {};
@@ -30,7 +33,7 @@ namespace calenhad {
                 virtual QString glslInverse () = 0;
                 virtual QString glslForward() = 0;
 
-                virtual int id() = 0;
+                virtual ProjectionId id() = 0;
 
                 virtual QPointF range() { return QPointF (M_PI * 2, M_PI); }
 

@@ -19,6 +19,12 @@ namespace calenhad {
                 NoDatum, Native, Scaled
             };
 
+            enum RenderQuality {
+                RenderQualityBest = 2,
+                RenderQualityDecent = 3,
+                RenderQualityDraft = 4,
+                RenderQualityShite = 5
+            };
 
         }
     }

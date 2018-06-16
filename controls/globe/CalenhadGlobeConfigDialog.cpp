@@ -23,6 +23,7 @@
 #include <controls/ColorButton.h>
 #include "qmodule/Module.h"
 #include "../../mapping/Graticule.h"
+#include "../../mapping/projection/Projection.h"
 
 using namespace calenhad::controls::globe;
 using namespace calenhad::legend;
@@ -106,12 +107,22 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
     _projectionCombo = new QComboBox (projectionTab);
     QMap<QString, Projection*> m = CalenhadServices::projections() -> all();
     for (QString name : m.keys ()) {
-        _projectionCombo->addItem (name);
-        if (parent -> globe() -> projection () == m.value (name)) {
-            _projectionCombo->setCurrentText (name);
+        Projection* p = m [name];
+        if (p) {
+            _projectionCombo->addItem (name, p -> id ());
+            if (parent->globe ()->projection () == m.value (name)) {
+                _projectionCombo->setCurrentText (name);
+            }
         }
     }
     ((QFormLayout*) projectionTab -> layout()) -> addRow ("Projection", _projectionCombo);
+
+    _renderQualityCombo = new QComboBox (projectionTab);
+    _renderQualityCombo -> addItem ("Best");
+    _renderQualityCombo -> addItem ("Decent");
+    _renderQualityCombo -> addItem ("Draft");
+    _renderQualityCombo -> addItem ("Shite");
+    ((QFormLayout*) projectionTab -> layout()) -> addRow ("Render quality", _renderQualityCombo);
 
     _graticuleTab = new QWidget (tabs);
     _graticuleTab -> setLayout (new QVBoxLayout (_graticuleTab));
@@ -214,6 +225,15 @@ void CalenhadGlobeConfigDialog::initialise() {
         _graticuleMinorStyleCombo -> setCurrentIndex (g -> minorPen().style() - 1);
         _graticuleMinorWeightSlider -> setValue (g -> minorPen().width());
     }
+
+    Projection* projection = _parent -> globe() -> projection();
+    _projectionCombo -> setCurrentText (projection -> name());
+
+    RenderQuality quality = _parent -> globe() -> renderQuality();
+    if (quality == RenderQuality::RenderQualityShite) { _renderQualityCombo -> setCurrentText ("Shite"); }
+    if (quality == RenderQuality::RenderQualityDraft) { _renderQualityCombo -> setCurrentText ("Draft"); }
+    if (quality == RenderQuality::RenderQualityDecent) { _renderQualityCombo -> setCurrentText ("Decent"); }
+    if (quality == RenderQuality::RenderQualityBest) { _renderQualityCombo -> setCurrentText ("Best"); }
 }
 
 QPen CalenhadGlobeConfigDialog::graticuleMajorPen() {
@@ -298,4 +318,13 @@ DatumFormat CalenhadGlobeConfigDialog::datumFormat() {
 
 int CalenhadGlobeConfigDialog::graticuleDensity () {
     return _densitySlider -> value();
+}
+
+const RenderQuality CalenhadGlobeConfigDialog::selectedRenderQuality () {
+    bool ok;
+    if (_renderQualityCombo->currentText () == "Best") { return RenderQuality::RenderQualityBest; }
+    if (_renderQualityCombo->currentText () == "Decent") { return RenderQuality::RenderQualityDecent; }
+    if (_renderQualityCombo->currentText () == "Draft") { return RenderQuality::RenderQualityDraft; }
+    if (_renderQualityCombo->currentText () == "Shite") { return RenderQuality::RenderQualityShite; }
+    return _parent->globe ()->renderQuality();
 }

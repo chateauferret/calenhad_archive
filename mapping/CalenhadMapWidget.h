@@ -29,19 +29,9 @@ namespace calenhad {
         namespace projection {
             class Projection;
         }
-    }
-
-    namespace mapping {
 
         enum OverviewPreviewType {
             WholeWorld, ExplorerBounds
-        };
-
-        enum RenderQuality {
-            RenderQualityBest = 1,
-            RenderQualityDecent = 2,
-            RenderQualityDraft = 3,
-            RenderQualityShite = 4
         };
 
         class Graticule;
@@ -107,8 +97,8 @@ namespace calenhad {
             void setSensitivity (double sensitivity);
             double sensitivity();
             void goTo (const geoutils::Geolocation& geolocation);
-            void setRenderQuality (const RenderQuality& quality);
-            RenderQuality renderQuality();
+            void setRenderQuality (const calenhad::controls::globe::RenderQuality& quality);
+            calenhad::controls::globe::RenderQuality renderQuality();
 
         public slots:
             void compute ();
@@ -195,7 +185,7 @@ namespace calenhad {
             const char* name = "heightMapBuffer";
             QString _code;
 
-            RenderQuality _renderQuality;
+            calenhad::controls::globe::RenderQuality _renderQuality;
             int _renderTime;
         };
     }

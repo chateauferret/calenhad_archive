@@ -49,11 +49,15 @@ int main (int argc, char **argv) {
     qRegisterMetaType<Qt::PenStyle>();
 
     // set up application
-    QCoreApplication::setOrganizationName("calenhad");
-    QCoreApplication::setOrganizationDomain("chateauferret.com");
-    QCoreApplication::setApplicationName("calenhad");
+    QCoreApplication::setOrganizationName ("calenhad");
+    QCoreApplication::setOrganizationDomain ("chateauferret.com");
+    QCoreApplication::setApplicationName ("calenhad");
     QApplication app (argc, argv);
 
+    // i18n
+    QTranslator translator;
+    translator.load ("calenhad_en");
+    app.installTranslator (&translator);
 
     // set up services
     // Preferences service

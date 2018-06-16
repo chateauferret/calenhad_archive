@@ -44,8 +44,8 @@ QString MercatorProjection::notes () {
     return "";
 }
 
-int MercatorProjection::id () {
-    return 1; // see map_cs.glsl
+ProjectionId MercatorProjection::id () {
+    return ProjectionId::ProjectionMercator; // see map_cs.glsl
 }
 
 QString MercatorProjection::glslInverse() {

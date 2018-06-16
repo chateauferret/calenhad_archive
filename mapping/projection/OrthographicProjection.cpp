@@ -54,8 +54,8 @@ QString OrthographicProjection::notes () {
     return "";
 }
 
-int OrthographicProjection::id () {
-    return 2; // see map_cs.glsl
+ProjectionId OrthographicProjection::id () {
+    return ProjectionId::ProjectionOrthographic; // see map_cs.glsl
 }
 
 

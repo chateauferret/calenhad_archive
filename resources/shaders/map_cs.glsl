@@ -4,7 +4,7 @@ layout (rgba32f, binding = 0) uniform image2D destTex;          // output textur
 layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
-uniform int resolution = 512;
+uniform int imageHeight = 512;
 uniform float scale;
 uniform vec2 datum;
 
@@ -549,9 +549,10 @@ vec2 cellular (vec3 P, float jitter, float seed) {
 	return sqrt(d11.xy); // F1, F2
 }
 
-float voronoi (vec3 cartesian, float frequency, float displacement, float enableDistance, int seed) {
+float voronoi (vec3 cartesian, float frequency, float displacement, float scale, int seed) {
     vec2 c = cellular (cartesian * frequency, displacement, seed);
-    return ((((c.y - c.x) * enableDistance) + VORONOI_BIAS) * VORONOI_SCALE) - 1.0;
+    return ((((c.y - c.x) + VORONOI_BIAS) * VORONOI_SCALE) - 1.0) * scale;
+
 }
 
 float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, float persistence, int octaves, int seed) {
@@ -766,7 +767,7 @@ vec4 findColor (float value) {
 // Returns the map coordinates for a given GlobalInvocationID (essentially screen coordinates) taking into account the scale.
 // Coordinates returned are those for the inset map (inset TRUE) or the main map (inset FALSE).
 vec2 mapPos (vec2 pos, bool inset) {
-    float r = float (inset ? insetHeight : resolution);
+    float r = float (inset ? insetHeight : imageHeight);
     vec2 j = vec2 ((pos.x - r) / (r * 2), (pos.y / 2 - (r / 4)) / r);
     j *= M_PI * 2;
     j *= inset ? 1.0 : scale;
@@ -776,7 +777,7 @@ vec2 mapPos (vec2 pos, bool inset) {
 // Returns the screen coordinates (GlobalInvocationID) for given map coordinates taking into account the scale.
 // Coordinates returned are those for the inset map (inset TRUE) or the main map (inset FALSE).
 ivec2 scrPos (vec2 g, bool inset) {
-    float r = float (inset ? insetHeight : resolution);
+    float r = float (inset ? insetHeight : imageHeight);
     vec2 j = g / (inset ? 1.0 : scale);
     j /= M_PI;
     j.x = (j.x + 1) * r;
@@ -834,7 +835,8 @@ vec4 toGreyscale (vec4 color) {
 void main() {
 
     ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
-    bool inset = inInset (pos);
+    //bool inset = inInset (pos);
+    bool inset = false;
     vec2 i = mapPos (pos, inset);
     vec3 g = inverse (i, inset);
     vec4 c = toCartesian (g);
@@ -842,17 +844,17 @@ void main() {
     vec4 color;
 
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-    float step = smoothstep (0.99, 1.000001, c.w);
+    float pets = smoothstep (0.99, 1.00001, abs (c.w));
     float v = value (c.xyz);
+    color = findColor (v);
+    color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
 
-    color = mix (findColor (v), vec4 (0.0, 0.0, abs (c.w) * 0.1, 0.0), step);
-
-    if (insetHeight > 0) {
+   /* if (insetHeight > 0) {
         if (inset) {
             vec3 f = forward (g.xy, false);                                             // get the geolocation of this texel in the inset map
             ivec2 s = scrPos (f.xy, false);                                             // find the corresponding texel in the main map
             if (f.z > 1.0 || f.z < 0.0 ||                                               // if the texel is out of the projection's  bounds or ...
-                s.x < 0 || s.x > resolution * 2  || s.y < 0 || s.y > resolution) {      // if the texel is not on the main map ...
+                s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) {      // if the texel is not on the main map ...
              color = toGreyscale (findColor (v));                                       // ... grey out the corresponding texel in the inset map.
             }
 
@@ -864,11 +866,11 @@ void main() {
             c = toCartesian (g);
             v = value (c.xyz);
         }
-    }
+    }*/
 
     uint out_x = pos.x;
     uint out_y = pos.y;
-    height_map_out [out_y * resolution * 2 + out_x] = v;
+    height_map_out [out_y * imageHeight * 2 + out_x] = v;
     imageStore (destTex, pos, color);
 
 }

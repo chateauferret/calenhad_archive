@@ -332,7 +332,7 @@
         </input>
         </ports>
         <parameters>
-            <parameter type="boolean" name="enableDistance" default="false">
+            <parameter type="double" name="scale" default="false">
                 <documentation>Whether the distance function is enabled</documentation>
                 <validator type="AcceptAny"/>
             </parameter>
@@ -341,7 +341,7 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return voronoi (v, %0 (v), %1 (v), %enableDistance, %seed); }</glsl>
+        <glsl>float %n (vec3 v) { return voronoi (v, %0 (v), %1 (v), %scale, %seed); }</glsl>
     </module>
 
 </palette>
