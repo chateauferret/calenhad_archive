@@ -169,6 +169,10 @@ void CalenhadMapWidget::compute () {
     if (_graph) {
         clock_t start = clock ();
         makeCurrent ();
+        createTexture();
+        m_vao.bind ();
+        _computeProgram->bind ();
+        _globeTexture->bind ();
 
         static GLint destLoc = glGetUniformLocation (_computeProgram->programId (), "destTex");
         static GLint insetLoc = glGetUniformLocation (_computeProgram->programId (), "insetTex");
@@ -180,9 +184,6 @@ void CalenhadMapWidget::compute () {
         static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
         static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram->programId (), "rasterResolution");
 
-        m_vao.bind ();
-        _computeProgram->bind ();
-        _globeTexture->bind ();
 
         GLubyte c = 0;
         std::vector<GLubyte> emptyData (_globeTexture->width () * _globeTexture->height () * 4, 0);
@@ -225,21 +226,23 @@ void CalenhadMapWidget::compute () {
             _rasterTexture->setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster->bits ());
         }
 
+
         // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
         GLuint heightMap = 1;
-
-        _heightMapBuffer = new float[_globeTexture->height () * _globeTexture->width ()];
+        int h = _globeTexture -> height ();
+        if (_heightMapBuffer) { delete _heightMapBuffer; _heightMapBuffer = nullptr; }
+        _heightMapBuffer = new float [2 * h * h];
         glGenBuffers (1, &heightMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * _globeTexture -> height() * _globeTexture -> width(), NULL, GL_DYNAMIC_READ);
+        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * h * h, NULL, GL_DYNAMIC_READ);
         glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
 
-        int x = (int) (_globeTexture -> width() / 2);
-        int xp = 1; while (xp < x) { xp *= 2; }
-        xp /= pow ((float) 2, _renderQuality);
-        std::cout << "glDispatchCompute (" << xp << ", " << xp << ", 1)\n";
-        glDispatchCompute (xp, xp, 1);
+        _xp = _globeTexture -> height() / 32;
+        std::cout << "glDispatchCompute (" << _xp << ", " << _xp << ", 1)\n";
+        std::cout << "Image size " << width() << " x " << height() << "\n";
+        std::cout << "Texture size " << _globeTexture -> width() << " x " << _globeTexture -> height() << "\n\n";
+        glDispatchCompute (_xp, _xp * 2, 1);
         glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
         // retrieve the height map data from the GPU
@@ -247,7 +250,7 @@ void CalenhadMapWidget::compute () {
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
         GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
         glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
-        memcpy (_heightMapBuffer, heightData, _globeTexture -> height () * _globeTexture -> width () * sizeof (GLfloat));
+        memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
 
         clock_t end = clock ();
 
@@ -294,26 +297,8 @@ QSize CalenhadMapWidget::heightMapSize() const {
 
 void CalenhadMapWidget::resizeGL (int width, int height) {
     if (_graph) {
+        if (height == 0) height = 1;
 
-        glActiveTexture (GL_TEXTURE0);
-        if (_globeTexture) { delete _globeTexture; }
-        if (_heightMapBuffer) { delete _heightMapBuffer; }
-        _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
-        _globeTexture->create ();
-        _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-
-        // the texture dimensions had better be powers of two or else the heightmap capture goes bonkers - God knows why
-        int xp = 1; while (xp < width) { xp *= 2; }
-        xp /= (int) (pow ((double) 2, _renderQuality));
-        _globeTexture->setSize (xp * 2, xp);
-        _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
-        _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
-        _globeTexture->allocateStorage();
-        _globeTexture->bind();
-        glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
-/*
-            if (height == 0) height = 1;
-            float aspectRatio = (float) width / (float) height;
             glViewport (0, 0, width, height);
 
             glMatrixMode (GL_PROJECTION); // switch to projection matrix
@@ -324,10 +309,35 @@ void CalenhadMapWidget::resizeGL (int width, int height) {
                 glOrtho (-0.5f, 0.5f, 0.0, 1.0 / 2.0, -1, 1);
             }
             glMatrixMode (GL_MODELVIEW);
-*/          std::cout << "Aspect ratio " << width << ", " << height  << "\n";
-    //    }
+
+        }
     }
+
+void CalenhadMapWidget::createTexture () {
+    makeCurrent();
+    glActiveTexture (GL_TEXTURE0);
+    if (_globeTexture) { delete _globeTexture; _globeTexture = nullptr; }
+
+    _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
+    _globeTexture->create();
+    _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
+
+    // the texture dimensions had better be powers of two or else the heightmap capture goes bonkers - God knows why
+    int h = 1;
+    while (h < height() && h * 2 < width()) { h *= 2; }
+    h /= (int) (pow ((double) 2, _renderQuality));
+    h *= 2;
+    _globeTexture->setSize (h * 2, h);
+    _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
+    _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
+    _globeTexture->allocateStorage();
+    _globeTexture->bind();
+    glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+
+
 }
+
+
 
 // Insert the given code into the compute shader to realise the noise pipeline
 void CalenhadMapWidget::setGraph (Graph* g) {
@@ -419,7 +429,7 @@ QImage* CalenhadMapWidget::heightmap() {
     int h = _globeTexture -> height();
     for (int y = h - 1; y >= 0; y--) {
         for (int x = 0; x < w; x++) {
-            float value = (float) _heightMapBuffer [(h - y) * w + x];
+            GLfloat value = (GLfloat) _heightMapBuffer [(h - y) * w + x];
             value = std::min (std::max (-1.0f, value), 1.0f);
             int k = (int) ((value + 1) / 2 * 256);
             image -> setPixelColor (x, y, QColor (k, k, k));
@@ -431,8 +441,8 @@ QImage* CalenhadMapWidget::heightmap() {
 bool CalenhadMapWidget::valueAt (const QPointF& sc, double& value) {
     QPoint tc = texCoordinates (sc);
     int index = tc.y() * _globeTexture -> width () + tc.x();
-    if (index >= 0 && index < _globeTexture -> width () * _globeTexture -> width()) {
-        value = (double) _heightMapBuffer [index];
+    if (index >= 0 && index < _globeTexture -> width () * _globeTexture -> height()) {
+        value = (GLfloat) _heightMapBuffer [index];
         return true;
     } else {
         return false;
@@ -442,9 +452,9 @@ bool CalenhadMapWidget::valueAt (const QPointF& sc, double& value) {
 QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
     if (_globeTexture) {
         QPoint tc;
-        int xp = (int) pow ((float) 2, _renderQuality);
-        double x = sc.x () / width () * xp;
-        double y = sc.y () / height () * xp;
+
+        double x = sc.x () / width ();// * xp;
+        double y = sc.y () / height ();// * xp;
         tc.setX (x * _globeTexture -> width ());
         tc.setY ((1 - y) * _globeTexture -> height ());
         return tc;
@@ -712,13 +722,6 @@ void CalenhadMapWidget::setMouseDragMode (const CalenhadGlobeDragMode& mode) {
     _mouseDragMode = mode;
 }
 
-CalenhadGlobeDoubleClickMode CalenhadMapWidget::mouseDoubleClickMode () {
-    return _mouseDoubleClickMode;
-}
-
-CalenhadGlobeDragMode CalenhadMapWidget::mouseDragMode () {
-    return _mouseDragMode;
-}
 
 // move the view centre along a given azimuth
 void CalenhadMapWidget::navigate (const NavigationEvent& e) {
@@ -736,4 +739,12 @@ void CalenhadMapWidget::setRenderQuality (const RenderQuality& quality) {
 
 RenderQuality CalenhadMapWidget::renderQuality() {
     return _renderQuality;
+}
+
+CalenhadGlobeDoubleClickMode CalenhadMapWidget::mouseDoubleClickMode () {
+    return _mouseDoubleClickMode;
+}
+
+CalenhadGlobeDragMode CalenhadMapWidget::mouseDragMode () {
+    return _mouseDragMode;
 }

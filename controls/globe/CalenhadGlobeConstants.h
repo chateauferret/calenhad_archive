@@ -20,10 +20,10 @@ namespace calenhad {
             };
 
             enum RenderQuality {
-                RenderQualityBest = 2,
-                RenderQualityDecent = 3,
-                RenderQualityDraft = 4,
-                RenderQualityShite = 5
+                RenderQualityBest = 1,
+                RenderQualityDecent = 2,
+                RenderQualityDraft = 3,
+                RenderQualityShite = 4
             };
 
         }
