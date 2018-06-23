@@ -187,7 +187,7 @@ namespace calenhad {
 
             calenhad::controls::globe::RenderQuality _renderQuality;
             int _renderTime;
-            int _xp;
+            bool _render;
 
             void createTexture ();
 
