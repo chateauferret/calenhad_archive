@@ -835,8 +835,7 @@ vec4 toGreyscale (vec4 color) {
 void main() {
 
     ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
-    //bool inset = inInset (pos);
-    bool inset = false;
+    bool inset = inInset (pos);
     vec2 i = mapPos (pos, inset);
     vec3 g = inverse (i, inset);
     vec4 c = toCartesian (g);
@@ -849,7 +848,7 @@ void main() {
     color = findColor (v);
     color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
 
-   /* if (insetHeight > 0) {
+    if (insetHeight > 0) {
         if (inset) {
             vec3 f = forward (g.xy, false);                                             // get the geolocation of this texel in the inset map
             ivec2 s = scrPos (f.xy, false);                                             // find the corresponding texel in the main map
@@ -866,7 +865,7 @@ void main() {
             c = toCartesian (g);
             v = value (c.xyz);
         }
-    }*/
+    }
 
     uint out_x = pos.x;
     uint out_y = pos.y;

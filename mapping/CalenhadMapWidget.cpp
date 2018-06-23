@@ -104,13 +104,13 @@ CalenhadMapWidget::~CalenhadMapWidget() {
 }
 
 void CalenhadMapWidget::initializeGL() {
+
     if (_graph) {
         initializeOpenGLFunctions ();
         glEnable (GL_MULTISAMPLE);
 
         glClearColor (0, 0, 1, 1);
         _colorMapBuffer = _graph->colorMapBuffer ();
-
 
         m_vao.create ();
         if (m_vao.isCreated ()) {
@@ -175,96 +175,92 @@ void CalenhadMapWidget::compute () {
         _computeProgram->bind ();
         _globeTexture->bind ();
 
-        static GLint destLoc = glGetUniformLocation (_computeProgram->programId (), "destTex");
-        static GLint insetLoc = glGetUniformLocation (_computeProgram->programId (), "insetTex");
-        static GLint cmbsLoc = glGetUniformLocation (_computeProgram->programId (), "colorMapBufferSize");
-        static GLint imageHeightLoc = glGetUniformLocation (_computeProgram->programId (), "imageHeight");
-        static GLint projectionLoc = glGetUniformLocation (_computeProgram->programId (), "projection");
-        static GLint scaleLoc = glGetUniformLocation (_computeProgram->programId (), "scale");
-        static GLint datumLoc = glGetUniformLocation (_computeProgram->programId (), "datum");
-        static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
-        static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram->programId (), "rasterResolution");
-
-
-        GLubyte c = 0;
-        //std::vector<GLubyte> emptyData (_globeTexture->width () * _globeTexture->height () * 4, 0);
-        //glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _globeTexture->width (), _globeTexture->height (), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
-        glUniform1i (destLoc, 0);
-        glUniform1i (insetLoc, 1);
-        glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude());
-        glUniform1i (projectionLoc, _projection->id ());
-        glUniform1f (scaleLoc, (GLfloat) _scale);
-        glUniform1i (insetHeightLoc, _inset ? _insetHeight : 0);
-        glUniform1i (imageHeightLoc, _globeTexture -> height());
-        glUniform1i (cmbsLoc, 2048);
-        glUniform1i (rasterResolutionLoc, _globeTexture -> height());
-
-        // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
-        _colorMapBuffer = _graph->colorMapBuffer ();
-        if (_colorMapBuffer) {
-            GLuint colorMap = 1;
-            glGenBuffers (1, &colorMap);
-            glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
-            glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph->colorMapBufferSize (), _colorMapBuffer, GL_DYNAMIC_COPY);
-            glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
-            glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
-        }
-
-        // create and allocate a buffer for any input rasters
-        int rasters = _graph->rasterCount ();
-        glActiveTexture (GL_TEXTURE1);
-        _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
-        _rasterTexture->create ();
-        _rasterTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-        _rasterTexture->setSize (_globeTexture -> width(), _globeTexture -> height());
-        _rasterTexture->setMinificationFilter (QOpenGLTexture::Linear);
-        _rasterTexture->setMagnificationFilter (QOpenGLTexture::Linear);
-        _rasterTexture->allocateStorage ();
-        _rasterTexture->bind ();
-        glBindImageTexture (1, _rasterTexture->textureId (), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA8);
-        for (int i = 0; i < rasters; i++) {
-            QImage* raster = _graph->raster (i);
-            _rasterTexture->setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster->bits ());
-        }
-
-
-        // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
-        GLuint heightMap = 1;
-        int h = _globeTexture -> height ();
-        if (_heightMapBuffer) { delete _heightMapBuffer; _heightMapBuffer = nullptr; }
-        _heightMapBuffer = new float [2 * h * h];
-        glGenBuffers (1, &heightMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * h * h, NULL, GL_DYNAMIC_READ);
-        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
-
         if (_render) {
-            _render = false;
-            int xp = _globeTexture->height() / 32;
+            QCursor oldCursor = cursor();
+            setCursor (Qt::BusyCursor);
+            static GLint destLoc = glGetUniformLocation (_computeProgram->programId (), "destTex");
+            static GLint insetLoc = glGetUniformLocation (_computeProgram->programId (), "insetTex");
+            static GLint cmbsLoc = glGetUniformLocation (_computeProgram->programId (), "colorMapBufferSize");
+            static GLint imageHeightLoc = glGetUniformLocation (_computeProgram->programId (), "imageHeight");
+            static GLint projectionLoc = glGetUniformLocation (_computeProgram->programId (), "projection");
+            static GLint scaleLoc = glGetUniformLocation (_computeProgram->programId (), "scale");
+            static GLint datumLoc = glGetUniformLocation (_computeProgram->programId (), "datum");
+            static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
+            static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram->programId (), "rasterResolution");
+
+
+            GLubyte c = 0;
+            //std::vector<GLubyte> emptyData (_globeTexture->width () * _globeTexture->height () * 4, 0);
+            //glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _globeTexture->width (), _globeTexture->height (), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
+            glUniform1i (destLoc, 0);
+            glUniform1i (insetLoc, 1);
+            glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude());
+            glUniform1i (projectionLoc, _projection -> id ());
+            glUniform1f (scaleLoc, (GLfloat) _scale);
+            glUniform1i (insetHeightLoc, _inset ? _insetHeight : 0);
+            glUniform1i (imageHeightLoc, _globeTexture -> height());
+            glUniform1i (cmbsLoc, 2048);
+            glUniform1i (rasterResolutionLoc, _globeTexture -> height());
+
+            // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
+            _colorMapBuffer = _graph -> colorMapBuffer ();
+            if (_colorMapBuffer) {
+                GLuint colorMap = 1;
+                glGenBuffers (1, &colorMap);
+                glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
+                glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph->colorMapBufferSize (), _colorMapBuffer, GL_DYNAMIC_COPY);
+                glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
+                glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+            }
+
+            // create and allocate a buffer for any input rasters
+            int rasters = _graph->rasterCount ();
+            glActiveTexture (GL_TEXTURE1);
+            _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
+            _rasterTexture->create ();
+            _rasterTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
+            _rasterTexture->setSize (_globeTexture -> width(), _globeTexture -> height());
+            _rasterTexture->setMinificationFilter (QOpenGLTexture::Linear);
+            _rasterTexture->setMagnificationFilter (QOpenGLTexture::Linear);
+            _rasterTexture->allocateStorage ();
+            _rasterTexture->bind ();
+            glBindImageTexture (1, _rasterTexture->textureId (), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA8);
+            for (int i = 0; i < rasters; i++) {
+                QImage* raster = _graph->raster (i);
+                _rasterTexture->setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster->bits ());
+            }
+
+            // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
+            GLuint heightMap = 1;
+            int h = _globeTexture -> height ();
+            if (_heightMapBuffer) { delete _heightMapBuffer; _heightMapBuffer = nullptr; }
+            _heightMapBuffer = new float [2 * h * h];
+            glGenBuffers (1, &heightMap);
+            glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
+            glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * h * h, NULL, GL_DYNAMIC_READ);
+            glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
+            glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+
+            int xp = _globeTexture -> height() / 32;
             std::cout << "Texture size " << _globeTexture->width () << " x " << _globeTexture->height () << "\n";
-            std::cout << "\nglDispatchCompute (" << xp << ", " << xp << ", 1)\n";
             std::cout << "Image size " << width () << " x " << height () << "\n";
-            std::cout << "Texture size " << _globeTexture->width () << " x " << _globeTexture->height () << "\n";
+            std::cout << "glDispatchCompute (" << xp << ", " << xp << ", 1)\n";
+
             glDispatchCompute (xp, xp * 2, 1);
             glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+
+            // retrieve the height map data from the GPU
+            glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
+            glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
+            GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+            glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
+            memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
+            setCursor (oldCursor);
+            _render = false;
+            clock_t end = clock ();
+            _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+            std::cout << "Render quality " << _renderQuality << " - Finished in " << _renderTime << " milliseconds\n\n";
         }
-        clock_t end = clock ();
-
-        _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-        std::cout << "Render quality " << _renderQuality << " - Computed in " << _renderTime << " milliseconds\n";
-
-        // retrieve the height map data from the GPU
-        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-        GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-        glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
-        memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
-
-        end = clock ();
-
-        _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-        std::cout << "Render quality " << _renderQuality << " - Finished in " << _renderTime << " milliseconds\n";
     }
 }
 
@@ -332,7 +328,7 @@ void CalenhadMapWidget::createTexture () {
 
     // the texture dimensions had better be powers of two or else the heightmap capture goes bonkers - God knows why
     int h = 1;
-    while (h < height() && h * 2 < width()) { h *= 2; }
+    while (h < height() || h * 2 < width()) { h *= 2; }
     h /= (int) (pow ((double) 2, _renderQuality));
     h *= 2;
     if (!_globeTexture || _globeTexture -> height() != h || _globeTexture -> width() != h * 2) {
@@ -340,19 +336,15 @@ void CalenhadMapWidget::createTexture () {
         _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
         _globeTexture->create();
         _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-        _render = true;
         _globeTexture->setSize (h * 2, h);
         _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
         _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
         _globeTexture->allocateStorage();
         _globeTexture->bind();
-        glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+        glBindImageTexture (0, _globeTexture -> textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
         _render = true;
     }
-
 }
-
-
 
 // Insert the given code into the compute shader to realise the noise pipeline
 void CalenhadMapWidget::setGraph (Graph* g) {
@@ -396,6 +388,7 @@ void CalenhadMapWidget::showEvent (QShowEvent* e) {
 
 void CalenhadMapWidget::setScale (const double& scale) {
     _scale = scale;
+    _render = true;
 }
 
 double CalenhadMapWidget::scale () {
@@ -404,6 +397,7 @@ double CalenhadMapWidget::scale () {
 
 void CalenhadMapWidget::setProjection (const QString& projection) {
     _projection = CalenhadServices::projections () -> fetch (projection);
+    _render = true;
     update();
 }
 
@@ -413,6 +407,7 @@ Projection* CalenhadMapWidget::projection() {
 
 void CalenhadMapWidget::rotate (const Geolocation& rotation) {
     _rotation = rotation;
+    _render = true;
     update();
 }
 
