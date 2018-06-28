@@ -2,17 +2,17 @@
 
 layout (rgba32f, binding = 0) uniform image2D destTex;          // output texture
 layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
-uniform int altitudeMapBufferSize;
-uniform int colorMapBufferSize;
-uniform int imageHeight = 512;
-uniform float scale;
-uniform vec2 datum;
-
-
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
 layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
 
 layout (local_size_x = 32, local_size_y = 32) in;
+
+uniform int altitudeMapBufferSize;
+uniform int colorMapBufferSize;
+uniform int imageHeight = 512;
+
+// first element is the datum longitude, second element is the datum latitude, third element is the scale
+uniform vec3 datum;
 
 // mathematical constants
 #define M_PI 3.1415926535898
@@ -549,9 +549,9 @@ vec2 cellular (vec3 P, float jitter, float seed) {
 	return sqrt(d11.xy); // F1, F2
 }
 
-float voronoi (vec3 cartesian, float frequency, float displacement, float scale, int seed) {
+float voronoi (vec3 cartesian, float frequency, float displacement, float voronoiScale, int seed) {
     vec2 c = cellular (cartesian * frequency, displacement, seed);
-    return ((((c.y - c.x) + VORONOI_BIAS) * VORONOI_SCALE) - 1.0) * scale;
+    return ((((c.y - c.x) + VORONOI_BIAS) * VORONOI_SCALE) - 1.0) * voronoiScale;
 
 }
 
@@ -706,38 +706,33 @@ float select (float control, float in0, float in1, float lowerBound, float upper
 }
 
 // raster without bounds, covering the whole planet
-float raster (vec3 cartesian, uint rasterIndex) {
+float raster (vec3 cartesian, uint rasterIndex, float defaultValue) {
     vec2 g = toGeolocation (cartesian);
     float dlon = (g.x + M_PI) / (M_PI * 2);
     float dlat = (g.y + (M_PI / 2)) / M_PI;
     vec4 texel = vec4 (texture (rasters, vec3 (dlon, dlat, rasterIndex)));
-    return (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
+    float foundValue = (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
+    return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
 // raster constrained to bounds (a.x, a.y) - (b.x, b.y)
 float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultValue) {
-    vec2 g = toGeolocation (cartesian);
+    vec2 rg = toGeolocation (cartesian);
 
     if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
-        if (g.x < a.x) {
-            g.x += M_PI * 2;
+        if (rg.x < a.x) {
+            rg.x += M_PI * 2;
         }
         b.x += M_PI * 2;
     }
 
-    float dlon = (g.x + M_PI) / (M_PI * 2);
-    float dlat = (g.y + (M_PI / 2)) / M_PI;
-    float x = (g.x - a.x) / (b.x - a.x);
-    float y = (g.y - a.y) / (b.y - a.y);
-
-
-    if (x >= 0.0 && x <= 1.0 && y >= 0.0 && y <= 1.0) {
-    vec4 texel = vec4 (texture (rasters, vec3 (x, y, rasterIndex)));
-        float value = (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
-        return mix (value, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
-    } else {
-        return defaultValue;
-    }
+    float dlon = (rg.x + M_PI) / (M_PI * 2);
+    float dlat = (rg.y + (M_PI / 2)) / M_PI;
+    float rx = (rg.x - a.x) / (b.x - a.x);
+    float ry = (rg.y - a.y) / (b.y - a.y);
+    vec4 texel = vec4 (texture (rasters, vec3 (rx, ry, rasterIndex)));
+    float foundValue = (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
+    return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
 
@@ -770,7 +765,7 @@ vec2 mapPos (vec2 pos, bool inset) {
     float r = float (inset ? insetHeight : imageHeight);
     vec2 j = vec2 ((pos.x - r) / (r * 2), (pos.y / 2 - (r / 4)) / r);
     j *= M_PI * 2;
-    j *= inset ? 1.0 : scale;
+    j *= inset ? 1.0 : datum.z;
     return j;
 }
 
@@ -778,7 +773,7 @@ vec2 mapPos (vec2 pos, bool inset) {
 // Coordinates returned are those for the inset map (inset TRUE) or the main map (inset FALSE).
 ivec2 scrPos (vec2 g, bool inset) {
     float r = float (inset ? insetHeight : imageHeight);
-    vec2 j = g / (inset ? 1.0 : scale);
+    vec2 j = g / (inset ? 1.0 : datum.z);
     j /= M_PI;
     j.x = (j.x + 1) * r;
     j.y = (j.y + 0.5) * r;
@@ -798,7 +793,7 @@ vec3 forward (vec2 g, bool inset) {
 
     // use the set values for the inset when we are accessing the inset, otherwise the reigning parameters for the main map.
     int p = inset ? PROJ_EQUIRECTANGULAR : projection;
-    vec2 d = inset ? vec2 (0.0, 0.0) : datum;
+    vec2 d = inset ? vec2 (0.0, 0.0) : datum.xy;
 
     // inserted forward //
 
@@ -815,7 +810,7 @@ vec3 inverse (vec2 i, bool inset) {
 
     // use the set values for the inset when we are composing the inset, otherwise the reigning parameters for the main map.
     int p = inset ? PROJ_EQUIRECTANGULAR : projection;
-    vec2 d = inset ? vec2 (0.0, 0.0) : datum;
+    vec2 d = inset ? vec2 (0.0, 0.0) : datum.xy;
 
     // inserted inverse //
 
@@ -854,7 +849,7 @@ void main() {
             ivec2 s = scrPos (f.xy, false);                                             // find the corresponding texel in the main map
             if (f.z > 1.0 || f.z < 0.0 ||                                               // if the texel is out of the projection's  bounds or ...
                 s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) {      // if the texel is not on the main map ...
-             color = toGreyscale (findColor (v));                                       // ... grey out the corresponding texel in the inset map.
+                color = toGreyscale (findColor (v));                                       // ... grey out the corresponding texel in the inset map.
             }
 
             // test functions with output in inset map here if needed
@@ -867,9 +862,6 @@ void main() {
         }
     }
 
-    uint out_x = pos.x;
-    uint out_y = pos.y;
-    height_map_out [out_y * imageHeight * 2 + out_x] = v;
     imageStore (destTex, pos, color);
-
+    height_map_out [pos.y * imageHeight * 2 + pos.x] = v;
 }

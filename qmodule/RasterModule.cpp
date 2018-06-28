@@ -205,6 +205,5 @@ void RasterModule::setBounds (icosphere::Bounds bounds) {
 }
 
 QString RasterModule::glsl () {
-    return  "float %n (vec3 v) { return raster (v, %index, %bounds, %0 (v)); }\n";
-
+   return  "raster (v, %index, %bounds, %0)";
 }

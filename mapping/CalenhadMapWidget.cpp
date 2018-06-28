@@ -58,6 +58,7 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _rotation (Geolocation (0, 0)),
     _renderQuality (RenderQualityDecent),
     _renderTime (0),
+    _rasterTexture (nullptr),
     _insetHeight (CalenhadServices::preferences() -> calenhad_globe_inset_height),
     _render (false) {
 
@@ -170,56 +171,40 @@ void CalenhadMapWidget::compute () {
     if (_graph) {
         clock_t start = clock ();
         makeCurrent ();
-        createTexture();
+        createTexture ();
         m_vao.bind ();
         _computeProgram->bind ();
         _globeTexture->bind ();
+        QCursor oldCursor = cursor ();
+
+        setCursor (Qt::BusyCursor);
+
 
         if (_render) {
-            QCursor oldCursor = cursor();
-            setCursor (Qt::BusyCursor);
-            static GLint destLoc = glGetUniformLocation (_computeProgram->programId (), "destTex");
-            static GLint insetLoc = glGetUniformLocation (_computeProgram->programId (), "insetTex");
-            static GLint cmbsLoc = glGetUniformLocation (_computeProgram->programId (), "colorMapBufferSize");
-            static GLint imageHeightLoc = glGetUniformLocation (_computeProgram->programId (), "imageHeight");
-            static GLint projectionLoc = glGetUniformLocation (_computeProgram->programId (), "projection");
-            static GLint scaleLoc = glGetUniformLocation (_computeProgram->programId (), "scale");
-            static GLint datumLoc = glGetUniformLocation (_computeProgram->programId (), "datum");
-            static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
-            static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram->programId (), "rasterResolution");
+        // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
+        _colorMapBuffer = _graph->colorMapBuffer ();
+        if (_colorMapBuffer) {
+            GLuint colorMap = 1;
+            glGenBuffers (1, &colorMap);
+            glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
+            glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph->colorMapBufferSize (), _colorMapBuffer, GL_DYNAMIC_COPY);
+            glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
+            glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+        }
 
-
-            GLubyte c = 0;
-            //std::vector<GLubyte> emptyData (_globeTexture->width () * _globeTexture->height () * 4, 0);
-            //glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _globeTexture->width (), _globeTexture->height (), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
-            glUniform1i (destLoc, 0);
-            glUniform1i (insetLoc, 1);
-            glUniform2f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude());
-            glUniform1i (projectionLoc, _projection -> id ());
-            glUniform1f (scaleLoc, (GLfloat) _scale);
-            glUniform1i (insetHeightLoc, _inset ? _insetHeight : 0);
-            glUniform1i (imageHeightLoc, _globeTexture -> height());
-            glUniform1i (cmbsLoc, 2048);
-            glUniform1i (rasterResolutionLoc, _globeTexture -> height());
-
-            // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
-            _colorMapBuffer = _graph -> colorMapBuffer ();
-            if (_colorMapBuffer) {
-                GLuint colorMap = 1;
-                glGenBuffers (1, &colorMap);
-                glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
-                glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph->colorMapBufferSize (), _colorMapBuffer, GL_DYNAMIC_COPY);
-                glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
-                glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
-            }
-
-            // create and allocate a buffer for any input rasters
-            int rasters = _graph->rasterCount ();
+        // create and allocate a buffer for any input rasters
+        int rasters = _graph->rasterCount ();
+        if (_rasterTexture) {
+            _rasterTexture->destroy ();
+            delete _rasterTexture;
+            _rasterTexture = nullptr;
+        }
+        if (rasters > 0) {
             glActiveTexture (GL_TEXTURE1);
             _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
             _rasterTexture->create ();
             _rasterTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-            _rasterTexture->setSize (_globeTexture -> width(), _globeTexture -> height());
+            _rasterTexture->setSize (CalenhadServices::preferences ()->calenhad_globe_texture_height, CalenhadServices::preferences ()->calenhad_globe_texture_height);
             _rasterTexture->setMinificationFilter (QOpenGLTexture::Linear);
             _rasterTexture->setMagnificationFilter (QOpenGLTexture::Linear);
             _rasterTexture->allocateStorage ();
@@ -229,23 +214,27 @@ void CalenhadMapWidget::compute () {
                 QImage* raster = _graph->raster (i);
                 _rasterTexture->setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster->bits ());
             }
+        }
 
             // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
             GLuint heightMap = 1;
-            int h = _globeTexture -> height ();
-            if (_heightMapBuffer) { delete _heightMapBuffer; _heightMapBuffer = nullptr; }
-            _heightMapBuffer = new float [2 * h * h];
+            int h = _globeTexture->height ();
+            if (_heightMapBuffer) {
+                delete _heightMapBuffer;
+                _heightMapBuffer = nullptr;
+            }
+            _heightMapBuffer = new float[2 * h * h];
             glGenBuffers (1, &heightMap);
             glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
             glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * h * h, NULL, GL_DYNAMIC_READ);
             glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
             glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
 
-            int xp = _globeTexture -> height() / 32;
+            int xp = _globeTexture->height () / 32;
             std::cout << "Texture size " << _globeTexture->width () << " x " << _globeTexture->height () << "\n";
             std::cout << "Image size " << width () << " x " << height () << "\n";
             std::cout << "glDispatchCompute (" << xp << ", " << xp << ", 1)\n";
-
+            updateRenderParams ();
             glDispatchCompute (xp, xp * 2, 1);
             glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
@@ -262,6 +251,35 @@ void CalenhadMapWidget::compute () {
             std::cout << "Render quality " << _renderQuality << " - Finished in " << _renderTime << " milliseconds\n\n";
         }
     }
+}
+
+void CalenhadMapWidget::updateRenderParams () {
+    makeCurrent();
+    _computeProgram -> link ();
+    _computeProgram -> bind ();
+    glUseProgram (_computeProgram -> programId());
+    static GLint destLoc = glGetUniformLocation (_computeProgram->programId (), "destTex");
+    static GLint insetLoc = glGetUniformLocation (_computeProgram->programId (), "insetTex");
+    static GLint cmbsLoc = glGetUniformLocation (_computeProgram->programId (), "colorMapBufferSize");
+    static GLint imageHeightLoc = glGetUniformLocation (_computeProgram->programId (), "imageHeight");
+    static GLint projectionLoc = glGetUniformLocation (_computeProgram->programId (), "projection");
+    static GLint datumLoc = glGetUniformLocation (_computeProgram->programId (), "datum");
+    static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
+    static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram->programId (), "rasterResolution");
+
+    //std::vector<GLubyte> emptyData (_globeTexture->width () * _globeTexture->height () * 4, 0);
+    //glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _globeTexture->width (), _globeTexture->height (), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
+    glUniform1i (destLoc, 0);
+    glUniform1i (insetLoc, 1);
+    glUniform3f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude(), (GLfloat) _scale);
+    glUniform1i (projectionLoc, _projection-> id ());
+    glUniform1i (insetHeightLoc, _inset ? _insetHeight : 0);
+    glUniform1i (imageHeightLoc, _globeTexture-> height());
+    glUniform1i (cmbsLoc, 2048);
+    glUniform1i (rasterResolutionLoc, CalenhadServices::preferences()->calenhad_globe_texture_height);
+
+    std::cout << "Scale: " << _scale << "\n";
+
 }
 
 void CalenhadMapWidget::paintGL() {
@@ -355,27 +373,29 @@ void CalenhadMapWidget::setGraph (Graph* g) {
         _shader = _shaderTemplate;
         QString code = g->glsl ();
         if (code != QString::null) {
-           // std::cout << code.toStdString () << "\n";
             _code = code;
             _shader.replace ("// inserted code //", _code);
             _shader.replace ("// inserted inverse //", CalenhadServices::projections() -> glslInverse ());
             _shader.replace ("// inserted forward //", CalenhadServices::projections() -> glslForward ());
-
+            std::cout << _shader.toStdString () << "\n";
             if (_computeShader) {
                 _computeProgram -> removeAllShaders ();
                 if (_computeShader -> compileSourceCode (_shader)) {
                     _computeProgram -> addShader (_computeShader);
-                    _computeProgram -> link ();
-                    _computeProgram -> bind ();
+
                 } else {
                     std::cout << "Compute shader would not compile\n";
+                    _render = false;
                     emit rendered (false);
                 }
             } else {
                 std::cout << "No compute shader\n";
+                _render = false;
                 emit rendered (false);
             }
         } else {
+            std::cout << "No render code for compute shader\n";
+            _render = false;
             emit rendered (false);
         }
     }
@@ -553,7 +573,7 @@ void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
 }
 
 void CalenhadMapWidget::render() {
-
+    _render = true;
     if (_source -> isComplete()) {
         Graph* g = new Graph (_source);
         setGraph (g);

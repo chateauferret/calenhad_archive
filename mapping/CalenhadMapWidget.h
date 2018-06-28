@@ -121,7 +121,7 @@ namespace calenhad {
             calenhad::graph::Graph* _graph;
             QString _shader;
             float* _colorMapBuffer;
-            double _scale;
+            GLfloat _scale;
             calenhad::mapping::projection::Projection* _projection;
             QPointF _translation;
             Graticule* _graticule;
@@ -191,6 +191,7 @@ namespace calenhad {
 
             void createTexture ();
 
+            void updateRenderParams ();
         };
     }
 }
