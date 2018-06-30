@@ -14,6 +14,9 @@ uniform int imageHeight = 512;
 // first element is the datum longitude, second element is the datum latitude, third element is the scale
 uniform vec3 datum;
 
+// first element is the tile x coordinate, second element is the tile y coordinate, third element is the tile size
+uniform ivec3 tile;
+
 // mathematical constants
 #define M_PI 3.1415926535898
 #define M_PI_2 1.57079632679
@@ -830,8 +833,10 @@ vec4 toGreyscale (vec4 color) {
 void main() {
 
     ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
+    pos += tile.z * tile.xy;
     bool inset = inInset (pos);
     vec2 i = mapPos (pos, inset);
+
     vec3 g = inverse (i, inset);
     vec4 c = toCartesian (g);
     vec2 q = toGeolocation (c.xyz);

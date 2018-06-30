@@ -192,6 +192,10 @@ namespace calenhad {
             void createTexture ();
 
             void updateRenderParams ();
+
+            GLint _tileX, _tileY, _tileSize;
+
+            void redraw ();
         };
     }
 }
