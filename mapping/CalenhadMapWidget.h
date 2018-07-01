@@ -194,7 +194,7 @@ namespace calenhad {
             void updateRenderParams ();
 
             GLint _tileX, _tileY, _tileSize;
-
+            GLuint heightMap = 1;
             void redraw ();
         };
     }

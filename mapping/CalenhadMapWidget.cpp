@@ -180,13 +180,13 @@ void CalenhadMapWidget::compute () {
         _computeProgram->bind ();
         _globeTexture->bind ();
         QCursor oldCursor = cursor ();
-        GLuint heightMap = 1;
-
-        setCursor (Qt::BusyCursor);
 
 
         if (_render) {
+            setCursor (Qt::BusyCursor);
             if (_tileX == 0 && _tileY == 0) {
+
+
                 // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
                 _colorMapBuffer = _graph->colorMapBuffer ();
                 if (_colorMapBuffer) {
@@ -224,34 +224,27 @@ void CalenhadMapWidget::compute () {
 
 
             }
-
-            // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
-            int h = _globeTexture->height ();
-            if (_heightMapBuffer) {
-                delete _heightMapBuffer;
-                _heightMapBuffer = nullptr;
-            }
-            _heightMapBuffer = new float[2 * h * h];
-            glGenBuffers (1, &heightMap);
-            glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-            glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * h * h, NULL, GL_DYNAMIC_READ);
-            glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
-            glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
-
-
+            std::cout << "Tile (" << _tileX << ", " << _tileY << ")\n";
             int xp = _tileSize / 32;
-            updateRenderParams ();
+            updateRenderParams();
             glDispatchCompute (xp, xp, 1);
             glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
             std::cout << "Texture size " << _globeTexture->width () << " x " << _globeTexture->height () << "  -  ";
             std::cout << "Image size " << width () << " x " << height () << "\n";
-            std::cout << "glDispatchCompute (" << xp << ", " << xp << ", 1)\n";
-            // retrieve the height map data from the GPU
-            glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
-            glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-            GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-            glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
-            memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
+
+
+            if (_tileX == 0 && _tileY == 0) {
+                // retrieve the height map data from the GPU
+                // only do this after last tile because it takes about a thirtieth of a second
+                glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
+                glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
+                GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+                glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
+                int h = _globeTexture->height ();
+                memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
+                std::cout << "Fetched height map data\n";
+            }
+
             setCursor (oldCursor);
             clock_t end = clock ();
             _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
@@ -289,7 +282,7 @@ void CalenhadMapWidget::updateRenderParams () {
     glUniform3i (tileLoc, _tileX, _tileY, _tileSize);
     _render = true;
     _tileX++;
-    if (_tileX > _globeTexture -> height() * 2 / _tileSize) {
+    if (_tileX > _globeTexture -> height()  * 2 / _tileSize) {
         _tileY++;
         _tileX = 0;
         if (_tileY > _globeTexture -> height() / _tileSize) {
@@ -327,7 +320,7 @@ void CalenhadMapWidget::paintGL() {
             _graticule -> drawGraticule (p);
         }
 
-        emit rendered (true);
+       // emit rendered (true);
     }
 }
 
@@ -377,6 +370,21 @@ void CalenhadMapWidget::createTexture () {
         _globeTexture->bind();
         glBindImageTexture (0, _globeTexture -> textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
         _render = true;
+
+
+        // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
+        int h = _globeTexture->height ();
+        if (_heightMapBuffer) {
+            delete _heightMapBuffer;
+            _heightMapBuffer = nullptr;
+        }
+        _heightMapBuffer = new float[2 * h * h];
+        glGenBuffers (1, &heightMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
+        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * h * h, NULL, GL_DYNAMIC_READ);
+        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+
     }
 }
 
