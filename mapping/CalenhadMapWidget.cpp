@@ -62,7 +62,7 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _rasterTexture (nullptr),
     _insetHeight (CalenhadServices::preferences() -> calenhad_globe_inset_height),
     _render (false),
-    _tileSize (512) {
+    _tileSize (256) {
 
     QSurfaceFormat format;
     format.setSamples(8);
@@ -184,9 +184,10 @@ void CalenhadMapWidget::compute () {
 
         if (_render) {
             setCursor (Qt::BusyCursor);
+            clock_t tileStart = clock ();
             if (_tileX == 0 && _tileY == 0) {
 
-
+                start = tileStart;
                 // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
                 _colorMapBuffer = _graph->colorMapBuffer ();
                 if (_colorMapBuffer) {
@@ -226,30 +227,44 @@ void CalenhadMapWidget::compute () {
             }
             std::cout << "Tile (" << _tileX << ", " << _tileY << ")\n";
             int xp = _tileSize / 32;
-            updateRenderParams();
-            glDispatchCompute (xp, xp, 1);
-            glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+            updateRenderParams ();
+            glDispatchCompute (xp, xp * 2, 1);
+
             std::cout << "Texture size " << _globeTexture->width () << " x " << _globeTexture->height () << "  -  ";
             std::cout << "Image size " << width () << " x " << height () << "\n";
 
+            clock_t tileEnd = clock ();
+            clock_t tileRenderTime = (int) (((double) tileEnd - (double) tileStart) / CLOCKS_PER_SEC * 1000.0);
+            std::cout << "Tile rendered in " << tileRenderTime << " milliseconds\n\n";
+
 
             if (_tileX == 0 && _tileY == 0) {
+                glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+                clock_t fetchStart = clock ();
+
                 // retrieve the height map data from the GPU
                 // only do this after last tile because it takes about a thirtieth of a second
+
                 glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
                 glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
                 GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
                 glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
                 int h = _globeTexture->height ();
                 memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
-                std::cout << "Fetched height map data\n";
+                clock_t fetchEnd = clock ();
+
+                clock_t fetchTime = (int) (((double) fetchEnd - (double) fetchStart) / CLOCKS_PER_SEC * 1000.0);
+                std::cout << "Fetched height map data for " << 2 * h * h  << " texels in " << fetchTime << " milliseconds\n\n";
+
             }
 
             setCursor (oldCursor);
+            emit rendered (true);
             clock_t end = clock ();
             _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
             std::cout << "Render quality " << _renderQuality << " - Finished in " << _renderTime << " milliseconds\n\n";
-            emit rendered (true);
+
+
         }
     }
 }
@@ -282,10 +297,10 @@ void CalenhadMapWidget::updateRenderParams () {
     glUniform3i (tileLoc, _tileX, _tileY, _tileSize);
     _render = true;
     _tileX++;
-    if (_tileX > _globeTexture -> height()  * 2 / _tileSize) {
+    if (_tileX > _globeTexture -> height()  / _tileSize) {
         _tileY++;
         _tileX = 0;
-        if (_tileY > _globeTexture -> height() / _tileSize) {
+        if (_tileY > _globeTexture -> height() * 2 / _tileSize) {
             _tileY = 0;
             _render = false;
         }
@@ -301,6 +316,7 @@ void CalenhadMapWidget::paintGL() {
             compute ();
             static GLint srcLoc = glGetUniformLocation (_renderProgram->programId (), "srcTex");
             glUniform1i (srcLoc, 0);
+
 
         _renderProgram->bind ();
         _globeTexture->bind ();
@@ -319,6 +335,7 @@ void CalenhadMapWidget::paintGL() {
         if (_graticule && _graticuleVisible) {
             _graticule -> drawGraticule (p);
         }
+
 
        // emit rendered (true);
     }
@@ -353,11 +370,11 @@ void CalenhadMapWidget::createTexture () {
     makeCurrent();
     glActiveTexture (GL_TEXTURE0);
 
-    // the texture dimensions had better be powers of two or else the heightmap capture goes bonkers - God knows why
+    // the texture dimensions had better be powers of two or else the heightmap capture goes bonkers.
     int h = 1;
     while (h < height() || h * 2 < width()) { h *= 2; }
     h /= (int) (pow ((double) 2, _renderQuality));
-    h *= 2;
+    //h *= 2;
     if (!_globeTexture || _globeTexture -> height() != h || _globeTexture -> width() != h * 2) {
         if (_globeTexture) { delete _globeTexture; }
         _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
