@@ -80,6 +80,7 @@ void Module::showGlobe() {
 
 void Module::setupPreview() {
     _preview = new CalenhadMapWidget (this);
+    _preview -> setCreateHeightMap (false);
     _preview->setSource (this);
     _previewIndex = addPanel (tr ("Preview"), _preview);
     _stats = new QDialog (this);

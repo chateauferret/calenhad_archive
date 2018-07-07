@@ -219,7 +219,7 @@ ParamValidator* ModuleFactory::validator (const QString& validatorType) {
 }
 
 Node* ModuleFactory::createModule (const QString& type, CalenhadModel* model) {
-    std::cout << "Create module " << type.toStdString () << "\n";
+    //std::cout << "Create module " << type.toStdString () << "\n";
 
     return inflateModule (type, model);
     

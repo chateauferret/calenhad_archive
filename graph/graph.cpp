@@ -70,7 +70,6 @@ QString Graph::glsl() {
         _code.append ("}\n");
         parseLegend ();
     }
-    //std::cout << _code.toStdString () << "\n";
     return _code;
 };
 

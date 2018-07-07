@@ -815,7 +815,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             // if node is a group, add its contents recursively
             if (type == "nodegroup") {
                 NodeGroup* ng = addNodeGroup (pos, newName);
-
+                ng -> inflate (n.toElement());
                 // if nodegroup is in another group, assign the group
                 QDomElement gp = n.parentNode().parentNode().toElement();
                 NodeGroupBlock* block = (NodeGroupBlock*) ng -> handle();

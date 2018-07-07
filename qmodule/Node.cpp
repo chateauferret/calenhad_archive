@@ -198,7 +198,7 @@ void Node::inflate (const QDomElement& element) {
     _element = element;
         QDomElement notesNode = element.firstChildElement ("notes");
         setNotes (notesNode.text ());
-
+        std::cout << "Node " << _name.toStdString () << ": " << notesNode.text().toStdString () <<" \n";
         QDomNodeList paramNodes = element.elementsByTagName ("parameter");
         for (int i = 0; i < paramNodes.count (); i++) {
             QString paramName = paramNodes.at (i).attributes ().namedItem ("name").nodeValue ();

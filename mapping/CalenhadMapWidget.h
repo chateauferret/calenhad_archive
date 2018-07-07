@@ -37,6 +37,7 @@ namespace calenhad {
         class Graticule;
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
+
         public:
 
 
@@ -78,7 +79,7 @@ namespace calenhad {
             bool isInViewport (geoutils::Geolocation g);
 
             QSize heightMapSize () const;
-            GLfloat* heightMapBuffer() const;
+            GLfloat* heightMapBuffer();
             QImage* heightmap ();
 
             calenhad::qmodule::Module* source ();
@@ -88,6 +89,8 @@ namespace calenhad {
             void zoomInTo (const icosphere::Bounds& target);
 
             void zoomOutFrom (const icosphere::Bounds& target);
+
+            void setCreateHeightMap (const bool& createHeightMap);
 
             calenhad::controls::globe::CalenhadGlobeDoubleClickMode mouseDoubleClickMode();
             calenhad::controls::globe::CalenhadGlobeDragMode mouseDragMode();
@@ -198,6 +201,12 @@ namespace calenhad {
             void redraw ();
 
             int _yTiles;
+            bool _refreshHeightMap;
+            bool _interactive;
+            clock_t start;
+            void setInteractive (const bool& interactive);
+            QTimer* _interactiveTimer;
+            int _createHeightMap;
         };
     }
 }
