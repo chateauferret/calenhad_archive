@@ -193,7 +193,7 @@ bool Module::isComplete() {
         _expander->setItemEnabled (_previewIndex, complete);
         return complete;
     } else {
-        return false;
+        return true;
     }
 }
 
@@ -286,4 +286,8 @@ Port* Module::output () {
 
 void Module::addInputPorts () {
 
+}
+
+bool Module::renderSuppressed () {
+    return _suppressRender;
 }

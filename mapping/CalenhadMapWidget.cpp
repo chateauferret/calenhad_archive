@@ -656,7 +656,7 @@ void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
 
 void CalenhadMapWidget::render() {
     _render = true;
-    if (_source -> isComplete()) {
+    if (_source -> isComplete() && !_source->renderSuppressed ()) {
         Graph* g = new Graph (_source);
         setGraph (g);
     }
