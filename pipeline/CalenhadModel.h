@@ -179,6 +179,7 @@ namespace calenhad {
             void inflateConnections (const QDomDocument& doc, const nodeedit::CalenhadFileType& fileType);
 
 
+            void inflateConnections (QDomNodeList& connectionNodes);
         };
     }
 }

@@ -719,15 +719,37 @@ void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fi
         CalenhadServices::legends() -> provide (legend);
     }
 
-    // if we are pasting, clear the selection, so that we can select the pasted items instead
+    QDomNodeList conns = doc.documentElement ().firstChildElement ("fragment").firstChildElement ("connections").childNodes ();
+
+    // if we are pasting, deduplicate node names and update connections to point to correct nodes
     if (fileType == CalenhadFileType::CalenhadModelFragment) {
+        QDomElement element = doc.documentElement ().firstChildElement ("fragment").firstChildElement ("nodes");
+        QDomNodeList modules = element.childNodes ();
+        for (int i = 0; i < modules.size (); i++) {
+            QDomElement e = modules.at (i).toElement ();
+            QDomElement nameElement = e.firstChildElement ("name");
+            QString original = nameElement.text ();
+
+            if (findModule (original)) {
+                QString newName = uniqueName (original);
+                e.setAttribute ("name", newName);
+                for (int j = 0; j < conns.size (); j++) {
+                    QDomElement c = conns.at (j).toElement ();
+                    QDomElement from = c.firstChildElement ("source");
+                    QDomElement to = c.firstChildElement ("target");
+                    if (from.attribute ("module") == original) { from.setAttribute ("module", newName); }
+                    if (to.attribute ("module") == original) { to.setAttribute ("module", newName); }
+                }
+            }
+        }
+
+        // clear the selection, so that we can select the pasted items instead
         foreach (QGraphicsItem* item, items()) {
             item -> setSelected (false);
         }
-        //std::cout << doc.toString ().toStdString () << "\n";
-        QDomElement element = doc.documentElement().firstChildElement ("fragment").firstChildElement ("nodes");
+
         inflate (element, fileType);
-        inflateConnections (doc, fileType);
+        inflateConnections (conns);
     }
 
     if (fileType == CalenhadFileType::CalenhadModelFile) {
@@ -747,7 +769,11 @@ void CalenhadModel::inflateConnections (const QDomDocument& doc, const CalenhadF
     // Does not support a port serving as both input and output (because index presently not unique across both).
     // For the time being however all output ports will be of type 2 (Port::Output).
 
-    QDomNodeList connectionNodes = doc.documentElement().firstChildElement ("model").firstChildElement ("connections").elementsByTagName ("connection");
+    QDomNodeList connectionNodes = doc.documentElement ().firstChildElement ("model").firstChildElement ("connections").elementsByTagName ("connection");
+    inflateConnections (connectionNodes);
+}
+
+void CalenhadModel::inflateConnections (QDomNodeList& connectionNodes) {
     for (int i = 0; i < connectionNodes.count (); i++) {
         QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
         QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
@@ -811,7 +837,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             QDomElement nameNode = n.firstChildElement ("name");
             QString name = nameNode.text ();
             QString newName = uniqueName (name);
-
+            std::cout << name.toStdString () << " - New name: " << newName.toStdString () << "\n";
             // if node is a group, add its contents recursively
             if (type == "nodegroup") {
                 NodeGroup* ng = addNodeGroup (pos, newName);
@@ -1135,7 +1161,9 @@ QString CalenhadModel::selectionToXml() {
     QDomElement fragment = doc.createElement ("fragment");
     root.appendChild (fragment);
     QDomElement nodes = doc.createElement ("nodes");
+    QDomElement conns = doc.createElement ("connections");
     fragment.appendChild (nodes);
+    fragment.appendChild (conns);
     // copy any connections that are between nodes that are both in the selection
     for (Connection* c : connections ()) {
         Node* n0 = c->port1 ()->owner ();
@@ -1154,7 +1182,7 @@ QString CalenhadModel::selectionToXml() {
         }
         Connection* c = dynamic_cast<Connection*> (item);
         if (c) {
-            c->serialise (nodes);
+            c->serialise (conns);
         }
     }
 
