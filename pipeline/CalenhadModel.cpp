@@ -400,13 +400,32 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) {
     preserve();
     QString name = "New_" + type;
-    int i = 0;
+    QPointF pos = initPos;
     Node* n;
-    if (type == "nodegroup") {
-        n = addNodeGroup (initPos, name);
-    } else {
-        n = addModule (initPos, type, name);
+    NodeGroup* group = nullptr;
+    // find out if we're adding the new node to a group
+    QList<QGraphicsItem*> list = items (initPos);
+    QList<QGraphicsItem*>::iterator i = list.begin ();
+    while ( i != list.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
+        i++;
     }
+    NodeGroupBlock* target = i == list.end() ? nullptr : (NodeGroupBlock*) *i;
+
+    if (target) {
+        group = (NodeGroup*) target -> node();
+        pos = target -> mapToItem (group -> handle(), initPos);
+    }
+
+    if (type == "nodegroup") {
+        n = addNodeGroup (pos, name);
+    } else {
+        n = addModule (pos, type, name);
+    }
+
+    if (group) {
+        n -> setGroup (group);
+    }
+
     setChanged();
 
     QString newXml = snapshot();
@@ -448,9 +467,33 @@ NodeGroup* CalenhadModel::doAddNodeGroup (const QPainterPath& path) {
     return group;
 }
 
+NodeGroup* CalenhadModel::nodeGroupAt (const QPointF& pos) {
+    for (NodeGroup* group : nodeGroups()) {
+        ((NodeGroupBlock*) group -> handle()) -> setHighlight (false);
+    }
+
+    qreal top = -1000;
+    QList<QGraphicsItem*> items = QGraphicsScene::items (pos);
+    NodeGroupBlock* target = nullptr;
+    for (QGraphicsItem* item : items) {
+        NodeGroupBlock* block = dynamic_cast<NodeGroupBlock*> (item);
+        if (block) {
+            if (block->zValue () >= top) {
+                target = block;
+                top = target->zValue ();
+            }
+        }
+    }
+
+    return target? (NodeGroup*) target -> parentItem() : nullptr;
+}
+
 Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
+
+
     NodeBlock* b = node -> makeHandle();
     addItem (b);
+
     connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
 
     Module* m = dynamic_cast<Module*> (node);
@@ -459,14 +502,20 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
             b -> addPort (port);
         }
     }
-    b -> assignGroup();
-    b -> assignIcon();
 
-    if (node -> group()) {
-        node -> group() -> handle() -> setSelected (false);
+    // assign the node's group, if any
+    NodeGroup* group = nodeGroupAt (initPos);
+    if (group) {
+        b -> setParentItem (group -> handle());
+        group -> handle() -> setSelected (false);
+        b -> setPos (b -> mapFromScene (initPos));
+    } else {
+        b -> setPos (initPos);
     }
 
-    b -> setPos (initPos.x(), initPos.y());
+    //b -> assignGroup();
+    b -> assignIcon();
+
     return node;
 }
 
@@ -708,7 +757,6 @@ void CalenhadModel::inflate (const QString& filename, const CalenhadFileType& fi
     _filename = filename;
 }
 
-
 void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fileType) {
 
     // Always retrieve all legends from the file
@@ -838,14 +886,15 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             QString name = nameNode.text ();
             QString newName = uniqueName (name);
             std::cout << name.toStdString () << " - New name: " << newName.toStdString () << "\n";
+
             // if node is a group, add its contents recursively
             if (type == "nodegroup") {
                 NodeGroup* ng = addNodeGroup (pos, newName);
                 ng -> inflate (n.toElement());
+
                 // if nodegroup is in another group, assign the group
                 QDomElement gp = n.parentNode().parentNode().toElement();
                 NodeGroupBlock* block = (NodeGroupBlock*) ng -> handle();
-
 
                 // restore the nodegroup's size
                 bool ok;
@@ -862,7 +911,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                     if (group) {
                         ng -> setGroup (group);
                         block -> setParentItem (group -> handle());
-                        block -> setPos (pos.x(), pos.y());
+                        block -> setPos (pos);
                     }
                 }
 

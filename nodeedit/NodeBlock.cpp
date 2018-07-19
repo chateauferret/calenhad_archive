@@ -257,7 +257,15 @@ void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
 
 void NodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     setCursor (Qt::OpenHandCursor);
-    assignGroup();
+
+    // assign the node's group, if any
+    NodeGroup* group = node() -> model() -> nodeGroupAt (event -> pos());
+    if (group) {
+        setParentItem (group -> handle());
+        group -> handle() -> setSelected (false);
+        setPos (mapFromScene (pos()));
+    }
+
     for (QGraphicsItem* item : scene() -> items()) {
         if (dynamic_cast<NodeGroupBlock*> (item)) {
             ((NodeGroupBlock*) item) -> setHighlight (false);
@@ -268,21 +276,16 @@ void NodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
 }
 
 void NodeBlock::assignGroup() {
-    detach();
-    QList<QGraphicsItem*> items = collidingItems (Qt::ContainsItemShape);
-    QList<QGraphicsItem*>::iterator i = items.begin ();
-    while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
-        i++;
-    }
-    NodeGroupBlock* target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
-    // assign this node to the target group, if there is one (and if not already assigned)
-    //setZValue (0);
-    if (target) {
-        _node -> setGroup ((NodeGroup*) target -> node ());
-        attach (target);
+
+    NodeGroup* group = node() -> model() -> nodeGroupAt (scenePos());
+    if (group) {
+        node() -> setGroup (group);
+
     } else {
         _node -> setGroup (nullptr);
     }
+
+
 }
 
 void NodeBlock::detach() {
@@ -294,9 +297,9 @@ void NodeBlock::detach() {
 
 void NodeBlock::attach (QGraphicsItem* target) {
     if (target -> parentItem() != this && target != parentItem()) {
-        QPointF p = mapToItem (target, pos ());
+        //QPointF p = mapToItem (target, pos ());
         setParentItem (target);
-        setPos (mapFromParent (p));
+        //setPos (pos());
     }
 }
 

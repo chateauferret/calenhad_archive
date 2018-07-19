@@ -133,7 +133,7 @@ namespace calenhad {
 
             void removeAll ();
             void assignGroups ();
-
+            qmodule::NodeGroup* nodeGroupAt (const QPointF& pos);
         signals:
 
             void showMessage (QString);
@@ -180,6 +180,7 @@ namespace calenhad {
 
 
             void inflateConnections (QDomNodeList& connectionNodes);
+
         };
     }
 }
