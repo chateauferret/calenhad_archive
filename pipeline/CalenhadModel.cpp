@@ -59,6 +59,21 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     // Load legends from default legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
     inflate (file, CalenhadFileType::CalenhadLegendFile);
+
+    /*
+    connect (this, &QGraphicsScene::selectionChanged, [=] () {
+        blockSignals (true);
+        for (QGraphicsItem* selectedItem : selectedItems()) {
+            NodeBlock* block = dynamic_cast<NodeBlock*> (selectedItem);
+            if (block) {
+                QList<QGraphicsItem*> list = collidingItems (selectedItem);
+                for (QGraphicsItem* item : list) {
+                    item -> setSelected (true);
+                }
+            }
+        }
+        blockSignals (false);
+    }); */
 }
 
 
@@ -93,7 +108,9 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
 
         // can't create circular paths so reject if a path already exists from proposed output back to proposed input
         // (in which case this connection would complete a circle)
-        if (existsPath (output -> owner() -> handle(), input -> owner() -> handle())) {
+        NodeBlock* from = (NodeBlock*) (((Node*) output -> owner()) -> handle());
+        NodeBlock* to = (NodeBlock*) (((Node*) input -> owner()) -> handle());
+        if (existsPath (from, to)) {
             if (verbose) {
                 CalenhadServices::messages() -> message ("Cannot connect", "Connection would form a circuit within the network", NotificationStyle::ErrorNotification);
             }
@@ -135,18 +152,18 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
             }
 
             // base case: block with no inputs can't have any paths to it
-            if (inputModule->handle ()->inputs ().isEmpty ()) {
+            if (((NodeBlock*) ((Node*) inputModule) -> handle ())->inputs ().isEmpty ()) {
                 return false;
 
                 // see if the two blocks are connected
             } else {
-                for (Port* inputPort: inputModule->handle ()->inputs ()) {
+                for (Port* inputPort: ((NodeBlock*) ((Node*) inputModule) -> handle ()) -> inputs ()) {
                     if (connection->otherEnd (outputPort) == inputPort) {
                         return true;
                     } else {
                         if (!(inputPort->connections ().isEmpty ())) {
                             Connection* c = inputPort->connections ()[0];
-                            return existsPath (outputPort->block (), c->otherEnd (inputPort)->block ());
+                            return existsPath (outputPort -> block (), c->otherEnd (inputPort)->block ());
                         }
                     }
                 }
@@ -164,7 +181,7 @@ Connection* CalenhadModel::doConnectPorts (Port* output, Port* input) {
         preserve();
         Connection* c = new Connection();
         c -> setParentItem (0);
-        c -> setZValue (-900);
+        c -> setZValue (0);
         addItem (c);
         c -> setPort1 (output);
         c -> setPort2 (input);
@@ -305,7 +322,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             if (conn) {
                // _viewToolsGroup -> toolToggled (false);
                 conn -> setParentItem (0);
-                conn -> setZValue (1000);
+                conn -> setZValue (0);
 
                 conn -> setPos2 (me -> scenePos());
                 conn -> updatePath();
@@ -392,6 +409,9 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             delete conn;
             conn = nullptr;
         }
+
+        // make sure everything's in the right group
+        assignGroups();
     }
 
     return QObject::eventFilter (o, e);
@@ -400,9 +420,8 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) {
     preserve();
     QString name = "New_" + type;
-    QPointF pos = initPos;
     Node* n;
-    NodeGroup* group = nullptr;
+
     // find out if we're adding the new node to a group
     QList<QGraphicsItem*> list = items (initPos);
     QList<QGraphicsItem*>::iterator i = list.begin ();
@@ -411,19 +430,11 @@ Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) 
     }
     NodeGroupBlock* target = i == list.end() ? nullptr : (NodeGroupBlock*) *i;
 
-    if (target) {
-        group = (NodeGroup*) target -> node();
-        pos = target -> mapToItem (group -> handle(), initPos);
-    }
-
     if (type == "nodegroup") {
-        n = addNodeGroup (pos, name);
+        n = addNodeGroup (initPos, name);
     } else {
-        n = addModule (pos, type, name);
-    }
-
-    if (group) {
-        n -> setGroup (group);
+        n = (Node*) addModule (initPos, type, name);
+        n -> setGroup (target ? (NodeGroup*) target -> node() : nullptr);
     }
 
     setChanged();
@@ -472,49 +483,43 @@ NodeGroup* CalenhadModel::nodeGroupAt (const QPointF& pos) {
         ((NodeGroupBlock*) group -> handle()) -> setHighlight (false);
     }
 
-    qreal top = -1000;
+
     QList<QGraphicsItem*> items = QGraphicsScene::items (pos);
     NodeGroupBlock* target = nullptr;
     for (QGraphicsItem* item : items) {
         NodeGroupBlock* block = dynamic_cast<NodeGroupBlock*> (item);
         if (block) {
-            if (block->zValue () >= top) {
+            if ((! target) || target -> path().contains (block -> path())) {
                 target = block;
-                top = target->zValue ();
             }
         }
     }
 
-    return target? (NodeGroup*) target -> parentItem() : nullptr;
+    return target ? (NodeGroup*) target -> node() : nullptr;
 }
 
 Node* CalenhadModel::addNode (Node* node, const QPointF& initPos) {
 
 
-    NodeBlock* b = node -> makeHandle();
-    addItem (b);
+    QGraphicsItem* handle = node -> makeHandle();
+    addItem (handle);
 
-    connect (node, &Node::nameChanged, b, &NodeBlock::nodeChanged);
+
 
     Module* m = dynamic_cast<Module*> (node);
     if (m) {
+        NodeBlock* block = (NodeBlock*) handle;
         for (Port* port : m -> ports ()) {
-            b -> addPort (port);
+            block -> addPort (port);
         }
+        block -> assignIcon();
+        connect (node, &Node::nameChanged, block, &NodeBlock::nodeChanged);
     }
-
+    handle -> setPos (initPos);
     // assign the node's group, if any
-    NodeGroup* group = nodeGroupAt (initPos);
-    if (group) {
-        b -> setParentItem (group -> handle());
-        group -> handle() -> setSelected (false);
-        b -> setPos (b -> mapFromScene (initPos));
-    } else {
-        b -> setPos (initPos);
-    }
+    node -> assignGroup();
 
-    //b -> assignGroup();
-    b -> assignIcon();
+
 
     return node;
 }
@@ -616,7 +621,7 @@ NodeGroup* CalenhadModel::findGroup (const QString& name) {
 void CalenhadModel::assignGroups() {
 // work out resulting group memberships
     for (Node* n : nodes ()) {
-        n->handle ()->assignGroup ();
+        n -> assignGroup();
     }
 }
 
@@ -863,7 +868,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
 
     if (fileType == CalenhadFileType::CalenhadModelFile || fileType == CalenhadFileType::CalenhadModelFragment) {
 
-        // inflate modules group by group
+        // inflate modules
         QDomNode n = parent.firstChild();
         while (! n.isNull()) {
             QDomElement element = n.toElement();
@@ -885,15 +890,13 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             QDomElement nameNode = n.firstChildElement ("name");
             QString name = nameNode.text ();
             QString newName = uniqueName (name);
-            std::cout << name.toStdString () << " - New name: " << newName.toStdString () << "\n";
 
-            // if node is a group, add its contents recursively
             if (type == "nodegroup") {
                 NodeGroup* ng = addNodeGroup (pos, newName);
                 ng -> inflate (n.toElement());
 
                 // if nodegroup is in another group, assign the group
-                QDomElement gp = n.parentNode().parentNode().toElement();
+                //QDomElement gp = n.parentNode().parentNode().toElement();
                 NodeGroupBlock* block = (NodeGroupBlock*) ng -> handle();
 
                 // restore the nodegroup's size
@@ -906,33 +909,35 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                 }
 
                 // restore the nodegroup's position
-                if (gp.attribute ("type") == "nodegroup") {
-                    NodeGroup* group = findGroup (gp.firstChildElement ("name").text ());
-                    if (group) {
-                        ng -> setGroup (group);
-                        block -> setParentItem (group -> handle());
+                //if (gp.attribute ("type") == "nodegroup") {
+                //    NodeGroup* group = findGroup (gp.firstChildElement ("name").text ());
+                //    if (group) {
+                //        ng -> setGroup (group);
+                        //block -> setParentItem (group -> handle());
                         block -> setPos (pos);
-                    }
-                }
+                //        ng -> assignGroup();
+                //    }
+                //}
 
                 QDomElement nodesElement = n.firstChildElement ("nodes");
                 inflate (nodesElement, fileType);
 
             } else {
-                Module* qm = addModule (pos, type, newName);
+                Node* qm = addModule (pos, type, newName);
                 qm -> handle() -> setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
                 qm -> inflate (n.toElement());
 
                 // if module is in a group, assign the group
-                QDomElement gp = n.parentNode().parentNode().toElement();
-                if (gp.attribute ("type") == "nodegroup") {
-                    NodeGroup* group = findGroup (gp.firstChildElement ("name").text());
-                    if (group) {
-                        qm -> setGroup (group);
-                        qm -> handle() -> setParentItem (group -> handle ());
-                        qm -> handle() -> setPos (pos);
-                    }
-                }
+                //QDomElement gp = n.parentNode().parentNode().toElement();
+                //if (gp.attribute ("type") == "nodegroup") {
+                //    NodeGroup* group = findGroup (gp.firstChildElement ("name").text());
+                //    if (group) {
+                //        qm -> setGroup (group);
+                //        //qm -> handle() -> setParentItem (group -> handle ());
+                //        qm -> handle() -> setPos (pos);
+                //        qm -> assignGroup();
+                //    }
+                //}
 
                 // update connection names so that the module is still found if it was renamed
 
@@ -952,6 +957,8 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             n = n.nextSibling ();
         }
     }
+
+    assignGroups();
 }
 
 void CalenhadModel::highlightGroupAt (QPointF pos) {

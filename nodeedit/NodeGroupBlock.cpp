@@ -65,15 +65,32 @@ void NodeGroupBlock::nodeChanged () {
     _node -> invalidate();
 }
 
+
+void NodeGroupBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
+
+    // override this because we don't want a group to hide other groups it contains whilst it's being dragged about
+
+    QGraphicsItem::mouseMoveEvent (event);
+    if (event->buttons() | Qt::LeftButton) {
+        setCursor (Qt::ClosedHandCursor);
+
+
+    } else {
+        setCursor (Qt::OpenHandCursor);
+    }
+}
+
+
 void NodeGroupBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
+    node() -> assignGroup();
     NodeBlock::mouseReleaseEvent (event);
-    if (parentItem ()) {
-        setZValue (parentItem () -> zValue () + 1);
+    if (node() -> group()) {
+        setZValue (node() -> group() -> handle() -> zValue () + 1);
     } else {
         setZValue (-1000);
     }
     _sizeGrip -> setZValue (zValue());
-    node() -> model() -> assignGroups();
+
 }
 
 void NodeGroupBlock::setHighlight (bool highlighted) {
@@ -84,7 +101,7 @@ void NodeGroupBlock::setHighlight (bool highlighted) {
 void NodeGroupBlock::setRect (const QRectF& rect) {
     _rect = rect;
     setPath (makePath());
-    node() -> model() -> assignGroups();
+    node() -> assignGroup();
 
 }
 
@@ -100,9 +117,13 @@ QRectF NodeGroupBlock::rect() {
     return _rect;
 }
 
+
+
 void NodeGroupResizer::operator() (QGraphicsItem* item, const QRectF& rect) {
     NodeGroupBlock* block = dynamic_cast<NodeGroupBlock*> (item);
     if (block) {
         block -> setRect (rect);
     }
 }
+
+

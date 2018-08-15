@@ -219,7 +219,7 @@ CalenhadMapWidget* Module::preview() {
 void Module::parameterChanged() {
     Node::parameterChanged();
     if (sender() == _parameters.find (_shownParameter).value()) {
-        _handle -> setText (_parameters.find (_shownParameter).value() -> text());
+        _block -> setText (_parameters.find (_shownParameter).value() -> text());
     }
 }
 
@@ -291,3 +291,4 @@ void Module::addInputPorts () {
 bool Module::renderSuppressed () {
     return _suppressRender;
 }
+

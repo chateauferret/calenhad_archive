@@ -9,6 +9,7 @@
 #include <qmodule/NodeGroup.h>
 #include "NodeBlock.h"
 #include "../controls/SizeGripItem.h"
+#include <QGraphicsSceneMouseEvent>
 
 namespace calenhad {
     namespace qmodule {
@@ -54,13 +55,12 @@ namespace calenhad {
         public slots:
 
             void nodeChanged () override;
-
+            void mouseMoveEvent (QGraphicsSceneMouseEvent * event) override;
         protected:
             QPainterPath makePath ();
             calenhad::controls::SizeGripItem* _sizeGrip;
             QRectF _rect;
             bool _highlighted;
-
 
 
         };

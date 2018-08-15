@@ -10,16 +10,16 @@
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 
-NodeGroup::NodeGroup (QWidget* parent) : Node (parent) {
+NodeGroup::NodeGroup (QWidget* parent) : Node (parent), _itemGroup (new QGraphicsItemGroup()) {
 
 }
 
 NodeGroup::~NodeGroup() {
-
+    if (_itemGroup) { delete _itemGroup; }
 }
 
 bool NodeGroup::isWithin (const QPoint& point) {
-    return ((NodeGroupBlock*) _handle) -> rect().contains (point);
+    return ((NodeGroupBlock*) _block) -> rect().contains (point);
 }
 
 QString NodeGroup::nodeType () {
@@ -31,11 +31,16 @@ void NodeGroup::initialise() {
     Node::initialise();
 }
 
-NodeBlock* NodeGroup::makeHandle() {
-    NodeGroupBlock* b = new NodeGroupBlock (this);
-    _handle = b;
+QGraphicsItem* NodeGroup::makeHandle() {
+    NodeGroupBlock* b = new NodeGroupBlock (this, nullptr);
+    _block = b;
     b -> initialise();
-    return _handle;
+    _itemGroup -> addToGroup (_block);
+    _itemGroup -> setFlag (QGraphicsItem::ItemIsMovable);
+    _itemGroup -> setFlag (QGraphicsItem::ItemIsSelectable);
+    _itemGroup -> setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
+    _itemGroup -> setCursor (Qt::OpenHandCursor);
+    return _itemGroup;
 }
 
 
@@ -56,4 +61,28 @@ void NodeGroup::serialize (QDomElement& element) {
             node -> serialize (nodesElement);
         }
     }
+}
+
+void NodeGroup::assignGroup() {
+    Node::assignGroup();
+
+    if (group()) {
+        _block -> setZValue (group() -> handle() -> zValue() + 1);
+
+    } else {
+        _block -> setZValue (-1000);
+    }
+}
+
+
+void NodeGroup::attach (Node* node) {
+    _itemGroup -> addToGroup (node -> handle());
+}
+
+void NodeGroup::detach (Node* node) {
+    _itemGroup -> removeFromGroup (node -> handle());
+}
+
+QGraphicsItem* NodeGroup::handle () {
+    return _itemGroup;
 }

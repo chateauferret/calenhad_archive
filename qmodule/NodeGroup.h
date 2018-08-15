@@ -29,15 +29,19 @@ namespace calenhad {
 
             void initialise () override;
 
-            calenhad::nodeedit::NodeBlock* makeHandle() override;
-
+            virtual QGraphicsItem* makeHandle() override;
+            virtual QGraphicsItem* handle() override;
             void inflate (const QDomElement& element) override;
-
+            void attach (Node* node);
+            void detach (Node* node);
             void serialize (QDomElement& element) override;
-
+            void assignGroup() override;
         signals:
 
             void changedOctaves (const int&);
+
+        protected:
+            QGraphicsItemGroup* _itemGroup;
 
         };
     }

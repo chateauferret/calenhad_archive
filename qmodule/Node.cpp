@@ -9,7 +9,7 @@
 #include "nodeedit/Connection.h"
 #include <QMenu>
 #include <nodeedit/NodeNameValidator.h>
-
+#include "NodeGroup.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../CalenhadServices.h"
@@ -30,7 +30,7 @@ using namespace calenhad::notification;
 Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     _model (nullptr),
     _dialog (nullptr),
-    _handle (nullptr),
+    _block (nullptr),
     _content (nullptr),
     _contentLayout (nullptr),
     _palette (nullptr),
@@ -81,10 +81,28 @@ void Node::initialise() {
     });
     connect (this, &Node::nameChanged, this, [=] () { _nameEdit -> setText (_name); });
 
+    QTextEdit* groupEdit = new QTextEdit();
+    groupEdit -> setEnabled (false);
+    layout -> addWidget (groupEdit);
+    connect (this, &Node::groupChanged, this, [=] () {
+        NodeGroup* g = group();
+        if (g) {
+            groupEdit->setText (group ()->name ());
+            QPointF pos = _block -> scenePos();
+            //_block->setParentItem (group ()->handle ());
+            //_block -> setPos (_block -> mapFromScene (pos));
+        } else {
+            groupEdit -> setText ("No group assigned");
+            //_block -> setParentItem (nullptr);
+        }
+    });
+
     _notesEdit = new QTextEdit (about);
     _notesEdit -> setFixedHeight (100);
     layout -> addWidget (_notesEdit);
     layout -> addStretch (0);
+
+
 
     connect (_notesEdit, &QTextEdit::textChanged, this, [=] () {
         propertyChangeRequested ("notes", _notesEdit -> document() -> toPlainText());
@@ -151,8 +169,8 @@ int Node::addPanel (const QString& title, QWidget* widget) {
     return _expander -> addItem (widget, title);
 }
 
-NodeBlock* Node::handle() {
-    return _handle;
+QGraphicsItem* Node::handle() {
+    return _block;
 }
 
 bool Node::isComplete() {
@@ -170,8 +188,8 @@ bool Node::isComplete() {
 }
 
 void Node::invalidate() {
-    if (_handle) {
-        _handle -> update ();
+    if (_block) {
+        _block -> update ();
     }
     emit nodeChanged();
 }
@@ -198,7 +216,6 @@ void Node::inflate (const QDomElement& element) {
     _element = element;
         QDomElement notesNode = element.firstChildElement ("notes");
         setNotes (notesNode.text ());
-        std::cout << "Node " << _name.toStdString () << ": " << notesNode.text().toStdString () <<" \n";
         QDomNodeList paramNodes = element.elementsByTagName ("parameter");
         for (int i = 0; i < paramNodes.count (); i++) {
             QString paramName = paramNodes.at (i).attributes ().namedItem ("name").nodeValue ();
@@ -287,7 +304,15 @@ bool Node::hasParameters () {
 }
 
 void Node::setGroup (NodeGroup* group) {
+    if (_group) {
+        _group -> detach (this);
+    }
     _group = group;
+    if (_group) {
+        _group->attach (this);
+    }
+
+    emit groupChanged();
 }
 
 QString Node::nodeType() {
@@ -367,10 +392,10 @@ int Node::id () {
     return _id;
 }
 
-NodeBlock* Node::makeHandle() {
-    _handle = new NodeBlock (this);
-    _handle -> initialise();
-    return _handle;
+QGraphicsItem* Node::makeHandle() {
+    _block = new NodeBlock (this, nullptr);
+    _block -> initialise();
+    return _block;
 }
 
 Node* Node::clone() {
@@ -385,4 +410,15 @@ Node* Node::clone() {
     _copy -> setName (_model -> uniqueName (_name));
 
     return _copy;
+}
+
+
+void Node::assignGroup() {
+    NodeGroup* group = model() -> nodeGroupAt (_block -> pos());
+    if (group && group != this) {
+        setGroup (group);
+    } else {
+        setGroup (nullptr);
+    }
+    _block -> setZValue (0);
 }

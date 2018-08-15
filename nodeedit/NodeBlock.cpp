@@ -160,10 +160,13 @@ Port* NodeBlock::addPort (Port* port) {
         if (port_->type () == Port::Type) {
             Port* port = (Port*) port_;
             if (port -> portType () == Port::OutputPort) {
-                double v = (_size.height() / 2) + _margin;
-                port -> setPos (_size.width() + 2 * _margin + port -> radius(), v);
+                qreal v = (_size.height() / 2) + _margin;
+                qreal r = _size.width() + 2 * _margin + port -> radius();
+                port -> setPos (r, v);
             } else {
-                port -> setPos (-port -> radius (), yInput + vertMargin);
+                qreal r = -port -> radius();
+                qreal v = yInput + vertMargin;
+                port -> setPos (r, v);
                 yInput += port -> radius() * 2 + vertMargin;
             }
         }
@@ -241,31 +244,21 @@ void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
                 }
             }
         }
-        scene ()->update ();
+        //scene ()->update ();
     } else {
         setCursor (Qt::OpenHandCursor);
     }
-    //event -> accept();
 }
 
 void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
-    detach();
     setCursor (Qt::ClosedHandCursor);
     _oldZ = zValue();
+
     // don't raise the event to the superclass because this would cancel the selection
 }
 
 void NodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     setCursor (Qt::OpenHandCursor);
-
-    // assign the node's group, if any
-    NodeGroup* group = node() -> model() -> nodeGroupAt (event -> pos());
-    if (group) {
-        setParentItem (group -> handle());
-        group -> handle() -> setSelected (false);
-        setPos (mapFromScene (pos()));
-    }
-
     for (QGraphicsItem* item : scene() -> items()) {
         if (dynamic_cast<NodeGroupBlock*> (item)) {
             ((NodeGroupBlock*) item) -> setHighlight (false);
@@ -273,34 +266,6 @@ void NodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     }
 
     QGraphicsItem::mouseReleaseEvent (event);
-}
-
-void NodeBlock::assignGroup() {
-
-    NodeGroup* group = node() -> model() -> nodeGroupAt (scenePos());
-    if (group) {
-        node() -> setGroup (group);
-
-    } else {
-        _node -> setGroup (nullptr);
-    }
-
-
-}
-
-void NodeBlock::detach() {
-    QPointF p = scenePos();
-    setParentItem (nullptr);
-    setPos (p);
-    setSelected (false);
-}
-
-void NodeBlock::attach (QGraphicsItem* target) {
-    if (target -> parentItem() != this && target != parentItem()) {
-        //QPointF p = mapToItem (target, pos ());
-        setParentItem (target);
-        //setPos (pos());
-    }
 }
 
 QRectF NodeBlock::boundingRect() const {

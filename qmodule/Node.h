@@ -73,7 +73,7 @@ namespace calenhad {
 
             NodeGroup* group ();
 
-            calenhad::nodeedit::NodeBlock* handle();
+            virtual QGraphicsItem* handle();
 
             virtual Node* clone();
 
@@ -105,7 +105,7 @@ namespace calenhad {
             QString parameter (const QString& label);
             int id();
 
-            virtual nodeedit::NodeBlock* makeHandle ();
+            virtual QGraphicsItem* makeHandle ();
             double parameterValue (const QString& name);
             //virtual void addDependentNodes();
 
@@ -113,6 +113,7 @@ namespace calenhad {
             //void showName (const bool& visible);
             //bool nameVisible();
 
+            virtual void assignGroup();
 
         public slots:
             virtual void showModuleDetail (const bool& visible = true);
@@ -126,12 +127,13 @@ namespace calenhad {
             void notesChanged (const QString&);
 
             void nodeChanged ();
+            void groupChanged();
 
         protected:
             int _id;
             NodeGroup* _group;
             QDialog* _dialog;
-            calenhad::nodeedit::NodeBlock* _handle;
+            calenhad::nodeedit::NodeBlock* _block;
             QString _name;
             QString _notes;
             QLineEdit* _nameEdit;
