@@ -31,7 +31,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "EditableLabel.h"
 #include "../CalenhadServices.h"
 #include "Connection.h"
-#include "NodeGroupBlock.h"
 #include "qmodule/NodeGroup.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../preferences/PreferencesService.h"
@@ -223,28 +222,6 @@ void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
     QGraphicsItem::mouseMoveEvent (event);
     if (event->buttons() | Qt::LeftButton) {
         setCursor (Qt::ClosedHandCursor);
-
-        QList<QGraphicsItem*> items;
-        QList<QGraphicsItem*>::iterator i;
-        NodeGroupBlock* target;
-
-        // keep item on top of any group it's being dragged over
-        items = collidingItems (Qt::IntersectsItemShape);
-        i = items.begin ();
-        while ( i != items.end() && ! (dynamic_cast<NodeGroupBlock*> (*i))) {
-            i++;
-        }
-        target = i == items.end() ? nullptr : (NodeGroupBlock*) *i;
-        if (! target) {
-            if (! parent()) { setZValue (-1000); }
-        } else {
-            for (QGraphicsItem* item : scene ()->items ()) {
-                if (dynamic_cast<NodeGroupBlock*> (item)) {
-                    if (! parent ()) { setZValue (target->zValue() + 1); }
-                }
-            }
-        }
-        //scene ()->update ();
     } else {
         setCursor (Qt::OpenHandCursor);
     }
@@ -259,12 +236,6 @@ void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
 
 void NodeBlock::mouseReleaseEvent (QGraphicsSceneMouseEvent *event) {
     setCursor (Qt::OpenHandCursor);
-    for (QGraphicsItem* item : scene() -> items()) {
-        if (dynamic_cast<NodeGroupBlock*> (item)) {
-            ((NodeGroupBlock*) item) -> setHighlight (false);
-        }
-    }
-
     QGraphicsItem::mouseReleaseEvent (event);
 }
 

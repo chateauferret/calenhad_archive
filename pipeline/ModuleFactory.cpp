@@ -101,7 +101,6 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         Node* n = nullptr;
         Module* qm = nullptr;
         if (type == "altitudemap") { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
-        if (type == "nodegroup") { NodeGroup* ng = new NodeGroup(); n = ng;  }
         if (type == "raster") { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
 
         if (! n) {

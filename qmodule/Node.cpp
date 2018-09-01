@@ -9,6 +9,7 @@
 #include "nodeedit/Connection.h"
 #include <QMenu>
 #include <nodeedit/NodeNameValidator.h>
+#include <QtWidgets/QComboBox>
 #include "NodeGroup.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
@@ -35,6 +36,7 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     _contentLayout (nullptr),
     _palette (nullptr),
     _validator (nullptr),
+    _group (nullptr),
     _nodeType (nodeType) {
 
 }
@@ -81,21 +83,28 @@ void Node::initialise() {
     });
     connect (this, &Node::nameChanged, this, [=] () { _nameEdit -> setText (_name); });
 
-    QTextEdit* groupEdit = new QTextEdit();
-    groupEdit -> setEnabled (false);
-    layout -> addWidget (groupEdit);
-    connect (this, &Node::groupChanged, this, [=] () {
-        NodeGroup* g = group();
-        if (g) {
-            groupEdit->setText (group ()->name ());
-            QPointF pos = _block -> scenePos();
-            //_block->setParentItem (group ()->handle ());
-            //_block -> setPos (_block -> mapFromScene (pos));
+    _groupEdit = new QComboBox();
+    _groupEdit -> setEditable (true);
+    layout -> addWidget (_groupEdit);
+
+    connect(_groupEdit, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [=] (int index) {
+        QString name = _groupEdit -> itemText (index);
+        if (name.isNull() || name.isEmpty()) {
+            setGroup (nullptr);
         } else {
-            groupEdit -> setText ("No group assigned");
-            //_block -> setParentItem (nullptr);
+            setGroup (_model -> findGroup (name));
         }
     });
+
+    connect (_groupEdit -> lineEdit(), &QLineEdit::editingFinished, this, [=] () {
+        QString name = _groupEdit -> currentText ();
+        if (name.isNull() || name.isEmpty()) {
+            setGroup (nullptr);
+        } else {
+            setGroup (_model -> findGroup (_groupEdit -> currentText()));
+        }
+    });
+
 
     _notesEdit = new QTextEdit (about);
     _notesEdit -> setFixedHeight (100);
@@ -195,8 +204,16 @@ void Node::invalidate() {
 }
 
 void Node::setModel (CalenhadModel* model) {
-        _model = model;
-
+    _model = model;
+    connect (_model, &CalenhadModel::groupsUpdated, this, [=] () {
+        _groupEdit -> clear();
+        for (NodeGroup* group : _model -> nodeGroups()) {
+            _groupEdit -> addItem (group -> name());
+        }
+    });
+    if (_group) {
+        _groupEdit -> setCurrentText (_group -> name());
+    }
 }
 
 void Node::showModuleDetail (const bool& visible) {
@@ -303,16 +320,12 @@ bool Node::hasParameters () {
     return ! (_parameters.isEmpty());
 }
 
-void Node::setGroup (NodeGroup* group) {
-    if (_group) {
-        _group -> detach (this);
+void Node::setGroup (NodeGroup* g) {
+    if (g) {
+        _group = g;
+    } else {
+        _group = nullptr;
     }
-    _group = group;
-    if (_group) {
-        _group->attach (this);
-    }
-
-    emit groupChanged();
 }
 
 QString Node::nodeType() {
@@ -413,12 +426,3 @@ Node* Node::clone() {
 }
 
 
-void Node::assignGroup() {
-    NodeGroup* group = model() -> nodeGroupAt (_block -> pos());
-    if (group && group != this) {
-        setGroup (group);
-    } else {
-        setGroup (nullptr);
-    }
-    _block -> setZValue (0);
-}

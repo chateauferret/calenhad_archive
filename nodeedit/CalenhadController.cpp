@@ -93,9 +93,6 @@ void CalenhadController::toolSelected (bool state) {
             QPixmap* pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString ());
             QCursor cursor = QCursor ((*pixmap).scaled (iconSize, iconSize));
             view -> viewport () -> setCursor (cursor);
-            for (NodeGroup* group : _model -> nodeGroups()) {
-                group -> handle() -> setCursor (cursor);
-            }
         }
     } else {
         _model -> setActiveTool (nullptr);
@@ -123,10 +120,6 @@ void CalenhadController::actionTriggered() {
     if (action -> data() == CalenhadAction::ZoomOutAction) {
         if (_views->at (0)->currentZoom () > CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomout) {
             doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
-    }
-    if (action -> data() == CalenhadAction::NodeGroupFromSelectionAction) {
-        QPainterPath path = _model -> selectionArea();
-        _model->doAddNodeGroup (path);
     }
 
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }

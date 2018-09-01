@@ -5,57 +5,58 @@
 #include <CalenhadServices.h>
 #include "NodeGroup.h"
 #include "../pipeline/CalenhadModel.h"
-#include "nodeedit/NodeGroupBlock.h"
+#include "CalenhadServices.h"
+#include "../preferences/PreferencesService.h"
 
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 
-NodeGroup::NodeGroup (QWidget* parent) : Node (parent), _itemGroup (new QGraphicsItemGroup()) {
+NodeGroup::NodeGroup() :
+    _color (CalenhadServices::preferences() -> calenhad_module_brush_color_normal),
+    _borderColor (CalenhadServices::preferences() -> calenhad_module_pen_color_normal),
+    _selectedColor (CalenhadServices::preferences() -> calenhad_module_brush_color_selected),
+    _selectedBorderColor (CalenhadServices::preferences() -> calenhad_module_pen_color_selected),
+    _name (QString::null) {
 
 }
 
 NodeGroup::~NodeGroup() {
-    if (_itemGroup) { delete _itemGroup; }
+
 }
-
-bool NodeGroup::isWithin (const QPoint& point) {
-    return ((NodeGroupBlock*) _block) -> rect().contains (point);
-}
-
-QString NodeGroup::nodeType () {
-    return "nodegroup";
-}
-
-
-void NodeGroup::initialise() {
-    Node::initialise();
-}
-
-QGraphicsItem* NodeGroup::makeHandle() {
-    NodeGroupBlock* b = new NodeGroupBlock (this, nullptr);
-    _block = b;
-    b -> initialise();
-    _itemGroup -> addToGroup (_block);
-    _itemGroup -> setFlag (QGraphicsItem::ItemIsMovable);
-    _itemGroup -> setFlag (QGraphicsItem::ItemIsSelectable);
-    _itemGroup -> setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
-    _itemGroup -> setCursor (Qt::OpenHandCursor);
-    return _itemGroup;
-}
-
 
 void NodeGroup::inflate (const QDomElement& element) {
-    Node::inflate (element);
+    QDomElement colorsElement = element.firstChildElement ("colors");
+    QDomElement colorElement = colorsElement.firstChildElement ("color");
+    QDomElement borderColorElement = colorsElement.firstChildElement ("borderColor");
+    QDomElement selectedColorElement = colorsElement.firstChildElement ("selectedColor");
+    QDomElement selectedBorderColorElement = colorsElement.firstChildElement ("selectedBorderColor");
+
+    _color = colorElement.isNull() ? CalenhadServices::preferences() -> calenhad_module_brush_color_normal : QColor (colorElement.attribute ("color", CalenhadServices::preferences() -> calenhad_module_brush_color_normal.name ()));
+    _borderColor = borderColorElement.isNull() ? CalenhadServices::preferences() -> calenhad_module_pen_color_normal : QColor (borderColorElement.attribute ("color", CalenhadServices::preferences() -> calenhad_module_pen_color_normal.name ()));
+    _selectedColor = selectedColorElement.isNull() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected : QColor (selectedColorElement.attribute ("color", CalenhadServices::preferences() -> calenhad_module_brush_color_selected.name ()));
+    _selectedBorderColor = selectedBorderColorElement.isNull() ? CalenhadServices::preferences() -> calenhad_module_pen_color_selected : QColor (selectedBorderColorElement.attribute ("color", CalenhadServices::preferences() -> calenhad_module_pen_color_selected.name ()));
+
 }
 
 void NodeGroup::serialize (QDomElement& element) {
-    Node::serialize (element);
-    NodeGroupBlock* block = (NodeGroupBlock*) handle();
-    _element.setAttribute ("height", block -> rect().height());
-    _element.setAttribute ("width", block -> rect().width());
-
+    QDomElement colorsElement = element.ownerDocument().createElement ("colors");
+    QDomElement colorElement = element.ownerDocument().createElement ("color");
+    colorElement.setAttribute ("color", _color.name());
+    colorsElement.appendChild (colorElement);
+    QDomElement borderColorElement = element.ownerDocument().createElement ("borderColor");
+    borderColorElement.setAttribute ("color", _borderColor.name());
+    colorsElement.appendChild (borderColorElement);
+    QDomElement selectedColorElement = element.ownerDocument().createElement ("selectedBorderColor");
+    selectedColorElement.setAttribute ("color", _selectedColor.name());
+    colorsElement.appendChild (selectedColorElement);
+    QDomElement selectedBorderColorElement = element.ownerDocument().createElement ("selectedBorderColor");
+    selectedBorderColorElement.setAttribute ("color", _selectedBorderColor.name());
+    colorsElement.appendChild (selectedBorderColorElement);
+    element.appendChild (colorsElement);
     QDomElement nodesElement = element.ownerDocument().createElement ("nodes");
-    _element.appendChild (nodesElement);
+    element.appendChild (nodesElement);
+
+    // serialise all the nodes in this group
     for (Node* node : _model -> nodes()) {
         if (node -> group() == this) {
             node -> serialize (nodesElement);
@@ -63,26 +64,45 @@ void NodeGroup::serialize (QDomElement& element) {
     }
 }
 
-void NodeGroup::assignGroup() {
-    Node::assignGroup();
-
-    if (group()) {
-        _block -> setZValue (group() -> handle() -> zValue() + 1);
-
-    } else {
-        _block -> setZValue (-1000);
-    }
+void NodeGroup::setColors (const QColor& color, const QColor& selectedColor, const QColor& borderColor, const QColor& selectedBorderColor) {
+    _color = color;
+    _selectedColor = selectedColor;
+    _borderColor = borderColor;
+    _selectedBorderColor = selectedBorderColor;
 }
 
-
-void NodeGroup::attach (Node* node) {
-    _itemGroup -> addToGroup (node -> handle());
+void NodeGroup::setName (const QString& name) {
+    _name = name;
 }
 
-void NodeGroup::detach (Node* node) {
-    _itemGroup -> removeFromGroup (node -> handle());
+void NodeGroup::setDocumentation (const QString& documentation) {
+    _documentation = documentation;
 }
 
-QGraphicsItem* NodeGroup::handle () {
-    return _itemGroup;
+void NodeGroup::setModel (calenhad::pipeline::CalenhadModel* model) {
+    _model = model;
+}
+
+QString NodeGroup::name () {
+    return _name;
+}
+
+QString NodeGroup::documentation () {
+    return _documentation;
+}
+
+QColor NodeGroup::color () {
+    return _color;
+}
+
+QColor NodeGroup::borderColor () {
+    return _borderColor;
+}
+
+QColor NodeGroup::selectedColor () {
+    return _selectedColor;
+}
+
+QColor NodeGroup::selectedBorderColor () {
+    return _selectedBorderColor;
 }

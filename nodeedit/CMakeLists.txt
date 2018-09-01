@@ -21,8 +21,6 @@ SET(NODEEDIT_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadView.h
         ${CMAKE_CURRENT_LIST_DIR}/Toolbox.cpp
         ${CMAKE_CURRENT_LIST_DIR}/Toolbox.h
-        ${CMAKE_CURRENT_LIST_DIR}/NodeGroupBlock.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/NodeGroupBlock.h
         ${CMAKE_CURRENT_LIST_DIR}/EditableLabel.cpp
         ${CMAKE_CURRENT_LIST_DIR}/EditableLabel.h
         ${CMAKE_CURRENT_LIST_DIR}/ui_qnemainwindow.h

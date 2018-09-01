@@ -11,6 +11,7 @@
 #include <QtWidgets/QToolBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QTextEdit>
+#include <QtWidgets/QComboBox>
 #include <QtCore/QSet>
 
 #include <QtWidgets/QGraphicsItem>
@@ -69,7 +70,7 @@ namespace calenhad {
 
             virtual QString nodeType();
 
-            void setGroup (NodeGroup* group);
+            virtual void setGroup (NodeGroup* group);
 
             NodeGroup* group ();
 
@@ -113,8 +114,6 @@ namespace calenhad {
             //void showName (const bool& visible);
             //bool nameVisible();
 
-            virtual void assignGroup();
-
         public slots:
             virtual void showModuleDetail (const bool& visible = true);
             virtual void invalidate ();
@@ -139,7 +138,7 @@ namespace calenhad {
             QLineEdit* _nameEdit;
             QTextEdit* _notesEdit;
             QToolBox* _expander;
-
+            QComboBox* _groupEdit;
             //QVector<Node*> _dependants;
             QWidget* _content;
             calenhad::pipeline::CalenhadModel* _model;

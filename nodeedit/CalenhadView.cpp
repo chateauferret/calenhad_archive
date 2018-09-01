@@ -7,7 +7,6 @@
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "qmodule/NodeGroup.h"
-#include "NodeGroupBlock.h"
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <CalenhadServices.h>
@@ -67,16 +66,11 @@ void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
 }
 
 void CalenhadView::dragLeaveEvent (QDragLeaveEvent *event) {
-    for (QGraphicsItem* item : scene ()->items ()) {
-        if (dynamic_cast<NodeGroupBlock*> (item)) {
-            ((NodeGroupBlock*) item)->setHighlight (false);
-        }
-    }
+
 }
 
 void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
     QPointF pos = mapToScene (event -> pos());
-    ((CalenhadModel*) scene()) -> highlightGroupAt (pos);
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
         if (event -> source() == this) {
             event -> setDropAction(Qt::MoveAction);
@@ -90,11 +84,7 @@ void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
 }
 
 void CalenhadView::dropEvent(QDropEvent *event) {
-    for (QGraphicsItem* item : scene ()->items ()) {
-        if (dynamic_cast<NodeGroupBlock*> (item)) {
-            ((NodeGroupBlock*) item)->setHighlight (false);
-        }
-    }
+
 
     if (event -> mimeData ()->hasFormat ("application/x-dnditemdata")) {
         QByteArray itemData = event -> mimeData () -> data ("application/x-dnditemdata");

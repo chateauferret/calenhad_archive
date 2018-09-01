@@ -5,43 +5,40 @@
 #ifndef CALENHAD_QWIDGETGROUP_H
 #define CALENHAD_QWIDGETGROUP_H
 
-
-#include <nodeedit/NodeGroupBlock.h>
 #include "Node.h"
+#include <QDomElement>
 
 namespace calenhad {
+    namespace pipeline {
+        class CalenhadModel;
+    }
     namespace qmodule {
-
-        class NodeGroup : public Node {
-        Q_OBJECT
+        class Node;
+        class NodeGroup {
         public:
-            NodeGroup (QWidget* parent = 0);
+            NodeGroup();
             virtual ~NodeGroup ();
 
-            enum {
-                Type = QGraphicsItem::UserType + 5
-            };
+            void inflate (const QDomElement& element);
+            void serialize (QDomElement& element);
+            void setColors (const QColor& color, const QColor& selectedColor, const QColor& borderColor, const QColor& selectedBorderColor);
+            void setName (const QString& name);
+            void setDocumentation (const QString& documentation);
+            void setModel (calenhad::pipeline::CalenhadModel* model);
 
-            bool isWithin (const QPoint& point);
+            QString name();
+            QString documentation();
+            QColor color();
+            QColor borderColor();
+            QColor selectedColor();
+            QColor selectedBorderColor();
 
-            QString nodeType () override;
 
-
-            void initialise () override;
-
-            virtual QGraphicsItem* makeHandle() override;
-            virtual QGraphicsItem* handle() override;
-            void inflate (const QDomElement& element) override;
-            void attach (Node* node);
-            void detach (Node* node);
-            void serialize (QDomElement& element) override;
-            void assignGroup() override;
-        signals:
-
-            void changedOctaves (const int&);
 
         protected:
-            QGraphicsItemGroup* _itemGroup;
+            QColor _color, _selectedColor, _borderColor, _selectedBorderColor;
+            QString _name, _documentation;
+            calenhad::pipeline::CalenhadModel* _model;
 
         };
     }

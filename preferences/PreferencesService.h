@@ -23,9 +23,8 @@ namespace calenhad {
             double calenhad_default_planet_radius;
             QColor calenhad_module_brush_color_selected;
             QColor calenhad_module_brush_color_normal;
-            QColor calenhad_nodegroup_brush_color_selected;
-            QColor calenhad_nodegroup_brush_color_normal;
-            QColor calenhad_handle_brush_color_bg;
+            QColor calenhad_module_pen_color_selected;
+            QColor calenhad_module_pen_color_normal;
             QColor calenhad_port_in_border_color;
             QColor calenhad_port_in_fill_color;
             QColor calenhad_port_in_fill_color_drop;
@@ -46,8 +45,6 @@ namespace calenhad {
             unsigned calenhad_connector_inactive_weight;
             QColor calenhad_module_text_color_selected;
             QColor calenhad_module_text_color_normal;
-            QColor calenhad_nodegroup_text_color_selected;
-            QColor calenhad_nodegroup_text_color_normal;
             QColor calenhad_module_text_color_error;
             QColor calenhad_variables_color_normal;
             QColor calenhad_variables_color_error;
