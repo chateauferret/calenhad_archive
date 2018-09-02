@@ -492,7 +492,7 @@ QSet<NodeGroup*> CalenhadModel::nodeGroups() {
 
 QList<Node*> CalenhadModel::nodes() {
     QList<Node*> nodes;
-            foreach (QGraphicsItem* item, items()) {
+        foreach (QGraphicsItem* item, items()) {
             int type = item -> type();
             if (type == QGraphicsItem::UserType + 3) {  // is a NodeBlock
                 NodeBlock* handle = (NodeBlock*) item;
@@ -525,7 +525,6 @@ NodeGroup* CalenhadModel::findGroup (const QString& name) {
     NodeGroup* g = createGroup (uniqueName (name));
     return g;
 }
-
 
 Module* CalenhadModel::findModule (const QString& name) {
     for (Node* qm : nodes()) {
@@ -599,14 +598,12 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
             }
         }
 
-        QDomElement groupsElement = doc.createElement ("groups");
         for (NodeGroup* group : nodeGroups()) {
-            QDomElement groupElement = doc.createElement ("group");
+            QDomElement groupElement = doc.createElement ("nodegroup");
             group -> serialize (groupElement);
-            groupsElement.appendChild (groupElement);
+            nodesElement.appendChild (groupElement);
         }
 
-        nodesElement.appendChild (groupsElement);
 
         // serialize connections
         QDomElement connectionsElement = doc.createElement ("connections");
@@ -783,7 +780,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
         QDomNode n = parent.firstChild();
         while (! n.isNull()) {
             QDomElement element = n.toElement();
-            QString type = n.attributes ().namedItem ("type").nodeValue ();
+            QString type = n.toElement().tagName();
             QDomNodeList connectionNodes = element.ownerDocument().documentElement().firstChildElement ("connections").elementsByTagName ("connection");
             // put the node at the requested position on the canvas
             QDomElement positionElement = n.firstChildElement ("position");
@@ -805,25 +802,32 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                 NodeGroup* ng = findGroup (newName);
                 QDomElement nodesElement = n.firstChildElement ("nodes");
                 inflate (nodesElement, fileType, ng);
-                ng -> inflate (n.toElement());
-            } else {
-                Node* qm = addModule (pos, type, newName, group);
-                qm -> handle() -> setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
-                qm -> inflate (n.toElement());
+            }
+            if (type == "module") {
+                QString moduleType = n.toElement().attribute ("type");
+                Node* qm = addModule (pos, moduleType, newName, group);
+                std::cout << n.toElement ().tagName ().toStdString () << "\n";
+                if (qm) {
+                    QGraphicsItem* block = qm->handle ();
+                    block->setSelected (fileType == CalenhadFileType::CalenhadModelFragment);
 
-                // update connection names so that the module is still found if it was renamed
+                    qm->inflate (n.toElement ());
 
-                for (int i = 0; i < connectionNodes.count (); i++) {
-                    QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
-                    QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
-                    if (fromElement.attribute ("module") == name) {
-                        fromElement.setAttribute ("module", newName);
+                    // update connection names so that the module is still found if it was renamed
+
+                    for (int i = 0; i < connectionNodes.count (); i++) {
+                        QDomElement fromElement = connectionNodes.at (i).firstChildElement ("source");
+                        QDomElement toElement = connectionNodes.at (i).firstChildElement ("target");
+                        if (fromElement.attribute ("module") == name) {
+                            fromElement.setAttribute ("module", newName);
+                        }
+                        if (toElement.attribute ("module") == name) {
+                            toElement.setAttribute ("module", newName);
+                        }
                     }
-                    if (toElement.attribute ("module") == name) {
-                        toElement.setAttribute ("module", newName);
-                    }
+                } else {
+                    std::cout << "No such module " << newName.toStdString () << " of type " << type.toStdString () << "\n";
                 }
-
                 _changed = false;
             }
             n = n.nextSibling ();

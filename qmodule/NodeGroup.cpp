@@ -38,6 +38,9 @@ void NodeGroup::inflate (const QDomElement& element) {
     _selectedColor = selectedColorElement.isNull() ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected : QColor (selectedColorElement.attribute ("color", CalenhadServices::preferences() -> calenhad_module_brush_color_selected.name ()));
     _selectedBorderColor = selectedBorderColorElement.isNull() ? CalenhadServices::preferences() -> calenhad_module_pen_color_selected : QColor (selectedBorderColorElement.attribute ("color", CalenhadServices::preferences() -> calenhad_module_pen_color_selected.name ()));
 
+    QDomElement nodesElement = element.firstChildElement ("nodes");
+
+
 }
 
 void NodeGroup::serialize (QDomElement& element) {
