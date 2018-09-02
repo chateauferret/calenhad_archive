@@ -16,7 +16,7 @@ namespace calenhad {
         class Node;
         class NodeGroup {
         public:
-            NodeGroup();
+            NodeGroup (calenhad::pipeline::CalenhadModel* model);
             virtual ~NodeGroup ();
 
             void inflate (const QDomElement& element);

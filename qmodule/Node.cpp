@@ -38,7 +38,6 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     _validator (nullptr),
     _group (nullptr),
     _nodeType (nodeType) {
-
 }
 
 Node::~Node () {
@@ -50,8 +49,6 @@ Node::~Node () {
 
 
 void Node::initialise() {
-
-
     // these widgets are relevant for all modules
     _expander = new QToolBox();
     QWidget* about = new QWidget (_expander);
@@ -75,7 +72,6 @@ void Node::initialise() {
         _nameEdit->setPalette (*_palette);
     });
     _nameEdit -> setValidator (_validator);
-
     layout -> addWidget (_nameEdit);
 
     connect (_nameEdit, &QLineEdit::editingFinished, this, [=] () {
@@ -110,8 +106,6 @@ void Node::initialise() {
     _notesEdit -> setFixedHeight (100);
     layout -> addWidget (_notesEdit);
     layout -> addStretch (0);
-
-
 
     connect (_notesEdit, &QTextEdit::textChanged, this, [=] () {
         propertyChangeRequested ("notes", _notesEdit -> document() -> toPlainText());

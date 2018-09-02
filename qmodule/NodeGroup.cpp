@@ -10,13 +10,15 @@
 
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
+using namespace calenhad::pipeline;
 
-NodeGroup::NodeGroup() :
+NodeGroup::NodeGroup (CalenhadModel* model) :
     _color (CalenhadServices::preferences() -> calenhad_module_brush_color_normal),
     _borderColor (CalenhadServices::preferences() -> calenhad_module_pen_color_normal),
     _selectedColor (CalenhadServices::preferences() -> calenhad_module_brush_color_selected),
     _selectedBorderColor (CalenhadServices::preferences() -> calenhad_module_pen_color_selected),
-    _name (QString::null) {
+    _name (QString::null),
+    _model (model) {
 
 }
 
@@ -39,6 +41,10 @@ void NodeGroup::inflate (const QDomElement& element) {
 }
 
 void NodeGroup::serialize (QDomElement& element) {
+    QDomElement nameElement = element.ownerDocument().createElement ("name");
+    QDomText nameText = element.ownerDocument().createTextNode (_name);
+    nameElement.appendChild (nameText);
+    element.appendChild (nameElement);
     QDomElement colorsElement = element.ownerDocument().createElement ("colors");
     QDomElement colorElement = element.ownerDocument().createElement ("color");
     colorElement.setAttribute ("color", _color.name());

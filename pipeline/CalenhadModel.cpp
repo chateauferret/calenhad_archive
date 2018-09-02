@@ -599,6 +599,15 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
             }
         }
 
+        QDomElement groupsElement = doc.createElement ("groups");
+        for (NodeGroup* group : nodeGroups()) {
+            QDomElement groupElement = doc.createElement ("group");
+            group -> serialize (groupElement);
+            groupsElement.appendChild (groupElement);
+        }
+
+        nodesElement.appendChild (groupsElement);
+
         // serialize connections
         QDomElement connectionsElement = doc.createElement ("connections");
         modelElement.appendChild (connectionsElement);
@@ -1082,7 +1091,7 @@ QString CalenhadModel::selectionToXml() {
 }
 
 NodeGroup* CalenhadModel::createGroup (const QString& name) {
-    NodeGroup* group = new NodeGroup();
+    NodeGroup* group = new NodeGroup (this);
     group -> setName (name);
     _groups.insert (group);
     emit groupsUpdated();
