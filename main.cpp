@@ -14,6 +14,9 @@
 #include "mapping/projection/ProjectionService.h"
 #include "pipeline/ModuleFactory.h"
 
+#include "icosphere/icosphere.h"
+
+
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #endif
@@ -39,6 +42,16 @@ Q_DECLARE_METATYPE (Qt::PenStyle)
 
 int main (int argc, char **argv) {
 
+    clock_t start = clock ();
+
+/*
+    icosphere::Icosphere* i = new icosphere::Icosphere (9);
+    i -> assemble (icosphere::Bounds());
+    clock_t end = clock ();
+    clock_t t = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+
+    std::cout << "constructed icosphere to level " << i -> depth()  << " in " << t << " milliseconds\n";
+*/
 
     // Register required metatypes for Qt services
     qRegisterMetaType<QImage>();
@@ -81,11 +94,13 @@ int main (int argc, char **argv) {
     Calculator* calculator = new Calculator();
     CalenhadServices::provideCalculator (calculator);
 
+
     // Calenhad model - the arrangement of modules and connections between them
     Calenhad* window = new Calenhad();
 
     window -> setStyleSheet (preferences -> styleSheet());
     window -> show();
+
 
 
     return app.exec();

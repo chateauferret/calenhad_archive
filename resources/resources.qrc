@@ -1,6 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-        <file>appicons/tools/nodegroup.png</file>
         <file>appicons/tools/icospheremap.png</file>
         <file>appicons/tools/altitudemap.png</file>
         <file>appicons/tools/raster.png</file>
@@ -30,6 +29,7 @@
         <file>appicons/controls/map.png</file>
         <file>appicons/controls/map_tiles.png</file>
         <file>appicons/controls/modules.png</file>
+        <file>appicons/controls/nodegroup.png</file>
         <file>appicons/controls/new.png</file>
         <file>appicons/controls/mouse_options.png</file>
         <file>appicons/controls/note.png</file>

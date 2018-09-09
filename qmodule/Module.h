@@ -81,12 +81,12 @@ namespace calenhad {
             void showGlobe ();
             void rendered (const bool& success);
             void parameterChanged() override;
-
+            void invalidate() override;
         protected:
 
             virtual void contextMenuEvent (QContextMenuEvent* e) override;
             virtual void addInputPorts();
-
+            QSet<Module*> dependants();
 
             bool _suppressRender;
             QFormLayout* _previewLayout;

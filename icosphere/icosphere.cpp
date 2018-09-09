@@ -1,7 +1,7 @@
 
 
 #include <stack>
-#include <libnoise/module/modulebase.h>
+
 #include "icosphere.h"
 #include "IcosphereDivider.h"
 #include <QThread>

@@ -3,7 +3,7 @@
 //
 #include <messages/QProgressNotification.h>
 #include <CalenhadServices.h>
-#include "../messages/QNotificationService.h"
+
 #include "IcosphereModule.h"
 #include "IcosphereBuilder.h"
 

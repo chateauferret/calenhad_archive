@@ -64,10 +64,13 @@ Graph::~Graph () {
 
 QString Graph::glsl() {
     _code =  glsl (_module);
+    std::cout << "Module " << _module -> name().toStdString () << "\n";
+    std::cout << _code.toStdString () << "\n\n";
     if (_code != QString::null) {
         _code.append ("\n\nfloat value (vec3 cartesian) {\n");
         _code.append ("    return _" + _nodeName + " (cartesian);\n");
         _code.append ("}\n");
+
         parseLegend ();
     }
     return _code;

@@ -293,18 +293,24 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _moduleContextMenu -> addAction (deleteSelectionAction);
     editToolbar -> addAction (deleteSelectionAction);
 
-    newGroupFromSelectionAction = createTool (QIcon (":/appicons/controls/group_add.png"), tr ("New group from selection"), "New group from selection", CalenhadAction::NodeGroupFromSelectionAction, _editDrawer);
-    newGroupFromSelectionAction -> setEnabled (false);
-    _defaultContextMenu -> addAction (newGroupFromSelectionAction);
-    _moduleContextMenu -> addAction (newGroupFromSelectionAction);
-    editToolbar -> addAction (newGroupFromSelectionAction);
+    assignSelectionToGroupAction = createTool (QIcon (":/appicons/controls/group_add.png"), tr ("Assign selected modules to a group"), "Assign selected modules to a group", CalenhadAction::NodeGroupFromSelectionAction, _editDrawer);
+    assignSelectionToGroupAction -> setEnabled (false);
+    _defaultContextMenu -> addAction (assignSelectionToGroupAction);
+    _moduleContextMenu -> addAction (assignSelectionToGroupAction);
+    editToolbar -> addAction (assignSelectionToGroupAction);
+
+    manageGroupsAction = createTool (QIcon (":/appicons/controls/nodegroups.png"), tr ("Manage groups..."), "Create, edit and delete nodegroups", CalenhadAction::ManageNodeGroupsAction, _editDrawer);
+    _defaultContextMenu -> addAction (manageGroupsAction);
+    editToolbar -> addAction (manageGroupsAction);
+
 
     QMenu* editMenu = menuBar() -> addMenu (tr ("&Edit"));
     editMenu -> setObjectName ("editMenu");
     editMenu -> addAction (cutAction);
     editMenu -> addAction (copyAction);
     editMenu -> addAction (pasteAction);
-    editMenu -> addAction (newGroupFromSelectionAction);
+    editMenu -> addAction (assignSelectionToGroupAction);
+    editMenu -> addAction (manageGroupsAction);
     editMenu -> addSeparator();
     editMenu -> addAction (manageLegendsAction);
 
@@ -491,7 +497,7 @@ void Calenhad::setSelectionActionsEnabled (const bool& enabled) {
     deleteSelectionAction -> setEnabled (enabled);
     cutAction -> setEnabled (enabled);
     copyAction -> setEnabled (enabled);
-    newGroupFromSelectionAction -> setEnabled (enabled);
+    assignSelectionToGroupAction -> setEnabled (enabled);
 }
 
 void Calenhad::updateZoomActions() {

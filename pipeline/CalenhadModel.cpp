@@ -165,10 +165,10 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
     }
 }
 
-Connection* CalenhadModel::doConnectPorts (Port* output, Port* input) {
+Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
 
     if (canConnect (output, input, true)) {
-        preserve();
+
         Connection* c = new Connection();
         c -> setParentItem (0);
         c -> setZValue (0);
@@ -182,17 +182,12 @@ Connection* CalenhadModel::doConnectPorts (Port* output, Port* input) {
         output -> owner() -> invalidate();
 
         // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
-        connect (output -> owner(), SIGNAL (nodeChanged()), input -> owner(), SLOT (invalidate()));
+        //connect (output -> owner(), SIGNAL (nodeChanged()), input -> owner(), SLOT (invalidate()));
 
         // colour the input to show its connected status
         input -> setHighlight (Port::PortHighlight::CONNECTED);
 
-        // tell the target owner to declare change requiring rerender
-        output -> owner() -> invalidate();
 
-        // model has changed so save state
-        setChanged();
-        setRestorePoint();
 
         return c;
     } else {
@@ -209,7 +204,7 @@ void CalenhadModel::doDisconnectPorts (Connection* connection) {
     if (connection -> port2() -> type() != Port::OutputPort) { connection -> port2() -> setHighlight (Port::PortHighlight::NONE); }
 
     // reproduce the renders to reflect the change
-    //    connection -> port2() -> invalidateRenders();
+        connection -> port2() -> invalidateRenders();
 
     // update the model
     preserve();
@@ -394,7 +389,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) {
     preserve();
     QString name = "New_" + type;
-    Node* n;
+    Module* n;
     n = addModule (initPos, type, name);
     // to do - assign to a group
 
@@ -404,7 +399,7 @@ Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) 
     XmlCommand* command = new XmlCommand (this, _oldXml);
     _controller -> doCommand (command);
     command -> setNewXml (newXml);
-    return n;
+    return (Node*) n;
 }
 
 Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name, NodeGroup* group) {
@@ -763,7 +758,7 @@ void CalenhadModel::inflateConnections (QDomNodeList& connectionNodes) {
                 }
             }
             if (fromPort && toPort) {
-                doConnectPorts (fromPort, toPort);
+                connectPorts (fromPort, toPort);
             } else {
                 if (!fromPort) { CalenhadServices::messages ()->message ("Couldn't connect source", "No output port available for source", NotificationStyle::ErrorNotification); }
                 if (!toPort) { CalenhadServices::messages ()->message ("Couldn't connect target", "No input port available for target", NotificationStyle::ErrorNotification); }
@@ -1035,12 +1030,11 @@ void CalenhadModel::setUndoEnabled (const bool& enabled) {
 void CalenhadModel::createConnection (Port* from, Port* to) {
     if (from && to) {
         preserve();
-        doConnectPorts (from, to);
+        connectPorts (from, to);
         if (conn) {
             delete conn;
             conn = nullptr;
         }
-        update();
         setChanged (true);
         setRestorePoint();
     }

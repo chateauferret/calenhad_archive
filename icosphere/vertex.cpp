@@ -29,8 +29,8 @@ bool TriangleComparator:: operator() (Triangle* t1, Triangle* t2) {
         double a1, a2, d;
         geoutils::Geolocation c1 = geoutils::Math::toGeolocation (t1->centre);
         Geolocation c2 = Math::toGeolocation (t2->centre);
-        _rhumb->Inverse (pole.latitude, pole.longitude, c1.latitude, c1.longitude, d, a1);
-        _rhumb->Inverse (pole.latitude, pole.longitude, c2.latitude, c2.longitude, d, a2);
+        _rhumb->Inverse (pole.latitude(), pole.longitude(), c1.latitude(), c1.longitude(), d, a1);
+        _rhumb->Inverse (pole.latitude(), pole.longitude(), c2.latitude(), c2.longitude(), d, a2);
         return a1 < a2;
     } else {
         return false;
@@ -127,20 +127,20 @@ unsigned Vertex::getLevel() const { return _level; }
 
 bool Vertex::isInBounds (const icosphere::Bounds& bounds) {
     if (bounds.east() > bounds.west()) {
-        if (_geolocation.longitude < bounds.west() || _geolocation.longitude > bounds.east()) {
+        if (_geolocation.longitude() < bounds.west() || _geolocation.longitude() > bounds.east()) {
             return false;
         }
     } else {
-        if (_geolocation.longitude >= bounds.west() && _geolocation.longitude <= bounds.east()) {
+        if (_geolocation.longitude() >= bounds.west() && _geolocation.longitude() <= bounds.east()) {
             return false;
         }
     }
 
-    if (_geolocation.longitude > 2 * M_PI || _geolocation.longitude < - 2 * M_PI) {
+    if (_geolocation.longitude() > 2 * M_PI || _geolocation.longitude() < - 2 * M_PI) {
         return false;
     }
 
-    return (_geolocation.latitude >= bounds.east() && _geolocation.latitude <= bounds.west() );
+    return (_geolocation.latitude() >= bounds.east() && _geolocation.latitude() <= bounds.west() );
 }
 
 

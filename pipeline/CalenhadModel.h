@@ -65,7 +65,7 @@ namespace calenhad {
             // undoable commands
             void doDisconnectPorts (calenhad::nodeedit::Connection* connection);
             void doDuplicateNode  (calenhad::qmodule::Node* node);
-            nodeedit::Connection* doConnectPorts (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input);
+            nodeedit::Connection* connectPorts (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input);
             calenhad::qmodule::Node* doCreateNode (const QPointF& initPos, const QString& type);
 
             void doDeleteNode (calenhad::qmodule::Node* node);

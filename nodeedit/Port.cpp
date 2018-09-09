@@ -258,3 +258,7 @@ QMenu* Port::connectMenu() {
 bool Port::isRequired () {
     return _required;
 }
+
+void Port::invalidateRenders () {
+    owner() -> invalidate ();
+}

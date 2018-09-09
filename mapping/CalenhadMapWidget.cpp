@@ -14,7 +14,7 @@
 #include <QtWidgets/QToolTip>
 #include "Graticule.h"
 #include "../qmodule/Module.h"
-
+#include "../nodeedit/Connection.h"
 
 using namespace calenhad;
 using namespace geoutils;
@@ -25,6 +25,7 @@ using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 using namespace calenhad::pipeline;
 using namespace calenhad::qmodule;
+using namespace calenhad::nodeedit;
 using namespace calenhad::controls::globe;
 using namespace calenhad::legend;
 using namespace GeographicLib;
@@ -656,10 +657,12 @@ void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
 
 void CalenhadMapWidget::render() {
     _render = true;
-    if (_source -> isComplete() && !_source->renderSuppressed ()) {
+    if (_source -> isComplete() && !_source -> renderSuppressed ()) {
         Graph* g = new Graph (_source);
         setGraph (g);
     }
+
+
 }
 
 Module* CalenhadMapWidget::source() {

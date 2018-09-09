@@ -223,6 +223,26 @@ void Module::parameterChanged() {
     }
 }
 
+void Module::invalidate() {
+    Node::invalidate();
+    // if this node needs recalculating or rerendering, so do any nodes that depend on it -
+    // that is any nodes with an input connected to this one's output
+    for (Module* dependant : dependants()) {
+        dependant -> invalidate();
+    }
+}
+
+QSet<Module*> Module::dependants() {
+    QSet<Module*> found;
+    for (Connection* c : _output -> connections()) {
+        Port* p = c -> otherEnd (_output);
+        if (p) {
+            found.insert (p -> owner ());
+        }
+    }
+    return found;
+}
+
 QString Module::label () {
     return CalenhadServices::modules() -> label (_nodeType);
 }

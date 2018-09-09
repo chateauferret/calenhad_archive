@@ -146,8 +146,8 @@ namespace calenhad {
             QAction* duplicateModuleAction;
             QAction* cutAction, * copyAction, * pasteAction;
             QAction* openAction, * newAction, * quitAction, * importAction;
-            QAction* newGroupFromSelectionAction;
-
+            QAction* assignSelectionToGroupAction;
+            QAction* manageGroupsAction;
             QMenu* openRecentMenu;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());

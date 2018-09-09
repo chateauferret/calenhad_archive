@@ -7,7 +7,7 @@
 
 #include <memory>
 #include <QtCore/QString>
-#include "libnoise/module/modulebase.h"
+
 #include "Bounds.h"
 
 namespace icosphere {

@@ -165,13 +165,13 @@ void IcosphereDivider::makeNeighbours (const unsigned& p, const unsigned& q) {
 }
 
 bool IcosphereDivider::coversTriangle (const Geolocation& a, const Geolocation& b, const Geolocation& c, const Bounds& bounds) const {
-    double minLat = std::min (std::min(a.longitude, b.longitude), c.longitude);
-    double maxLat = std::max (std::max(a.longitude, b.longitude), c.longitude);
+    double minLat = std::min (std::min(a.longitude(), b.longitude()), c.longitude());
+    double maxLat = std::max (std::max(a.longitude(), b.longitude()), c.longitude());
     if (maxLat - minLat > M_PI) {
         // then triangle is deemed to cross the dateline
-        Geolocation a2 = Geolocation (a.longitude < -M_PI_2 ? a.longitude : a.longitude + M_2_PI, a.latitude, Units::Radians);
-        Geolocation b2 = Geolocation (b.longitude < -M_PI_2 ? b.longitude : b.longitude + M_2_PI, b.latitude, Units::Radians);
-        Geolocation c2 = Geolocation (c.longitude < -M_PI_2 ? c.longitude : c.longitude + M_2_PI, c.latitude, Units::Radians);
+        Geolocation a2 = Geolocation (a.longitude() < -M_PI_2 ? a.longitude() : a.longitude() + M_2_PI, a.latitude(), Units::Radians);
+        Geolocation b2 = Geolocation (b.longitude() < -M_PI_2 ? b.longitude() : b.longitude() + M_2_PI, b.latitude(), Units::Radians);
+        Geolocation c2 = Geolocation (c.longitude() < -M_PI_2 ? c.longitude() : c.longitude() + M_2_PI, c.latitude(), Units::Radians);
         return coversTriangle (a2, b2, c2, bounds);
     }
     /*

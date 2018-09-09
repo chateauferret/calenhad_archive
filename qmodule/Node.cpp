@@ -194,8 +194,10 @@ void Node::invalidate() {
     if (_block) {
         _block -> update ();
     }
+
     emit nodeChanged();
 }
+
 
 void Node::setModel (CalenhadModel* model) {
     _model = model;
