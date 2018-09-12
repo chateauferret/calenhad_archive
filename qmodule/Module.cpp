@@ -80,21 +80,20 @@ void Module::showGlobe() {
 
 void Module::setupPreview() {
     _preview = new CalenhadMapWidget (this);
-    _preview -> setCreateHeightMap (false);
     _preview->setSource (this);
     _previewIndex = addPanel (tr ("Preview"), _preview);
     _stats = new QDialog (this);
 
     _stats -> setLayout (new QVBoxLayout (_stats));
-    CalenhadStatsPanel* statsPanel = new CalenhadStatsPanel (this);
-    _stats->layout ()->addWidget (statsPanel);
+    _statsPanel = new CalenhadStatsPanel (this);
+    _stats->layout ()->addWidget (_statsPanel);
     QDialogButtonBox* box = new QDialogButtonBox (QDialogButtonBox::Ok);
     _stats -> layout ()->addWidget (box);
     connect (box, &QDialogButtonBox::accepted, _stats, &QDialog::accept);
     _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
     _stats -> setMinimumSize (400, 400);
     _stats -> move (_dialog->pos().x() + 400, _dialog->pos().y() + 300);
-    connect (_preview, &CalenhadMapWidget::rendered, statsPanel, &CalenhadStatsPanel::refresh);
+    connect (_preview, &CalenhadMapWidget::rendered, _statsPanel, &CalenhadStatsPanel::refresh);
     QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
     connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
     connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
@@ -229,6 +228,12 @@ void Module::invalidate() {
     // that is any nodes with an input connected to this one's output
     for (Module* dependant : dependants()) {
         dependant -> invalidate();
+    }
+    if (_globe && _globe -> isVisible()) {
+        _globe -> invalidate ();
+    }
+    if (_statsPanel) {
+        _statsPanel -> refresh();
     }
 }
 

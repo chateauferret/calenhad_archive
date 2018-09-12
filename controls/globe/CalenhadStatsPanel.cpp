@@ -16,7 +16,7 @@ CalenhadStatsPanel::CalenhadStatsPanel (Module* source, CalenhadGlobeDialog* par
     setLayout (new QVBoxLayout());
     QGroupBox* worldHypsographyBox = new QGroupBox ("Planet hypsograph", this);
     worldHypsographyBox -> setLayout (new QVBoxLayout());
-    _worldHypsography = new HypsographyWidget (source -> preview(), worldHypsographyBox);
+    _hypsography = new HypsographyWidget (source -> preview(), worldHypsographyBox);
     QFormLayout* worldForm = new QFormLayout();
     QWidget* worldFormWidget = new QWidget (this);
     worldFormWidget -> setLayout (worldForm);
@@ -24,7 +24,7 @@ CalenhadStatsPanel::CalenhadStatsPanel (Module* source, CalenhadGlobeDialog* par
     _worldMeanLabel = new QLabel (this);
     worldForm -> addRow ("Range of values in world", _worldExtremesLabel);
 
-    worldHypsographyBox -> layout () -> addWidget (_worldHypsography);
+    worldHypsographyBox -> layout () -> addWidget (_hypsography);
     worldHypsographyBox -> layout() -> addWidget (worldFormWidget);
 
     worldForm -> addRow ("Mean value in world", _worldMeanLabel);
@@ -46,7 +46,8 @@ void CalenhadStatsPanel::showEvent (QShowEvent* e) {
 }
 
 void CalenhadStatsPanel::refresh() {
-    Statistics worldStats = _worldHypsography -> statistics();
+    _hypsography -> refresh();
+    Statistics worldStats = _hypsography -> statistics();
     _renderSizeLabel -> setText ("");
     _renderSizeLabel -> setEnabled (false);
     _renderTimeLabel -> setText ("");
@@ -55,6 +56,7 @@ void CalenhadStatsPanel::refresh() {
     _worldExtremesLabel -> setEnabled (false);
     _worldMeanLabel -> setText ("");
     if (worldStats.ok()) {
+        std::cout << "Refresh statistics\n";
         _worldExtremesLabel->setText (QString::number (worldStats._min) + " to " + QString::number (worldStats._max));
         _worldExtremesLabel->setEnabled (true);
         _worldMeanLabel->setText (QString::number (worldStats.mean ()));
@@ -66,5 +68,7 @@ void CalenhadStatsPanel::refresh() {
             _renderTimeLabel->setEnabled (true);
             _renderTimeLabel->setText (QString::number (worldStats._renderTime) + " ms");
         }
+    } else {
+        std::cout << "Statistics not available\n";
     }
 }

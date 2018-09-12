@@ -93,7 +93,7 @@ namespace calenhad {
             calenhad::mapping::CalenhadMapWidget* _preview;
             int _previewIndex;
             calenhad::legend::Legend* _legend;
-
+            calenhad::controls::globe::CalenhadStatsPanel* _statsPanel;
             QMenu* _connectMenu;
             QMenu* _contextMenu;
             calenhad::controls::globe::CalenhadGlobeDialog* _globe;

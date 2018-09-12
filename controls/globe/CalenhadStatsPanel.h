@@ -37,7 +37,7 @@ namespace calenhad {
                 CalenhadGlobeDialog* dialog;
                 QLabel* _mapExtremesLabel, * _worldExtremesLabel;
                 QLabel* _worldMeanLabel;
-                calenhad::controls::globe::HypsographyWidget* _worldHypsography;
+                calenhad::controls::globe::HypsographyWidget* _hypsography;
                 calenhad::qmodule::Module* _source;
 
 

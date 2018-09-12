@@ -18,7 +18,7 @@ using namespace calenhad::mapping;
 HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe,  QWidget* parent) : QWidget (parent),
     _globe (globe),
     _plot (new QwtPlot()),
-    _statistics (Statistics (0.0, 0.0, 0.0, 0, 0, 0)) {
+    _statistics (globe -> statistics()) {
     setLayout (new QVBoxLayout());
     _plot -> setSizePolicy (QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding));
     layout() -> addWidget (_plot);
@@ -28,7 +28,7 @@ HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe,  QWidget* parent
     for (int i = 0; i < 1000; i++) {
         _heights[i] = i / 1000.0 - 1.0;
     }
-    connect (_globe, &CalenhadMapWidget::rendered, this, &HypsographyWidget::refresh);
+
     _plot -> setAxisScale (QwtPlot::yLeft, 0, 100);
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid -> attach (_plot);
@@ -45,8 +45,9 @@ void HypsographyWidget::showEvent (QShowEvent* e) {
 }
 
 void HypsographyWidget::refresh() {
+    std::cout << "Refresh hypsography\n";
     GLfloat* buffer = _globe -> heightMapBuffer();
-    if (! buffer) { return; }
+    if (! buffer) { std::cout << "No buffer\n"; return; }
     int n =  _globe -> heightMapSize().height() * _globe -> heightMapSize().width();
 
     _statistics = _globe -> statistics();

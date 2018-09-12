@@ -196,6 +196,7 @@ void Node::invalidate() {
     }
 
     emit nodeChanged();
+
 }
 
 

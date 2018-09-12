@@ -634,6 +634,7 @@ geoutils::CoordinatesFormat CalenhadMapWidget::coordinatesFormat () {
 }
 
 Statistics CalenhadMapWidget::statistics() {
+    if (! _globeTexture) { return Statistics (0.0, 0.0, 0.0, 0, 0, 0); }
     double _min = 0, _max = 0, _sum = 0;
     int count = 0;
     GLfloat* buffer = heightMapBuffer();
@@ -656,13 +657,14 @@ void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
 }
 
 void CalenhadMapWidget::render() {
-    _render = true;
-    if (_source -> isComplete() && !_source -> renderSuppressed ()) {
-        Graph* g = new Graph (_source);
-        setGraph (g);
+    // if the name isn't set, module is still being built, so don't render it
+    if (! _source -> name().isNull()) {
+        _render = true;
+        if (_source->isComplete () && !_source->renderSuppressed ()) {
+            Graph* g = new Graph (_source);
+            setGraph (g);
+        }
     }
-
-
 }
 
 Module* CalenhadMapWidget::source() {
@@ -671,8 +673,9 @@ Module* CalenhadMapWidget::source() {
 
 void CalenhadMapWidget::setSource (Module* qm) {
     _source = qm;
-    connect (qm, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+
     render();
+    connect (qm, &Node::nodeChanged, this, &CalenhadMapWidget::render);
 }
 
 // Zoom so that the region enclosed in the whole viewport is compressed into the target _box.
