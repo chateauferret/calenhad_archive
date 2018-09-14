@@ -45,9 +45,8 @@ void HypsographyWidget::showEvent (QShowEvent* e) {
 }
 
 void HypsographyWidget::refresh() {
-    std::cout << "Refresh hypsography\n";
     GLfloat* buffer = _globe -> heightMapBuffer();
-    if (! buffer) { std::cout << "No buffer\n"; return; }
+    if (! buffer) { return; }
     int n =  _globe -> heightMapSize().height() * _globe -> heightMapSize().width();
 
     _statistics = _globe -> statistics();

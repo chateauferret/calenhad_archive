@@ -65,14 +65,15 @@ Graph::~Graph () {
 QString Graph::glsl() {
     _code =  glsl (_module);
     std::cout << "Module " << _module -> name().toStdString () << "\n";
-    std::cout << _code.toStdString () << "\n\n";
+
     if (_code != QString::null) {
-        _code.append ("\n\nfloat value (vec3 cartesian) {\n");
-        _code.append ("    return _" + _nodeName + " (cartesian);\n");
+        _code.append ("\n\nfloat value (vec3 cartesian, vec2 geolocation) {\n");
+        _code.append ("    return _" + _nodeName + " (cartesian, geolocation);\n");
         _code.append ("}\n");
 
         parseLegend ();
     }
+    std::cout << _code.toStdString () << "\n\n";
     return _code;
 };
 
@@ -111,7 +112,7 @@ QString Graph::glsl (Module* module) {
                     QVector<AltitudeMapping> entries = am->entries ();
 
                     // input is below the bottom of the range
-                    _code += "float _" + name + " (vec3 v) {\n";
+                    _code += "float _" + name + " (vec3 c, vec2 g) {\n";
                     _code += "  float value = %0 ;\n";
                     _code += "  if (value < " + QString::number (entries.first ().x ()) + ") { return " + QString::number (entries.first ().y ()) + "; }\n";
 
@@ -168,7 +169,7 @@ QString Graph::glsl (Module* module) {
                     _code += "}\n";
                 } else {
                     QString func = qm->glsl ();
-                    _code.append ("float _" + name + " (vec3 v) { return " + func);
+                    _code.append ("float _" + name + " (vec3 c, vec2 g) { return " + func);
                     _code.append ("; }\n");
                 }
 
@@ -197,7 +198,7 @@ QString Graph::glsl (Module* module) {
                     } else {
                         Node* other = port->connections ()[0]->otherEnd (port)->owner ();
                         QString source = other->name ();
-                        _code.replace ("%" + index, "_" + source + " (v)");    // "%0" is shorthand for "$0 (v)"
+                        _code.replace ("%" + index, "_" + source + " (c, g)");    // "%0" is shorthand for "$0 (c, g)"
                         _code.replace ("$" + index, "_" + source);
                     }
                 }

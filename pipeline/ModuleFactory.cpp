@@ -52,6 +52,7 @@ void ModuleFactory::initialise() {
             QDomElement glslElement = element.firstChildElement ("glsl");
             QString glsl = glslElement.text();
             _moduleCodes.insert (type, glsl);
+            std::cout << glsl.toStdString () << "\n";
         }
 
         // Create types metadata

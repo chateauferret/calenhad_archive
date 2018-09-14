@@ -56,7 +56,6 @@ void CalenhadStatsPanel::refresh() {
     _worldExtremesLabel -> setEnabled (false);
     _worldMeanLabel -> setText ("");
     if (worldStats.ok()) {
-        std::cout << "Refresh statistics\n";
         _worldExtremesLabel->setText (QString::number (worldStats._min) + " to " + QString::number (worldStats._max));
         _worldExtremesLabel->setEnabled (true);
         _worldMeanLabel->setText (QString::number (worldStats.mean ()));
@@ -68,7 +67,5 @@ void CalenhadStatsPanel::refresh() {
             _renderTimeLabel->setEnabled (true);
             _renderTimeLabel->setText (QString::number (worldStats._renderTime) + " ms");
         }
-    } else {
-        std::cout << "Statistics not available\n";
     }
 }

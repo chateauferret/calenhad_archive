@@ -205,5 +205,5 @@ void RasterModule::setBounds (icosphere::Bounds bounds) {
 }
 
 QString RasterModule::glsl () {
-   return  "raster (v, %index, %bounds, %0)";
+   return  "raster (c, %index, %bounds, %0)";
 }

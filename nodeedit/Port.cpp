@@ -216,9 +216,9 @@ void Port::addConnection (Connection* c) {
 void Port::removeConnection (Connection* c) {
     if (_connections.contains (c)) {
         _connections.remove (_connections.indexOf (c));
+        _block -> node() -> invalidate();
+        emit disconnected (c -> otherEnd (this));
     }
-    _block -> node() -> invalidate();
-    emit disconnected (c -> otherEnd (this));
 }
 
 QString& Port::portName() {

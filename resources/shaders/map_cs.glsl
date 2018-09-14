@@ -839,12 +839,11 @@ void main() {
 
     vec3 g = inverse (i, inset);
     vec4 c = toCartesian (g);
-    vec2 q = toGeolocation (c.xyz);
     vec4 color;
 
     // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
     float pets = smoothstep (0.99, 1.00001, abs (c.w));
-    float v = value (c.xyz);
+    float v = value (c.xyz, g.xy);
     color = findColor (v);
     color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
 
@@ -863,7 +862,7 @@ void main() {
             i = mapPos (pos, false);
             g = inverse (i, false);
             c = toCartesian (g);
-            v = value (c.xyz);
+            v = value (c.xyz, g.xy);
         }
     }
 

@@ -238,11 +238,14 @@ void Module::invalidate() {
 }
 
 QSet<Module*> Module::dependants() {
+
     QSet<Module*> found;
-    for (Connection* c : _output -> connections()) {
-        Port* p = c -> otherEnd (_output);
-        if (p) {
-            found.insert (p -> owner ());
+    if (! _output -> connections(). isEmpty ()) {
+        foreach (Connection* c, _output->connections()) {
+            Port* p = c->otherEnd (_output);
+            if (p) {
+                found.insert (p->owner ());
+            }
         }
     }
     return found;
