@@ -73,7 +73,7 @@ void IcosphereDivider::divide() {
 void IcosphereDivider::subdivide (const unsigned int& level) {
     int count = 0, prog = 0;
     typedef unsigned long long Key;
-    std::map<Key, unsigned> edgeMap;
+    std::unordered_map<Key, unsigned> edgeMap;
     const std::vector<unsigned>& indices = *_indices.back();
     _indices.push_back (new std::vector<unsigned>);
     std::vector<unsigned>& refinedIndices = *_indices.back();
@@ -95,7 +95,7 @@ void IcosphereDivider::subdivide (const unsigned int& level) {
                     e1 = temp;
                 }
                 Key edgeKey = Key (e0) | (Key (e1) << 32);
-                std::map<Key, unsigned>::iterator it = edgeMap.find (edgeKey);
+                std::unordered_map<Key, unsigned>::iterator it = edgeMap.find (edgeKey);
                 if (it == edgeMap.end ()) {
                     ids1[k] = _vertices -> size ();
                     edgeMap[edgeKey] = ids1[k];
@@ -122,6 +122,8 @@ void IcosphereDivider::subdivide (const unsigned int& level) {
         }
     }
     _listIds.push_back (0);
+
+
 }
 
 void IcosphereDivider::makeTriangle (std::vector<unsigned>& refinedIndices, const unsigned& a, const unsigned& b, const unsigned& c, const unsigned& level, Triangle* parent) {

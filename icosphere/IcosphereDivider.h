@@ -10,6 +10,7 @@
 #include <geoutils.h>
 #include "Bounds.h"
 #include "icosphere.h"
+#include <unordered_map>
 
 namespace icosphere {
     class Vertex;

@@ -34,7 +34,7 @@ using namespace calenhad::notification;
 using namespace calenhad::mapping::projection;
 
 Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
-Q_DECLARE_METATYPE (std::shared_ptr<icosphere::Icosphere>)
+Q_DECLARE_METATYPE (std::shared_ptr<calenhad::icosphere::Icosphere>)
 Q_DECLARE_METATYPE (calenhad::controls::altitudemap::CurveType)
 Q_DECLARE_METATYPE (calenhad::nodeedit::CalenhadAction)
 Q_DECLARE_METATYPE (Qt::PenStyle)
@@ -44,19 +44,10 @@ int main (int argc, char **argv) {
 
     clock_t start = clock ();
 
-/*
-    icosphere::Icosphere* i = new icosphere::Icosphere (9);
-    i -> assemble (icosphere::Bounds());
-    clock_t end = clock ();
-    clock_t t = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-
-    std::cout << "constructed icosphere to level " << i -> depth()  << " in " << t << " milliseconds\n";
-*/
-
     // Register required metatypes for Qt services
     qRegisterMetaType<QImage>();
     qRegisterMetaType<std::shared_ptr<QImage>>();
-    qRegisterMetaType<std::shared_ptr<icosphere::Icosphere>>();
+    qRegisterMetaType<std::shared_ptr<calenhad::icosphere::Icosphere>>();
     qRegisterMetaType<CurveType>();
     qRegisterMetaType<CalenhadAction>();
     qRegisterMetaType<Qt::PenStyle>();

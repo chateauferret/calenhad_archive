@@ -94,9 +94,10 @@ namespace calenhad {
             void preserve ();
             void setUndoEnabled (const bool& enabled);
 
+            void suppressRender (bool suppress);
 
             QList<calenhad::qmodule::Node*> nodes ();
-
+            QList<calenhad::qmodule::Module*> modules();
             QSet<calenhad::qmodule::NodeGroup*> nodeGroups ();
 
             QList<calenhad::nodeedit::Connection*> connections ();

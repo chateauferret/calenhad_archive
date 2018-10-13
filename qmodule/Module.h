@@ -39,6 +39,8 @@ namespace calenhad {
         class Module : public Node {
         Q_OBJECT
 
+
+
             Q_ENUMS (ModuleType)
 
         public:
@@ -72,7 +74,7 @@ namespace calenhad {
             void connectMenu (QMenu* menu, calenhad::nodeedit::Port* port);
             calenhad::nodeedit::Port* output();
             void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
-
+            void suppressRender (bool suppress);
             bool renderSuppressed ();
 
             QVector<nodeedit::Port*> ports ();

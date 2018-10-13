@@ -6,7 +6,7 @@
 #include "nodeedit/Connection.h"
 #include "nodeedit/NodeBlock.h"
 #include "qmodule/NodeGroup.h"
-#include "../icosphere/icosphere.h"
+#include "icosphere/icosphere.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../actions/XmlCommand.h"
 #include "nodeedit/Port.h"
@@ -14,6 +14,7 @@
 #include "exprtk/Calculator.h"
 #include <QGraphicsSceneMouseEvent>
 #include <actions/ContextAction.h>
+#include "../legend/Legend.h"
 #include "../legend/LegendService.h"
 #include "../preferences/PreferencesService.h"
 #include <QList>
@@ -464,9 +465,6 @@ void CalenhadModel::doDeleteNode (Node* node) {
         }
     }
 
-    noise::module::Module* m = nullptr;
-    Module* module = dynamic_cast<Module*> (node);
-
     // remove the visible appartions from the display
 
     for (QGraphicsItem* item : items()) {
@@ -497,6 +495,20 @@ QList<Node*> CalenhadModel::nodes() {
         }
     return nodes;
 }
+
+
+QList<calenhad::qmodule::Module*> CalenhadModel::modules () {
+    QList<Node*> list = nodes();
+    QList<Module*> result;
+    for (Node* n : list) {
+        Module* m =  dynamic_cast<Module*> (n);
+        if (m) {
+            result.append (m);
+        }
+    }
+    return result;
+}
+
 
 QList<Connection*> CalenhadModel::connections() {
     QList<Connection*> connections;
@@ -1093,4 +1105,10 @@ NodeGroup* CalenhadModel::createGroup (const QString& name) {
     group -> setName (name);
     _groups.insert (group);
     emit groupsUpdated();
+}
+
+void CalenhadModel::suppressRender (bool suppress) {
+    for (Module* m : modules()) {
+        m -> suppressRender (suppress);
+    }
 }

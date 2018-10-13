@@ -558,6 +558,7 @@ void Calenhad::closeProject() {
                     saveFile ();
                 }
             }
+            _model -> suppressRender (true);   // otherwise destructing the model's contents will keep making it try to rerender
             delete _model;
             _model = nullptr;
         }

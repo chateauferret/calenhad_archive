@@ -1,8 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <palette>
 
+    <!-- Obligatory modules - behaviour is hardcoded in Calenhad - do not change -->
 
-    <module name="constant" label="Constant" render="false" height="0.5" width="1.5">
+    <module name="altitudemap" label="Altitude map">
+        <documentation>Altitude map</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input" label="in"/>
+        </ports>
+    </module>
+
+    <module name="raster" label="Raster">
+        <documentation>Raster</documentation>
+        <ports>
+            <input index="0" mode="defaultValue" name="Input" label="def" default="0.0" />
+        </ports>
+    </module>
+
+    <module name="constant" label="Constant" render="false" height="0.25" width="0.75" showName="false">
         <documentation>Constant value</documentation>
         <parameters>
             <parameter type="double" name="value" default="1.0" display="edit">
@@ -10,163 +25,165 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return %value; }</glsl>
+        <glsl>%value</glsl>
     </module>
+
+    <!-- Externally programmeable modules -->
 
     <module name="abs" label="Absolute">
         <documentation>Absolute value</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
+            <input index="0" mode="value" name="Input" label="in"/>
         </ports>
-        <glsl>float %n (vec3 v) { return abs (%0 (v)); }</glsl>
+        <glsl>abs (%0)</glsl>
     </module>
 
     <module name="invert" label="Invert">
         <documentation>Inverse value</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
+            <input index="0" mode="value" name="Input" label="in" required="true"/>
         </ports>
-        <glsl>float %n (vec3 v) { return - %0 (v); }</glsl>
+        <glsl>- %0</glsl>
     </module>
 
     <module name="add" label="Add">
         <documentation>Addition of two values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1"/>
-            <input index="1" mode="value" name="Input 2"/>
+            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
+            <input index="1" mode="value" name="Input 2" label="in2" />
         </ports>
-        <glsl>float %n (vec3 v) { return %0 (v) + %1 (v); }</glsl>
+        <glsl>%0 + %1</glsl>
     </module>
 
     <module name="max" label="Maximum">
         <documentation>Maximum of two values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1"/>
-            <input index="1" tmode="value" name="Input 2"/>
+            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
+            <input index="1" mode="value" name="Input 2" label="in2" required="true" />
         </ports>
-        <glsl>float %n (vec3 v) { return max (%0 (v), %1 (v)); }</glsl>
+        <glsl>max (%0, %1)</glsl>
     </module>
 
     <module name="min" label="Minimum">
         <documentation>Minimum of two values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1"/>
-            <input index="1" mode="value" name="Input 2"/>
+            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
+            <input index="1" mode="value" name="Input 2" label="in2" required="true" />
         </ports>
-        <glsl>float %n (vec3 v) { return min (%0 (v), %1 (v)); }</glsl>
+        <glsl>min (%0, %1)</glsl>
     </module>
 
     <module name="multiply" label="Multiply">
         <documentation>Product of two values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1"/>
-            <input index="1" mode="value" name="Input 2"/>
+            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
+            <input index="1" mode="value" name="Input 2" label="in2" />
         </ports>
-        <glsl>float %n (vec3 v) { return %0 (v) * %1 (v); }</glsl>
+        <glsl>%0 * %1</glsl>
     </module>
 
     <module name="power" label="Power">
         <documentation>Raise base to the power of an exponent</documentation>
         <ports>
-            <input index="0" mode="value" name="Base"/>
-            <input index="1" mode="value" name="Exponent" default="2.0"/>
+            <input index="0" mode="value" name="Base" label="base"/>
+            <input index="1" mode="value" name="Exponent" default="2.0" label="exp"/>
         </ports>
-        <glsl>float %n (vec3 v) { return pow (%0 (v), %1 (v)); }</glsl>
+        <glsl>pow (%0, %1)</glsl>
     </module>
 
-    <module name="diff">
+    <module name="diff" label = "Difference">
         <documentation>Subtract a subtrahend from a minuend</documentation>
         <ports>
-            <input index="0" mode="value" name="Minuend"/>
-            <input index="1" mode="value" name="Subtrahend"/>
+            <input index="0" mode="value" name="Minuend" label="min"/>
+            <input index="1" mode="value" name="Subtrahend" label="sub"/>
         </ports>
-        <glsl>float %n (vec3 v) { return %0 (v) - %1 (v); }</glsl>
+        <glsl>%0 - %1</glsl>
     </module>
 
     <module name="blend" label="Blend">
         <documentation>Blend two inputs, weighting each according to the value of a control</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1"/>
-            <input index="1" mode="value" name="Input 2"/>
-            <input index="2" mode="control" name="Control"/>
+            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
+            <input index="1" mode="value" name="Input 2" label="in2" required="true" />
+            <input index="2" mode="control" name="Control" label="ctrl" required="true" />
         </ports>
-        <glsl>float %n (vec3 v) { return mix (%0 (v), %1 (v), %2 (v)); }</glsl>
+        <glsl>mix (%0, %1, %2)</glsl>
     </module>
 
     <module name="translate" label="Translate">
         <documentation>Take the value from a point displaced from the input point by a vector</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="control" name="X"/>
-            <input index="2" mode="control" name="Y"/>
-            <input index="3" mode="control" name="Z"/>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
+            <input index="1" mode="control" name="X" label="x"/>
+            <input index="2" mode="control" name="Y" label="y"/>
+            <input index="3" mode="control" name="Z" label="z"/>
         </ports>
-        <glsl>float %n (vec3 v) { return %0 (v + vec3 (%1 (v), %2 (v), %3 (v))); }</glsl>
+        <glsl>$0 (c + vec3 (%1, %2, %3))</glsl>
     </module>
 
     <module name="rotate" label="Rotate">
         <documentation>Take the value from a point rotated from the input point around each axis</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="control" name="X"/>
-            <input index="2" mode="control" name="Y"/>
-            <input index="3" mode="control" name="Z"/>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
+            <input index="1" mode="control" name="X" label="x"/>
+            <input index="2" mode="control" name="Y" label="y"/>
+            <input index="3" mode="control" name="Z" label="z"/>
         </ports>
-        <glsl>float %n (vec3 v) { return %0 (rotate (v, vec3 (%1, %2, %3))); }</glsl>
+        <glsl>$0 (rotate (c, vec3 (%1, %2, %3)))</glsl>
     </module>
 
-    <module name="scalepoint">
+    <module name="scalepoint" label="Scalepoint">
         <documentation>Scale the noise relative to a point</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="control" name="X"/>
-            <input index="2" mode="control" name="Y"/>
-            <input index="3" mode="control" name="Z"/>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
+            <input index="1" mode="control" name="X" label="x"/>
+            <input index="2" mode="control" name="Y" label="y"/>
+            <input index="3" mode="control" name="Z" label="z"/>
         </ports>
-        <glsl>float %n (vec3 v) { return %0 (v * vec3 (%1 (v), %2 (v), %3 (v))); }</glsl>
+        <glsl>$0 (c * vec3 (%1, %2, %3))</glsl>
     </module>
 
     <module name="cylinders" label="Cylinders">
         <documentation>Cylinder function</documentation>
         <ports>
-            <input index="0" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="frequency" default="1.0" label="freq">
                 <documentation>Frequency of the cylinder function (radius of one cylinder)</documentation>
             </input>
         </ports>
-        <glsl>float %n (vec3 v) { return cylinders (v, %0 (v)); }</glsl>
+        <glsl>cylinders (c, %0)</glsl>
     </module>
 
     <module name="spheres" label="Spheres">
         <documentation>Sphere function</documentation>
         <ports>
-            <input index="0" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="frequency" default="1.0"  label="freq">
                 <documentation>Frequency of the sphere function (radius of one sphere)</documentation>
             </input>
         </ports>
-        <glsl>float %n (vec3 v) { return spheres (v, %0 (v)); }\</glsl>
+        <glsl>spheres (c, %0)</glsl>
     </module>
 
     <module name="clamp" label="Clamp">
         <documentation>Clamp the value between minimum and maximum values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="control" name="minimum" default="-1.0"/>
-            <input index="2" mode="control" name="maximum" default="1.0"/>
+            <input index="0" mode="value" name="Input" label="in" />
+            <input index="1" mode="control" name="minimum" default="-1.0"  label="min" />
+            <input index="2" mode="control" name="maximum" default="1.0"  label="max" />
         </ports>
-        <glsl>float %n (vec3 v) { return clamp (%0 (v), %1 (v), %2 (v); }</glsl>
+        <glsl>clamp (%0, %1, %2)</glsl>
     </module>
 
 
     <module name="perlin" label="Perlin noise">
         <documentation>Perlin noise function</documentation>
         <ports>
-            <input index="0" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="frequency" default="1.0"  label="freq">
                 <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
             </input>
-            <input index="1" mode="value"  name="lacunarity" default="2.0">
+            <input index="1" mode="value"  name="lacunarity" default="2.0"  label="lac" >
                 <documentation>Lacunarity of the noise function</documentation>
             </input>
-            <input index="2" mode="value" name="persistence" default="1.0">
+            <input index="2" mode="value" name="persistence" default="0.5"  label="pers" >
                 <documentation>Persistence of the noise function: reduction of amplitude between octaves</documentation>
             </input>
         </ports>
@@ -180,20 +197,20 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return perlin (v, %0 (v), %1 (v), %2 (v), %octaves, %seed); }</glsl>
+        <glsl>perlin (c, %0, %1, %2, %octaves, %seed)</glsl>
     </module>
 
 
     <module name="simplex" label="Simplex noise">
         <documentation>Perlin noise function</documentation>
         <ports>
-            <input index="0" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
                 <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
             </input>
-            <input index="1" mode="value"  name="lacunarity" default="2.0">
+            <input index="1" mode="value"  name="lacunarity" default="2.0"  label="lac" >
                 <documentation>Lacunarity of the noise function</documentation>
             </input>
-            <input index="2" mode="value" name="persistence" default="1.0">
+            <input index="2" mode="value" name="persistence" default="0.5"  label="pers" >
                 <documentation>Persistence of the noise function: reduction of amplitude between octaves</documentation>
             </input>
         </ports>
@@ -207,19 +224,19 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return simplex (v, %0 (v), %1 (v), %2 (v), %octaves, %seed); }</glsl>
+        <glsl>simplex (c, %0, %1, %2, %octaves, %seed)</glsl>
     </module>
 
     <module name="billow" label="Billow noise">
         <documentation>Perlin noise function</documentation>
         <ports>
-            <input index="0" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
                 <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
             </input>
-            <input index="1" mode="value"  name="lacunarity" default="2.0">
+            <input index="1" mode="value"  name="lacunarity" default="2.0" label="lac" >
                 <documentation>Lacunarity of the noise function</documentation>
             </input>
-            <input index="2" mode="value" name="persistence" default="1.0">
+            <input index="2" mode="value" name="persistence" default="0.5"  label="pers" >
                 <documentation>Persistence of the noise function: reduction of amplitude between octaves</documentation>
             </input>
         </ports>
@@ -233,16 +250,16 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return billow (v, %0 (v), %1 (v), %2 (v), %octaves, %seed); }</glsl>
+        <glsl>billow (c, %0, %1, %2, %octaves, %seed)</glsl>
     </module>
 
     <module name="ridgedmultifractal" label="Ridged multifractal">
         <documentation>Perlin noise function</documentation>
         <ports>
-            <input index="0" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
                 <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
             </input>
-            <input index="1" mode="value"  name="lacunarity" default="2.0">
+            <input index="1" mode="value"  name="lacunarity" default="2.0"  label="lac" >
                 <documentation>Lacunarity of the noise function</documentation>
             </input>
         </ports>
@@ -256,26 +273,26 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return ridgedmulti (v, %0 (v), %1 (v), %octaves, %seed, 1.0, 1.0, 2.0, 2.0); }</glsl>
+        <glsl>ridgedmulti (c, %0, %1, %octaves, %seed, 1.0, 1.0, 2.0, 2.0)</glsl>
     </module>
 
 
     <module name="scaleandbias" label="Scale and bias">
         <documentation>Scale and bias the input to alter its range</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="control" name="scale" default="1.0"/>
-            <input index="2" mode="control" name="bias" default="0.0"/>
+            <input index="0" mode="value" name="Input"  label="in"  required="true" />
+            <input index="1" mode="control" name="scale" default="1.0"  label="scale" />
+            <input index="2" mode="control" name="bias" default="0.0"  label="bias" />
         </ports>
-        <glsl>float %n (vec3 v) { return %0 (v) * %1 (v) + %2 (v); }</glsl>
+        <glsl>%0 * %1 + %2</glsl>
     </module>
 
     <module name="select" label="Select">
         <documentation>Select one or the other input based on control relative to threshold</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1"/>
-            <input index="1" mode="value" name="Input 2"/>
-            <input index="2" mode="control" name="Control"/>
+            <input index="0" mode="value" name="Input 1"  label="in1"  required="true" />
+            <input index="1" mode="value" name="Input 2" label="in2"  required="true" />
+            <input index="2" mode="control" name="Control"  label="ctrl"  required="true" />
         </ports>
         <parameters>
             <parameter type="double" name="lowerBound" default="-1.0">
@@ -291,20 +308,20 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return select (%0 (v), %1 (v), %2 (v), %lowerBound, %upperBound, %falloff); }</glsl>
+        <glsl>select (%0, %1, %2, %lowerBound, %upperBound, %falloff)</glsl>
     </module>
 
     <module name="turbulence" label="Turbulence">
         <documentation>Turbulence function</documentation>
         <ports>
-            <input index="0" mode="value" name="Input"/>
-            <input index="1" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="input"  label="in" required="true" />
+            <input index="1" mode="value" name="frequency" default="1.0" label="freq"  >
                 <documentation>Frequency of the turbulence function</documentation>
             </input>
-            <input index="2" mode="value"  name="power" deowerfault="2.0">
+            <input index="2" mode="value"  name="power" deowerfault="2.0" label="pow" >
                 <documentation>Power of the turbulence function</documentation>
             </input>
-            <input index="3" mode="value" name="roughness" default="1.0">
+            <input index="3" mode="value" name="roughness" default="1.0"  label="rough" >
                 <documentation>Roughness of the turbulence</documentation>
             </input>
         </ports>
@@ -318,22 +335,22 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return %0 (turbulence (v, %1 (v), %2 (v), %3 (v), %seed)); }</glsl>
+        <glsl>$0 (turbulence (c, %1, %2, %3, %seed))</glsl>
     </module>
 
     <module name="voronoi" label="Voronoi noise">
         <documentation>Voronoi noise function</documentation>
         <ports>
-            <input index="0" mode="value" name="frequency" default="1.0">
+            <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
                 <documentation>Frequency of the voronoi function</documentation>
             </input>
-            <input index="1" mode="value"  name="displacement" default="2.0">
-            <documentation>Displacement of the <voronoi></voronoi> function</documentation>
-        </input>
+            <input index="1" mode="value"  name="displacement" default="0.2" label="disp" >
+                <documentation>Displacement of the voronoi function</documentation>
+            </input>
         </ports>
         <parameters>
-            <parameter type="double" name="scale" default="false">
-                <documentation>Whether the distance function is enabled</documentation>
+            <parameter type="double" name="scale" default="1.0">
+                <documentation>Scaling multiplier applied to the distance function. Positive values produce mountains, negative values produce troughs.</documentation>
                 <validator type="AcceptAny"/>
             </parameter>
             <parameter type="integer" name="seed" default="0">
@@ -341,7 +358,7 @@
                 <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>float %n (vec3 v) { return voronoi (v, %0 (v), %1 (v), %scale, %seed); }</glsl>
+        <glsl>voronoi (c, %0, %1, %scale, %seed)</glsl>
     </module>
 
 </palette>

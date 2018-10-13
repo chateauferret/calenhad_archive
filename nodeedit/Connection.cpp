@@ -45,10 +45,14 @@ Connection::Connection (QGraphicsItem* parent) : QGraphicsPathItem (parent) {
 
 Connection::~Connection() {
     if (m_port1) {
-        m_port1 -> removeConnection (this);
+        Port* p1 = m_port1;
+        p1 -> removeConnection (this);
+        m_port1 = nullptr;
     }
     if (m_port2) {
-        m_port2 -> removeConnection (this);
+        Port* p2 = m_port2;
+        p2 -> removeConnection (this);
+        m_port2 = nullptr;
     }
 }
 
@@ -137,8 +141,10 @@ void Connection::inflate (const QDomDocument& doc) {
 }
 
 Port* Connection::otherEnd (Port* port) {
-    if (port == m_port1) { return m_port2; }
-    if (port == m_port2) { return m_port1; }
+    if (port) {
+        if (port == m_port1) { return m_port2; }
+        if (port == m_port2) { return m_port1; }
+    }
     return nullptr;
 }
 

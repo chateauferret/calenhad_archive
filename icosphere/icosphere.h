@@ -1,87 +1,119 @@
-#ifndef ICOSPHERE_OLD_H
-#define ICOSPHERE_OLD_H
+#ifndef ICOSPHERE_H
+#define ICOSPHERE_H
 #include <iostream>
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/Rhumb.hpp>
 #include <vector>
-#include <map>
-#include <memory>
-#include "vertex.h"
-#include "../geoutils.h"
-#include <QBuffer>
-#include <QImage>
-#include "legend/Legend.h"
-#include "triangle.h"
-#include <boost/multiprecision/cpp_int.hpp>
-#include <QtCore/QMutex>
-#include "Model.h"
-#include "Bounds.h"
+#include <forward_list>
+#include <list>
+#include <unordered_map>
 
-using namespace geoutils;
 
-namespace noise {
-    namespace module {
-        class Module;
-    }
-}
+
 
 namespace calenhad {
-    namespace legend {
-        class Legend;
-    }
-}
-
 namespace icosphere {
 
-    class IcosphereDivider;
+    struct Cartesian {
+    public:
+        double x, y, z;
+    };
 
-    typedef std::vector<Vertex*> VertexList;
+    struct Geolocation {
+    public:
+        double lat, lon, height;
+    };
 
-    class Icosphere : public Model {
-    Q_OBJECT
+    struct Vertex {
+    public:
+        Cartesian cartesian;
+        std::forward_list<Vertex*> neighbours;              // neighbouring vertices
+        uint32_t id;
+        unsigned level;
+    };
+
+    struct Triangle {
+    public:
+        Vertex* vertices[3];
+        std::forward_list<Triangle*> children;
+        Triangle* parent;
+        unsigned level;
+    };
+
+    class Icosphere {
     public:
 
+        static constexpr double X = 0.525731112119133606;
+        static constexpr double Z = 0.850650808352039932;
 
+        Icosphere (const unsigned int& depth);
 
-        Icosphere (const int& depth);
-        ~Icosphere();
-        const std::shared_ptr<VertexList> vertices();
-        unsigned vertexCount();
-        Vertex* operator [] (const unsigned& id);
-        Vertex* nearest (const Geolocation& target, const unsigned int& depth = 0) const;
-        Vertex* walkTowards (const Geolocation& target, const unsigned int& depth = 0) const;
-        Vertex* walkTowards (const Cartesian& target, const unsigned int& depth = 0) const;
+        ~Icosphere ();
+
+        unsigned long vertexCount ();
+
+        Vertex* operator[] (const uint32_t& id);
+
         void visit (Vertex* vertex);
-        bool getImage (QImage* image, calenhad::legend::Legend* legend, const Bounds& bounds, const QString& key = "");
 
-        void setDatum (const Geolocation& g, const QString& key, double datum) override;
-        double getDatum (const Geolocation& g, const QString& key) override;
-        std::string getType();
-        const unsigned depth();
-        const Bounds& bounds();
-        void lock();
-        void unlock();
-        void assembleAsync (const Bounds& bounds = Bounds ());
-        void assemble (const Bounds& bounds);
+        Vertex* walkTowards (const Geolocation& target, const unsigned int& depth);
 
-    signals:
-        void progress (const int&);
-        void ready();
+        Vertex* walkTowards (const Cartesian& target, const unsigned int& depth) const;
+
+        Vertex* nearest (const Geolocation& target, const unsigned int& depth = 0);
+
+        void toGeolocation (const Cartesian& c, Geolocation& g);
+
+        Cartesian toCartesian (const Geolocation& g, Cartesian& c);
+
+        static double distSquared (const Cartesian& a, const Cartesian& b);
+
+
+        inline void divideTriangle (Triangle* t);
+
+        void removeTriangle (Triangle* t);
+
+        std::pair<std::vector<Triangle*>::iterator, std::vector<Triangle*>::iterator> triangles (const unsigned& level);
+
+        std::pair<std::vector<Vertex*>::iterator, std::vector<Vertex*>::iterator> vertices ();
 
     protected:
-        std::shared_ptr<VertexList> _vertices;
-        mutable Vertex* _vertex;
+        unsigned _depth;
+        uint32_t _count;
+
+        inline void subdivide (const unsigned int& level);
+
+        std::vector<Vertex*> _vertices;
+        std::vector<std::vector<Triangle*>> _triangles;
         mutable Vertex* _lastVisited;
-        IcosphereDivider* _divider;
-        Bounds _bounds = Bounds();
-        bool _locked;
-        QMutex _lockMutex;
 
-        private slots:
-        void assembled();
+        inline void makeTriangle (Vertex* a, Vertex* b, Vertex* c, Triangle* parent);
 
+        inline void makeNeighbours (Vertex* p, Vertex* q);
 
+        inline Vertex* addVertex (const Cartesian& c, int level);
+
+        inline void mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c);
+
+        GeographicLib::Geocentric* _gc;
+
+        // these are working variables for triangle subdivision
+        uint32_t k;
+        Vertex* e1;
+        uint64_t edgeKey;
+        bool _initial;
+        std::unordered_map<uint64_t, Vertex*> edgeMap;
+        std::unordered_map<uint64_t, Vertex*>::iterator it;
+
+        Vertex* ids0[3];  // triangles of outer vertices
+        Vertex* ids1[3];  // triangles of edge vertices
+
+        Cartesian c;
+        unsigned level;
+
+        inline uint64_t makeKey (const uint32_t& v1, const uint32_t& v2);
     };
+}
 } // namespace
-#endif // ICOSPHERE_OLD_H
+#endif // ICOSPHERE_H

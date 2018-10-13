@@ -79,7 +79,10 @@ Port::Port (int type, int index, const QString& name, const QString& label, cons
 }
 
 Port::~Port () {
-    foreach (Connection* conn, _connections) delete conn;
+    foreach (Connection* conn, _connections) {
+         delete conn;
+         conn = nullptr;
+    }
     if (_connectMenu) {
         delete _connectMenu;
     }
@@ -216,6 +219,7 @@ void Port::addConnection (Connection* c) {
 void Port::removeConnection (Connection* c) {
     if (_connections.contains (c)) {
         _connections.remove (_connections.indexOf (c));
+
         _block -> node() -> invalidate();
         emit disconnected (c -> otherEnd (this));
     }

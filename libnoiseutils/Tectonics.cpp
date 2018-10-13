@@ -3,7 +3,7 @@
 //
 
 #include "Tectonics.h"
-#include "../icosphere/icosphere.h"
+#include "icosphere/icosphere.h"
 
 using namespace icosphere;
 

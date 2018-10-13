@@ -46,9 +46,14 @@ Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* pa
 
 
 Module::~Module () {
+    _suppressRender = true;
     if (_globe) { delete _globe; }
     if (_stats) { delete _stats; }
     if (_connectMenu) { delete _connectMenu; }
+    for (Port* p : _ports) {
+        delete p;
+    }
+    _ports.clear();
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
@@ -223,17 +228,19 @@ void Module::parameterChanged() {
 }
 
 void Module::invalidate() {
-    Node::invalidate();
-    // if this node needs recalculating or rerendering, so do any nodes that depend on it -
-    // that is any nodes with an input connected to this one's output
-    for (Module* dependant : dependants()) {
-        dependant -> invalidate();
-    }
-    if (_globe && _globe -> isVisible()) {
-        _globe -> invalidate ();
-    }
-    if (_statsPanel) {
-        _statsPanel -> refresh();
+    if (! _suppressRender) {
+        Node::invalidate ();
+        // if this node needs recalculating or rerendering, so do any nodes that depend on it -
+        // that is any nodes with an input connected to this one's output
+        for (Module* dependant : dependants ()) {
+            dependant->invalidate ();
+        }
+        if (_globe && _globe->isVisible ()) {
+            _globe->invalidate ();
+        }
+        if (_statsPanel) {
+            _statsPanel->refresh ();
+        }
     }
 }
 
@@ -242,9 +249,11 @@ QSet<Module*> Module::dependants() {
     QSet<Module*> found;
     if (! _output -> connections(). isEmpty ()) {
         foreach (Connection* c, _output->connections()) {
-            Port* p = c->otherEnd (_output);
-            if (p) {
-                found.insert (p->owner ());
+            if (c) {
+                Port* p = c->otherEnd (_output);
+                if (p) {
+                    found.insert (p->owner ());
+                }
             }
         }
     }
@@ -318,5 +327,9 @@ void Module::addInputPorts () {
 
 bool Module::renderSuppressed () {
     return _suppressRender;
+}
+
+void Module::suppressRender (bool suppress) {
+    _suppressRender = suppress;
 }
 
