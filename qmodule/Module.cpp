@@ -50,10 +50,6 @@ Module::~Module () {
     if (_globe) { delete _globe; }
     if (_stats) { delete _stats; }
     if (_connectMenu) { delete _connectMenu; }
-    for (Port* p : _ports) {
-        delete p;
-    }
-    _ports.clear();
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
