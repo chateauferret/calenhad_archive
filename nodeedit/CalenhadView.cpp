@@ -116,3 +116,42 @@ void CalenhadView::wheelEvent (QWheelEvent* event) {
         emit zoomOutRequested();
     };
 }
+
+void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
+    // thanks to Bitto at QtCentre for this - https://www.qtcentre.org/threads/5609-Drawing-grids-efficiently-in-QGraphicsScene
+    if (CalenhadServices::preferences() -> calenhad_desktop_grid_visible) {
+        QPen majorPen;
+        QPen minorPen;
+        majorPen.setColor (CalenhadServices::preferences ()->calenhad_desktop_grid_major_color);
+        majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences ()->calenhad_desktop_grid_major_style));
+        majorPen.setWidth (CalenhadServices::preferences ()->calenhad_desktop_grid_major_weight);
+        minorPen.setColor (CalenhadServices::preferences ()->calenhad_desktop_grid_minor_color);
+        minorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences ()->calenhad_desktop_grid_minor_style));
+        minorPen.setWidth (CalenhadServices::preferences ()->calenhad_desktop_grid_minor_weight);
+        QRectF r = mapToScene (viewport ()->geometry ()).boundingRect ();
+        int gridSize = CalenhadServices::preferences ()->calenhad_desktop_grid_density;
+        qreal left = int (r.left ()) - (int (r.left ()) % gridSize);
+        qreal top = int (r.top ()) - (int (r.top ()) % gridSize);
+
+        QVector<QLineF> lines;
+
+        painter->setPen (minorPen);
+        for (qreal x = left; x < r.right (); x += gridSize)
+            lines.append (QLineF (x, r.top (), x, r.bottom ()));
+        for (qreal y = top; y < r.bottom (); y += gridSize)
+            lines.append (QLineF (r.left (), y, r.right (), y));
+        painter->drawLines (lines.data (), lines.size ());
+
+        if (CalenhadServices::preferences ()->calenhad_desktop_grid_major_steps > 1) {
+            lines.clear ();
+            gridSize *= CalenhadServices::preferences ()->calenhad_desktop_grid_major_steps;
+            painter->setPen (majorPen);
+            for (qreal x = left; x < r.right (); x += gridSize)
+                lines.append (QLineF (x, r.top (), x, r.bottom ()));
+            for (qreal y = top; y < r.bottom (); y += gridSize)
+                lines.append (QLineF (r.left (), y, r.right (), y));
+
+            painter->drawLines (lines.data (), lines.size ());
+        }
+    }
+}

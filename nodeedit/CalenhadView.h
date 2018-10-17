@@ -47,6 +47,7 @@ namespace calenhad {
             qreal zoom = 1.0;
             QGraphicsItemGroup* g;
             void wheelEvent (QWheelEvent* event) override;
+            void drawBackground (QPainter *painter, const QRectF &rect) override;
 
         };
     }

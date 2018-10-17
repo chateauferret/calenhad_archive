@@ -68,7 +68,15 @@ namespace calenhad {
             unsigned calenhad_altitudemap_marker_selected_size;
             QColor calenhad_altitudemap_curve_color;
             unsigned calenhad_altitudemap_curve_width;
-
+            QColor calenhad_desktop_grid_major_color;
+            int calenhad_desktop_grid_major_style;
+            unsigned calenhad_desktop_grid_major_weight;
+            unsigned calenhad_desktop_grid_major_steps;
+            QColor calenhad_desktop_grid_minor_color;
+            int calenhad_desktop_grid_minor_style;
+            unsigned calenhad_desktop_grid_minor_weight;
+            unsigned calenhad_desktop_grid_density;
+            bool calenhad_desktop_grid_visible;
             // Configuration
 
             QString calenhad_legends_filename;

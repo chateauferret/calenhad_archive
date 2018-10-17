@@ -60,8 +60,6 @@ Port::Port (int type, int index, const QString& name, const QString& label, cons
     if (type == OutputPort) {
         polygon << QPointF (-_radius,  - _radius) << QPointF (_radius, 0) << QPointF (-_radius, _radius) << QPointF (-_radius, - _radius);
         p.addPolygon (polygon);
-        setPen (QPen (CalenhadServices::preferences() -> calenhad_port_out_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight));
-        setBrush (CalenhadServices::preferences() -> calenhad_port_out_fill_color);
         setCursor (Qt::ArrowCursor);
     } else {
         if (_required) {
@@ -91,8 +89,17 @@ Port::~Port () {
 
 void Port::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED (option)
-    QPen pen = QPen (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
-    painter -> setPen (pen);
+
+    if (_portType == OutputPort) {
+        painter -> setPen (QPen (CalenhadServices::preferences() -> calenhad_port_out_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight));
+        painter -> setBrush (CalenhadServices::preferences() -> calenhad_port_out_fill_color);
+
+    } else {
+        painter -> setPen (QPen (CalenhadServices::preferences() -> calenhad_port_in_border_color, CalenhadServices::preferences() -> calenhad_port_border_weight));
+        painter -> setBrush (CalenhadServices::preferences() -> calenhad_port_in_fill_color);
+        setHighlight (PortHighlight::NONE);
+    }
+
     painter -> drawPath (path());
     if (! _portLabel.isNull()) {
         QFont f = painter -> font();
