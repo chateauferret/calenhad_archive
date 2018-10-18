@@ -145,25 +145,34 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
         addModuleTool (key, CalenhadServices::modules() -> label (key), CalenhadServices::modules() -> description (key));
     }
 
-    _zoomMenu = new QMenu ("Zoom");
+    _viewMenu = new QMenu ("Zoom");
     _defaultContextMenu -> addMenu (_toolbox -> menu ("Modules"));
-    _defaultContextMenu -> addMenu (_zoomMenu);
+    _defaultContextMenu -> addMenu (_viewMenu);
 
     // scale actions
-    zoomInAction = createTool (QIcon (":/appicons/controls/zoom_in.png"), ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
+    zoomInAction = createTool (QIcon (":/appicons/controls/zoom_in.png"), tr ("Zoom &in"), "Zoom in", CalenhadAction::ZoomInAction, _viewDrawer);
     zoomOutAction = createTool (QIcon (":/appicons/controls/zoom_out.png"), tr ("Zoom &out"), "Zoom out", CalenhadAction::ZoomOutAction, _viewDrawer);
     zoomToFitAction = createTool (QIcon (":/appicons/controls/zoom_to_fit.png"), tr ("Zoom to &fit"), "Zoom to fit", CalenhadAction::ZoomToFitAction, _viewDrawer);
     zoomSelectionAction = createTool (QIcon (":/appicons/controls/zoom.png"), tr ("Zoom to &selection"), "Zoom to selection", CalenhadAction::ZoomToSelectionAction, _viewDrawer);
-    _zoomMenu -> addAction (zoomInAction);
-    _zoomMenu -> addAction (zoomOutAction);
-    _zoomMenu -> addAction (zoomToFitAction);
-    _zoomMenu -> addAction (zoomSelectionAction);
+    _viewMenu -> addAction (zoomInAction);
+    _viewMenu -> addAction (zoomOutAction);
+    _viewMenu -> addAction (zoomToFitAction);
+    _viewMenu -> addAction (zoomSelectionAction);
+    _viewMenu -> addSeparator();
     viewToolbar -> addAction (zoomInAction);
     viewToolbar -> addAction (zoomOutAction);
     viewToolbar -> addAction (zoomToFitAction);
     viewToolbar -> addAction (zoomSelectionAction);
     connect (_view, &CalenhadView::zoomInRequested, zoomInAction, &QAction::trigger);
     connect (_view, &CalenhadView::zoomOutRequested, zoomOutAction, &QAction::trigger);
+
+    // grid toggle on / off
+    toggleGridAction = createTool (QIcon (":/appicons/controls/grid.png"), tr ("Toggle grid"), "Toggle grid", CalenhadAction::ToggleGridAction, _viewDrawer);
+    toggleGridAction -> setCheckable (true);
+    toggleGridAction -> setChecked (_view -> gridVisible ());
+    viewToolbar -> addAction (toggleGridAction);
+    _viewMenu -> addAction (toggleGridAction);
+
 
     // undo/redo apparatus
 

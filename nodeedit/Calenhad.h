@@ -131,13 +131,14 @@ namespace calenhad {
             QMenu* _outputPortContextMenu;
             QMenu* _inputPortContextMenu;
             QMenu* _defaultContextMenu;
-            QMenu* _zoomMenu;
+            QMenu* _viewMenu;
             QMenu* _addModuleMenu;
             //void makeContextMenus ();
 
             QAction* undoAction, * redoAction;
             QAction* zoomInAction;
             QAction* zoomOutAction;
+            QAction* toggleGridAction;
             QAction* zoomToFitAction;
             QAction* zoomSelectionAction;
             QAction* deleteConnectionAction;

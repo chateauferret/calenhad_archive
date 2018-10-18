@@ -16,10 +16,12 @@ using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
 
 
-CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
+CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent),
+    _gridVisible (CalenhadServices::preferences() -> calenhad_desktop_grid_visible) {
     setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::ContainsItemShape);
     setZoom (CalenhadServices::preferences() -> calenhad_desktop_zoom_default);
+
 }
 
 CalenhadView::~CalenhadView() {
@@ -119,7 +121,9 @@ void CalenhadView::wheelEvent (QWheelEvent* event) {
 
 void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
     // thanks to Bitto at QtCentre for this - https://www.qtcentre.org/threads/5609-Drawing-grids-efficiently-in-QGraphicsScene
-    if (CalenhadServices::preferences() -> calenhad_desktop_grid_visible) {
+
+    if (_gridVisible) {
+
         QPen majorPen;
         QPen minorPen;
         majorPen.setColor (CalenhadServices::preferences ()->calenhad_desktop_grid_major_color);
@@ -142,9 +146,9 @@ void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
             lines.append (QLineF (r.left (), y, r.right (), y));
         painter->drawLines (lines.data (), lines.size ());
 
-        if (CalenhadServices::preferences ()->calenhad_desktop_grid_major_steps > 1) {
+        if (CalenhadServices::preferences() -> calenhad_desktop_grid_major_steps > 1) {
             lines.clear ();
-            gridSize *= CalenhadServices::preferences ()->calenhad_desktop_grid_major_steps;
+            gridSize *= CalenhadServices::preferences() -> calenhad_desktop_grid_major_steps;
             painter->setPen (majorPen);
             for (qreal x = left; x < r.right (); x += gridSize)
                 lines.append (QLineF (x, r.top (), x, r.bottom ()));
@@ -154,4 +158,13 @@ void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
             painter->drawLines (lines.data (), lines.size ());
         }
     }
+}
+
+void CalenhadView::setGridVisible (const bool& visible) {
+    _gridVisible = visible;
+    update();
+}
+
+bool CalenhadView::gridVisible() {
+    return _gridVisible;
 }

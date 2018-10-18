@@ -7,4 +7,7 @@ SET(ACTIONS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/XmlCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/XmlCommand.h
         ${CMAKE_CURRENT_LIST_DIR}/ContextAction.h
+        ${CMAKE_CURRENT_LIST_DIR}/GridCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/GridCommand.h
+
         )
