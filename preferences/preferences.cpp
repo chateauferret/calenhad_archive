@@ -53,8 +53,9 @@ void Preferences::loadSettings() {
     calenhad_desktop_grid_minor_color = _settings -> value ("calenhad/desktop/grid/minor/color", "#808080").value<QColor>();
     calenhad_desktop_grid_minor_style = _settings -> value ("calenhad/graticule/minor/style", (int) Qt::PenStyle::DashLine).toInt();
     calenhad_desktop_grid_minor_weight = _settings -> value ("calenhad/desktop/grid/minor/weights", 1).toUInt();
-    calenhad_desktop_grid_density = _settings -> value ("calenhad/graticule/density", 50).toUInt();
-    calenhad_desktop_grid_visible = _settings -> value ("calenhad/graticule/visible", true).toBool();
+    calenhad_desktop_grid_density = _settings -> value ("calenhad/desktop/grid/density", 50).toUInt();
+    calenhad_desktop_grid_visible = _settings -> value ("calenhad/desktop/grid/visible", true).toBool();
+    calenhad_desktop_grid_snap = _settings -> value ("calenhad/desktop/grid/snao", true).toBool();
 
     // Modules in the CalenhadView
     calenhad_module_brush_color_selected = _settings -> value ("calenhad/module/brush/color/selected", "#00F0F0").value<QColor>();
@@ -258,8 +259,9 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/desktop/grid/minor/color", calenhad_desktop_grid_minor_color);
     _settings -> setValue ("calenhad/graticule/minor/style", calenhad_desktop_grid_minor_style);
     _settings -> setValue ("calenhad/desktop/grid/minor/weights", calenhad_desktop_grid_minor_weight);
-    _settings -> setValue ("calenhad/graticule/density", calenhad_desktop_grid_density);
-    _settings -> setValue ("calenhad/graticule/visible", calenhad_desktop_grid_visible);
+    _settings -> setValue ("calenhad/desktop/grid/density", calenhad_desktop_grid_density);
+    _settings -> setValue ("calenhad/desktop/grid/visible", calenhad_desktop_grid_visible);
+    _settings -> setValue ("calenhad/desktop/grid/snap", calenhad_desktop_grid_snap);
 
     // Configuration
 

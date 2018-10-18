@@ -228,15 +228,16 @@ void CalenhadModel::mousePressEvent (QGraphicsSceneMouseEvent *event) {
 
 bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
-    QGraphicsSceneMouseEvent* me = (QGraphicsSceneMouseEvent*) e;
+    QGraphicsSceneMouseEvent* me = dynamic_cast<QGraphicsSceneMouseEvent*> (e);
+
     switch ((int) e -> type()) {
 
         case QEvent::GraphicsSceneMousePress: {
             preserve();
             switch ((int) me -> button()) {
                 case Qt::LeftButton: {
-                    QPointF pos = me -> scenePos();
-                    QList<QGraphicsItem*> items = QGraphicsScene::items (pos) ;
+
+                    QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos()) ;
                     foreach (QGraphicsItem* item, items) {
 
                         // click on an output port - create a connection which we can connect to another owner's input or control port
@@ -332,10 +333,11 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     }
                 update();
                 return true;
+
             } else {
-                if (! _activeTool) {
-                    for (QGraphicsView* view : views()) {
-                        view -> viewport() -> setCursor (Qt::ArrowCursor);
+                if (!_activeTool) {
+                    for (QGraphicsView* view : views ()) {
+                        view->viewport ()->setCursor (Qt::ArrowCursor);
                     }
                 }
             }
@@ -369,7 +371,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             if (_activeTool) {
                 QString type = _activeTool -> data().toString();
                 if (! type.isNull()) {
-                    doCreateNode (me->scenePos (), type);
+                    doCreateNode (me -> screenPos(), type);
                 }
                 ((Calenhad*) _controller -> parent()) -> clearTools();
                 setActiveTool (nullptr);
@@ -431,8 +433,9 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos, NodeGroup* gro
         connect (node, &Node::nameChanged, block, &NodeBlock::nodeChanged);
     }
     node -> setGroup (group);
-    handle -> setPos (initPos);
-    std::cout << node -> name().toStdString () << " at " << handle -> pos().x() << ", " << handle -> pos().y() << "\n";
+    QPointF point = initPos;
+    snapToGrid (point);
+    handle -> setPos (point);
     // assign the node's group, if any
     //node -> assignGroup();
     return node;
@@ -507,6 +510,15 @@ QList<calenhad::qmodule::Module*> CalenhadModel::modules () {
         }
     }
     return result;
+}
+
+
+void CalenhadModel::snapToGrid (QPointF& pos) {
+    if (CalenhadServices::preferences() -> calenhad_desktop_grid_snap) {
+        int pitch = CalenhadServices::preferences ()->calenhad_desktop_grid_density;
+        pos.setX (round (pos.x () / pitch) * pitch);
+        pos.setY (round (pos.y () / pitch) * pitch);
+    }
 }
 
 

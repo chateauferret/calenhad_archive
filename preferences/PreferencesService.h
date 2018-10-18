@@ -77,6 +77,8 @@ namespace calenhad {
             unsigned calenhad_desktop_grid_minor_weight;
             unsigned calenhad_desktop_grid_density;
             bool calenhad_desktop_grid_visible;
+            bool calenhad_desktop_grid_snap;
+
             // Configuration
 
             QString calenhad_legends_filename;

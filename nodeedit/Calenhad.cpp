@@ -166,13 +166,19 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     connect (_view, &CalenhadView::zoomInRequested, zoomInAction, &QAction::trigger);
     connect (_view, &CalenhadView::zoomOutRequested, zoomOutAction, &QAction::trigger);
 
-    // grid toggle on / off
+    // grid visible toggle on / off
     toggleGridAction = createTool (QIcon (":/appicons/controls/grid.png"), tr ("Toggle grid"), "Toggle grid", CalenhadAction::ToggleGridAction, _viewDrawer);
     toggleGridAction -> setCheckable (true);
     toggleGridAction -> setChecked (_view -> gridVisible ());
     viewToolbar -> addAction (toggleGridAction);
     _viewMenu -> addAction (toggleGridAction);
 
+    // grid snapping on / off
+    toggleSnapToGridAction = createTool (QIcon (":/appicons/controls/grid-snap.png"), tr ("Snap to grid"), "Snap to grid", CalenhadAction::ToggleSnapToGridAction, _viewDrawer);
+    toggleSnapToGridAction -> setCheckable (true);
+    toggleSnapToGridAction -> setChecked (_view -> gridVisible ());
+    viewToolbar -> addAction (toggleSnapToGridAction);
+    _viewMenu -> addAction (toggleSnapToGridAction);
 
     // undo/redo apparatus
 

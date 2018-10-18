@@ -40,6 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../pipeline/CalenhadModel.h"
 #include "NodeNameValidator.h"
 #include "../exprtk/Calculator.h"
+#include <QApplication>
 
 using namespace calenhad::controls;
 using namespace calenhad::nodeedit;
@@ -71,6 +72,7 @@ void NodeBlock::initialise() {
     setFlag (QGraphicsItem::ItemIsMovable);
     setFlag (QGraphicsItem::ItemIsSelectable);
     setFlag (QGraphicsItem::ItemSendsScenePositionChanges);
+    setFlag (QGraphicsItem::ItemSendsGeometryChanges);
     setCursor (Qt::OpenHandCursor);
 
     // name label
@@ -97,6 +99,19 @@ void NodeBlock::initialise() {
 
     connect (_node, &Node::nameChanged, this, [=] () { _label -> setText (_node -> name()); });
     setPath (makePath ());
+}
+
+QVariant NodeBlock::itemChange (GraphicsItemChange change, const QVariant &value) {
+    if (CalenhadServices::preferences() -> calenhad_desktop_grid_snap && change == ItemPositionChange) {
+        QPointF newPos = value.toPointF();
+        if (QApplication::mouseButtons() == Qt::LeftButton) {
+            node() -> model() -> snapToGrid (newPos);
+        }
+        return newPos;
+    }
+    else {
+        return QGraphicsItem::itemChange (change, value);
+    }
 }
 
 QPainterPath NodeBlock::makePath() {
@@ -178,10 +193,6 @@ Port* NodeBlock::addPort (Port* port) {
     return port;
 }
 
-QVariant NodeBlock::itemChange (GraphicsItemChange change, const QVariant& value) {
-    Q_UNUSED(change);
-    return value;
-}
 
 QVector<Port*> NodeBlock::inputs() {
     if (dynamic_cast<Module*> (_node)) {

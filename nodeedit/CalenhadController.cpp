@@ -44,6 +44,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QClipboard>
 #include <actions/XmlCommand.h>
 #include <actions/GridCommand.h>
+#include <actions/SnapToGridCommand.h>
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
@@ -126,7 +127,7 @@ void CalenhadController::actionTriggered() {
     if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ToggleGridAction) { doCommand (new GridCommand (_views -> at (0))); }
-
+    if (action -> data() == CalenhadAction::ToggleSnapToGridAction) { doCommand (new SnapToGridCommand (_views -> at (0))); }
     if (action -> data() == CalenhadAction::PasteAction) {
         QClipboard* clipboard = QGuiApplication::clipboard ();
         QString xml = clipboard -> text();

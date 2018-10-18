@@ -138,7 +138,7 @@ namespace calenhad {
             QAction* undoAction, * redoAction;
             QAction* zoomInAction;
             QAction* zoomOutAction;
-            QAction* toggleGridAction;
+            QAction* toggleGridAction, * toggleSnapToGridAction;
             QAction* zoomToFitAction;
             QAction* zoomSelectionAction;
             QAction* deleteConnectionAction;

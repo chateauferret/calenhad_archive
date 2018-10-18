@@ -16,8 +16,7 @@ using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
 
 
-CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent),
-    _gridVisible (CalenhadServices::preferences() -> calenhad_desktop_grid_visible) {
+CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::ContainsItemShape);
     setZoom (CalenhadServices::preferences() -> calenhad_desktop_zoom_default);
@@ -122,7 +121,7 @@ void CalenhadView::wheelEvent (QWheelEvent* event) {
 void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
     // thanks to Bitto at QtCentre for this - https://www.qtcentre.org/threads/5609-Drawing-grids-efficiently-in-QGraphicsScene
 
-    if (_gridVisible) {
+    if (gridVisible()) {
 
         QPen majorPen;
         QPen minorPen;
@@ -161,10 +160,20 @@ void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
 }
 
 void CalenhadView::setGridVisible (const bool& visible) {
-    _gridVisible = visible;
+    CalenhadServices::preferences() -> calenhad_desktop_grid_visible = visible;
     update();
 }
 
 bool CalenhadView::gridVisible() {
-    return _gridVisible;
+    return CalenhadServices::preferences() -> calenhad_desktop_grid_visible;
+}
+
+
+void CalenhadView::setSnapToGrid (const bool& enabled) {
+    CalenhadServices::preferences() -> calenhad_desktop_grid_snap = enabled;
+    update();
+}
+
+bool CalenhadView::snapToGrid() {
+    return CalenhadServices::preferences() -> calenhad_desktop_grid_snap;
 }

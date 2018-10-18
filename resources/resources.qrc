@@ -3,6 +3,7 @@
         <file>appicons/tools/icospheremap.png</file>
         <file>appicons/tools/altitudemap.png</file>
         <file>appicons/tools/raster.png</file>
+        <file>appicons/controls/anchor.png</file>
         <file>appicons/controls/arrow_down.png</file>
         <file>appicons/controls/arrow_up.png</file>
         <file>appicons/controls/arrow_left.png</file>
@@ -20,9 +21,11 @@
         <file>appicons/controls/globe.png</file>
         <file>appicons/controls/glsl.png</file>
         <file>appicons/controls/grid.png</file>
+        <file>appicons/controls/grid-snap.png</file>
         <file>appicons/controls/group_add.png</file>
         <file>appicons/controls/group_delete.png</file>
         <file>appicons/controls/group_make.png</file>
+        <file>appicons/controls/help.png</file>
         <file>appicons/controls/home.png</file>
         <file>appicons/controls/home_go.png</file>
         <file>appicons/controls/import_file.png</file>
@@ -44,6 +47,7 @@
         <file>appicons/controls/redo.png</file>
         <file>appicons/controls/save.png</file>
         <file>appicons/controls/save_as.png</file>
+        <file>appicons/controls/selection.png</file>
         <file>appicons/controls/statistics.png</file>
         <file>appicons/controls/undo.png</file>
         <file>appicons/controls/variables.png</file>

@@ -35,7 +35,8 @@ namespace calenhad {
             void dragLeaveEvent (QDragLeaveEvent* event) override;
             void setGridVisible (const bool& visible);
             bool gridVisible();
-
+            void setSnapToGrid (const bool& enabled);
+            bool snapToGrid();
 
         public slots:
 
@@ -51,7 +52,7 @@ namespace calenhad {
             QGraphicsItemGroup* g;
             void wheelEvent (QWheelEvent* event) override;
             void drawBackground (QPainter *painter, const QRectF &rect) override;
-            bool _gridVisible;
+
 
         };
     }

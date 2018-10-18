@@ -9,5 +9,7 @@ SET(ACTIONS_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/ContextAction.h
         ${CMAKE_CURRENT_LIST_DIR}/GridCommand.cpp
         ${CMAKE_CURRENT_LIST_DIR}/GridCommand.h
+        ${CMAKE_CURRENT_LIST_DIR}/SnapToGridCommand.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/SnapToGridCommand.h
 
         )
