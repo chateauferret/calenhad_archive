@@ -19,6 +19,7 @@ using namespace calenhad::nodeedit;
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::ContainsItemShape);
+    setRenderHints (QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setZoom (CalenhadServices::preferences() -> calenhad_desktop_zoom_default);
 
 }
@@ -85,8 +86,6 @@ void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
 }
 
 void CalenhadView::dropEvent(QDropEvent *event) {
-
-
     if (event -> mimeData ()->hasFormat ("application/x-dnditemdata")) {
         QByteArray itemData = event -> mimeData () -> data ("application/x-dnditemdata");
         QDataStream dataStream (&itemData, QIODevice::ReadOnly);
@@ -120,7 +119,7 @@ void CalenhadView::wheelEvent (QWheelEvent* event) {
 
 void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
     // thanks to Bitto at QtCentre for this - https://www.qtcentre.org/threads/5609-Drawing-grids-efficiently-in-QGraphicsScene
-
+    QGraphicsView::drawBackground (painter, rect);
     if (gridVisible()) {
 
         QPen majorPen;

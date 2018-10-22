@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../preferences/PreferencesService.h"
 #include "Toolbox.h"
 #include <QMenu>
+#include <math.h>
 
 using namespace calenhad::notification;
 using namespace calenhad::nodeedit;
@@ -85,30 +86,57 @@ void Connection::updatePosFromPorts () {
 
 void Connection::updatePath() {
 
-    QPainterPath p;
+    QPainterPath path1, path2;
     QPen pen;
     QBrush brush;
 
+    qreal dx = pos2.x () - pos1.x () - 50;
+    qreal dy = pos2.y () - pos1.y ();
+
+    QVector<QPointF> points;
+    points << pos1;
+
+    points << QPointF (pos1.x() + 25.0, pos1.y());
+
+    if (dx < 25.0) {
+        points << QPointF (pos1.x() + 25.0, pos1.y() + 25.0 * (dy < 0 ? -1 : 1));;
+    }
+
+    QPointF p1 = QPointF (pos1.x () + 25.0 + dx * 0.25, pos1.y ());
+    QPointF c = QPointF (pos1.x () + 25.0 + dx * 0.5, pos1.y () + dy * 0.5);
+    QPointF p2 = QPointF (pos1.x () + 25.0 + dx * 0.75, pos2.y ());
+
+    if (dx < 25.0) {
+        points << QPointF (pos2.x() - 25.0, pos2.y() - 25.0 * (dy < 0 ? -1 : 1));
+    }
+
+    points << QPointF (pos2.x() - 25.0, pos2.y());
+    points << pos2;
+
+    for (int i = 1; i < points.size(); i++) {
+    //    p.lineTo (points [i]);
+    }
+
     if (m_port2) {
         if (isSelected ()) {
-            pen = QPen (CalenhadServices::preferences() -> calenhad_connector_selected_color, CalenhadServices::preferences() -> calenhad_connector_selected_weight);
-            brush = QBrush (CalenhadServices::preferences() -> calenhad_connector_selected_color);
+            pen = QPen (CalenhadServices::preferences() -> calenhad_connector_selected_color, CalenhadServices::preferences() -> calenhad_connector_selected_weight, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
         } else {
-            pen = QPen (CalenhadServices::preferences() -> calenhad_connector_normal_color, CalenhadServices::preferences() -> calenhad_connector_normal_weight);
+            pen = QPen (CalenhadServices::preferences() -> calenhad_connector_normal_color, CalenhadServices::preferences() -> calenhad_connector_normal_weight, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
         }
     } else {
-        pen = QPen (CalenhadServices::preferences() -> calenhad_connector_drawing_color, CalenhadServices::preferences() -> calenhad_connector_drawing_weight);
-        brush = QBrush (CalenhadServices::preferences() -> calenhad_connector_drawing_color);
+        pen = QPen (CalenhadServices::preferences() -> calenhad_connector_drawing_color, CalenhadServices::preferences() -> calenhad_connector_drawing_weight,  Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     }
 
     setPen (pen);
-    setBrush (brush);
-    p.moveTo (pos1);
-    qreal dx = pos2.x () - pos1.x ();
-    qreal dy = pos2.y () - pos1.y ();
-    QPointF ctr1 (pos1.x () + dx * 0.25, pos1.y () + dy * 0.1);
-    QPointF ctr2 (pos1.x () + dx * 0.75, pos1.y () + dy * 0.9);
-    p.cubicTo (ctr1, ctr2, pos2);
+    path1.moveTo (pos1);
+    path1.quadTo (p1, c);
+    path1.quadTo (p2, pos2);
+    path2.moveTo (pos2);
+    path2.quadTo (p2, c);
+    path2.quadTo (p1, pos1);
+    QPainterPath p;
+    p.addPath (path1);
+    p.addPath (path2);
     setPath (p);
 }
 

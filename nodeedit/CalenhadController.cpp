@@ -104,7 +104,6 @@ void CalenhadController::toolSelected (bool state) {
     }
 }
 
-
 void CalenhadController::actionTriggered() {
     // fire the selected action
     QAction* action = (QAction*) sender();
