@@ -22,6 +22,7 @@
 #include <QGraphicsItem>
 #include <QtGui/QGuiApplication>
 #include <QClipboard>
+#include <stdio.h>
 
 using namespace icosphere;
 using namespace calenhad;
@@ -124,40 +125,55 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
     }
 };
 
+
 // Return true if there is a direct or indirect path from a given output port to a given input port.
 // If there would be a path from output to input on the same node we can't create a new connection between them as that would complete a circuit.
 bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
 
     Node* outputNode = output -> node ();
     Port* outputPort = output -> output();
+
     if (outputPort) {
         Module* outputModule = dynamic_cast<Module*> (outputNode);
         Module* inputModule = dynamic_cast<Module*> (input->node ());
+
+        // a connection can't be part of a circuit if it's not connected at both ends
+        if ((!outputModule) || (!inputModule)) {
+            return false;
+        }
+
+        // a connection forms a circuit if it's connected to the same module at both ends
+        if (outputModule == inputModule) {
+            return true;
+        }
+
+        // a module can't be part of a circuit if its output isn't connected to anythinng
         if (outputPort->connections ().isEmpty ()) {
             return false;
-        } else {
-            Connection* connection = outputPort->connections ()[0];
-            // we're only interested in QModules here
-            if ((!outputModule) || (!inputModule)) {
-                return false;
+        }
+
+        // a module can't be part of a circuit if it is a generator, i.e. has no input ports
+        if (inputModule -> inputs().isEmpty ()) {
+            return false;
+        }
+
+        // a module can't be part of a circuit if none of its inputs is connected
+        bool hasConnectedInput = false;
+        for (Port* port : outputModule -> inputs()) {
+            if (! (port -> connections().isEmpty())) {
+                hasConnectedInput = true;
             }
+        }
+        if (! hasConnectedInput) {
+            return false;
+        }
 
-            // base case: block with no inputs can't have any paths to it
-            if (((NodeBlock*) ((Node*) inputModule) -> handle ())->inputs ().isEmpty ()) {
-                return false;
-
-                // see if the two blocks are connected
-            } else {
-                for (Port* inputPort: ((NodeBlock*) ((Node*) inputModule) -> handle ()) -> inputs ()) {
-                    if (connection->otherEnd (outputPort) == inputPort) {
-                        return true;
-                    } else {
-                        if (!(inputPort->connections ().isEmpty ())) {
-                            Connection* c = inputPort->connections ()[0];
-                            return existsPath (outputPort -> block (), c->otherEnd (inputPort)->block ());
-                        }
-                    }
-                }
+        // Consider each of the module's input ports and each connection into it
+        for (Port* port : outputModule -> inputs()) {
+            for (Connection* connection : port -> connections ()) {
+                Port* p = connection->otherEnd (port);
+                NodeBlock* block =  (NodeBlock*) p -> owner() -> handle();
+                return existsPath (block, input);
             }
         }
         return false;
@@ -1117,6 +1133,7 @@ NodeGroup* CalenhadModel::createGroup (const QString& name) {
     group -> setName (name);
     _groups.insert (group);
     emit groupsUpdated();
+    return group;
 }
 
 void CalenhadModel::suppressRender (bool suppress) {

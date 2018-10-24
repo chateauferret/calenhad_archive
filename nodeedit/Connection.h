@@ -77,14 +77,17 @@ namespace calenhad {
 
 		private:
 
-			QPointF pos1;
-			QPointF pos2;
+			QPointF p1;
+			QPointF p2;
 			Port* m_port1;
 			Port* m_port2;
 
 
 			QMenu* _connectionContextMenu;
             QAction* _deleteConnectionAction;
+
+			void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
         };
 	}
 }

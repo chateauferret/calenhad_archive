@@ -40,6 +40,7 @@ Connection::Connection (QGraphicsItem* parent) : QGraphicsPathItem (parent) {
     setFlag (QGraphicsItem::ItemClipsToShape);
     setFlag (QGraphicsItem::ItemIsFocusable, false);
     setZValue (-1);
+
     m_port1 = 0;
     m_port2 = 0;
 }
@@ -58,11 +59,11 @@ Connection::~Connection() {
 }
 
 void Connection::setPos1 (const QPointF& p) {
-    pos1 = p;
+    p1 = p;
 }
 
 void Connection::setPos2 (const QPointF& p) {
-    pos2 = p;
+    p2 = p;
 }
 
 void Connection::setPort1 (Port* p) {
@@ -80,8 +81,8 @@ void Connection::setPort2 (Port* p) {
 }
 
 void Connection::updatePosFromPorts () {
-    pos1 = m_port1 -> scenePos();
-    if (m_port2) { pos2 = m_port2 -> scenePos(); }
+    p1 = m_port1 -> scenePos();
+    if (m_port2) { p2 = m_port2 -> scenePos(); }
 }
 
 void Connection::updatePath() {
@@ -90,32 +91,48 @@ void Connection::updatePath() {
     QPen pen;
     QBrush brush;
 
-    qreal dx = pos2.x () - pos1.x () - 50;
-    qreal dy = pos2.y () - pos1.y ();
+    qreal dx = p2.x () - p1.x ();
+    qreal dy = p2.y () - p1.y ();
 
     QVector<QPointF> points;
-    points << pos1;
 
-    points << QPointF (pos1.x() + 25.0, pos1.y());
+    QPointF q1, q2, r1, r2, c;
 
-    if (dx < 25.0) {
-        points << QPointF (pos1.x() + 25.0, pos1.y() + 25.0 * (dy < 0 ? -1 : 1));;
+
+    qreal w = CalenhadServices::preferences() -> calenhad_handle_module_height;
+    c = QPointF (p1.x () + dx * 0.5, p1.y () + dy * 0.5);
+    int d = dy < 0 ? -1 : 1;
+
+    // Two paths identical but in opposite directions, so that the one half fills in the holes the rendering leaves in the other FFS.
+
+
+    if (dx < 0) {
+        q1 = QPointF (p1.x() + w * 2, p1.y() + w * d);
+        q2 = QPointF (p2.x() - w * 2, p2.y() - w * d);
+        r2 = QPointF (p2.x(), p2.y() - w * d);
+        r1 = QPointF (p1.x(), p1.y() + w * d);
+        path1.moveTo (p1);
+        path1.quadTo (q1, c);
+        //path1.quadTo (c, r2);
+        path1.quadTo (q2, p2);
+        path2.moveTo (p2);
+        path2.quadTo (q2, c);
+       // path2.quadTo (c, r1);
+        path2.quadTo (q1, p1);
+    } else {
+        q2 = QPointF (p1.x() + w, p2.y());
+        q1 = QPointF (p1.x() + w, p1.y());
+        r2 = QPointF (p1.x() + dx * 0.75, p2.y());
+        r1 = QPointF (p1.x() + dx * 0.25, p1.y());
+        path1.moveTo (p1);
+        path1.quadTo (r1, c);
+        path1.quadTo (r2, p2);
+        path2.moveTo (p2);
+        path2.quadTo (r2, c);
+        path2.quadTo (r1, p1);
+
     }
 
-    QPointF p1 = QPointF (pos1.x () + 25.0 + dx * 0.25, pos1.y ());
-    QPointF c = QPointF (pos1.x () + 25.0 + dx * 0.5, pos1.y () + dy * 0.5);
-    QPointF p2 = QPointF (pos1.x () + 25.0 + dx * 0.75, pos2.y ());
-
-    if (dx < 25.0) {
-        points << QPointF (pos2.x() - 25.0, pos2.y() - 25.0 * (dy < 0 ? -1 : 1));
-    }
-
-    points << QPointF (pos2.x() - 25.0, pos2.y());
-    points << pos2;
-
-    for (int i = 1; i < points.size(); i++) {
-    //    p.lineTo (points [i]);
-    }
 
     if (m_port2) {
         if (isSelected ()) {
@@ -128,12 +145,6 @@ void Connection::updatePath() {
     }
 
     setPen (pen);
-    path1.moveTo (pos1);
-    path1.quadTo (p1, c);
-    path1.quadTo (p2, pos2);
-    path2.moveTo (pos2);
-    path2.quadTo (p2, c);
-    path2.quadTo (p1, pos1);
     QPainterPath p;
     p.addPath (path1);
     p.addPath (path2);
@@ -178,4 +189,9 @@ Port* Connection::otherEnd (Port* port) {
 
 void Connection::mousePressEvent (QGraphicsSceneMouseEvent* e) {
     QGraphicsItem::mousePressEvent (e);
+}
+
+void Connection::paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    painter -> setRenderHint (QPainter::Antialiasing);
+    QGraphicsPathItem::paint (painter, option, widget);
 }
