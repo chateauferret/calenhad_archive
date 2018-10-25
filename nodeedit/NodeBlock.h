@@ -118,6 +118,8 @@ namespace calenhad {
 			EditableLabel* _textLabel;
 			QString _oldName;
 			qreal _oldZ;
+            int _inputs;
+			unsigned int _spacing;
 		};
 	}
 }

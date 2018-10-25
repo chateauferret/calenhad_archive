@@ -54,6 +54,7 @@ NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (pa
    _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
     _pixmap = CalenhadServices::modules() -> getIcon (node -> nodeType());
     _margin = CalenhadServices::preferences() -> calenhad_handle_module_margin;
+    _spacing = CalenhadServices::preferences() -> calenhad_port_spacing + 2 * CalenhadServices::preferences() -> calenhad_port_radius;
     _nameValidator = new NodeNameValidator (_node);
     setZValue (0);
 }
@@ -168,20 +169,31 @@ void NodeBlock::assignIcon() {
 
 Port* NodeBlock::addPort (Port* port) {
     port -> setParentItem (this);
-    int vertMargin = CalenhadServices::preferences() -> calenhad_port_spacing;
-    int yInput = port -> radius();
-    foreach (QGraphicsItem* port_, childItems()) {
-        if (port_->type () == Port::Type) {
-            Port* port = (Port*) port_;
+    _inputs = 0;
+
+
+    int yInput = (_size.height() - _spacing) / 2;
+    foreach (QGraphicsItem* item, childItems()) {
+        if (item->type () == Port::Type) {
+            Port* port = (Port*) item;
             if (port -> portType () == Port::OutputPort) {
                 qreal v = (_size.height() / 2) + _margin;
                 qreal r = _size.width() + 2 * _margin + port -> radius();
                 port -> setPos (r, v);
             } else {
+                _inputs++;
+            }
+        }
+    }
+
+    yInput -= _spacing * _inputs / 2 - _margin;
+    foreach (QGraphicsItem* item, childItems()) {
+        if (item->type () == Port::Type) {
+            Port* port = (Port*) item;
+            if (port -> portType () != Port::OutputPort) {
                 qreal r = -port -> radius();
-                qreal v = yInput + vertMargin;
-                port -> setPos (r, v);
-                yInput += port -> radius() * 2 + vertMargin;
+               yInput += _spacing;
+                port -> setPos (r, yInput);
             }
         }
     }
