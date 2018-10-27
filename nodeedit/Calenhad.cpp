@@ -180,6 +180,14 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     viewToolbar -> addAction (toggleSnapToGridAction);
     _viewMenu -> addAction (toggleSnapToGridAction);
 
+    // module tree
+    toggleModuleTreeAction = createTool (QIcon (":/appicons/controls/tree.png"), tr ("Module tree"), "Module tree", CalenhadAction::ToggleModuleTreeAction, _viewDrawer);
+    toggleModuleTreeAction -> setCheckable (true);
+    toggleModuleTreeAction -> setChecked (false);
+    viewToolbar -> addAction (toggleModuleTreeAction);
+    _viewMenu -> addAction (toggleModuleTreeAction);
+
+
     // undo/redo apparatus
 
     undoAction = createTool (QIcon (":/appicons/controls/undo.png"), tr ("Undo"), "Undo", CalenhadAction::UndoAction, _editDrawer);

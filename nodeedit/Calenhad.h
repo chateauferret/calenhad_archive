@@ -149,6 +149,7 @@ namespace calenhad {
             QAction* openAction, * newAction, * quitAction, * importAction;
             QAction* assignSelectionToGroupAction;
             QAction* manageGroupsAction;
+            QAction* toggleModuleTreeAction;
             QMenu* openRecentMenu;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
@@ -187,6 +188,7 @@ namespace calenhad {
             void openProject (const QString& fname);
             void open();
             void clearUndo();
+
 
         };
     }

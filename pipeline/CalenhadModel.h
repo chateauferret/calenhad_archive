@@ -117,19 +117,15 @@ namespace calenhad {
             const QString& filename();
 
             const QDateTime& lastSave();
-
             const QString& author();
-
             const QString& title();
             void setDescription (const QString& description);
 
             void setAuthor (const QString& author);
-
             void setTitle (const QString& title);
-
             void restore (const QString& xml);
-
             void removeAll ();
+
 
         signals:
 
@@ -150,33 +146,23 @@ namespace calenhad {
             QDateTime _date;
 
             void writeMetadata (QDomDocument& doc);
-
             void readMetadata (const QDomDocument& doc);
-
             calenhad::nodeedit::NodeGroupBlock* _highlighted;
-
 
             QSet<calenhad::qmodule::NodeGroup*> _groups;
             QMenu* _menu;
             QMenu* _connectMenu, * _connectSubMenu;
 
             QMenu* makeMenu (QGraphicsItem* item);
-
             QAction* makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item = 0);
-
             bool _changed;
             QString _filename;
             const QDateTime _lastSaved;
             bool _existingConnection;
             calenhad::nodeedit::Port* _wasConnectedTo;
-
             QString _oldXml;
             bool _undoEnabled;
-
-
             void inflateConnections (const QDomDocument& doc, const nodeedit::CalenhadFileType& fileType);
-
-
             void inflateConnections (QDomNodeList& connectionNodes);
 
         };

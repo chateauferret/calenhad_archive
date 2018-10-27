@@ -151,6 +151,7 @@ AltitudeMap* AltitudeMap::clone () {
     QDomElement element = doc.documentElement();
     serialize (element);
     inflate (root.firstChildElement ("map"));
+    return n;
 }
 
 void AltitudeMap::inflate (const QDomElement& element) {

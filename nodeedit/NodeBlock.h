@@ -77,7 +77,7 @@ namespace calenhad {
 			void assignIcon();
 
             void setText (const QString& text);
-
+			calenhad::controls::QColoredIcon* icon ();
 
 		public slots:
 

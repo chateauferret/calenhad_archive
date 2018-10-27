@@ -23,6 +23,9 @@ namespace calenhad {
 		class Node;
 		class Module;
 	}
+	namespace controls {
+		class ModuleTree;
+	}
 	namespace nodeedit {
 		class CalenhadView;
 		class Calenhad;
@@ -72,6 +75,7 @@ namespace calenhad {
 
 
             QAction* _zoomInAction, * _zoomOutAction;
+            calenhad::controls::ModuleTree* _moduleTree;
         };
 
 	}

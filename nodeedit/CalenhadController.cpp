@@ -45,14 +45,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <actions/XmlCommand.h>
 #include <actions/GridCommand.h>
 #include <actions/SnapToGridCommand.h>
+#include "../controls/ModuleTree.h"
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
 using namespace calenhad::qmodule;
 using namespace calenhad::notification;
 using namespace calenhad::actions;
+using namespace calenhad::controls;
 
-CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent), _views (new QList<CalenhadView*>()), _undoStack (new QUndoStack()) {
+CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent),
+    _views (new QList<CalenhadView*>()),
+    _undoStack (new QUndoStack()),
+    _moduleTree (nullptr) {
     connect (_undoStack, &QUndoStack::canUndoChanged, this, &CalenhadController::canUndoChanged);
     connect (_undoStack, &QUndoStack::canRedoChanged, this, &CalenhadController::canRedoChanged);
 
@@ -127,6 +132,17 @@ void CalenhadController::actionTriggered() {
     if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
     if (action -> data() == CalenhadAction::ToggleGridAction) { doCommand (new GridCommand (_views -> at (0))); }
     if (action -> data() == CalenhadAction::ToggleSnapToGridAction) { doCommand (new SnapToGridCommand (_views -> at (0))); }
+    if (action -> data() == CalenhadAction::ToggleModuleTreeAction) {
+        if (!_moduleTree) {
+            _moduleTree = new ModuleTree (_model);
+
+            // keep the action's state consistent if we open or close the tree by other means
+            connect (_moduleTree, &ModuleTree::treeShown, this, [=] () {  action -> setChecked (true); });
+            connect (_moduleTree, &ModuleTree::treeHidden, this, [=] () {  action -> setChecked (false); });
+        }
+        _moduleTree->setVisible (!_moduleTree->isVisible ());
+    }
+
     if (action -> data() == CalenhadAction::PasteAction) {
         QClipboard* clipboard = QGuiApplication::clipboard ();
         QString xml = clipboard -> text();

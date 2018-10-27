@@ -290,3 +290,7 @@ void NodeBlock::nodeChanged () {
 void NodeBlock::setText (const QString& text) {
     _expression = text;
 }
+
+QColoredIcon* NodeBlock::icon () {
+    return _icon;
+}
