@@ -17,11 +17,12 @@ using namespace calenhad::nodeedit;
 
 
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
-    setDragMode (QGraphicsView::RubberBandDrag);
+    setDragMode (QGraphicsView::ScrollHandDrag);
     setRubberBandSelectionMode (Qt::ContainsItemShape);
     setRenderHints (QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setZoom (CalenhadServices::preferences() -> calenhad_desktop_zoom_default);
-
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 CalenhadView::~CalenhadView() {
@@ -31,12 +32,6 @@ CalenhadView::~CalenhadView() {
 void CalenhadView::setZoom (const qreal& z) {
     qreal factor = z / zoom;
     scale (factor, factor);
-    if (scene()) {
-        double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
-        QRectF minRect (-extent / 2, -extent / 2, extent, extent);
-        QRectF bounds = scene() -> itemsBoundingRect();
-        setSceneRect (minRect.contains (bounds) ? minRect : bounds);
-    }
     zoom = z;
     QTransform xf = transform();
     double oldZoom = zoom;
@@ -132,29 +127,35 @@ void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
         minorPen.setWidth (CalenhadServices::preferences ()->calenhad_desktop_grid_minor_weight);
         QRectF r = mapToScene (viewport ()->geometry ()).boundingRect ();
         int gridSize = CalenhadServices::preferences ()->calenhad_desktop_grid_density;
-        qreal left = int (r.left ()) - (int (r.left ()) % gridSize);
-        qreal top = int (r.top ()) - (int (r.top ()) % gridSize);
+        int steps = CalenhadServices::preferences() -> calenhad_desktop_grid_major_steps;
+        int offset = gridSize * (steps + 1);
+        qreal minorLeft = (int (r.left ()) - (int (r.left ())) % offset) - offset;
+        qreal minorTop = (int (r.top ()) - (int (r.top ())) % offset) - offset;
 
-        QVector<QLineF> lines;
+        QVector<QLineF> minorLines, majorLines;
 
         painter->setPen (minorPen);
-        for (qreal x = left; x < r.right (); x += gridSize)
-            lines.append (QLineF (x, r.top (), x, r.bottom ()));
-        for (qreal y = top; y < r.bottom (); y += gridSize)
-            lines.append (QLineF (r.left (), y, r.right (), y));
-        painter->drawLines (lines.data (), lines.size ());
-
-        if (CalenhadServices::preferences() -> calenhad_desktop_grid_major_steps > 1) {
-            lines.clear ();
-            gridSize *= CalenhadServices::preferences() -> calenhad_desktop_grid_major_steps;
-            painter->setPen (majorPen);
-            for (qreal x = left; x < r.right (); x += gridSize)
-                lines.append (QLineF (x, r.top (), x, r.bottom ()));
-            for (qreal y = top; y < r.bottom (); y += gridSize)
-                lines.append (QLineF (r.left (), y, r.right (), y));
-
-            painter->drawLines (lines.data (), lines.size ());
+        int i = 0, j = 0;
+        for (qreal x = minorLeft; x < r.right (); x += gridSize) {
+            QLineF l (x, r.top (), x, r.bottom ());
+            minorLines.append (l);
+            if (i++ == steps) {
+                i = 0;
+                majorLines.append (l);
+            }
         }
+        for (qreal y = minorTop; y < r.bottom (); y += gridSize) {
+            QLineF  l (r.left (), y, r.right (), y);
+            minorLines.append (l);
+            if (j++ == steps) {
+                j = 0;
+                majorLines.append (l);
+            }
+        }
+        painter->drawLines (minorLines.data (), minorLines.size ());
+        painter->setPen (majorPen);
+        painter->drawLines (majorLines.data (), majorLines.size ());
+
     }
 }
 

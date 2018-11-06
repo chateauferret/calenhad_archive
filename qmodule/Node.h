@@ -113,6 +113,7 @@ namespace calenhad {
             //QVector<Node*> dependants();
             //void showName (const bool& visible);
             //bool nameVisible();
+            bool isModuleDetailVisible();
 
         public slots:
             virtual void showModuleDetail (const bool& visible = true);

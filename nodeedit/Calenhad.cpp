@@ -90,6 +90,10 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _view = new CalenhadView (this);
     _view -> setRenderHint (QPainter::Antialiasing, true);
     _view -> centerOn (0, 0);
+    double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
+    QRectF minRect (-extent / 2, -extent / 2, extent, extent);
+    _view -> setSceneRect (minRect);
+
 
     //_scroll = new QScrollArea (this);
     //_scroll -> setWidgetResizable (true);

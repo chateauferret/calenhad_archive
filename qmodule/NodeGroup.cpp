@@ -115,3 +115,7 @@ QColor NodeGroup::selectedColor () {
 QColor NodeGroup::selectedBorderColor () {
     return _selectedBorderColor;
 }
+
+QList<Module*> NodeGroup::modules () {
+    return _model -> modules (this);
+}

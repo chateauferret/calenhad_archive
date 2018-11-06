@@ -20,13 +20,14 @@ namespace calenhad {
 
         public slots:
             void buildTree();
+            void selectItem (QTreeWidgetItem* item);
+            void showMenu (const QPoint& pos);
 
         signals:
             void treeShown();
             void treeHidden();
 
         protected:
-
             QTreeWidgetItem* findTreeItem (calenhad::qmodule::NodeGroup* g);
             QTreeWidgetItem* findTreeItem (calenhad::qmodule::Module* m);
             void showEvent (QShowEvent* e) override;
@@ -34,6 +35,7 @@ namespace calenhad {
             pipeline::CalenhadModel* _model;
             QTreeWidget* _tree;
             QIcon* _groupIcon;
+            QMenu* _menu;
             QMap<QTreeWidgetItem*, calenhad::qmodule::NodeGroup*> _groups;
             QMap<QTreeWidgetItem*, calenhad::qmodule::Module*> _modules;
         };

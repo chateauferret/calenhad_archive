@@ -227,6 +227,7 @@ Node* ModuleFactory::clone (Node* other) {
     for (QString key : n -> parameters()) {
         n -> setParameter (key, other -> parameter (key));
     }
+    return n;
 }
 
 int ModuleFactory::seed () {

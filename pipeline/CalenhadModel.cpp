@@ -23,6 +23,7 @@
 #include <QtGui/QGuiApplication>
 #include <QClipboard>
 #include <stdio.h>
+#include "../nodeedit/CalenhadView.h"
 
 using namespace icosphere;
 using namespace calenhad;
@@ -57,8 +58,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
     _connectMenu = new QMenu();
     _connectSubMenu = new QMenu (_connectMenu);
-    double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
-    setSceneRect (QRectF (-extent / 2, -extent / 2, extent, extent));
+
     // Load legends from default legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
     inflate (file, CalenhadFileType::CalenhadLegendFile);
@@ -315,6 +315,9 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         }
         case QEvent::GraphicsSceneMouseMove: {
 
+            setSceneRect (sceneRect().united (views() [0] -> visibleRegion().boundingRect()));
+            
+
             // if we moved off a port, set it back to its ordinary style
             if (_port) {
                 _port -> initialise();
@@ -363,7 +366,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         case QEvent::GraphicsSceneMouseRelease: {
 
             for (QGraphicsView* view : views()) {
-                view -> setDragMode (QGraphicsView::RubberBandDrag);
+                view -> setDragMode (_dragMode);
             }
             lastClick = me -> scenePos();
             if (conn) {
@@ -1060,7 +1063,7 @@ void CalenhadModel::setChanged (const bool& changed) {
     QPointF centre = view -> sceneRect().center();
     //setSceneRect (itemsBoundingRect ());
     view -> centerOn (centre);
-
+    emit modelChanged();
 }
 
 void CalenhadModel::setUndoEnabled (const bool& enabled) {
@@ -1140,4 +1143,23 @@ void CalenhadModel::suppressRender (bool suppress) {
     for (Module* m : modules()) {
         m -> suppressRender (suppress);
     }
+}
+
+void CalenhadModel::goTo (Module* module) {
+    QGraphicsItem* item = module -> handle();
+    if (item) {
+        CalenhadView* view = (CalenhadView*) views() [0];
+        view -> translate (- item -> pos().x(), - item -> pos().y());
+
+    }
+}
+
+QList<Module*> CalenhadModel::modules (NodeGroup* group) {
+    QList<Module*> list;
+    for (Module* module : list) {
+        if (module -> group() == group) {
+            list.append (module);
+        }
+    }
+    return list;
 }

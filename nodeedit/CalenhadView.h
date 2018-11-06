@@ -27,7 +27,6 @@ namespace calenhad {
             double currentZoom ();
 
             void setZoom (const qreal& zoom);
-
             void dropEvent (QDropEvent* event) override;
 
             void dragMoveEvent (QDragMoveEvent* event) override;

@@ -514,7 +514,7 @@ const Geolocation& CalenhadMapWidget::rotation () {
 }
 
 Bounds CalenhadMapWidget::bounds() {
-
+    return _bounds;
 }
 
 void CalenhadMapWidget::setInset (bool inset) {

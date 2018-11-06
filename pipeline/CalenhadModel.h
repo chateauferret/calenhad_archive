@@ -12,6 +12,7 @@
 #include <QAction>
 #include "../qmodule/Module.h"
 #include <Serializable.h>
+#include <QtOpenGL/QtOpenGL>
 #include "../nodeedit/Calenhad.h"
 
 namespace icosphere {
@@ -41,8 +42,6 @@ namespace calenhad {
 
         class CalenhadModel : public QGraphicsScene {
         Q_OBJECT
-
-
 
         public:
             CalenhadModel ();
@@ -98,6 +97,7 @@ namespace calenhad {
             void snapToGrid (QPointF& pos);
             QList<calenhad::qmodule::Node*> nodes ();
             QList<calenhad::qmodule::Module*> modules();
+            QList<calenhad::qmodule::Module*> modules (calenhad::qmodule::NodeGroup* group);
             QSet<calenhad::qmodule::NodeGroup*> nodeGroups ();
 
             QList<calenhad::nodeedit::Connection*> connections ();
@@ -124,11 +124,13 @@ namespace calenhad {
             void setAuthor (const QString& author);
             void setTitle (const QString& title);
             void restore (const QString& xml);
-            void removeAll ();
+            void removeAll();
 
+        public slots:
+            void goTo (qmodule::Module* module);
 
         signals:
-
+            void modelChanged();
             void showMessage (QString);
             void titleChanged (QString);
             void groupsUpdated();
@@ -165,6 +167,7 @@ namespace calenhad {
             void inflateConnections (const QDomDocument& doc, const nodeedit::CalenhadFileType& fileType);
             void inflateConnections (QDomNodeList& connectionNodes);
 
+            QGraphicsView::DragMode _dragMode = QGraphicsView::ScrollHandDrag;
         };
     }
 }

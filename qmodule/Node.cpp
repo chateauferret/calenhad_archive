@@ -223,6 +223,10 @@ void Node::showModuleDetail (const bool& visible) {
     }
 }
 
+bool Node::isModuleDetailVisible() {
+    return _dialog -> isVisible();
+}
+
 void Node::inflate (const QDomElement& element) {
 
     // position is retrieved in CalenhadModel

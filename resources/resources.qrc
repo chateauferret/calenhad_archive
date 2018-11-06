@@ -22,6 +22,7 @@
         <file>appicons/controls/glsl.png</file>
         <file>appicons/controls/grid.png</file>
         <file>appicons/controls/grid-snap.png</file>
+        <file>appicons/controls/group.png</file>
         <file>appicons/controls/group_add.png</file>
         <file>appicons/controls/group_delete.png</file>
         <file>appicons/controls/group_make.png</file>

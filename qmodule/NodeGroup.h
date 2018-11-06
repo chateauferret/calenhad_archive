@@ -25,6 +25,7 @@ namespace calenhad {
             void setName (const QString& name);
             void setDocumentation (const QString& documentation);
             void setModel (calenhad::pipeline::CalenhadModel* model);
+            QList<Module*> modules();
 
             QString name();
             QString documentation();
