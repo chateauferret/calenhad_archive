@@ -254,6 +254,26 @@ void CalenhadMapWidget::compute () {
                 glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
                 glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
 
+                if (_globeTexture && _heightMapBuffer && _createHeightMap) {
+                    if (_refreshHeightMap) {
+                        makeCurrent ();
+                        clock_t fetchStart = clock ();
+
+                        GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+                        if (heightData) {
+
+                            int h = _globeTexture -> height ();
+                            memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
+                            glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
+                            clock_t fetchEnd = clock ();
+                            clock_t fetchTime = (int) (((double) fetchEnd - (double) fetchStart) / CLOCKS_PER_SEC * 1000000.0);
+                            std::cout << "Fetched height map data for " << 2 * h * h << " texels in " << fetchTime << " microseconds\n";
+                            _refreshHeightMap = false;
+                        } else {
+                            std::cout << "No height data obtained \n";
+                        }
+                    }
+                }
 
                 std::cout << "Texture size " << _globeTexture->width () << " x " << _globeTexture->height () << "  -  ";
                 std::cout << "Image size " << width () << " x " << height () << "\n\n";
@@ -349,23 +369,7 @@ void CalenhadMapWidget::paintGL() {
 }
 
 GLfloat* CalenhadMapWidget::heightMapBuffer() {
-    if (_globeTexture && _heightMapBuffer && _createHeightMap) {
-        if (_refreshHeightMap) {
-            makeCurrent ();
-            clock_t fetchStart = clock ();
-
-            GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-            glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
-            int h = _globeTexture->height ();
-            memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
-            clock_t fetchEnd = clock ();
-
-            clock_t fetchTime = (int) (((double) fetchEnd - (double) fetchStart) / CLOCKS_PER_SEC * 1000000.0);
-            std::cout << "Fetched height map data for " << 2 * h * h << " texels in " << fetchTime << " microseconds\n";
-            _refreshHeightMap = false;
-        }
-        return _heightMapBuffer;
-    } else return 0;
+    return _heightMapBuffer;
 }
 
 QSize CalenhadMapWidget::heightMapSize() const {
@@ -420,7 +424,7 @@ void CalenhadMapWidget::createTexture () {
             delete _heightMapBuffer;
             _heightMapBuffer = nullptr;
         }
-        _heightMapBuffer = new float[2 * v * v];
+        _heightMapBuffer = new GLfloat[2 * v * v];
         glGenBuffers (1, &heightMap);
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
         glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * v * v, NULL, GL_DYNAMIC_READ);

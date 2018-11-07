@@ -1149,7 +1149,7 @@ void CalenhadModel::goTo (Module* module) {
     QGraphicsItem* item = module -> handle();
     if (item) {
         CalenhadView* view = (CalenhadView*) views() [0];
-        view -> translate (- item -> pos().x(), - item -> pos().y());
+        view -> centerOn (item);
 
     }
 }

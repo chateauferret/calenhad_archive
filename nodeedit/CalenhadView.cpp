@@ -21,8 +21,7 @@ CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
     setRubberBandSelectionMode (Qt::ContainsItemShape);
     setRenderHints (QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setZoom (CalenhadServices::preferences() -> calenhad_desktop_zoom_default);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
 }
 
 CalenhadView::~CalenhadView() {
