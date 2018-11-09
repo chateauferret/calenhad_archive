@@ -95,7 +95,7 @@ namespace calenhad {
             void fixScrollBars ();
         public slots:
             void titleChanged (const QString& title);
-
+            void toggleMouseMode();
         private:
             CalenhadController* _controller;
             CalenhadView* _view;
@@ -150,6 +150,8 @@ namespace calenhad {
             QAction* assignSelectionToGroupAction;
             QAction* manageGroupsAction;
             QAction* toggleModuleTreeAction;
+            QActionGroup* mouseModeGroup;
+            QAction* selectModeAction, * panModeAction;
             QMenu* openRecentMenu;
 
             QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());

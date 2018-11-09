@@ -43,6 +43,8 @@ namespace calenhad {
         class CalenhadModel : public QGraphicsScene {
         Q_OBJECT
 
+
+
         public:
             CalenhadModel ();
 
@@ -125,6 +127,7 @@ namespace calenhad {
             void setTitle (const QString& title);
             void restore (const QString& xml);
             void removeAll();
+            void setMouseMode (QGraphicsView::DragMode mode);
 
         public slots:
             void goTo (qmodule::Module* module);

@@ -248,6 +248,28 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     connect (projectPropertiesAction, &QAction::triggered, this, &Calenhad::projectProperties);
     fileToolbar -> addAction (projectPropertiesAction);
 
+    mouseModeGroup = new QActionGroup (this);
+
+    selectModeAction = createAction (QIcon (":/appicons/controls/select.png"), tr ("Select mode"), "Select mode");
+    selectModeAction -> setCheckable (true);
+    selectModeAction -> setChecked (false);
+    connect (selectModeAction, &QAction::toggled, this, &Calenhad::toggleMouseMode);
+    viewToolbar -> addAction (selectModeAction);
+    mouseModeGroup -> addAction (selectModeAction);
+
+    panModeAction = createAction (QIcon (":/appicons/controls/pan.png"), tr ("Select mode"), "Select mode");
+    panModeAction -> setCheckable (true);
+    panModeAction -> setChecked (true);
+    connect (panModeAction, &QAction::toggled, this, &Calenhad::toggleMouseMode);
+    viewToolbar -> addAction (panModeAction);
+    mouseModeGroup -> addAction (panModeAction);
+
+    QMenu* mouseModeMenu = new QMenu ("Mouse mode");
+    mouseModeMenu -> addAction (selectModeAction);
+    mouseModeMenu -> addAction (panModeAction);
+    _viewMenu -> addMenu (mouseModeMenu);
+
+
     QAction* xmlAction = createAction (QIcon (":/appicons/controls/xml.png"), tr ("&XML"), "View model as an XML file", QKeySequence::NativeText);
     connect (xmlAction, &QAction::triggered, this, [=] () {
         QDomDocument doc = _model -> serialize (CalenhadFileType::CalenhadModelFile);
@@ -719,5 +741,17 @@ void Calenhad::fixScrollBars() {
     _view -> verticalScrollBar()->setRange(0, widgetSize.height() - areaSize.height());
     _view -> horizontalScrollBar()->setRange(0, widgetSize.width() - areaSize.width());
     //_view -> updateWidgetPosition();
+
+}
+
+void Calenhad::toggleMouseMode () {
+    QAction* a = (QAction*) sender();
+    if (a == selectModeAction) {
+        _model -> setMouseMode (a -> isChecked() ? QGraphicsView::RubberBandDrag : QGraphicsView::ScrollHandDrag);
+    }
+    if (a == panModeAction) {
+        _model -> setMouseMode (a -> isChecked() ? QGraphicsView::ScrollHandDrag :  QGraphicsView::RubberBandDrag);
+    }
+
 
 }

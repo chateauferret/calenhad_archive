@@ -245,7 +245,9 @@ void CalenhadModel::mousePressEvent (QGraphicsSceneMouseEvent *event) {
 bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
     QGraphicsSceneMouseEvent* me = dynamic_cast<QGraphicsSceneMouseEvent*> (e);
-
+    for (QGraphicsView* view : views()) {
+        view -> setDragMode (_dragMode);
+    }
     switch ((int) e -> type()) {
 
         case QEvent::GraphicsSceneMousePress: {
@@ -356,7 +358,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             } else {
                 if (!_activeTool) {
                     for (QGraphicsView* view : views ()) {
-                        view->viewport ()->setCursor (Qt::ArrowCursor);
+                        view -> setCursor (_dragMode == QGraphicsView::RubberBandDrag ? Qt::ArrowCursor : Qt::OpenHandCursor);
                     }
                 }
             }
@@ -1162,4 +1164,11 @@ QList<Module*> CalenhadModel::modules (NodeGroup* group) {
         }
     }
     return list;
+}
+
+void CalenhadModel::setMouseMode (QGraphicsView::DragMode mode) {
+    _dragMode = mode;
+    for (QGraphicsView* view : views()) {
+        view -> setCursor (mode == QGraphicsView::RubberBandDrag ? Qt::ArrowCursor : Qt::OpenHandCursor);
+    }
 }
