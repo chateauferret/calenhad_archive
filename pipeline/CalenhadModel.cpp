@@ -72,10 +72,16 @@ CalenhadModel::~CalenhadModel() {
     for (Node* n : nodes()) {
         n -> blockSignals (true);
     }
-    if (_menu) { delete _menu; }
+
+    for (Connection* c : connections()) {
+        delete c;
+    }
+
     for (Node* n : nodes()) {
         delete n;
     }
+
+    if (_menu) { delete _menu; }
 }
 
 // determine whether connection from given input to given output is allowed

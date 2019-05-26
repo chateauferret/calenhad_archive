@@ -4,7 +4,7 @@ layout (rgba32f, binding = 0) uniform image2D destTex;          // output textur
 layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
 layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
-layout (std430, binding = 4) buffer icosphereBuffer { vec4 icosphere []; };
+layout (std430, binding = 4) buffer vertexBuffer { vec4 vertices []; };
 
 layout (local_size_x = 32, local_size_y = 32) in;
 
@@ -57,11 +57,10 @@ uniform int projection = PROJ_ORTHOGRAPHIC;
 uniform int insetHeight;                                // height (pixels) - width will be 2 x height - 0 means no inset
 uniform vec4 insetBorder = vec4 (1.0, 1.0, 1.0, 1.0);   // border color
 
-// pass identifiers
-uniform int pass;
-const int PASS_INSET = 1;
-const int PASS_MAINMAP = 2;
-const int PASS_STATISTICS = 3;
+// output identifiers
+const int PASS_VERTICES = 1;
+const int PASS_RASTER = 2;
+uniform int pass = PASS_RASTER;
 
 // statistics
 int hypsographyResolution;
@@ -71,6 +70,8 @@ float maxAltitude = 0;
 // raster buffer parameters
 uniform int rasterResolution;                                      // number of elements in a raster = resolution * resolution * 2
 
+// icosphere parameters
+uniform int vertexCount;
 
 vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
     vec4 cartesian;
@@ -833,40 +834,50 @@ vec4 toGreyscale (vec4 color) {
 
 void main() {
 
-    ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
-    pos += tile.z * tile.xy;
-    bool inset = inInset (pos);
-    vec2 i = mapPos (pos, inset);
-
-    vec3 g = inverse (i, inset);
-    vec4 c = toCartesian (g);
-    vec4 color;
-
-    // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-    float pets = smoothstep (0.99, 1.00001, abs (c.w));
-    float v = value (c.xyz, g.xy);
-    color = findColor (v);
-    color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
-
-    if (insetHeight > 0) {
-        if (inset) {
-            vec3 f = forward (g.xy, false);                                             // get the geolocation of this texel in the inset map
-            ivec2 s = scrPos (f.xy, false);                                             // find the corresponding texel in the main map
-            if (f.z > 1.0 || f.z < 0.0 ||                                               // if the texel is out of the projection's  bounds or ...
-                s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) {      // if the texel is not on the main map ...
-                color = toGreyscale (findColor (v));                                       // ... grey out the corresponding texel in the inset map.
-            }
-
-            // test functions with output in inset map here if needed
-
-            // get the value "behind" the inset for the benefit of the downloadable height map
-            i = mapPos (pos, false);
-            g = inverse (i, false);
-            c = toCartesian (g);
-            v = value (c.xyz, g.xy);
+    if (pass == PASS_VERTICES) {
+        uint index = gl_GlobalInvocationID.x * 65536 + gl_GlobalInvocationID.y * 256 + gl_GlobalInvocationID.z;
+        if (index < vertexCount) {
+            vec3 pos = vertices [index].xyz;
+            vec2 g = toGeolocation (pos);
+            vertices [index].w = value (pos.xyz, g.xy);
         }
-    }
+    } else {
 
-    imageStore (destTex, pos, color);
-    height_map_out [pos.y * imageHeight * 2 + pos.x] = v;
+        ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
+        pos += tile.z * tile.xy;
+        bool inset = inInset (pos);
+        vec2 i = mapPos (pos, inset);
+
+        vec3 g = inverse (i, inset);
+        vec4 c = toCartesian (g);
+        vec4 color;
+
+        // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
+        float pets = smoothstep (0.99, 1.00001, abs (c.w));
+        float v = value (c.xyz, g.xy);
+        color = findColor (v);
+        color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
+
+        if (insetHeight > 0) {
+            if (inset) {
+                vec3 f = forward (g.xy, false);// get the geolocation of this texel in the inset map
+                ivec2 s = scrPos (f.xy, false);// find the corresponding texel in the main map
+                if (f.z > 1.0 || f.z < 0.0 ||// if the texel is out of the projection's  bounds or ...
+                s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) { // if the texel is not on the main map ...
+                    color = toGreyscale (findColor (v));// ... grey out the corresponding texel in the inset map.
+                }
+
+                // test functions with output in inset map here if needed
+
+                // get the value "behind" the inset for the benefit of the downloadable height map
+                i = mapPos (pos, false);
+                g = inverse (i, false);
+                c = toCartesian (g);
+                v = value (c.xyz, g.xy);
+            }
+        }
+
+        imageStore (destTex, pos, color);
+        height_map_out [pos.y * imageHeight * 2 + pos.x] = v;
+    }
 }
