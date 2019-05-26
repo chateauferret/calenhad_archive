@@ -4,6 +4,7 @@ layout (rgba32f, binding = 0) uniform image2D destTex;          // output textur
 layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
 layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
 layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
+layout (std430, binding = 4) buffer icosphereBuffer { vec4 icosphere []; };
 
 layout (local_size_x = 32, local_size_y = 32) in;
 

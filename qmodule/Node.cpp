@@ -202,6 +202,7 @@ void Node::invalidate() {
 
 void Node::setModel (CalenhadModel* model) {
     _model = model;
+    //setParent (model -> views () [0]);
     connect (_model, &CalenhadModel::groupsUpdated, this, [=] () {
         _groupEdit -> clear();
         for (NodeGroup* group : _model -> nodeGroups()) {

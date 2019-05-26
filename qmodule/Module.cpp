@@ -39,6 +39,7 @@ Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* pa
                                                             _shownParameter (QString::null),
                                                             _suppressRender (suppressRender),
                                                              _connectMenu (new QMenu()),
+                                                             _preview (nullptr),
                                                             _stats (nullptr)   {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
@@ -47,6 +48,7 @@ Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* pa
 
 Module::~Module () {
     _suppressRender = true;
+    if (_preview) { delete _preview; }
     if (_globe) { delete _globe; }
     if (_stats) { delete _stats; }
     if (_connectMenu) { delete _connectMenu; }

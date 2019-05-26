@@ -58,7 +58,8 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
     _connectMenu = new QMenu();
     _connectSubMenu = new QMenu (_connectMenu);
-
+    int extent = CalenhadServices::preferences() -> calenhad_model_extent;
+    setSceneRect (-extent, -extent, extent, extent);
     // Load legends from default legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
     inflate (file, CalenhadFileType::CalenhadLegendFile);
@@ -72,8 +73,8 @@ CalenhadModel::~CalenhadModel() {
         n -> blockSignals (true);
     }
     if (_menu) { delete _menu; }
-    for (NodeGroup* group : _groups) {
-        delete group;
+    for (Node* n : nodes()) {
+        delete n;
     }
 }
 
@@ -317,7 +318,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         }
         case QEvent::GraphicsSceneMouseMove: {
 
-            setSceneRect (sceneRect().united (views() [0] -> visibleRegion().boundingRect()));
+            //setSceneRect (sceneRect().united (views() [0] -> visibleRegion().boundingRect()));
             
 
             // if we moved off a port, set it back to its ordinary style

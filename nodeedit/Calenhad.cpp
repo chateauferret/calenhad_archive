@@ -740,8 +740,6 @@ void Calenhad::fixScrollBars() {
     _view -> horizontalScrollBar()->setPageStep(areaSize.width());
     _view -> verticalScrollBar()->setRange(0, widgetSize.height() - areaSize.height());
     _view -> horizontalScrollBar()->setRange(0, widgetSize.width() - areaSize.width());
-    //_view -> updateWidgetPosition();
-
 }
 
 void Calenhad::toggleMouseMode () {
