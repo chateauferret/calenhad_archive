@@ -20,7 +20,7 @@ namespace icosphere {
         double x, y, z;
     };
 
-    struct Geolocation {
+    struct LatLon {
     public:
         double lat, lon, height;
     };
@@ -57,15 +57,15 @@ namespace icosphere {
 
         void visit (Vertex* vertex);
 
-        Vertex* walkTowards (const Geolocation& target, const unsigned int& depth);
+        Vertex* walkTowards (const LatLon& target, const unsigned int& depth);
 
         Vertex* walkTowards (const Cartesian& target, const unsigned int& depth) const;
 
-        Vertex* nearest (const Geolocation& target, const unsigned int& depth = 0);
+        Vertex* nearest (const LatLon& target, const unsigned int& depth = 0);
 
-        void toGeolocation (const Cartesian& c, Geolocation& g);
+        void toGeolocation (const Cartesian& c, LatLon& g);
 
-        Cartesian toCartesian (const Geolocation& g, Cartesian& c);
+        Cartesian toCartesian (const LatLon& g, Cartesian& c);
 
         static double distSquared (const Cartesian& a, const Cartesian& b);
 
@@ -77,6 +77,8 @@ namespace icosphere {
         std::pair<std::vector<Triangle*>::iterator, std::vector<Triangle*>::iterator> triangles (const unsigned& level);
 
         std::pair<std::vector<Vertex*>::iterator, std::vector<Vertex*>::iterator> vertices ();
+
+        float* vertexBuffer();
 
     protected:
         unsigned _depth;
@@ -111,7 +113,7 @@ namespace icosphere {
 
         Cartesian c;
         unsigned level;
-
+        float* _vertexBuffer;
         inline uint64_t makeKey (const uint32_t& v1, const uint32_t& v2);
     };
 }

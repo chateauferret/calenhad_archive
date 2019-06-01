@@ -108,7 +108,7 @@ void CalenhadView::wheelEvent (QWheelEvent* event) {
         emit zoomInRequested();
     } else {
         emit zoomOutRequested();
-    };
+    }
 }
 
 void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {

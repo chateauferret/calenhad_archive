@@ -77,7 +77,7 @@ namespace calenhad {
             void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
             void suppressRender (bool suppress);
             bool renderSuppressed ();
-
+            float* vertexBuffer();
             QVector<nodeedit::Port*> ports ();
         public slots:
             void setupPreview ();
@@ -103,7 +103,7 @@ namespace calenhad {
             QVector<calenhad::nodeedit::Port*> _ports;
             calenhad::nodeedit::Port* _output;
             QMap<unsigned, calenhad::nodeedit::Port*> _inputs;
-
+            float* _vertexBuffer;
             int _statsIndex;
             QDialog* _stats;
 

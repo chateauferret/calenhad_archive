@@ -13,6 +13,7 @@
 #include "legend/LegendService.h"
 #include "mapping/projection/ProjectionService.h"
 #include "controls/globe/StatisticsService.h"
+#include "icosphere/icosphere.h"
 using namespace calenhad;
 using namespace calenhad::preferences;
 using namespace calenhad::notification;
@@ -21,6 +22,7 @@ using namespace calenhad::legend;
 using namespace calenhad::pipeline;
 using namespace calenhad::expressions;
 using namespace calenhad::mapping::projection;
+using namespace calenhad::icosphere;
 
 PreferencesService* CalenhadServices::_preferences;
 QNotificationHost* CalenhadServices::_messages = nullptr;
@@ -29,6 +31,7 @@ LegendService* CalenhadServices::_legends;
 StatisticsService* CalenhadServices::_statistics = new StatisticsService();
 ModuleFactory* CalenhadServices::_modules;
 Calculator* CalenhadServices::_calculator;
+Icosphere* CalenhadServices::_icosphere = nullptr;
 
 PreferencesService* CalenhadServices::preferences () {
     return _preferences;
@@ -107,4 +110,13 @@ void CalenhadServices::provideCalculator (Calculator* calculator) {
 
 Calculator* CalenhadServices::calculator () {
     return _calculator;
+}
+
+void CalenhadServices::provideIcosphere (int depth) {
+    if (_icosphere) { delete _icosphere; }
+    _icosphere = new Icosphere (depth);
+}
+
+calenhad::icosphere::Icosphere* CalenhadServices::icosphere () {
+    return _icosphere;
 }

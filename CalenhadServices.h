@@ -28,6 +28,11 @@ namespace calenhad {
             class ProjectionService;
         }
     }
+
+    namespace icosphere {
+        class Icosphere;
+    }
+
     namespace controls {
         namespace globe {
             class StatisticsService;
@@ -53,6 +58,9 @@ namespace calenhad {
         static void provideCalculator (calenhad::expressions::Calculator* calculator);
         static void provideModules (pipeline::ModuleFactory* modules);
 
+        static void provideIcosphere (int depth);
+        static calenhad::icosphere::Icosphere* icosphere();
+
     private:
         static calenhad::preferences::PreferencesService* _preferences;
         static calenhad::notification::QNotificationHost* _messages;
@@ -61,7 +69,7 @@ namespace calenhad {
         static calenhad::controls::globe::StatisticsService* _statistics;
         static calenhad::pipeline::ModuleFactory* _modules;
         static calenhad::expressions::Calculator* _calculator;
-
+        static calenhad::icosphere::Icosphere* _icosphere;
 
     };
 }

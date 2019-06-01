@@ -1,8 +1,8 @@
 #version 430
-
+layout(local_size_x = 32, local_size_y = 32) in;
 layout (rgba32f, binding = 0) uniform image2D destTex;          // output texture
 layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
-layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_out []; };
+layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_in []; };
 layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
 layout (std430, binding = 4) buffer vertexBuffer { vec4 vertices []; };
 
@@ -749,8 +749,8 @@ vec4 findColor (float value) {
     int index0 = clamp (indexPos    , 0, colorMapBufferSize - 1);
     int index1 = clamp (indexPos + 1, 0, colorMapBufferSize - 1);
     ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
-    vec4 out0 = color_map_out [index0 / 4];
-    vec4 out1 = color_map_out [index1 / 4];
+    vec4 out0 = color_map_in [index0 / 4];
+    vec4 out1 = color_map_in [index1 / 4];
     float alpha = (index - index0) / (index1 - index0);
     return mix (vec4 (out0.xyz, 1.0), vec4 (out1.xyz, 1.0), alpha);
 }
@@ -832,10 +832,13 @@ vec4 toGreyscale (vec4 color) {
     return vec4 (l, l, l, 1.0);
 }
 
+
 void main() {
 
     if (pass == PASS_VERTICES) {
-        uint index = gl_GlobalInvocationID.x * 65536 + gl_GlobalInvocationID.y * 256 + gl_GlobalInvocationID.z;
+        // compute values for a list of vertices provided in the vertices buffer. In that buffer x, y and z elements are the Cartesian positions
+        // of the vertices and when we compute the value for the vertex we write it to the w element.
+        uint index = gl_GlobalInvocationID.x * 1024 + gl_GlobalInvocationID.y * 32 + gl_GlobalInvocationID.z;
         if (index < vertexCount) {
             vec3 pos = vertices [index].xyz;
             vec2 g = toGeolocation (pos);

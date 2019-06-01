@@ -15,6 +15,7 @@
 #include "Graticule.h"
 #include "../qmodule/Module.h"
 #include "../nodeedit/Connection.h"
+#include "../icosphere/icosphere.h"
 
 using namespace calenhad;
 using namespace geoutils;
@@ -67,7 +68,8 @@ CalenhadMapWidget::CalenhadMapWidget (QWidget* parent) : QOpenGLWidget (parent),
     _render (false),
     _interactive (false),
     _tileSize (512),
-    _interactiveTimer (new QTimer()){
+    _interactiveTimer (new QTimer()),
+    _computeVertices (true) {
 
     QSurfaceFormat format;
     format.setSamples(8);
@@ -179,9 +181,11 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::compute () {
-
-    //if (_interactive && _tileX > 0 && _tileY > 0) { updateRenderParams(); return; }
-
+    QCursor oldCursor = cursor ();
+    setCursor (Qt::BusyCursor);
+    //if (_interactive && _tileX > 0 && _tileY > 0) { updateParams(); return; }
+    int vertexBytes = sizeof (GLfloat) * CalenhadServices::icosphere() -> vertexCount() * 4;
+    int colorMapBytes = sizeof (GLfloat) * _graph -> colorMapBufferSize();
     if (_graph) {
 
         makeCurrent ();
@@ -189,88 +193,96 @@ void CalenhadMapWidget::compute () {
         m_vao.bind ();
         _computeProgram->bind ();
         _globeTexture->bind ();
-        QCursor oldCursor = cursor ();
 
-
+        GLuint icosphereBuffer = 4;
+        GLuint colorMap = 1;
         if (_render) {
-            setCursor (Qt::BusyCursor);
+
             clock_t tileStart = clock ();
             if (_tileX == 0 && _tileY == 0) {
 
                 start = tileStart;
-                // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
-                _colorMapBuffer = _graph->colorMapBuffer ();
-                if (_colorMapBuffer) {
-                    GLuint colorMap = 1;
-                    glGenBuffers (1, &colorMap);
-                    glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
-                    glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (float) * _graph->colorMapBufferSize (), _colorMapBuffer, GL_DYNAMIC_COPY);
-                    glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
+
+                // if we want an icosphere computed, upload the vertex coordinates and buffer for results
+                if (_computeVertices) {
+
+                    _icosphereBuffer = (GLfloat*) _source -> vertexBuffer();
+                    glGenBuffers (1, &icosphereBuffer);
+                    glBindBuffer (GL_SHADER_STORAGE_BUFFER, icosphereBuffer);
+                    glBufferData (GL_SHADER_STORAGE_BUFFER, vertexBytes, _icosphereBuffer, GL_DYNAMIC_COPY);
+                    glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 4, icosphereBuffer);
                     glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
                 }
 
-                // create and allocate a buffer for any input rasters
-                int rasters = _graph->rasterCount ();
-                if (_rasterTexture) {
-                    _rasterTexture->destroy ();
-                    delete _rasterTexture;
-                    _rasterTexture = nullptr;
-                }
-                if (rasters > 0) {
-                    glActiveTexture (GL_TEXTURE1);
-                    _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
-                    _rasterTexture->create ();
-                    _rasterTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-                    _rasterTexture->setSize (CalenhadServices::preferences ()->calenhad_globe_texture_height, CalenhadServices::preferences ()->calenhad_globe_texture_height);
-                    _rasterTexture->setMinificationFilter (QOpenGLTexture::Linear);
-                    _rasterTexture->setMagnificationFilter (QOpenGLTexture::Linear);
-                    _rasterTexture->allocateStorage ();
-                    _rasterTexture->bind ();
-                    glBindImageTexture (1, _rasterTexture->textureId (), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA8);
-                    for (int i = 0; i < rasters; i++) {
-                        QImage* raster = _graph->raster (i);
-                        _rasterTexture->setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster->bits ());
-                    }
+                // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
+                _colorMapBuffer = (GLfloat*) _graph -> colorMapBuffer();
+                if (_colorMapBuffer) {
+                    glGenBuffers (1, &colorMap);
+                    glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
+                    glBufferData (GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
+                    glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
+                    glBindBuffer (GL_SHADER_STORAGE_BUFFER, 2); // unbind
                 }
 
+                prepareRasters ();
 
             }
             std::cout << "Tile (" << _tileX << ", " << _tileY << ") ";
             int xp = _tileSize / 32;
-            updateRenderParams ();
-            glDispatchCompute (xp, xp, 1);
+            updateParams ();
+            glDispatchCompute (xp, xp * 2, 1);
+            glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+            if (_computeVertices && _tileX == 0 && _tileY == 0) {
+                std::cout << "Compute icosphere vertices\n";
+                static GLint passLoc = glGetUniformLocation (_computeProgram -> programId(), "pass");
+                glUniform1i (passLoc, 1);
+                int n = CalenhadServices::icosphere ()->vertexCount ();
+                int x = n / 256 + 1;
+                glDispatchCompute (x / 32, 8, 1);
+            }
 
+            //glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
             clock_t tileEnd = clock ();
             clock_t tileRenderTime = (int) (((double) tileEnd - (double) tileStart) / CLOCKS_PER_SEC * 1000.0);
             std::cout << "rendered in " << tileRenderTime << " milliseconds\n";
-
-
+            
             if (_tileX == 0 && _tileY == 0) {
-                glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+           // retrieve icosphere buffer from the GPU, if any
+                if (_computeVertices ) {
 
-                // retrieve the height map data from the GPU
-                // only do this after last tile because it takes about a thirtieth of a second
+                    glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 4, icosphereBuffer);
+                    glBindBuffer (GL_SHADER_STORAGE_BUFFER, icosphereBuffer);
+                    clock_t fetchStart = clock ();
+                    glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, vertexBytes, _icosphereBuffer);
+                    clock_t fetchEnd = clock ();
+                    clock_t fetchTime = (int) (((double) fetchEnd - (double) fetchStart) / CLOCKS_PER_SEC * 1000000.0);
+                    std::cout << "Fetched " << vertexBytes << " data for " << CalenhadServices::icosphere() -> vertexCount() << " vertices in " << fetchTime << " microseconds\n";
+                    glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
+                    _computeVertices = false;
+                } else {
 
-                glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
-                glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
+                    // retrieve the height map data from the GPU
+                    // only do this after last tile because it takes about a thirtieth of a second
+                    if (_globeTexture && _heightMapBuffer && _createHeightMap) {
+                        if (_refreshHeightMap) {
+                            glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
+                            glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
 
-                if (_globeTexture && _heightMapBuffer && _createHeightMap) {
-                    if (_refreshHeightMap) {
-                        makeCurrent ();
-                        clock_t fetchStart = clock ();
+                            clock_t fetchStart = clock ();
 
-                        GLfloat* heightData = (GLfloat*) glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-                        if (heightData) {
+                            //GLvoid* heightData = glMapBuffer (GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+                            //if (heightData) {
 
-                            int h = _globeTexture -> height ();
-                            memcpy (_heightMapBuffer, heightData, 2 * h * h * sizeof (GLfloat));
-                            glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
+                            int h = _globeTexture->height ();
+                            int heightBytes = 2 * h * h * sizeof (GLfloat);
+
+                            glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, heightBytes, _heightMapBuffer);
                             clock_t fetchEnd = clock ();
                             clock_t fetchTime = (int) (((double) fetchEnd - (double) fetchStart) / CLOCKS_PER_SEC * 1000000.0);
                             std::cout << "Fetched height map data for " << 2 * h * h << " texels in " << fetchTime << " microseconds\n";
                             _refreshHeightMap = false;
-                        } else {
-                            std::cout << "No height data obtained \n";
+
+                            glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
                         }
                     }
                 }
@@ -280,18 +292,42 @@ void CalenhadMapWidget::compute () {
                 clock_t end = clock ();
                 _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
                 std::cout << "Render fnished in " << _renderTime << " milliseconds\n\n";
-
             }
-
-            setCursor (oldCursor);
             emit rendered (true);
-
             _refreshHeightMap = true;
+        }
+    }
+    setCursor (oldCursor);
+}
+
+void CalenhadMapWidget::prepareRasters () {
+    // create and allocate a buffer for any input rasters
+    makeCurrent ();
+    int rasters = _graph->rasterCount ();
+    if (_rasterTexture) {
+        _rasterTexture->destroy ();
+        delete _rasterTexture;
+        _rasterTexture = nullptr;
+    }
+    if (rasters > 0) {
+        glActiveTexture (GL_TEXTURE1);
+        _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
+        _rasterTexture->create ();
+        _rasterTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
+        _rasterTexture->setSize (CalenhadServices::preferences ()->calenhad_globe_texture_height, CalenhadServices::preferences ()->calenhad_globe_texture_height);
+        _rasterTexture->setMinificationFilter (QOpenGLTexture::Linear);
+        _rasterTexture->setMagnificationFilter (QOpenGLTexture::Linear);
+        _rasterTexture->allocateStorage ();
+        _rasterTexture->bind ();
+        glBindImageTexture (1, _rasterTexture->textureId (), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA8);
+        for (int i = 0; i < rasters; i++) {
+            QImage* raster = _graph->raster (i);
+            _rasterTexture->setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster->bits ());
         }
     }
 }
 
-void CalenhadMapWidget::updateRenderParams () {
+void CalenhadMapWidget::updateParams() {
     makeCurrent();
     _computeProgram -> link ();
     _computeProgram -> bind ();
@@ -305,6 +341,8 @@ void CalenhadMapWidget::updateRenderParams () {
     static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
     static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram->programId (), "rasterResolution");
     static GLint tileLoc = glGetUniformLocation (_computeProgram -> programId(), "tile");
+    static GLint vertexCountLoc = glGetUniformLocation (_computeProgram -> programId(), "vertexCount");
+    static GLint passLoc = glGetUniformLocation (_computeProgram -> programId(), "pass");
 
     //std::vector<GLubyte> emptyData (_globeTexture->width () * _globeTexture->height () * 4, 0);
     //glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _globeTexture->width (), _globeTexture->height (), GL_BGRA, GL_UNSIGNED_BYTE, &emptyData[0]);
@@ -316,8 +354,10 @@ void CalenhadMapWidget::updateRenderParams () {
     glUniform1i (imageHeightLoc, _globeTexture-> height());
     glUniform1i (cmbsLoc, 2048);
     glUniform1i (rasterResolutionLoc, CalenhadServices::preferences()->calenhad_globe_texture_height);
-
-    _render = true;
+    glUniform1i (vertexCountLoc, CalenhadServices::icosphere() -> vertexCount());
+    glUniform1i (passLoc, 2);
+    _render = false;
+   /* _render = true;
     _tileX++;
     if (_tileX == _yTiles * 2) {
         _tileY++;
@@ -331,7 +371,7 @@ void CalenhadMapWidget::updateRenderParams () {
             }
         }
     }
-    glUniform3i (tileLoc, _tileX, _tileY, _tileSize);
+    glUniform3i (tileLoc, _tileX, _tileY, _tileSize);*/
 }
 
 void CalenhadMapWidget::paintGL() {
@@ -340,7 +380,7 @@ void CalenhadMapWidget::paintGL() {
         QPainter p (this);
         p.beginNativePainting ();
 
-            compute ();
+        compute ();
             static GLint srcLoc = glGetUniformLocation (_renderProgram->programId (), "srcTex");
             glUniform1i (srcLoc, 0);
 
@@ -473,6 +513,7 @@ void CalenhadMapWidget::setGraph (Graph* g) {
             emit rendered (false);
         }
     }
+    _computeVertices = true;
     redraw();
 }
 

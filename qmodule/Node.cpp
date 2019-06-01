@@ -41,7 +41,7 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
 }
 
 Node::~Node () {
-    if (_dialog) { delete _dialog; }
+
     if (_validator) { delete _validator; }
     if (_palette) { delete _palette; }
 

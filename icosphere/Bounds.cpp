@@ -7,7 +7,7 @@
 #include <QtGui/QtGui>
 
 
-using namespace icosphere;
+using namespace calenhad::icosphere;
 using namespace geoutils;
 
 int Bounds::estimateVertexCount (const int& level)const {

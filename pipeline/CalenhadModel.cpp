@@ -53,6 +53,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _filename (""),
     _undoEnabled (true),
     _lastSaved (QDateTime::currentDateTime()) {
+    CalenhadServices::provideIcosphere (10);
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);

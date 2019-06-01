@@ -125,6 +125,7 @@ namespace calenhad {
             double calenhad_desktop_nodegroup_height_default;
             double calenhad_desktop_nodegroup_width_default;
             double calenhad_model_extent;
+            int calenhad_icosphere_depth;
 
             // Modules
 

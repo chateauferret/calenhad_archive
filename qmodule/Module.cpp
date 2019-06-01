@@ -20,8 +20,9 @@
 #include "../nodeedit/CalenhadView.h"
 #include "../mapping/CalenhadMapWidget.h"
 #include "../nodeedit/CalenhadController.h"
+#include "../icosphere/icosphere.h"
 
-using namespace icosphere;
+using namespace calenhad::icosphere;
 using namespace calenhad::qmodule;
 using namespace calenhad::nodeedit;
 using namespace calenhad::controls;
@@ -40,6 +41,7 @@ Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* pa
                                                             _suppressRender (suppressRender),
                                                              _connectMenu (new QMenu()),
                                                              _preview (nullptr),
+                                                             _vertexBuffer (nullptr),
                                                             _stats (nullptr)   {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();
@@ -228,6 +230,7 @@ void Module::parameterChanged() {
 void Module::invalidate() {
     if (! _suppressRender) {
         Node::invalidate ();
+
         // if this node needs recalculating or rerendering, so do any nodes that depend on it -
         // that is any nodes with an input connected to this one's output
         for (Module* dependant : dependants ()) {
@@ -335,3 +338,11 @@ QColoredIcon* Module::icon () {
     return ((NodeBlock*) handle()) -> icon();
 }
 
+float* Module::vertexBuffer() {
+    if (! _vertexBuffer) {
+        _vertexBuffer = CalenhadServices::icosphere() -> vertexBuffer();
+    }
+
+    //_preview -> computeVertices (_vertexBuffer);
+    return _vertexBuffer;
+}

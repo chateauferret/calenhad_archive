@@ -9,11 +9,12 @@
 
 #include <unordered_map>
 #include <bits/unordered_map.h>
+#include <GL/gl.h>
 #include "icosphere.h"
 
 using namespace calenhad::icosphere;
 
-    Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _initial (true) {
+    Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _initial (true), _vertexBuffer (nullptr) {
 
         //--------------------------------------------------------------------------------
         // icosahedron data
@@ -31,7 +32,7 @@ using namespace calenhad::icosphere;
                 {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
                 {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11} };
         //--------------------------------------------------------------------------------
-
+        std::cout << "Icosphere depth " << depth << "\n";
         _triangles.reserve (depth);
         uint32_t capacity = 10 * pow (4, depth - 1) + 2;
         _vertices.reserve (capacity);
@@ -81,6 +82,7 @@ using namespace calenhad::icosphere;
     }
 
     void Icosphere::subdivide (const unsigned int& level) {
+        std::cout << "level " << level << "\n";
         while (_triangles.size() <= level) {
             _triangles.push_back (std::vector<Triangle*> ());
             _triangles.reserve (_triangles [_triangles.size() - 2].size() * 4);
@@ -198,7 +200,7 @@ using namespace calenhad::icosphere;
 
     Vertex* Icosphere::addVertex (const Cartesian& c, int level) {
         Vertex* v = new Vertex();
-        v -> id = ++ _count;
+        v -> id =  _count++;
         v -> cartesian = c;
         v -> level = level;
         _vertices.push_back (v);
@@ -215,7 +217,7 @@ using namespace calenhad::icosphere;
         if (parent) {
             parent->children.emplace_front (t);
         }
-        t -> level = parent ? parent -> level + 1 : 0;;
+        t -> level = parent ? parent -> level + 1 : 0;
         _triangles [t -> level].push_back (t);
     }
 
@@ -230,7 +232,7 @@ using namespace calenhad::icosphere;
         return _vertices [id];
     }
 
-    Vertex* Icosphere::nearest (const Geolocation& target, const unsigned int& depth)  {
+    Vertex* Icosphere::nearest (const LatLon& target, const unsigned int& depth)  {
         double d, dist;
         Vertex* pV;
         _lastVisited = _vertices [0];
@@ -253,7 +255,7 @@ using namespace calenhad::icosphere;
         _lastVisited = pV;
     }
 
-    Vertex* Icosphere::walkTowards (const Geolocation& target, const unsigned int& depth) {
+    Vertex* Icosphere::walkTowards (const LatLon& target, const unsigned int& depth) {
         Cartesian c;
         toCartesian (target, c);
         return walkTowards (c, depth);
@@ -295,13 +297,12 @@ using namespace calenhad::icosphere;
         return dist;
     }
 
-    void Icosphere::toGeolocation (const Cartesian& c, Geolocation& g) {
+    void Icosphere::toGeolocation (const Cartesian& c, LatLon& g) {
         _gc -> Reverse (c.x, c.y, c.z, g.lat, g.lon, g.height);
     }
 
-    Cartesian Icosphere::toCartesian (const Geolocation& g, Cartesian& c) {
+    Cartesian Icosphere::toCartesian (const LatLon& g, Cartesian& c) {
         _gc -> Forward (g.lat, g.lon, 0, c.x, c.y, c.z);
-
     }
 
     std::pair<std::vector<Triangle*>::iterator, std::vector<Triangle*>::iterator> Icosphere::triangles (const unsigned& level) {
@@ -312,9 +313,35 @@ using namespace calenhad::icosphere;
         return std::make_pair (_vertices .begin(), _vertices.end());
     }
 
+
+
     unsigned long Icosphere::vertexCount () {
         return _vertices.size();
     }
+
+float* Icosphere::vertexBuffer () {
+
+    delete _vertexBuffer;
+    int bytes = vertexCount() * 4 * sizeof (GLfloat);
+        _vertexBuffer = (GLfloat*) malloc (bytes);
+        std::cout << "Allocated " <<  bytes << " bytes for " << vertexCount () << " vertices \n";
+        Cartesian c;
+        Vertex* v;
+        int j = 0;
+
+        for (int i = 0; i < vertexCount(); i++) {
+            j = i * 4;
+            v = _vertices [i];
+            c = v -> cartesian;
+            _vertexBuffer [j] = (float) c.x;
+            _vertexBuffer [j + 1] = (float) c.y;
+            _vertexBuffer [j + 2] = (float) c.z;
+            _vertexBuffer [j + 3] = 0.0f;
+
+        }
+
+    return _vertexBuffer;
+}
 
 
 

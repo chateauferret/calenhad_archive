@@ -123,7 +123,7 @@ namespace calenhad {
             geoutils::Geolocation _rotation;
             calenhad::graph::Graph* _graph;
             QString _shader;
-            float* _colorMapBuffer;
+            GLfloat* _colorMapBuffer, * _icosphereBuffer;
             GLfloat _scale;
             calenhad::mapping::projection::Projection* _projection;
             QPointF _translation;
@@ -174,8 +174,7 @@ namespace calenhad {
 
 
             QOpenGLVertexArrayObject m_vao;
-            QOpenGLBuffer* _vertexBuffer;
-            QOpenGLBuffer* _indexBuffer;
+            QOpenGLBuffer* _indexBuffer, * _vertexBuffer;
             QOpenGLShaderProgram* _computeProgram;
             QOpenGLShaderProgram* _renderProgram;
             QOpenGLShader* _computeShader;
@@ -194,7 +193,7 @@ namespace calenhad {
 
             void createTexture ();
 
-            void updateRenderParams ();
+            void updateParams ();
 
             GLint _tileX, _tileY, _tileSize;
             GLuint heightMap = 1;
@@ -207,6 +206,10 @@ namespace calenhad {
             void setInteractive (const bool& interactive);
             QTimer* _interactiveTimer;
             int _createHeightMap;
+
+            void prepareRasters ();
+            bool _computeVertices;
+
         };
     }
 }
