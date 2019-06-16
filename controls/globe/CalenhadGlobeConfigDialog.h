@@ -32,7 +32,7 @@ namespace calenhad {
     namespace controls {
         class ColorButton;
         namespace globe {
-            class CalenhadGlobeDialog;
+            class CalenhadGlobeWidget;
 
             class CalenhadGlobeConfigDialog : public QDialog {
             Q_OBJECT
@@ -41,7 +41,7 @@ namespace calenhad {
 
 
             public:
-                CalenhadGlobeConfigDialog (CalenhadGlobeDialog* parent);
+                CalenhadGlobeConfigDialog (CalenhadGlobeWidget* parent);
 
                 virtual ~CalenhadGlobeConfigDialog ();
 
@@ -83,7 +83,7 @@ namespace calenhad {
                 void legendChanged (calenhad::legend::Legend* legend);
 
             protected:
-                CalenhadGlobeDialog* _parent;
+                CalenhadGlobeWidget* _parent;
                 QCheckBox* _overviewCheck;
                 QCheckBox* _scaleCheck;
                 QCheckBox* _zoomBarCheck;

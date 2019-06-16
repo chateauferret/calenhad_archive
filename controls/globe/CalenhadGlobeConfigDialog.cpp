@@ -9,7 +9,7 @@
 #include <QFormLayout>
 #include <QTextEdit>
 #include <QtWidgets/QDialogButtonBox>
-#include "CalenhadGlobeDialog.h"
+#include "CalenhadGlobeWidget.h"
 #include "CalenhadGlobeConfigDialog.h"
 #include "CalenhadServices.h"
 #include "CalenhadStatsPanel.h"
@@ -31,7 +31,7 @@ using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 using namespace calenhad::graph;
 
-CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* parent) : QDialog (), _parent (parent) {
+CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeWidget* parent) : QDialog (), _parent (parent) {
     setLayout (new QVBoxLayout ());
 
     QTabWidget* tabs = new QTabWidget (this);

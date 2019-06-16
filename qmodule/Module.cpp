@@ -14,8 +14,9 @@
 #include "../legend/Legend.h"
 #include "../pipeline/ModuleFactory.h"
 #include <QDialogButtonBox>
-#include <controls/globe/CalenhadGlobeDialog.h>
+#include <controls/globe/CalenhadGlobeWidget.h>
 #include <controls/globe/CalenhadStatsPanel.h>
+#include <controls/globe/CalenhadGlobeDialog.h>
 #include "nodeedit/Connection.h"
 #include "../nodeedit/CalenhadView.h"
 #include "../mapping/CalenhadMapWidget.h"
@@ -77,7 +78,6 @@ void Module::showGlobe() {
             _globe = new CalenhadGlobeDialog (this, this);
             _globe -> initialise ();
             _globe -> resize (640, 320);
-            connect (_globe -> globe(), &CalenhadMapWidget::rendered, this, &Module::rendered);
         }
         _globe -> show();
     }
@@ -237,7 +237,7 @@ void Module::invalidate() {
             dependant->invalidate ();
         }
         if (_globe && _globe->isVisible ()) {
-            _globe->invalidate ();
+            _globe->update ();
         }
         if (_statsPanel) {
             _statsPanel->refresh ();

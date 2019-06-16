@@ -3,7 +3,7 @@
 //
 
 #include "CalenhadGlobeContextMenu.h"
-#include "CalenhadGlobeDialog.h"
+#include "CalenhadGlobeWidget.h"
 #include "CalenhadServices.h"
 #include "../../mapping/projection/ProjectionService.h"
 #include "../../mapping/projection/Projection.h"
@@ -12,7 +12,7 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 
-CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent) : QMenu(), _parent (parent) {
+CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeWidget* parent) : QMenu(), _parent (parent) {
 
     _showOverviewMapAction = new QAction ("Overview map", this);
     _showOverviewMapAction->setStatusTip ("Toggle the display of the overview map");
@@ -132,7 +132,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
     _captureMenu = new QMenu ("Capture", this);
     QAction* _captureGreyscaleAction = new QAction ("Export heightmap", this);
     _captureGreyscaleAction -> setToolTip ("Generate a heightmap map and save");
-    connect (_captureGreyscaleAction, &QAction::triggered, _parent, &CalenhadGlobeDialog::captureGreyscale);
+    connect (_captureGreyscaleAction, &QAction::triggered, _parent, &CalenhadGlobeWidget::captureGreyscale);
     _captureMenu -> addAction (_captureGreyscaleAction);
     addMenu (_captureMenu);
 
@@ -151,7 +151,7 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent)
     configureAction -> setStatusTip ("Configure properties for the globe");
     configureAction -> setCheckable (false);
     addAction (configureAction);
-    connect (configureAction, &QAction::triggered, parent, &CalenhadGlobeDialog::showConfigDialog);
+    connect (configureAction, &QAction::triggered, parent, &CalenhadGlobeWidget::showConfigDialog);
 
 
 }

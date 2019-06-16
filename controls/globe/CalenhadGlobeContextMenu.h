@@ -22,12 +22,12 @@ namespace calenhad {
     namespace controls {
         namespace globe {
 
-            class CalenhadGlobeDialog;
+            class CalenhadGlobeWidget;
 
             class CalenhadGlobeContextMenu : public QMenu {
             Q_OBJECT
             public:
-                CalenhadGlobeContextMenu (CalenhadGlobeDialog* parent);
+                CalenhadGlobeContextMenu (CalenhadGlobeWidget* parent);
 
                 virtual ~CalenhadGlobeContextMenu ();
 
@@ -54,7 +54,7 @@ namespace calenhad {
                 void scaleVisibleSelected (const bool&);
 
             protected:
-                CalenhadGlobeDialog* _parent;
+                CalenhadGlobeWidget* _parent;
                 QMenu* _mouseDragMenu;
                 QAction* _panAction;
                 QAction* _zoomAction;

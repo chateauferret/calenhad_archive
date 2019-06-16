@@ -13,6 +13,8 @@ SET (GLOBE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConstants.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeDialog.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeDialog.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeWidget.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeWidget.cpp
         ${CMAKE_CURRENT_LIST_DIR}/GlobeScaleWidget.h
         ${CMAKE_CURRENT_LIST_DIR}/GlobeScaleWidget.cpp
         ${CMAKE_CURRENT_LIST_DIR}/HypsographyWidget.h

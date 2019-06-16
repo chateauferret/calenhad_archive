@@ -16,6 +16,7 @@
 #include <memory>
 #include <QtWidgets/QCheckBox>
 #include <mapping/CalenhadMapWidget.h>
+#include <controls/globe/CalenhadGlobeDialog.h>
 #include "Node.h"
 
 
@@ -31,7 +32,6 @@ namespace calenhad {
     namespace controls {
         class QColoredIcon;
         namespace globe {
-            class CalenhadMapView;
             class CalenhadGlobeDialog;
             class CalenhadStatsPanel;
         }
