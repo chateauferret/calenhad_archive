@@ -17,4 +17,4 @@ SET (GLOBE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/GlobeScaleWidget.cpp
         ${CMAKE_CURRENT_LIST_DIR}/HypsographyWidget.h
         ${CMAKE_CURRENT_LIST_DIR}/HypsographyWidget.cpp
-)
+        )

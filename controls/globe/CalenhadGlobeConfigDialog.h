@@ -66,7 +66,7 @@ namespace calenhad {
                 calenhad::mapping::projection::Projection* selectedProjection ();
 
                 calenhad::legend::Legend* selectedLegend ();
-                const calenhad::controls::globe::RenderQuality selectedRenderQuality ();
+
                 void commitChanges ();
 
                 geoutils::CoordinatesFormat coordinatesFormat ();

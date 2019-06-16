@@ -39,7 +39,8 @@ CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, Module* source) : QDi
     _configDialog (nullptr),
     _contextMenu (nullptr),
     _moveFrom (QPoint (0, 0)),
-    _globe (new CalenhadMapWidget (this)),
+    _globe (new CalenhadMapWidget (RenderMode::RenderModeGlobe, this)),
+    _overview (new CalenhadMapWidget (RenderMode::RenderModeOverview, this)),
     _graph (nullptr),
     _geodesic (new Geodesic (1, 0)),
     _zoomSlider (nullptr),
@@ -50,7 +51,9 @@ CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, Module* source) : QDi
     connect (_globe, &QWidget::customContextMenuRequested, this, &CalenhadGlobeDialog::showContextMenu);
     _globe -> setSource (source);
     _globe -> setProjection ("Orthographic");
-    _globe -> setInset (true);
+
+    _overview -> setSource (source);
+    _overview -> setProjection ("Orthographic");
 }
 
 void CalenhadGlobeDialog::initialise() {
@@ -81,6 +84,14 @@ void CalenhadGlobeDialog::initialise() {
     _scale -> move (20, height() - 20);
     _scale -> setMargin (5);
     _scale -> setVisible (true);
+
+    // overview map
+    _overview -> resize (CalenhadServices::preferences() -> calenhad_globe_inset_height * 2, CalenhadServices::preferences() -> calenhad_globe_inset_height);
+    _overview -> move (20, 20);
+    _overview -> setVisible (true);
+
+    // when the main map is rendered, update its parameters to the overview so that it can mark the extent of the main map, and render it as well
+    _overview -> setMainMap (_globe);
 }
 
 CalenhadGlobeDialog::~CalenhadGlobeDialog() {
@@ -91,6 +102,9 @@ CalenhadGlobeDialog::~CalenhadGlobeDialog() {
 
 void CalenhadGlobeDialog::invalidate () {
     _globe -> update();
+     if (_overview) {
+         _overview -> update();
+     }
 }
 
 void CalenhadGlobeDialog::resizeEvent (QResizeEvent* e) {
@@ -111,6 +125,10 @@ void CalenhadGlobeDialog::resizeEvent (QResizeEvent* e) {
         if (_navigator) {
             _navigator->setFixedSize (100, 100);
             _navigator->move (std::max (20, width - 20 - _navigator->height ()), 20);
+        }
+        if (_overview) {
+            _overview -> resize (CalenhadServices::preferences() -> calenhad_globe_inset_height * 2, CalenhadServices::preferences() -> calenhad_globe_inset_height );
+            _overview -> move (20, std::max (20, height - 20 - _overview -> height()));
         }
         invalidate();
         emit resized (QSize (e -> size().width(), height));
@@ -133,7 +151,7 @@ void CalenhadGlobeDialog::showContextMenu (const QPoint& pos) {
 }
 
 void CalenhadGlobeDialog::showOverviewMap (const bool& show) {
-    _globe -> setInset (show);
+    _overview -> setVisible (show);
 }
 
 
@@ -192,7 +210,6 @@ void CalenhadGlobeDialog::updateConfig () {
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
     _globe -> setProjection (_configDialog -> selectedProjection() -> name ());
-    _globe -> setRenderQuality (_configDialog -> selectedRenderQuality());
     _configDialog -> update();
     _contextMenu -> update();
     for (Legend* legend : CalenhadServices::legends() -> all()) {
@@ -220,12 +237,12 @@ CalenhadMapWidget* CalenhadGlobeDialog::globe () {
     return _globe;
 }
 
-bool CalenhadGlobeDialog::isOverviewVisible () {
-    return _globe -> inset();
-}
-
 void CalenhadGlobeDialog::captureGreyscale() {
     QImage* image = _globe -> heightmap ();
     QString fileName = QFileDialog::getSaveFileName (this, tr("Save heightmap image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
     image -> save (fileName);
+}
+
+bool CalenhadGlobeDialog::isOverviewVisible() {
+    return _overview -> isVisible();
 }

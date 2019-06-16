@@ -118,7 +118,7 @@ namespace calenhad {
 
                 //Marble::Projection _projection;
                 bool _graticuleVisible;
-                calenhad::mapping::CalenhadMapWidget* _globe;
+                calenhad::mapping::CalenhadMapWidget* _globe, *_overview;
                 icosphere::Bounds _bounds;
                 graph::Graph* _graph;
                 calenhad::controls::globe::GlobeScaleWidget* _scale;

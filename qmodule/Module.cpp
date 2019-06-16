@@ -84,8 +84,8 @@ void Module::showGlobe() {
 }
 
 void Module::setupPreview() {
-    _preview = new CalenhadMapWidget (this);
-    _preview->setSource (this);
+    _preview = new CalenhadMapWidget (RenderMode::RenderModePreview, this);
+    _preview -> setSource (this);
     _previewIndex = addPanel (tr ("Preview"), _preview);
     _stats = new QDialog (this);
 
@@ -102,7 +102,7 @@ void Module::setupPreview() {
     QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
     connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
     connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
-    connect (_preview, &CalenhadMapWidget::rendered, this, &Module::rendered);
+
     _contextMenu -> addAction (statsAction);
 }
 
@@ -147,7 +147,7 @@ void Module::serialize (QDomElement& element) {
     _element.setAttribute ("legend", _legend -> name());
 }
 
-void Module::rendered (const bool& success) {
+void Module::rendered() {
 
 }
 

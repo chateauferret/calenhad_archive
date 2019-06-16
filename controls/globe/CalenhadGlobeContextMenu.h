@@ -34,7 +34,6 @@ namespace calenhad {
             public slots:
 
                 void setDragMode (const bool& enable);
-                void selectQuality();
 
             signals:
 
@@ -72,8 +71,6 @@ namespace calenhad {
                 QMenu* _projectionMenu;
                 QActionGroup* _projectionActions;
                 QMenu* _captureMenu;
-                QMenu* _qualityMenu;
-                QAction* _qualityBestAction, * _qualityDecentAction, * _qualityDraftAction, * _qualityShiteAction;
 
             protected slots:
 

@@ -108,7 +108,7 @@ void Preferences::loadSettings() {
     calenhad_globe_zoom_max = _settings -> value ("calenhad/globe/zoom/max", 4.0).toDouble (&ok);
 
     // Dimensions
-    calenhad_globe_inset_height = _settings -> value ("calenhad/globe/inset/height", 64).toUInt (&ok);
+    calenhad_globe_inset_height = _settings -> value ("calenhad/globe/inset/height", 128).toUInt (&ok);
     calenhad_globe_texture_height = _settings -> value ("calenhad/globe/texture/height", 1024).toUInt (&ok);
 
     // Scale bar
@@ -127,7 +127,6 @@ void Preferences::loadSettings() {
     calenhad_graticule_major_text_color = _settings -> value ("calenhad/graticule/major/text/color", "#FFFFFF").value<QColor>();
     calenhad_graticule_minor_text_size = _settings -> value ("calenhad/graticule/major/text/size", 8).toUInt();
     calenhad_graticule_minor_text_color = _settings -> value ("calenhad/graticule/major/text/color", "#00FFFF").value<QColor>();
-    calenhad_graticule_density = _settings -> value ("calenhad/graticule/density", 2).toUInt();
     calenhad_graticule_visible = _settings -> value ("calenhad/graticule/visible", true).toBool();
 
     // Other UI elements

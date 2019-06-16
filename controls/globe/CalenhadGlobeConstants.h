@@ -19,11 +19,11 @@ namespace calenhad {
                 NoDatum, Native, Scaled
             };
 
-            enum RenderQuality {
-                RenderQualityBest = 1,
-                RenderQualityDecent = 2,
-                RenderQualityDraft = 3,
-                RenderQualityShite = 4
+            enum RenderMode {
+                RenderModePreview = 0,
+                RenderModeOverview = 1,
+                RenderModeGlobe = 2,
+                RenderModeVertices = 3
             };
 
         }

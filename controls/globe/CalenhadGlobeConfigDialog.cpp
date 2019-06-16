@@ -175,7 +175,7 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeDialog* paren
 
     _graticuleMinorWeightSlider -> setRange (1, 6);
     _graticuleMajorWeightSlider -> setRange (1, 6);
-    _densitySlider -> setRange (0, 4);
+    _densitySlider -> setRange (0, 3);
 
     tabs -> addTab (_graticuleTab, "Graticule");
 
@@ -229,11 +229,6 @@ void CalenhadGlobeConfigDialog::initialise() {
     Projection* projection = _parent -> globe() -> projection();
     _projectionCombo -> setCurrentText (projection -> name());
 
-    RenderQuality quality = _parent -> globe() -> renderQuality();
-    if (quality == RenderQuality::RenderQualityShite) { _renderQualityCombo -> setCurrentText ("Shite"); }
-    if (quality == RenderQuality::RenderQualityDraft) { _renderQualityCombo -> setCurrentText ("Draft"); }
-    if (quality == RenderQuality::RenderQualityDecent) { _renderQualityCombo -> setCurrentText ("Decent"); }
-    if (quality == RenderQuality::RenderQualityBest) { _renderQualityCombo -> setCurrentText ("Best"); }
 }
 
 QPen CalenhadGlobeConfigDialog::graticuleMajorPen() {
@@ -320,11 +315,3 @@ int CalenhadGlobeConfigDialog::graticuleDensity () {
     return _densitySlider -> value();
 }
 
-const RenderQuality CalenhadGlobeConfigDialog::selectedRenderQuality () {
-    bool ok;
-    if (_renderQualityCombo->currentText () == "Best") { return RenderQuality::RenderQualityBest; }
-    if (_renderQualityCombo->currentText () == "Decent") { return RenderQuality::RenderQualityDecent; }
-    if (_renderQualityCombo->currentText () == "Draft") { return RenderQuality::RenderQualityDraft; }
-    if (_renderQualityCombo->currentText () == "Shite") { return RenderQuality::RenderQualityShite; }
-    return _parent->globe ()->renderQuality();
-}

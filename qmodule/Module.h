@@ -82,7 +82,7 @@ namespace calenhad {
         public slots:
             void setupPreview ();
             void showGlobe ();
-            void rendered (const bool& success);
+            void rendered();
             void parameterChanged() override;
             void invalidate() override;
         protected:
