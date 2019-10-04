@@ -6,8 +6,6 @@ layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_in []; };
 layout (std430, binding = 3) buffer heightMapBuffer { float height_map_out []; };
 layout (std430, binding = 4) buffer vertexBuffer { vec4 vertices []; };
 
-layout (local_size_x = 32, local_size_y = 32) in;
-
 uniform int altitudeMapBufferSize;
 uniform int colorMapBufferSize;
 uniform int imageHeight = 512;

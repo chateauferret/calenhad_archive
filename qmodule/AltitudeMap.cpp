@@ -23,7 +23,7 @@ using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::mapping;
 
-AltitudeMap::AltitudeMap (QWidget* parent) : Module (CalenhadServices::preferences() -> calenhad_module_altitudemap), _editor (nullptr) {
+AltitudeMap::AltitudeMap (QWidget* parent) : Module (CalenhadServices::preferences ()->calenhad_module_altitudemap, nullptr), _editor (nullptr) {
     makeContentPanel();
 }
 

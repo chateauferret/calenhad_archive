@@ -422,7 +422,7 @@ void Calenhad::setModel (CalenhadModel* model) {
     _controller-> setModel (_model);
     _model -> setController (_controller);
     _view -> setController (_controller);
-    _view -> setScene (_model);
+    _view -> setModel (_model);
     _controller -> addView (_view);
     connect (_view, &CalenhadView::viewZoomed, this, &Calenhad::updateZoomActions);
     connect (_model, &CalenhadModel::titleChanged, this, &Calenhad::titleChanged);

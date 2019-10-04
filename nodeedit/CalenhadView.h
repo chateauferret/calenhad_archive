@@ -36,9 +36,10 @@ namespace calenhad {
             bool gridVisible();
             void setSnapToGrid (const bool& enabled);
             bool snapToGrid();
+            void setModel (pipeline::CalenhadModel* model);
 
         public slots:
-
+            void modelChanged();
         signals:
             void zoomInRequested();
             void zoomOutRequested();

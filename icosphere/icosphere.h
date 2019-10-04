@@ -69,10 +69,7 @@ namespace icosphere {
 
         static double distSquared (const Cartesian& a, const Cartesian& b);
 
-
         inline void divideTriangle (Triangle* t);
-
-        void removeTriangle (Triangle* t);
 
         std::pair<std::vector<Triangle*>::iterator, std::vector<Triangle*>::iterator> triangles (const unsigned& level);
 

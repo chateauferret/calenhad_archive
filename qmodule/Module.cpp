@@ -36,13 +36,13 @@ using namespace calenhad::expressions;
 
 int Module::seed = 0;
 
-Module::Module (const QString& nodeType, const bool& suppressRender, QWidget* parent) : Node (nodeType, parent),
+Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, parent),
                                                             _globe (nullptr),
                                                             _shownParameter (QString::null),
-                                                            _suppressRender (suppressRender),
-                                                             _connectMenu (new QMenu()),
-                                                             _preview (nullptr),
-                                                             _vertexBuffer (nullptr),
+                                                            _suppressRender (false),
+                                                            _connectMenu (new QMenu()),
+                                                            _preview (nullptr),
+                                                            _vertexBuffer (nullptr),
                                                             _stats (nullptr)   {
     _legend = CalenhadServices::legends() -> defaultLegend();
     initialise();

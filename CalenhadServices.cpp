@@ -114,7 +114,11 @@ Calculator* CalenhadServices::calculator () {
 
 void CalenhadServices::provideIcosphere (int depth) {
     if (_icosphere) { delete _icosphere; }
-    _icosphere = new Icosphere (depth);
+
+        double start = clock () / static_cast<double> (CLOCKS_PER_SEC);
+        _icosphere = new Icosphere (depth);
+        double end = clock () / static_cast<double> (CLOCKS_PER_SEC);
+        std::cout << "Built icosphere with " << _icosphere -> vertexCount () << " vertices in " << end - start << " seconds" << "\n";
 }
 
 calenhad::icosphere::Icosphere* CalenhadServices::icosphere () {

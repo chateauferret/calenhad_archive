@@ -45,7 +45,7 @@ namespace calenhad {
             Q_ENUMS (ModuleType)
 
         public:
-            Module (const QString& nodeType, const bool& suppressRender = false, QWidget* parent = 0);
+            Module (const QString& nodeType, QWidget* parent);
             virtual ~Module ();
             QString label();
             QString description();

@@ -179,7 +179,7 @@ void CalenhadMapWidget::compute () {
     QCursor oldCursor = cursor ();
     setCursor (Qt::BusyCursor);
     //if (_interactive && _tileX > 0 && _tileY > 0) { updateParams(); return; }
-    int vertexBytes = sizeof (GLfloat) * CalenhadServices::icosphere() -> vertexCount() * 4;
+
     int colorMapBytes = sizeof (GLfloat) * _graph -> colorMapBufferSize();
     if (_graph) {
 
@@ -197,15 +197,7 @@ void CalenhadMapWidget::compute () {
 
             start = tileStart;
 
-            // if we want an icosphere computed, upload the vertex coordinates and buffer for results
-            if (_computeVertices) {
-                _icosphereBuffer = (GLfloat*) _source -> vertexBuffer();
-                glGenBuffers (1, &icosphereBuffer);
-                glBindBuffer (GL_SHADER_STORAGE_BUFFER, icosphereBuffer);
-                glBufferData (GL_SHADER_STORAGE_BUFFER, vertexBytes, _icosphereBuffer, GL_DYNAMIC_COPY);
-                glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 4, icosphereBuffer);
-                glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
-            }
+
 
             // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
             _colorMapBuffer = (GLfloat*) _graph -> colorMapBuffer();
@@ -225,6 +217,13 @@ void CalenhadMapWidget::compute () {
             glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
             if (_computeVertices) {
+                int vertexBytes = sizeof (GLfloat) * CalenhadServices::icosphere() -> vertexCount() * 4;
+                _icosphereBuffer = (GLfloat*) _source -> vertexBuffer();
+                glGenBuffers (1, &icosphereBuffer);
+                glBindBuffer (GL_SHADER_STORAGE_BUFFER, icosphereBuffer);
+                glBufferData (GL_SHADER_STORAGE_BUFFER, vertexBytes, _icosphereBuffer, GL_DYNAMIC_COPY);
+                glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 4, icosphereBuffer);
+                glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
 
                 // compute values for the icosphere's vertices
 
@@ -245,7 +244,7 @@ void CalenhadMapWidget::compute () {
                 glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, vertexBytes, _icosphereBuffer);
                 clock_t vertexEnd = clock ();
                 clock_t vertexTime = (int) (((double) vertexEnd - (double) vertexStart) / CLOCKS_PER_SEC * 1000.0);
-                std::cout << "Computed " << vertexBytes << " data for " << CalenhadServices::icosphere ()->vertexCount () << " vertices in " << vertexTime
+                std::cout << "Computed " << CalenhadServices::icosphere ()->vertexCount () << " vertices in " << vertexTime
                           << " ms\n";
                 glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
                 _computeVertices = false;
@@ -295,7 +294,7 @@ void CalenhadMapWidget::prepareRasters () {
         _rasterTexture = new QOpenGLTexture (QOpenGLTexture::Target2DArray);
         _rasterTexture->create ();
         _rasterTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-        _rasterTexture->setSize (CalenhadServices::preferences ()->calenhad_globe_texture_height, CalenhadServices::preferences ()->calenhad_globe_texture_height);
+        _rasterTexture->setSize (CalenhadServices::preferences() -> calenhad_globe_texture_height, CalenhadServices::preferences() -> calenhad_globe_texture_height);
         _rasterTexture->setMinificationFilter (QOpenGLTexture::Linear);
         _rasterTexture->setMagnificationFilter (QOpenGLTexture::Linear);
         _rasterTexture->allocateStorage ();
@@ -303,7 +302,7 @@ void CalenhadMapWidget::prepareRasters () {
         glBindImageTexture (1, _rasterTexture->textureId (), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA8);
         for (int i = 0; i < rasters; i++) {
             QImage* raster = _graph->raster (i);
-            _rasterTexture->setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster->bits ());
+            _rasterTexture -> setData (0, i, QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, (void*) raster -> bits ());
         }
     }
 }

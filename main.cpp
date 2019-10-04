@@ -88,11 +88,10 @@ int main (int argc, char **argv) {
 
     // Calenhad model - the arrangement of modules and connections between them
     Calenhad* window = new Calenhad();
-
-    window -> setStyleSheet (preferences -> styleSheet());
+    window -> setStyleSheet (Preferences::styleSheet());
     window -> show();
 
 
 
-    return app.exec();
+    return QApplication::exec();
 }

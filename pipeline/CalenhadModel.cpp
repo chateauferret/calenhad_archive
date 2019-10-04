@@ -53,7 +53,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _filename (""),
     _undoEnabled (true),
     _lastSaved (QDateTime::currentDateTime()) {
-    CalenhadServices::provideIcosphere (10);
+    CalenhadServices::provideIcosphere (7);
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
@@ -61,6 +61,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _connectSubMenu = new QMenu (_connectMenu);
     int extent = CalenhadServices::preferences() -> calenhad_model_extent;
     setSceneRect (-extent, -extent, extent, extent);
+
     // Load legends from default legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
     inflate (file, CalenhadFileType::CalenhadLegendFile);

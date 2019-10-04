@@ -10,7 +10,7 @@ using namespace calenhad::preferences;
 using namespace calenhad::qmodule;
 using namespace calenhad::icosphere;
 
-IcosphereModule::IcosphereModule (Module* parent) : Module  (CalenhadServices::preferences() -> calenhad_module_raster, parent) {
+IcosphereModule::IcosphereModule (Module* parent) : Module (CalenhadServices::preferences ()->calenhad_module_raster, nullptr) {
 
 }
 

@@ -20,7 +20,7 @@ using namespace icosphere;
 using namespace calenhad::controls;
 using namespace geoutils;
 
-RasterModule::RasterModule (Module* parent) : Module (CalenhadServices::preferences() -> calenhad_module_raster, parent),
+RasterModule::RasterModule (Module* parent) : Module (CalenhadServices::preferences ()->calenhad_module_raster, nullptr),
     _raster (nullptr),
     _filename (QString::null) {
     initialise();

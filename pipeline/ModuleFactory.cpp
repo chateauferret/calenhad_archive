@@ -105,7 +105,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         if (type == "raster") { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
 
         if (! n) {
-            qm = new Module (type, suppressRender);
+            qm = new Module (type, nullptr);
             n = qm;
         }
 
