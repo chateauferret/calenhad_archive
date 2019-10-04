@@ -213,7 +213,7 @@ void CalenhadView::modelChanged() {
 
     // Check that the scene has a bigger limit in the right side
     if (sceneRect().right() < rectInScene.right()) {
-        newBottomRight.setX (rectInScene.right());
+        newBottomRight.setX (rectInScene.right());P
     }
 
     // Set new scene size
