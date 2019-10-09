@@ -15,29 +15,29 @@ namespace calenhad {
     namespace qmodule {
         class RasterModule : public Module {
         public:
-            RasterModule (Module* parent = 0);
-            virtual ~RasterModule();
-            void setRaster (const QImage& raster);
+            explicit RasterModule (const QString& type = CalenhadServices::preferences ()->calenhad_module_raster);
+            ~RasterModule() override;
+
             QImage* raster();
             void initialise() override;
             bool isComplete() override;
             icosphere::Bounds bounds();
             QString glsl() override;
+
         protected:
-            QString _filename;
+
             QImage* _raster;
-            QLabel* _filenameLabel;
-            QFormLayout* _rasterLayout;
+
+
             QGridLayout* _boundsLayout;
             QWidget* _rasterContent, * _boundsContent;
             icosphere::Bounds _bounds;
             calenhad::controls::QAngleControl* _northBoundsText, * _southBoundsText, * _eastBoundsText, * _westBoundsText;
 
         protected slots:
-            void fileDialogRequested();
-            void openFile (const QString& filename);
-            void serialize (QDomElement& element);
-            void inflate (const QDomElement& element);
+
+            void serialize (QDomElement& element) override;
+            void inflate (const QDomElement& element) override;
             void updateBounds();
 
             void setBounds (icosphere::Bounds bounds);

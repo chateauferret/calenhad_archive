@@ -11,6 +11,7 @@
 #include "../controls/QAngleControl.h"
 #include "../preferences/PreferencesService.h"
 #include "../mapping/CalenhadMapWidget.h"
+#include "RasterFileModule.h"
 
 
 using namespace calenhad::qmodule;
@@ -20,14 +21,12 @@ using namespace icosphere;
 using namespace calenhad::controls;
 using namespace geoutils;
 
-RasterModule::RasterModule (Module* parent) : Module (CalenhadServices::preferences ()->calenhad_module_raster, nullptr),
-    _raster (nullptr),
-    _filename (QString::null) {
-    initialise();
+RasterModule::RasterModule (const QString& type) : Module (type, nullptr),
+                                           _raster (nullptr) {
 }
 
 RasterModule::~RasterModule() {
-    if (_raster) { delete _raster; }
+    delete _raster;
 }
 
 /// Initialise a QRasterModule ready for use. Creates the UI.
@@ -56,12 +55,7 @@ void RasterModule::initialise() {
     _southBoundsText = new QAngleControl ("South", AngleType::Latitude);
     _boundsLayout -> addWidget (_southBoundsText, 3, 1, 1, 2, Qt::AlignCenter);
 
-    _rasterLayout = new QFormLayout();
-    _rasterContent = new QWidget (_expander);
-    _rasterContent -> setLayout (_rasterLayout);
-    _rasterLayout->setContentsMargins (5, 0, 5, 0);
-    _rasterLayout->setVerticalSpacing (0);
-    addPanel ("Raster", _rasterContent);
+
 
     connect (_northBoundsText, &QAngleControl::valueChanged, this, &RasterModule::updateBounds);
     connect (_westBoundsText, &QAngleControl::valueChanged, this, &RasterModule::updateBounds);
@@ -70,53 +64,12 @@ void RasterModule::initialise() {
 
     setBounds (_bounds);
 
-    _filenameLabel = new QLabel (this);
-    _filenameLabel -> setMinimumSize (QSize (160, 80));
-    QPushButton* selectFileButton = new QPushButton (this);
-    selectFileButton -> setFixedSize (100, 20);
-    selectFileButton -> setText ("Select image...");
-    _rasterLayout -> addWidget (_filenameLabel);
-    _rasterLayout -> addWidget (selectFileButton);
-    connect (selectFileButton, &QAbstractButton::pressed, this, &RasterModule::fileDialogRequested);
 
 }
 
-void RasterModule::setRaster (const QImage& raster) {
-    if (! raster.isNull()) {
-        QImage p = raster.scaled (CalenhadServices::preferences() -> calenhad_globe_texture_height, CalenhadServices::preferences() -> calenhad_globe_texture_height);
-        if (_raster) {
-            delete _raster;
-        }
-        _raster = new QImage (p);
-        QPixmap pixmap = QPixmap::fromImage (p).scaled (_filenameLabel -> size());
-        _filenameLabel -> setPixmap (pixmap);
-        _filenameLabel -> setToolTip (_filename);
-        _expander -> setItemEnabled (_previewIndex, isComplete());
-        invalidate();
-    } else {
-
-    }
-}
 
 QImage* RasterModule::raster() {
     return _raster;
-}
-
-void RasterModule::fileDialogRequested () {
-    QString dir;
-    if (_filename != QString::null) {
-        QDir f (_filename);
-        dir = f.dirName ();
-    }
-    QString filename = QFileDialog::getOpenFileName (this, "Select raster", "dir", "Image Files (*.png *.jpg *.bmp)");
-    QPixmap pixmap (filename);
-    openFile (filename);
-}
-
-void RasterModule::openFile (const QString& filename) {
-    QImage raster = QImage (filename);
-    _filename = filename;
-    setRaster (raster);
 }
 
 bool RasterModule::isComplete() {
@@ -134,8 +87,7 @@ bool RasterModule::isBoundsValid() {
 
 void RasterModule::inflate (const QDomElement& element) {
     Module::inflate (element);
-    QDomElement rasterElement = element.firstChildElement ("filename");
-    QString filename = rasterElement.attribute ("filename");
+
     QDomElement boundsElement = element.firstChildElement ("bounds");
     bool ok = false;
     double north = boundsElement.attribute ("north").toDouble (&ok);
@@ -149,19 +101,15 @@ void RasterModule::inflate (const QDomElement& element) {
         bounds = Bounds();
     }
     setBounds (bounds);
-    openFile (filename);
 }
 
 void RasterModule::serialize (QDomElement& element) {
     Module::serialize (element);
-    QDomElement rasterElement = _document.createElement ("filename");
-    rasterElement.setAttribute ("filename", _filename);
     QDomElement boundsElement = _document.createElement ("bounds");
     boundsElement.setAttribute ("north", _bounds.north());
     boundsElement.setAttribute ("south", _bounds.south());
     boundsElement.setAttribute ("west", _bounds.west());
     boundsElement.setAttribute ("east", _bounds.east());
-    _element.appendChild (rasterElement);
     _element.appendChild (boundsElement);
 }
 

@@ -62,11 +62,11 @@ void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
 }
 
 void CalenhadView::dragLeaveEvent (QDragLeaveEvent *event) {
-
+    Q_DECL_UNUSED (event);
 }
 
 void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
-    QPointF pos = mapToScene (event -> pos());
+    //QPointF pos = mapToScene (event -> pos());
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
         if (event -> source() == this) {
             event -> setDropAction(Qt::MoveAction);
@@ -213,7 +213,7 @@ void CalenhadView::modelChanged() {
 
     // Check that the scene has a bigger limit in the right side
     if (sceneRect().right() < rectInScene.right()) {
-        newBottomRight.setX (rectInScene.right());P
+        newBottomRight.setX (rectInScene.right());
     }
 
     // Set new scene size

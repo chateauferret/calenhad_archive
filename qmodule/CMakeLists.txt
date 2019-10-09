@@ -12,5 +12,7 @@ SET(QMODULE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/NodeGroup.h
         ${CMAKE_CURRENT_LIST_DIR}/ParamValidator.h
         ${CMAKE_CURRENT_LIST_DIR}/RasterModule.h
-        ${CMAKE_CURRENT_LIST_DIR}/RasterModule.cpp)
+        ${CMAKE_CURRENT_LIST_DIR}/RasterModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/RasterFileModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/RasterFileModule.cpp)
 
