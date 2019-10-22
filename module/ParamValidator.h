@@ -7,11 +7,11 @@
 
 #include <QtCore/QString>
 #include <cfloat>
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include "geoutils.h"
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
 
         class ParamValidator {
 
@@ -25,31 +25,31 @@ namespace calenhad {
         public:
             bool isInValidSet (const double& value) override { return true; }
             bool isInBestSet (const double& value) override { return true; }
-            QString toString (const double& value) { return "Enter any value"; }
+            QString toString (const double& value) override { return "Enter any value"; }
         };
 
         class AcceptPositive : public ParamValidator {
             bool isInValidSet (const double& value) override { return value >= 0; }
             bool isInBestSet (const double& value) override { return isInValidSet (value);  }
-            QString toString (const double& value) { return "Enter any positive value or zero"; }
+            QString toString (const double& value) override { return "Enter any positive value or zero"; }
         };
 
         class AcceptNoiseValue : public ParamValidator {
             bool isInValidSet (const double& value) override { return value >= -1 && value <= 1; }
             bool isInBestSet (const double& value) override { return isInValidSet (value);  }
-            QString toString (const double& value) { return "Enter any value between -1 and 1 inclusive"; }
+            QString toString (const double& value) override { return "Enter any value between -1 and 1 inclusive"; }
         };
 
         class PreferNoiseValue : public ParamValidator {
             bool isInValidSet (const double& value) override { return true; }
             bool isInBestSet (const double& value) override { return value >= -1 && value <= 1; }
-            QString toString (const double& value) { return "Preferred range is from -1 to 1 inclusive"; }
+            QString toString (const double& value) override { return "Preferred range is from -1 to 1 inclusive"; }
         };
 
         class AcceptAngleDegrees : public ParamValidator {
             bool isInValidSet (const double& value) override { return value >= -180 && value <= 180; }
             bool isInBestSet (const double& value) override { return isInValidSet (value);  }
-            QString toString (const double& value) { return "Enter any value between -180 and 180 inclusive"; }
+            QString toString (const double& value) override { return "Enter any value between -180 and 180 inclusive"; }
         };
 
         class AcceptRange : public ParamValidator {
@@ -57,10 +57,10 @@ namespace calenhad {
             double _epsilon;
             AcceptRange (const double& bestMin, const double& bestMax, const double& validMin = -DBL_MAX, const double& validMax = DBL_MAX) : ParamValidator(),
                 _validMin (validMin), _validMax (validMax), _bestMin (bestMin), _bestMax (bestMax) {  _epsilon = 0.00000001; }
-            virtual bool isInValidSet (const double& value) override { return std::isgreaterequal (value + _epsilon, _validMin) && std::islessequal (value - _epsilon, _validMax);  }
-            virtual bool isInBestSet (const double& value) override {
+            bool isInValidSet (const double& value) override { return std::isgreaterequal (value + _epsilon, _validMin) && std::islessequal (value - _epsilon, _validMax);  }
+            bool isInBestSet (const double& value) override {
                 return std::isgreaterequal (value - _epsilon, _bestMin) && std::islessequal (value + _epsilon, _bestMax); }
-            virtual QString toString (const double& value) override {
+            QString toString (const double& value) override {
                 QString message = "Enter any value";
                 if (_validMin != -DBL_MAX && _validMax != DBL_MAX) { message += " between " + QString::number (_validMin) + " and " + QString::number (_validMax); }
                 if (_validMin == -DBL_MAX && _validMax != DBL_MAX) { message += " less than " + QString::number (_validMax); }
@@ -75,11 +75,11 @@ namespace calenhad {
         class AcceptAngle : public AcceptRange {
         public:
             QString _minLetter, _maxLetter;
-            AcceptAngle (geoutils::AngleType type) : AcceptRange (0.0, type == geoutils::AngleType::Latitude ? 90.0 : 180.0, 0.0, type == geoutils::AngleType::Latitude ? 90.0 : 180.0),
+            explicit AcceptAngle (geoutils::AngleType type) : AcceptRange (0.0, type == geoutils::AngleType::Latitude ? 90.0 : 180.0, 0.0, type == geoutils::AngleType::Latitude ? 90.0 : 180.0),
                 _minLetter (type == geoutils::AngleType::Latitude ? "S" : "W"),
                 _maxLetter (type == geoutils::AngleType::Latitude ? "N" : "E") {
             }
-            virtual bool isInValidSet (const double& value) override {
+            bool isInValidSet (const double& value) override {
                 return AcceptRange::isInValidSet (std::abs (value));
             }
             bool isInBestSet (const double& value) override { return isInValidSet (value); }

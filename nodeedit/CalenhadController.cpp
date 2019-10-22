@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "Toolbox.h"
 #include "Connection.h"
 #include "../CalenhadServices.h"
-#include "qmodule/NodeGroup.h"
+#include "module/NodeGroup.h"
 #include "Calenhad.h"
 #include "../preferences/PreferencesService.h"
 #include <QGraphicsScene>
@@ -37,19 +37,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../pipeline/CalenhadModel.h"
 #include "../pipeline/ModuleFactory.h"
 #include "Port.h"
-#include "qmodule/Module.h"
+#include "module/Module.h"
 #include <QAction>
 #include <actions/ContextAction.h>
 #include <QtGui/QGuiApplication>
 #include <QClipboard>
-#include <actions/XmlCommand.h>
 #include <actions/GridCommand.h>
 #include <actions/SnapToGridCommand.h>
 #include "../controls/ModuleTree.h"
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::notification;
 using namespace calenhad::actions;
 using namespace calenhad::controls;

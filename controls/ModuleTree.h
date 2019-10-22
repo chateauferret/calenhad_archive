@@ -15,8 +15,8 @@ namespace calenhad {
             Q_OBJECT
 
         public:
-            ModuleTree (calenhad::pipeline::CalenhadModel* model);
-            virtual ~ModuleTree();
+            explicit ModuleTree (calenhad::pipeline::CalenhadModel* model);
+            ~ModuleTree() override;
 
         public slots:
             void buildTree();
@@ -28,16 +28,16 @@ namespace calenhad {
             void treeHidden();
 
         protected:
-            QTreeWidgetItem* findTreeItem (calenhad::qmodule::NodeGroup* g);
-            QTreeWidgetItem* findTreeItem (calenhad::qmodule::Module* m);
+            QTreeWidgetItem* findTreeItem (calenhad::module::NodeGroup* g);
+            QTreeWidgetItem* findTreeItem (calenhad::module::Module* m);
             void showEvent (QShowEvent* e) override;
             void hideEvent (QHideEvent* e) override;
             pipeline::CalenhadModel* _model;
             QTreeWidget* _tree;
             QIcon* _groupIcon;
             QMenu* _menu;
-            QMap<QTreeWidgetItem*, calenhad::qmodule::NodeGroup*> _groups;
-            QMap<QTreeWidgetItem*, calenhad::qmodule::Module*> _modules;
+            QMap<QTreeWidgetItem*, calenhad::module::NodeGroup*> _groups;
+            QMap<QTreeWidgetItem*, calenhad::module::Module*> _modules;
         };
     }
 }

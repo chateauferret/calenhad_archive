@@ -14,15 +14,15 @@
 
 namespace calenhad {
     namespace mapping {
-        class CalenhadMapWidget;
+        class AbstractMapWidget;
     }
     namespace controls {
         namespace globe {
             class CalenhadMapView;
             class GlobeScaleWidget : public QwtScaleWidget {
             public:
-                GlobeScaleWidget (calenhad::mapping::CalenhadMapWidget* _globe, QWidget* parent = 0, const double& radius = CalenhadServices::preferences() -> calenhad_default_planet_radius);
-                virtual ~GlobeScaleWidget();
+                explicit GlobeScaleWidget (calenhad::mapping::AbstractMapWidget* _globe, QWidget* parent = nullptr, const double& radius = CalenhadServices::preferences() -> calenhad_default_planet_radius);
+                ~GlobeScaleWidget() override;
                 void setOrientation (Qt::Orientation orientation);
             protected:
                 QwtScaleDraw* _draw;
@@ -31,7 +31,7 @@ namespace calenhad {
                 void paintEvent (QPaintEvent* e) override;
 
                 Qt::Orientation _orientation;
-                calenhad::mapping::CalenhadMapWidget*  _globe;
+                calenhad::mapping::AbstractMapWidget*  _globe;
                 double _radius;
                 GeographicLib::Geodesic* _geodesic;
                 double _metresPerUnit;

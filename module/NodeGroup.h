@@ -12,11 +12,11 @@ namespace calenhad {
     namespace pipeline {
         class CalenhadModel;
     }
-    namespace qmodule {
+    namespace module {
         class Node;
         class NodeGroup {
         public:
-            NodeGroup (calenhad::pipeline::CalenhadModel* model);
+            explicit NodeGroup (calenhad::pipeline::CalenhadModel* model);
             virtual ~NodeGroup ();
 
             void inflate (const QDomElement& element);

@@ -36,7 +36,7 @@ namespace calenhad {
             class CalenhadStatsPanel;
         }
     }
-    namespace qmodule {
+    namespace module {
         class Module : public Node {
         Q_OBJECT
 

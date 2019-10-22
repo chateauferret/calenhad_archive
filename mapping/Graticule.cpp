@@ -5,7 +5,7 @@
 #include <QtGui/QList>
 #include <tgmath.h>
 #include "Graticule.h"
-#include "CalenhadMapWidget.h"
+#include "AbstractMapWidget.h"
 #include <QPainter>
 #include <CalenhadServices.h>
 #include "../preferences/PreferencesService.h"
@@ -15,16 +15,16 @@ using namespace geoutils;
 using namespace calenhad::controls::globe;
 
 
-Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent),
-    _visible (true),
-     _density (0),
-     _majorPen (QPen()),
-     _minorPen (QPen()),
-     _bottom  (QLineF (QPointF (00.0, parent -> height() - 10.0), QPointF (parent -> width(), _globe -> height() - 10.0))),
-    _left (QLineF (QPointF (10.0, 0.0), QPointF (10.0, _globe -> height()))),
-    _insetRight (QLineF()),
-    _insetTop (QLineF()),
-    _centralLat (0.0), _centralLon (0.0) {
+Graticule::Graticule (AbstractMapWidget* parent) : _globe (parent),
+                                                   _visible (true),
+                                                   _density (0),
+                                                   _majorPen (QPen()),
+                                                   _minorPen (QPen()),
+                                                   _bottom  (QLineF (QPointF (00.0, parent -> height() - 10.0), QPointF (parent -> width(), _globe -> height() - 10.0))),
+                                                   _left (QLineF (QPointF (10.0, 0.0), QPointF (10.0, _globe -> height()))),
+                                                   _insetRight (QLineF()),
+                                                   _insetTop (QLineF()),
+                                                   _centralLat (0.0), _centralLon (0.0) {
     _majorPen.setColor (CalenhadServices::preferences() -> calenhad_graticule_major_color);
     _majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_graticule_major_style));
     _majorPen.setWidth (CalenhadServices::preferences() -> calenhad_graticule_major_weight);

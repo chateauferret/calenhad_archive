@@ -24,7 +24,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "Connection.h"
-#include "qmodule/Module.h"
+#include "module/Module.h"
 #include "../CalenhadServices.h"
 #include "Port.h"
 #include "../preferences/PreferencesService.h"

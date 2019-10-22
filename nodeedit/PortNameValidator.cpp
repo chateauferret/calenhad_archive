@@ -7,11 +7,11 @@
 #include "exprtk/Calculator.h"
 #include "PortNameValidator.h"
 #include "Port.h"
-#include "qmodule/Module.h"
-#include "qmodule/Node.h"
+#include "module/Module.h"
+#include "module/Node.h"
 
 using namespace calenhad::nodeedit;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 
 PortNameValidator::PortNameValidator (Port* port) : NodeNameValidator (port -> owner()), _port (port) {
 
@@ -25,7 +25,7 @@ QValidator::State PortNameValidator::validate (QString& input, int& pos) const {
     QString errors = "";
 
     // make sure name is well-formed
-    QValidator::State state = QRegularExpressionValidator::validate (input, pos);
+    QValidator::State state = calenhad::nodeedit::NodeNameValidator::validate (input, pos);
     if (state != QValidator::Acceptable) {
         errors += ("Name must contain only letters, numbers and underscores ('_'), and must start with a letter\n");
         return state;

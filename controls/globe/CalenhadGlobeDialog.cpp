@@ -13,17 +13,18 @@
 
 using namespace calenhad::controls;
 using namespace calenhad::controls::globe;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 
-CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, Module* module) : QMainWindow (parent), _widget (nullptr), _module (module) {
+CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, Module* module) : QMainWindow (parent), _widget (nullptr), _module (module),
+    _mainDock (nullptr), _mouseDock (nullptr), _widgetDock (nullptr) {
     connect (parent, &QWidget::destroyed, this, &QWidget::close);
 }
 
 CalenhadGlobeDialog::~CalenhadGlobeDialog() {
-    if (_mainDock) { delete _mainDock; }
-    if (_mouseDock) { delete _mouseDock; }
-    if (_widgetDock) { delete _widgetDock; }
+    delete _mainDock;
+    delete _mouseDock;
+    delete _widgetDock;
 }
 
 CalenhadGlobeWidget* CalenhadGlobeDialog::widget() {

@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtWidgets/QLabel>
 
 namespace calenhad {
-	namespace qmodule {
+	namespace module {
 		class Module;
 	}
 	namespace nodeedit {
@@ -88,13 +88,13 @@ namespace calenhad {
 
 			bool isConnected (Port*);
 
-			calenhad::qmodule::Module* owner ();
+			calenhad::module::Module* owner ();
 
 			void invalidateRenders ();
 
 			void setHighlight (const PortHighlight& highlight);
 
-			calenhad::qmodule::Module* source();
+			calenhad::module::Module* source();
 
 			Q_PROPERTY (QString name READ portName WRITE setName MEMBER	_portName);
             QMenu* connectMenu ();

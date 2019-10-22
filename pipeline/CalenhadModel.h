@@ -10,7 +10,7 @@
 #include <QtCore/QDateTime>
 #include <QtXml/QDomDocument>
 #include <QAction>
-#include "../qmodule/Module.h"
+#include "../module/Module.h"
 #include <Serializable.h>
 #include <QtOpenGL/QtOpenGL>
 #include "../nodeedit/Calenhad.h"
@@ -26,7 +26,7 @@ namespace noise {
 }
 
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class Node;
         class Module;
         class NodeGroup;
@@ -50,13 +50,13 @@ namespace calenhad {
 
             virtual ~CalenhadModel ();
 
-            qmodule::Module* findModule (const QString& name);
+            module::Module* findModule (const QString& name);
 
-            calenhad::qmodule::NodeGroup* findGroup (const QString& name);
+            calenhad::module::NodeGroup* findGroup (const QString& name);
 
 
 
-            calenhad::qmodule::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null, calenhad::qmodule::NodeGroup* group = 0);
+            calenhad::module::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null, calenhad::module::NodeGroup* group = 0);
 
 
 
@@ -65,11 +65,11 @@ namespace calenhad {
 
             // undoable commands
             void doDisconnectPorts (calenhad::nodeedit::Connection* connection);
-            void doDuplicateNode  (calenhad::qmodule::Node* node);
+            void doDuplicateNode  (calenhad::module::Node* node);
             nodeedit::Connection* connectPorts (calenhad::nodeedit::Port* output, calenhad::nodeedit::Port* input);
-            calenhad::qmodule::Node* doCreateNode (const QPointF& initPos, const QString& type);
+            calenhad::module::Node* doCreateNode (const QPointF& initPos, const QString& type);
 
-            void doDeleteNode (calenhad::qmodule::Node* node);
+            void doDeleteNode (calenhad::module::Node* node);
 
             bool eventFilter (QObject* o, QEvent* e);
 
@@ -84,10 +84,10 @@ namespace calenhad {
             QDomDocument serialize (const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void serialize (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             void inflate (const QString& filename, const nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
-            void inflate (const QDomElement& element, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile, calenhad::qmodule::NodeGroup* group = nullptr);
+            void inflate (const QDomElement& element, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile, calenhad::module::NodeGroup* group = nullptr);
             void inflate (const QDomDocument& doc, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             bool isChanged();
-            calenhad::qmodule::NodeGroup* createGroup (const QString& name);
+            calenhad::module::NodeGroup* createGroup (const QString& name);
             QString snapshot ();
             QString lastSnapshot ();
             void setChanged (const bool& changed = true);
@@ -97,14 +97,14 @@ namespace calenhad {
 
             void suppressRender (bool suppress);
             void snapToGrid (QPointF& pos);
-            QList<calenhad::qmodule::Node*> nodes ();
-            QList<calenhad::qmodule::Module*> modules();
-            QList<calenhad::qmodule::Module*> modules (calenhad::qmodule::NodeGroup* group);
-            QSet<calenhad::qmodule::NodeGroup*> nodeGroups ();
+            QList<calenhad::module::Node*> nodes ();
+            QList<calenhad::module::Module*> modules();
+            QList<calenhad::module::Module*> modules (calenhad::module::NodeGroup* group);
+            QSet<calenhad::module::NodeGroup*> nodeGroups ();
 
             QList<calenhad::nodeedit::Connection*> connections ();
 
-            calenhad::qmodule::Node* addNode (calenhad::qmodule::Node* node, const QPointF& initPos, calenhad::qmodule::NodeGroup* group = 0);
+            calenhad::module::Node* addNode (calenhad::module::Node* node, const QPointF& initPos, calenhad::module::NodeGroup* group = 0);
             bool nameExists (const QString& name);
             QString uniqueName (QString original);
             public slots:
@@ -130,7 +130,7 @@ namespace calenhad {
             void setMouseMode (QGraphicsView::DragMode mode);
 
         public slots:
-            void goTo (qmodule::Module* module);
+            void goTo (module::Module* module);
 
         signals:
             void modelChanged();
@@ -154,7 +154,7 @@ namespace calenhad {
             void readMetadata (const QDomDocument& doc);
             calenhad::nodeedit::NodeGroupBlock* _highlighted;
 
-            QSet<calenhad::qmodule::NodeGroup*> _groups;
+            QSet<calenhad::module::NodeGroup*> _groups;
             QMenu* _menu;
             QMenu* _connectMenu, * _connectSubMenu;
 

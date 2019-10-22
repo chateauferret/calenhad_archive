@@ -8,7 +8,7 @@
 
 #include <QtGui/QValidator>
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class Node;
 
     }
@@ -19,16 +19,16 @@ namespace calenhad {
         Q_OBJECT
 
         public:
-            NodeNameValidator (calenhad::qmodule::Node* node);
-            ~NodeNameValidator();
-            virtual QValidator::State validate(QString &input, int &pos) const override;
+            explicit NodeNameValidator (calenhad::module::Node* node);
+            ~NodeNameValidator() override;
+            QValidator::State validate(QString &input, int &pos) const override;
 
         signals:
             void message (const QString& text) const;
             void success() const;
 
         protected:
-            calenhad::qmodule::Node* _node;
+            calenhad::module::Node* _node;
 
         };
     }

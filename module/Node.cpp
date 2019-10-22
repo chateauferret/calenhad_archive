@@ -20,7 +20,7 @@
 #include "../actions/ChangeModuleCommand.h"
 #include "../preferences/PreferencesService.h"
 
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 using namespace calenhad::controls;
 using namespace calenhad::pipeline;

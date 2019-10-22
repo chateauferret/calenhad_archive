@@ -10,10 +10,10 @@
 #include "QAngleControl.h"
 
 using namespace calenhad::controls;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace geoutils;
 
-QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWidget* parent) : QWidget (parent), _type (type), _validator (nullptr), _isValid (false) {
+QAngleControl::QAngleControl (const QString& caption, const AngleType& type, QWidget* parent) : QWidget (parent), _type (type), _statusLabel (nullptr), _validator (nullptr), _isValid (false) {
 
     _statusLabel = new QLabel (this);
 
@@ -159,7 +159,7 @@ AngleType QAngleControl::angleType () {
     return _type;
 }
 
-void QAngleControl::setValidator (calenhad::qmodule::AcceptAngle* validator) {
+void QAngleControl::setValidator (calenhad::module::AcceptAngle* validator) {
     _validator = validator;
 }
 

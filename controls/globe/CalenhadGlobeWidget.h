@@ -2,8 +2,8 @@
 // Created by martin on 16/01/17.
 //
 
-#ifndef CALENHAD_CALENHADMARBLEWIDGET_H
-#define CALENHAD_CALENHADMARBLEWIDGET_H
+#ifndef CALENHAD_CALENHADGLOBEWIDGET_H
+#define CALENHAD_CALENHADGLOBEWIDGET_H
 
 #include <QtWidgets/QPushButton>
 #include <QTimer>
@@ -13,10 +13,9 @@
 #include <QtWidgets/QLabel>
 #include <QtCore/QMutex>
 #include <geoutils.h>
-#include <mapping/CalenhadMapWidget.h>
 #include "../../icosphere/Bounds.h"
 #include "CalenhadGlobeConstants.h"
-#include "../../mapping/CalenhadMapWidget.h"
+#include "mapping/CalenhadMapWidget.h"
 #include "GlobeScaleWidget.h"
 
 namespace GeographicLib {
@@ -36,11 +35,15 @@ namespace calenhad {
 
 using namespace calenhad::mapping::projection;
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class Module;
     }
     namespace legend {
         class Legend;
+    }
+
+    namespace mapping {
+        class CalenhadMapWidget;
     }
 
     namespace controls {
@@ -58,7 +61,7 @@ namespace calenhad {
 
             public:
 
-                CalenhadGlobeWidget (QWidget* parent, qmodule::Module* source);
+                CalenhadGlobeWidget (QWidget* parent, module::Module* source);
 
                 virtual ~CalenhadGlobeWidget ();
 
@@ -119,20 +122,20 @@ namespace calenhad {
                 GeographicLib::Geodesic* _geodesic;
                 CalenhadGlobeConfigDialog* _configDialog;
                 double zoom ();
-                QLabel* _positionLabel;
+                QLabel* _positionLabel{};
                 calenhad::nodeedit::CalenhadToolBar* makeToolBar (const QString& name);
 
                 QMenu* makeGlobeContextMenu  (const QPoint& pos);
-                bool _graticuleVisible;
+                bool _graticuleVisible{};
                 calenhad::mapping::CalenhadMapWidget* _globe, *_overview;
                 icosphere::Bounds _bounds;
                 graph::Graph* _graph;
-                calenhad::controls::globe::GlobeScaleWidget* _scale;
+                calenhad::controls::globe::GlobeScaleWidget* _scale{};
 
-                calenhad::nodeedit::CalenhadToolBar* _viewToolbar, * _mouseToolbar, * _mapWidgetsToolbar;
-                QAction* _propertiesAction, * _mousePanAction, * _mouseZoomAction, * _mouseGotoAction, * _mousePlaceAction,
-                        * _showGraticuleAction, * _disableDoubleClickAction, * _disableDragAction,
-                        * _showNavigatorAction, * _showScaleAction, * _showOverviewAction, * _showZoomSliderAction;
+                calenhad::nodeedit::CalenhadToolBar* _viewToolbar{}, * _mouseToolbar{}, * _mapWidgetsToolbar{};
+                QAction* _propertiesAction{}, * _mousePanAction{}, * _mouseZoomAction{}, * _mouseGotoAction{}, * _mousePlaceAction{},
+                        * _showGraticuleAction{}, * _disableDoubleClickAction{}, * _disableDragAction{},
+                        * _showNavigatorAction{}, * _showScaleAction{}, * _showOverviewAction{}, * _showZoomSliderAction{};
             };
         }
     }
@@ -143,4 +146,4 @@ Q_DECLARE_METATYPE (calenhad::controls::globe::DatumFormat);
 
 
 
-#endif //CALENHAD_CALENHADMARBLEWIDGET_H
+#endif // CALENHAD_CALENHADGLOBEWIDGET_H

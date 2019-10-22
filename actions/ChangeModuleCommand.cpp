@@ -4,12 +4,12 @@
 
 #include <QtXml/QDomDocument>
 #include "ChangeModuleCommand.h"
-#include "qmodule/Module.h"
+#include "module/Module.h"
 #include "nodeedit/Port.h"
-#include "../qmodule/Module.h"
+#include "../module/Module.h"
 
 using namespace calenhad::actions;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 
 ChangeModuleCommand::ChangeModuleCommand (Node* node,  const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex, const int& portType) :

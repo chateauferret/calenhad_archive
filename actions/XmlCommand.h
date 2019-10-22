@@ -21,14 +21,14 @@
  */
 
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class Node;
     }
     namespace actions {
 
         class XmlCommand : public QUndoCommand {
         public:
-            XmlCommand (calenhad::pipeline::CalenhadModel* model, const QString& oldXml, const QString& newXml = QString::null);
+            XmlCommand (calenhad::pipeline::CalenhadModel* model, QString  oldXml, QString  newXml = QString::null);
 
             virtual ~XmlCommand ();
 

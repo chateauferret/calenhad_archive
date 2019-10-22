@@ -9,7 +9,7 @@
 #include <QtCore/QVariant>
 
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class Node;
     }
 
@@ -17,18 +17,18 @@ namespace calenhad {
 
         class ChangeModuleCommand : public QUndoCommand {
         public:
-            ChangeModuleCommand (calenhad::qmodule::Node* node, const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex = -1, const int& portType = -1);
+            ChangeModuleCommand (calenhad::module::Node* node, const QString& property, const QVariant& oldValue, const QVariant& newValue, const int& portIndex = -1, const int& portType = -1);
 
-            virtual ~ChangeModuleCommand ();
+            ~ChangeModuleCommand () override;
 
-            virtual void redo () override;
+            void redo () override;
 
-            virtual void undo () override;
+            void undo () override;
 
         protected:
             QString _property;
             QVariant _oldValue, _newValue;
-            calenhad::qmodule::Node* _node;
+            calenhad::module::Node* _node;
             int _portIndex;
             int _portType;
         };

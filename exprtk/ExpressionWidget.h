@@ -11,11 +11,11 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QLabel>
-#include <float.h>
+#include <cfloat>
 #include "exprtk.hpp"
 
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class ParamValidator;
     }
     namespace controls {
@@ -29,11 +29,11 @@ namespace calenhad {
             Q_OBJECT
 
         public:
-            ExpressionWidget (QWidget* parent = 0);
+            explicit ExpressionWidget (QWidget* parent = nullptr);
 
-            virtual ~ExpressionWidget ();
-            void setText (QString text);
-            const QString text();
+            ~ExpressionWidget () override;
+            void setText (const QString& text);
+            QString text();
             bool isValid ();
             double value();
             QString errors();
@@ -43,7 +43,7 @@ namespace calenhad {
             bool prepare();
             void openLongBox ();
             void editText ();
-            void setValidator (calenhad::qmodule::ParamValidator* validator);
+            void setValidator (calenhad::module::ParamValidator* validator);
             void variableChanged (const QString& name, const double& value);
 
         signals:
@@ -67,7 +67,7 @@ namespace calenhad {
 
             ExpressionEdit* _expressionLongBox;
             QLabel* _statusLabel;
-            calenhad::qmodule::ParamValidator* _validator;
+            calenhad::module::ParamValidator* _validator;
 
             void focusOutEvent (QFocusEvent* event) override;
 

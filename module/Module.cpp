@@ -5,7 +5,7 @@
 
 #include "Module.h"
 #include "nodeedit/NodeBlock.h"
-#include "../qmodule/NodeGroup.h"
+#include "../module/NodeGroup.h"
 #include "nodeedit/Port.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
@@ -17,14 +17,15 @@
 #include <controls/globe/CalenhadGlobeWidget.h>
 #include <controls/globe/CalenhadStatsPanel.h>
 #include <controls/globe/CalenhadGlobeDialog.h>
+#include <mapping/CalenhadMapWidget.h>
 #include "nodeedit/Connection.h"
 #include "../nodeedit/CalenhadView.h"
-#include "../mapping/CalenhadMapWidget.h"
+#include "mapping/CalenhadMapWidget.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../icosphere/icosphere.h"
 
 using namespace calenhad::icosphere;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 using namespace calenhad::controls;
 using namespace calenhad::controls::globe;
@@ -98,7 +99,7 @@ void Module::setupPreview() {
     _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
     _stats -> setMinimumSize (400, 400);
     _stats -> move (_dialog->pos().x() + 400, _dialog->pos().y() + 300);
-    connect (_preview, &CalenhadMapWidget::rendered, _statsPanel, &CalenhadStatsPanel::refresh);
+    connect (_preview, &AbstractMapWidget::rendered, _statsPanel, &CalenhadStatsPanel::refresh);
     QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
     connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
     connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);

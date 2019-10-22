@@ -12,7 +12,7 @@ namespace calenhad {
     namespace controls {
         class QAngleControl;
     }
-    namespace qmodule {
+    namespace module {
         class RasterModule : public Module {
         public:
             explicit RasterModule (const QString& type = CalenhadServices::preferences ()->calenhad_module_raster);

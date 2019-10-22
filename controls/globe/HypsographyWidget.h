@@ -11,11 +11,11 @@
 #include <mapping/Statistics.h>
 
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class Module;
     }
     namespace mapping {
-        class CalenhadMapWidget;
+        class AbstractMapWidget;
     }
     namespace controls {
         namespace globe {
@@ -23,15 +23,15 @@ namespace calenhad {
             class HypsographyWidget : public QWidget {
 
             public:
-                HypsographyWidget (calenhad::mapping::CalenhadMapWidget* globe, QWidget* parent = 0);
-                virtual ~HypsographyWidget();
+                explicit HypsographyWidget (calenhad::mapping::AbstractMapWidget* globe, QWidget* parent = nullptr);
+                ~HypsographyWidget() override;
                 calenhad::mapping::Statistics statistics();
 
             public slots:
                 void refresh();
 
             protected:
-                calenhad::mapping::CalenhadMapWidget* _globe;
+                calenhad::mapping::AbstractMapWidget* _globe;
                 QwtPlot* _plot;
                 QwtPlotCurve* _curve;
                 double _buckets [1000];

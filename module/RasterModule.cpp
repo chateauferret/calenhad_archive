@@ -10,11 +10,11 @@
 #include "../CalenhadServices.h"
 #include "../controls/QAngleControl.h"
 #include "../preferences/PreferencesService.h"
-#include "../mapping/CalenhadMapWidget.h"
+#include "mapping/CalenhadMapWidget.h"
 #include "RasterFileModule.h"
 
 
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad;
 using namespace calenhad::preferences;
 using namespace icosphere;

@@ -6,11 +6,11 @@
 #include <QtWidgets/QGroupBox>
 #include "CalenhadStatsPanel.h"
 #include "CalenhadGlobeWidget.h"
-#include "qmodule/Module.h"
+#include "module/Module.h"
 
 using namespace calenhad::controls::globe;
 using namespace calenhad::mapping;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 
 CalenhadStatsPanel::CalenhadStatsPanel (Module* source, CalenhadGlobeWidget* parent) : QWidget (parent), _source (source), dialog (parent) {
     setLayout (new QVBoxLayout());

@@ -7,7 +7,7 @@
 #include <qwt/qwt_plot_curve.h>
 #include <qwt/qwt_plot_grid.h>
 #include "HypsographyWidget.h"
-#include "../../mapping/CalenhadMapWidget.h"
+#include "mapping/AbstractMapWidget.h"
 #include "CalenhadGlobeConfigDialog.h"
 
 using namespace calenhad::mapping;
@@ -15,10 +15,10 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::mapping;
 
 
-HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe,  QWidget* parent) : QWidget (parent),
-    _globe (globe),
-    _plot (new QwtPlot()),
-    _statistics (globe -> statistics()) {
+HypsographyWidget::HypsographyWidget (AbstractMapWidget* globe, QWidget* parent) : QWidget (parent),
+                                                                                   _globe (globe),
+                                                                                   _plot (new QwtPlot()),
+                                                                                   _statistics (globe -> statistics()) {
     setLayout (new QVBoxLayout());
     _plot -> setSizePolicy (QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding));
     layout() -> addWidget (_plot);

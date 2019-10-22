@@ -3,8 +3,8 @@
 //
 
 #include "ModuleTree.h"
-#include "../qmodule/Module.h"
-#include "../qmodule/NodeGroup.h"
+#include "../module/Module.h"
+#include "../module/NodeGroup.h"
 #include <QTreeWidget>
 #include <QList>
 #include <CalenhadServices.h>
@@ -13,7 +13,7 @@
 #include "../pipeline/CalenhadModel.h"
 
 using namespace calenhad::controls;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::pipeline;
 
 calenhad::controls::ModuleTree::ModuleTree (calenhad::pipeline::CalenhadModel* model) : QWidget(), _menu (nullptr) {

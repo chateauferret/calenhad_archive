@@ -14,6 +14,7 @@
 #include "mapping/projection/ProjectionService.h"
 #include "pipeline/ModuleFactory.h"
 
+
 #include "icosphere/icosphere.h"
 
 
@@ -85,6 +86,9 @@ int main (int argc, char **argv) {
     Calculator* calculator = new Calculator();
     CalenhadServices::provideCalculator (calculator);
 
+    // Icosphere service
+    //CalenhadServices::provideIcosphere (12);
+    CalenhadServices::provideCubicSphere (11);
 
     // Calenhad model - the arrangement of modules and connections between them
     Calenhad* window = new Calenhad();

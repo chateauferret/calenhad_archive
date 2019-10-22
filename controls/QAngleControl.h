@@ -11,7 +11,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLabel>
 #include <QValidator>
-#include <qmodule/ParamValidator.h>
+#include <module/ParamValidator.h>
 #include "../geoutils.h"
 
 namespace calenhad {
@@ -23,7 +23,7 @@ namespace calenhad {
 
         public:
             QAngleControl (const QString& caption, const geoutils::AngleType& type, QWidget* parent = 0);
-            virtual ~QAngleControl();
+            ~QAngleControl() override;
             double value();
             void setValue (const double& value);
             geoutils::AngleType angleType();
@@ -42,11 +42,11 @@ namespace calenhad {
             QHBoxLayout* _layout;
             QPushButton* _formatButton;
             QHBoxLayout* _tradLayout, * _decimalLayout;
-            double _value;
+            double _value{};
             void trimBox (QWidget* w);
             geoutils::AngleType _type;
-            void setValidator (calenhad::qmodule::AcceptAngle* validator);
-            qmodule::AcceptAngle* _validator;
+            void setValidator (calenhad::module::AcceptAngle* validator);
+            module::AcceptAngle* _validator;
             QLabel* _statusLabel;
             QPixmap _statusOrright;
             QPixmap _statusGoosed;

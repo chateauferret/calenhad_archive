@@ -14,11 +14,11 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtCore/QSet>
 #include <QtXml/QDomNode>
-#include <qmodule/ParamValidator.h>
+#include <module/ParamValidator.h>
 
 
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
         class Node;
     }
 
@@ -34,9 +34,9 @@ namespace calenhad {
         public:
             ModuleFactory ();
 
-            ~ModuleFactory ();
+            ~ModuleFactory () override;
             QStringList types ();
-            calenhad::qmodule::Node* createModule (const QString& moduleType, CalenhadModel* model);
+            calenhad::module::Node* createModule (const QString& moduleType, CalenhadModel* model);
 
             int seed ();
 
@@ -44,7 +44,7 @@ namespace calenhad {
 
 
 
-            qmodule::Node* clone (qmodule::Node* other);
+            module::Node* clone (module::Node* other);
 
             QDomElement xml (const QString& type);
             QStringList paramNames();
@@ -63,13 +63,13 @@ namespace calenhad {
             QStringList _paramNames;
             QMap<QString, QDomElement> _types;
             void initialise();
-            qmodule::Node* inflateModule (const QString& type, CalenhadModel* model);
+            module::Node* inflateModule (const QString& type, CalenhadModel* model);
 
             QMap<QString, QString> _moduleLabels;
             QMap<QString, QString> _moduleDescriptions;
             QMap<QString, QString> _moduleCodes;
             QMap<QString, QSizeF> _moduleScales;
-            qmodule::ParamValidator* validator (const QString& validatorType);
+            module::ParamValidator* validator (const QString& validatorType);
 
         };
     }

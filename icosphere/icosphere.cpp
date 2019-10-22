@@ -10,11 +10,14 @@
 #include <unordered_map>
 #include <bits/unordered_map.h>
 #include <GL/gl.h>
+#include <QtGui/QImage>
 #include "icosphere.h"
 
-using namespace calenhad::icosphere;
 
-Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _initial (true), _vertexBuffer (nullptr) {
+using namespace calenhad::icosphere;
+using namespace calenhad::icosphere::geometry;
+
+Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _initial (true), _vertexBuffer (nullptr), mag (1.0), _level (0) {
 
     //--------------------------------------------------------------------------------
     // icosahedron data
@@ -41,11 +44,11 @@ Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _
 
 
     // init with an icosahedron
-    for (int i = 0; i < 12; i++) {
+    for (const auto & i : vdata) {
         Cartesian c;
-        c.x = vdata [i][0];
-        c.y = vdata [i][1];
-        c.z = vdata [i][2];
+        c.x = i[0];
+        c.y = i[1];
+        c.z = i[2];
         addVertex (c, 0);
     }
     _lastVisited = _vertices [0];
@@ -79,10 +82,11 @@ Icosphere::~Icosphere() {
     std::for_each (_triangles.begin(), _triangles.end(), [] (std::vector<Triangle*> list) {
         std::for_each (list.begin(), list.end(), [] (Triangle* t) { delete t; }); });
     std::for_each (_vertices.begin(), _vertices.end(), [] (Vertex* p) { delete p; });
+
 }
 
 void Icosphere::subdivide (const unsigned int& level) {
-    std::cout << "level " << level << "\n";
+    std::cout << "_level " << level << "\n";
     while (_triangles.size() <= level) {
         _triangles.push_back (std::vector<Triangle*> ());
         _triangles.reserve (_triangles [_triangles.size() - 2].size() * 4);
@@ -95,7 +99,7 @@ void Icosphere::subdivide (const unsigned int& level) {
 }
 
 void Icosphere::divideTriangle (Triangle* t) {
-    unsigned level = t -> level + 1;
+    level = t -> level + 1;
     for (k = 0; k < 3; ++k) {
 
         ids0[k] = t -> vertices [k];
@@ -148,7 +152,7 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
         c.x = c1.x + c2.x;
         c.y = c1.y + c2.y;
         c.z = c1.z + c2.z;
-        double mag = sqrt (c.x * c.x + c.y * c.y + c.z * c.z);
+         mag = sqrt (c.x * c.x + c.y * c.y + c.z * c.z);
         c.x /= mag;
         c.y /= mag;
         c.z /= mag;
@@ -160,6 +164,13 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
         v -> cartesian = c;
         v -> level = level;
         _vertices.push_back (v);
+        _c1++;
+        if (_c1 == 100000) {
+            std::cout << _vertices.size() << " vertices\n";
+            _c1 = 0;
+        }
+
+
         return v;
     }
 
@@ -212,7 +223,6 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
     }
 
     Vertex* Icosphere::walkTowards (const LatLon& target, const unsigned int& depth) {
-        Cartesian c;
         toCartesian (target, c);
         return walkTowards (c, depth);
     }
@@ -259,6 +269,7 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
 
     Cartesian Icosphere::toCartesian (const LatLon& g, Cartesian& c) {
         _gc -> Forward (g.lat, g.lon, 0, c.x, c.y, c.z);
+        return c;
     }
 
     std::pair<std::vector<Triangle*>::iterator, std::vector<Triangle*>::iterator> Icosphere::triangles (const unsigned& level) {
@@ -296,5 +307,55 @@ float* Icosphere::vertexBuffer () {
     return _vertexBuffer;
 }
 
+
+int Icosphere::getDatum (const LatLon& g, const std::string& key) {
+    //std::map<std::string, Dataset>::iterator i = _datasets.find (key);
+    //if (i != _datasets.end()) {
+    //    Dataset dataset = i -> second;
+    toCartesian (g, c);
+    Vertex* v = walkTowards (c, 0); //, dataset.getDepth());
+    return 0; //getDatum (v -> id, key);
+    //} else {
+    //    throw DatasetNotFoundException (key);
+    //}
+}
+
+void Icosphere::setDatum (const LatLon& g, const std::string& key, float datum) {
+    //std::map<std::string, Dataset>::iterator i = _datasets.find (key);
+    //if (i != _datasets.end()) {
+    //    Dataset dataset = i -> second;
+    toCartesian (g, c);
+    Vertex* v = walkTowards (c, 0); //, dataset.getDepth());
+    //setDatum (v -> id, key, datum);
+    //} else {
+    //    throw DatasetNotFoundException (key);
+    //}
+}
+
+
+// for now, images can't cross the dateline - this is OK in a tiling arrangement
+/*bool Icosphere::getImage (QImage* image, const GeoQuad& bounds, const std::string& key) {
+ ::map<std::string, Dataset>::iterator item = _datasets.find (key);
+ std::cout << "Looking for dataset " << key << "\n";
+ if (item != _datasets.end()) {
+     Dataset dataset = item -> second;
+     Legend* legend = dataset.getLegend();
+     for (int i = 0; i < image -> width(); i++) {
+         double lon = bounds._se.longitude + (bounds._nw.longitude - bounds._se.longitude) / image -> height() * i;
+         if (lon < -HALF_PI) { lon += HALF_PI; }
+         if (lon > HALF_PI) { lon -= HALF_PI; }
+         for (int j = 0; j < image -> height(); j++) {
+             double lat = bounds._nw.latitude + (bounds._se.latitude - bounds._nw.latitude) / image -> width() * j;
+             if (lat < -PI) { lat += PI; }
+             if (lat > PI) { lat -= PI; }
+             Vertex* v = walkTowards (Math::toCartesian (Geolocation (lat, lon, Geolocation::RADS)));
+             image -> setPixel (i, j, legend -> lookup (v -> getDatum (key)).rgb());
+         }
+     }
+        return true;
+    //} else {
+     //   return false;
+   // }
+} */
 
 

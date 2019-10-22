@@ -3,37 +3,31 @@
 //
 
 #include "IcosphereModule.h"
-#include "../CalenhadServices.h"
-#include "../preferences/PreferencesService.h"
+#include "RasterModule.h"
 
 using namespace calenhad::preferences;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::icosphere;
 
-IcosphereModule::IcosphereModule (Module* parent) : Module (CalenhadServices::preferences ()->calenhad_module_raster, nullptr) {
-
+IcosphereModule::IcosphereModule() : RasterModule (CalenhadServices::preferences() -> calenhad_module_icospheremap) {
+    
 }
 
 IcosphereModule::~IcosphereModule () {
-    if (_icosphere) {
-        delete _icosphere;
-    }
+    delete _icosphere;
+    
 }
 
 void IcosphereModule::initialise () {
-    Module::initialise();
+    RasterModule::initialise();
     // create a panel to hold the parameter widgets, if we haven't done this already
     if (! (_content)) {
         addContentPanel();
     }
 
-    _icosphere = new Icosphere (7);
+    _icosphere = CalenhadServices::icosphere();
 }
 
 bool IcosphereModule::isComplete () {
     return false;
-}
-
-QString IcosphereModule::glsl () {
-    return QString();
 }

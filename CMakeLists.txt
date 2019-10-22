@@ -15,7 +15,7 @@ find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Xml OpenGL)
 find_package(Qwt REQUIRED)
 find_package(GeographicLib 1.34 REQUIRED)
 find_package(OpenGL REQUIRED)
-find_library(s2 s2)
+find_library(s2 REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
 
 message (STATUS "QtCore v" ${Qt5Core_VERSION})
@@ -26,7 +26,7 @@ message (STATUS "QtOpenGL v" ${Qt5OpenGL_VERSION})
 message (STATUS "s2 " ${s2})
 MESSAGE (STATUS "Current source dir " ${CMAKE_CURRENT_SOURCE_DIR})
 set (MESSAGES_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/messages)
-set (QMODULE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/qmodule)
+set (QMODULE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/module)
 set (NODEEDIT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nodeedit)
 set (CONTROLS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/controls)
 set (PIPELINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pipeline)
@@ -98,7 +98,7 @@ qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES})
 add_definitions (${GeographicLib_DEFINITIONS})
 
-target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
+target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL s2
         ${GeographicLib_LIBRARIES}
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}

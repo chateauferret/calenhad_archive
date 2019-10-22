@@ -4,19 +4,19 @@
 
 #include <iostream>
 #include "ModuleFactory.h"
-#include "qmodule/NodeGroup.h"
+#include "module/NodeGroup.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
-#include "qmodule/AltitudeMap.h"
+#include "module/AltitudeMap.h"
 #include "../CalenhadServices.h"
 #include <QList>
-#include <qmodule/RasterModule.h>
+#include <module/RasterModule.h>
 #include <nodeedit/Port.h>
 #include "../noiseconstants.h"
 
 using namespace calenhad;
 using namespace calenhad::pipeline;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::expressions;
 using namespace calenhad::nodeedit;
 

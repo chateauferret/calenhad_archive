@@ -10,11 +10,11 @@
 
 namespace calenhad {
     namespace mapping {
-        class CalenhadMapWidget;
+        class AbstractMapWidget;
         class Graticule : public QWidget {
         public:
-            Graticule (CalenhadMapWidget* globe);
-            virtual ~Graticule();
+            explicit Graticule (AbstractMapWidget* globe);
+            ~Graticule() override;
 
             double pitch (const int& i);
             void drawGraticule (QPainter& p);
@@ -26,13 +26,13 @@ namespace calenhad {
 
             void setDensity (const int& density);
             bool visible () const;
-            void setVisible (bool visible);
+            void setVisible (bool visible) override;
             int density () const;
 
         protected:
             bool _visible;
             int _density;
-            CalenhadMapWidget* _globe;
+            AbstractMapWidget* _globe;
             void getIntersections (const QPair<double, double>& g, const double& interval);
             void drawLatitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level);
             void drawLongitudeIntersection (QPainter& p, const QPair<double, double>& g, const int& level);

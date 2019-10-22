@@ -8,12 +8,12 @@
 #include "NodeNameValidator.h"
 #include "../preferences/PreferencesService.h"
 #include "exprtk/Calculator.h"
-#include "qmodule/Node.h"
+#include "module/Node.h"
 #include "../pipeline/CalenhadModel.h"
 #include "NodeBlock.h"
 
 using namespace calenhad::nodeedit;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::preferences;
 using namespace calenhad::pipeline;
 using namespace calenhad;

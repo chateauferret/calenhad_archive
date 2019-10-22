@@ -18,9 +18,9 @@ namespace calenhad {
 
 
         public:
-            CalenhadView (QWidget* parent);
+            explicit CalenhadView (QWidget* parent);
 
-            ~CalenhadView ();
+            ~CalenhadView() override;
 
             void setController (CalenhadController* controller);
 
@@ -31,7 +31,7 @@ namespace calenhad {
 
             void dragMoveEvent (QDragMoveEvent* event) override;
             void dragEnterEvent (QDragEnterEvent* event) override;
-            void dragLeaveEvent (QDragLeaveEvent* event) override;
+
             void setGridVisible (const bool& visible);
             bool gridVisible();
             void setSnapToGrid (const bool& enabled);
@@ -49,7 +49,7 @@ namespace calenhad {
             CalenhadController* _controller;
             int _steps = 0;
             qreal zoom = 1.0;
-            QGraphicsItemGroup* g;
+
             void wheelEvent (QWheelEvent* event) override;
             void drawBackground (QPainter *painter, const QRectF &rect) override;
 

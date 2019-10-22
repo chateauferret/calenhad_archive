@@ -6,7 +6,7 @@
 #include "Calenhad.h"
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
-#include "qmodule/NodeGroup.h"
+#include "module/NodeGroup.h"
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <CalenhadServices.h>
@@ -24,9 +24,7 @@ CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
 
 }
 
-CalenhadView::~CalenhadView() {
-
-}
+CalenhadView::~CalenhadView() = default;
 
 void CalenhadView::setZoom (const qreal& z) {
     qreal factor = z / zoom;
@@ -59,10 +57,6 @@ void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
     } else {
         event -> ignore();
     }
-}
-
-void CalenhadView::dragLeaveEvent (QDragLeaveEvent *event) {
-    Q_DECL_UNUSED (event);
 }
 
 void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {

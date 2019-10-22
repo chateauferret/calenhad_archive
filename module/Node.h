@@ -37,7 +37,7 @@ namespace calenhad {
     namespace expressions {
         class ExpressionWidget;
     }
-    namespace qmodule {
+    namespace module {
         class Module;
         class NodeGroup;
 
@@ -165,6 +165,6 @@ namespace calenhad {
             // bool _nameVisible;
         };
 
-    } // namespace qmodule
+    } // namespace module
 }// namespace calenhad
 #endif //CALENHAD_QNODE_H

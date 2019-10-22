@@ -3,29 +3,24 @@
 //
 
 #include <CalenhadServices.h>
-#include <QMap>
 #include <iostream>
 #include "nodeedit/Port.h"
 #include "preferences/preferences.h"
 #include "graph.h"
-#include "qmodule/Module.h"
+#include "module/Module.h"
 #include "nodeedit/NodeBlock.h"
 #include "nodeedit/Connection.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../mapping/Curve.h"
-#include "../mapping/TerraceCurve.h"
-#include "../mapping/CubicSpline.h"
-#include "../legend/Legend.h"
 #include "exprtk/Calculator.h"
 #include <QList>
-#include <qmodule/AltitudeMap.h>
-#include <qmodule/RasterModule.h>
+#include <module/AltitudeMap.h>
+#include <module/RasterModule.h>
 #include "../messages/QNotificationHost.h"
-#include "../controls/altitudemap/AltitudeMapping.h"
 
 using namespace calenhad;
 using namespace calenhad::nodeedit;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::preferences;
 using namespace calenhad::graph;
 using namespace calenhad::mapping;
@@ -45,7 +40,7 @@ Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _no
 }
 */
 
-Graph::Graph (calenhad::qmodule::Module* module) : _module (module), _nodeName (module -> name()), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId (0) {
+Graph::Graph (calenhad::module::Module* module) : _module (module), _nodeName (module -> name()), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId (0) {
 
 }
 

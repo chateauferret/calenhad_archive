@@ -9,7 +9,7 @@
 #include <QPainter>
 #include <iostream>
 #include <cmath>
-#include "../../mapping/CalenhadMapWidget.h"
+#include "mapping/AbstractMapWidget.h"
 #include <geoutils.h>
 
 using namespace calenhad::controls::globe;
@@ -74,7 +74,7 @@ void CalenhadNavigator::mouseMoveEvent (QMouseEvent* e) {
     int v = (int) (scrolledTo (e -> pos ())) % 360;
     setValue (v);
 
-    calenhad::mapping::CalenhadMapWidget* view = static_cast<calenhad::mapping::CalenhadMapWidget*> (parent());
+    calenhad::mapping::AbstractMapWidget* view = static_cast<calenhad::mapping::AbstractMapWidget*> (parent());
     if (view) {
         double lat, lon;
         double azimuth = value();

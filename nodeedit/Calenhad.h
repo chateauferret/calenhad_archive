@@ -58,7 +58,7 @@ namespace calenhad {
     namespace notifications {
         class QNotificationStack;
     }
-    namespace qmodule {
+    namespace module {
         class Node;
     }
     namespace nodeedit {
@@ -84,7 +84,7 @@ namespace calenhad {
 
             void initialiseLegends ();
 
-            void addToolbar (QToolBar* toolbar, calenhad::qmodule::Node* node);
+            void addToolbar (QToolBar* toolbar, calenhad::module::Node* node);
 
             CalenhadController* controller ();
 

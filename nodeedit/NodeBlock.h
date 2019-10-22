@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtWidgets/QLineEdit>
 
 namespace calenhad {
-	namespace qmodule {
+	namespace module {
         class Node;
 	}
 	namespace controls {
@@ -52,7 +52,7 @@ namespace calenhad {
 				Type = QGraphicsItem::UserType + 3
 			};
 
-			NodeBlock (calenhad::qmodule::Node* node, QGraphicsItem* parent = 0);
+			NodeBlock (calenhad::module::Node* node, QGraphicsItem* parent = 0);
 
 			virtual ~NodeBlock();
 
@@ -72,7 +72,7 @@ namespace calenhad {
 
 			virtual void initialise();
 
-			calenhad::qmodule::Node* node();
+			calenhad::module::Node* node();
 
 			void assignIcon();
 
@@ -95,7 +95,7 @@ namespace calenhad {
 		protected:
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value) override;
 
-			calenhad::qmodule::Node* _node;
+			calenhad::module::Node* _node;
 			EditableLabel* _label;
 			QBrush _brush;
 			QPen _pen;

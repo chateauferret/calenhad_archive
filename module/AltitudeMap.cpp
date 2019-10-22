@@ -17,19 +17,19 @@
 #include "../nodeedit/CalenhadController.h"
 #include "../CalenhadServices.h"
 
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::controls::altitudemap;
 using namespace calenhad::actions;
 using namespace calenhad::nodeedit;
 using namespace calenhad::mapping;
 
-AltitudeMap::AltitudeMap (QWidget* parent) : Module (CalenhadServices::preferences ()->calenhad_module_altitudemap, nullptr), _editor (nullptr) {
+AltitudeMap::AltitudeMap (QWidget* parent) : Module (CalenhadServices::preferences ()->calenhad_module_altitudemap, nullptr), _editor (nullptr), _curve (nullptr) {
     makeContentPanel();
 }
 
 AltitudeMap::~AltitudeMap() {
     for (Curve* c : _curves.values ()) { delete c; }
-    if (_editor) { delete _editor; }
+    delete _editor;
 }
 
 void AltitudeMap::initialise() {

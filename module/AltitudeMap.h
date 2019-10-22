@@ -22,7 +22,7 @@ namespace calenhad {
             class AltitudeMapping;
         }
     }
-    namespace qmodule {
+    namespace module {
 
 
         class AltitudeMap : public Module {

@@ -13,7 +13,7 @@
 #include <qwt/qwt_slider.h>
 
 #include "CalenhadGlobeConstants.h"
-#include "../../mapping/CalenhadMapWidget.h"
+#include "mapping/CalenhadMapWidget.h"
 #include "../../geoutils.h"
 
 

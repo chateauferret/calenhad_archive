@@ -7,26 +7,24 @@
 
 #include "Module.h"
 #include "../icosphere/icosphere.h"
+#include "RasterModule.h"
 
 
 namespace calenhad {
-    namespace qmodule {
+    namespace module {
 
-        class IcosphereModule : public Module {
+        class IcosphereModule : public calenhad::module::RasterModule {
         public:
-            IcosphereModule (Module* parent = 0);
+            IcosphereModule ();
 
-            virtual ~IcosphereModule ();
+            ~IcosphereModule () override;
 
             void initialise () override;
 
             bool isComplete  () override;
 
-            QString glsl () override;
-
-
         protected:
-            icosphere::Icosphere* _icosphere;
+            icosphere::Icosphere* _icosphere{};
 
         };
     }

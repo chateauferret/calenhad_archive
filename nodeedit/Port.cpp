@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "EditableLabel.h"
 #include "Connection.h"
 #include "../CalenhadServices.h"
-#include "qmodule/Module.h"
+#include "module/Module.h"
 #include "../actions/ChangeModuleCommand.h"
 #include "../pipeline/CalenhadModel.h"
 #include "../nodeedit/CalenhadController.h"
@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QPainter>
 
 using namespace calenhad::nodeedit;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::actions;
 using namespace calenhad::pipeline;
 

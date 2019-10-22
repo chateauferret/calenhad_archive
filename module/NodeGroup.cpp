@@ -8,7 +8,7 @@
 #include "CalenhadServices.h"
 #include "../preferences/PreferencesService.h"
 
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 using namespace calenhad::pipeline;
 

@@ -27,13 +27,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QPainter>
 #include <controls/QColoredIcon.h>
 #include "Calenhad.h"
-#include "qmodule/Module.h"
+#include "module/Module.h"
 #include "EditableLabel.h"
-#include "../CalenhadServices.h"
 #include "Connection.h"
-#include "qmodule/NodeGroup.h"
+#include "module/NodeGroup.h"
 #include "../pipeline/ModuleFactory.h"
-#include "../preferences/PreferencesService.h"
 #include "../nodeedit/CalenhadView.h"
 #include "Port.h"
 #include <QGraphicsSceneMouseEvent>
@@ -44,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 using namespace calenhad::controls;
 using namespace calenhad::nodeedit;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 
 
 

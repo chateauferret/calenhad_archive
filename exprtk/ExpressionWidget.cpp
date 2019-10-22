@@ -6,7 +6,7 @@
 #include "../CalenhadServices.h"
 #include "Calculator.h"
 #include <QtWidgets/QHBoxLayout>
-#include "../qmodule/ParamValidator.h"
+#include "../module/ParamValidator.h"
 #include <iostream>
 #include <QtCore/QEvent>
 #include <QKeyEvent>
@@ -17,10 +17,10 @@
 using namespace exprtk;
 using namespace calenhad;
 using namespace calenhad::expressions;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::controls;
 
-ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser (new parser<double>()), _goosed (false), _validator (new AcceptAnyRubbish()) {
+ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser (new parser<double>()), _goosed (false), _validator (new AcceptAnyRubbish()), _value (0.0) {
     QLayout* l = new QHBoxLayout();
     l -> setContentsMargins (0, 0, 0, 0);
     setLayout (l);
@@ -80,7 +80,7 @@ ExpressionWidget::ExpressionWidget (QWidget* parent) : QWidget (parent), _parser
 ExpressionWidget::~ExpressionWidget() {
     delete _parser;
     delete _completer;
-    if (_validator) { delete _validator; }
+    delete _validator;
 }
 
 void ExpressionWidget::variableChanged (const QString& name, const double& value) {
@@ -174,19 +174,19 @@ void ExpressionWidget::reportErrors () {
     setToolTip (errors());
 }
 
-void ExpressionWidget::setText (QString text) {
+void ExpressionWidget::setText (const QString& text) {
     if (_expressionShortBox -> text() != text) {
         _expressionShortBox -> setText (text);
     }
     prepare();
 }
 
-const QString ExpressionWidget::text () {
+QString ExpressionWidget::text () {
     return _expressionShortBox -> text();
 }
 
-void ExpressionWidget::setValidator (calenhad::qmodule::ParamValidator* validator) {
-    if (_validator) { delete _validator; }
+void ExpressionWidget::setValidator (calenhad::module::ParamValidator* validator) {
+    delete _validator;
     _validator = validator;
 }
 

@@ -19,7 +19,7 @@ namespace calenhad {
 	namespace pipeline {
 		class CalenhadModel;
 	}
-	namespace qmodule {
+	namespace module {
 		class Node;
 		class Module;
 	}
@@ -39,9 +39,9 @@ namespace calenhad {
 
         public:
 
-			explicit CalenhadController (Calenhad* parent = 0);
+			explicit CalenhadController (Calenhad* parent = nullptr);
 
-			virtual ~CalenhadController ();
+			~CalenhadController () override;
 
 			void setModel (calenhad::pipeline::CalenhadModel* model);
 
@@ -53,7 +53,7 @@ namespace calenhad {
 
 			void doCommand (QUndoCommand* c);
 
-			void addParamsWidget (QToolBar* toolbar, calenhad::qmodule::Node* node);
+			void addParamsWidget (QToolBar* toolbar, calenhad::module::Node* node);
             bool canUndo();
             bool canRedo();
 			void clearUndo ();

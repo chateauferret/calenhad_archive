@@ -3,15 +3,17 @@
 //
 
 #include "XmlCommand.h"
-#include "qmodule/Node.h"
+
+#include <utility>
+#include "module/Node.h"
 
 using namespace calenhad::actions;
-using namespace calenhad::qmodule;
+using namespace calenhad::module;
 using namespace calenhad::pipeline;
 
 
-XmlCommand::XmlCommand (CalenhadModel* model, const QString& oldXml, const QString& newXml) :
-    _model (model), _oldXml (oldXml), _newXml (newXml) {
+XmlCommand::XmlCommand (CalenhadModel* model, QString  oldXml, QString  newXml) :
+    _model (model), _oldXml (std::move(oldXml)), _newXml (std::move(newXml)) {
 }
 
 XmlCommand::~XmlCommand () {

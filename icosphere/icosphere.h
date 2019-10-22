@@ -8,26 +8,17 @@
 #include <forward_list>
 #include <list>
 #include <unordered_map>
-
+#include "Geometry.h"
 
 
 
 namespace calenhad {
 namespace icosphere {
 
-    struct Cartesian {
-    public:
-        double x, y, z;
-    };
-
-    struct LatLon {
-    public:
-        double lat, lon, height;
-    };
 
     struct Vertex {
     public:
-        Cartesian cartesian;
+        geometry::Cartesian cartesian;
         std::forward_list<Vertex*> neighbours;              // neighbouring vertices
         uint32_t id;
         unsigned level;
@@ -57,17 +48,17 @@ namespace icosphere {
 
         void visit (Vertex* vertex);
 
-        Vertex* walkTowards (const LatLon& target, const unsigned int& depth);
+        Vertex* walkTowards (const geometry::LatLon& target, const unsigned int& depth = 0);
 
-        Vertex* walkTowards (const Cartesian& target, const unsigned int& depth) const;
+        Vertex* walkTowards (const geometry::Cartesian& target, const unsigned int& depth) const;
 
-        Vertex* nearest (const LatLon& target, const unsigned int& depth = 0);
+        Vertex* nearest (const geometry::LatLon& target, const unsigned int& depth = 0);
 
-        void toGeolocation (const Cartesian& c, LatLon& g);
+        void toGeolocation (const geometry::Cartesian& c, geometry::LatLon& g);
 
-        Cartesian toCartesian (const LatLon& g, Cartesian& c);
+        geometry::Cartesian toCartesian (const geometry::LatLon& g, geometry::Cartesian& c);
 
-        static double distSquared (const Cartesian& a, const Cartesian& b);
+        static double distSquared (const geometry::Cartesian& a, const geometry::Cartesian& b);
 
         inline void divideTriangle (Triangle* t);
 
@@ -76,7 +67,8 @@ namespace icosphere {
         std::pair<std::vector<Vertex*>::iterator, std::vector<Vertex*>::iterator> vertices ();
 
         float* vertexBuffer();
-
+        int getDatum (const geometry::LatLon& g, const std::string& key);
+        //void setDatum (const geometry::LatLon& g, const std::string& key, int datum);
     protected:
         unsigned _depth;
         uint32_t _count;
@@ -91,27 +83,33 @@ namespace icosphere {
 
         inline void makeNeighbours (Vertex* p, Vertex* q);
 
-        inline Vertex* addVertex (const Cartesian& c, int level);
+        inline Vertex* addVertex (const geometry::Cartesian& c, int level);
 
-        inline void mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c);
+        inline void mid (const geometry::Cartesian& c1, const geometry::Cartesian& c2, geometry::Cartesian& c);
 
         GeographicLib::Geocentric* _gc;
 
         // these are working variables for triangle subdivision
-        uint32_t k;
-        Vertex* e1;
-        uint64_t edgeKey;
+        uint32_t k{};
+        Vertex* e1{};
+        uint64_t edgeKey{};
         bool _initial;
         std::unordered_map<uint64_t, Vertex*> edgeMap;
         std::unordered_map<uint64_t, Vertex*>::iterator it;
 
-        Vertex* ids0[3];  // triangles of outer vertices
-        Vertex* ids1[3];  // triangles of edge vertices
+        Vertex* ids0[3]{};  // triangles of outer vertices
+        Vertex* ids1[3]{};  // triangles of edge vertices
 
-        Cartesian c;
-        unsigned level;
+        geometry::Cartesian c{};
+        unsigned _level{};
         float* _vertexBuffer;
-        inline uint64_t makeKey (const uint32_t& v1, const uint32_t& v2);
+        static inline uint64_t makeKey (const uint32_t& v1, const uint32_t& v2);
+
+
+        void setDatum (const geometry::LatLon& g, const std::string& key, float datum);
+        double mag;
+        int _c1{};
+        unsigned int level;
     };
 }
 } // namespace
