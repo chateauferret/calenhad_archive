@@ -17,7 +17,14 @@
         </ports>
     </module>
 
-    <module name="constant" label="Constant" render="false" height="0.25" width="0.75" showName="false">
+    <module name="icospheremap" label="Icosphere map">
+        <documentation>Icosphere map</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
+        </ports>
+    </module>
+
+    <module role="generate" name="constant" label="Constant" render="false" height="0.25" width="0.75" showName="false">
         <documentation>Constant value</documentation>
         <parameters>
             <parameter type="double" name="value" default="1.0" display="edit">
@@ -26,81 +33,116 @@
             </parameter>
         </parameters>
         <glsl>%value</glsl>
+        <cuda>
+            out [index] = %value;
+        </cuda>
     </module>
 
     <!-- Externally programmeable modules -->
 
-    <module name="abs" label="Absolute">
+    <module role="modify" name="abs" label="Absolute">
         <documentation>Absolute value</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
         <glsl>abs (%0)</glsl>
+        <cuda>
+            out [index] = fabs (in);
+        </cuda>
     </module>
 
-    <module name="invert" label="Invert">
+    <module role="modify" name="invert" label="Invert">
         <documentation>Inverse value</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true"/>
         </ports>
         <glsl>- %0</glsl>
+        <cuda>
+            out [index] = - in;
+        </cuda>
     </module>
 
-    <module name="add" label="Add">
-        <documentation>Addition of two values</documentation>
+    <module role="combine" name="add" label="Add">
+        <documentation>Addition of two, three or four values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
-            <input index="1" mode="value" name="Input 2" label="in2" />
+            <input index="0" mode="value" name="Input 0" label="in0" default="0.0" />
+            <input index="1" mode="value" name="Input 1" label="in1" default="0.0" />
+            <input index="2" mode="value" name="Input 2" label="in2" default="0.0" />
+            <input index="3" mode="value" name="Input 3" label="in3" default="0.0" />
         </ports>
         <glsl>%0 + %1</glsl>
+        <cuda>
+            out [index] = in0 + in1 + in2 + in3;
+        </cuda>
     </module>
 
-    <module name="max" label="Maximum">
-        <documentation>Maximum of two values</documentation>
+    <module role="combine" name="max" label="Maximum">
+        <documentation>Maximum of two, three or four values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
-            <input index="1" mode="value" name="Input 2" label="in2" required="true" />
+            <input index="0" mode="value" name="Input 0" label="in0" default="-1.0" />
+            <input index="1" mode="value" name="Input 1" label="in1" default="-1.0" />
+            <input index="2" mode="value" name="Input 2" label="in2" default="-1.0" />
+            <input index="3" mode="value" name="Input 3" label="in3" default="-1.0" />
         </ports>
         <glsl>max (%0, %1)</glsl>
+        <cuda>
+            out [index] = max (in0, max (in1, max (in2, in3)));
+        </cuda>
     </module>
 
-    <module name="min" label="Minimum">
-        <documentation>Minimum of two values</documentation>
+    <module role="combine" name="min" label="Minimum">
+        <documentation>Minimum of two, three or four values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
-            <input index="1" mode="value" name="Input 2" label="in2" required="true" />
+            <input index="0" mode="value" name="Input 0" label="in0" default="1.0" />
+            <input index="1" mode="value" name="Input 1" label="in1" default="1.0" />
+            <input index="2" mode="value" name="Input 2" label="in2" default="1.0" />
+            <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
         <glsl>min (%0, %1)</glsl>
+        <cuda>
+            out [index] = min (in0, min (in1, min (in2, in3)));
+        </cuda>
     </module>
 
-    <module name="multiply" label="Multiply">
-        <documentation>Product of two values</documentation>
+    <module role="combine" name="multiply" label="Multiply">
+        <documentation>Product of two, three or four values</documentation>
         <ports>
-            <input index="0" mode="value" name="Input 1" label="in1" required="true" />
-            <input index="1" mode="value" name="Input 2" label="in2" />
+            <input index="0" mode="value" name="Input 0" label="in0" default="1.0" />
+            <input index="1" mode="value" name="Input 1" label="in1" default="1.0" />
+            <input index="2" mode="value" name="Input 2" label="in2" default="1.0" />
+            <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
         <glsl>%0 * %1</glsl>
+        <cuda>
+            out [index] = in0 * in1 * in2 * in3;
+        </cuda>
     </module>
 
-    <module name="power" label="Power">
+    <module role="combine" name="power" label="Power">
         <documentation>Raise base to the power of an exponent</documentation>
         <ports>
             <input index="0" mode="value" name="Base" label="base"/>
             <input index="1" mode="value" name="Exponent" default="2.0" label="exp"/>
         </ports>
         <glsl>pow (%0, %1)</glsl>
+        <cuda>
+            out [index] = pow (in0, in1);
+        </cuda>
     </module>
 
-    <module name="diff" label = "Difference">
+    <module role="combine" name="diff" label = "Difference">
         <documentation>Subtract a subtrahend from a minuend</documentation>
         <ports>
             <input index="0" mode="value" name="Minuend" label="min"/>
             <input index="1" mode="value" name="Subtrahend" label="sub"/>
         </ports>
         <glsl>%0 - %1</glsl>
+        <cuda>
+            out [index] = in0 - in1;
+        </cuda>
     </module>
 
-    <module name="blend" label="Blend">
+    <module role="combine" name="blend" label="Blend">
         <documentation>Blend two inputs, weighting each according to the value of a control</documentation>
         <ports>
             <input index="0" mode="value" name="Input 1" label="in1" required="true" />
@@ -108,9 +150,12 @@
             <input index="2" mode="control" name="Control" label="ctrl" required="true" />
         </ports>
         <glsl>mix (%0, %1, %2)</glsl>
+        <cuda>
+            out [index] = mix (in0, in1, in2);
+        </cuda>
     </module>
 
-    <module name="translate" label="Translate">
+    <module role="transform" name="translate" label="Translate">
         <documentation>Take the value from a point displaced from the input point by a vector</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
@@ -119,6 +164,9 @@
             <input index="3" mode="control" name="Z" label="z"/>
         </ports>
         <glsl>$0 (c + vec3 (%1, %2, %3))</glsl>
+        <cuda>
+            out [index] = mix (in0, in1, in2);
+        </cuda>
     </module>
 
     <module name="rotate" label="Rotate">
@@ -163,7 +211,7 @@
         <glsl>spheres (c, %0)</glsl>
     </module>
 
-    <module name="clamp" label="Clamp">
+    <module role="combine" name="clamp" label="Clamp">
         <documentation>Clamp the value between minimum and maximum values</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" />
@@ -171,10 +219,13 @@
             <input index="2" mode="control" name="maximum" default="1.0"  label="max" />
         </ports>
         <glsl>clamp (%0, %1, %2)</glsl>
+        <cuda>
+            out [index] = in0 < in1 ? in1 : in0 > in2 ? in2 : in0;
+        </cuda>
     </module>
 
 
-    <module name="perlin" label="Perlin noise">
+    <module role="generator" name="perlin" label="Perlin noise">
         <documentation>Perlin noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq">
@@ -198,11 +249,14 @@
             </parameter>
         </parameters>
         <glsl>perlin (c, %0, %1, %2, %octaves, %seed)</glsl>
+        <cuda>
+            out [index] = perlin (toCartesian (geolocation));
+        </cuda>
     </module>
 
 
-    <module name="simplex" label="Simplex noise">
-        <documentation>Perlin noise function</documentation>
+    <module role="generator" name="simplex" label="Simplex noise">
+        <documentation>Simplex noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
                 <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
@@ -225,9 +279,12 @@
             </parameter>
         </parameters>
         <glsl>simplex (c, %0, %1, %2, %octaves, %seed)</glsl>
+        <cuda>
+            out [index] = simplex (toCartesian (geolocation));
+        </cuda>
     </module>
 
-    <module name="billow" label="Billow noise">
+    <module role="generator" name="billow" label="Billow noise">
         <documentation>Perlin noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
@@ -251,9 +308,12 @@
             </parameter>
         </parameters>
         <glsl>billow (c, %0, %1, %2, %octaves, %seed)</glsl>
+        <cuda>
+            out [index] = billow (toCartesian (geolocation));
+        </cuda>
     </module>
 
-    <module name="ridgedmultifractal" label="Ridged multifractal">
+    <module role="generator" name="ridgedmultifractal" label="Ridged multifractal">
         <documentation>Perlin noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
@@ -274,10 +334,13 @@
             </parameter>
         </parameters>
         <glsl>ridgedmulti (c, %0, %1, %octaves, %seed, 1.0, 1.0, 2.0, 2.0)</glsl>
+        <cuda>
+            out [index] = ridgedMulti (toCartesian (geolocation));
+        </cuda>
     </module>
 
 
-    <module name="scaleandbias" label="Scale and bias">
+    <module role="combine" name="scaleandbias" label="Scale and bias">
         <documentation>Scale and bias the input to alter its range</documentation>
         <ports>
             <input index="0" mode="value" name="Input"  label="in"  required="true" />
@@ -285,9 +348,12 @@
             <input index="2" mode="control" name="bias" default="0.0"  label="bias" />
         </ports>
         <glsl>%0 * %1 + %2</glsl>
+        <cuda>
+            out [index] = __fma_rn (in0, in1, in2);
+        </cuda>
     </module>
 
-    <module name="select" label="Select">
+    <module role="combine" name="select" label="Select">
         <documentation>Select one or the other input based on control relative to threshold</documentation>
         <ports>
             <input index="0" mode="value" name="Input 1"  label="in1"  required="true" />
@@ -309,6 +375,9 @@
             </parameter>
         </parameters>
         <glsl>select (%0, %1, %2, %lowerBound, %upperBound, %falloff)</glsl>
+        <cuda>
+            out [index] = select (in0, in1, in2);
+        </cuda>
     </module>
 
     <module name="turbulence" label="Turbulence">
@@ -338,7 +407,7 @@
         <glsl>$0 (turbulence (c, %1, %2, %3, %seed))</glsl>
     </module>
 
-    <module name="voronoi" label="Voronoi noise">
+    <module role="generate" name="voronoi" label="Voronoi noise">
         <documentation>Voronoi noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
@@ -359,6 +428,10 @@
             </parameter>
         </parameters>
         <glsl>voronoi (c, %0, %1, %scale, %seed)</glsl>
+        <cuda>
+            out [index] = voronoi (toCartesian (geolocation));
+        </cuda>
+
     </module>
 
 </palette>
