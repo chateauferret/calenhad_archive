@@ -98,7 +98,6 @@ AbstractMapWidget::~AbstractMapWidget() {
     delete _vertexShader;
     delete _fragmentShader;
     delete _globeTexture;
-    delete _heightMapBuffer;
     delete _renderProgram;
     delete _computeProgram;
     delete _indexBuffer;
@@ -115,7 +114,6 @@ void AbstractMapWidget::paintGL() {
         compute();
         static GLint srcLoc = glGetUniformLocation (_renderProgram -> programId (), "srcTex");
         glUniform1i (srcLoc, 0);
-
 
         _renderProgram -> bind();
         _globeTexture -> bind();
@@ -168,28 +166,14 @@ void AbstractMapWidget::createTexture () {
 
         if (_globeTexture) { delete _globeTexture; }
         _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
-        _globeTexture->create();
+        _globeTexture->create ();
         _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
         _globeTexture->setSize (_yTiles * 2 * _tileSize, _yTiles * _tileSize);
         _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
         _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
-        _globeTexture->allocateStorage();
-        _globeTexture->bind();
-        glBindImageTexture (0, _globeTexture -> textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
-
-
-        // create and allocate the heightMapBuffer on the GPU. This is for downloading the heightmap from the GPU.
-        int v = _globeTexture->height ();
-        if (_heightMapBuffer) {
-            delete _heightMapBuffer;
-            _heightMapBuffer = nullptr;
-        }
-        _heightMapBuffer = new GLfloat[2 * v * v];
-        glGenBuffers (1, &heightMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-        glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * v * v, NULL, GL_DYNAMIC_READ);
-        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 3, heightMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+        _globeTexture->allocateStorage ();
+        _globeTexture->bind ();
+        glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
     }
 }
 

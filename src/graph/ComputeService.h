@@ -17,18 +17,20 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QtGui/QOffscreenSurface>
-#include "graph.h"
+
 //#include "../compute/compute.h"
 
 
 namespace calenhad {
-
+    namespace module {
+        class Module;
+    }
     namespace graph {
         class ComputeService {
         public:
             ComputeService();
             ~ComputeService();
-            float* compute (Graph* g, float* buffer, int height);
+            float* compute (calenhad::module::Module* module);
 
         private:
             QString _sourceCode;
@@ -38,8 +40,9 @@ namespace calenhad {
             //QString sourceCode (const QString& codeTemplate, const QString& function);
             QOpenGLShader* _computeShader;
             QOpenGLShaderProgram* _computeProgram;
-
-            void execute (float* buffer, int height);
+            QOpenGLFunctions_4_3_Core* f;
+            GLuint heightMap;
+            void execute (calenhad::module::Module* module);
         };
     }
 }

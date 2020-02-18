@@ -225,7 +225,7 @@
     </module>
 
 
-    <module role="generator" name="perlin" label="Perlin noise">
+    <module role="generate" name="perlin" label="Perlin noise">
         <documentation>Perlin noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq">
@@ -255,7 +255,7 @@
     </module>
 
 
-    <module role="generator" name="simplex" label="Simplex noise">
+    <module role="generate" name="simplex" label="Simplex noise">
         <documentation>Simplex noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
@@ -284,7 +284,7 @@
         </cuda>
     </module>
 
-    <module role="generator" name="billow" label="Billow noise">
+    <module role="generate" name="billow" label="Billow noise">
         <documentation>Perlin noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
@@ -313,8 +313,8 @@
         </cuda>
     </module>
 
-    <module role="generator" name="ridgedmultifractal" label="Ridged multifractal">
-        <documentation>Perlin noise function</documentation>
+    <module role="generate" name="ridgedmultifractal" label="Ridged multifractal">
+        <documentation>Ridged noise function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq" >
                 <documentation>Frequency of the noise function (radius of one cylinder)</documentation>
@@ -380,7 +380,7 @@
         </cuda>
     </module>
 
-    <module name="turbulence" label="Turbulence">
+    <module role="transform"  label="Turbulence">
         <documentation>Turbulence function</documentation>
         <ports>
             <input index="0" mode="value" name="input"  label="in" required="true" />

@@ -2,8 +2,10 @@
 layout(local_size_x = 32, local_size_y = 32) in;
 layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
 layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
-
-
+layout (std430, binding = 2) buffer inputBuffer0 { float in_0 []; };
+layout (std430, binding = 3) buffer inputBuffer1 { float in_1 []; };
+layout (std430, binding = 4) buffer inputBuffer2 { float in_2 []; };
+layout (std430, binding = 5) buffer inputBuffer3 { float in_3 []; };
 uniform int imageHeight = 1024;
 
 // mathematical constants
@@ -840,6 +842,7 @@ void main() {
         ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
         vec2 i = mapPos (pos);
         vec3 c = toCartesian (i);
-        float v = value (c, i);
-        height_map_out [pos.y * imageHeight * 2 + pos.x] = v;
+        int index = pos.y * imageHeight * 2 + pos.x;
+        float v = value (c, i, index);
+        height_map_out [index] = v;
 }

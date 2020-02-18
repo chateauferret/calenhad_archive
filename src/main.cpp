@@ -89,7 +89,7 @@ int main (int argc, char **argv) {
 
     // Icosphere service
     //CalenhadServices::provideIcosphere (12);
-    CalenhadServices::provideCubicSphere (11);
+    // CalenhadServices::provideCubicSphere (11);
     CalenhadServices::provideComputeService();
 
     // Calenhad model - the arrangement of modules and connections between them

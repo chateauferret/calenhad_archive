@@ -52,18 +52,19 @@ Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, pare
                                                             _stats (nullptr),
                                                             _statsPanel (nullptr),
                                                             _colorMapBuffer (nullptr) {
-    _legend = CalenhadServices::legends() -> defaultLegend();
-    initialise();
+                                                            _legend = CalenhadServices::legends() -> defaultLegend();
+                                                            initialise();
 }
 
 
 Module::~Module () {
     _suppressRender = true;
+    close();
     delete _preview;
     delete _globe;
     delete _stats;
     delete _connectMenu;
-    delete _buffer;
+    delete [] _buffer;
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
@@ -193,8 +194,8 @@ bool Module::isComplete() {
             for (ExpressionWidget* ew: widgets) {
                 if (!ew->isValid ()) {
                     for (Port* p : _ports) {
-                        if (p->portName () == ew->objectName () && p->portType () != Port::OutputPort) {
-                            if (!(p->hasConnection ())) {
+                        if (p -> portName () == ew -> objectName () && p -> portType () != Port::OutputPort) {
+                            if (! (p->hasConnection ())) {
                                 complete = false;
                                 break;
                             }
@@ -280,7 +281,29 @@ QString Module::description () {
 }
 
 QString Module::glsl () {
-    return CalenhadServices::modules() -> glsl (_nodeType);
+    QString code = CalenhadServices::modules() -> glsl (_nodeType);
+
+    // replace the input module markers with their names referencing their member variables in glsl
+    int i = 0;
+    for (Port* port : inputs ()) {
+        QString index = QString::number (i++);
+        if (port->connections ().isEmpty ()) {
+            code.replace ("%" + index, QString::number (parameterValue (port->portName ())));
+        } else {
+            Node* other = port->connections() [0]->otherEnd (port) -> owner ();
+            QString source = other -> name ();
+            code.replace ("%" + index, "in_" + index + " [index]");    // "%0" is shorthand for "$0 (c)"
+        }
+    }
+
+    // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
+    for (QString param : CalenhadServices::modules() -> paramNames ()) {
+        if (parameters().contains (param)) {
+            code.replace ("%" + param, QString::number (parameterValue (param)));
+        }
+    }
+
+    return code;
 }
 
 QMap<unsigned, Port*> Module::inputs () {
@@ -362,15 +385,14 @@ void Module::compute () {
         _buffer = new float [1024 * 2048]; // for now
     }
     if (! _name.isNull()) {
-        ComputeService* c = CalenhadServices::compute ();
-        Graph* g = new Graph (this);
-        c -> compute (g, _buffer, rasterHeight());
-        std::cout << "Computed " << name ().toStdString () << "\n";
-        delete g;
+        ComputeService* c = new ComputeService();
+        c -> compute (this);
+        delete c;
     }
 }
 
 float* Module::buffer () {
+
     return _buffer;
 }
 

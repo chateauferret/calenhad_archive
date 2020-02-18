@@ -79,7 +79,7 @@ void CalenhadMapWidget::initializeGL() {
         _computeProgram->bind ();
 
         clock_t end = clock ();
-        std::cout << "Compile shader " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
+        //std::cout << "Compile shader " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
         _renderProgram = new QOpenGLShaderProgram ();
         _renderProgram->addShader (_vertexShader);
         _renderProgram->addShader (_fragmentShader);
@@ -94,7 +94,7 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::compute () {
-    std::cout << "Compute " << _source -> name().toStdString () << "\n";
+    std::cout << "Display " << _source -> name().toStdString () << "\n";
     unsigned long colorMapBytes = CalenhadServices::preferences() -> calenhad_colormap_buffersize * sizeof (float) * 4;
     unsigned long heightMapBytes = sizeof (GLfloat) * _source -> rasterHeight() * _source -> rasterHeight() * 2;
 
@@ -147,11 +147,11 @@ void CalenhadMapWidget::compute () {
     updateParams ();
     glDispatchCompute (xp, xp * 2, 1);
     glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
-    std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
-    std::cout << "Image size " << width () << " x " << height () << "\n\n";
+    //std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
+    //std::cout << "Image size " << width () << " x " << height () << "\n\n";
     clock_t end = clock ();
     _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    std::cout << "Render fnished in " << _renderTime << " milliseconds\n\n";
+    //std::cout << "Render fnished in " << _renderTime << " milliseconds\n\n";
 
     if (_mode == RenderMode::RenderModeGlobe && _mainMap) {
         emit rendered ();
