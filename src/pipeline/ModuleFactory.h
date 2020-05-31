@@ -71,6 +71,7 @@ namespace calenhad {
             QMap<QString, QSizeF> _moduleScales;
             module::ParamValidator* validator (const QString& validatorType);
 
+            QString getIconFile (const QString &icon);
         };
     }
 }

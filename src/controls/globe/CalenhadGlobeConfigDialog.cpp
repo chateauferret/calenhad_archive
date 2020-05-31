@@ -16,7 +16,6 @@
 #include "../../legend/Legend.h"
 #include "../../legend/LegendManager.h"
 #include "../../legend/LegendService.h"
-#include <marble/AbstractProjection.h>
 #include "mapping/projection/ProjectionService.h"
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QGroupBox>

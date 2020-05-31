@@ -21,6 +21,7 @@ SET(LIBNOISEUTILS_SOURCE_FILES
    #     ${CMAKE_CURRENT_LIST_DIR}/nullmodule.h
    #     ${CMAKE_CURRENT_LIST_DIR}/nullmodule.cpp
         ${CMAKE_CURRENT_LIST_DIR}/NoiseConstants.h
+        ${CMAKE_CURRENT_LIST_DIR}/interp.h
   #      ../grid/IcosphereBuilder.h
   #    ../grid/IcosphereBuilder.cpp
   #      ../grid/IcosphereModule.h

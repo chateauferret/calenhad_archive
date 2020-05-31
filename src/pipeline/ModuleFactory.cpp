@@ -37,7 +37,11 @@ QPixmap* ModuleFactory::getIcon (const QString& type) {
 
 void ModuleFactory::initialise() {
     QDomDocument doc;
-    if (CalenhadServices::readXml (CalenhadServices::preferences() -> calenhad_moduletypes_filename, doc)) {
+    QString moduleFile = CalenhadServices::preferences() -> calenhad_moduletypes_filename;
+    if (! QFileInfo (moduleFile).exists()) {
+        moduleFile = ":/modules.xml";
+    }
+    if (CalenhadServices::readXml (moduleFile, doc)) {
         std::cout << "Modules definition at " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
         QDomElement paletteElement = doc.documentElement();
         QDomNodeList nodes = paletteElement.elementsByTagName ("module");
@@ -57,6 +61,7 @@ void ModuleFactory::initialise() {
             std::cout << glsl.toStdString () << "\n";
         }
 
+
         // Create types metadata
         QStringList list = _types.keys ();
         for (QString key : list) {
@@ -68,7 +73,8 @@ void ModuleFactory::initialise() {
             _moduleDescriptions.insert (key, description);
             QString icon = key.toLower ();
             icon.replace (" ", "");
-            QString iconFile = CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + icon + ".png";
+
+            QString iconFile = getIconFile (icon);
             QPixmap* pixmap = new QPixmap (iconFile);
             _icons.insert (key, pixmap);
         }
@@ -79,12 +85,21 @@ void ModuleFactory::initialise() {
         _moduleDescriptions.insert ("altitudemap", "Altitude map");
         _moduleDescriptions.insert ("raster", "Raster");
         _moduleDescriptions.insert ("icospheremap", "Icosphere");
-        _icons.insert ("altitudemap", new QPixmap (CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + "altitudemap.png"));
-        _icons.insert ("raster", new QPixmap (CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + "raster.png"));
-        _icons.insert ("icospheremap", new QPixmap (CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + "icospheremap.png"));
+        _icons.insert ("altitudemap", new QPixmap (getIconFile ("altitudemap")));
+        _icons.insert ("raster", new QPixmap (getIconFile ("raster.png")));
+        _icons.insert ("icospheremap", new QPixmap (getIconFile ("icospheremap.png")));
     } else {
         std::cout << "Couldn't read file " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
     }
+}
+
+QString ModuleFactory::getIconFile (const QString& icon) {
+    QString iconFile = CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + icon + ".png";
+    if (! QFileInfo (iconFile).exists()) {
+        iconFile = ":/icons/" + icon + ".png";
+        std::cout << "Icon " << iconFile.toStdString() << "\n";
+    }
+    return iconFile;
 }
 
 QDomElement ModuleFactory::xml (const QString& type) {

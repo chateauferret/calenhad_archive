@@ -7,7 +7,6 @@
 
 #include <QString>
 #include <QDomDocument>
-#include <s2/s2point_index.h>
 #include <src/graph/ComputeService.h>
 #include "icosphere/CubicSphere.h"
 
@@ -79,7 +78,6 @@ namespace calenhad {
         static calenhad::pipeline::ModuleFactory* _modules;
         static calenhad::expressions::Calculator* _calculator;
         static calenhad::grid::Icosphere* _icosphere;
-        static S2PointIndex<float>* _pointIndex;
         static calenhad::grid::CubicSphere* _cubicSphere;
         static calenhad::graph::ComputeService* _computeService;
 

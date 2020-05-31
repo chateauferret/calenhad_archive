@@ -1,0 +1,104 @@
+QGraphicsView {
+    background-color: #323232;
+    border: none;
+}
+
+calenhad--nodeedit--CalenhadView:disabled {
+    color: #323232;
+    background-color: #4f0f0f;
+}
+
+calenhad--nodeedit--CalenhadView {
+    color: #323232;
+    background-color: #ff7f7f;
+}
+
+QPushButton
+{
+    background-color: #7f7f7f;
+}
+
+QPushButton:hover{
+    background-color: #0000ff;
+}
+
+QPushButton:pressed{
+    background-color:#7f7fff;
+}
+
+QToolTip {
+    border: 1px solid black;
+    background-color: #ffa02f;
+    padding: 1px;
+    border-radius: 3px;
+}
+
+Component {
+    background-color: #323232;
+}
+
+Component > QLabel {
+    color: #ffff00;
+}
+
+Component:selected {
+    color: #b1b1b1;
+    background-color: #c0c000;
+}
+
+QNotification#info {
+    border: 2px solid green;
+    border-radius: 4px;
+    padding: 2px;
+    background-color: darkgreen;
+}
+
+QNotification#info > QLabel {
+    color: lightgreen;
+}
+
+QNotification#warning {
+    border: 2px solid orange;
+    border-radius: 4px;
+    padding: 2px;
+    background-color: gold;
+}
+
+QNotification#warning > QLabel {
+    color: black;
+}
+
+QNotification#error {
+    border: 2px solid darkred;
+    border-radius: 4px;
+    padding: 2px;
+    background-color: red;
+    color: yellow;
+}
+
+QNotification#error > QLabel {
+    color: yellow;
+}
+
+QNotificationStack {
+    border: none;
+    background-color: red;
+    opacity: 50;
+}
+
+QNotification > QLabel {
+    color: #000000;
+}
+
+QToolBox {
+    border: 2px solid black;
+    background: silver;
+}
+
+QToolBar {
+    background: lightyellow;
+}
+
+QDockWidget {
+    background: silver;
+}

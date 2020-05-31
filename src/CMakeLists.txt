@@ -6,7 +6,7 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 include (CMakeFindDependencyMacro)
 
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../modules/")
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 project (calenhad LANGUAGES CXX)
 message (STATUS ("CMake prefix ") ${CMAKE_PREFIX_PATH})
 
@@ -89,12 +89,12 @@ set (SOURCE_FILES ${SOURCE_FILES}
         ${PREFERENCES_SOURCE_FILES}
 )
 
-set (RESOURCES_DIR ../resources)
+set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 
 add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES})
 add_definitions (${GeographicLib_DEFINITIONS})
-target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL s2
+target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
         ${GeographicLib_LIBRARIES}
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}

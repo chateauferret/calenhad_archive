@@ -592,6 +592,11 @@ void Calenhad::open() {
 void Calenhad::newProject() {
     closeProject();
     QString fname = CalenhadServices::preferences() -> calenhad_legends_filename;
+    if (! QFileInfo(fname).exists()) {
+        fname = "$:/legends.xml";
+        CalenhadServices::messages() -> message ("Legends file not found", "Using default legends file");
+    }
+
     CalenhadModel* model = new CalenhadModel();
     model -> inflate (fname, calenhad::nodeedit::CalenhadLegendFile);
     setModel (model);

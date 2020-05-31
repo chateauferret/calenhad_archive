@@ -7,7 +7,7 @@
 
 #include <QColor>
 #include "LittleEndian.h"
-#include <noise/interp.h>
+#include "interp.h"
 
 
 namespace noise {

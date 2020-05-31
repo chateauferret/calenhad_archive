@@ -60,6 +60,10 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
 
     // Load legends from default legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
+    if (! QFileInfo (file).exists()) {
+        file = ":/legends.xml";
+    }
+
     inflate (file, CalenhadFileType::CalenhadLegendFile);
 
 }

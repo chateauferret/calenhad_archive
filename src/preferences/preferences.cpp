@@ -156,7 +156,7 @@ void Preferences::loadSettings() {
     // File paths
     calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/.config/calenhad/legends.xml").toString ();
     calenhad_legends_filename_temp = _settings -> value ("calenhad/legends/filename/temp", "/home/martin/.config/calenhad/legends.temp.xml").toString ();
-    calenhad_moduletypes_icons_path = _settings -> value ("calenhad/moduletypes/icons/path", "//home/martin/.config/calenhad/modules/icons/").toString();
+    calenhad_moduletypes_icons_path = _settings -> value ("calenhad/moduletypes/icons/path", "/home/martin/.config/calenhad/modules/icons/").toString();
     calenhad_moduletypes_filename = _settings -> value ("calenhad/moduletypes/filename", "/home/martin/.config/calenhad/modules/modules.xml").toString();
     calenhad_recentfiles_filename = _settings -> value ("calenhad/recentfiles/filename", "/home/martin/.config/calenhad/recentfiles.txt").toString ();
     calenhad_variables_name_maxlength = _settings -> value ("calenhad/variables/name/maxlength", 50).toUInt();

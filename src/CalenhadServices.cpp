@@ -1,7 +1,7 @@
 //
 // Created by martin on 15/04/17.
 //
-#include "s2/s2point_index.h"
+
 #include <QtXml/QDomDocument>
 #include <iostream>
 #include <QtCore/QFile>
@@ -38,7 +38,6 @@ StatisticsService* CalenhadServices::_statistics = new StatisticsService();
 ModuleFactory* CalenhadServices::_modules;
 Calculator* CalenhadServices::_calculator;
 Icosphere* CalenhadServices::_icosphere = nullptr;
-S2PointIndex<float>* CalenhadServices::_pointIndex = nullptr;
 CubicSphere* CalenhadServices::_cubicSphere = nullptr;
 ComputeService* CalenhadServices::_computeService = nullptr;
 

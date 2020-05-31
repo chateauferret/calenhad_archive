@@ -1,5 +1,9 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+        <file>calenhad.conf</file>
+        <file>darkorange.css</file>
+        <file>modules.xml</file>
+        <file>legends.xml</file>
         <file>appicons/tools/icospheremap.png</file>
         <file>appicons/tools/altitudemap.png</file>
         <file>appicons/tools/raster.png</file>

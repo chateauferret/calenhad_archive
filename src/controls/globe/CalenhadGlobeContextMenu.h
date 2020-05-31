@@ -7,7 +7,6 @@
 
 
 #include <QtWidgets/QMenu>
-#include <marble/MarbleGlobal.h>
 #include "CalenhadGlobeConstants.h"
 namespace calenhad {
     namespace mapping {

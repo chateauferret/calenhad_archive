@@ -2,7 +2,6 @@
 // Created by martin on 04/09/17.
 //
 
-#include <boost/concept_check.hpp>
 #include "OrthographicProjection.h"
 
 using namespace calenhad::mapping::projection;
