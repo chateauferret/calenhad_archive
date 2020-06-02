@@ -25,7 +25,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "NodeBlock.h"
 #include <QPainter>
-#include <controls/QColoredIcon.h>
 #include "Calenhad.h"
 #include "module/Module.h"
 #include "EditableLabel.h"
@@ -146,7 +145,6 @@ void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option
         painter -> drawPixmap ((int) p.boundingRect().width() - endorsement.width() - _margin, (int) (_margin +  p.boundingRect().height() - endorsement.height()) / 2 - 1, endorsement);
     } else {
         if (_icon) {
-            _icon->setColor (isSelected () ? CalenhadServices::preferences() -> calenhad_module_brush_color_selected.dark () : CalenhadServices::preferences() -> calenhad_module_brush_color_normal.dark ());
             QPixmap pix = _icon -> grab().scaled (_size.height() - _margin * 2, _size.height() - _margin * 2);
             painter -> drawPixmap ((int) _size.width() - pix.height(), (int) _size.height() -  pix.height(), pix);
             painter -> drawPixmap ((int) _size.width() + _margin - endorsement.width(), (int) _size.height() + _margin - endorsement.height(), endorsement);
@@ -157,11 +155,10 @@ void NodeBlock::paint (QPainter* painter, const QStyleOptionGraphicsItem* option
 void NodeBlock::assignIcon() {
     if (_pixmap) {
         if (_icon) { delete _icon; }
-        _icon = new QColoredIcon ();
+        _icon = new QLabel();
         _icon->setToolTip (node ()->nodeType ());
         _icon->setAlignment (Qt::AlignCenter);
         _icon->setPixmap (_pixmap -> scaled (QSize ((int) _size.width(), (int) _size.height())));
-        _icon->setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
     }
 }
 
@@ -289,6 +286,6 @@ void NodeBlock::setText (const QString& text) {
     _expression = text;
 }
 
-QColoredIcon* NodeBlock::icon () {
+QLabel * NodeBlock::icon () {
     return _icon;
 }

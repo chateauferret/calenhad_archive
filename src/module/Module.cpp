@@ -367,7 +367,7 @@ void Module::suppressRender (bool suppress) {
     _suppressRender = suppress;
 }
 
-QColoredIcon* Module::icon () {
+QLabel* Module::icon () {
     return ((NodeBlock*) handle()) -> icon();
 }
 

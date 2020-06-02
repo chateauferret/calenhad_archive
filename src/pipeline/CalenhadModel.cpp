@@ -56,7 +56,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     _connectMenu = new QMenu();
     _connectSubMenu = new QMenu (_connectMenu);
     int extent = CalenhadServices::preferences() -> calenhad_model_extent;
-    setSceneRect (-extent, -extent, extent, extent);
+    //setSceneRect (-extent, -extent, extent, extent);
 
     // Load legends from default legends file
     QString file = CalenhadServices::preferences() -> calenhad_legends_filename;
@@ -371,6 +371,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     }
                 }
             }
+            update();
             break;
         }
 

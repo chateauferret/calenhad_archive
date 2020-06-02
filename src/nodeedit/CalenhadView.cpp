@@ -61,7 +61,7 @@ void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
 
 void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
     //QPointF pos = mapToScene (event -> pos());
-    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+    if (event -> mimeData() -> hasFormat ("application/x-dnditemdata")) {
         if (event -> source() == this) {
             event -> setDropAction(Qt::MoveAction);
         } else {

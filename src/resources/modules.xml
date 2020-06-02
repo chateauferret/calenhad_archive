@@ -3,24 +3,17 @@
 
     <!-- Obligatory modules - behaviour is hardcoded in Calenhad - do not change -->
 
-    <module name="altitudemap" label="Altitude map">
+    <module role="transform" name="altitudemap" label="Altitude map">
         <documentation>Altitude map</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
     </module>
 
-    <module name="raster" label="Raster">
+    <module role="generate" name="raster" label="Raster">
         <documentation>Raster</documentation>
         <ports>
             <input index="0" mode="defaultValue" name="Input" label="def" default="0.0" />
-        </ports>
-    </module>
-
-    <module name="icospheremap" label="Icosphere map">
-        <documentation>Icosphere map</documentation>
-        <ports>
-            <input index="0" mode="value" name="Input" label="in" required="true" />
         </ports>
     </module>
 
@@ -37,7 +30,7 @@
 
     <!-- Externally programmeable modules -->
 
-    <module role="modify" name="abs" label="Absolute">
+    <module role="transform" name="abs" label="Absolute">
         <documentation>Absolute value</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
@@ -45,7 +38,7 @@
         <glsl>abs (%0)</glsl>
     </module>
 
-    <module role="modify" name="invert" label="Invert">
+    <module role="transform" name="invert" label="Invert">
         <documentation>Inverse value</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true"/>
@@ -137,7 +130,7 @@
         <glsl>$0 (c + vec3 (%1, %2, %3))</glsl>
     </module>
 
-    <module name="rotate" label="Rotate">
+    <module role="transform" name="rotate" label="Rotate">
         <documentation>Take the value from a point rotated from the input point around each axis</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
@@ -148,7 +141,7 @@
         <glsl>$0 (rotate (c, vec3 (%1, %2, %3)))</glsl>
     </module>
 
-    <module name="scalepoint" label="Scalepoint">
+    <module role="transform" name="scalepoint" label="Scalepoint">
         <documentation>Scale the noise relative to a point</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
@@ -159,7 +152,7 @@
         <glsl>$0 (c * vec3 (%1, %2, %3))</glsl>
     </module>
 
-    <module name="cylinders" label="Cylinders">
+    <module role="generate" name="cylinders" label="Cylinders">
         <documentation>Cylinder function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0" label="freq">
@@ -169,7 +162,7 @@
         <glsl>cylinders (c, %0)</glsl>
     </module>
 
-    <module name="spheres" label="Spheres">
+    <module role="generate" name="spheres" label="Spheres">
         <documentation>Sphere function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq">
@@ -188,7 +181,6 @@
         </ports>
         <glsl>clamp (%0, %1, %2)</glsl>
     </module>
-
 
     <module role="generate" name="perlin" label="Perlin noise">
         <documentation>Perlin noise function</documentation>

@@ -60,7 +60,6 @@ S INTERRUPTION) HOWEVER CAUSED AND ON ANY
 #include <QtWidgets/QtWidgets>
 #include "QIconPalette.h"
 #include "FlowLayout.h"
-#include "QColoredIcon.h"
 #include "../pipeline/ModuleFactory.h"
 
 using namespace calenhad;
@@ -143,18 +142,16 @@ QIconPalette::QIconPalette (QWidget *parent) : QWidget (parent), _iconSize (Cale
     _types = CalenhadServices::modules() -> types();
     for (QString type : _types) {
         for (QWidget* panel : iconPanels) {
-            QColoredIcon* icon = new QColoredIcon (this);
+            QLabel* label = new QLabel();
             QPixmap* pixmap = CalenhadServices::modules() -> getIcon (type);
-            icon->setToolTip (type);
+            label -> setText (type);
             QPixmap p = (*pixmap).scaled (_iconSize, _iconSize);
-            icon->setAlignment (Qt::AlignCenter);
-            icon->setPixmap (p);
-            icon->setFixedSize (_iconSize, _iconSize);
-            icon -> setColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_normal);
-            icon -> setMouseOverColor (CalenhadServices::preferences() -> calenhad_toolpalette_icon_color_mouseover);
-            icon->setObjectName (type);
-            panel -> layout() -> addWidget (icon);
-            icon -> setAttribute (Qt::WA_DeleteOnClose);
+            label -> setAlignment (Qt::AlignCenter);
+            label -> setPixmap (p);
+            label -> setFixedSize (_iconSize, _iconSize);
+            label -> setObjectName (type);
+            panel -> layout() -> addWidget (label);
+            label -> setAttribute (Qt::WA_DeleteOnClose);
         }
     }
 
@@ -205,7 +202,7 @@ void QIconPalette::layoutIcons() {
 }
 
 void QIconPalette::mousePressEvent(QMouseEvent *event) {
-    QColoredIcon* child = static_cast<QColoredIcon*>(childAt(event->pos()));
+    QLabel* child = static_cast<QLabel*>(childAt(event->pos()));
     if (!child) return;
 
     const QPixmap* pixmap = child -> pixmap();

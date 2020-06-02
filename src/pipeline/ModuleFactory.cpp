@@ -23,7 +23,7 @@ using namespace calenhad::expressions;
 using namespace calenhad::nodeedit;
 
 ModuleFactory::ModuleFactory() {
-    initialise ();
+    initialise();
 }
 
 
@@ -45,8 +45,8 @@ void ModuleFactory::initialise() {
         std::cout << "Modules definition at " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
         QDomElement paletteElement = doc.documentElement();
         QDomNodeList nodes = paletteElement.elementsByTagName ("module");
-        for (int i = 0; i < nodes.size (); i++) {
-            QDomElement element = nodes.at (i).toElement ();
+        for (int i = 0; i < nodes.size(); i++) {
+            QDomElement element = nodes.at (i).toElement();
             QString type = element.attribute ("name");
             _types.insert (type, element);
 
@@ -71,9 +71,7 @@ void ModuleFactory::initialise() {
             QDomElement descriptionElement = element.firstChildElement ("documentation");
             QString description = descriptionElement.text ();
             _moduleDescriptions.insert (key, description);
-            QString icon = key.toLower ();
-            icon.replace (" ", "");
-
+            QString icon = element.attribute ("role");
             QString iconFile = getIconFile (icon);
             QPixmap* pixmap = new QPixmap (iconFile);
             _icons.insert (key, pixmap);
@@ -85,9 +83,9 @@ void ModuleFactory::initialise() {
         _moduleDescriptions.insert ("altitudemap", "Altitude map");
         _moduleDescriptions.insert ("raster", "Raster");
         _moduleDescriptions.insert ("icospheremap", "Icosphere");
-        _icons.insert ("altitudemap", new QPixmap (getIconFile ("altitudemap")));
-        _icons.insert ("raster", new QPixmap (getIconFile ("raster.png")));
-        _icons.insert ("icospheremap", new QPixmap (getIconFile ("icospheremap.png")));
+        _icons.insert ("altitudemap", new QPixmap (getIconFile ("transform")));
+        _icons.insert ("raster", new QPixmap (getIconFile ("generate")));
+        _icons.insert ("icospheremap", new QPixmap (getIconFile ("project.png")));
     } else {
         std::cout << "Couldn't read file " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
     }

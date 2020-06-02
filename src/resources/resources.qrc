@@ -79,5 +79,8 @@
         <file>shaders/map_vs.glsl</file>
         <file>shaders/compute.glsl</file>
         <file>shaders/render.glsl</file>
+        <file>icons/combine.png</file>
+        <file>icons/generate.png</file>
+        <file>icons/transform.png</file>
     </qresource>
 </RCC>

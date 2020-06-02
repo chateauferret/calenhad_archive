@@ -8,7 +8,6 @@
 #include <QTreeWidget>
 #include <QList>
 #include <src/CalenhadServices.h>
-#include "../controls/QColoredIcon.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../pipeline/CalenhadModel.h"
 

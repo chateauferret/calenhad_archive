@@ -30,13 +30,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QRectF>
 #include <QVector>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QLabel>
 
 namespace calenhad {
 	namespace module {
         class Node;
-	}
-	namespace controls {
-		class QColoredIcon;
 	}
 	namespace nodeedit {
 		class Port;
@@ -77,7 +75,7 @@ namespace calenhad {
 			void assignIcon();
 
             void setText (const QString& text);
-			calenhad::controls::QColoredIcon* icon ();
+			QLabel* icon ();
 
 		public slots:
 
@@ -108,7 +106,7 @@ namespace calenhad {
 			int _margin;
 
 
-			calenhad::controls::QColoredIcon* _icon;
+			QLabel* _icon;
 			QPixmap _iconImage;
             const QPixmap _endorsementOrright, _endorsementGoosed;
             QString _expression;
