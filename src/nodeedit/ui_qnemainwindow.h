@@ -67,7 +67,7 @@ public:
         menu_File->setObjectName(QString::fromUtf8("menu_File"));
         QNEMainWindow->setMenuBar(menuBar);
         toolBar = new QToolBar(QNEMainWindow);
-        toolBar->setObjectName(QString::fromUtf8("toolBar"));
+        toolBar->setObjectName(QString::fromUtf8("_toolBar"));
         QNEMainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
         menuBar->addAction(menu_File->menuAction());
@@ -88,7 +88,7 @@ public:
         action_Load->setText(("&Load"));
         action_Quit->setText(("&Quit"));
         menu_File->setTitle(("&File"));
-        toolBar->setWindowTitle(("toolBar"));
+        toolBar->setWindowTitle(("_toolBar"));
     } // retranslateUi
 
 };

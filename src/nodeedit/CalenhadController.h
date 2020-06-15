@@ -12,6 +12,7 @@
 #include <QtWidgets/QMenuBar>
 
 namespace calenhad {
+    class CalenhadUi;
 	namespace nodeedit {
 		class Connection;
 		class NodeBlock;
@@ -29,13 +30,10 @@ namespace calenhad {
 	namespace nodeedit {
 		class CalenhadView;
 		class Calenhad;
-		class ToolDrawer;
-		class ToolGroup;
+
 
 		class CalenhadController : public QObject {
 		Q_OBJECT
-
-
 
         public:
 
@@ -45,24 +43,44 @@ namespace calenhad {
 
 			void setModel (calenhad::pipeline::CalenhadModel* model);
 
-			calenhad::pipeline::CalenhadModel* model ();
+            void deleteNode(module::Node *node);
+
+            QMenu *getContextMenu(QGraphicsItem *item);
+            QMenuBar* getMenuBar();
+            void updateZoomActions();
+            void duplicateNode(module::Node *node);
+            void clearTools();
+            void disconnect(Connection *connection);
+
+            calenhad::pipeline::CalenhadModel* model ();
 
 			QList<CalenhadView*>* views ();
 
 			void addView (CalenhadView* view);
 
 			void doCommand (QUndoCommand* c);
+            void rememberFile(const QString &file);
 
-			void addParamsWidget (QToolBar* toolbar, calenhad::module::Node* node);
+            void addParamsWidget (QToolBar* toolbar, calenhad::module::Node* node);
             bool canUndo();
             bool canRedo();
 			void clearUndo ();
 
 		public slots:
 
-			void toolSelected (bool);
-
-            void actionTriggered();
+			void toolSelected();
+            void zoomIn();
+            void zoomOut();
+            void zoomToFit();
+            void zoomToSelection();
+            void toggleGrid();
+            void snapToGrid();
+            void moduleTree();
+            void paste();
+            void editAction(const bool &kill, const bool &yank);
+            void undo();
+            void redo();
+            void showXml();
         signals:
             void canUndoChanged();
             void canRedoChanged();
@@ -72,12 +90,11 @@ namespace calenhad {
 
 			QList<CalenhadView*>* _views;
             calenhad::pipeline::CalenhadModel* _model;
-
-
-            QAction* _zoomInAction, * _zoomOutAction;
+            CalenhadUi* _ui;
             calenhad::controls::ModuleTree* _moduleTree;
-        };
 
+            void setEditActionStatus();
+        };
 	}
 }
 

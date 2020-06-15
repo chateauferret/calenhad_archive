@@ -10,6 +10,7 @@
 #include <QtWidgets/QFileDialog>
 #include <QSet>
 #include <iostream>
+#include <src/CalenhadServices.h>
 
 using namespace calenhad::controls;
 using namespace calenhad::nodeedit;
@@ -28,7 +29,7 @@ SplashDialog::SplashDialog (Calenhad* parent) {
     _newProjectButton -> setText ("New project");
 
     _recentFileBox = new QComboBox();
-    _recentFiles = parent -> recentFiles();
+    _recentFiles = CalenhadServices::recentFiles();
 
     _openRecentButton = new QPushButton ();
     _openRecentButton -> setText ("Open");
@@ -53,12 +54,12 @@ SplashDialog::SplashDialog (Calenhad* parent) {
 }
 
 SplashDialog::~SplashDialog () {
-
+    setModal (true);
 }
 
 void SplashDialog::showEvent (QShowEvent* e) {
     _recentFileBox -> clear();
-    _recentFiles = ((Calenhad*) parent()) -> recentFiles();
+    _recentFiles = CalenhadServices::recentFiles();
     for (QString entry : _recentFiles) {
         QFile f (entry);
         QDomDocument doc;
@@ -70,6 +71,7 @@ void SplashDialog::showEvent (QShowEvent* e) {
         _recentFileBox -> addItem (title, entry);
     }
 }
+
 
 void SplashDialog::optionSelected() {
     if (sender() == _openButton) {

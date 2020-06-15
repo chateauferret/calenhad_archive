@@ -51,8 +51,8 @@ namespace calenhad {
 			};
 
 			NodeBlock (calenhad::module::Node* node, QGraphicsItem* parent = 0);
-
-			virtual ~NodeBlock();
+            NodeBlock (const QString& type);
+            virtual ~NodeBlock();
 
 			Port* addPort (Port* port);
 
@@ -94,10 +94,9 @@ namespace calenhad {
 			QVariant itemChange (GraphicsItemChange change, const QVariant& value) override;
 
 			calenhad::module::Node* _node;
-			EditableLabel* _label;
+			EditableLabel* _nameLabel;
 			QBrush _brush;
 			QPen _pen;
-			QPixmap* _pixmap;
 
 			virtual QPainterPath makePath();
 
@@ -105,9 +104,6 @@ namespace calenhad {
 			QSizeF _size;
 			int _margin;
 
-
-			QLabel* _icon;
-			QPixmap _iconImage;
             const QPixmap _endorsementOrright, _endorsementGoosed;
             QString _expression;
 
@@ -118,7 +114,8 @@ namespace calenhad {
 			qreal _oldZ;
             int _inputs;
 			unsigned int _spacing;
-		};
+            QGraphicsTextItem *_typeLabel;
+        };
 	}
 }
 

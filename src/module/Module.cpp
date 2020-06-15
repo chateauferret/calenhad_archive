@@ -245,10 +245,13 @@ void Module::invalidate() {
         // if this node needs recalculating or rerendering, so do any nodes that depend on it -
         // that is any nodes with an input connected to this one's output
         for (Module* dependant : dependants ()) {
-            dependant->invalidate ();
+            dependant -> invalidate ();
         }
-        if (_globe && _globe->isVisible ()) {
-            _globe->update ();
+        if (_preview) {
+            _preview -> update();
+        }
+        if (_globe && _globe -> isVisible ()) {
+            _globe -> update ();
         }
         if (_statsPanel) {
             _statsPanel -> refresh ();
@@ -260,7 +263,7 @@ QSet<Module*> Module::dependants() {
 
     QSet<Module*> found;
     if (! _output -> connections(). isEmpty ()) {
-        foreach (Connection* c, _output->connections()) {
+        foreach (Connection* c, _output -> connections()) {
             if (c) {
                 Port* p = c->otherEnd (_output);
                 if (p) {
@@ -290,7 +293,7 @@ QString Module::glsl () {
         if (port->connections ().isEmpty ()) {
             code.replace ("%" + index, QString::number (parameterValue (port->portName ())));
         } else {
-            Node* other = port->connections() [0]->otherEnd (port) -> owner ();
+            Node* other = port -> connections() [0]->otherEnd (port) -> owner ();
             QString source = other -> name ();
             code.replace ("%" + index, "in_" + index + " [index]");    // "%0" is shorthand for "$0 (c)"
         }
@@ -365,10 +368,6 @@ bool Module::renderSuppressed () {
 
 void Module::suppressRender (bool suppress) {
     _suppressRender = suppress;
-}
-
-QLabel* Module::icon () {
-    return ((NodeBlock*) handle()) -> icon();
 }
 
 float* Module::vertexBuffer() {

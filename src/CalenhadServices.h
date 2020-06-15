@@ -8,6 +8,7 @@
 #include <QString>
 #include <QDomDocument>
 #include <src/graph/ComputeService.h>
+#include <src/controls/SplashDialog.h>
 #include "icosphere/CubicSphere.h"
 
 namespace calenhad {
@@ -69,6 +70,9 @@ namespace calenhad {
         static calenhad::grid::Icosphere* icosphere();
         static grid::CubicSphere* cubicSphere ();
 
+        static QStringList recentFiles();
+
+
     private:
         static calenhad::preferences::PreferencesService* _preferences;
         static calenhad::notification::QNotificationHost* _messages;
@@ -80,8 +84,6 @@ namespace calenhad {
         static calenhad::grid::Icosphere* _icosphere;
         static calenhad::grid::CubicSphere* _cubicSphere;
         static calenhad::graph::ComputeService* _computeService;
-
-
 
     };
 }

@@ -144,11 +144,16 @@ QIconPalette::QIconPalette (QWidget *parent) : QWidget (parent), _iconSize (Cale
         for (QWidget* panel : iconPanels) {
             QLabel* label = new QLabel();
             QPixmap* pixmap = CalenhadServices::modules() -> getIcon (type);
-            label -> setText (type);
-            QPixmap p = (*pixmap).scaled (_iconSize, _iconSize);
+
             label -> setAlignment (Qt::AlignCenter);
-            label -> setPixmap (p);
-            label -> setFixedSize (_iconSize, _iconSize);
+            if (pixmap) {
+                QPixmap p = (*pixmap).scaled(_iconSize, _iconSize);
+                label->setPixmap(p);
+                //label -> setFixedSize (_iconSize, _iconSize);
+            } else {
+                label -> setText (type);
+            }
+
             label -> setObjectName (type);
             panel -> layout() -> addWidget (label);
             label -> setAttribute (Qt::WA_DeleteOnClose);
@@ -205,7 +210,7 @@ void QIconPalette::mousePressEvent(QMouseEvent *event) {
     QLabel* child = static_cast<QLabel*>(childAt(event->pos()));
     if (!child) return;
 
-    const QPixmap* pixmap = child -> pixmap();
+    QPixmap pixmap = child -> grab();
     QString type = child -> objectName();
     if ((! type.isNull() && _types.contains (type))) {
         QByteArray itemData;
@@ -215,19 +220,19 @@ void QIconPalette::mousePressEvent(QMouseEvent *event) {
         QMimeData* mimeData = new QMimeData;
         mimeData->setData ("application/x-dnditemdata", itemData);
 
-        if (pixmap && !(pixmap->isNull ())) {
+        //if (pixmap && !(pixmap -> isNull ())) {
             QDrag* drag = new QDrag (this);
             drag->setMimeData (mimeData);
-            drag->setPixmap (*pixmap);
+            drag->setPixmap (pixmap);
             drag->setObjectName (child->objectName ());
 
             if (drag->exec (Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
                 child->close ();
             } else {
                 child->show ();
-                child->setPixmap (*pixmap);
+                child->setPixmap (pixmap);
             }
-        }
+        //}
     }
 }
 

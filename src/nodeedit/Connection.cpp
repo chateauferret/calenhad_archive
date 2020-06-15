@@ -27,10 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "module/Module.h"
 #include "src/CalenhadServices.h"
 #include "Port.h"
-#include "../preferences/PreferencesService.h"
-#include "Toolbox.h"
 #include <QMenu>
-#include <math.h>
 
 using namespace calenhad::notification;
 using namespace calenhad::nodeedit;

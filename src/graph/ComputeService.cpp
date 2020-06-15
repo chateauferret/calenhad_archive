@@ -52,6 +52,7 @@ ComputeService::ComputeService () : _computeProgram (nullptr), _computeShader (n
         throw std::runtime_error ("initialization failed");
     }
     f = dynamic_cast<QOpenGLFunctions_4_3_Core*> (_context.versionFunctions ());
+    f -> glGenBuffers (1, &heightMap);
 
 }
 
@@ -98,8 +99,6 @@ void ComputeService::execute (Module* module) {
     size_t height = module -> rasterHeight();
 
     int bytes = 2 * height * height * sizeof (GLfloat);
-
-    f -> glGenBuffers (1, &heightMap);
     f -> glUseProgram (_computeProgram -> programId ());
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
     f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 0, heightMap);
@@ -138,5 +137,6 @@ void ComputeService::execute (Module* module) {
     }
     std::cout << checksum << "\n";
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 0);
+
 }
 

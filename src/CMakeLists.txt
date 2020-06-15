@@ -87,7 +87,7 @@ set (SOURCE_FILES ${SOURCE_FILES}
         ${LEGEND_SOURCE_FILES}
         ${GRAPH_SOURCE_FILES}
         ${PREFERENCES_SOURCE_FILES}
-)
+        CalenhadUi.cpp CalenhadUi.h)
 
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)

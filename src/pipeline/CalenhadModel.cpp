@@ -33,29 +33,28 @@ using namespace calenhad::legend;
 using namespace calenhad::notification;
 
 CalenhadModel::CalenhadModel() : QGraphicsScene(),
-    conn (nullptr),
-    _port (nullptr),
-    _groups (QSet<NodeGroup*>()),
-    _author (""),
-    _title ("New model"),
-    _description (""),
-    _date (QDateTime::currentDateTime()),
-    _controller (nullptr),
-    _highlighted (nullptr),
-    _menu (nullptr),
-    _changed (false),
-    _existingConnection (false),
-    _wasConnectedTo (nullptr),
-    _filename (""),
-    _undoEnabled (true),
-    _lastSaved (QDateTime::currentDateTime()) {
+                                 _conn (nullptr),
+                                 _port (nullptr),
+                                 _groups (QSet<NodeGroup*>()),
+                                 _author (""),
+                                 _title ("New model"),
+                                 _description (""),
+                                 _date (QDateTime::currentDateTime()),
+                                 _controller (nullptr),
+                                 _menu (nullptr),
+                                 _changed (false),
+                                 _existingConnection (false),
+                                 _wasConnectedTo (nullptr),
+                                 _filename (""),
+                                 _undoEnabled (true),
+                                 _lastSaved (QDateTime::currentDateTime()) {
     CalenhadServices::provideIcosphere (7);
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
     _connectMenu = new QMenu();
     _connectSubMenu = new QMenu (_connectMenu);
-    int extent = CalenhadServices::preferences() -> calenhad_model_extent;
+    //int extent = (int) CalenhadServices::preferences() -> calenhad_model_extent;
     //setSceneRect (-extent, -extent, extent, extent);
 
     // Load legends from default legends file
@@ -212,9 +211,6 @@ Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
 
         // colour the input to show its connected status
         input -> setHighlight (Port::PortHighlight::CONNECTED);
-
-
-
         return c;
     } else {
         return nullptr;
@@ -274,24 +270,24 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                             }
                             // only allow connections from output ports to input ports
                             Port* port = ((Port*) item);
-                            if (conn) { delete conn; }
+                            if (_conn) { delete _conn; }
                             if (port->portType() == Port::OutputPort) {
 
 
-                                conn = new Connection (0);
-                                addItem (conn);
-                                conn -> setPort1 ((Port*) item);
-                                conn -> setPos1 (item -> scenePos());
-                                conn -> setPos2 (me->scenePos());
-                                conn -> updatePath();
-                                conn -> canDrop = false;
+                                _conn = new Connection (0);
+                                addItem (_conn);
+                                _conn -> setPort1 ((Port*) item);
+                                _conn -> setPos1 (item -> scenePos());
+                                _conn -> setPos2 (me->scenePos());
+                                _conn -> updatePath();
+                                _conn -> canDrop = false;
                                 _existingConnection = false;
                             } else {
                                 // dragging an existing connection off an input/control port makes the end floating again so we can drop it somewhere else
                                 if ( ! port -> connections().isEmpty()) {
-                                    conn = port -> connections().first();
-                                    _wasConnectedTo = conn -> port2();
-                                    conn -> setPort2 (nullptr);
+                                    _conn = port -> connections().first();
+                                    _wasConnectedTo = _conn -> port2();
+                                    _conn -> setPort2 (nullptr);
                                     _existingConnection = true;
                                     return true;
                                 }
@@ -303,18 +299,18 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
                 case Qt::RightButton: {
 
-                    if (! conn) {
+                    if (! _conn) {
                         QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                         if (items.empty()) {
-                            QMenu* menu = makeMenu (nullptr);
+                            QMenu* menu = _controller -> getContextMenu (nullptr);
                             if (menu) {
-                                menu -> exec (me->screenPos());
+                                menu -> exec (me -> screenPos());
                             }
                         } else {
                             foreach (QGraphicsItem* item, items) {
-                                QMenu* menu = makeMenu (item);
+                                QMenu* menu = _controller -> getContextMenu (item);
                                 if (menu) {
-                                    menu -> exec (me->screenPos());
+                                    menu -> exec (me -> screenPos());
                                     break;
                                 }
                             }
@@ -333,21 +329,21 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             if (_port) {
                 _port -> initialise();
             }
-            if (conn) {
+            if (_conn) {
                // _viewToolsGroup -> toolToggled (false);
-                conn -> setParentItem (0);
-                conn -> setZValue (0);
+                _conn -> setParentItem (0);
+                _conn -> setZValue (0);
 
-                conn -> setPos2 (me -> scenePos());
-                conn -> updatePath();
-                conn -> canDrop = false;
+                _conn -> setPos2 (me -> scenePos());
+                _conn -> updatePath();
+                _conn -> canDrop = false;
 
                 QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                 foreach (QGraphicsItem* item, items) {
                         if (item && item->type() == Port::Type) {
                             Port* port = (Port*) item;
-                            if (port != conn -> port1() && !(port->hasConnection())) {
-                                if (canConnect (conn -> port1(), port)) {
+                            if (port != _conn -> port1() && !(port -> hasConnection())) {
+                                if (canConnect (_conn -> port1(), port)) {
                                     // Change colour of a port if we mouse over it and can make a connection to it
                                     port -> setHighlight (Port::PortHighlight::CAN_CONNECT);
                                     _port = port;
@@ -381,7 +377,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 view -> setDragMode (_dragMode);
             }
             lastClick = me -> scenePos();
-            if (conn) {
+            if (_conn) {
                 if (_port) {
                     _port -> initialise();
                     _port -> update();
@@ -390,7 +386,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                     foreach (QGraphicsItem* item, items) {
                         if (item && item->type() == Port::Type) {
-                            Port* port1 = conn -> port1();
+                            Port* port1 = _conn -> port1();
                             Port* port2 = (Port*) item;
                             createConnection (port1, port2);
                         }
@@ -404,16 +400,16 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (! type.isNull()) {
                     doCreateNode (me -> screenPos(), type);
                 }
-                ((Calenhad*) _controller -> parent()) -> clearTools();
+                _controller -> clearTools();
                 setActiveTool (nullptr);
             }
             _wasConnectedTo = nullptr;
         }
 
         // deactivate any in-progress connection whenever a mouse release occurs
-        if (conn) {
-            delete conn;
-            conn = nullptr;
+        if (_conn) {
+            delete _conn;
+            _conn = nullptr;
         }
     }
 
@@ -460,7 +456,6 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos, NodeGroup* gro
         for (Port* port : m -> ports ()) {
             block -> addPort (port);
         }
-        block -> assignIcon();
         connect (node, &Node::nameChanged, block, &NodeBlock::nodeChanged);
     }
     node -> setGroup (group);
@@ -710,14 +705,19 @@ void CalenhadModel::readMetadata (const QDomDocument& doc) {
     _date = dateElement.isNull() ? QDateTime::currentDateTime() : QDateTime::fromString (dateElement.nodeValue(), "dd MMMM yyyy hh:mm");
 }
 
-
 void CalenhadModel::inflate (const QString& filename, const CalenhadFileType& fileType) {
+    _filename = filename;
+    if (! QFileInfo (filename).exists()) {
+        _filename = ":/legends.xml";
+        CalenhadServices::messages() -> message ("Legends file not found", "Using default legends file");
+    }
     QDomDocument doc;
-    if (CalenhadServices::readXml (filename, doc)) {
+    if (CalenhadServices::readXml (_filename, doc)) {
         readMetadata (doc);
         inflate (doc, fileType);
+    } else {
+        CalenhadServices::messages() -> message ("Legends file " + _filename + " couldn't be read", "Using default legends file");
     }
-    _filename = filename;
 }
 
 void CalenhadModel::inflate (const QDomDocument& doc, const CalenhadFileType& fileType) {
@@ -899,82 +899,6 @@ void CalenhadModel::rollbackLegends() {
     inflate (file, CalenhadFileType::CalenhadLegendFile);
 }
 
-QMenu* CalenhadModel::makeMenu (QGraphicsItem* item) {
-    if (_menu) { delete _menu; _menu = nullptr; }
-    _menu = nullptr;
-    // construct menu for whatever item type here because QGraphicsItem does not extend QObject, so we can't call connect within QGraphicsItem
-    if (dynamic_cast<Port*> (item)) {
-        Port* port = static_cast<Port*> (item);
-        _menu = new QMenu ("Port");
-        _menu -> addMenu (port -> connectMenu());
-        return _menu;
-    }
-    if (dynamic_cast<Connection*> (item)) {
-        // connection actions
-        _menu = new QMenu ("Connection");
-        Connection* c = static_cast<Connection*> (item);
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/disconnect.png"), "Disconnect", "Delete this connection from the model", CalenhadAction::DeleteConnectionAction, c));
-    }
-    if (dynamic_cast<NodeBlock*> (item)) {
-        NodeBlock* block = static_cast<NodeBlock*> (item);
-        Node* n = block -> node();
-        _menu = new QMenu (n -> name() + " (" + n -> nodeType() + ")");
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/duplicate.png"), tr ("Duplicate module"), "Duplicate module", CalenhadAction::DuplicateModuleAction, block));
-        _menu -> addAction (makeMenuItem (QIcon (":/appicons/controls/delete.png"), tr ("Delete module"), "Delete module", CalenhadAction::DeleteModuleAction, block));
-
-        _menu -> addSeparator();
-
-        QAction* editAction = new QAction (QIcon (":/appicons/controls/edit.png"), tr ("Edit"));
-        editAction -> setToolTip ("Edit module's details and parameters");
-        connect (editAction, &QAction::triggered, this, [=]() { n->showModuleDetail (true); });
-        _menu -> addAction (editAction);
-
-        if (dynamic_cast<Module*> (n)) {
-            QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
-            connect (globeAction, &QAction::triggered, (Module*) n, &Module::showGlobe);
-            _menu->addAction (globeAction);
-        }
-    }
-
-    if (! _menu) {
-        _menu = new QMenu ("Model");
-    }
-
-    // actions that operate on selections
-    _menu -> addSeparator();
-    QAction* copy = makeMenuItem (QIcon (":/appicons/controls/copy.png"), tr ("Copy selection"), "Copy selection", CalenhadAction::CopyAction, nullptr);
-    _menu -> addAction (copy);
-    QAction* cut = makeMenuItem (QIcon (":/appicons/controls/cut.png"), tr ("Cut selection"), "Cut selection", CalenhadAction::CutAction, nullptr);
-    _menu -> addAction (cut);
-    QAction* deleteSelection = makeMenuItem (QIcon (":/appicons/controls/delete_selection.png"), tr ("Delete selection"), "Delete selection", CalenhadAction::DeleteSelectionAction, nullptr);
-    _menu -> addAction (deleteSelection);
-    QAction* newGroupFromSelection = makeMenuItem (QIcon (":/appicons/controls/group_add.png"), tr ("New group from selection"), "New group from selection", CalenhadAction::NodeGroupFromSelectionAction, nullptr);
-    _menu -> addAction (newGroupFromSelection);
-    _menu -> addSeparator();
-    QAction* paste = makeMenuItem (QIcon (":/appicons.controls.paste.png"), tr ("Paste"), "Paste", CalenhadAction::PasteAction, nullptr);
-    _menu -> addAction (paste);
-    copy -> setEnabled (selectedItems().size() > 0);
-    cut -> setEnabled (selectedItems().size() > 0);
-    deleteSelection -> setEnabled (selectedItems().size() > 0);
-    paste -> setEnabled (QGuiApplication::clipboard() -> text() != "");
-    newGroupFromSelection -> setEnabled (selectedItems().size() > 0);
-
-    // actions that operate on the canvas
-    // ...
-
-
-    return _menu;
-}
-
-QAction* CalenhadModel::makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item) {
-    ContextAction<QGraphicsItem>* action = new ContextAction<QGraphicsItem> (item, icon, name, this);
-    action -> setStatusTip (statusTip);
-    action -> setCheckable (false);
-    action -> setData (id);
-    connect (action, &QAction::triggered, _controller, &CalenhadController::actionTriggered);
-    return action;
-}
-
 QString CalenhadModel::uniqueName (QString original) {
     int i = 0;
     QString suffix;
@@ -1086,9 +1010,9 @@ void CalenhadModel::createConnection (Port* from, Port* to) {
     if (from && to) {
         preserve();
         connectPorts (from, to);
-        if (conn) {
-            delete conn;
-            conn = nullptr;
+        if (_conn) {
+            delete _conn;
+            _conn = nullptr;
         }
         setChanged (true);
         setRestorePoint();
@@ -1182,4 +1106,15 @@ void CalenhadModel::setMouseMode (QGraphicsView::DragMode mode) {
     for (QGraphicsView* view : views()) {
         view -> setCursor (mode == QGraphicsView::RubberBandDrag ? Qt::ArrowCursor : Qt::OpenHandCursor);
     }
+}
+
+void CalenhadModel::showXml() {
+    QDomDocument doc = serialize(CalenhadFileType::CalenhadModelFile);
+    QString xml = doc.toString();
+    QTextEdit* xmlText = new QTextEdit();
+    xmlText -> setText(xml);
+    xmlText -> setAttribute(Qt::WA_DeleteOnClose);
+    xmlText -> setReadOnly(true);
+    xmlText -> resize(480, 360);
+    xmlText -> show();
 }

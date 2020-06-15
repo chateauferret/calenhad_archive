@@ -27,31 +27,25 @@ namespace calenhad {
 
         class ModuleFactory : public QObject {
         Q_OBJECT
+        Q_ENUMS (ModuleType)
 
-
-
-            Q_ENUMS (ModuleType)
         public:
-            ModuleFactory ();
-
+            ModuleFactory();
             ~ModuleFactory () override;
             QStringList types ();
             calenhad::module::Node* createModule (const QString& name, const QString& moduleType, CalenhadModel* model);
-
+            QPixmap* makeIcon (const QString& type);
             int seed ();
-
+            QAction *makeModuleTool(const QString &type);
             QPixmap* getIcon (const QString& type);
-
-
-
             module::Node* clone (module::Node* other);
-
             QDomElement xml (const QString& type);
             QStringList paramNames();
             QString label (const QString& type);
             QString description (const QString& type);
             QString glsl (const QString& type);
             QSizeF scale (const QString& type);
+
         signals:
 
             void seedChanged (const int& seed);
@@ -72,6 +66,8 @@ namespace calenhad {
             module::ParamValidator* validator (const QString& validatorType);
 
             QString getIconFile (const QString &icon);
+
+
         };
     }
 }

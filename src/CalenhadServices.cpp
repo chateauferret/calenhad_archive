@@ -16,10 +16,12 @@
 #include "controls/globe/StatisticsService.h"
 #include "icosphere/icosphere.h"
 #include "graph/ComputeService.h"
+#include "../controls/SplashDialog.h"
 
 using namespace calenhad;
 using namespace calenhad::preferences;
 using namespace calenhad::notification;
+using namespace calenhad::controls;
 using namespace calenhad::controls::globe;
 using namespace calenhad::legend;
 using namespace calenhad::pipeline;
@@ -40,6 +42,7 @@ Calculator* CalenhadServices::_calculator;
 Icosphere* CalenhadServices::_icosphere = nullptr;
 CubicSphere* CalenhadServices::_cubicSphere = nullptr;
 ComputeService* CalenhadServices::_computeService = nullptr;
+
 
 PreferencesService* CalenhadServices::preferences () {
     return _preferences;
@@ -154,3 +157,23 @@ void CalenhadServices::provideComputeService() {
 ComputeService* CalenhadServices::compute() {
     return _computeService;
 }
+
+
+QStringList CalenhadServices::recentFiles() {
+    QFile f (CalenhadServices::preferences() -> calenhad_recentfiles_filename);
+    QStringList files;
+    if (f.exists()) {
+        if (f.open (QIODevice::ReadOnly)) {
+            while (! f.atEnd ()) {
+                QByteArray line = f.readLine().trimmed();
+                if (QFile::exists (line)) {
+                    files.append (line);
+                }
+            }
+            f.close();
+        }
+    }
+    return files;
+}
+
+

@@ -15,8 +15,8 @@ template <class T>
 class ContextAction : public QAction {
 
 public:
-    ContextAction (T* context) : QAction(), _context (context) { };
-    ContextAction (T* context, QObject *parent = nullptr) : QAction (parent), _context (context) {    };
+    explicit ContextAction (T* context) : QAction(), _context (context) { };
+    explicit ContextAction (T* context, QObject *parent = nullptr) : QAction (parent), _context (context) {    };
     ContextAction (T* context, const QString &text, QObject *parent = nullptr) : QAction (text, parent), _context (context) { };;
     ContextAction (T* context, const QIcon &icon, const QString &text, QObject *parent = nullptr) : QAction (icon, text, parent), _context (context) { };
     T* context() { return _context; };

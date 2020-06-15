@@ -26,7 +26,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "CalenhadController.h"
 #include "../actions/ZoomCommand.h"
 #include "NodeBlock.h"
-#include "Toolbox.h"
 #include "Connection.h"
 #include "src/CalenhadServices.h"
 #include "module/NodeGroup.h"
@@ -45,6 +44,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <actions/GridCommand.h>
 #include <actions/SnapToGridCommand.h>
 #include "../controls/ModuleTree.h"
+#include "../CalenhadUi.h"
+#include "../nodeedit/CalenhadToolBar.h"
 
 using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
@@ -54,17 +55,20 @@ using namespace calenhad::actions;
 using namespace calenhad::controls;
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent),
+    _ui (new CalenhadUi (this)),
     _views (new QList<CalenhadView*>()),
     _undoStack (new QUndoStack()),
+    _model (nullptr),
     _moduleTree (nullptr) {
     connect (_undoStack, &QUndoStack::canUndoChanged, this, &CalenhadController::canUndoChanged);
     connect (_undoStack, &QUndoStack::canRedoChanged, this, &CalenhadController::canRedoChanged);
-
+    _ui -> initialise();
 }
 
 
 void CalenhadController::addView (CalenhadView* view) {
     _views -> append (view);
+    _ui -> connectView (view);
 }
 
 QList<CalenhadView*>* CalenhadController::views() {
@@ -72,33 +76,32 @@ QList<CalenhadView*>* CalenhadController::views() {
 }
 
 CalenhadController::~CalenhadController() {
-    if (_views) {
-        delete _views;
-    }
-
+    delete _views;
 }
 
 void CalenhadController::setModel (CalenhadModel* model) {
     _model = model;
-    connect (model, &QGraphicsScene::selectionChanged, this, [=] () {
-        ((Calenhad*) parent()) -> setSelectionActionsEnabled (! (model -> selectedItems().isEmpty()));
+    connect (_model, &QGraphicsScene::selectionChanged, this, [=] () {
+        _ui -> setEditActionStatus (_model);
     });
+    updateZoomActions();
+    setEditActionStatus();
 }
+
 
 CalenhadModel* CalenhadController::model() {
     return _model;
 }
 
-void CalenhadController::toolSelected (bool state) {
+void CalenhadController::toolSelected() {
     QAction* tool = (QAction*) sender();
-    if (state) {
+    if (tool -> isChecked()) {
         // activated
         _model -> setActiveTool (tool);
-        int iconSize = CalenhadServices::preferences() -> calenhad_toolpalette_icon_size;
         for (QGraphicsView* view : _model -> views()) {
             QPixmap* pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString ());
-            QCursor cursor = QCursor ((*pixmap).scaled (iconSize, iconSize));
-            view -> viewport () -> setCursor (cursor);
+            QCursor cursor = QCursor (*pixmap);
+            view -> viewport() -> setCursor (cursor);
         }
     } else {
         _model -> setActiveTool (nullptr);
@@ -108,88 +111,102 @@ void CalenhadController::toolSelected (bool state) {
     }
 }
 
-void CalenhadController::actionTriggered() {
-    // fire the selected action
-    QAction* action = (QAction*) sender();
-    ContextAction<QGraphicsItem>* ca = dynamic_cast<ContextAction<QGraphicsItem>*> (action);
-    if (ca) {
-        if (action->data () == CalenhadAction::DeleteConnectionAction) { _model -> doDisconnectPorts ((Connection*) ca->context ()); }
-        if (action->data () == CalenhadAction::DeleteModuleAction) { _model -> doDeleteNode (static_cast<NodeBlock*> (ca -> context()) -> node ()); }
-        if (action->data () == CalenhadAction::DuplicateModuleAction) { _model -> doDuplicateNode ((static_cast<NodeBlock*> (ca -> context())) -> node()); }
+void CalenhadController::zoomIn() {
+    if (_views -> at (0) -> currentZoom() < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin) {
+        doCommand (new ZoomCommand (0.1, _views->at (0)));
     }
-    if (action -> data() == CalenhadAction::ZoomInAction) {
-        if (_views -> at (0) -> currentZoom() < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin) {
-            doCommand (new ZoomCommand (0.1, _views->at (0)));
-        }
-    }
-    if (action -> data() == CalenhadAction::ZoomOutAction) {
-        if (_views->at (0)->currentZoom () > CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomout) {
-            doCommand (new ZoomCommand (-0.1,  _views -> at (0))); }
-    }
+}
 
-    if (action -> data() == CalenhadAction::ZoomToFitAction) { doCommand (new ZoomToFitCommand ( _views -> at (0))); }
-    if (action -> data() == CalenhadAction::ZoomToSelectionAction) { doCommand (new ZoomToSelectionCommand ( _views -> at (0))); }
-    if (action -> data() == CalenhadAction::ToggleGridAction) { doCommand (new GridCommand (_views -> at (0))); }
-    if (action -> data() == CalenhadAction::ToggleSnapToGridAction) { doCommand (new SnapToGridCommand (_views -> at (0))); }
-    if (action -> data() == CalenhadAction::ToggleModuleTreeAction) {
-        if (!_moduleTree) {
-            _moduleTree = new ModuleTree (_model);
-
-            // keep the action's state consistent if we open or close the tree by other means
-            connect (_moduleTree, &ModuleTree::treeShown, this, [=] () {  action -> setChecked (true); });
-            connect (_moduleTree, &ModuleTree::treeHidden, this, [=] () {  action -> setChecked (false); });
-        }
-        _moduleTree->setVisible (!_moduleTree->isVisible ());
+void CalenhadController::zoomOut() {
+    if (_views->at(0)->currentZoom() > CalenhadServices::preferences()->calenhad_desktop_zoom_limit_zoomout) {
+        doCommand(new ZoomCommand(-0.1, _views->at(0)));
     }
+}
 
-    if (action -> data() == CalenhadAction::PasteAction) {
+void CalenhadController::zoomToFit() {
+    doCommand (new ZoomToFitCommand ( _views -> at (0)));
+}
+
+void CalenhadController::zoomToSelection() {
+    doCommand (new ZoomToSelectionCommand ( _views -> at (0)));
+}
+
+void CalenhadController::toggleGrid() {
+    doCommand (new GridCommand (_views -> at (0)));
+    _ui -> updateZoomActions();
+}
+
+void CalenhadController::snapToGrid() {
+    doCommand (new SnapToGridCommand (_views -> at (0)));
+}
+
+void CalenhadController::moduleTree() {
+    if (!_moduleTree) {
+        _moduleTree = new ModuleTree (_model);
+
+        // keep the action's state consistent if we open or close the tree by other means
+        connect (_moduleTree, &ModuleTree::treeShown, this, [=] () {  ((QAction*) sender()) -> setChecked (true); });
+        connect (_moduleTree, &ModuleTree::treeHidden, this, [=] () {  ((QAction*) sender()) -> setChecked (false); });
+    }
+    _moduleTree -> setVisible (!_moduleTree->isVisible ());
+}
+
+void CalenhadController::paste() {
+    QClipboard* clipboard = QGuiApplication::clipboard ();
+    QString xml = clipboard -> text();
+    QDomDocument doc;
+    if (doc.setContent (xml)) {
+        //std::cout << xml.toStdString () << "\n";
+        _model -> preserve();
+        _model -> inflate (doc, CalenhadFileType::CalenhadModelFragment);
+        _model -> setChanged (true);
+        _model -> setRestorePoint();
+    }
+    _ui -> setEditActionStatus (_model);
+}
+
+void CalenhadController::editAction (const bool& kill, const bool& yank) {
+    QString xml = QString::null;
+    if (yank) {
+        xml = _model -> selectionToXml();
         QClipboard* clipboard = QGuiApplication::clipboard ();
-        QString xml = clipboard -> text();
-            QDomDocument doc;
-            if (doc.setContent (xml)) {
-                //std::cout << xml.toStdString () << "\n";
-                _model -> preserve();
-                _model -> inflate (doc, CalenhadFileType::CalenhadModelFragment);
-                _model -> setChanged (true);
-                _model -> setRestorePoint();
-            }
+        clipboard -> setText (xml);
     }
 
-    if (action -> data() == CalenhadAction::DeleteSelectionAction || action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
-        QString xml = QString::null;
-
-        if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::CopyAction) {
-            xml = _model -> selectionToXml();
-            QClipboard* clipboard = QGuiApplication::clipboard ();
-            clipboard -> setText (xml);
-        }
-
-        if (action -> data() == CalenhadAction::CutAction || action -> data() == CalenhadAction::DeleteSelectionAction) {
-            _model -> preserve();
-            _model -> setUndoEnabled (false);
-            for (QGraphicsItem* item : _model->selectedItems ()) {
-                // to do - delete other kinds of node
-                if (item -> type () == QGraphicsItem::UserType + 3) { // block
-                    Node* node = ((NodeBlock*) item)->node ();
-                    // to do - generalise this to delete groups too
-                    Module* module = dynamic_cast<Module*> (node);
-                    if (module) {
-                        _model -> doDeleteNode (module);
-                    }
+    if (kill) {
+        _model -> preserve();
+        _model -> setUndoEnabled (false);
+        for (QGraphicsItem* item : _model -> selectedItems ()) {
+            // to do - delete other kinds of node
+            if (item -> type () == QGraphicsItem::UserType + 3) { // block
+                Node* node = ((NodeBlock*) item)->node ();
+                // to do - generalise this to delete groups too
+                Module* module = dynamic_cast<Module*> (node);
+                if (module) {
+                    _model -> doDeleteNode (module);
                 }
             }
-
-            _model -> setChanged (true);
-            _model -> setUndoEnabled (true);
-            _model -> setRestorePoint();
         }
-
+        _model -> setChanged (true);
+        _model -> setUndoEnabled (true);
+        _model -> setRestorePoint();
+        _ui -> setEditActionStatus (_model);
     }
 
-    if (action -> data() == CalenhadAction::UndoAction) { if (_undoStack -> canUndo()) { _undoStack -> undo(); } }
-    if (action -> data() == CalenhadAction::RedoAction) { if (_undoStack -> canRedo()) { _undoStack -> redo(); } }
-
 }
+
+void CalenhadController::undo() {
+    if (_undoStack->canUndo()) {
+        _undoStack->undo();
+    }
+}
+
+void CalenhadController::redo() {
+    if (_undoStack -> canRedo()) {
+        _undoStack -> redo();
+    }
+}
+
 
 void CalenhadController::doCommand (QUndoCommand* c) {
     _undoStack -> push (c);
@@ -204,7 +221,6 @@ bool CalenhadController::canUndo () {
     return _undoStack -> canUndo();
 }
 
-
 bool CalenhadController::canRedo () {
     return _undoStack -> canRedo();
 }
@@ -213,5 +229,59 @@ void CalenhadController::clearUndo () {
     _undoStack -> clear();
     emit canUndoChanged();
     emit canRedoChanged();
+}
+
+void CalenhadController::disconnect (Connection *connection) {
+    _model -> doDisconnectPorts (connection);
+}
+
+void CalenhadController::duplicateNode (Node *node) {
+    _model -> doDuplicateNode (node);
+}
+
+void CalenhadController::deleteNode (Node *node) {
+    _model -> doDeleteNode (node);
+}
+
+
+void CalenhadController::rememberFile (const QString& file) {
+    QStringList files = CalenhadServices::recentFiles();
+    if (! files.contains (file)) {
+        files.append (file);
+    }
+    QFile f (CalenhadServices::preferences() -> calenhad_recentfiles_filename);
+    if (f.open (QIODevice::ReadWrite | QIODevice::Text)) {
+        QTextStream out (&f);
+        for (QString item : files) {
+            out << item << "\n";
+        }
+        out.flush();
+        f.close();
+    }
+    _ui -> makeRecentFilesMenu ();
+}
+
+QMenu *CalenhadController::getContextMenu(QGraphicsItem *item) {
+    return _ui -> makeContextMenu (item);
+}
+
+void CalenhadController::clearTools() {
+    _ui -> clearTools();
+}
+
+QMenuBar *CalenhadController::getMenuBar() {
+    return _ui -> getMenuBar();
+}
+
+void CalenhadController::updateZoomActions() {
+    _ui -> updateZoomActions();
+}
+
+void CalenhadController::setEditActionStatus() {
+    _ui -> setEditActionStatus (_model);
+}
+
+void CalenhadController::showXml() {
+    _model -> showXml();
 }
 

@@ -6,7 +6,6 @@
 #include "icosphere/icosphere.h"
 #include "exprtk/Calculator.h"
 #include "messages/QNotificationHost.h"
-#include "nodeedit/Toolbox.h"
 #include "preferences/preferences.h"
 #include "controls/altitudemap/AltitudeMapPlot.h"
 #include "CalenhadServices.h"
@@ -38,7 +37,6 @@ using namespace calenhad::mapping::projection;
 Q_DECLARE_METATYPE (std::shared_ptr<QImage>)
 Q_DECLARE_METATYPE (std::shared_ptr<calenhad::grid::Icosphere>)
 Q_DECLARE_METATYPE (calenhad::controls::altitudemap::CurveType)
-Q_DECLARE_METATYPE (calenhad::nodeedit::CalenhadAction)
 Q_DECLARE_METATYPE (Qt::PenStyle)
 
 
@@ -51,7 +49,6 @@ int main (int argc, char **argv) {
     qRegisterMetaType<std::shared_ptr<QImage>>();
     qRegisterMetaType<std::shared_ptr<calenhad::grid::Icosphere>>();
     qRegisterMetaType<CurveType>();
-    qRegisterMetaType<CalenhadAction>();
     qRegisterMetaType<Qt::PenStyle>();
 
     // set up application
@@ -71,21 +68,21 @@ int main (int argc, char **argv) {
     preferences -> loadSettings();
     CalenhadServices::providePreferences (preferences);
 
-    // Modules service
-    ModuleFactory* modules = new ModuleFactory();
-    CalenhadServices::provideModules (modules);
-
     // Legends service
     LegendRoster* roster = new LegendRoster();
     CalenhadServices::provideLegends (roster);
 
-    // Projections service
-    ProjectionService* projections = new ProjectionService();
-    CalenhadServices::provideProjections (projections);
-
     // Calculator service
     Calculator* calculator = new Calculator();
     CalenhadServices::provideCalculator (calculator);
+
+    // Modules service
+    ModuleFactory* modules = new ModuleFactory();
+    CalenhadServices::provideModules (modules);
+
+    // Projections service
+    ProjectionService* projections = new ProjectionService();
+    CalenhadServices::provideProjections (projections);
 
     // Icosphere service
     //CalenhadServices::provideIcosphere (12);
@@ -95,6 +92,7 @@ int main (int argc, char **argv) {
     // Calenhad model - the arrangement of modules and connections between them
     Calenhad* window = new Calenhad();
     window -> setStyleSheet (Preferences::styleSheet());
+    window -> showSplash();
     window -> show();
 
 

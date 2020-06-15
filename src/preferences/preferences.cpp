@@ -70,7 +70,7 @@ void Preferences::loadSettings() {
     calenhad_module_duplicate_offset_x = _settings -> value ("calenhad/module/duplicate/offset/x", 64).toUInt();
     calenhad_module_duplicate_offset_y = _settings -> value ("calenhad/module/duplicate/offset/y", 64).toUInt();
     calenhad_handle_module_height = _settings -> value ("calenhad/handle/module/height", 48).toUInt();
-    calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 96).toUInt();
+    calenhad_handle_module_width = _settings -> value ("calenhad/handle/module/width", 144).toUInt();
     calenhad_handle_module_margin = _settings -> value ("calenhad/handle/module/margin", 2).toUInt();
 
     // Ports attached to modules

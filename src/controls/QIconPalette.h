@@ -8,6 +8,7 @@
 #include <QColormap>
 #include <QScrollArea>
 #include <QScroller>
+#include <QGraphicsItem>
 
 
 namespace calenhad {

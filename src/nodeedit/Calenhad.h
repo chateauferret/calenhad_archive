@@ -35,7 +35,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtWidgets/QGraphicsItem>
 #include <QtWidgets/QScrollArea>
 #include "../messages/QNotificationHost.h"
-#include "Toolbox.h"
 #include <QScrollArea>
 
 namespace calenhad {
@@ -76,8 +75,6 @@ namespace calenhad {
 
             ~Calenhad ();
 
-            ToolBox* _toolbox;
-
             void setModel (calenhad::pipeline::CalenhadModel* model);
 
             calenhad::pipeline::CalenhadModel* model ();
@@ -87,15 +84,24 @@ namespace calenhad {
             void addToolbar (QToolBar* toolbar, calenhad::module::Node* node);
 
             CalenhadController* controller ();
-
-            void clearTools ();
-            void setSelectionActionsEnabled (const bool& enabled);
-
-            QStringList recentFiles ();
             void fixScrollBars ();
+            void showSplash();
         public slots:
             void titleChanged (const QString& title);
             void toggleMouseMode();
+            void newProject();
+            void closeProject();
+            void saveFile();
+            void saveFileAs (const CalenhadFileType& fileType);
+            void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
+            void loadFile (const QString& fname, const CalenhadFileType& fileType);
+            void openProject (const QString& fname);
+            void open();
+            void quit();
+            void projectProperties();
+            void manageLegends();
+
+
         private:
             CalenhadController* _controller;
             CalenhadView* _view;
@@ -106,92 +112,29 @@ namespace calenhad {
 
             //void readMetadata (const QDomDocument& doc, QNotificationFactory* messages);
 
-            bool readXml (const QString& fname, QDomDocument& doc);
-
             calenhad::controls::CalenhadLegendDialog* _legendDialog;
 
             void resizeEvent (QResizeEvent* event) override;
 
-            void moveEvent (QMoveEvent* event);
+            void moveEvent (QMoveEvent* event) override;
 
-            void setActive (bool enabled);
-
-            ToolDrawer* _viewDrawer;
-            ToolDrawer* _editDrawer;
-
-            ToolDrawer* _addModuleDrawer;
-            ToolGroup* _addModuleGroup;
-            QDockWidget* paramsDock;
-
-
-            QAction* addModuleTool (const QString& name, const QString& label, const QString& tooltip);
-
-            QMenu* _moduleContextMenu;
-            QMenu* _connectionContextMenu;
-            QMenu* _outputPortContextMenu;
-            QMenu* _inputPortContextMenu;
             QMenu* _defaultContextMenu;
-            QMenu* _viewMenu;
-            QMenu* _addModuleMenu;
+
+
             //void makeContextMenus ();
 
-            QAction* undoAction, * redoAction;
-            QAction* zoomInAction;
-            QAction* zoomOutAction;
-            QAction* toggleGridAction, * toggleSnapToGridAction;
-            QAction* zoomToFitAction;
-            QAction* zoomSelectionAction;
-            QAction* deleteConnectionAction;
-            QAction* deleteModuleAction;
-            QAction* deleteSelectionAction;
-            QAction* duplicateModuleAction;
-            QAction* cutAction, * copyAction, * pasteAction;
-            QAction* openAction, * newAction, * quitAction, * importAction;
-            QAction* assignSelectionToGroupAction;
-            QAction* manageGroupsAction;
-            QAction* toggleModuleTreeAction;
-            QActionGroup* mouseModeGroup;
             QAction* selectModeAction, * panModeAction;
-            QMenu* openRecentMenu;
 
-            QAction* createTool (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, ToolDrawer* drawer, const bool& toggle = false, const QKeySequence& shortcut = QKeySequence());
-
-            QWidget* _nodeRoster;
-            void addMenus (QMenuBar* menuBar);
-
-
-            void updateZoomActions ();
-
-            CalenhadToolBar* makeToolbar (const QString& name);
-
-            QAction* createAction (const QIcon& icon, const QString& name, const QString statusTip, const QKeySequence& shortcut = QKeySequence());
-
-            QMenu* fileMenu;
-            CalenhadToolBar* fileToolbar;
-
-            void setActive (QWidget* widget, bool enabled);
             calenhad::controls::SplashDialog* _splash;
-            void makeRecentFilesMenu();
-            QScrollArea* _scroll;
 
-        private slots:
-            void projectProperties();
-            void newProject();
-            void closeProject();
-            void saveFile();
-            void saveFileAs (const CalenhadFileType& fileType);
-            void loadFile (const CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
-            void updatePasteAction();
-            void quit();
             void closeEvent (QCloseEvent* event) override;
             void showEvent (QShowEvent* event) override;
-            void rememberFile (const QString& file);
-            void loadFile (const QString& fname, const CalenhadFileType& fileType);
-            void openProject (const QString& fname);
-            void open();
+
             void clearUndo();
 
 
+
+            void provideSplashDialog();
         };
     }
 }

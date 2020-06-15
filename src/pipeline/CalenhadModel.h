@@ -33,7 +33,6 @@ namespace calenhad {
     }
     namespace nodeedit {
         class CalenhadController;
-        class NodeGroupBlock;
         class Connection;
         class Port;
         class NodeBlock;
@@ -48,7 +47,7 @@ namespace calenhad {
         public:
             CalenhadModel ();
 
-            virtual ~CalenhadModel ();
+            ~CalenhadModel() override;
 
             module::Module* findModule (const QString& name);
 
@@ -71,7 +70,7 @@ namespace calenhad {
 
             void doDeleteNode (calenhad::module::Node* node);
 
-            bool eventFilter (QObject* o, QEvent* e);
+            bool eventFilter (QObject* o, QEvent* e) override;
 
             void setActiveTool (QAction* tool);
 
@@ -131,6 +130,7 @@ namespace calenhad {
 
         public slots:
             void goTo (module::Module* module);
+            void showXml();
 
         signals:
             void modelChanged();
@@ -142,9 +142,8 @@ namespace calenhad {
 
             QPointF lastClick;
 
+
             QAction* _activeTool = nullptr;
-            calenhad::nodeedit::Connection* conn;
-            calenhad::nodeedit::Port* _port = nullptr; // last port we coloured in as dropping on
             calenhad::nodeedit::CalenhadController* _controller = nullptr;
 
             QString _title, _author, _description;
@@ -152,14 +151,13 @@ namespace calenhad {
 
             void writeMetadata (QDomDocument& doc);
             void readMetadata (const QDomDocument& doc);
-            calenhad::nodeedit::NodeGroupBlock* _highlighted;
+            calenhad::nodeedit::Port* _port = nullptr;
+            calenhad::nodeedit::Connection* _conn;
 
             QSet<calenhad::module::NodeGroup*> _groups;
             QMenu* _menu;
             QMenu* _connectMenu, * _connectSubMenu;
 
-            QMenu* makeMenu (QGraphicsItem* item);
-            QAction* makeMenuItem (const QIcon& icon, const QString& name, const QString& statusTip, const QVariant& id, QGraphicsItem* item = 0);
             bool _changed;
             QString _filename;
             const QDateTime _lastSaved;

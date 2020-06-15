@@ -379,7 +379,7 @@
             out [index] = select (in0, in1, in2);
         </cuda>
     </module>
-
+    <!--
     <module role="transform"  label="Turbulence">
         <documentation>Turbulence function</documentation>
         <ports>
@@ -387,7 +387,7 @@
             <input index="1" mode="value" name="frequency" default="1.0" label="freq"  >
                 <documentation>Frequency of the turbulence function</documentation>
             </input>
-            <input index="2" mode="value"  name="power" deowerfault="2.0" label="pow" >
+            <input index="2" mode="value"  name="power" default="2.0" label="pow" >
                 <documentation>Power of the turbulence function</documentation>
             </input>
             <input index="3" mode="value" name="roughness" default="1.0"  label="rough" >
@@ -406,7 +406,7 @@
         </parameters>
         <glsl>$0 (turbulence (c, %1, %2, %3, %seed))</glsl>
     </module>
-
+    -->
     <module role="generate" name="voronoi" label="Voronoi noise">
         <documentation>Voronoi noise function</documentation>
         <ports>

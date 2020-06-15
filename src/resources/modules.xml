@@ -318,7 +318,7 @@
         </parameters>
         <glsl>select (%0, %1, %2, %lowerBound, %upperBound, %falloff)</glsl>
     </module>
-
+    <!--
     <module role="transform"  label="Turbulence">
         <documentation>Turbulence function</documentation>
         <ports>
@@ -345,7 +345,7 @@
         </parameters>
         <glsl>$0 (turbulence (c, %1, %2, %3, %seed))</glsl>
     </module>
-
+   -->
     <module role="generate" name="voronoi" label="Voronoi noise">
         <documentation>Voronoi noise function</documentation>
         <ports>

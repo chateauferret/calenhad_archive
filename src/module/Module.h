@@ -72,7 +72,7 @@ namespace calenhad {
             bool isComplete() override;
             bool range (double& min, double& max);
             QMap<unsigned, calenhad::nodeedit::Port*> inputs();
-            QLabel * icon ();
+
             void initialise () override;
             void connectMenu (QMenu* menu, calenhad::nodeedit::Port* port);
             calenhad::nodeedit::Port* output();

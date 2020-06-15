@@ -20,6 +20,7 @@
 #include "module/Module.h"
 #include "../../mapping/Graticule.h"
 #include "../../mapping/projection/ProjectionService.h"
+#include "../nodeedit/CalenhadToolBar.h"
 
 class QwtCompass;
 

@@ -15,6 +15,7 @@
 #include <nodeedit/Port.h>
 #include <src/module/RasterFileModule.h>
 #include "src/noiseconstants.h"
+#include "../nodeedit/NodeBlock.h"
 
 using namespace calenhad;
 using namespace calenhad::pipeline;
@@ -72,9 +73,11 @@ void ModuleFactory::initialise() {
             QString description = descriptionElement.text ();
             _moduleDescriptions.insert (key, description);
             QString icon = element.attribute ("role");
-            QString iconFile = getIconFile (icon);
-            QPixmap* pixmap = new QPixmap (iconFile);
-            _icons.insert (key, pixmap);
+            //QString iconFile = getIconFile (icon);
+            QPixmap* pixmap = makeIcon (key);
+            if (pixmap) {
+                _icons.insert(key, pixmap);
+            }
         }
 
         _moduleLabels.insert ("altitudemap", "Altitude map");
@@ -83,9 +86,8 @@ void ModuleFactory::initialise() {
         _moduleDescriptions.insert ("altitudemap", "Altitude map");
         _moduleDescriptions.insert ("raster", "Raster");
         _moduleDescriptions.insert ("icospheremap", "Icosphere");
-        _icons.insert ("altitudemap", new QPixmap (getIconFile ("transform")));
-        _icons.insert ("raster", new QPixmap (getIconFile ("generate")));
-        _icons.insert ("icospheremap", new QPixmap (getIconFile ("project.png")));
+
+
     } else {
         std::cout << "Couldn't read file " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
     }
@@ -135,12 +137,14 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         QSizeF scale (width, height);
         _moduleScales.insert (type, scale);
 
-        n -> setModel (model);
+        if (model) {
+            n -> setModel(model);
+        }
 
         if (qm) {
             QDomElement portsElement = element.firstChildElement ("ports");
             QDomNodeList portNodesList = portsElement.elementsByTagName ("input");
-            for (int i = 0; i < portNodesList.size (); i++) {
+            for (int i = 0; i < portNodesList.size(); i++) {
                 QDomElement portNode = portNodesList.at (i).toElement ();
                 QString portType = portNode.attribute ("type");
                 int pt = portType == "value" ? Port::InputPort : Port::ControlPort;
@@ -272,8 +276,45 @@ QString ModuleFactory::glsl (const QString& type) {
     return code;
 }
 
+QAction* ModuleFactory::makeModuleTool (const QString& type) {
+    QAction* action = new QAction (label (type));
+    action -> setToolTip (description (type));
+    action -> setData (type);
+    action -> setCheckable (true);
+    action -> setChecked (false);
+    return action;
+}
+
 QStringList ModuleFactory::types () {
     QStringList list = _types.keys();
     return list;
 }
 
+QPixmap* ModuleFactory::makeIcon (const QString& type) {
+    std::cout << "Module " << type.toStdString() << "\n";
+    if (type != QString()) {
+        Module *module = (Module *) createModule(QString(), type, nullptr);
+        if (module) {
+            std::cout << "Making icon " << type.toStdString() << "\n";
+            QGraphicsItem *handle = module->makeHandle();
+            NodeBlock *block = (NodeBlock *) handle;
+            for (Port *port : module -> ports()) {
+                block -> addPort (port);
+            }
+            QPointF point(0.0, 0.0);
+            block -> setPos(point);
+            QRectF r = block -> boundingRect();
+            QPixmap *pixmap = new QPixmap (CalenhadServices::preferences() -> calenhad_handle_module_width, CalenhadServices::preferences() -> calenhad_handle_module_height);
+            pixmap -> fill (Qt::transparent);
+            QPainter painter (pixmap);
+
+            painter.setRenderHint (QPainter::Antialiasing);
+            QStyleOptionGraphicsItem opt;
+            block -> paint (&painter, &opt, nullptr);
+
+            delete module;
+            delete handle;
+            return pixmap;
+        } else return nullptr;
+    } else return nullptr;
+}
