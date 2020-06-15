@@ -398,7 +398,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
             if (_activeTool) {
                 QString type = _activeTool -> data().toString();
                 if (! type.isNull()) {
-                    doCreateNode (me -> screenPos(), type);
+                    doCreateNode (me -> scenePos(), type);
                 }
                 _controller -> clearTools();
                 setActiveTool (nullptr);

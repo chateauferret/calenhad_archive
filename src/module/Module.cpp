@@ -290,7 +290,7 @@ QString Module::glsl () {
     int i = 0;
     for (Port* port : inputs ()) {
         QString index = QString::number (i++);
-        if (port->connections ().isEmpty ()) {
+        if (port -> connections ().isEmpty ()) {
             code.replace ("%" + index, QString::number (parameterValue (port->portName ())));
         } else {
             Node* other = port -> connections() [0]->otherEnd (port) -> owner ();
@@ -362,7 +362,7 @@ void Module::addInputPorts () {
 
 }
 
-bool Module::renderSuppressed () {
+bool Module::renderSuppressed() const {
     return _suppressRender;
 }
 
@@ -381,7 +381,7 @@ float* Module::vertexBuffer() {
 
 void Module::compute () {
     if (! _buffer) {
-        _buffer = new float [1024 * 2048]; // for now
+        _buffer = new float [2048 * 4096]; // for now
     }
     if (! _name.isNull()) {
         ComputeService* c = new ComputeService();
@@ -396,7 +396,7 @@ float* Module::buffer () {
 }
 
 float* Module::colorMapBuffer() {
-    int size = CalenhadServices::preferences () -> calenhad_colormap_buffersize;
+    uint size = CalenhadServices::preferences () -> calenhad_colormap_buffersize;
     if (! _colorMapBuffer) {
         _colorMapBuffer = new float [size * 4];
     }
