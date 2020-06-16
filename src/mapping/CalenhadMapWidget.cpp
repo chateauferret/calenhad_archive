@@ -18,7 +18,8 @@ using namespace calenhad::module;
 using namespace calenhad::legend;
 using namespace calenhad::grid;
 
-CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) : AbstractMapWidget (mode, parent), _computeCubeMap (false) {
+CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) : AbstractMapWidget (mode, parent),
+    _computeCubeMap (false) {
     // read shader code from files into memory for use at render time
     QFile csFile (":/shaders/render.glsl");
     csFile.open (QIODevice::ReadOnly);
@@ -54,37 +55,37 @@ void CalenhadMapWidget::initializeGL() {
         static const GLushort g_element_buffer_data[] = {0, 1, 2, 3};
 
         _vertexBuffer = new QOpenGLBuffer (QOpenGLBuffer::VertexBuffer);
-        _vertexBuffer->create ();
-        _vertexBuffer->setUsagePattern (QOpenGLBuffer::StaticDraw);
-        _vertexBuffer->bind ();
-        _vertexBuffer->allocate (g_vertex_buffer_data, sizeof (g_vertex_buffer_data));
+        _vertexBuffer -> create ();
+        _vertexBuffer -> setUsagePattern (QOpenGLBuffer::StaticDraw);
+        _vertexBuffer -> bind ();
+        _vertexBuffer -> allocate (g_vertex_buffer_data, sizeof (g_vertex_buffer_data));
 
         _indexBuffer = new QOpenGLBuffer (QOpenGLBuffer::IndexBuffer);
-        _indexBuffer->create ();
-        _indexBuffer->setUsagePattern (QOpenGLBuffer::StaticDraw);
-        _indexBuffer->bind ();
-        _indexBuffer->allocate (g_element_buffer_data, sizeof (g_element_buffer_data));
+        _indexBuffer -> create ();
+        _indexBuffer -> setUsagePattern (QOpenGLBuffer::StaticDraw);
+        _indexBuffer -> bind ();
+        _indexBuffer -> allocate (g_element_buffer_data, sizeof (g_element_buffer_data));
 
         _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
         _vertexShader = new QOpenGLShader (QOpenGLShader::Vertex);
-        _vertexShader->compileSourceCode (_vertexShaderCode);
+        _vertexShader -> compileSourceCode (_vertexShaderCode);
         _fragmentShader = new QOpenGLShader (QOpenGLShader::Fragment);
-        _fragmentShader->compileSourceCode (_fragmentShaderCode);
+        _fragmentShader -> compileSourceCode (_fragmentShaderCode);
         _computeProgram = new QOpenGLShaderProgram ();
         clock_t start = clock ();
-        _computeShader->compileSourceCode (_shader);
-        _computeProgram->removeAllShaders ();
-        _computeProgram->addShader (_computeShader);
-        _computeProgram->link ();
-        _computeProgram->bind ();
+        _computeShader -> compileSourceCode (_shader);
+        _computeProgram -> removeAllShaders ();
+        _computeProgram -> addShader (_computeShader);
+        _computeProgram -> link ();
+        _computeProgram -> bind ();
 
         clock_t end = clock ();
         //std::cout << "Compile shader " << ((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0 << " milliseconds\n";
         _renderProgram = new QOpenGLShaderProgram ();
-        _renderProgram->addShader (_vertexShader);
-        _renderProgram->addShader (_fragmentShader);
-        _renderProgram->link ();
-        _renderProgram->bind ();
+        _renderProgram -> addShader (_vertexShader);
+        _renderProgram -> addShader (_fragmentShader);
+        _renderProgram -> link ();
+        _renderProgram -> bind ();
 
         GLint posPtr = glGetAttribLocation (_renderProgram -> programId (), "pos");
         glVertexAttribPointer (posPtr, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -109,8 +110,8 @@ void CalenhadMapWidget::compute () {
             std::cout << "Compute shader would not compile\n";
         }
     }
-    _computeProgram->bind ();
-    _globeTexture->bind ();
+    _computeProgram -> bind ();
+    _globeTexture -> bind ();
 
     GLuint icosphereBuffer = 4;
     GLuint gridBuffer = 5;
@@ -144,7 +145,7 @@ void CalenhadMapWidget::compute () {
     }
 
     int xp = _tileSize / 32;
-    updateParams ();
+    updateParams();
     glDispatchCompute (xp, xp * 2, 1);
     glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
     //std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
@@ -211,4 +212,9 @@ void CalenhadMapWidget::updateParams() {
     //glUniform1i (vertexCountLoc, CalenhadServices::icosphere ()->vertexCount ());
     glUniform1i (renderModeLoc, _mode);
 
+}
+
+void CalenhadMapWidget::showEvent(QShowEvent *event) {
+    AbstractMapWidget::showEvent(event);
+    update();
 }

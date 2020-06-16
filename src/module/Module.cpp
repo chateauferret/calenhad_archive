@@ -101,13 +101,13 @@ void Module::setupPreview() {
 
     _stats -> setLayout (new QVBoxLayout (_stats));
     _statsPanel = new CalenhadStatsPanel (this);
-    _stats->layout ()->addWidget (_statsPanel);
+    _stats -> layout() -> addWidget (_statsPanel);
     QDialogButtonBox* box = new QDialogButtonBox (QDialogButtonBox::Ok);
     _stats -> layout ()->addWidget (box);
     connect (box, &QDialogButtonBox::accepted, _stats, &QDialog::accept);
     _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
     _stats -> setMinimumSize (400, 400);
-    _stats -> move (_dialog->pos().x() + 400, _dialog->pos().y() + 300);
+    _stats -> move (_dialog -> pos().x() + 400, _dialog -> pos().y() + 300);
     connect (_preview, &AbstractMapWidget::rendered, _statsPanel, &CalenhadStatsPanel::refresh);
     QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
     connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
@@ -244,17 +244,17 @@ void Module::invalidate() {
         compute();
         // if this node needs recalculating or rerendering, so do any nodes that depend on it -
         // that is any nodes with an input connected to this one's output
-        for (Module* dependant : dependants ()) {
-            dependant -> invalidate ();
+        for (Module* dependant : dependants()) {
+            dependant -> invalidate();
         }
         if (_preview) {
             _preview -> update();
         }
-        if (_globe && _globe -> isVisible ()) {
-            _globe -> update ();
+        if (_globe && _globe -> isVisible()) {
+            _globe -> update();
         }
         if (_statsPanel) {
-            _statsPanel -> refresh ();
+            _statsPanel -> refresh();
         }
     }
 }

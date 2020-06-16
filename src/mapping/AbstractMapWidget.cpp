@@ -108,7 +108,6 @@ AbstractMapWidget::~AbstractMapWidget() {
 
 
 void AbstractMapWidget::paintGL() {
-
         QPainter p (this);
         p.beginNativePainting ();
         compute();
@@ -117,7 +116,7 @@ void AbstractMapWidget::paintGL() {
 
         _renderProgram -> bind();
         _globeTexture -> bind();
-        glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+        glBindImageTexture (0, _globeTexture -> textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 
         glDrawElements (GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
         _vao.release ();
@@ -283,7 +282,7 @@ void AbstractMapWidget::setGraticuleVisible (const bool& visible) {
     update();
 }
 
-bool AbstractMapWidget::isGraticuleVisible() {
+bool AbstractMapWidget::isGraticuleVisible() const {
     return _graticuleVisible;
 }
 
@@ -300,7 +299,7 @@ geoutils::CoordinatesFormat AbstractMapWidget::coordinatesFormat () {
 }
 
 Statistics AbstractMapWidget::statistics() {
-    if (! _globeTexture) { return Statistics (0.0, 0.0, 0.0, 0, 0, 0); }
+    if (! _globeTexture) { return {0.0, 0.0, 0.0, 0, 0, 0}; }
     double _min = 0, _max = 0, _sum = 0;
     int count = 0;
     GLfloat* buffer = heightMapBuffer();
@@ -336,7 +335,7 @@ DatumFormat AbstractMapWidget::datumFormat () {
     return _datumFormat;
 }
 
-double AbstractMapWidget::sensitivity () {
+double AbstractMapWidget::sensitivity () const {
     return _sensitivity;
 }
 

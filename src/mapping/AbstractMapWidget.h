@@ -68,7 +68,7 @@ namespace calenhad {
             geoutils::CoordinatesFormat coordinatesFormat();
             void setGraticuleVisible (const bool& visible);
             Graticule* graticule ();
-            bool isGraticuleVisible ();
+            bool isGraticuleVisible () const;
             bool isInViewport (geoutils::Geolocation g);
             QSize heightMapSize () const;
             GLfloat* heightMapBuffer();
@@ -80,7 +80,7 @@ namespace calenhad {
             void setDatumFormat (calenhad::controls::globe::DatumFormat format);
             calenhad::controls::globe::DatumFormat datumFormat();
             void setSensitivity (double sensitivity);
-            double sensitivity();
+            double sensitivity() const;
             void goTo (const geoutils::Geolocation& geolocation);
 
             controls::globe::RenderMode renderMode ();

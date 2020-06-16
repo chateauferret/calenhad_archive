@@ -14,26 +14,26 @@ namespace calenhad {
 
         class CalenhadMapWidget : public AbstractMapWidget {
         public:
-            CalenhadMapWidget (const controls::globe::RenderMode& mode = controls::globe::RenderMode::RenderModeGlobe, QWidget* parent = 0);
-            ~CalenhadMapWidget ();
+            explicit CalenhadMapWidget (const controls::globe::RenderMode& mode = controls::globe::RenderMode::RenderModeGlobe, QWidget* parent = 0);
+            ~CalenhadMapWidget () override;
 
-            void setGraph (calenhad::graph::Graph* g);
             calenhad::module::Module* source ();
             void setSource (calenhad::module::Module* qm);
             calenhad::legend::Legend* legend() override;
-            void fillIcosphere (grid::Icosphere* icosphere);
+            //void fillIcosphere (grid::Icosphere* icosphere);
 
             void compute() override;
 
         public slots:
-            void render ();
+            void render () override;
+            void showEvent (QShowEvent* event) override;
 
         protected:
             void initializeGL() override;
 
             bool _computeCubeMap;
-            GLfloat* _cubeMapBuffer;
-            GLfloat* _gridBuffer;
+            GLfloat* _cubeMapBuffer{};
+            GLfloat* _gridBuffer{};
 
 
             void updateParams ();
