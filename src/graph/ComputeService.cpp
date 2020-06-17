@@ -106,14 +106,14 @@ void ComputeService::execute (Module* module) {
 
 
     int i = 0;
+    GLuint inputBuffer;
+    f -> glGenBuffers (1, &inputBuffer);
     for (Port* port : module -> inputs ()) {
         QString index = QString::number (i++);
         if (! port -> connections().isEmpty ()) {
             Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
             Module* m = dynamic_cast<Module*> (other);
             if (m)  {
-                GLuint inputBuffer;
-                f -> glGenBuffers (1, &inputBuffer);
                 f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, inputBuffer);
                 f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * height * height, m -> buffer(), GL_DYNAMIC_COPY);
                 f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1 + i, inputBuffer);
@@ -121,22 +121,21 @@ void ComputeService::execute (Module* module) {
         }
     }
 
-    f -> glDispatchCompute (32, 64, 1);
+    static GLint resolutionLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "resolution");
+    f -> glUniform1i (resolutionLoc, module -> resolution());
+
+    f -> glDispatchCompute (32 * 2, 64 * 2, 1);
     f -> glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
     f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 0, heightMap);
+
     float *ptr = (float*) f -> glMapBufferRange (GL_SHADER_STORAGE_BUFFER, 0, sizeof (GLfloat) * 2 * height * height, GL_MAP_READ_BIT );
     memcpy (buffer, ptr, sizeof (GLfloat) * 2 * height * height);
     f -> glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
     //f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
     std::cout << "Buffer for module " << module -> name().toStdString() << ": at " << buffer << ": checksum ";
-    float checksum = 0;
-    for (int x = 0; x < 2048 * 1024; x++) {
-        checksum += ptr [x];
-    }
-    std::cout << checksum << "\n";
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 0);
-
+    f -> glDeleteBuffers (1, &inputBuffer);
 }
 

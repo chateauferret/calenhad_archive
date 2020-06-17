@@ -25,7 +25,6 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
     csFile.open (QIODevice::ReadOnly);
     QTextStream csTextStream (&csFile);
     _shader = csTextStream.readAll ();
-
 }
 
 CalenhadMapWidget::~CalenhadMapWidget () {
@@ -117,17 +116,16 @@ void CalenhadMapWidget::compute () {
     GLuint gridBuffer = 5;
     GLuint colorMap = 1;
 
-
     clock_t tileStart = clock ();
-
     start = tileStart;
 
-
+    glGenBuffers (1, &colorMap);
+    glGenBuffers (1, &heightMap);
 
     // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
     _colorMapBuffer = (GLfloat*) _source -> colorMapBuffer ();
     if (_colorMapBuffer) {
-        glGenBuffers (1, &colorMap);
+
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
         glBufferData (GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
         glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
@@ -137,7 +135,7 @@ void CalenhadMapWidget::compute () {
     // create and allocate the heightMapBuffer on the GPU and copy the contents across to them.
     _heightMapBuffer = (GLfloat*) _source -> buffer();
     if (_heightMapBuffer) {
-        glGenBuffers (1, &heightMap);
+
         glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
         glBufferData (GL_SHADER_STORAGE_BUFFER, heightMapBytes, _heightMapBuffer, GL_DYNAMIC_COPY);
         glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, heightMap);
@@ -158,9 +156,9 @@ void CalenhadMapWidget::compute () {
         emit rendered ();
     }
     _refreshHeightMap = true;
+    glDeleteBuffers (1, &colorMap);
+    glDeleteBuffers (1, &heightMap);
 }
-
-
 
 void CalenhadMapWidget::render() {
     // if the name isn't set, module is still being built, so don't render it
@@ -185,7 +183,6 @@ Legend* CalenhadMapWidget::legend () {
     return _source -> legend();
 }
 
-
 void CalenhadMapWidget::updateParams() {
     makeCurrent();
     _computeProgram -> link ();
@@ -201,7 +198,6 @@ void CalenhadMapWidget::updateParams() {
     //static GLint vertexCountLoc = glGetUniformLocation (_computeProgram -> programId(), "vertexCount");
     static GLint renderModeLoc = glGetUniformLocation (_computeProgram -> programId(), "mode");
 
-
     glUniform1i (destLoc, 0);
     glUniform3f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude(), (GLfloat) _mode == RenderMode::RenderModeOverview ? _mainMap -> scale() : _scale);
     glUniform1i (projectionLoc, _mode == RenderMode::RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id ());
@@ -211,7 +207,6 @@ void CalenhadMapWidget::updateParams() {
     glUniform1i (rasterResolutionLoc, _source -> rasterHeight());
     //glUniform1i (vertexCountLoc, CalenhadServices::icosphere ()->vertexCount ());
     glUniform1i (renderModeLoc, _mode);
-
 }
 
 void CalenhadMapWidget::showEvent(QShowEvent *event) {

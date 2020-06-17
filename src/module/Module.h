@@ -84,6 +84,11 @@ namespace calenhad {
             QVector<nodeedit::Port*> ports ();
             void compute();
             float* colorMapBuffer();
+
+            int resolution() const;
+
+            void setResolution(int resolution);
+
         public slots:
             void setupPreview ();
             void showGlobe ();
@@ -117,6 +122,8 @@ namespace calenhad {
             bool _editable;
 
             float* _colorMapBuffer;
+            int _resolution = 2048;
+
         };
     }
 }

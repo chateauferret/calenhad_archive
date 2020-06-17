@@ -381,7 +381,7 @@ float* Module::vertexBuffer() {
 
 void Module::compute () {
     if (! _buffer) {
-        _buffer = new float [2048 * 4096]; // for now
+        _buffer = new float [_resolution * _resolution * 2]; // for now
     }
     if (! _name.isNull()) {
         ComputeService* c = new ComputeService();
@@ -416,7 +416,7 @@ float* Module::colorMapBuffer() {
 }
 
 size_t Module::rasterHeight () {
-    return 1024;
+    return _resolution;
 }
 
 void Module::save() {
@@ -433,4 +433,12 @@ void Module::save() {
         }
     }
     image -> save (fileName);
+}
+
+int Module::resolution() const {
+    return _resolution;
+}
+
+void Module::setResolution(int resolution) {
+    _resolution = resolution;
 }

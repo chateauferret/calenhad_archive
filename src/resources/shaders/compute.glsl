@@ -6,7 +6,7 @@ layout (std430, binding = 2) buffer inputBuffer0 { float in_0 []; };
 layout (std430, binding = 3) buffer inputBuffer1 { float in_1 []; };
 layout (std430, binding = 4) buffer inputBuffer2 { float in_2 []; };
 layout (std430, binding = 5) buffer inputBuffer3 { float in_3 []; };
-uniform int imageHeight = 1024;
+uniform int resolution = 1024;
 
 // mathematical constants
 #define M_PI 3.1415926535898
@@ -742,7 +742,7 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
 
 // Returns the map coordinates for a given GlobalInvocationID (essentially screen coordinates) taking into account the scale.
 vec2 mapPos (vec2 pos) {
-    float h = (imageHeight);
+    float h = resolution;
     vec2 j = vec2 ((pos.x - h) / (h * 2), (pos.y / 2 - (h / 4)) / h);
     j *= M_PI * 2;
     return j;
@@ -754,8 +754,8 @@ vec2 mapPos (vec2 pos) {
 ivec2 scrPos (vec2 g) {
     vec2 j = g;
     j /= M_PI;
-    j.x = (j.x + 1) * imageHeight;
-    j.y = (j.y + 0.5) * imageHeight;
+    j.x = (j.x + 1) * resolution;
+    j.y = (j.y + 0.5) * resolution;
     return ivec2 (j);
 }
 
@@ -842,7 +842,7 @@ void main() {
         ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
         vec2 i = mapPos (pos);
         vec3 c = toCartesian (i);
-        int index = pos.y * imageHeight * 2 + pos.x;
+        int index = pos.y * resolution * 2 + pos.x;
         float v = value (c, i, index);
         height_map_out [index] = v;
 }
