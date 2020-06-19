@@ -5,7 +5,7 @@
 #include <QtXml/QDomDocument>
 #include <iostream>
 #include <QtCore/QFile>
-#include <icosphere/CubicSphere.h>
+#include <grid/CubicSphere.h>
 #include "CalenhadServices.h"
 #include "pipeline/ModuleFactory.h"
 #include "exprtk/Calculator.h"
@@ -14,9 +14,8 @@
 #include "legend/LegendService.h"
 #include "mapping/projection/ProjectionService.h"
 #include "controls/globe/StatisticsService.h"
-#include "icosphere/icosphere.h"
+#include "grid/icosphere.h"
 #include "graph/ComputeService.h"
-#include "../controls/SplashDialog.h"
 
 using namespace calenhad;
 using namespace calenhad::preferences;
@@ -175,5 +174,3 @@ QStringList CalenhadServices::recentFiles() {
     }
     return files;
 }
-
-

@@ -3,7 +3,7 @@
 #include <QtCore/QFile>
 #include "nodeedit/Calenhad.h"
 #include "pipeline/CalenhadModel.h"
-#include "icosphere/icosphere.h"
+#include "grid/icosphere.h"
 #include "exprtk/Calculator.h"
 #include "messages/QNotificationHost.h"
 #include "preferences/preferences.h"
@@ -12,9 +12,6 @@
 #include "legend/LegendRoster.h"
 #include "mapping/projection/ProjectionService.h"
 #include "pipeline/ModuleFactory.h"
-
-
-#include "icosphere/icosphere.h"
 
 
 #ifdef Q_WS_X11

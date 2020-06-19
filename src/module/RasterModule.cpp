@@ -12,6 +12,7 @@
 #include "../preferences/PreferencesService.h"
 #include "mapping/CalenhadMapWidget.h"
 #include "RasterFileModule.h"
+#include <QtMath>
 
 
 using namespace calenhad::module;

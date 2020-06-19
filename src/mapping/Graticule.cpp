@@ -5,7 +5,7 @@
 #include <QtGui/QList>
 #include <tgmath.h>
 #include "Graticule.h"
-#include "AbstractMapWidget.h"
+#include "CalenhadMapWidget.h"
 #include <QPainter>
 #include <src/CalenhadServices.h>
 #include "../preferences/PreferencesService.h"
@@ -15,7 +15,7 @@ using namespace geoutils;
 using namespace calenhad::controls::globe;
 
 
-Graticule::Graticule (AbstractMapWidget* parent) : _globe (parent),
+Graticule::Graticule (CalenhadMapWidget* parent) : _globe (parent),
                                                    _visible (true),
                                                    _density (0),
                                                    _majorPen (QPen()),

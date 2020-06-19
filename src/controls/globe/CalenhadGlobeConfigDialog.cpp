@@ -20,7 +20,6 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QGroupBox>
 #include <controls/ColorButton.h>
-#include "module/Module.h"
 #include "../../mapping/Graticule.h"
 #include "../../mapping/projection/Projection.h"
 

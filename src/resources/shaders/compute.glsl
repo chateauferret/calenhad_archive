@@ -60,7 +60,7 @@ float maxAltitude = 0;
 // raster buffer parameters
 uniform int rasterResolution = 1024;                                      // number of elements in a raster = resolution * resolution * 2
 
-// icosphere parameters
+// grid parameters
 uniform int vertexCount;
 
 // cubemap parameters

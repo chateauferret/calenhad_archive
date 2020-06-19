@@ -19,7 +19,7 @@ constexpr unsigned IcosphereDivider::tindices[20][3];
 
 IcosphereDivider::IcosphereDivider (const Bounds& bounds, const int& depth, std::shared_ptr<VertexList> vertices) : _bounds (bounds), _depth (depth), _vertices (vertices) {
     _rhumb = new GeographicLib::Rhumb (1.0, 0.0);
-    std::cout << "Building icosphere to level " << (int) _depth << "\n";
+    std::cout << "Building grid to level " << (int) _depth << "\n";
     purge();
     emit progress (0);
     _toDo = (double) _bounds.estimateVertexCount (_depth);

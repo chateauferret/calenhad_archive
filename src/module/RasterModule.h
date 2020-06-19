@@ -6,7 +6,7 @@
 #define CALENHAD_QRASTERMODULE_H
 
 #include "Module.h"
-#include "../icosphere/Bounds.h"
+#include "../grid/Bounds.h"
 
 namespace calenhad {
     namespace controls {

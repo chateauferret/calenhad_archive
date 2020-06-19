@@ -6,7 +6,7 @@
 #include "nodeedit/Connection.h"
 #include "nodeedit/NodeBlock.h"
 #include "module/NodeGroup.h"
-#include "icosphere/icosphere.h"
+#include "grid/icosphere.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../actions/XmlCommand.h"
 #include "nodeedit/Port.h"
@@ -14,6 +14,7 @@
 #include "exprtk/Calculator.h"
 #include <QGraphicsSceneMouseEvent>
 #include <actions/ContextAction.h>
+#include "../legend/Legend.h"
 #include "../legend/LegendService.h"
 #include <QList>
 #include <QGraphicsItem>

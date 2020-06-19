@@ -12,21 +12,29 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QTextEdit>
 #include <QUuid>
-
+#include "../CalenhadServices.h"
+#include "../preferences/PreferencesService.h"
 #include <memory>
 #include <QtWidgets/QCheckBox>
-#include <mapping/CalenhadMapWidget.h>
-#include <controls/globe/CalenhadGlobeDialog.h>
+
 #include "Node.h"
 
 
 namespace calenhad {
+    namespace grid {
+        class Extent;
+    }
+
     namespace legend {
         class Legend;
     }
     namespace nodeedit {
         class NodeBlock;
         class Port;
+    }
+
+    namespace mapping {
+        class CalenhadMapWidget;
     }
 
     namespace controls {
@@ -39,12 +47,7 @@ namespace calenhad {
     namespace module {
         class Module : public Node {
         Q_OBJECT
-
-
-
-
-
-            Q_ENUMS (ModuleType)
+        Q_ENUMS (ModuleType)
 
         public:
             Module (const QString& nodeType, QWidget* parent = nullptr);
@@ -57,7 +60,7 @@ namespace calenhad {
             virtual void serialize (QDomElement& element) override;
             mapping::CalenhadMapWidget* preview();
             static int seed;
-            size_t rasterHeight ();
+            size_t rasterHeight () const;
             // this is called by renderers before any rendering takes place, to allow the module to precalculate anything required for rendering.
             // If it returns false, rendering does not take place.
             virtual bool generateMap();
@@ -79,15 +82,10 @@ namespace calenhad {
             void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
             void suppressRender (bool suppress);
             bool renderSuppressed () const;
-            float* vertexBuffer();
-            float* buffer();
+
+            calenhad::grid::Extent* extent();
             QVector<nodeedit::Port*> ports ();
-            void compute();
             float* colorMapBuffer();
-
-            int resolution() const;
-
-            void setResolution(int resolution);
 
         public slots:
             void setupPreview ();
@@ -113,16 +111,16 @@ namespace calenhad {
             QVector<calenhad::nodeedit::Port*> _ports;
             calenhad::nodeedit::Port* _output;
             QMap<unsigned, calenhad::nodeedit::Port*> _inputs;
-            float* _vertexBuffer, * _buffer;
+
             int _statsIndex;
             QDialog* _stats;
 
 
             QString _shownParameter;
             bool _editable;
-
+            calenhad::grid::Extent* _extent;
             float* _colorMapBuffer;
-            int _resolution = 2048;
+
 
         };
     }

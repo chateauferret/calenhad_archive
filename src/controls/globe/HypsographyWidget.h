@@ -10,12 +10,13 @@
 #include <qwt/qwt_plot_curve.h>
 #include <mapping/Statistics.h>
 
+
 namespace calenhad {
     namespace module {
         class Module;
     }
     namespace mapping {
-        class AbstractMapWidget;
+       class CalenhadMapWidget;
     }
     namespace controls {
         namespace globe {
@@ -23,7 +24,7 @@ namespace calenhad {
             class HypsographyWidget : public QWidget {
 
             public:
-                explicit HypsographyWidget (calenhad::mapping::AbstractMapWidget* globe, QWidget* parent = nullptr);
+                explicit HypsographyWidget (calenhad::mapping::CalenhadMapWidget* globe, QWidget* parent = nullptr);
                 ~HypsographyWidget() override;
                 calenhad::mapping::Statistics statistics();
 
@@ -31,7 +32,7 @@ namespace calenhad {
                 void refresh();
 
             protected:
-                calenhad::mapping::AbstractMapWidget* _globe;
+                calenhad::mapping::CalenhadMapWidget* _globe;
                 QwtPlot* _plot;
                 QwtPlotCurve* _curve;
                 double _buckets [1000];

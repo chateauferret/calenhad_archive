@@ -20,12 +20,10 @@
 #include <mapping/CalenhadMapWidget.h>
 #include "nodeedit/Connection.h"
 #include "../nodeedit/CalenhadView.h"
-#include "mapping/CalenhadMapWidget.h"
 #include "../nodeedit/CalenhadController.h"
-#include "../icosphere/icosphere.h"
 #include "../graph/graph.h"
-#include "../graph/ComputeService.h"
 #include "../mapping/projection/ProjectionService.h"
+
 #include <algorithm>
 
 using namespace calenhad::grid;
@@ -48,7 +46,7 @@ Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, pare
                                                             _suppressRender (true),
                                                             _connectMenu (new QMenu()),
                                                             _preview (nullptr),
-                                                            _vertexBuffer (nullptr), _buffer (nullptr),
+                                                            _extent (nullptr),
                                                             _stats (nullptr),
                                                             _statsPanel (nullptr),
                                                             _colorMapBuffer (nullptr) {
@@ -64,7 +62,8 @@ Module::~Module () {
     delete _globe;
     delete _stats;
     delete _connectMenu;
-    delete [] _buffer;
+    delete _extent;
+
 }
 
 /// Initialise a QModule ready for use. Creates the UI.
@@ -80,6 +79,7 @@ void Module::initialise() {
     QAction* globeAction =  new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
     connect (globeAction, &QAction::triggered, this, &Module::showGlobe);
     _contextMenu -> addAction (globeAction);
+    _extent = new Extent (this);
 }
 
 void Module::showGlobe() {
@@ -108,7 +108,7 @@ void Module::setupPreview() {
     _stats -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
     _stats -> setMinimumSize (400, 400);
     _stats -> move (_dialog -> pos().x() + 400, _dialog -> pos().y() + 300);
-    connect (_preview, &AbstractMapWidget::rendered, _statsPanel, &CalenhadStatsPanel::refresh);
+    connect (_preview, &CalenhadMapWidget::rendered, _statsPanel, &CalenhadStatsPanel::refresh);
     QAction* statsAction = new QAction (QIcon (":/appicons/controls/statistics.png"), "Statistics");
     connect (statsAction, &QAction::triggered, _stats, &QWidget::show);
     connect (_preview, &QWidget::customContextMenuRequested, this, &Module::showContextMenu);
@@ -241,7 +241,7 @@ void Module::parameterChanged() {
 void Module::invalidate() {
     if (! _suppressRender) {
         Node::invalidate ();
-        compute();
+        _extent -> compute();
         // if this node needs recalculating or rerendering, so do any nodes that depend on it -
         // that is any nodes with an input connected to this one's output
         for (Module* dependant : dependants()) {
@@ -370,31 +370,6 @@ void Module::suppressRender (bool suppress) {
     _suppressRender = suppress;
 }
 
-float* Module::vertexBuffer() {
-    if (! _vertexBuffer) {
-        _vertexBuffer = CalenhadServices::icosphere() -> vertexBuffer();
-    }
-
-    //_preview -> computeVertices (_vertexBuffer);
-    return _vertexBuffer;
-}
-
-void Module::compute () {
-    if (! _buffer) {
-        _buffer = new float [_resolution * _resolution * 2]; // for now
-    }
-    if (! _name.isNull()) {
-        ComputeService* c = new ComputeService();
-        c -> compute (this);
-        delete c;
-    }
-}
-
-float* Module::buffer () {
-
-    return _buffer;
-}
-
 float* Module::colorMapBuffer() {
     uint size = CalenhadServices::preferences () -> calenhad_colormap_buffersize;
     if (! _colorMapBuffer) {
@@ -415,30 +390,12 @@ float* Module::colorMapBuffer() {
     return _colorMapBuffer;
 }
 
-size_t Module::rasterHeight () {
-    return _resolution;
-}
 
 void Module::save() {
-    QString fileName = QFileDialog::getSaveFileName (this, tr("Save heightmap image"), QDir::homePath(), tr("Image Files (*.png *.jpg *.bmp)"));
-    QImage* image = new QImage (rasterHeight() * 2, rasterHeight(), QImage::Format_ARGB32);
-    for (int i = 0; i < rasterHeight() * 2; i++) {
-        for (int j = 0; j < rasterHeight(); j++) {
-            int index = j * rasterHeight() * 2 + i;
-            double h = _buffer [index] / 2 + 0.5;
-            int value = (int) floor (h * 256);
-            value = std::max (std::min (value, 255), 0);
-            QColor c (value, value, value, 255);
-            image -> setPixelColor (i, j, c);
-        }
-    }
-    image -> save (fileName);
+    _extent -> save();
 }
 
-int Module::resolution() const {
-    return _resolution;
+Extent* Module::extent() {
+    return _extent;
 }
 
-void Module::setResolution(int resolution) {
-    _resolution = resolution;
-}

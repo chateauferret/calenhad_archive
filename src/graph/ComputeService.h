@@ -30,7 +30,7 @@ namespace calenhad {
         public:
             ComputeService();
             ~ComputeService();
-            float* compute (calenhad::module::Module* module);
+            void compute (calenhad::module::Module* module);
 
         private:
             QString _sourceCode;
@@ -41,7 +41,7 @@ namespace calenhad {
             QOpenGLShader* _computeShader;
             QOpenGLShaderProgram* _computeProgram;
             QOpenGLFunctions_4_3_Core* f;
-            GLuint heightMap;
+            GLuint _heightMap;
             void execute (calenhad::module::Module* module);
         };
     }

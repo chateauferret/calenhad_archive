@@ -151,7 +151,7 @@ namespace geoutils {
         cartesian.z /= magnitude;
     }
 
-
+    // to do - move Geocentric to CalenhadServices
     Geolocation Math::toGeolocation (const Cartesian& c) {
         GeographicLib::Geocentric gc = GeographicLib::Geocentric (1, 0);
         double lat, lon, h;

@@ -17,6 +17,7 @@
 #include <module/AltitudeMap.h>
 #include <module/RasterModule.h>
 #include "../messages/QNotificationHost.h"
+#include "../legend//Legend.h"
 
 using namespace calenhad;
 using namespace calenhad::nodeedit;

@@ -9,11 +9,16 @@
 #include "CalenhadGlobeWidget.h"
 
 namespace calenhad {
+    namespace module {
+        class Module;
+    }
     namespace nodeedit {
         class CalenhadToolBar;
     }
     namespace controls {
         namespace globe {
+            class CalenhadGlobeWidget;
+
             class CalenhadGlobeDialog : public QMainWindow {
             Q_OBJECT
             public:

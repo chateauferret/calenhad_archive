@@ -13,7 +13,7 @@
 #include <QtWidgets/QLabel>
 #include <QtCore/QMutex>
 #include <src/geoutils.h>
-#include "../../icosphere/Bounds.h"
+#include "../../grid/Bounds.h"
 #include "CalenhadGlobeConstants.h"
 #include "mapping/CalenhadMapWidget.h"
 #include "GlobeScaleWidget.h"
@@ -35,6 +35,9 @@ namespace calenhad {
 
 using namespace calenhad::mapping::projection;
 namespace calenhad {
+    namespace graph {
+        class Graph;
+    }
     namespace module {
         class Module;
     }

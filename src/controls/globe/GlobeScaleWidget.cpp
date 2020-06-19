@@ -4,7 +4,7 @@
 
 #include <qwt/qwt_scale_engine.h>
 #include "GlobeScaleWidget.h"
-#include "mapping/AbstractMapWidget.h"
+#include "mapping/CalenhadMapWidget.h"
 #include <QPainter>
 #include <src/geoutils.h>
 
@@ -14,7 +14,7 @@ using namespace geoutils;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 
-GlobeScaleWidget::GlobeScaleWidget (AbstractMapWidget* globe, QWidget* parent, const double& radius) : QwtScaleWidget (parent), _orientation (Qt::Horizontal), _globe (globe), _radius (radius), _metresPerUnit (1609) {
+GlobeScaleWidget::GlobeScaleWidget (CalenhadMapWidget* globe, QWidget* parent, const double& radius) : QwtScaleWidget (parent), _orientation (Qt::Horizontal), _globe (globe), _radius (radius), _metresPerUnit (1609) {
     double s;
     _geodesic = new GeographicLib::Geodesic (radius, 0);
     _draw = new QwtScaleDraw();

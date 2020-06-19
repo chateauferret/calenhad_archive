@@ -28,6 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "src/CalenhadServices.h"
 #include "Port.h"
 #include <QMenu>
+#include <QPainter>
 
 using namespace calenhad::notification;
 using namespace calenhad::nodeedit;

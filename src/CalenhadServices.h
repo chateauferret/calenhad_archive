@@ -9,7 +9,7 @@
 #include <QDomDocument>
 #include <src/graph/ComputeService.h>
 #include <src/controls/SplashDialog.h>
-#include "icosphere/CubicSphere.h"
+#include "grid/CubicSphere.h"
 
 namespace calenhad {
     namespace pipeline {

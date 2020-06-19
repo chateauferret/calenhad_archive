@@ -72,7 +72,7 @@ void CalenhadGlobeWidget::initialise() {
     _zoomSlider -> move (width() - 20, height() - 20);
     _zoomSlider -> setFixedSize (40, 150);
     //_zoomSlider -> setScaleEngine (new QwtLogScaleEngine());
-    connect (_globe, &AbstractMapWidget::zoomRequested, _zoomSlider, &QwtSlider::setValue);
+    connect (_globe, &CalenhadMapWidget::zoomRequested, _zoomSlider, &QwtSlider::setValue);
     connect (_zoomSlider, SIGNAL (valueChanged (const double&)), this, SLOT (setZoom (const double&)));
     _zoomSlider -> setValue (1.0);
 
@@ -80,7 +80,7 @@ void CalenhadGlobeWidget::initialise() {
     _navigator = new CalenhadNavigator (this);
     _navigator -> move (width() - 20, 20);
     _zoomSlider -> setFixedSize (100, 100);
-    connect (_navigator, &CalenhadNavigator::navigationRequested, _globe, &AbstractMapWidget::navigate);
+    connect (_navigator, &CalenhadNavigator::navigationRequested, _globe, &CalenhadMapWidget::navigate);
     connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
     _positionLabel = new QLabel (this);
 
