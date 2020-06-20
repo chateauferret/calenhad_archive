@@ -41,7 +41,7 @@ using namespace geoutils;
 
 
 
-    CalenhadGlobeWidget::CalenhadGlobeWidget (QWidget* parent, Module* source) : QDialog (parent),
+CalenhadGlobeWidget::CalenhadGlobeWidget (QWidget* parent, Module* source) : QDialog (parent),
             _configDialog (nullptr),
             _contextMenu (nullptr),
             _moveFrom (QPoint (0, 0)),
@@ -73,6 +73,8 @@ void CalenhadGlobeWidget::initialise() {
     _zoomSlider -> setFixedSize (40, 150);
     //_zoomSlider -> setScaleEngine (new QwtLogScaleEngine());
     connect (_globe, &CalenhadMapWidget::zoomRequested, _zoomSlider, &QwtSlider::setValue);
+    connect (_globe, &CalenhadMapWidget::zoomInRequested, this, [=] () { _zoomSlider -> setValue (_zoomSlider -> value() * _globe -> sensitivity()); });
+    connect (_globe, &CalenhadMapWidget::zoomOutRequested, this, [=] () { _zoomSlider -> setValue (_zoomSlider -> value() / _globe -> sensitivity()); });
     connect (_zoomSlider, SIGNAL (valueChanged (const double&)), this, SLOT (setZoom (const double&)));
     _zoomSlider -> setValue (1.0);
 

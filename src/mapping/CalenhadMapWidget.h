@@ -69,7 +69,7 @@ namespace calenhad {
             bool valueAt (const QPointF& sc, double& value);
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
             QPoint texCoordinates (const QPointF& sc);
-            bool screenCoordinates (geoutils::Geolocation geolocation, QPointF& sc);
+            bool screenCoordinates (const geoutils::Geolocation& geolocation, QPointF& sc);
             void setCoordinatesFormat (geoutils::CoordinatesFormat format);
             geoutils::CoordinatesFormat coordinatesFormat();
             void setGraticuleVisible (const bool& visible);
@@ -104,6 +104,8 @@ namespace calenhad {
         signals:
             void rendered();
             void zoomRequested (const double& zoom);
+            void zoomInRequested();
+            void zoomOutRequested();
 
         protected:
             void paintGL() override;

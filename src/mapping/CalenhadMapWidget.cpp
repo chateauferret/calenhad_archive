@@ -252,7 +252,7 @@ QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
     }
 }
 
-bool CalenhadMapWidget::screenCoordinates (Geolocation geolocation, QPointF& sc) {
+bool CalenhadMapWidget::screenCoordinates (const Geolocation& geolocation, QPointF& sc) {
     Projection* projection = _mode == RenderMode::RenderModeOverview ? CalenhadServices::projections () -> fetch ("Equirectangular") : _projection;
     projection -> setDatum (_mode == RenderMode::RenderModeOverview ? Geolocation (0, 0, Degrees) : _rotation);
     QPointF p;
@@ -278,8 +278,6 @@ bool CalenhadMapWidget::geoCoordinates (QPointF pos, Geolocation& geolocation) {
     bool result = projection -> inverse (QPointF (x, -y), geolocation);
     return result;
 }
-
-
 
 void CalenhadMapWidget::setGraticuleVisible (const bool& visible) {
     _graticuleVisible = visible;
@@ -388,8 +386,8 @@ void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
         }
 
         if (_mouseDragMode == CalenhadGlobeDragMode::Zoom) {
-            double dz = dy * _sensitivity / 10;
-            emit zoomRequested (_scale + dz);
+            //double dz = dy * _sensitivity / 10;
+            emit dy > 0 ? zoomInRequested() : zoomOutRequested();
             _moveFrom = e -> pos();
             update();
         }
@@ -421,8 +419,8 @@ void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
 }
 
 void CalenhadMapWidget::wheelEvent (QWheelEvent* event) {
-    double dz =  - event -> delta() * _sensitivity / 1200;
-    emit zoomRequested (_scale + dz);
+    //double dz =  - event -> delta() * _sensitivity / 12000;
+    emit event -> delta() > 0 ? zoomInRequested() : zoomOutRequested();
     update();
 }
 

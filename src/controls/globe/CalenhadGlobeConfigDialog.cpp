@@ -77,13 +77,14 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeWidget* paren
     ((QFormLayout*) mouseTab->layout ())->addRow ("Mouse drag action", _dragModeCombo);
 
     _mouseSensitivitySlider = new QwtSlider (mouseTab);
-    _mouseSensitivitySlider->setGroove (true);
-    _mouseSensitivitySlider->setTrough (false);
-    _mouseSensitivitySlider->setLowerBound (0.0);
-    _mouseSensitivitySlider->setUpperBound (1.0);
-    _mouseSensitivitySlider->setSingleSteps (100);
-    _mouseSensitivitySlider->setPageSteps (10);
-    _mouseSensitivitySlider->setOrientation (Qt::Horizontal);
+    _mouseSensitivitySlider -> setGroove (true);
+    _mouseSensitivitySlider -> setTrough (false);
+    _mouseSensitivitySlider -> setLowerBound (0.0);
+    _mouseSensitivitySlider -> setUpperBound (2.0);
+    _mouseSensitivitySlider -> setSingleSteps (100);
+    _mouseSensitivitySlider -> setPageSteps (10);
+    _mouseSensitivitySlider -> setScalePosition (QwtSlider::NoScale);
+    _mouseSensitivitySlider -> setOrientation (Qt::Horizontal);
     ((QFormLayout*) mouseTab->layout ())->addRow ("Sensitivity", _mouseSensitivitySlider);
 
     // disable the sensitivity parameter if there is no mouse dragging
