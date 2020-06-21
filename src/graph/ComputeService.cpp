@@ -110,14 +110,14 @@ void ComputeService::execute (Module* module) {
     GLuint inputBuffer;
     f -> glGenBuffers (1, &inputBuffer);
     for (Port* port : module -> inputs ()) {
-        QString index = QString::number (i++);
+        QString index = QString::number (i);
         if (! port -> connections().isEmpty()) {
             Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
             Module* m = dynamic_cast<Module*> (other);
             if (m)  {
                 f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, inputBuffer);
                 f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * height * height, m -> extent() -> buffer(), GL_DYNAMIC_COPY);
-                f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1 + i, inputBuffer);
+                f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, i++, inputBuffer);
             }
         }
     }
@@ -130,14 +130,18 @@ void ComputeService::execute (Module* module) {
     f -> glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
-    f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 0, _heightMap);
+    f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 5, _heightMap);
 
     float *ptr = (float*) f -> glMapBufferRange (GL_SHADER_STORAGE_BUFFER, 0, sizeof (GLfloat) * 2 * height * height, GL_MAP_READ_BIT);
     memcpy (buffer, ptr, sizeof (GLfloat) * 2 * height * height);
     f -> glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
     //f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
     std::cout << "Buffer for module " << module -> name().toStdString() << ": at " << buffer << ": checksum ";
-    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 0);
+    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
     f -> glDeleteBuffers (1, &inputBuffer);
+}
+
+void ComputeService::setBounds(const Bounds &bounds) {
+    _bounds = bounds;
 }
 

@@ -17,11 +17,14 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QtGui/QOffscreenSurface>
+#include "grid//Bounds.h"
 
 //#include "../compute/compute.h"
 
 
 namespace calenhad {
+
+
     namespace module {
         class Module;
     }
@@ -31,7 +34,7 @@ namespace calenhad {
             ComputeService();
             ~ComputeService();
             void compute (calenhad::module::Module* module);
-
+            void setBounds (const calenhad::grid::Bounds& bounds);
         private:
             QString _sourceCode;
             QOffscreenSurface _surface;
@@ -43,6 +46,8 @@ namespace calenhad {
             QOpenGLFunctions_4_3_Core* f;
             GLuint _heightMap;
             void execute (calenhad::module::Module* module);
+
+            calenhad::grid::Bounds _bounds;
         };
     }
 }

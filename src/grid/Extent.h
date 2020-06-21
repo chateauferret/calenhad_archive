@@ -8,6 +8,7 @@
 #include <src/module/Module.h>
 #include "Extent.h"
 #include "geoutils.h"
+#include "Bounds.h"
 
 namespace calenhad {
 
@@ -16,6 +17,8 @@ namespace calenhad {
     }
 
     namespace grid {
+        class Bounds;
+
         class Extent {
         public:
             explicit Extent (calenhad::module::Module* module);
@@ -26,10 +29,10 @@ namespace calenhad {
 
             // fill the grid of this extent with values from the given module
             virtual void compute();
-
+            int setBounds (const calenhad::grid::Bounds& bounds);
             float* buffer();
             void save();
-
+            Bounds bounds();
             calenhad::module::Module *module();
 
             size_t rasterHeight() const;
@@ -37,9 +40,10 @@ namespace calenhad {
             int resolution() const;
 
         protected:
-            int _resolution = 11; // the render texture height is two to the power of this number, and the width is twice that
+            int _resolution = 11;       // the render texture height is two to the power of this number, and the width is twice that
             float* _buffer;
             calenhad::module::Module* _module;
+            calenhad::grid::Bounds _bounds;
         };
 
     }

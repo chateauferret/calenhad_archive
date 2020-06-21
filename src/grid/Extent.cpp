@@ -6,12 +6,13 @@
 #include "Extent.h"
 #include "../module/Module.h"
 #include "../graph/ComputeService.h"
+#include "Bounds.h"
 
 using namespace calenhad::grid;
 using namespace calenhad::module;
 using namespace calenhad::graph;
 
-Extent::Extent (Module* module) : _buffer (nullptr), _module (module) {
+Extent::Extent (Module* module) : _buffer (nullptr), _module (module), _bounds (Bounds()) {
 
 }
 
@@ -19,7 +20,7 @@ Extent::~Extent() {
     delete [] _buffer;
 }
 
-float Extent::getValue(const geoutils::Geolocation &geolocation) {
+float Extent::getValue (const geoutils::Geolocation &geolocation) {
     return 0;
 }
 
@@ -31,6 +32,7 @@ void Extent::compute() {
     if (! _module -> name().isNull()) {
         ComputeService* c = new ComputeService();
         c -> compute (_module);
+        c -> setBounds (_bounds);
         delete c;
     }
 }
@@ -60,7 +62,7 @@ void Extent::save() {
     image -> save (fileName);
 }
 
-Extent::Extent (Extent *other) : _buffer (other -> buffer()),
+Extent::Extent (Extent *other) : _buffer (other -> buffer()), _bounds (Bounds()),
                                  _module (other -> module()),
                                  _resolution (other -> resolution()) {
 
@@ -72,4 +74,12 @@ int Extent::resolution() const {
 
 Module *Extent::module() {
     return _module;
+}
+
+int Extent::setBounds (const Bounds& bounds) {
+    _bounds = bounds;
+}
+
+Bounds Extent::bounds() {
+    return _bounds;
 }

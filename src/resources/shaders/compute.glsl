@@ -741,13 +741,18 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
 //      cartesian - the point in 3D space corresponding to a geolocation on the surface of the (spherical) geoid. -1 <= x, y, z <= 1 and x^2 + y^2 + z^2 = 1.
 
 // Returns the map coordinates for a given GlobalInvocationID (essentially screen coordinates) taking into account the scale.
-vec2 mapPos (vec2 pos) {
+// to do - deal with bounds crossing dateline; set bounds via uniform variable; map bounds to globe in the rendering shader
+vec2 mapPos (ivec2 pos) {
+    vec2 a = vec2 (-M_PI, -M_PI / 2);
+    vec2 b = vec2 (M_PI, M_PI / 2);
     float h = resolution;
-    vec2 j = vec2 ((pos.x - h) / (h * 2), (pos.y / 2 - (h / 4)) / h);
-    j *= M_PI * 2;
-    return j;
+    float w = resolution * 2;
+    float ix = pos.x / w;
+    float iy = pos.y / h;
+    vec2 g = vec2 ((b.x - a.x) * ix, (b.y - a.y) * iy);
+    g += a;
+    return g;
 }
-
 
 // Returns the screen coordinates (GlobalInvocationID) for given map coordinates taking into account the scale.
 
