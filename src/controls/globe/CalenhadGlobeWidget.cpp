@@ -217,9 +217,9 @@ CalenhadToolBar* CalenhadGlobeWidget::makeToolBar (const QString& name) {
 
 
 CalenhadGlobeWidget::~CalenhadGlobeWidget() {
-    if (_configDialog) { delete _configDialog; }
+    delete _configDialog;
     delete _geodesic;
-    if (_graph) { delete _graph; }
+    delete _graph;
 }
 
 void CalenhadGlobeWidget::invalidate () {

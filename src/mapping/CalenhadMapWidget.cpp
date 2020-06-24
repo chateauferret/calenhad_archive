@@ -113,6 +113,8 @@ CalenhadMapWidget::~CalenhadMapWidget() {
     delete _vertexBuffer;
     delete _graticule;
     delete _geodesic;
+    glDeleteBuffers (1, &colorMap);
+    glDeleteBuffers (1, &heightMap);
 }
 
 
@@ -563,52 +565,57 @@ void CalenhadMapWidget::compute () {
     _computeProgram -> bind ();
     _globeTexture -> bind ();
 
-    GLuint icosphereBuffer = 4;
-    GLuint gridBuffer = 5;
-    GLuint colorMap = 1;
+    //GLuint icosphereBuffer = 4;
+    //GLuint gridBuffer = 5;
+
 
     clock_t tileStart = clock ();
     start = tileStart;
 
-    glGenBuffers (1, &colorMap);
-    glGenBuffers (1, &heightMap);
+
+
 
     // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
-    _colorMapBuffer = (GLfloat*) _source -> module() -> colorMapBuffer ();
-    if (_colorMapBuffer) {
-
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, colorMap);
-        glBufferData (GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
-        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 2, colorMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 2); // unbind
+    if (! _colorMapBuffer) {
+        _colorMapBuffer = (GLfloat *) _source->module()->colorMapBuffer();
+        glGenBuffers (1, &colorMap);
+        if (_colorMapBuffer) {
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, colorMap);
+            glBufferData(GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
+            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, colorMap);
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, 2); // unbind
+        }
     }
 
     // create and allocate the heightMapBuffer on the GPU and copy the contents across to them.
-    _heightMapBuffer = (GLfloat*) _source -> buffer();
-    if (_heightMapBuffer) {
-
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, heightMap);
-        glBufferData (GL_SHADER_STORAGE_BUFFER, heightMapBytes, _heightMapBuffer, GL_DYNAMIC_COPY);
-        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, heightMap);
-        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 1); // unbind
+    if (! _heightMapBuffer) {
+        _heightMapBuffer = (GLfloat *) _source->buffer();
+        glGenBuffers (1, &heightMap);
+        if (_heightMapBuffer) {
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, heightMap);
+            glBufferData(GL_SHADER_STORAGE_BUFFER, heightMapBytes, _heightMapBuffer, GL_DYNAMIC_COPY);
+            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, heightMap);
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, 1); // unbind
+        }
     }
 
     int xp = _tileSize / 32;
+
+    // int xp = std::pow (2, _source -> resolution() - 5);
     updateParams();
     glDispatchCompute (xp, xp * 2, 1);
     glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
-    //std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
-    //std::cout << "Image size " << width () << " x " << height () << "\n\n";
+    std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
+    std::cout << "Image size " << width () << " x " << height () << "\n\n";
     clock_t end = clock ();
     _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    //std::cout << "Render fnished in " << _renderTime << " milliseconds\n\n";
+    std::cout << "Render fnished in " << _renderTime << " milliseconds\n\n";
 
     if (_mode == RenderModeGlobe && _mainMap) {
         emit rendered ();
     }
     _refreshHeightMap = true;
-    glDeleteBuffers (1, &colorMap);
-    glDeleteBuffers (1, &heightMap);
+
 }
 
 void CalenhadMapWidget::render() {
@@ -644,17 +651,17 @@ void CalenhadMapWidget::updateParams() {
     static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
     static GLint projectionLoc = glGetUniformLocation (_computeProgram->programId (), "projection");
     static GLint datumLoc = glGetUniformLocation (_computeProgram->programId (), "datum");
-    static GLint rasterResolutionLoc = glGetUniformLocation (_computeProgram->programId (), "rasterResolution");
+    static GLint sizeLoc = glGetUniformLocation (_computeProgram->programId (), "size");
     //static GLint vertexCountLoc = glGetUniformLocation (_computeProgram -> programId(), "vertexCount");
     static GLint renderModeLoc = glGetUniformLocation (_computeProgram -> programId(), "mode");
-
     glUniform1i (destLoc, 0);
     glUniform3f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude(), (GLfloat) _mode == RenderModeOverview ? _mainMap -> scale() : _scale);
     glUniform1i (projectionLoc, _mode == RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id ());
     glUniform1i (imageHeightLoc, _mode == RenderModeOverview ? _mainMap -> textureHeight() : _globeTexture -> height());
     glUniform1i (insetHeightLoc, _globeTexture -> height());
     glUniform1i (cmbsLoc, 2048);
-    glUniform1i (rasterResolutionLoc, _source -> rasterHeight());
+    int h = std::pow (2, _source -> resolution());
+    glUniform2i (sizeLoc, h * 2, h);
     //glUniform1i (vertexCountLoc, CalenhadServices::grid ()->vertexCount ());
     glUniform1i (renderModeLoc, _mode);
 }

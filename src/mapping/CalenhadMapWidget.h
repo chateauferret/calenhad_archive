@@ -170,7 +170,7 @@ namespace calenhad {
             int _renderTime;
 
             void createTexture ();
-
+            GLuint colorMap = 1;
             GLint _tileSize;
             GLuint heightMap = 1;
             void redraw ();

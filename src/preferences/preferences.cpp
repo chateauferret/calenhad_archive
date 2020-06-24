@@ -110,7 +110,7 @@ void Preferences::loadSettings() {
 
     // Dimensions
     calenhad_globe_inset_height = _settings -> value ("calenhad/globe/inset/height", 128).toUInt (&ok);
-    calenhad_globe_texture_height = _settings -> value ("calenhad/globe/texture/height", 1024).toUInt (&ok);
+    calenhad_globe_texture_height = _settings -> value ("calenhad/globe/texture/height", 16384).toUInt (&ok);
 
     // Scale bar
     calenhad_globe_scale_background_color = _settings -> value ("calenhad/globe/scale/background/color", "#C0C0C0").value<QColor>();

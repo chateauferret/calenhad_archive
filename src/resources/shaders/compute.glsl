@@ -1,12 +1,4 @@
 #version 430
-layout(local_size_x = 32, local_size_y = 32) in;
-layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
-layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
-layout (std430, binding = 2) buffer inputBuffer0 { float in_0 []; };
-layout (std430, binding = 3) buffer inputBuffer1 { float in_1 []; };
-layout (std430, binding = 4) buffer inputBuffer2 { float in_2 []; };
-layout (std430, binding = 5) buffer inputBuffer3 { float in_3 []; };
-uniform int resolution = 1024;
 
 // mathematical constants
 #define M_PI 3.1415926535898
@@ -14,8 +6,32 @@ uniform int resolution = 1024;
 #define SQRT_3 1.732050808
 #define HALF_ROOT_2 0.70710676908493042
 
+layout(local_size_x = 32, local_size_y = 32) in;
+layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
+
+// currently, these are all equirectangular grids 2x wide by x high where x is a power of two.
+// Output and all input grids are to cover the same bounds at the same resolution.
+layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
+layout (std430, binding = 2) buffer inputBuffer0 { float in_0 []; };
+layout (std430, binding = 3) buffer inputBuffer1 { float in_1 []; };
+layout (std430, binding = 4) buffer inputBuffer2 { float in_2 []; };
+layout (std430, binding = 5) buffer inputBuffer3 { float in_3 []; };
+uniform ivec2 resolution = ivec2 (2048, 1024);
+uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
+
+uniform vec4 bounds0 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
+uniform vec4 bounds1 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
+uniform vec4 bounds2 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
+uniform vec4 bounds3 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
+
+uniform ivec2 size0 = ivec2 (2048, 1024);
+uniform ivec2 size1 = ivec2 (2048, 1024);
+uniform ivec2 size2 = ivec2 (2048, 1024);
+uniform ivec2 size3 = ivec2 (2048, 1024);
+
+
 // indices to faces of the cube map
-#define  FACE_FRONT 0
+#define FACE_FRONT 0
 #define FACE_BACK 3
 #define FACE_NORTH 1
 #define FACE_SOUTH 4
@@ -56,9 +72,6 @@ uniform int mode = MODE_EQUIRECTANGULAR;
 int hypsographyResolution;
 float minAltitude = 0;
 float maxAltitude = 0;
-
-// raster buffer parameters
-uniform int rasterResolution = 1024;                                      // number of elements in a raster = resolution * resolution * 2
 
 // grid parameters
 uniform int vertexCount;
@@ -731,6 +744,24 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
     return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
+// Find the x and y coordinates for a geolocation in a raster of height and width given by size and
+// spanning the given bounds. If the geolocation is outwith the bounds the returned index will be outwith
+// the raster size, so check for this before trying to use the index.
+ivec2 index (vec2 g, vec4 bounds, vec2 size) {
+    vec2 a = bounds.xy;
+    vec2 b = bounds.zw;
+    if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
+        if (g.x < a.x) {
+            g.x += M_PI * 2;
+        }
+        b.x += M_PI * 2;
+    }
+
+    float rx = (g.x - a.x) / (b.x - a.x);
+    float ry = (g.y - a.y) / (b.y - a.y);
+    return ivec2 (rx * size.x, ry * size.y);
+}
+
 // inserted code //
 
 // Coordinate systems:
@@ -742,15 +773,21 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
 
 // Returns the map coordinates for a given GlobalInvocationID (essentially screen coordinates) taking into account the scale.
 // to do - deal with bounds crossing dateline; set bounds via uniform variable; map bounds to globe in the rendering shader
+
 vec2 mapPos (ivec2 pos) {
-    vec2 a = vec2 (-M_PI, -M_PI / 2);
-    vec2 b = vec2 (M_PI, M_PI / 2);
-    float h = resolution;
-    float w = resolution * 2;
+    vec2 a = bounds.xy;
+    vec2 b = bounds.zw;
+    if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
+        b.x += M_PI * 2;
+    }
+
+    float h = resolution.y;
+    float w = resolution.x;
     float ix = pos.x / w;
     float iy = pos.y / h;
     vec2 g = vec2 ((b.x - a.x) * ix, (b.y - a.y) * iy);
     g += a;
+    if (g.x > M_PI) { g.x -= M_PI* 2; }
     return g;
 }
 
@@ -759,8 +796,8 @@ vec2 mapPos (ivec2 pos) {
 ivec2 scrPos (vec2 g) {
     vec2 j = g;
     j /= M_PI;
-    j.x = (j.x + 1) * resolution;
-    j.y = (j.y + 0.5) * resolution;
+    j.x = (j.x + 1) * resolution.x;
+    j.y = (j.y + 0.5) * resolution.y;
     return ivec2 (j);
 }
 
@@ -845,9 +882,21 @@ ivec3 cartesianToIndex (vec3 cartesian) {
 
 void main() {
         ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
-        vec2 i = mapPos (pos);
-        vec3 c = toCartesian (i);
-        int index = pos.y * resolution * 2 + pos.x;
-        float v = value (c, i, index);
-        height_map_out [index] = v;
+        vec2 g = mapPos (pos);
+
+        ivec2 i0 = index (g, bounds0, size0);
+        ivec2 i1 = index (g, bounds1, size1);
+        ivec2 i2 = index (g, bounds2, size2);
+        ivec2 i3 = index (g, bounds3, size3);
+
+        int j0 = i0.y * size0.x + i0.x;
+        int j1 = i1.y * size1.x + i1.x;
+        int j2 = i2.y * size2.x + i2.x;
+        int j3 = i3.y * size3.x + i3.x;
+
+        vec3 c = toCartesian (g);
+        int i = pos.y * resolution.x + pos.x;
+
+        float v = value (c, g, j0, j1, j2, j3);
+        height_map_out [i] = v;
 }

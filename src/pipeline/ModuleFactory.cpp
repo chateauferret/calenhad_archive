@@ -270,7 +270,7 @@ QString ModuleFactory::description (const QString& type) {
 };
 
 QString ModuleFactory::glsl (const QString& type) {
-    QString  code = "float value (vec3 c, vec2 g, int index) {\n";
+    QString  code = "float value (vec3 c, vec2 g, int i0, int i1, int i2, int i3) {\n";
     code += "    return " + (_moduleCodes.contains (type) ? _moduleCodes.value (type) : QString()) + ";\n";
     code += "}\n";
     return code;

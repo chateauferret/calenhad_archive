@@ -295,7 +295,7 @@ QString Module::glsl () {
         } else {
             Node* other = port -> connections() [0]->otherEnd (port) -> owner ();
             QString source = other -> name ();
-            code.replace ("%" + index, "in_" + index + " [index]");    // "%0" is shorthand for "$0 (c)"
+            code.replace ("%" + index, "in_" + index + " [i" + index + "]");
         }
     }
 

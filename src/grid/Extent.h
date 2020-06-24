@@ -40,7 +40,7 @@ namespace calenhad {
             int resolution() const;
 
         protected:
-            int _resolution = 11;       // the render texture height is two to the power of this number, and the width is twice that
+            int _resolution = 13;       // the render texture height is two to the power of this number, and the width is twice that
             float* _buffer;
             calenhad::module::Module* _module;
             calenhad::grid::Bounds _bounds;

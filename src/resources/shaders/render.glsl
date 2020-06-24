@@ -1,4 +1,11 @@
 #version 430
+
+// mathematical constants
+#define M_PI 3.1415926535898
+#define M_PI_2 1.57079632679
+#define SQRT_3 1.732050808
+#define HALF_ROOT_2 0.70710676908493042
+
 layout (local_size_x = 32, local_size_y = 32) in;
 layout (rgba32f, binding = 0) uniform image2D destTex;          // output texture
 layout (std430, binding = 1) buffer raster { float height_map_in []; };            // array of input textures for modules that require them
@@ -8,14 +15,15 @@ uniform int colorMapBufferSize;
 uniform int imageHeight = 512;
 uniform int insetHeight = 64;
 
+// input raster geometry
+uniform ivec2 size = ivec2 (2048, 1024);
+uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
+uniform vec4 defaultColor;
+
 // first element is the datum longitude, second element is the datum latitude, third element is the scale
 uniform vec3 datum;
 
-// mathematical constants
-#define M_PI 3.1415926535898
-#define M_PI_2 1.57079632679
-#define SQRT_3 1.732050808
-#define HALF_ROOT_2 0.70710676908493042
+
 
 // indices to faces of the cube map
 #define FACE_FRONT 0
@@ -46,9 +54,6 @@ uniform int mode = MODE_GLOBE;
 int hypsographyResolution;
 float minAltitude = 0;
 float maxAltitude = 0;
-
-// raster buffer parameters
-uniform int rasterResolution = 1024;                                      // number of elements in a raster = resolution * resolution * 2
 
 // grid parameters
 uniform int vertexCount;
@@ -87,13 +92,35 @@ vec4 findColor (float value) {
     return mix (vec4 (out0.xyz, 1.0), vec4 (out1.xyz, 1.0), alpha);
 }
 
+// raster constrained to bounds (a.x, a.y) - (b.x, b.y)
+float lookup (vec2 g) {
+    vec2 a = bounds.xy;
+    vec2 b = bounds.zw;
+    if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
+        if (g.x < a.x) {
+            g.x += M_PI * 2;
+        }
+        b.x += M_PI * 2;
+    }
+
+    float rx = (g.x - a.x) / (b.x - a.x) * size.x;
+    float ry = (g.y - a.y) / (b.y - a.y) * size.y;
+    int index = int (ry * size.x + rx);
+    return height_map_in [index];
+}
+
+
 float value (vec2 geolocation) {
     float dlon = (geolocation.x + M_PI) / (M_PI * 2);
     float dlat = (geolocation.y + (M_PI / 2)) / M_PI;
-    int x = int (dlon * rasterResolution * 2);
-    int y = int (dlat * rasterResolution);
-    int index = y * rasterResolution * 2 + x;
-    return height_map_in [index];
+    int x = int (dlon * size.x);
+    int y = int (dlat * size.y);
+    int index = y * size.x + x;
+    if (mode == MODE_GLOBE) {
+        return height_map_in [index];
+    } else {
+        return lookup (geolocation);
+    }
 }
 
 // Coordinate systems:
@@ -294,7 +321,17 @@ ivec3 cartesianToIndex (vec3 cartesian) {
 //    return grid [fuv.z * gridSize * gridSize + fuv.y * gridSize + fuv.x];
 //}
 
-
+bool inBounds (vec2 g) {
+    vec2 a = bounds.xy;
+    vec2 b = bounds.zw;
+    if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
+        if (g.x < a.x) {
+            g.x += M_PI * 2;
+        }
+        b.x += M_PI * 2;
+    }
+    return (a.x < g.x && a.y < g.y && b.x > g.x && b.y > g.y);
+}
 
 void main() {
 
@@ -302,31 +339,34 @@ void main() {
     if (mode == MODE_GLOBE) {
         vec2 i = mapPos (pos);
         vec3 g = inverse (i);
-        vec4 color;
+        vec4 color = defaultColor;;
 
-        // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-        vec4 c = toCartesian (g);
-        float pets = smoothstep (0.99, 1.00001, abs (c.w));
-        float v = value (g.xy);
-        color = findColor (v);
-        color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
-
+       if (inBounds (g.xy)) {
+            // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
+            vec4 c = toCartesian (g);
+            float pets = smoothstep (0.99, 1.00001, abs (c.w));
+            float v = value (g.xy);
+            color = findColor (v);
+            color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
+       }
         imageStore (destTex, pos, color);
     }
 
     if (mode == MODE_OVERVIEW || mode == MODE_PREVIEW) {
         vec2 i = mapPos (pos, mode == MODE_OVERVIEW);
         vec3 g = vec3 (i.xy, 1.0); //nverse (i);
-        vec4 color;
-        float v = value (g.xy);
-        color = findColor (v);
+        vec4 color = defaultColor;
+        if (inBounds (g.xy)) {
+            float v = value (g.xy);
+            color = findColor (v);
 
-        if (mode == MODE_OVERVIEW) {
-            vec3 f = forward (i);                                                   // get the geolocation of this texel in the inset map
-            ivec2 s = scrPos (f.xy);                                                // find the corresponding texel in the main map
-            if (f.z > 1.0 || f.z < 0.0 ||                                           // if the texel is out of the projection's  bounds or ...
-            s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) {    // if the texel is not on the main map ...
-                color = toGreyscale (findColor (v));                                // ... grey out the corresponding texel in the inset map.
+            if (mode == MODE_OVERVIEW) {
+                vec3 f = forward (i);// get the geolocation of this texel in the inset map
+                ivec2 s = scrPos (f.xy);// find the corresponding texel in the main map
+                if (f.z > 1.0 || f.z < 0.0 ||// if the texel is out of the projection's  bounds or ...
+                s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) { // if the texel is not on the main map ...
+                    color = toGreyscale (findColor (v));// ... grey out the corresponding texel in the inset map.
+                }
             }
         }
         imageStore (destTex, pos, color);
