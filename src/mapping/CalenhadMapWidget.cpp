@@ -19,6 +19,8 @@
 #include "../module/Module.h"
 #include "../nodeedit/Connection.h"
 #include "../grid/icosphere.h"
+#include "../CalenhadServices.h"
+#include "../legend//LegendService.h"
 
 using namespace calenhad;
 using namespace geoutils;
@@ -53,7 +55,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
                                                                                  _renderProgram (nullptr),
                                                                                  _indexBuffer (nullptr),
                                                                                  _colorMapBuffer (nullptr),
-                                                                                 _heightMapBuffer (nullptr),
+                                                                                 _buffer (nullptr),
                                                                                  _projection (CalenhadServices::projections() -> fetch (mode == RenderMode::RenderModeGlobe ? "Orthographic" : "Equirectangular")),
                                                                                  _scale (1.0),
                                                                                  _shader (""),
@@ -66,6 +68,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
                                                                                  _tileSize (512),
                                                                                  _mode (mode),
                                                                                  _mainMap (nullptr),
+                                                                                 _legend (nullptr),
                                                                                  _computeVertices (mode == RenderMode::RenderModeGlobe) {
 
     QSurfaceFormat format;
@@ -75,12 +78,11 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
     setFormat(format);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-
     QFile vsFile (":/shaders/map_vs.glsl");
     vsFile.open (QIODevice::ReadOnly);
     QTextStream vsTextStream (&vsFile);
     _vertexShaderCode = vsTextStream.readAll ();
-
+    _legend = CalenhadServices::legends() -> lastUsed();
     QFile fsFile (":/shaders/map_fs.glsl");
     fsFile.open (QIODevice::ReadOnly);
     QTextStream fsTextStream (&fsFile);
@@ -113,37 +115,40 @@ CalenhadMapWidget::~CalenhadMapWidget() {
     delete _vertexBuffer;
     delete _graticule;
     delete _geodesic;
+    if (_buffer) free (_buffer);
     glDeleteBuffers (1, &colorMap);
     glDeleteBuffers (1, &heightMap);
 }
 
 
 void CalenhadMapWidget::paintGL() {
-        QPainter p (this);
-        p.beginNativePainting ();
+    if (_legend && _source) {
+        QPainter p(this);
+        p.beginNativePainting();
         compute();
-        static GLint srcLoc = glGetUniformLocation (_renderProgram -> programId (), "srcTex");
-        glUniform1i (srcLoc, 0);
+        static GLint srcLoc = glGetUniformLocation(_renderProgram->programId(), "srcTex");
+        glUniform1i(srcLoc, 0);
 
-        _renderProgram -> bind();
-        _globeTexture -> bind();
-        glBindImageTexture (0, _globeTexture -> textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+        _renderProgram->bind();
+        _globeTexture->bind();
+        glBindImageTexture(0, _globeTexture->textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 
-        glDrawElements (GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
-        _vao.release ();
+        glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
+        _vao.release();
 
-        glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+        glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
-        p.endNativePainting ();
+        p.endNativePainting();
 
         // draw the graticule
         if (_graticule && _graticuleVisible) {
-            _graticule -> drawGraticule (p);
+            _graticule -> drawGraticule(p);
         }
+    }
 }
 
 GLfloat* CalenhadMapWidget::heightMapBuffer() {
-    return _heightMapBuffer;
+    return _buffer;
 }
 
 QSize CalenhadMapWidget::heightMapSize() const {
@@ -172,18 +177,18 @@ void CalenhadMapWidget::createTexture () {
 //    glActiveTexture (GL_TEXTURE0);
     _yTiles = 1;
 
-    if (!_globeTexture || _globeTexture -> height() != _yTiles * _tileSize || _globeTexture -> width() != _yTiles * 2 * _tileSize) {
+    if (!_globeTexture || _globeTexture -> height() != _size || _globeTexture -> width() != 2 * _size) {
 
-        if (_globeTexture) { delete _globeTexture; }
+        delete _globeTexture;
         _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
-        _globeTexture->create ();
-        _globeTexture->setFormat (QOpenGLTexture::RGBA8_UNorm);
-        _globeTexture->setSize (_yTiles * 2 * _tileSize, _yTiles * _tileSize);
-        _globeTexture->setMinificationFilter (QOpenGLTexture::Linear);
-        _globeTexture->setMagnificationFilter (QOpenGLTexture::Linear);
-        _globeTexture->allocateStorage ();
-        _globeTexture->bind ();
-        glBindImageTexture (0, _globeTexture->textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+        _globeTexture-> create ();
+        _globeTexture-> setFormat (QOpenGLTexture::RGBA8_UNorm);
+        _globeTexture-> setSize (_size * 2, _size);
+        _globeTexture -> setMinificationFilter (QOpenGLTexture::Linear);
+        _globeTexture -> setMagnificationFilter (QOpenGLTexture::Linear);
+        _globeTexture -> allocateStorage ();
+        _globeTexture -> bind ();
+        glBindImageTexture (7, _globeTexture -> textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
     }
 }
 
@@ -229,21 +234,9 @@ bool CalenhadMapWidget::isInViewport (Geolocation g) {
     }
 }
 
-bool CalenhadMapWidget::valueAt (const QPointF& sc, double& value) {
-    QPoint tc = texCoordinates (sc);
-    int index = tc.y() * _globeTexture -> width () + tc.x();
-    if (index >= 0 && index < _globeTexture -> width () * _globeTexture -> height()) {
-        value = (GLfloat) heightMapBuffer() [index];
-        return true;
-    } else {
-        return false;
-    }
-}
-
 QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
     if (_globeTexture) {
         QPoint tc;
-
         double x = sc.x () / width ();// * xp;
         double y = sc.y () / height ();// * xp;
         tc.setX (x * _globeTexture -> width ());
@@ -322,6 +315,7 @@ Statistics CalenhadMapWidget::statistics() {
 }
 
 void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
+    //render();
     QOpenGLWidget::paintEvent (e);
 }
 
@@ -405,13 +399,15 @@ void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
                 QString text = geoutils::Math::geoLocationString (loc, _coordinatesFormat);
                 double value;
                 if (_globeTexture) {
-                    QPoint tc = texCoordinates (point);
                     if (isInViewport (loc)) {
-                        text += ": " + QString::number (tc.x()) + ", " + QString::number (tc.y());
-                        text += ": " + QString::number (tc.y() * _globeTexture -> width() + tc.x()) + " ";
-                        if (valueAt (point, value)) {
-                            text += ": " + QString::number (value);
-                        }
+                        double ix = (loc.longitude() / (M_PI * 2)) + 0.5;
+                        double iy = (loc.latitude() / M_PI) + 0.5;
+                        iy *= _size;
+                        ix *= _size * 2;
+                        int index =  ((int) iy * _size * 2 + (int) ix);
+                        value = _buffer [index];
+                        text += ": " + QString::number (ix) + ", " + QString::number (iy);
+                        text += ": " + QString::number (index) + " : " + QString::number (value);
                         QToolTip::showText (e->globalPos (), text, this);
                     }
                 }
@@ -428,7 +424,6 @@ void CalenhadMapWidget::wheelEvent (QWheelEvent* event) {
 
 void CalenhadMapWidget::mouseReleaseEvent (QMouseEvent* e) {
     _zoomDrag = false;
-
     Geolocation loc;
 
     // rollback cursor for mouse move without buttons
@@ -487,11 +482,9 @@ void CalenhadMapWidget::setMainMap (CalenhadMapWidget* mainMap) {
 
 void CalenhadMapWidget::initializeGL() {
 
-        initializeOpenGLFunctions ();
+        initializeOpenGLFunctions();
         glEnable (GL_MULTISAMPLE);
-
         glClearColor (0, 0, 1, 1);
-
 
         _vao.create ();
         if (_vao.isCreated ()) {
@@ -547,9 +540,8 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::compute () {
-    std::cout << "Display " << _source -> module() -> name().toStdString () << "\n";
     unsigned long colorMapBytes = CalenhadServices::preferences() -> calenhad_colormap_buffersize * sizeof (float) * 4;
-    unsigned long heightMapBytes = sizeof (GLfloat) * _source -> rasterHeight() * _source -> rasterHeight() * 2;
+    if (! context()) { std::cout << "No context"; }
 
     makeCurrent ();
     createTexture ();
@@ -568,104 +560,120 @@ void CalenhadMapWidget::compute () {
     //GLuint icosphereBuffer = 4;
     //GLuint gridBuffer = 5;
 
-
     clock_t tileStart = clock ();
     start = tileStart;
-
-
-
-
+    GLuint inBuffer = 0;
+    GLuint colBuffer = 0;
     // create and allocate the colorMapBuffer on the GPU and copy the contents across to them.
-    if (! _colorMapBuffer) {
-        _colorMapBuffer = (GLfloat *) _source->module()->colorMapBuffer();
-        glGenBuffers (1, &colorMap);
-        if (_colorMapBuffer) {
-            glBindBuffer(GL_SHADER_STORAGE_BUFFER, colorMap);
-            glBufferData(GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
-            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, colorMap);
-            glBindBuffer(GL_SHADER_STORAGE_BUFFER, 2); // unbind
-        }
+
+    _colorMapBuffer = (GLfloat *) _legend -> colorMapBuffer();
+    glGenBuffers (1, &colBuffer);
+    if (_colorMapBuffer) {
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, colBuffer);
+        glBufferData(GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 6, colBuffer);
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, 6); // unbind
     }
+
+    // checksum for debugging
+    float checksum = 0;
+    for (int i = 0; i < 2 * _size * _size; i++) {
+        checksum += _buffer [i];
+    }
+    std::cout << "Checksum: " << checksum << "\n";
 
     // create and allocate the heightMapBuffer on the GPU and copy the contents across to them.
-    if (! _heightMapBuffer) {
-        _heightMapBuffer = (GLfloat *) _source->buffer();
-        glGenBuffers (1, &heightMap);
-        if (_heightMapBuffer) {
-            glBindBuffer(GL_SHADER_STORAGE_BUFFER, heightMap);
-            glBufferData(GL_SHADER_STORAGE_BUFFER, heightMapBytes, _heightMapBuffer, GL_DYNAMIC_COPY);
-            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, heightMap);
-            glBindBuffer(GL_SHADER_STORAGE_BUFFER, 1); // unbind
+    if (_buffer) {
+        long bytes = 2 * _size * _size * sizeof (GLfloat);
+        glGenBuffers (1, &inBuffer);
+        if (_buffer) {
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, inBuffer);
+            glBufferData(GL_SHADER_STORAGE_BUFFER, bytes, _buffer, GL_DYNAMIC_COPY);
+            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, inBuffer);
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, 5); // unbind
         }
     }
 
-    int xp = _tileSize / 32;
+    // update paramaters
+    _computeProgram -> link();
+    _computeProgram -> bind();
+    glUseProgram (_computeProgram -> programId());
+    static GLint destLoc = glGetUniformLocation (_computeProgram -> programId(), "destTex");
+    static GLint cmbsLoc = glGetUniformLocation (_computeProgram -> programId(), "colorMapBufferSize");
+    static GLint imageHeightLoc = glGetUniformLocation (_computeProgram -> programId(), "imageHeight");
+    static GLint insetHeightLoc = glGetUniformLocation (_computeProgram -> programId(), "insetHeight");
+    static GLint projectionLoc = glGetUniformLocation (_computeProgram -> programId(), "projection");
+    static GLint datumLoc = glGetUniformLocation (_computeProgram -> programId(), "datum");
+    static GLint sizeLoc = glGetUniformLocation (_computeProgram -> programId(), "size");
+    //static GLint vertexCountLoc = glGetUniformLocation (_computeProgram -> programId(), "vertexCount");
+    static GLint renderModeLoc = glGetUniformLocation (_computeProgram -> programId(), "mode");
+    glUniform1i (destLoc, 0);
+    glUniform3f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude(), (GLfloat) _mode == RenderModeOverview ? _mainMap -> scale() : _scale);
+    glUniform1i (projectionLoc, _mode == RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id ());
+    glUniform1i (imageHeightLoc, _mode == RenderModeOverview ? _mainMap -> textureHeight() : _size);
+    glUniform1i (insetHeightLoc, _size);
+    glUniform1i (cmbsLoc, CalenhadServices::preferences() -> calenhad_colormap_buffersize);
+    std::cout << "Source size " << _size * 2 << " x " << _size << "\n";
+    glUniform2i (sizeLoc, _size * 2, _size);
+    //glUniform1i (vertexCountLoc, CalenhadServices::grid() -> vertexCount ());
+    glUniform1i (renderModeLoc, _mode);
 
-    // int xp = std::pow (2, _source -> resolution() - 5);
-    updateParams();
+    // compute the projection
+    int xp = _size / 32;
     glDispatchCompute (xp, xp * 2, 1);
     glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
     std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
     std::cout << "Image size " << width () << " x " << height () << "\n\n";
     clock_t end = clock ();
     _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    std::cout << "Render fnished in " << _renderTime << " milliseconds\n\n";
-
+    std::cout << "Render finished in " << _renderTime << " milliseconds\n\n";
+    glDeleteBuffers (1, &inBuffer);
+    glDeleteBuffers (1, &colBuffer);
     if (_mode == RenderModeGlobe && _mainMap) {
         emit rendered ();
     }
     _refreshHeightMap = true;
-
 }
 
 void CalenhadMapWidget::render() {
-    Module* module = _source -> module();
-        if (module -> isComplete () && ! module -> renderSuppressed ()) {
-            redraw();
+    if (_source && _source -> isComplete ()) {
+        if (! _source -> name().isNull()) {
+            ComputeService* c = CalenhadServices::compute();
+            _size = c -> size();
+           if (_buffer) { free (_buffer); }
+           _buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
+
+           c -> compute (_source, _buffer);
+           //c -> setBounds (_source);
+
         }
-   // }
+
+        redraw();
+    }
 }
 
 Module* CalenhadMapWidget::source() {
-    return _source -> module();
+    return _source;
 }
 
 void CalenhadMapWidget::setSource (Module* qm) {
-    _source = qm -> extent();
-    render();
-    connect (qm, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    if (_source) {
+        disconnect(_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    }
+    _source = qm;
+    if (_source) {
+        render();
+        connect(_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    }
+    update();
 }
 
 Legend* CalenhadMapWidget::legend () {
-    return _source -> module() -> legend();
-}
-
-void CalenhadMapWidget::updateParams() {
-    makeCurrent();
-    _computeProgram -> link ();
-    _computeProgram -> bind ();
-    glUseProgram (_computeProgram -> programId());
-    static GLint destLoc = glGetUniformLocation (_computeProgram->programId (), "destTex");
-    static GLint cmbsLoc = glGetUniformLocation (_computeProgram->programId (), "colorMapBufferSize");
-    static GLint imageHeightLoc = glGetUniformLocation (_computeProgram->programId (), "imageHeight");
-    static GLint insetHeightLoc = glGetUniformLocation (_computeProgram->programId (), "insetHeight");
-    static GLint projectionLoc = glGetUniformLocation (_computeProgram->programId (), "projection");
-    static GLint datumLoc = glGetUniformLocation (_computeProgram->programId (), "datum");
-    static GLint sizeLoc = glGetUniformLocation (_computeProgram->programId (), "size");
-    //static GLint vertexCountLoc = glGetUniformLocation (_computeProgram -> programId(), "vertexCount");
-    static GLint renderModeLoc = glGetUniformLocation (_computeProgram -> programId(), "mode");
-    glUniform1i (destLoc, 0);
-    glUniform3f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude(), (GLfloat) _mode == RenderModeOverview ? _mainMap -> scale() : _scale);
-    glUniform1i (projectionLoc, _mode == RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id ());
-    glUniform1i (imageHeightLoc, _mode == RenderModeOverview ? _mainMap -> textureHeight() : _globeTexture -> height());
-    glUniform1i (insetHeightLoc, _globeTexture -> height());
-    glUniform1i (cmbsLoc, 2048);
-    int h = std::pow (2, _source -> resolution());
-    glUniform2i (sizeLoc, h * 2, h);
-    //glUniform1i (vertexCountLoc, CalenhadServices::grid ()->vertexCount ());
-    glUniform1i (renderModeLoc, _mode);
+    return _legend;
 }
 
 void CalenhadMapWidget::showEvent (QShowEvent* event) {
     update();
 }
+
+

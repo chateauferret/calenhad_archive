@@ -5,7 +5,6 @@
 #include "CalenhadGlobeWidget.h"
 #include "CalenhadGlobeConfigDialog.h"
 #include <QResizeEvent>
-#include "../../legend/Legend.h"
 #include "../../legend/LegendWidget.h"
 #include <QMenu>
 #include "CalenhadGlobeContextMenu.h"
@@ -328,7 +327,6 @@ void CalenhadGlobeWidget::updateConfig () {
      update();
     _globe -> setCoordinatesFormat (_configDialog -> coordinatesFormat());
     _globe -> setDatumFormat (_configDialog -> datumFormat());
-    _globe -> source() -> setLegend (_configDialog -> selectedLegend());
 }
 
 bool CalenhadGlobeWidget::isScaleVisible () {
@@ -345,10 +343,6 @@ void CalenhadGlobeWidget::setScalebarVisible (const bool& visible) {
 
 CalenhadMapWidget* CalenhadGlobeWidget::globe () {
     return _globe;
-}
-
-void CalenhadGlobeWidget::captureGreyscale() {
-    _overview -> source() -> save();
 }
 
 bool CalenhadGlobeWidget::isOverviewVisible() {
@@ -430,7 +424,8 @@ QMenu* CalenhadGlobeWidget::makeGlobeContextMenu  (const QPoint& pos) {
     QMenu* captureMenu = new QMenu ("Capture", this);
     QAction* captureGreyscaleAction = new QAction ("Export heightmap", this);
     captureGreyscaleAction -> setToolTip ("Generate a heightmap map and save");
-    connect (captureGreyscaleAction, &QAction::triggered, this, &CalenhadGlobeWidget::captureGreyscale);
+    // TO DO
+    //connect (captureGreyscaleAction, &QAction::triggered, this, &CalenhadGlobeWidget::captureGreyscale);
     captureMenu -> addAction (captureGreyscaleAction);
     _contextMenu -> addMenu (captureMenu);
     _contextMenu -> addSeparator();
@@ -448,3 +443,12 @@ void CalenhadGlobeWidget::projectionSelected (const bool& selected) {
 CalenhadToolBar* CalenhadGlobeWidget::mouseToolBar() { return _mouseToolbar; }
 CalenhadToolBar* CalenhadGlobeWidget::viewToolBar() { return _viewToolbar; }
 CalenhadToolBar* CalenhadGlobeWidget::mapWidgetsToolBar() { return _mapWidgetsToolbar; }
+
+void CalenhadGlobeWidget::setModule (calenhad::module::Module* module) {
+    _globe -> setSource (module);
+}
+
+
+void CalenhadGlobeWidget::captureGreyscale() {
+
+}

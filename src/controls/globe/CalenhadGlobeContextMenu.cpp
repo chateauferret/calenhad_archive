@@ -132,7 +132,8 @@ CalenhadGlobeContextMenu::CalenhadGlobeContextMenu (CalenhadGlobeWidget* parent)
     _captureMenu = new QMenu ("Capture", this);
     QAction* _captureGreyscaleAction = new QAction ("Export heightmap", this);
     _captureGreyscaleAction -> setToolTip ("Generate a heightmap map and save");
-    connect (_captureGreyscaleAction, &QAction::triggered, _parent, &CalenhadGlobeWidget::captureGreyscale);
+    // TO DO
+    //connect (_captureGreyscaleAction, &QAction::triggered, _parent, &CalenhadGlobeWidget::captureGreyscale);
     _captureMenu -> addAction (_captureGreyscaleAction);
     addMenu (_captureMenu);
 

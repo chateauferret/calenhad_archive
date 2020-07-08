@@ -30,44 +30,6 @@ RasterModule::~RasterModule() {
     delete _raster;
 }
 
-/// Initialise a QRasterModule ready for use. Creates the UI.
-void RasterModule::initialise() {
-    Module::initialise();
-    // create a panel to hold the parameter widgets, if we haven't done this already
-    if (! (_content)) {
-        addContentPanel();
-    }
-
-    _bounds = Bounds();
-    _boundsLayout = new QGridLayout();
-    _boundsLayout->setSpacing(0);
-    _boundsLayout->setMargin(0);
-    _boundsLayout->setContentsMargins(0,0,0,0);
-    _boundsContent = new QWidget (_expander);
-    _boundsContent -> setFixedSize (300, 150);
-    _boundsContent -> setLayout (_boundsLayout);
-    addPanel ("Bounds", _boundsContent);
-    _northBoundsText = new QAngleControl ("North", AngleType::Latitude);
-    _boundsLayout -> addWidget (_northBoundsText, 1, 1, 1, 2, Qt::AlignCenter);
-    _westBoundsText = new QAngleControl ("West", AngleType::Longitude);
-    _boundsLayout -> addWidget (_westBoundsText, 2, 0, 1, 2, Qt::AlignCenter);
-    _eastBoundsText = new QAngleControl ("East", AngleType::Longitude);
-    _boundsLayout -> addWidget (_eastBoundsText, 2, 2, 1, 2, Qt::AlignCenter);
-    _southBoundsText = new QAngleControl ("South", AngleType::Latitude);
-    _boundsLayout -> addWidget (_southBoundsText, 3, 1, 1, 2, Qt::AlignCenter);
-
-
-
-    connect (_northBoundsText, &QAngleControl::valueChanged, this, &RasterModule::updateBounds);
-    connect (_westBoundsText, &QAngleControl::valueChanged, this, &RasterModule::updateBounds);
-    connect (_eastBoundsText, &QAngleControl::valueChanged, this, &RasterModule::updateBounds);
-    connect (_southBoundsText, &QAngleControl::valueChanged, this, &RasterModule::updateBounds);
-
-    setBounds (_bounds);
-
-
-}
-
 bool RasterModule::isComplete() {
 
     if (_raster && isBoundsValid()) {

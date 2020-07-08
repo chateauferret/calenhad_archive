@@ -5,6 +5,7 @@
 #ifndef MESSAGES_CALENHADUI_H
 #define MESSAGES_CALENHADUI_H
 
+
 #include <QtWidgets/QStyleOption>
 
 #include <QMenu>
@@ -54,7 +55,6 @@ namespace calenhad {
         void makeActions();
 
         QMenu* _defaultContextMenu, * _openRecentMenu;
-
 
 
         void makeWidgets();

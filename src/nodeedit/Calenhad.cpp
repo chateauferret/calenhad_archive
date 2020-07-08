@@ -45,6 +45,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <controls/SplashDialog.h>
 #include "../pipeline/ModuleFactory.h"
 #include "../nodeedit/CalenhadController.h"
+#include "../controls/globe/CalenhadGlobeDialog.h"
 
 using namespace icosphere;
 using namespace calenhad;
@@ -55,11 +56,12 @@ using namespace calenhad::module;
 using namespace calenhad::legend;
 using namespace calenhad::expressions;
 using namespace calenhad::notification;
+using namespace calenhad::controls::globe;
 
 
 
 Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
-    _legendDialog (nullptr), _model (nullptr), _splash (nullptr) {
+    _legendDialog (nullptr), _model (nullptr), _splash (nullptr), _globe (nullptr) {
     setWindowTitle (tr ("Calenhad"));
     // Message service
     CalenhadServices::provideMessages (this);
@@ -98,6 +100,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 Calenhad::~Calenhad() {
     delete _legendDialog;
     delete _splash;
+    delete _globe;
 }
 
 void Calenhad::resizeEvent (QResizeEvent* event) {
@@ -169,8 +172,8 @@ void Calenhad::initialiseLegends() {
 
 }
 
-void Calenhad::addToolbar (QToolBar* toolbar, Node* node) {
-    QDockWidget* paramsDock = new QDockWidget (node -> name(), this);
+void Calenhad::addToolbar (QToolBar* toolbar, Module* m) {
+    QDockWidget* paramsDock = new QDockWidget (m -> name(), this);
     paramsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     paramsDock -> setParent (this);
     //paramsDock -> setFeatures (QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -178,7 +181,7 @@ void Calenhad::addToolbar (QToolBar* toolbar, Node* node) {
     addDockWidget (Qt::LeftDockWidgetArea, paramsDock);
     paramsDock -> setWidget (toolbar);
     paramsDock -> setFloating (true);
-    connect (node, SIGNAL (nameChanged (const QString&)), paramsDock, SLOT (setWindowTitle (const QString&)));
+    connect (m, SIGNAL (nameChanged (const QString&)), paramsDock, SLOT (setWindowTitle (const QString&)));
 
 }
 
@@ -221,7 +224,6 @@ void Calenhad::closeProject() {
                     saveFile ();
                 }
             }
-            _model -> suppressRender (true);   // otherwise destructing the model's contents will keep making it try to rerender
             delete _model;
             _model = nullptr;
         }
@@ -247,15 +249,6 @@ void Calenhad::projectProperties () {
 
 void Calenhad::clearUndo () {
     _controller -> clearUndo ();
-}
-
-void Calenhad::fixScrollBars() {
-    QSize areaSize = _view -> viewport() -> size();
-    QSize  widgetSize = _view -> size();
-    _view -> verticalScrollBar()->setPageStep(areaSize.height());
-    _view -> horizontalScrollBar()->setPageStep(areaSize.width());
-    _view -> verticalScrollBar()->setRange(0, widgetSize.height() - areaSize.height());
-    _view -> horizontalScrollBar()->setRange(0, widgetSize.width() - areaSize.width());
 }
 
 void Calenhad::toggleMouseMode () {
@@ -287,4 +280,15 @@ void Calenhad::provideSplashDialog() {
     connect(_splash, &SplashDialog::openProject, this, &Calenhad::openProject);
     connect(_splash, &SplashDialog::closeCalenhad, this, &Calenhad::quit);
     connect(_splash, &SplashDialog::newProject, this, &Calenhad::newProject);
+}
+
+void Calenhad::showGlobe (Module* module) {
+    if (! _globe) { provideGlobe (module); }
+    _globe -> selectModule (module);
+    _globe -> show();
+}
+
+void Calenhad::provideGlobe (Module* module) {
+    _globe = new CalenhadGlobeDialog(this);
+    CalenhadServices::provideGlobe (_globe);
 }

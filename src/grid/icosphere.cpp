@@ -84,7 +84,7 @@ Icosphere::~Icosphere() {
     std::for_each (_triangles.begin(), _triangles.end(), [] (std::vector<Triangle*> list) {
         std::for_each (list.begin(), list.end(), [] (Triangle* t) { delete t; }); });
     std::for_each (_vertices.begin(), _vertices.end(), [] (Vertex* p) { delete p; });
-
+    if (_vertexBuffer) free (_vertexBuffer);
 }
 
 void Icosphere::subdivide (const unsigned int& depth) {
@@ -288,7 +288,7 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
 
 float* Icosphere::vertexBuffer () {
 
-    delete _vertexBuffer;
+    if (_vertexBuffer) free (_vertexBuffer);
     unsigned long bytes = vertexCount() * 4 * sizeof (GLfloat);
         _vertexBuffer = (GLfloat*) malloc (bytes);
         std::cout << "Allocated " <<  bytes << " bytes for " << vertexCount () << " vertices \n";

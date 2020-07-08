@@ -61,7 +61,7 @@ namespace calenhad {
 			void doCommand (QUndoCommand* c);
             void rememberFile(const QString &file);
 
-            void addParamsWidget (QToolBar* toolbar, calenhad::module::Node* node);
+            void addParamsWidget (QToolBar* toolbar, module::Module *module);
             bool canUndo();
             bool canRedo();
 			void clearUndo ();

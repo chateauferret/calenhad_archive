@@ -49,7 +49,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
                                  _filename (""),
                                  _undoEnabled (true),
                                  _lastSaved (QDateTime::currentDateTime()) {
-    CalenhadServices::provideIcosphere (7);
+    //CalenhadServices::provideIcosphere (7);
     installEventFilter (this);
     connect (CalenhadServices::legends(), &LegendService::commitRequested, this, &CalenhadModel::commitLegends);
     connect (CalenhadServices::legends(), &LegendService::rollbackRequested, this, &CalenhadModel::rollbackLegends);
@@ -63,7 +63,7 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     if (! QFileInfo (file).exists()) {
         file = ":/legends.xml";
     }
-
+    std::cout << "Loading legends from " << file.toStdString() << "\n";
     inflate (file, CalenhadFileType::CalenhadLegendFile);
 
 }
@@ -437,7 +437,6 @@ Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, c
     if (type != QString::null) {
         Module* module = (Module*) CalenhadServices::modules() -> createModule (name, type, this);
         //module -> setName (uniqueName (name));
-        module -> setLegend (CalenhadServices::legends() -> lastUsed());
         addNode (module, initPos, group);
        return module;
     } else {
@@ -1075,12 +1074,6 @@ NodeGroup* CalenhadModel::createGroup (const QString& name) {
     _groups.insert (group);
     emit groupsUpdated();
     return group;
-}
-
-void CalenhadModel::suppressRender (bool suppress) {
-    for (Module* m : modules()) {
-        m -> suppressRender (suppress);
-    }
 }
 
 void CalenhadModel::goTo (Module* module) {

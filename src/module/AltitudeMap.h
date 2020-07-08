@@ -70,8 +70,6 @@ namespace calenhad {
 
             mapping::Curve* _curve;
 
-            void initialise() override;
-
 
         };
     }

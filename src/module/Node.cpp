@@ -38,18 +38,7 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     _validator (nullptr),
     _group (nullptr),
     _nodeType (nodeType) {
-}
 
-Node::~Node () {
-
-    delete _validator;
-    delete _palette;
-
-}
-
-
-void Node::initialise() {
-    // these widgets are relevant for all modules
     _expander = new QToolBox();
     QWidget* about = new QWidget (_expander);
     QVBoxLayout* layout = new QVBoxLayout();
@@ -134,6 +123,12 @@ void Node::initialise() {
         }
     });
 }
+
+Node::~Node () {
+    delete _validator;
+    delete _palette;
+}
+
 
 QString Node::name() {
     return _name;
@@ -397,14 +392,11 @@ void Node::addContentPanel() {
     _contentLayout = new QFormLayout();
     _contentLayout -> setContentsMargins (5, 0, 5, 0);
     _contentLayout -> setVerticalSpacing (0);
-    _content = new QWidget (_expander);
+    _content = new QWidget();
     _content -> setLayout (_contentLayout);
     addPanel (tr ("Parameters"), _content);
 }
 
-int Node::id () {
-    return _id;
-}
 
 QGraphicsItem* Node::makeHandle() {
     _block = new NodeBlock (this, nullptr);

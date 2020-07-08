@@ -11,6 +11,10 @@ namespace calenhad {
     namespace module {
         class Module;
     }
+
+    namespace legend {
+        class Legend;
+    }
     namespace graph {
 
         class Graph {
@@ -20,9 +24,7 @@ namespace calenhad {
             explicit Graph (calenhad::module::Module* module);
             ~Graph();
             QString glsl();
-            float* colorMapBuffer();
-            int colorMapBufferSize ();
-            int rasterCount ();
+
             QImage* raster (const int& index);
         protected:
             QString glsl (calenhad::module::Module* node);

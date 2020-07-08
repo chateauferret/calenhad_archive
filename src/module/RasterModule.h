@@ -19,7 +19,7 @@ namespace calenhad {
             ~RasterModule() override;
 
             virtual QImage* raster() = 0;
-            void initialise() override;
+
             bool isComplete() override;
             grid::Bounds bounds();
             QString glsl() override;

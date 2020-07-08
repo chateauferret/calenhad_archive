@@ -117,5 +117,8 @@ void LegendRoster::clear () {
 }
 
 Legend* LegendRoster::lastUsed () {
+    if (_lastUsed == nullptr) {
+        _lastUsed = defaultLegend();
+    }
     return _lastUsed;
 }

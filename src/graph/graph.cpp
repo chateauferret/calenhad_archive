@@ -64,14 +64,12 @@ QString Graph::glsl() {
 
     if (_code != QString::null) {
         _code.append ("\n\nfloat value (vec3 cartesian, vec2 geolocation) {\n");
-        _code.append ("    return _" + _nodeName + " (cartesian);\n");
+        _code.append ("    return _" + _nodeName + " (cartesian, geolocation);\n");
         _code.append ("}\n");
-
-        parseLegend ();
     }
     std::cout << _code.toStdString () << "\n\n";
     return _code;
-};
+}
 
 QString Graph::glsl (Module* module) {
     if (module -> isComplete()) {
@@ -108,7 +106,7 @@ QString Graph::glsl (Module* module) {
                     QVector<AltitudeMapping> entries = am->entries ();
 
                     // input is below the bottom of the range
-                    _code += "float _" + name + " (vec3 c) {\n";
+                    _code += "float _" + name + " (vec3 c, vec2 g) {\n";
                     _code += "  float value = %0 ;\n";
                     _code += "  if (value < " + QString::number (entries.first ().x ()) + ") { return " + QString::number (entries.first ().y ()) + "; }\n";
 
@@ -164,9 +162,9 @@ QString Graph::glsl (Module* module) {
                     _code += "  if (value > " + QString::number (entries.last ().x ()) + ") { return " + QString::number (entries.last ().y ()) + "; }\n";
                     _code += "}\n";
                 } else {
-                    QString func = qm->glsl ();;
-                    _code.append ("float _" + name + " (vec3 c) { return " + func);
-                    _code.append ("; }\n");
+                    QString func = qm -> glsl ();;
+                    _code.append ("float _" + name + " (vec3 c, vec2 g) { return " + func);
+                    //_code.append ("; }\n");
                 }
 
                 // if it's a raster module, compile and upload the raster content to the raster buffer
@@ -194,7 +192,7 @@ QString Graph::glsl (Module* module) {
                     } else {
                         Node* other = port->connections ()[0]->otherEnd (port)->owner ();
                         QString source = other->name ();
-                        _code.replace ("%" + index, "_" + source + " (c)");    // "%0" is shorthand for "$0 (c)"
+                        _code.replace ("%" + index, "_" + source + " (c, g)");    // "%0" is shorthand for "$0 (c)"
                         _code.replace ("$" + index, "_" + source);
                     }
                 }
@@ -219,38 +217,8 @@ QString Graph::glsl (Module* module) {
     }
 }
 
-float* Graph::colorMapBuffer () {
-    return _colorMapBuffer;
-}
-
-// returns the number of bytes required to store the colour map buffer
-int Graph::colorMapBufferSize() {
-    return CalenhadServices::preferences() -> calenhad_colormap_buffersize * sizeof (float) * 4;
-}
-
-void Graph::parseLegend () {
-    int size = CalenhadServices::preferences () -> calenhad_colormap_buffersize;
-    if (! _colorMapBuffer) {
-        _colorMapBuffer = new float [size * 4];
-    }
-
-    QString legendName = _module -> legend() -> name();
-    QVector<LegendEntry> legendElements = _module -> legend() -> entries();
-
-    float dx = (1 / (float) size) * 2 ;
-    for (int i = 0; i < size * 4; i+= 4)  {
-        QColor c = _module -> legend() -> lookup (i * dx - 1);
-        _colorMapBuffer [i + 0] = (float) c.redF();
-        _colorMapBuffer [i + 1] = (float) c.greenF();
-        _colorMapBuffer [i + 2] = (float) c.blueF();
-        _colorMapBuffer [i + 3] = (float) c.alphaF();
-    }
-}
-
-int Graph::rasterCount() {
-    return _rasterId;
-}
 
 QImage* Graph::raster (const int& index) {
     return _rasters.value (index);
 }
+

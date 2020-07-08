@@ -21,8 +21,6 @@ namespace calenhad {
 
             void openFile (const QString& filename);
 
-            void initialise() override;
-
             QImage* raster() override;
 
 

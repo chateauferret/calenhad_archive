@@ -180,7 +180,8 @@ double Calculator::compute (const QString& expression) {
             for (std::size_t i = 0; i < p.error_count(); ++i) {
                 parser_error::type error = p.get_error (i);
                 QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str()));
-                _errors.append (e);std::cout << expression.toStdString() << ": Error " << e.toStdString () << "\n";
+                _errors.append (e);
+                std::cout << expression.toStdString() << ": Error " << e.toStdString () << "\n";
                 return 0.0;
             }
         }

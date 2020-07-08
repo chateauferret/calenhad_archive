@@ -9,6 +9,7 @@
 #include "../nodeedit/Connection.h"
 #include <cmath>
 #include "../grid/Extent.h"
+#include "graph.h"
 
 /*
 
@@ -35,7 +36,7 @@ ComputeService::ComputeService () : _computeProgram (nullptr), _computeShader (n
     QFile csFile (":/shaders/compute.glsl");
     csFile.open (QIODevice::ReadOnly);
     QTextStream csTextStream (&csFile);
-    _sourceCode = csTextStream.readAll();
+    _codeTemplate = csTextStream.readAll();
 
     QSurfaceFormat format;
     format.setMajorVersion(4);
@@ -48,22 +49,23 @@ ComputeService::ComputeService () : _computeProgram (nullptr), _computeShader (n
 
     _surface.create();
     _context.makeCurrent( &_surface);
-
+     resolution = 11; //extent -> resolution();
+     _size = std::pow (2, resolution);
     QOpenGLFunctions_4_3_Core openglFunctions;
     if (!openglFunctions.initializeOpenGLFunctions()) {
         throw std::runtime_error ("initialization failed");
     }
     f = dynamic_cast<QOpenGLFunctions_4_3_Core*> (_context.versionFunctions());
-    f -> glGenBuffers (1, &_heightMap);
+
 }
 
 ComputeService::~ComputeService () {
-    f -> glDeleteBuffers (1, &_heightMap);
+
     delete _computeShader;
     delete _computeProgram;
 }
 
-void ComputeService::compute (Module *module) {
+void ComputeService::compute (Module *module, GLfloat* buffer) {
 
     _context.makeCurrent( &_surface);
     delete _computeShader;
@@ -71,19 +73,21 @@ void ComputeService::compute (Module *module) {
     _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
     _computeProgram = new QOpenGLShaderProgram ();
     clock_t start = clock ();
-
-    QString code = module -> glsl();
+    Graph graph (module);
+    QString code = graph.glsl();
 
     if (code != QString::null) {
-        _sourceCode.replace ("// inserted code //", code);
+        QString c = _codeTemplate;
+        c.detach();
+        QString sourceCode = c.replace ("// inserted code //", code);
         std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
         if (_computeShader) {
             _computeProgram -> removeAllShaders ();
-            if (_computeShader -> compileSourceCode (_sourceCode)) {
+            if (_computeShader -> compileSourceCode (sourceCode)) {
                 _computeProgram -> addShader (_computeShader);
                 _computeProgram -> link ();
                 _computeProgram -> bind ();
-                execute (module);
+                execute (module, buffer);
             } else {
                 std::cout << "Compute shader would not compile\n";
             }
@@ -93,46 +97,21 @@ void ComputeService::compute (Module *module) {
     }
     clock_t end = clock ();
     int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    std::cout << " ... fnished in " << time << " milliseconds\n\n";
+    std::cout << " ... finished in " << time << " milliseconds\n\n";
 }
 
-void ComputeService::execute (Module* module) {
-    Extent* extent = module -> extent();
-    float* buffer = extent -> buffer();
-    Bounds bounds = extent -> bounds();
-    std::cout << "Rendering " << module -> name().toStdString() << " to buffer " << buffer << "\n";
-    size_t height = extent -> rasterHeight();
-
-    long bytes = 2 * height * height * sizeof (GLfloat);
+void ComputeService::execute (Module* module, GLfloat* buffer) {
+    f -> glGenBuffers (1, &_heightMap);
+    long bytes = 2 * _size * _size * sizeof (GLfloat);
     f -> glUseProgram (_computeProgram -> programId ());
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
     f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 0, _heightMap);
-    f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * height * height, nullptr, GL_DYNAMIC_READ);
+    f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * _size * _size, nullptr, GL_DYNAMIC_READ);
 
-    int i = 0;
-    GLuint inputBuffer;
-    f -> glGenBuffers (1, &inputBuffer);
-    for (Port* port : module -> inputs ()) {
-        QString index = QString::number (i);
-        if (! port -> connections().isEmpty()) {
-            Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
-            Module* m = dynamic_cast<Module*> (other);
-            if (m)  {
-                f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, inputBuffer);
-                float* data = m -> extent() -> buffer();
-                // to do - convert data to extent size and format
-                f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * height * height, data, GL_DYNAMIC_COPY);
-                f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, i++, inputBuffer);
-            }
-        }
-    }
-    int resolution = extent -> resolution();
-    int size = std::pow (2, resolution);
-    std::cout << "Compute " << size * 2 << " x " << size << "\n";
     static GLint resolutionLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "resolution");
-    f -> glUniform2i (resolutionLoc, size * 2, size);
-    static GLint boundsLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "bounds");
-    f -> glUniform4f (boundsLoc, bounds.west(), bounds.south(), bounds.east(), bounds.north());
+    f -> glUniform2i (resolutionLoc, _size * 2, _size);
+    //static GLint boundsLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "bounds");
+    //f -> glUniform4f (boundsLoc, bounds.west(), bounds.south(), bounds.east(), bounds.north());
     int xp = std::pow (2, resolution - 5);
     f -> glDispatchCompute (xp, xp * 2, 1);
     f -> glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
@@ -140,15 +119,18 @@ void ComputeService::execute (Module* module) {
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
     f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 5, _heightMap);
 
-    float *ptr = (float*) f -> glMapBufferRange (GL_SHADER_STORAGE_BUFFER, 0, sizeof (GLfloat) * 2 * height * height, GL_MAP_READ_BIT);
-    memcpy (buffer, ptr, sizeof (GLfloat) * 2 * height * height);
+    GLfloat *ptr = (GLfloat*) f -> glMapBufferRange (GL_SHADER_STORAGE_BUFFER, 0, sizeof (GLfloat) * 2 * _size * _size, GL_MAP_READ_BIT);
+    memcpy (buffer, ptr, sizeof (GLfloat) * 2 * _size * _size);
     f -> glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
-    //f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
+    f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
-    f -> glDeleteBuffers (1, &inputBuffer);
+    f -> glDeleteBuffers (1, &_heightMap);
 }
 
 void ComputeService::setBounds (const Bounds &bounds) {
     _bounds = bounds;
 }
 
+int ComputeService::size() {
+    return _size;
+}

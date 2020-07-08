@@ -46,9 +46,9 @@ namespace calenhad {
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
         public:
-            CalenhadMapWidget (const controls::globe::RenderMode& mode = controls::globe::RenderModeGlobe, QWidget* parent = 0);
+            explicit CalenhadMapWidget (const controls::globe::RenderMode& mode = controls::globe::RenderModeGlobe, QWidget* parent = 0);
 
-            ~CalenhadMapWidget();
+            ~CalenhadMapWidget() override;
             legend::Legend* legend();
 
             void setSource (module::Module* qm);
@@ -66,7 +66,7 @@ namespace calenhad {
             const geoutils::Geolocation& rotation ();
             projection::Projection* projection ();
             calenhad::mapping::Statistics statistics ();
-            bool valueAt (const QPointF& sc, double& value);
+
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
             QPoint texCoordinates (const QPointF& sc);
             bool screenCoordinates (const geoutils::Geolocation& geolocation, QPointF& sc);
@@ -78,8 +78,6 @@ namespace calenhad {
             bool isInViewport (geoutils::Geolocation g);
             QSize heightMapSize () const;
             GLfloat* heightMapBuffer();
-            QImage* heightmap ();
-
             void setCreateHeightMap (const bool& createHeightMap);
             calenhad::controls::globe::CalenhadGlobeDoubleClickMode mouseDoubleClickMode();
             calenhad::controls::globe::CalenhadGlobeDragMode mouseDragMode();
@@ -124,7 +122,7 @@ namespace calenhad {
             geoutils::CoordinatesFormat _coordinatesFormat;
 
             OverviewPreviewType _previewType;
-            calenhad::grid::Extent* _source;
+            module::Module *_source;
             bool _zoomDrag;
 
             double _sensitivity = 0.2;
@@ -162,7 +160,7 @@ namespace calenhad {
             QOpenGLTexture* _globeTexture, * _rasterTexture, * _insetTexture;
 
 
-            GLfloat* _heightMapBuffer;
+            GLfloat* _buffer;
             const char* name = "heightMapBuffer";
             QString _code;
 
@@ -189,7 +187,8 @@ namespace calenhad {
             GLfloat* _cubeMapBuffer{};
             GLfloat* _gridBuffer{};
 
-            void updateParams ();
+            calenhad::legend::Legend*  _legend;
+            int _size;
         };
     }
 }

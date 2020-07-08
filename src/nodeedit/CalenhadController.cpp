@@ -212,9 +212,9 @@ void CalenhadController::doCommand (QUndoCommand* c) {
     _undoStack -> push (c);
 }
 
-void CalenhadController::addParamsWidget (QToolBar* toolbar, Node* node) {
+void CalenhadController::addParamsWidget (QToolBar* toolbar, Module *module) {
     Calenhad* mainWindow = (Calenhad*) parent();
-    mainWindow -> addToolbar (toolbar, node);
+    mainWindow -> addToolbar (toolbar, module);
 }
 
 bool CalenhadController::canUndo () {

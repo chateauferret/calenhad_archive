@@ -9,6 +9,7 @@
 #include <QDomDocument>
 #include <src/graph/ComputeService.h>
 #include <src/controls/SplashDialog.h>
+#include <src/controls/globe/CalenhadGlobeDialog.h>
 #include "grid/CubicSphere.h"
 
 namespace calenhad {
@@ -27,6 +28,13 @@ namespace calenhad {
     namespace legend {
         class LegendService;
     }
+    namespace controls {
+        namespace globe {
+            class CalenhadGlobeDialog;
+        }
+    }
+
+
     namespace mapping {
         namespace projection {
             class ProjectionService;
@@ -72,6 +80,8 @@ namespace calenhad {
 
         static QStringList recentFiles();
 
+        static void provideGlobe (calenhad::controls::globe::CalenhadGlobeDialog* globe);
+        static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::module::Module* module = nullptr);
 
     private:
         static calenhad::preferences::PreferencesService* _preferences;
@@ -84,7 +94,7 @@ namespace calenhad {
         static calenhad::grid::Icosphere* _icosphere;
         static calenhad::grid::CubicSphere* _cubicSphere;
         static calenhad::graph::ComputeService* _computeService;
-
+        static calenhad::controls::globe::CalenhadGlobeDialog* _globeDialog;
     };
 }
 

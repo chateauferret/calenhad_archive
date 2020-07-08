@@ -54,13 +54,15 @@ namespace calenhad {
             class LegendEditorScale;
         }
         namespace globe {
-
+            class GlobeScaleWidget;
             class CalenhadNavigator;
             class CalenhadGlobeContextMenu;
             class CalenhadGlobeConfigDialog;
             class NavigationEvent;
             class CalenhadGlobeWidget : public QDialog {
             Q_OBJECT
+
+
 
             public:
 
@@ -79,7 +81,7 @@ namespace calenhad {
                 bool isGraticuleVisible ();
 
                 bool isScaleVisible ();
-
+                void setModule (calenhad::module::Module* module);
                 calenhad::mapping::CalenhadMapWidget* globe ();
 
                 calenhad::nodeedit::CalenhadToolBar* mouseToolBar();

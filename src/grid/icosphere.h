@@ -40,7 +40,7 @@ namespace grid {
         static constexpr double X = 0.525731112119133606;
         static constexpr double Z = 0.850650808352039932;
 
-        Icosphere (const unsigned int& depth);
+        explicit Icosphere (const unsigned int& depth);
 
         ~Icosphere ();
 

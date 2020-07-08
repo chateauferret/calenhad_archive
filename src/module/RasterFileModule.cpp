@@ -13,7 +13,6 @@ using namespace calenhad::preferences;
 RasterFileModule::RasterFileModule (const QString& type) : RasterModule(),
                                _filename (QString::null),
                                 _rasterLayout (new QFormLayout()) {
-initialise ();
 }
 
 void calenhad::module::RasterFileModule::fileDialogRequested () {
@@ -40,25 +39,6 @@ void RasterFileModule::inflate (const QDomElement& element) {
     openFile (filename);
 }
 
-void RasterFileModule::initialise () {
-    RasterModule::initialise ();
-
-    _rasterContent = new QWidget (_expander);
-    _rasterContent -> setLayout (_rasterLayout);
-    _rasterLayout->setContentsMargins (5, 0, 5, 0);
-    _rasterLayout->setVerticalSpacing (0);
-    addPanel ("Raster", _rasterContent);
-    _filenameLabel = new QLabel (this);
-    _filenameLabel -> setMinimumSize (QSize (160, 80));
-    QPushButton* selectFileButton = new QPushButton (this);
-    selectFileButton -> setFixedSize (100, 20);
-    selectFileButton -> setText ("Select image...");
-    _rasterLayout -> addWidget (_filenameLabel);
-    _rasterLayout -> addWidget (selectFileButton);
-    connect (selectFileButton, &QAbstractButton::pressed, this, &RasterFileModule::fileDialogRequested);
-
-}
-
 void RasterFileModule::serialize (QDomElement& element) {
     RasterModule::serialize (element);
     QDomElement rasterElement = _document.createElement ("filename");
@@ -74,7 +54,6 @@ void RasterFileModule::setRaster (const QImage& raster) {
             _raster = new QImage (p);
             QPixmap pixmap = QPixmap::fromImage (p).scaled (_filenameLabel->size ());
             _filenameLabel->setPixmap (pixmap);
-            _expander->setItemEnabled (_previewIndex, isComplete ());
             invalidate ();
             _filenameLabel->setToolTip (_filename);
         }

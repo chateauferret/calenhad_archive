@@ -1,6 +1,8 @@
 #include <iostream>
 #include <QApplication>
 #include <QtCore/QFile>
+#include <src/controls/globe/CalenhadGlobeWidget.h>
+
 #include "nodeedit/Calenhad.h"
 #include "pipeline/CalenhadModel.h"
 #include "grid/icosphere.h"
@@ -82,7 +84,7 @@ int main (int argc, char **argv) {
     CalenhadServices::provideProjections (projections);
 
     // Icosphere service
-    //CalenhadServices::provideIcosphere (12);
+    // CalenhadServices::provideIcosphere (12);
     // CalenhadServices::provideCubicSphere (11);
     CalenhadServices::provideComputeService();
 
@@ -91,8 +93,6 @@ int main (int argc, char **argv) {
     window -> setStyleSheet (Preferences::styleSheet());
     window -> showSplash();
     window -> show();
-
-
 
     return QApplication::exec();
 }

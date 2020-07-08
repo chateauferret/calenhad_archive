@@ -24,19 +24,6 @@ float Extent::getValue (const geoutils::Geolocation &geolocation) {
     return 0;
 }
 
-void Extent::compute() {
-
-    if (! _buffer) {
-        _buffer = new float [rasterHeight() * rasterHeight() * 2];
-    }
-    if (! _module -> name().isNull()) {
-        ComputeService* c = new ComputeService();
-        c -> compute (_module);
-        c -> setBounds (_bounds);
-        delete c;
-    }
-}
-
 float* Extent::buffer () {
     return _buffer;
 }
@@ -74,10 +61,6 @@ int Extent::resolution() const {
 
 Module *Extent::module() {
     return _module;
-}
-
-int Extent::setBounds (const Bounds& bounds) {
-    _bounds = bounds;
 }
 
 Bounds Extent::bounds() {

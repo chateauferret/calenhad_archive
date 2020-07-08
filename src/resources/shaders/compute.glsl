@@ -12,22 +12,9 @@ layout (binding = 1) uniform sampler2DArray rasters;            // array of inpu
 // currently, these are all equirectangular grids 2x wide by x high where x is a power of two.
 // Output and all input grids are to cover the same bounds at the same resolution.
 layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
-layout (std430, binding = 2) buffer inputBuffer0 { float in_0 []; };
-layout (std430, binding = 3) buffer inputBuffer1 { float in_1 []; };
-layout (std430, binding = 4) buffer inputBuffer2 { float in_2 []; };
-layout (std430, binding = 5) buffer inputBuffer3 { float in_3 []; };
+
 uniform ivec2 resolution = ivec2 (2048, 1024);
 uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
-
-uniform vec4 bounds0 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
-uniform vec4 bounds1 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
-uniform vec4 bounds2 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
-uniform vec4 bounds3 = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
-
-uniform ivec2 size0 = ivec2 (2048, 1024);
-uniform ivec2 size1 = ivec2 (2048, 1024);
-uniform ivec2 size2 = ivec2 (2048, 1024);
-uniform ivec2 size3 = ivec2 (2048, 1024);
 
 
 // indices to faces of the cube map
@@ -884,19 +871,9 @@ void main() {
         ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
         vec2 g = mapPos (pos);
 
-        ivec2 i0 = index (g, bounds0, size0);
-        ivec2 i1 = index (g, bounds1, size1);
-        ivec2 i2 = index (g, bounds2, size2);
-        ivec2 i3 = index (g, bounds3, size3);
-
-        int j0 = i0.y * size0.x + i0.x;
-        int j1 = i1.y * size1.x + i1.x;
-        int j2 = i2.y * size2.x + i2.x;
-        int j3 = i3.y * size3.x + i3.x;
-
         vec3 c = toCartesian (g);
         int i = pos.y * resolution.x + pos.x;
 
-        float v = value (c, g, j0, j1, j2, j3);
+        float v = value (c, g);
         height_map_out [i] = v;
 }

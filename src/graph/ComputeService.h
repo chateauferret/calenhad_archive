@@ -33,21 +33,24 @@ namespace calenhad {
         public:
             ComputeService();
             ~ComputeService();
-            void compute (calenhad::module::Module* module);
+            void compute (calenhad::module::Module* module, GLfloat* buffer);
             void setBounds (const calenhad::grid::Bounds& bounds);
+            int size();
         private:
-            QString _sourceCode;
+            QString _codeTemplate;
             QOffscreenSurface _surface;
             QOpenGLContext _context;
             //QMap <QString, QString> _templates;
-            //QString sourceCode (const QString& codeTemplate, const QString& function);
+            //QString sourceCode (const QString& _codeTemplate, const QString& function);
             QOpenGLShader* _computeShader;
             QOpenGLShaderProgram* _computeProgram;
             QOpenGLFunctions_4_3_Core* f;
             GLuint _heightMap;
-            void execute (calenhad::module::Module* module);
+            void execute (calenhad::module::Module* module, GLfloat* buffer);
 
             calenhad::grid::Bounds _bounds;
+            int resolution;
+            int _size;
         };
     }
 }

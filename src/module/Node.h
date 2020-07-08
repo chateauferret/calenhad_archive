@@ -48,23 +48,17 @@ namespace calenhad {
 
         public:
             explicit Node (const QString& nodeType, QWidget* parent = 0);
-            explicit Node (QWidget* parent) {
-                 // just for now
-            }
-
 
 
             enum {
                 Type = QGraphicsItem::UserType + 6
             };
 
-            virtual ~Node ();
+             ~Node() override;
 
-            virtual void initialise ();
+            void inflate (const QDomElement& element) override;
 
-            virtual void inflate (const QDomElement& element) override;
-
-            virtual void serialize (QDomElement& element) override;
+            void serialize (QDomElement& element) override;
 
             virtual void setModel (calenhad::pipeline::CalenhadModel* model);
 
@@ -104,7 +98,6 @@ namespace calenhad {
 
             void setParameter (const QString& label, const QString& value);
             QString parameter (const QString& label);
-            int id();
 
             virtual QGraphicsItem* makeHandle ();
             double parameterValue (const QString& name);
@@ -130,7 +123,7 @@ namespace calenhad {
             void groupChanged();
 
         protected:
-            int _id;
+
             NodeGroup* _group;
             QDialog* _dialog;
             calenhad::nodeedit::NodeBlock* _block;

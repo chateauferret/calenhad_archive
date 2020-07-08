@@ -35,7 +35,6 @@ set (LEGEND_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/legend)
 set (GRAPH_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/graph)
 set (PREFERENCES_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/preferences)
 set (COMPUTE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/compute)
-set (GIS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gis)
 
 include_directories(
         ${GeographicLib_INCLUDE_DIRS}
@@ -57,7 +56,7 @@ include (${EXPRTK_SOURCE_DIR}/CMakeLists.txt)
 include (${LEGEND_SOURCE_DIR}/CMakeLists.txt)
 include (${GRAPH_SOURCE_DIR}/CMakeLists.txt)
 include (${PREFERENCES_SOURCE_DIR}/CMakeLists.txt)
-include (${GIS_SOURCE_DIR}/CMakeLists.txt)
+
 
 set (CMAKE_AUTOMOC ON)
 include_directories (..)
@@ -89,7 +88,6 @@ set (SOURCE_FILES ${SOURCE_FILES}
         ${LEGEND_SOURCE_FILES}
         ${GRAPH_SOURCE_FILES}
         ${PREFERENCES_SOURCE_FILES}
-        ${GIS_SOURCE_FILES}
         CalenhadUi.cpp CalenhadUi.h grid/Extent.h)
 
 set (RESOURCES_DIR resources)

@@ -23,7 +23,7 @@ CubicSphere::CubicSphere (const int& depth) {
 }
 
 CubicSphere::~CubicSphere() {
-    delete _grid;
+    free (_grid);
 }
 
 long CubicSphere::count() {

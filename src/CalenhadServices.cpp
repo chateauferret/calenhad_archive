@@ -16,6 +16,7 @@
 #include "controls/globe/StatisticsService.h"
 #include "grid/icosphere.h"
 #include "graph/ComputeService.h"
+#include "module/Module.h"
 
 using namespace calenhad;
 using namespace calenhad::preferences;
@@ -28,6 +29,7 @@ using namespace calenhad::expressions;
 using namespace calenhad::mapping::projection;
 using namespace calenhad::grid;
 using namespace calenhad::graph;
+using namespace calenhad::module;
 
 
 
@@ -41,6 +43,7 @@ Calculator* CalenhadServices::_calculator;
 Icosphere* CalenhadServices::_icosphere = nullptr;
 CubicSphere* CalenhadServices::_cubicSphere = nullptr;
 ComputeService* CalenhadServices::_computeService = nullptr;
+CalenhadGlobeDialog* CalenhadServices::_globeDialog = nullptr;
 
 
 PreferencesService* CalenhadServices::preferences () {
@@ -173,4 +176,15 @@ QStringList CalenhadServices::recentFiles() {
         }
     }
     return files;
+}
+
+void CalenhadServices::provideGlobe (CalenhadGlobeDialog* globe) {
+    _globeDialog = globe;
+}
+
+CalenhadGlobeDialog* CalenhadServices::globe (calenhad::module::Module* module) {
+    if (module) {
+        _globeDialog -> selectModule (module);
+    }
+    return _globeDialog;
 }

@@ -16,22 +16,9 @@ using namespace calenhad::controls::globe;
 using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 
-CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget* parent, Module* module) : QMainWindow (parent), _widget (nullptr), _module (module),
-    _mainDock (nullptr), _mouseDock (nullptr), _widgetDock (nullptr) {
+CalenhadGlobeDialog::CalenhadGlobeDialog(QWidget *parent) : QMainWindow (parent), _widget (nullptr), _module (nullptr),
+                                                            _mainDock (nullptr), _mouseDock (nullptr), _widgetDock (nullptr) {
     connect (parent, &QWidget::destroyed, this, &QWidget::close);
-}
-
-CalenhadGlobeDialog::~CalenhadGlobeDialog() {
-    delete _mainDock;
-    delete _mouseDock;
-    delete _widgetDock;
-}
-
-CalenhadGlobeWidget* CalenhadGlobeDialog::widget() {
-    return _widget;
-}
-
-void CalenhadGlobeDialog::initialise() {
     _widget = new CalenhadGlobeWidget (nullptr, _module);
     _widget -> initialise();
     setDockNestingEnabled (true);
@@ -66,7 +53,17 @@ void CalenhadGlobeDialog::initialise() {
     addDockWidget (Qt::TopDockWidgetArea, _widgetDock);
     //_widget -> setSizePolicy ()
     setCentralWidget (_widget);
+    _widget -> setEnabled (false);
+}
 
+CalenhadGlobeDialog::~CalenhadGlobeDialog() {
+    delete _mainDock;
+    delete _mouseDock;
+    delete _widgetDock;
+}
+
+CalenhadGlobeWidget* CalenhadGlobeDialog::widget() {
+    return _widget;
 }
 
 
@@ -81,4 +78,11 @@ void CalenhadGlobeDialog::showEvent (QShowEvent* e) {
     if (_mainDock) { _mainDock -> show(); }
     if (_mouseDock) { _mouseDock -> show(); }
     if (_widgetDock) { _widgetDock -> show(); }
+}
+
+void CalenhadGlobeDialog::selectModule (Module* module) {
+    _module = module;
+    _widget -> setModule (module);
+    _widget -> setEnabled (module != nullptr);
+    // to do - choice box to select a module from the dialog window
 }

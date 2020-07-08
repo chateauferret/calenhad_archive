@@ -22,18 +22,19 @@ namespace calenhad {
 
 
 
+
         public:
-            Legend (const QString& name = "Legend");
+            explicit Legend (QString  name = "Legend");
 
             Legend (const Legend& other);
 
-            virtual ~Legend ();
+            ~Legend() override;
 
             QColor lookup (const double& value);
-
+            float* colorMapBuffer();
             QColor lookup (const std::experimental::fundamentals_v1::optional<double>& value);
 
-            QColor interpolateColors (std::map<double, QColor>::iterator lower, std::map<double, QColor>::iterator higher, const double& value);
+            QColor interpolateColors (LegendEntry * lower, LegendEntry * higher, const double& index);
 
             double interpolateValues (const double& p1, const double& v1, const double& p2, const double& v2, const double& value);
 
@@ -93,6 +94,7 @@ namespace calenhad {
             QString _notes;
             QString _name;
 
+            float *_colorMapBuffer;
         };
     }
 }

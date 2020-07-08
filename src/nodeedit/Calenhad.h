@@ -36,11 +36,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QtWidgets/QScrollArea>
 #include "../messages/QNotificationHost.h"
 #include <QScrollArea>
+#include <src/controls/globe/CalenhadGlobeDialog.h>
 
 namespace calenhad {
     namespace controls {
         class CalenhadLegendDialog;
         class SplashDialog;
+        namespace globe {
+            class CalenhadGlobeWidget;
+        }
     }
     namespace preferences {
         class Preferences;
@@ -58,7 +62,7 @@ namespace calenhad {
         class QNotificationStack;
     }
     namespace module {
-        class Node;
+        class Module;
     }
     namespace nodeedit {
         class CalenhadController;
@@ -73,7 +77,7 @@ namespace calenhad {
         public:
             explicit Calenhad (QWidget* parent = 0);
 
-            ~Calenhad ();
+            ~Calenhad () override;
 
             void setModel (calenhad::pipeline::CalenhadModel* model);
 
@@ -81,10 +85,10 @@ namespace calenhad {
 
             void initialiseLegends ();
 
-            void addToolbar (QToolBar* toolbar, calenhad::module::Node* node);
+            void addToolbar (QToolBar* toolbar, calenhad::module::Module* m);
 
             CalenhadController* controller ();
-            void fixScrollBars ();
+
             void showSplash();
         public slots:
             void titleChanged (const QString& title);
@@ -106,10 +110,10 @@ namespace calenhad {
             CalenhadController* _controller;
             CalenhadView* _view;
             calenhad::pipeline::CalenhadModel* _model;
-            calenhad::expressions::VariablesDialog* _variablesDialog;
+            calenhad::expressions::VariablesDialog* _variablesDialog{};
             QString _lastFile;
             QMap<QString, calenhad::legend::Legend*> _legends;
-
+            calenhad::controls::globe::CalenhadGlobeDialog *_globe{};
             //void readMetadata (const QDomDocument& doc, QNotificationFactory* messages);
 
             calenhad::controls::CalenhadLegendDialog* _legendDialog;
@@ -118,12 +122,12 @@ namespace calenhad {
 
             void moveEvent (QMoveEvent* event) override;
 
-            QMenu* _defaultContextMenu;
+            QMenu* _defaultContextMenu{};
 
 
             //void makeContextMenus ();
 
-            QAction* selectModeAction, * panModeAction;
+            QAction* selectModeAction{}, * panModeAction{};
 
             calenhad::controls::SplashDialog* _splash;
 
@@ -135,6 +139,10 @@ namespace calenhad {
 
 
             void provideSplashDialog();
+
+            void showGlobe (calenhad::module::Module* module);
+
+            void provideGlobe (calenhad::module::Module* module);
         };
     }
 }

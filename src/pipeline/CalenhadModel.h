@@ -94,7 +94,6 @@ namespace calenhad {
             void preserve ();
             void setUndoEnabled (const bool& enabled);
 
-            void suppressRender (bool suppress);
             void snapToGrid (QPointF& pos);
             QList<calenhad::module::Node*> nodes ();
             QList<calenhad::module::Module*> modules();

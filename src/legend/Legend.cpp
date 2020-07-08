@@ -6,18 +6,19 @@
 #include "controls/legend/LegendEditor.h"
 #include "LegendService.h"
 #include "LegendWidget.h"
-#include "src/CalenhadServices.h"
+#include "../CalenhadServices.h"
 #include <QIcon>
+#include <utility>
 #include "exprtk/Calculator.h"
 
 using namespace calenhad::legend;
 using namespace calenhad::expressions;
 
-Legend::Legend (const QString& name) : _interpolate (true), _name (name), _notes (QString()), _widget (nullptr) {
+Legend::Legend (QString  name) : _interpolate (true), _name (std::move(name)), _notes (QString()), _widget (nullptr), _colorMapBuffer (nullptr) {
 
 }
 
-Legend::Legend (const Legend& other) : _interpolate (other._interpolate), _notes (other._notes), _widget (nullptr) {
+Legend::Legend (const Legend& other) : _interpolate (other._interpolate), _notes (other._notes), _widget (nullptr), _colorMapBuffer (other._colorMapBuffer) {
     setEntries (other.entries());
     QString name;
     int n = 0;
@@ -40,35 +41,31 @@ int Legend::size() {
 }
 
 QColor Legend::lookup (const double& index) {
-    std::map<double, QColor> colorMap;
-    for (LegendEntry entry : _entries) {
-        colorMap.insert (std::make_pair (entry.keyValue (), entry.color()));
-    }
 
     if (_interpolate) {
-        std::map<double, QColor>::iterator i = std::find_if_not (colorMap.begin(), colorMap.end(), [&index] (std::pair<double, QColor> entry) -> bool {
-            return entry.first <= index;
+        QVector<LegendEntry>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (LegendEntry entry) -> bool {
+            return entry.keyValue() <= index;
         });
-        std::map<double, QColor>::iterator j = i;
-        if (j == colorMap.begin()) {
-            return colorMap.begin() -> second;
+        QVector<LegendEntry>::iterator j = i;
+        if (j == _entries.begin()) {
+            return j -> color();
         } else {
             return interpolateColors (i, --j, index);
         }
     } else {
-        std::map<double, QColor>::iterator i = std::find_if_not (colorMap.begin(), colorMap.end(), [&index] (std::pair<double, QColor> entry) -> bool {
-            return entry.first <= index;
+        QVector<LegendEntry>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (LegendEntry entry) -> bool {
+            return entry.keyValue() <= index;
         });
-        return (--i) -> second;
+        return (--i) -> color();
     }
 }
 
-QColor Legend::interpolateColors (std::map<double, QColor>::iterator lower, std::map<double, QColor>::iterator higher, const double& index) {
+QColor Legend::interpolateColors (LegendEntry* lower, LegendEntry* higher, const double& index) {
     QColor color;
-    color.setRedF (interpolateValues (lower -> first, lower -> second.redF(), higher -> first, higher -> second.redF(), index));
-    color.setGreenF (interpolateValues (lower -> first, lower -> second.greenF(), higher -> first, higher -> second.greenF(), index));
-    color.setBlueF (interpolateValues (lower -> first, lower -> second.blueF(), higher -> first, higher -> second.blueF(), index));
-    color.setAlphaF (interpolateValues (lower -> first, lower -> second.alphaF(), higher -> first, higher -> second.alphaF(), index));
+    color.setRedF (interpolateValues (lower -> keyValue(), lower -> color().redF(), higher -> keyValue(), higher -> color().redF(), index));
+    color.setGreenF (interpolateValues (lower -> keyValue(), lower -> color().greenF(), higher -> keyValue(), higher -> color().greenF(), index));
+    color.setBlueF (interpolateValues (lower -> keyValue(), lower -> color().blueF(), higher -> keyValue(), higher -> color().blueF(), index));
+    color.setAlphaF (interpolateValues (lower -> keyValue(), lower -> color().alphaF(), higher -> keyValue(), higher -> color().alphaF(), index));
     return color;
 }
 
@@ -98,11 +95,13 @@ const bool& Legend::isInterpolated () const {
 void Legend::addEntry (const LegendEntry& entry) {
     for (LegendEntry e : _entries) {
         if (e.key() == entry.key()) {
-            _entries.remove (_entries.indexOf (e));
+            _entries.remove(_entries.indexOf(e));
         }
     }
-    _entries.append (entry);
-    CalenhadServices::legends() -> setDirty();
+    _entries.append(entry);
+    CalenhadServices::legends()->setDirty();
+    std::cout << "Legend " << _name.toStdString() << " entry " << entry.key().toStdString() << " -> "
+              << entry.color().name().toStdString() << "\n";
 }
 
 unsigned Legend::removeEntries (const double& from, const double& unto) {
@@ -223,7 +222,6 @@ void Legend::serialise (QDomDocument doc) {
         QDomElement entryElement = doc.createElement ("entry");
         entryElement.setAttribute ("index", entry.key());
         entryElement.setAttribute ("color", entry.color().name());
-
         e.appendChild (entryElement);
     }
 }
@@ -248,7 +246,6 @@ QIcon Legend::icon() {
 void Legend::setEntry (const int& index, const QString& key, const QColor& color) {
     LegendEntry entry (key, color);
     _entries.replace (index, entry);
-
 }
 
 bool Legend::isComputed() {
@@ -259,3 +256,40 @@ bool Legend::isComputed() {
     }
     return false;
 }
+
+float* Legend::colorMapBuffer() {
+        // To do - magic number
+        uint size = CalenhadServices::preferences() -> calenhad_colormap_buffersize;
+        if (! _colorMapBuffer) {
+            _colorMapBuffer = new float [size * 4];
+        }
+
+    for (LegendEntry entry : entries()) {
+        std::cout << entry.key().toStdString() << " = " << entry.color().name().toStdString() << "\n";
+    }
+
+        int k = 0;
+        QColor c = _entries.first().color();
+        float dx = (1 / ((float) size)) ;
+        for (int i = 0; i < size; i++)  {
+            double index = (i * dx * 2) - 1;
+            if (k < _entries.size()) {
+                LegendEntry e = _entries[k];
+                if (index > e.keyValue()) {
+                    c = _entries[k].color();
+                    k++;
+                }
+
+                if (_interpolate && k > 0 && k < _entries.size()) {
+                    c = interpolateColors(&_entries[k - 1], &_entries[k], index);
+                }
+            }
+            _colorMapBuffer [i * 4 + 0] = (float) c.redF();
+            _colorMapBuffer [i * 4 + 1] = (float) c.greenF();
+            _colorMapBuffer [i * 4 + 2] = (float) c.blueF();
+            _colorMapBuffer [i * 4 + 3] = (float) c.alphaF();
+
+        }
+
+        return _colorMapBuffer;
+    }

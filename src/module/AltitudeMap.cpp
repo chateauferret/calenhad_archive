@@ -32,10 +32,6 @@ AltitudeMap::~AltitudeMap() {
     delete _editor;
 }
 
-void AltitudeMap::initialise() {
-    Module::initialise();
-}
-
 void AltitudeMap::makeContentPanel() {
 
     addContentPanel();

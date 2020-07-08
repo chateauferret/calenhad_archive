@@ -16,7 +16,7 @@ CalenhadStatsPanel::CalenhadStatsPanel (Module* source, CalenhadGlobeWidget* par
     setLayout (new QVBoxLayout());
     QGroupBox* worldHypsographyBox = new QGroupBox ("Planet hypsograph", this);
     worldHypsographyBox -> setLayout (new QVBoxLayout());
-    _hypsography = new HypsographyWidget (source -> preview(), worldHypsographyBox);
+    _hypsography = new HypsographyWidget (nullptr, worldHypsographyBox);
     QFormLayout* worldForm = new QFormLayout();
     QWidget* worldFormWidget = new QWidget (this);
     worldFormWidget -> setLayout (worldForm);

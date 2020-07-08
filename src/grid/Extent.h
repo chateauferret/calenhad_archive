@@ -27,9 +27,6 @@ namespace calenhad {
 
             virtual float getValue (const geoutils::Geolocation& geolocation);
 
-            // fill the grid of this extent with values from the given module
-            virtual void compute();
-            int setBounds (const calenhad::grid::Bounds& bounds);
             float* buffer();
             void save();
             Bounds bounds();
@@ -40,7 +37,7 @@ namespace calenhad {
             int resolution() const;
 
         protected:
-            int _resolution = 13;       // the render texture height is two to the power of this number, and the width is twice that
+            int _resolution = 12;       // the render texture height is two to the power of this number, and the width is twice that
             float* _buffer;
             calenhad::module::Module* _module;
             calenhad::grid::Bounds _bounds;

@@ -8,20 +8,21 @@
 #include <QtWidgets/QWidget>
 #include <qwt/qwt_scale_widget.h>
 #include <qwt/qwt_scale_engine.h>
-#include <src/CalenhadServices.h>
 #include <GeographicLib/Geodesic.hpp>
 #include "../../preferences/PreferencesService.h"
+#include "../../CalenhadServices.h"
 
 namespace calenhad {
+    class CalenhadServices;
     namespace mapping {
         class CalenhadMapWidget;
     }
     namespace controls {
         namespace globe {
-            class CalenhadMapView;
+
             class GlobeScaleWidget : public QwtScaleWidget {
             public:
-                explicit GlobeScaleWidget (calenhad::mapping::CalenhadMapWidget* _globe, QWidget* parent = nullptr, const double& radius = CalenhadServices::preferences() -> calenhad_default_planet_radius);
+                explicit GlobeScaleWidget (calenhad::mapping::CalenhadMapWidget* _globe, QWidget* parent = nullptr, const double& radius = 6440000);
                 ~GlobeScaleWidget() override;
                 void setOrientation (Qt::Orientation orientation);
             protected:

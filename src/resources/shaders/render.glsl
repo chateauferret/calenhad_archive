@@ -7,16 +7,16 @@
 #define HALF_ROOT_2 0.70710676908493042
 
 layout (local_size_x = 32, local_size_y = 32) in;
-layout (rgba32f, binding = 0) uniform image2D destTex;          // output texture
-layout (std430, binding = 1) buffer raster { float height_map_in []; };            // array of input textures for modules that require them
-layout (std430, binding = 2) buffer colorMapBuffer { vec4 color_map_in []; };
+layout (rgba32f, binding = 7) uniform image2D destTex;                               // output texture
+layout (std430, binding = 5) buffer inBUffer { float height_map_in []; };            // array of input textures for modules that require them
+layout (std430, binding = 6) buffer colorMapBuffer { vec4 color_map_in []; };        // legend
 
 uniform int colorMapBufferSize;
 uniform int imageHeight = 512;
 uniform int insetHeight = 64;
 
 // input raster geometry
-uniform ivec2 size = ivec2 (2048, 1024);
+uniform ivec2 size = ivec2 (4096, 2048);
 uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
 uniform vec4 defaultColor;
 
@@ -85,11 +85,12 @@ vec4 findColor (float value) {
     int indexPos = int (index);
     int index0 = clamp (indexPos    , 0, colorMapBufferSize - 1);
     int index1 = clamp (indexPos + 1, 0, colorMapBufferSize - 1);
-    ivec2 pos = ivec2 (gl_GlobalInvocationID.xy);
-    vec4 out0 = color_map_in [index0 / 4];
-    vec4 out1 = color_map_in [index1 / 4];
+
+    vec4 out0 = color_map_in [index0];
+    vec4 out1 = color_map_in [index1];
     float alpha = (index - index0) / (index1 - index0);
-    return mix (vec4 (out0.xyz, 1.0), vec4 (out1.xyz, 1.0), alpha);
+    return out0;
+    //return mix (vec4 (out0.xyz, 1.0), vec4 (out1.xyz, 1.0), alpha);
 }
 
 // raster constrained to bounds (a.x, a.y) - (b.x, b.y)
@@ -109,19 +110,6 @@ float lookup (vec2 g) {
     return height_map_in [index];
 }
 
-
-float value (vec2 geolocation) {
-    float dlon = (geolocation.x + M_PI) / (M_PI * 2);
-    float dlat = (geolocation.y + (M_PI / 2)) / M_PI;
-    int x = int (dlon * size.x);
-    int y = int (dlat * size.y);
-    int index = y * size.x + x;
-    if (mode == MODE_GLOBE) {
-        return height_map_in [index];
-    } else {
-        return lookup (geolocation);
-    }
-}
 
 // Coordinate systems:
 //      screen coordinates (corresponds to GlobalInvoicationID) - the coordinates of the texel being rendered. 0 <= x <= resolution * 2; 0 <= x <= resolution.
@@ -340,15 +328,19 @@ void main() {
         vec2 i = mapPos (pos);
         vec3 g = inverse (i);
         vec4 color = defaultColor;;
+        // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
+        vec4 c = toCartesian (g);
+        float pets = smoothstep (0.99, 1.00001, abs (c.w));
+        vec2 geolocation = g.xy;
+        float dlon = (geolocation.x + M_PI) / (M_PI * 2);
+        float dlat = (geolocation.y + (M_PI / 2)) / M_PI;
+        int x = int (dlon * size.x);
+        int y = int (dlat * size.y);
+        int index = y * size.x + x;
+        float v = height_map_in [index];
+        color = findColor (v);
+        //color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
 
-       if (inBounds (g.xy)) {
-            // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-            vec4 c = toCartesian (g);
-            float pets = smoothstep (0.99, 1.00001, abs (c.w));
-            float v = value (g.xy);
-            color = findColor (v);
-            color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
-       }
         imageStore (destTex, pos, color);
     }
 
@@ -357,7 +349,13 @@ void main() {
         vec3 g = vec3 (i.xy, 1.0); //nverse (i);
         vec4 color = defaultColor;
         if (inBounds (g.xy)) {
-            float v = value (g.xy);
+            float dlon = (g.x + M_PI) / (M_PI * 2);
+            float dlat = (g.y + (M_PI / 2)) / M_PI;
+            int x = int (dlon * size.x);
+            int y = int (dlat * size.y);
+            int index = y * size.x + x;
+            vec2 geolocation = g.xy;
+            float v = lookup (geolocation);
             color = findColor (v);
 
             if (mode == MODE_OVERVIEW) {

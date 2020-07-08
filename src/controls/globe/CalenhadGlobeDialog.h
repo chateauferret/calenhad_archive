@@ -21,11 +21,15 @@ namespace calenhad {
 
             class CalenhadGlobeDialog : public QMainWindow {
             Q_OBJECT
+
+
+
             public:
-                CalenhadGlobeDialog (QWidget* parent, calenhad::module::Module* module);
+                CalenhadGlobeDialog(QWidget *parent);
                 ~CalenhadGlobeDialog() override;
                 CalenhadGlobeWidget* widget();
-                void initialise();
+
+                void selectModule (module::Module *module);
 
             protected:
                 CalenhadGlobeWidget* _widget;

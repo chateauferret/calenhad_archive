@@ -25,7 +25,7 @@ using namespace calenhad::module;
 using namespace calenhad::pipeline;
 using namespace calenhad::controls;
 using namespace calenhad::expressions;
-
+using namespace calenhad::controls::globe;
 
 CalenhadUi::CalenhadUi (CalenhadController* controller) :
     _controller (controller),
@@ -43,6 +43,7 @@ void CalenhadUi::initialise() {
     _mouseModeGroup = new QActionGroup (_controller);
     makeActions();
     makeWidgets();
+    CalenhadServices::provideGlobe (new CalenhadGlobeDialog (_app));
 }
 
 CalenhadUi::~CalenhadUi() {
@@ -211,14 +212,17 @@ QMenu* CalenhadUi::makeContextMenu (QGraphicsItem* item) {
         _contextMenu -> addAction (deleteAction);
 
         if (dynamic_cast<Module*> (n)) {
+            Module* module = dynamic_cast<Module*> (n);
             _contextMenu -> addSeparator();
             QAction* editAction = new QAction (QIcon (":/appicons/controls/edit.png"), tr ("Edit"));
             editAction -> setToolTip ("Edit module's details and parameters");
-            connect (editAction, &QAction::triggered, this, [=]() { n -> showModuleDetail (true); });
+            connect (editAction, &QAction::triggered, this, [=]() { module -> showModuleDetail (true); });
             _contextMenu -> addAction (editAction);
             QAction* globeAction = new QAction (QIcon (":/appicons/controls/globe.png"), "Show globe");
-            connect (globeAction, &QAction::triggered, (Module*) n, &Module::showGlobe);
+            connect (globeAction, &QAction::triggered, module, &Module::showGlobe);
             _contextMenu -> addAction (globeAction);
+            QAction* a = new QAction ("Test");
+            _contextMenu -> addAction (a);
         }
         return _contextMenu;
     }
