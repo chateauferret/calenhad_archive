@@ -112,7 +112,7 @@ namespace calenhad {
             geoutils::Geolocation _rotation;
             calenhad::graph::Graph* _graph;
             QString _shader;
-            GLfloat* _colorMapBuffer, * _icosphereBuffer;
+            GLfloat* _colorMapBuffer, * _icosphereBuffer{};
             GLfloat _scale;
             calenhad::mapping::projection::Projection* _projection;
             QPointF _translation;
@@ -157,7 +157,7 @@ namespace calenhad {
             QOpenGLShader* _computeShader;
             QOpenGLShader* _fragmentShader;
             QOpenGLShader* _vertexShader;
-            QOpenGLTexture* _globeTexture, * _rasterTexture, * _insetTexture;
+            QOpenGLTexture* _globeTexture, * _rasterTexture, * _insetTexture{};
 
 
             GLfloat* _buffer;
@@ -173,9 +173,9 @@ namespace calenhad {
             GLuint heightMap = 1;
             void redraw ();
 
-            int _yTiles;
+            int _yTiles{};
             bool _refreshHeightMap;
-            clock_t start;
+            clock_t start{};
             int _createHeightMap;
             bool _computeVertices;
 
@@ -183,12 +183,12 @@ namespace calenhad {
 
             void initializeGL() override;
 
-            bool _computeCubeMap;
+            bool _computeCubeMap{};
             GLfloat* _cubeMapBuffer{};
             GLfloat* _gridBuffer{};
 
             calenhad::legend::Legend*  _legend;
-            int _size;
+            int _size{};
         };
     }
 }

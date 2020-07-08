@@ -81,7 +81,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
     QFile vsFile (":/shaders/map_vs.glsl");
     vsFile.open (QIODevice::ReadOnly);
     QTextStream vsTextStream (&vsFile);
-    _vertexShaderCode = vsTextStream.readAll ();
+    _vertexShaderCode = vsTextStream.readAll();
     _legend = CalenhadServices::legends() -> lastUsed();
     QFile fsFile (":/shaders/map_fs.glsl");
     fsFile.open (QIODevice::ReadOnly);
@@ -104,7 +104,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
 }
 
 CalenhadMapWidget::~CalenhadMapWidget() {
-    makeCurrent();
+    delete _vertexBuffer;
     delete _computeShader;
     delete _vertexShader;
     delete _fragmentShader;
@@ -112,12 +112,11 @@ CalenhadMapWidget::~CalenhadMapWidget() {
     delete _renderProgram;
     delete _computeProgram;
     delete _indexBuffer;
-    delete _vertexBuffer;
+
     delete _graticule;
     delete _geodesic;
     if (_buffer) free (_buffer);
-    glDeleteBuffers (1, &colorMap);
-    glDeleteBuffers (1, &heightMap);
+
 }
 
 

@@ -78,7 +78,7 @@ void ComputeService::compute (Module *module, GLfloat* buffer) {
 
     if (code != QString::null) {
         QString c = _codeTemplate;
-        c.detach();
+        c.detach();                 // deep copy, otherwise we overwrite the placeholder
         QString sourceCode = c.replace ("// inserted code //", code);
         std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
         if (_computeShader) {

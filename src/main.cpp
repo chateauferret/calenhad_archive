@@ -89,10 +89,10 @@ int main (int argc, char **argv) {
     CalenhadServices::provideComputeService();
 
     // Calenhad model - the arrangement of modules and connections between them
-    Calenhad* window = new Calenhad();
-    window -> setStyleSheet (Preferences::styleSheet());
-    window -> showSplash();
-    window -> show();
+    Calenhad window;
+    window.setStyleSheet (Preferences::styleSheet());
+    window.showSplash();
+    window.show();
 
     return QApplication::exec();
 }

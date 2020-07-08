@@ -99,7 +99,6 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 
 Calenhad::~Calenhad() {
     delete _legendDialog;
-    delete _splash;
     delete _globe;
 }
 
