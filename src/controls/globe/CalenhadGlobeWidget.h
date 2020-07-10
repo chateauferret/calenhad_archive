@@ -18,6 +18,7 @@
 #include "mapping/CalenhadMapWidget.h"
 #include "GlobeScaleWidget.h"
 
+
 namespace GeographicLib {
     class Geodesic;
 }
@@ -59,14 +60,16 @@ namespace calenhad {
             class CalenhadGlobeContextMenu;
             class CalenhadGlobeConfigDialog;
             class NavigationEvent;
-            class CalenhadGlobeWidget : public QDialog {
+            class CalenhadGlobeDialog;
+
+            class CalenhadGlobeWidget : public QWidget {
             Q_OBJECT
 
 
 
             public:
 
-                CalenhadGlobeWidget (QWidget* parent, module::Module* source);
+                CalenhadGlobeWidget (CalenhadGlobeDialog* parent, module::Module* source);
 
                 virtual ~CalenhadGlobeWidget ();
 
@@ -91,7 +94,7 @@ namespace calenhad {
             public slots:
 
                 void showContextMenu (const QPoint& pos);
-
+                void moduleSelected (const QString& name);
                 void showConfigDialog ();
 
                 void invalidate ();
@@ -108,8 +111,6 @@ namespace calenhad {
                 void showGraticule (const bool& show);
                 void projectionSelected (const bool& selected);
                 void updateConfig ();
-
-                void initialise ();
 
                 void captureGreyscale ();
 
@@ -130,13 +131,14 @@ namespace calenhad {
                 QLabel* _positionLabel{};
                 calenhad::nodeedit::CalenhadToolBar* makeToolBar (const QString& name);
 
+                void updateModules();
                 QMenu* makeGlobeContextMenu  (const QPoint& pos);
                 bool _graticuleVisible{};
                 calenhad::mapping::CalenhadMapWidget* _globe, *_overview;
                 grid::Bounds _bounds;
                 graph::Graph* _graph;
                 calenhad::controls::globe::GlobeScaleWidget* _scale{};
-
+                QComboBox* _selectModuleCombo{};
                 calenhad::nodeedit::CalenhadToolBar* _viewToolbar{}, * _mouseToolbar{}, * _mapWidgetsToolbar{};
                 QAction* _propertiesAction{}, * _mousePanAction{}, * _mouseZoomAction{}, * _mouseGotoAction{}, * _mousePlaceAction{},
                         * _showGraticuleAction{}, * _disableDoubleClickAction{}, * _disableDragAction{},

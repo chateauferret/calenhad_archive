@@ -15,6 +15,9 @@ namespace calenhad {
     namespace nodeedit {
         class CalenhadToolBar;
     }
+    namespace pipeline {
+        class CalenhadModel;
+    }
     namespace controls {
         namespace globe {
             class CalenhadGlobeWidget;
@@ -24,17 +27,19 @@ namespace calenhad {
 
 
 
+
             public:
-                CalenhadGlobeDialog(QWidget *parent);
+                CalenhadGlobeDialog (QWidget *parent);
                 ~CalenhadGlobeDialog() override;
                 CalenhadGlobeWidget* widget();
-
+                void setModel (calenhad::pipeline::CalenhadModel* model);
                 void selectModule (module::Module *module);
+
+                calenhad::pipeline::CalenhadModel* model() const;
 
             protected:
                 CalenhadGlobeWidget* _widget;
-                calenhad::module::Module* _module;
-
+                calenhad::pipeline::CalenhadModel* _model{};
                 void closeEvent (QCloseEvent* e) override;
                 void showEvent (QShowEvent* e) override;
                 QDockWidget* _mainDock, * _mouseDock, * _widgetDock;

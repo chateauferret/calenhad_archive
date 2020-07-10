@@ -119,6 +119,7 @@ void Calenhad::setModel (CalenhadModel* model) {
     _controller -> addView (_view);
     connect (_model, &CalenhadModel::titleChanged, this, &Calenhad::titleChanged);
     _controller -> updateZoomActions();
+    CalenhadServices::provideGlobe (new CalenhadGlobeDialog (this));
 }
 
 CalenhadModel* Calenhad::model() {

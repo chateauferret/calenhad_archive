@@ -182,9 +182,21 @@ void CalenhadServices::provideGlobe (CalenhadGlobeDialog* globe) {
     _globeDialog = globe;
 }
 
-CalenhadGlobeDialog* CalenhadServices::globe (calenhad::module::Module* module) {
+CalenhadGlobeDialog* CalenhadServices::globe (CalenhadModel* model) {
+    if (model) {
+        _globeDialog -> selectModule (nullptr);
+        _globeDialog -> setModel (model);
+    }
+    return _globeDialog;
+}
+
+CalenhadGlobeDialog* CalenhadServices::globe (Module* module) {
     if (module) {
-        _globeDialog -> selectModule (module);
+        CalenhadModel* model = module -> model();
+        if (model) {
+            _globeDialog -> setModel (model);
+            _globeDialog -> selectModule(module);
+        }
     }
     return _globeDialog;
 }

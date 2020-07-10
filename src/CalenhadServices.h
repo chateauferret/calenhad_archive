@@ -15,6 +15,7 @@
 namespace calenhad {
     namespace pipeline {
         class ModuleFactory;
+        class CalenhadModel;
     }
     namespace expressions {
         class Calculator;
@@ -27,6 +28,9 @@ namespace calenhad {
     }
     namespace legend {
         class LegendService;
+    }
+    namespace module {
+        class Module;
     }
     namespace controls {
         namespace globe {
@@ -82,6 +86,7 @@ namespace calenhad {
 
         static void provideGlobe (calenhad::controls::globe::CalenhadGlobeDialog* globe);
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::module::Module* module = nullptr);
+        static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::pipeline::CalenhadModel* model = nullptr);
 
     private:
         static calenhad::preferences::PreferencesService* _preferences;

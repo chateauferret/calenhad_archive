@@ -14,16 +14,17 @@
 #include "../../legend/LegendService.h"
 #include "../../pipeline/CalenhadModel.h"
 #include <QWindow>
+#include <QComboBox>
 #include <QtWidgets/QFileDialog>
 #include "../../mapping/projection/Projection.h"
 #include "module/Module.h"
 #include "../../mapping/Graticule.h"
 #include "../../mapping/projection/ProjectionService.h"
 #include "../nodeedit/CalenhadToolBar.h"
+#include "../pipeline/ModuleFactory.h"
 
-class QwtCompass;
 
-QMenu* makeGlobeContextMenu (const QPoint& pos);
+void moduleSelected(const QString &name);
 
 using namespace GeographicLib;
 using namespace icosphere;
@@ -36,11 +37,12 @@ using namespace calenhad::legend;
 using namespace calenhad::graph;
 using namespace calenhad::module;
 using namespace calenhad::nodeedit;
+using namespace calenhad::pipeline;
 using namespace geoutils;
 
 
 
-CalenhadGlobeWidget::CalenhadGlobeWidget (QWidget* parent, Module* source) : QDialog (parent),
+CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* source) : QWidget (parent),
             _configDialog (nullptr),
             _contextMenu (nullptr),
             _moveFrom (QPoint (0, 0)),
@@ -49,6 +51,7 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (QWidget* parent, Module* source) : QDi
             _graph (nullptr),
             _geodesic (new Geodesic (1, 0)),
             _zoomSlider (nullptr),
+            _selectModuleCombo (nullptr),
             _navigator (nullptr) {
     // Turn on mouse tracking so that we can keep showing the mouse pointer coordinates.
     _globe -> setMouseTracking (true);
@@ -59,9 +62,7 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (QWidget* parent, Module* source) : QDi
     _overview -> setSource (source);
     _overview -> setProjection ("Orthographic");
     _overview -> setMainMap (_globe);
-}
 
-void CalenhadGlobeWidget::initialise() {
     _zoomSlider = new QwtSlider (this);
     _zoomSlider -> setGroove (true);
     _zoomSlider -> setTrough (false);
@@ -132,7 +133,6 @@ void CalenhadGlobeWidget::initialise() {
     mouseDragGroup -> addAction (_mouseZoomAction);
     _mouseToolbar -> addAction (_mouseZoomAction);
 
-
     _disableDragAction = new QAction ("Do nothing", this);
     _disableDragAction -> setToolTip ("Disable mouse dragging on the globe");
     _disableDragAction -> setCheckable (true);
@@ -193,7 +193,7 @@ void CalenhadGlobeWidget::initialise() {
     mapWidgetsGroup -> addAction (_showOverviewAction);
 
     _showZoomSliderAction = new QAction ("Zoom slider");
-    _showZoomSliderAction->setStatusTip ("Toggle the display of the scale bar");
+    _showZoomSliderAction -> setStatusTip ("Toggle the display of the scale bar");
     _showZoomSliderAction -> setIcon (QIcon (":/appicons/controls/zoom.png"));
     _showZoomSliderAction -> setCheckable (true);
     _showZoomSliderAction -> setChecked (true);
@@ -201,7 +201,32 @@ void CalenhadGlobeWidget::initialise() {
     mapWidgetsGroup -> addAction (_showZoomSliderAction);
     _mapWidgetsToolbar -> addActions (mapWidgetsGroup -> actions());
 
+    _selectModuleCombo = new QComboBox (this);
+    connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
+    connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
+    updateModules();
+    _mapWidgetsToolbar -> addWidget (_selectModuleCombo);
+}
 
+void CalenhadGlobeWidget::moduleSelected (const QString& name) {
+    Module* m = ((CalenhadGlobeDialog*) parent()) -> model() -> findModule (name);
+    if (m) {
+        _globe -> setSource(m);
+    }
+}
+
+void CalenhadGlobeWidget::updateModules() {
+        QString current = _selectModuleCombo -> currentText();
+        _selectModuleCombo -> clear();
+
+        CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
+        if (model) {
+            for (Module* m : model->modules()) {
+                QPixmap *pixmap = CalenhadServices::modules()->getIcon(m->nodeType());
+                QIcon icon(*pixmap);
+                _selectModuleCombo->addItem(icon, m->name());
+            }
+        }
 }
 
 CalenhadToolBar* CalenhadGlobeWidget::makeToolBar (const QString& name) {
@@ -221,7 +246,7 @@ CalenhadGlobeWidget::~CalenhadGlobeWidget() {
     delete _graph;
 }
 
-void CalenhadGlobeWidget::invalidate () {
+void CalenhadGlobeWidget::invalidate() {
     _globe -> update();
      if (_overview) {
          _overview -> update();
@@ -300,7 +325,7 @@ void CalenhadGlobeWidget::showConfigDialog() {
     _configDialog -> exec();
 }
 
-void CalenhadGlobeWidget::updateConfig () {
+void CalenhadGlobeWidget::updateConfig() {
     setScalebarVisible (_configDialog -> scaleCheckState());
     showOverviewMap (_configDialog -> overviewCheckState ());
     showZoomSlider (_configDialog -> zoomBarCheckState ());
@@ -445,7 +470,8 @@ CalenhadToolBar* CalenhadGlobeWidget::viewToolBar() { return _viewToolbar; }
 CalenhadToolBar* CalenhadGlobeWidget::mapWidgetsToolBar() { return _mapWidgetsToolbar; }
 
 void CalenhadGlobeWidget::setModule (calenhad::module::Module* module) {
-    _globe -> setSource (module);
+    updateModules();
+    _selectModuleCombo -> setCurrentText (module -> name());
 }
 
 

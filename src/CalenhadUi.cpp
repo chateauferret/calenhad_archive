@@ -43,7 +43,7 @@ void CalenhadUi::initialise() {
     _mouseModeGroup = new QActionGroup (_controller);
     makeActions();
     makeWidgets();
-    CalenhadServices::provideGlobe (new CalenhadGlobeDialog (_app));
+
 }
 
 CalenhadUi::~CalenhadUi() {

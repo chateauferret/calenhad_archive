@@ -15,12 +15,13 @@ using namespace calenhad::controls;
 using namespace calenhad::controls::globe;
 using namespace calenhad::module;
 using namespace calenhad::nodeedit;
+using namespace calenhad::pipeline;
 
-CalenhadGlobeDialog::CalenhadGlobeDialog(QWidget *parent) : QMainWindow (parent), _widget (nullptr), _module (nullptr),
+CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget *parent) : QMainWindow (parent), _widget (nullptr), _model (nullptr),
                                                             _mainDock (nullptr), _mouseDock (nullptr), _widgetDock (nullptr) {
     connect (parent, &QWidget::destroyed, this, &QWidget::close);
-    _widget = new CalenhadGlobeWidget (nullptr, _module);
-    _widget -> initialise();
+    _widget = new CalenhadGlobeWidget (this, nullptr);
+
     setDockNestingEnabled (true);
 
     _mainDock = new QDockWidget ("View");
@@ -53,7 +54,7 @@ CalenhadGlobeDialog::CalenhadGlobeDialog(QWidget *parent) : QMainWindow (parent)
     addDockWidget (Qt::TopDockWidgetArea, _widgetDock);
     //_widget -> setSizePolicy ()
     setCentralWidget (_widget);
-    _widget -> setEnabled (false);
+
 }
 
 CalenhadGlobeDialog::~CalenhadGlobeDialog() {
@@ -81,8 +82,21 @@ void CalenhadGlobeDialog::showEvent (QShowEvent* e) {
 }
 
 void CalenhadGlobeDialog::selectModule (Module* module) {
-    _module = module;
-    _widget -> setModule (module);
-    _widget -> setEnabled (module != nullptr);
-    // to do - choice box to select a module from the dialog window
+
+    if (module) {
+        setModel (module -> model());
+        _widget -> setModule (module);
+        setWindowTitle (module -> name());
+    } else {
+
+    }
+}
+
+void CalenhadGlobeDialog::setModel(CalenhadModel* model) {
+    _model = model;
+}
+
+CalenhadModel* CalenhadGlobeDialog::model() const {
+
+    return _model;
 }
