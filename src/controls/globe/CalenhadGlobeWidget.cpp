@@ -200,7 +200,7 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     connect (_showZoomSliderAction, &QAction::toggled, this, &CalenhadGlobeWidget::showZoomSlider);
     mapWidgetsGroup -> addAction (_showZoomSliderAction);
     _mapWidgetsToolbar -> addActions (mapWidgetsGroup -> actions());
-
+    _mapWidgetsToolbar -> addSeparator();
     _selectModuleCombo = new QComboBox (this);
     connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
     connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
@@ -224,7 +224,7 @@ void CalenhadGlobeWidget::updateModules() {
             for (Module* m : model->modules()) {
                 QPixmap *pixmap = CalenhadServices::modules()->getIcon(m->nodeType());
                 QIcon icon(*pixmap);
-                _selectModuleCombo->addItem(icon, m->name());
+                _selectModuleCombo -> addItem(icon, m->name());
             }
         }
 }

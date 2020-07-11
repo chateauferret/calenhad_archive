@@ -74,9 +74,9 @@ void ComputeService::compute (Module *module, GLfloat* buffer) {
     _computeProgram = new QOpenGLShaderProgram ();
     clock_t start = clock ();
     Graph graph (module);
-    QString code = graph.glsl();
-
-    if (code != QString::null) {
+    QString newCode =  graph.glsl();
+    if (newCode != QString::null && code != newCode) {
+        code = newCode;
         QString c = _codeTemplate;
         c.detach();                 // deep copy, otherwise we overwrite the placeholder
         QString sourceCode = c.replace ("// inserted code //", code);

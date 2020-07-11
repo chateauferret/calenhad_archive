@@ -51,6 +51,7 @@ namespace calenhad {
             calenhad::grid::Bounds _bounds;
             int resolution;
             int _size;
+            QString code;
         };
     }
 }

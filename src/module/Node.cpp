@@ -190,6 +190,7 @@ void Node::invalidate() {
         _block -> update ();
     }
     updateCache();
+    std::cout << "Invalidate " << _name.toStdString() << "\n";
     emit nodeChanged();
 }
 

@@ -117,6 +117,7 @@ void Module::parameterChanged() {
 }
 
 void Module::invalidate() {
+    Node::invalidate();
     _valid = false;
         for (Module* dependant : dependants()) {
             dependant -> invalidate();
