@@ -194,7 +194,6 @@ void Node::invalidate() {
     emit nodeChanged();
 }
 
-
 void Node::setModel (CalenhadModel* model) {
     _model = model;
     //setParent (model -> views () [0]);

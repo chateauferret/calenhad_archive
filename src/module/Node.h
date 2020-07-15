@@ -109,7 +109,7 @@ namespace calenhad {
             bool isModuleDetailVisible();
 
         public slots:
-            virtual void showModuleDetail (const bool& visible = true);
+            virtual void showModuleDetail (const bool& visible);
             virtual void invalidate ();
             void setName (const QString& name);
             virtual void parameterChanged();

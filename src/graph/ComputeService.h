@@ -36,6 +36,9 @@ namespace calenhad {
             void compute (calenhad::module::Module* module, GLfloat* buffer);
             void setBounds (const calenhad::grid::Bounds& bounds);
             int size();
+
+            void setForceRender (const bool& forceRender);
+
         private:
             QString _codeTemplate;
             QOffscreenSurface _surface;
@@ -46,12 +49,15 @@ namespace calenhad {
             QOpenGLShaderProgram* _computeProgram;
             QOpenGLFunctions_4_3_Core* f;
             GLuint _heightMap;
-            void execute (calenhad::module::Module* module, GLfloat* buffer);
+            void execute(GLfloat *buffer);
 
             calenhad::grid::Bounds _bounds;
             int resolution;
             int _size;
             QString code;
+            //QOpenGLTexture* _rasterTexture;
+            GLuint _rasterBuffer;
+            bool _forceRender;
         };
     }
 }

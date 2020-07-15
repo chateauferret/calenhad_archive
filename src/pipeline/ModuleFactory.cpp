@@ -11,7 +11,7 @@
 #include "pipeline/CalenhadModel.h"
 #include "src/CalenhadServices.h"
 #include <QList>
-#include <module/RasterModule.h>
+#include <module/Convolution.h>
 #include <nodeedit/Port.h>
 #include <src/module/RasterFileModule.h>
 #include "src/noiseconstants.h"

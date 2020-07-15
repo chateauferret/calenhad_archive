@@ -3,6 +3,7 @@
 //
 
 #include <QtWidgets/QFileDialog>
+#include <QtGui/QPainter>
 #include "RasterFileModule.h"
 
 
@@ -10,9 +11,22 @@ using namespace calenhad::module;
 using namespace calenhad;
 using namespace calenhad::preferences;
 
-RasterFileModule::RasterFileModule (const QString& type) : RasterModule(),
-                               _filename (QString::null),
-                                _rasterLayout (new QFormLayout()) {
+RasterFileModule::RasterFileModule (const QString& type) : Convolution(),
+                                                           _filename (QString::null),
+                                                           _rasterLayout (new QFormLayout()) {
+    _rasterContent = new QWidget (_expander);
+    _rasterContent -> setLayout (_rasterLayout);
+    _rasterLayout->setContentsMargins (5, 0, 5, 0);
+    _rasterLayout->setVerticalSpacing (0);
+    addPanel ("Raster", _rasterContent);
+    _filenameLabel = new QLabel (this);
+    _filenameLabel -> setMinimumSize (QSize (160, 80));
+    QPushButton* selectFileButton = new QPushButton (this);
+    selectFileButton -> setFixedSize (100, 20);
+    selectFileButton -> setText ("Select image...");
+    _rasterLayout -> addWidget (_filenameLabel);
+    _rasterLayout -> addWidget (selectFileButton);
+    connect (selectFileButton, &QAbstractButton::pressed, this, &RasterFileModule::fileDialogRequested);
 }
 
 void calenhad::module::RasterFileModule::fileDialogRequested () {
@@ -22,43 +36,35 @@ void calenhad::module::RasterFileModule::fileDialogRequested () {
         dir = f.dirName ();
     }
     QString filename = QFileDialog::getOpenFileName (this, "Select raster", "dir", "Image Files (*.png *.jpg *.bmp)");
-    QPixmap pixmap (filename);
     openFile (filename);
 }
 
 void calenhad::module::RasterFileModule::openFile (const QString& filename) {
-    QImage raster = QImage (filename);
+    delete _raster;
+    _raster = new QImage (filename);
     _filename = filename;
-    setRaster (raster);
+    _filenameLabel -> setToolTip (_filename);
+    QPixmap pixmap = QPixmap::fromImage (*_raster).scaled (_filenameLabel -> size());
+    _filenameLabel -> setPixmap (pixmap);
+    CalenhadServices::compute() -> setForceRender (true);
+    invalidate();
+
 }
 
 void RasterFileModule::inflate (const QDomElement& element) {
-    RasterModule::inflate (element);
+    Convolution::inflate (element);
     QDomElement rasterElement = element.firstChildElement ("filename");
     QString filename = rasterElement.attribute ("filename");
     openFile (filename);
 }
 
 void RasterFileModule::serialize (QDomElement& element) {
-    RasterModule::serialize (element);
+    Convolution::serialize (element);
     QDomElement rasterElement = _document.createElement ("filename");
     rasterElement.setAttribute ("filename", _filename);
     _element.appendChild (rasterElement);
 }
 
-void RasterFileModule::setRaster (const QImage& raster) {
-        if (! raster.isNull()) {
-            QImage p = raster.scaled (CalenhadServices::preferences ()->calenhad_globe_texture_height, CalenhadServices::preferences ()->calenhad_globe_texture_height);
-            delete _raster;
-
-            _raster = new QImage (p);
-            QPixmap pixmap = QPixmap::fromImage (p).scaled (_filenameLabel->size ());
-            _filenameLabel->setPixmap (pixmap);
-            invalidate ();
-            _filenameLabel->setToolTip (_filename);
-        }
-}
-
 QImage* RasterFileModule::raster() {
-    return _raster;
+    return  _raster;
 }

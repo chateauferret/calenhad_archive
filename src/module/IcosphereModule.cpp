@@ -3,7 +3,7 @@
 //
 
 #include "IcosphereModule.h"
-#include "RasterModule.h"
+#include "Convolution.h"
 
 using namespace calenhad::preferences;
 using namespace calenhad::module;

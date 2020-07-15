@@ -10,6 +10,7 @@ namespace calenhad {
     }
     namespace module {
         class Module;
+        class Convolution;
     }
 
     namespace legend {
@@ -26,15 +27,18 @@ namespace calenhad {
             QString glsl();
 
             QImage* raster (const int& index);
+
+            int rasterCount() const;
+
         protected:
             QString glsl (calenhad::module::Module* node);
-            void parseLegend ();
+
             calenhad::module::Module* _module;
             pipeline::CalenhadModel* _model;
             QString _code;
             QString _nodeName;
             float* _colorMapBuffer;
-            QMap<int, QImage*> _rasters;
+            QMap<int, calenhad::module::Convolution*> _rasters;
 
             exprtk::parser<double>* _parser;
             int _rasterId;

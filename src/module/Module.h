@@ -36,7 +36,8 @@ namespace calenhad {
     namespace module {
         class Module : public Node {
         Q_OBJECT
-        Q_ENUMS (ModuleType)
+
+            Q_ENUMS (ModuleType)
 
         public:
             explicit Module (const QString& nodeType, QWidget* parent = nullptr);
@@ -44,7 +45,6 @@ namespace calenhad {
             QString label();
             QString description();
             virtual QString glsl();
-            static int seed;
 
             void setModel (calenhad::pipeline::CalenhadModel* model) override;
             void addInputPort (const unsigned int& index, const int& portType, const QString& name, const QString& label, const double& defaultValue = 0.0, const bool& required = false);

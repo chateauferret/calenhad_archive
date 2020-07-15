@@ -11,18 +11,10 @@
 #include "../pipeline/CalenhadModel.h"
 #include "src/CalenhadServices.h"
 #include "../legend/LegendService.h"
-#include "../legend/Legend.h"
 #include "../pipeline/ModuleFactory.h"
 #include <QDialogButtonBox>
-#include <controls/globe/CalenhadGlobeWidget.h>
-#include <controls/globe/CalenhadStatsPanel.h>
-#include <controls/globe/CalenhadGlobeDialog.h>
-#include <mapping/CalenhadMapWidget.h>
-#include "nodeedit/Connection.h"
-#include "../nodeedit/CalenhadView.h"
-#include "../nodeedit/CalenhadController.h"
-#include "../graph/graph.h"
 #include "../mapping/projection/ProjectionService.h"
+#include "../nodeedit/Connection.h"
 
 #include <algorithm>
 
@@ -37,8 +29,6 @@ using namespace calenhad::legend;
 using namespace calenhad::mapping;
 using namespace calenhad::notification;
 using namespace calenhad::expressions;
-
-int Module::seed = 0;
 
 Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, parent),
                                                             _valid (false),

@@ -5,13 +5,13 @@
 #ifndef CALENHAD_RASTERFILEMODULE_H
 #define CALENHAD_RASTERFILEMODULE_H
 
-#include "RasterModule.h"
+#include "Convolution.h"
 
 namespace calenhad {
     namespace module {
 
 
-        class RasterFileModule : public RasterModule {
+        class RasterFileModule : public Convolution {
 
         public:
 
@@ -29,8 +29,6 @@ namespace calenhad {
             void inflate (const QDomElement& element) override;
 
             void serialize (QDomElement& element) override;
-
-            void setRaster (const QImage& raster);
 
         protected:
 

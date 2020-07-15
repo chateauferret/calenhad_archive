@@ -15,7 +15,7 @@
 #include "exprtk/Calculator.h"
 #include <QList>
 #include <module/AltitudeMap.h>
-#include <module/RasterModule.h>
+#include <module/Convolution.h>
 #include "../messages/QNotificationHost.h"
 #include "../legend//Legend.h"
 
@@ -41,7 +41,7 @@ Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _no
 }
 */
 
-Graph::Graph (calenhad::module::Module* module) : _module (module), _nodeName (module -> name()), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId (0) {
+Graph::Graph (calenhad::module::Module* module) : _model (module -> model()), _module (module), _nodeName (module -> name()), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId (0) {
 
 }
 
@@ -49,13 +49,6 @@ Graph::Graph (calenhad::module::Module* module) : _module (module), _nodeName (m
 Graph::~Graph () {
     if (_colorMapBuffer) { delete (_colorMapBuffer); }
     delete _parser;
-    for (int n : _rasters.keys()) {
-        QImage* image = _rasters.value (n);
-        _rasters.remove (n);
-        if (image) {
-            delete image;
-        }
-    }
 }
 
 QString Graph::glsl() {
@@ -167,20 +160,20 @@ QString Graph::glsl (Module* module) {
                     //_code.append ("; }\n");
                 }
 
-                // if it's a raster module, compile and upload the raster content to the raster buffer
-                if (type == CalenhadServices::preferences ()->calenhad_module_raster) {
-                    RasterModule* rm = (RasterModule*) qm;
-                    Bounds bounds = rm->bounds ();
-                    QImage* image = rm->raster ();
+                // if it's a convolution module, compile and queue the module for raster upload
+                if (type == CalenhadServices::preferences()->calenhad_module_raster) {
+                    Convolution* rm = (Convolution*) qm;
+                    Bounds bounds = Bounds();
                     QString boundsCode;
 
-                    _rasters.insert (_rasterId++, image);
+                    _rasters.insert (_rasterId++, rm);
 
                     // replace the bounds marker with the module's declared bounds
                     boundsCode.append ("vec2 (" + QString::number (bounds.west ()) + ", " + QString::number (bounds.north ()) + ")");
                     boundsCode.append (", ");
                     boundsCode.append ("vec2 (" + QString::number (bounds.east ()) + ", " + QString::number (bounds.south ()) + ")");
                     _code.replace ("%bounds", boundsCode);
+                    _code.append ("; }\n");
                 }
 
                 // replace the input module markers with their names referencing their member variables in glsl
@@ -188,7 +181,7 @@ QString Graph::glsl (Module* module) {
                 for (Port* port : qm->inputs ()) {
                     QString index = QString::number (i++);
                     if (port->connections ().isEmpty ()) {
-                        _code.replace ("%" + index, QString::number (qm->parameterValue (port->portName ())));
+                        _code.replace ("%" + index, QString::number (qm -> parameterValue (port ->portName ())));
                     } else {
                         Node* other = port->connections ()[0]->otherEnd (port)->owner ();
                         QString source = other->name ();
@@ -205,7 +198,7 @@ QString Graph::glsl (Module* module) {
                 }
 
                 // populate index number for a raster
-                RasterModule* rm = dynamic_cast<RasterModule*> (module);
+                Convolution* rm = dynamic_cast<Convolution*> (module);
                 if (rm) {
                     _code.replace ("%index", QString::number (_rasterId - 1));
                 }
@@ -218,7 +211,11 @@ QString Graph::glsl (Module* module) {
 }
 
 
+int Graph::rasterCount() const {
+    return _rasterId;
+}
+
 QImage* Graph::raster (const int& index) {
-    return _rasters.value (index);
+    return _rasters.value (index) -> raster();
 }
 

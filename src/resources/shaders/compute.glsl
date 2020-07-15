@@ -7,7 +7,7 @@
 #define HALF_ROOT_2 0.70710676908493042
 
 layout(local_size_x = 32, local_size_y = 32) in;
-layout (binding = 1) uniform sampler2DArray rasters;            // array of input textures for modules that require them
+layout (std430, binding = 1) buffer rasterBuffer { float rasters []; };            // array of input rasters for convolutions
 
 // currently, these are all equirectangular grids 2x wide by x high where x is a power of two.
 // Output and all input grids are to cover the same bounds at the same resolution.
@@ -701,16 +701,6 @@ float select (float control, float in0, float in1, float lowerBound, float upper
     return mix (in0, in1, alpha);
 }
 
-// raster without bounds, covering the whole planet
-float raster (vec3 cartesian, uint rasterIndex, float defaultValue) {
-    vec2 g = toGeolocation (cartesian);
-    float dlon = (g.x + M_PI) / (M_PI * 2);
-    float dlat = (g.y + (M_PI / 2)) / M_PI;
-    vec4 texel = vec4 (texture (rasters, vec3 (dlon, dlat, rasterIndex)));
-    float foundValue = (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
-    return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
-}
-
 // raster constrained to bounds (a.x, a.y) - (b.x, b.y)
 float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultValue) {
     vec2 rg = toGeolocation (cartesian);
@@ -724,11 +714,11 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
 
     float dlon = (rg.x + M_PI) / (M_PI * 2);
     float dlat = (rg.y + (M_PI / 2)) / M_PI;
-    float rx = (rg.x - a.x) / (b.x - a.x);
-    float ry = (rg.y - a.y) / (b.y - a.y);
-    vec4 texel = vec4 (texture (rasters, vec3 (rx, ry, rasterIndex)));
-    float foundValue = (((texel.x + texel.y + texel.z) / 3) * 2) - 1;
-    return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
+    vec2 r = vec2 ((rg.x - a.x) / (b.x - a.x), (rg.y - a.y) / (b.y - a.y));
+    uvec2 i = uvec2 (r * resolution);
+    uint index = (rasterIndex * resolution.x * resolution.y) + int (i.y * resolution.x) + i.x;
+    return rasters [index];
+    //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
 // Find the x and y coordinates for a geolocation in a raster of height and width given by size and

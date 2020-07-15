@@ -13,36 +13,26 @@ namespace calenhad {
         class QAngleControl;
     }
     namespace module {
-        class RasterModule : public Module {
+        class Convolution : public Module {
         public:
-            explicit RasterModule (const QString& type = CalenhadServices::preferences ()->calenhad_module_raster);
-            ~RasterModule() override;
+            explicit Convolution (const QString& type = CalenhadServices::preferences() -> calenhad_module_raster);
+            ~Convolution() override;
 
             virtual QImage* raster() = 0;
 
             bool isComplete() override;
-            grid::Bounds bounds();
             QString glsl() override;
 
         protected:
 
             QImage* _raster;
-
-
-            QGridLayout* _boundsLayout;
-            QWidget* _rasterContent, * _boundsContent;
-            grid::Bounds _bounds;
-            calenhad::controls::QAngleControl* _northBoundsText, * _southBoundsText, * _eastBoundsText, * _westBoundsText;
+            QWidget* _rasterContent;
 
         protected slots:
 
             void serialize (QDomElement& element) override;
             void inflate (const QDomElement& element) override;
-            void updateBounds();
 
-            void setBounds (grid::Bounds bounds);
-
-            bool isBoundsValid ();
         };
     }
 }
