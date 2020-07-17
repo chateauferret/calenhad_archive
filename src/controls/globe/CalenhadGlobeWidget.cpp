@@ -211,7 +211,8 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
 void CalenhadGlobeWidget::moduleSelected (const QString& name) {
     Module* m = ((CalenhadGlobeDialog*) parent()) -> model() -> findModule (name);
     if (m) {
-        _globe -> setSource(m);
+        _globe -> setSource (m);
+        _overview -> setSource (m);
     }
 }
 
@@ -340,6 +341,8 @@ void CalenhadGlobeWidget::updateConfig() {
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
     _globe -> setProjection (_configDialog -> selectedProjection() -> name ());
+    _overview -> setProjection (_configDialog -> selectedProjection() -> name ());
+
     if (_configDialog) {
         _configDialog->update ();
     }

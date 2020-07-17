@@ -121,7 +121,7 @@ float lookup (vec2 g) {
 vec2 mapPos (vec2 pos, bool inset) {
     vec2 j = vec2 ((pos.x - imageHeight) / (imageHeight * 2), (pos.y / 2 - (imageHeight / 4)) / imageHeight);
     j *= M_PI * 2;
-    j *= datum.z;
+    j *= inset ? 1.0 : datum.z;
     return j;
 }
 
@@ -342,9 +342,9 @@ void main() {
         imageStore (destTex, pos, color);
     }
 
-    if (mode == MODE_OVERVIEW || mode == MODE_PREVIEW) {
-        vec2 i = mapPos (pos, mode == MODE_OVERVIEW);
-        vec3 g = vec3 (i.xy, 1.0); //nverse (i);
+    if (mode == MODE_OVERVIEW) {
+        vec2 i = mapPos (pos, true);
+        vec3 g = vec3 (i.xy, 1.0);
         vec4 color = defaultColor;
         if (inBounds (g.xy)) {
             float dlon = (g.x + M_PI) / (M_PI * 2);
@@ -356,13 +356,11 @@ void main() {
             float v = lookup (geolocation);
             color = findColor (v);
 
-            if (mode == MODE_OVERVIEW) {
-                vec3 f = forward (i);// get the geolocation of this texel in the inset map
-                ivec2 s = scrPos (f.xy);// find the corresponding texel in the main map
-                if (f.z > 1.0 || f.z < 0.0 ||// if the texel is out of the projection's  bounds or ...
-                s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) { // if the texel is not on the main map ...
-                    color = toGreyscale (findColor (v));// ... grey out the corresponding texel in the inset map.
-                }
+            vec3 f = forward (i);// get the geolocation of this texel in the inset map
+            ivec2 s = scrPos (f.xy);// find the corresponding texel in the main map
+            if (f.z > 1.0 || f.z < 0.0 ||// if the texel is out of the projection's  bounds or ...
+            s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) { // if the texel is not on the main map ...
+            color = toGreyscale (findColor (v));// ... grey out the corresponding texel in the inset map.
             }
         }
         imageStore (destTex, pos, color);

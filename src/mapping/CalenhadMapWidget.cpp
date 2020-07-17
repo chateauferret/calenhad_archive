@@ -122,20 +122,20 @@ CalenhadMapWidget::~CalenhadMapWidget() {
 
 void CalenhadMapWidget::paintGL() {
     if (_legend && _source) {
-        QPainter p(this);
+        QPainter p (this);
         p.beginNativePainting();
         compute();
         static GLint srcLoc = glGetUniformLocation(_renderProgram->programId(), "srcTex");
         glUniform1i(srcLoc, 0);
 
-        _renderProgram->bind();
-        _globeTexture->bind();
-        glBindImageTexture(0, _globeTexture->textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+        _renderProgram -> bind();
+        _globeTexture -> bind();
+        glBindImageTexture (0, _globeTexture->textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 
-        glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
+        glDrawElements (GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
         _vao.release();
 
-        glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+        glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
         p.endNativePainting();
 
@@ -191,8 +191,10 @@ void CalenhadMapWidget::createTexture () {
 }
 
 void CalenhadMapWidget::setScale (const double& scale) {
-    _scale = scale;
-    redraw();
+    if (_mode == RenderModeGlobe) {
+        _scale = scale;
+        redraw();
+    }
 }
 
 double CalenhadMapWidget::scale () {
@@ -204,8 +206,10 @@ void CalenhadMapWidget::redraw() {
 }
 
 void CalenhadMapWidget::setProjection (const QString& projection) {
-    _projection = CalenhadServices::projections() -> fetch (projection);
-    redraw();
+    if (_mode == RenderModeGlobe) {
+        _projection = CalenhadServices::projections()->fetch(projection);
+        redraw();
+    }
 }
 
 Projection* CalenhadMapWidget::projection() {
@@ -213,8 +217,10 @@ Projection* CalenhadMapWidget::projection() {
 }
 
 void CalenhadMapWidget::rotate (const Geolocation& rotation) {
-    _rotation = rotation;
-    redraw();
+    if (_mode == RenderModeGlobe) {
+        _rotation = rotation;
+        redraw();
+    }
 }
 
 const Geolocation& CalenhadMapWidget::rotation () {
@@ -313,7 +319,6 @@ Statistics CalenhadMapWidget::statistics() {
 }
 
 void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
-    //render();
     QOpenGLWidget::paintEvent (e);
 }
 
@@ -639,10 +644,7 @@ void CalenhadMapWidget::render() {
             _size = c -> size();
            if (_buffer) { free (_buffer); }
            _buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
-
            c -> compute (_source, _buffer);
-           //c -> setBounds (_source);
-
         }
 
         redraw();
