@@ -105,7 +105,7 @@ void ComputeService::compute (Module *module, GLfloat* buffer) {
     }
 
     if (newCode != QString::null) {
-    //if (_forceRender || (newCode != QString::null && code != newCode)) {
+    //if (_forceRender || code != newCode)) {
         _forceRender = false;
         code = newCode;
         QString ct = _codeTemplate;
@@ -123,6 +123,7 @@ void ComputeService::compute (Module *module, GLfloat* buffer) {
                 std::cout << "Compute shader would not compile\n";
             }
         }
+    //}
     } else {
         std::cout << "No render code for compute shader\n";
     }

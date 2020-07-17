@@ -177,7 +177,6 @@ void CalenhadMapWidget::createTexture () {
     _yTiles = 1;
 
     if (!_globeTexture || _globeTexture -> height() != _size || _globeTexture -> width() != 2 * _size) {
-
         delete _globeTexture;
         _globeTexture = new QOpenGLTexture (QOpenGLTexture::Target2D);
         _globeTexture-> create ();
@@ -205,7 +204,7 @@ void CalenhadMapWidget::redraw() {
 }
 
 void CalenhadMapWidget::setProjection (const QString& projection) {
-    _projection = CalenhadServices::projections () -> fetch (projection);
+    _projection = CalenhadServices::projections() -> fetch (projection);
     redraw();
 }
 
@@ -539,6 +538,7 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::compute () {
+    std::cout << "Mode "<< _mode << "\n";
     unsigned long colorMapBytes = CalenhadServices::preferences() -> calenhad_colormap_buffersize * sizeof (float) * 4;
     if (! context()) { std::cout << "No context"; }
 
@@ -600,7 +600,6 @@ void CalenhadMapWidget::compute () {
     static GLint destLoc = glGetUniformLocation (_computeProgram -> programId(), "destTex");
     static GLint cmbsLoc = glGetUniformLocation (_computeProgram -> programId(), "colorMapBufferSize");
     static GLint imageHeightLoc = glGetUniformLocation (_computeProgram -> programId(), "imageHeight");
-    static GLint insetHeightLoc = glGetUniformLocation (_computeProgram -> programId(), "insetHeight");
     static GLint projectionLoc = glGetUniformLocation (_computeProgram -> programId(), "projection");
     static GLint datumLoc = glGetUniformLocation (_computeProgram -> programId(), "datum");
     static GLint sizeLoc = glGetUniformLocation (_computeProgram -> programId(), "size");
@@ -610,7 +609,6 @@ void CalenhadMapWidget::compute () {
     glUniform3f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude(), (GLfloat) _mode == RenderModeOverview ? _mainMap -> scale() : _scale);
     glUniform1i (projectionLoc, _mode == RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id ());
     glUniform1i (imageHeightLoc, _mode == RenderModeOverview ? _mainMap -> textureHeight() : _size);
-    glUniform1i (insetHeightLoc, _size);
     glUniform1i (cmbsLoc, CalenhadServices::preferences() -> calenhad_colormap_buffersize);
     std::cout << "Source size " << _size * 2 << " x " << _size << "\n";
     glUniform2i (sizeLoc, _size * 2, _size);

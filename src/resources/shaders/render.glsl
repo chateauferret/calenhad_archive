@@ -13,7 +13,6 @@ layout (std430, binding = 6) buffer colorMapBuffer { vec4 color_map_in []; };   
 
 uniform int colorMapBufferSize;
 uniform int imageHeight = 512;
-uniform int insetHeight = 64;
 
 // input raster geometry
 uniform ivec2 size = ivec2 (4096, 2048);
@@ -120,10 +119,9 @@ float lookup (vec2 g) {
 
 // Returns the map coordinates for a given GlobalInvocationID (essentially screen coordinates) taking into account the scale.
 vec2 mapPos (vec2 pos, bool inset) {
-    float h = (inset ? insetHeight : imageHeight);
-    vec2 j = vec2 ((pos.x - h) / (h * 2), (pos.y / 2 - (h / 4)) / h);
+    vec2 j = vec2 ((pos.x - imageHeight) / (imageHeight * 2), (pos.y / 2 - (imageHeight / 4)) / imageHeight);
     j *= M_PI * 2;
-    if (! inset) { j *= datum.z; }
+    j *= datum.z;
     return j;
 }
 
@@ -136,8 +134,8 @@ vec2 mapPos (vec2 pos) {
 ivec2 scrPos (vec2 g, bool inset) {
     vec2 j = g / (inset ? 1.0 : datum.z);
     j /= M_PI;
-    j.x = (j.x + 1) * (inset ? insetHeight : imageHeight);
-    j.y = (j.y + 0.5) * (inset ? insetHeight : imageHeight);
+    j.x = (j.x + 1) * imageHeight;
+    j.y = (j.y + 0.5) * imageHeight;
     return ivec2 (j);
 }
 
@@ -339,7 +337,7 @@ void main() {
         int index = y * size.x + x;
         float v = height_map_in [index];
         color = findColor (v);
-        //color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
+        color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
 
         imageStore (destTex, pos, color);
     }

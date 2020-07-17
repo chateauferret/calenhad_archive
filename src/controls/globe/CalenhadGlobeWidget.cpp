@@ -60,7 +60,7 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     _globe -> setProjection ("Orthographic");
 
     _overview -> setSource (source);
-    _overview -> setProjection ("Orthographic");
+    _overview -> setProjection ("Equirectangular");
     _overview -> setMainMap (_globe);
 
     _zoomSlider = new QwtSlider (this);
