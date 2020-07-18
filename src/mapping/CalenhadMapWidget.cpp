@@ -121,16 +121,16 @@ CalenhadMapWidget::~CalenhadMapWidget() {
 
 
 void CalenhadMapWidget::paintGL() {
-    if (_legend && _source) {
+    if (_legend && _source && isEnabled()) {
         QPainter p (this);
         p.beginNativePainting();
         compute();
-        static GLint srcLoc = glGetUniformLocation(_renderProgram->programId(), "srcTex");
+        static GLint srcLoc = glGetUniformLocation(_renderProgram -> programId(), "srcTex");
         glUniform1i(srcLoc, 0);
 
         _renderProgram -> bind();
         _globeTexture -> bind();
-        glBindImageTexture (0, _globeTexture->textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+        glBindImageTexture (0, _globeTexture -> textureId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 
         glDrawElements (GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, 0);
         _vao.release();

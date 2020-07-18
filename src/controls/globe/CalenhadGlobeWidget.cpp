@@ -210,9 +210,14 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
 
 void CalenhadGlobeWidget::moduleSelected (const QString& name) {
     Module* m = ((CalenhadGlobeDialog*) parent()) -> model() -> findModule (name);
-    if (m) {
-        _globe -> setSource (m);
-        _overview -> setSource (m);
+    if (m && m -> isComplete()) {
+            _globe -> setEnabled (true);
+            _overview -> setEnabled (true);
+            _globe -> setSource(m);
+            _overview -> setSource(m);
+    } else {
+        _globe -> setEnabled (false);
+        _overview -> setEnabled (false);
     }
 }
 
@@ -222,10 +227,14 @@ void CalenhadGlobeWidget::updateModules() {
 
         CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
         if (model) {
-            for (Module* m : model->modules()) {
+            for (Module* m : model -> modules()) {
                 QPixmap *pixmap = CalenhadServices::modules()->getIcon(m->nodeType());
-                QIcon icon(*pixmap);
-                _selectModuleCombo -> addItem(icon, m->name());
+                QIcon icon (*pixmap);
+                if (m -> isComplete()) {
+                    _selectModuleCombo -> addItem (icon, m -> name());
+                } else {
+                    _selectModuleCombo -> addItem (m -> name());
+                }
             }
         }
 }
