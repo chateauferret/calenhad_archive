@@ -77,7 +77,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
     format.setProfile(QSurfaceFormat::CoreProfile);
     setFormat(format);
     setContextMenuPolicy(Qt::CustomContextMenu);
-
+    setContentsMargins (5, 5, 5, 5);
     QFile vsFile (":/shaders/map_vs.glsl");
     vsFile.open (QIODevice::ReadOnly);
     QTextStream vsTextStream (&vsFile);
@@ -138,11 +138,19 @@ void CalenhadMapWidget::paintGL() {
 
         glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
-        p.endNativePainting();
-
         // draw the graticule
         if (_graticule && _graticuleVisible) {
             _graticule -> drawGraticule(p);
+        }
+
+        // border for overview
+        if (_mode == RenderModeOverview) {
+            p.endNativePainting();
+            QPen pen;
+            pen.setWidth(1);
+            pen.setColor(Qt::yellow);
+            p.setPen(pen);
+            p.drawRect(0, 0, width(), height());
         }
     }
 }
@@ -202,12 +210,12 @@ double CalenhadMapWidget::scale () {
 }
 
 void CalenhadMapWidget::redraw() {
-    update();
+    ((CalenhadGlobeWidget*) parent()) -> invalidate();
 }
 
 void CalenhadMapWidget::setProjection (const QString& projection) {
     if (_mode == RenderModeGlobe) {
-        _projection = CalenhadServices::projections()->fetch(projection);
+        _projection = CalenhadServices::projections() -> fetch(projection);
         redraw();
     }
 }
@@ -422,7 +430,6 @@ void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
 void CalenhadMapWidget::wheelEvent (QWheelEvent* event) {
     //double dz =  - event -> delta() * _sensitivity / 12000;
     emit event -> delta() > 0 ? zoomInRequested() : zoomOutRequested();
-    update();
 }
 
 void CalenhadMapWidget::mouseReleaseEvent (QMouseEvent* e) {
@@ -452,7 +459,7 @@ void CalenhadMapWidget::navigate (const NavigationEvent& e) {
     // move the viewport centre in the chosen direction by the distance multiplied by the current scale
     double lat, lon;
     double distance = e.distance() * scale();
-    _geodesic -> Direct (rotation().latitude (Units::Degrees), rotation().longitude (Units::Degrees), e.azimuth(), distance, lat, lon);
+    _geodesic -> Direct (_rotation.latitude (Units::Degrees), _rotation.longitude (Units::Degrees), e.azimuth(), distance, lat, lon);
     goTo (Geolocation (lat, lon, Units::Degrees));
 }
 
@@ -611,9 +618,15 @@ void CalenhadMapWidget::compute () {
     //static GLint vertexCountLoc = glGetUniformLocation (_computeProgram -> programId(), "vertexCount");
     static GLint renderModeLoc = glGetUniformLocation (_computeProgram -> programId(), "mode");
     glUniform1i (destLoc, 0);
-    glUniform3f (datumLoc, (GLfloat) _rotation.longitude(), (GLfloat) _rotation.latitude(), (GLfloat) _mode == RenderModeOverview ? _mainMap -> scale() : _scale);
+
+    // for the overview, we set the map geometry to be that of the main map so that the shader can highlight its extent
+    // (its own geometry is fixed as world equirectangular)
+    GLfloat lat = (GLfloat) (_mode == RenderModeOverview ? _mainMap -> _rotation.latitude() : _rotation.latitude());
+    GLfloat lon = (GLfloat) (_mode == RenderModeOverview ? _mainMap -> _rotation.longitude() : _rotation.longitude());
+    glUniform3f (datumLoc, lon, lat, (GLfloat) _mode == RenderModeOverview ? _mainMap -> scale() : _scale);
     glUniform1i (projectionLoc, _mode == RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id ());
     glUniform1i (imageHeightLoc, _mode == RenderModeOverview ? _mainMap -> textureHeight() : _size);
+
     glUniform1i (cmbsLoc, CalenhadServices::preferences() -> calenhad_colormap_buffersize);
     std::cout << "Source size " << _size * 2 << " x " << _size << "\n";
     glUniform2i (sizeLoc, _size * 2, _size);

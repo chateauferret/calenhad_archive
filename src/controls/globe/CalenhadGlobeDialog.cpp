@@ -82,7 +82,6 @@ void CalenhadGlobeDialog::showEvent (QShowEvent* e) {
 }
 
 void CalenhadGlobeDialog::selectModule (Module* module) {
-
     if (module) {
         setModel (module -> model());
         _widget -> setModule (module);

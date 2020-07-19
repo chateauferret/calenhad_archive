@@ -58,7 +58,6 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     connect (_globe, &QWidget::customContextMenuRequested, this, &CalenhadGlobeWidget::showContextMenu);
     _globe -> setSource (source);
     _globe -> setProjection ("Orthographic");
-
     _overview -> setSource (source);
     _overview -> setProjection ("Equirectangular");
     _overview -> setMainMap (_globe);
