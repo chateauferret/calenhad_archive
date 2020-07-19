@@ -104,6 +104,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
 }
 
 CalenhadMapWidget::~CalenhadMapWidget() {
+    makeCurrent();
     delete _vertexBuffer;
     delete _computeShader;
     delete _vertexShader;
@@ -185,7 +186,6 @@ void CalenhadMapWidget::createTexture () {
         _globeTexture -> setMinificationFilter (QOpenGLTexture::Linear);
         _globeTexture -> setMagnificationFilter (QOpenGLTexture::Linear);
         _globeTexture -> allocateStorage ();
-        _globeTexture -> bind ();
         glBindImageTexture (7, _globeTexture -> textureId (), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
     }
 }
@@ -305,7 +305,7 @@ Statistics CalenhadMapWidget::statistics() {
     int count = 0;
     GLfloat* buffer = heightMapBuffer();
     if (buffer) {
-        for (int i = 0; i < _globeTexture->height () * _globeTexture->width (); i++) {
+        for (int i = 0; i < _globeTexture -> height () * _globeTexture -> width (); i++) {
             if (!isnan (buffer[i])) {
                 if (buffer[i] < _min) { _min = buffer[i]; }
                 if (buffer[i] > _max) { _max = buffer[i]; }

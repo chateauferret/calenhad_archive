@@ -356,11 +356,11 @@ void main() {
             float v = lookup (geolocation);
             color = findColor (v);
 
-            vec3 f = forward (i);// get the geolocation of this texel in the inset map
-            ivec2 s = scrPos (f.xy);// find the corresponding texel in the main map
-            if (f.z > 1.0 || f.z < 0.0 ||// if the texel is out of the projection's  bounds or ...
-            s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) { // if the texel is not on the main map ...
-            color = toGreyscale (findColor (v));// ... grey out the corresponding texel in the inset map.
+            vec3 f = forward (i);                                                   // get the geolocation of this texel in the inset map
+            ivec2 s = scrPos (f.xy);                                                // find the corresponding texel in the main map
+            if (f.z > 1.0 || f.z < 0.0 ||                                           // if the texel is out of the projection's  bounds or ...
+            s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) {    // if the texel is not on the main map ...
+                color = toGreyscale (findColor (v));                                // ... grey out the corresponding texel in the inset map.
             }
         }
         imageStore (destTex, pos, color);
