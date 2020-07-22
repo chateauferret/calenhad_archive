@@ -67,6 +67,22 @@ int main (int argc, char **argv) {
     preferences -> loadSettings();
     CalenhadServices::providePreferences (preferences);
 
+    // Make stylesheet available to the application
+    QString fileName = preferences -> calenhad_stylesheet;
+    QFile file (fileName);
+    bool f = file.open (QFile::ReadOnly);
+    QString styleSheet = "bollocks";
+    if (f) {
+        styleSheet = QLatin1String (file.readAll());
+    } else {
+        QFile defaultFile (":/darkorange.css");
+        fileName = defaultFile.fileName();
+        f = defaultFile.open (QFile::ReadOnly);
+        styleSheet = QLatin1String (defaultFile.readAll());
+    };
+
+    app.setStyleSheet (styleSheet);
+
     // Legends service
     LegendRoster* roster = new LegendRoster();
     CalenhadServices::provideLegends (roster);
@@ -90,7 +106,7 @@ int main (int argc, char **argv) {
 
     // Calenhad model - the arrangement of modules and connections between them
     Calenhad window;
-    window.setStyleSheet (Preferences::styleSheet());
+    CalenhadServices::provideMainWindow (&window);
     window.showSplash();
     window.show();
 

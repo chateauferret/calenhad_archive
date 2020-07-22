@@ -10,6 +10,7 @@
 #include <QMenu>
 #include <nodeedit/NodeNameValidator.h>
 #include <QtWidgets/QComboBox>
+#include <utility>
 #include "NodeGroup.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
@@ -28,16 +29,34 @@ using namespace calenhad::expressions;
 using namespace calenhad::actions;
 using namespace calenhad::notification;
 
-Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
-    _model (nullptr),
-    _dialog (nullptr),
-    _block (nullptr),
-    _content (nullptr),
-    _contentLayout (nullptr),
-    _palette (nullptr),
-    _validator (nullptr),
-    _group (nullptr),
-    _nodeType (nodeType) {
+Node::Node (QString  nodeType, QWidget* parent) : QWidget (parent),
+                                                  _model (nullptr),
+                                                  _propertiesWidget (nullptr),
+                                                  _block (nullptr),
+                                                  _content (nullptr),
+                                                  _contentLayout (nullptr),
+                                                  _palette (nullptr),
+                                                  _validator (nullptr),
+                                                  _group (nullptr),
+                                                  _propertiesDock (nullptr),
+                                                  _nodeType (std::move(nodeType)) {
+
+
+    _nameEdit = new QLineEdit (this);
+    _palette = new QPalette();
+    _nameEdit -> setPalette (*_palette);
+    _validator = new NodeNameValidator (this);
+    connect (_validator, &NodeNameValidator::message, this, [=] (const QString& message) {
+        _nameEdit -> setToolTip (message);
+        _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_error);
+        _nameEdit -> setPalette (*_palette);
+    });
+    connect (_validator, &NodeNameValidator::success, this, [=] () {
+        _nameEdit -> setToolTip (QString::null);
+        _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+        _nameEdit -> setPalette (*_palette);
+    });
+    _nameEdit -> setValidator (_validator);
 
     _expander = new QToolBox();
     QWidget* about = new QWidget (_expander);
@@ -46,50 +65,10 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     layout -> setMargin (5);
     about -> setLayout (layout);
 
-    _nameEdit = new QLineEdit();
-    _palette = new QPalette();
-    _nameEdit -> setPalette (*_palette);
-    _validator = new NodeNameValidator (this);
-    connect (_validator, &NodeNameValidator::message, this, [=] (const QString& message) {
-        _nameEdit -> setToolTip (message);
-        _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_error);
-        _nameEdit->setPalette (*_palette);
-    });
-    connect (_validator, &NodeNameValidator::success, this, [=] () {
-        _nameEdit -> setToolTip (QString::null);
-        _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_normal);
-        _nameEdit->setPalette (*_palette);
-    });
-    _nameEdit -> setValidator (_validator);
-    layout -> addWidget (_nameEdit);
-
     connect (_nameEdit, &QLineEdit::editingFinished, this, [=] () {
         propertyChangeRequested ("name", _nameEdit -> text());
     });
     connect (this, &Node::nameChanged, this, [=] () { _nameEdit -> setText (_name); invalidate(); });
-
-    _groupEdit = new QComboBox();
-    _groupEdit -> setEditable (true);
-    layout -> addWidget (_groupEdit);
-
-    connect(_groupEdit, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [=] (int index) {
-        QString name = _groupEdit -> itemText (index);
-        if (name.isNull() || name.isEmpty()) {
-            setGroup (nullptr);
-        } else {
-            setGroup (_model -> findGroup (name));
-        }
-    });
-
-    connect (_groupEdit -> lineEdit(), &QLineEdit::editingFinished, this, [=] () {
-        QString name = _groupEdit -> currentText ();
-        if (name.isNull() || name.isEmpty()) {
-            setGroup (nullptr);
-        } else {
-            setGroup (_model -> findGroup (_groupEdit -> currentText()));
-        }
-    });
-
 
     _notesEdit = new QTextEdit (about);
     _notesEdit -> setFixedHeight (100);
@@ -109,11 +88,21 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
     QLayout* l = new QVBoxLayout();
     l -> setSpacing (0);
     l -> setMargin (5);
-    _dialog = new QDialog (this);
-    _dialog -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint | Qt::WindowMinimizeButtonHint);
-    _dialog -> setLayout (new QVBoxLayout());
-    _dialog -> layout() -> addWidget (_expander);
-    _dialog -> resize (300, 200);
+    _propertiesWidget = new QWidget();
+    _propertiesDock = new QDockWidget();
+    _propertiesDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
+    _propertiesDock -> setWidget (_propertiesWidget);
+    _propertiesDock -> layout() -> setAlignment (Qt::AlignLeft);
+    _propertiesWidget -> setFixedWidth (240);
+    //_propertiesWidget -> setWindowFlags (Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint | Qt::WindowMinimizeButtonHint);
+    _propertiesWidget -> setLayout (new QVBoxLayout());
+    _topPanel = new QWidget (_propertiesWidget);
+    QHBoxLayout* topPanelLayout = new QHBoxLayout();
+    _topPanel -> setLayout (topPanelLayout);
+    topPanelLayout -> addWidget (_nameEdit);
+    _propertiesWidget -> layout() -> addWidget (_topPanel);
+    _propertiesWidget -> layout() -> addWidget (_expander);
+    _propertiesWidget -> resize (300, 200);
     // when we change panels, move the focus to the newly-shown panel - this removes the focus from the parameter controls and causes their
     // values to be updated to the underlying noise owner data
     connect (_expander, &QToolBox::currentChanged, this, [=] () {
@@ -122,6 +111,7 @@ Node::Node (const QString& nodeType, QWidget* parent) : QWidget (parent),
             w -> setFocus();
         }
     });
+
 }
 
 Node::~Node () {
@@ -142,8 +132,8 @@ void Node::setName (const QString& name) {
         _name = _name.replace (" ", "_");
         _nameEdit -> setText (_name);
         update();
-        if (_dialog) {
-            _dialog -> setWindowTitle (_name + " (" + nodeType () + ")");
+        if (_propertiesWidget) {
+            _propertiesWidget -> setWindowTitle (_name + " (" + nodeType () + ")");
         }
         emit (nameChanged (name));
     }
@@ -197,29 +187,22 @@ void Node::invalidate() {
 void Node::setModel (CalenhadModel* model) {
     _model = model;
     //setParent (model -> views () [0]);
-    connect (_model, &CalenhadModel::groupsUpdated, this, [=] () {
-        _groupEdit -> clear();
-        for (NodeGroup* group : _model -> nodeGroups()) {
-            _groupEdit -> addItem (group -> name());
-        }
-    });
-    if (_group) {
-        _groupEdit -> setCurrentText (_group -> name());
-    }
+
 }
 
 void Node::showModuleDetail (const bool& visible) {
     if (visible) {
-        _dialog -> setWindowTitle (name () + " (" + nodeType () + ")");
-        _dialog -> setAttribute (Qt::WA_DeleteOnClose, false);
-        _dialog -> show();
+        _propertiesDock -> setWindowTitle (name () + " (" + nodeType () + ")");
+        _propertiesDock -> setAttribute (Qt::WA_DeleteOnClose, false);
+        //CalenhadServices::mainWindow() -> addDockWidget (Qt::LeftDockWidgetArea, _propertiesDock);
+        _propertiesDock -> show();
     } else {
-        _dialog -> hide();
+        _propertiesWidget -> hide();
     }
 }
 
 bool Node::isModuleDetailVisible() {
-    return _dialog -> isVisible();
+    return _propertiesWidget -> isVisible();
 }
 
 void Node::inflate (const QDomElement& element) {

@@ -10,7 +10,6 @@
 
 using namespace calenhad::preferences;
 
-QString Preferences::_styleSheet;
 
 Preferences::Preferences() {
     _settings = new QSettings();
@@ -21,13 +20,6 @@ Preferences::~Preferences () {
     delete _settings;
 }
 
-void Preferences::setStylesheet (QString styleSheet) {
-    _styleSheet = std::move (styleSheet);
-}
-
-QString Preferences::styleSheet() {
-    return _styleSheet;
-}
 
 void Preferences::loadSettings() {
     bool ok;
@@ -167,7 +159,7 @@ void Preferences::loadSettings() {
     calenhad_node_name_minLength = _settings -> value ("calenhad/node/name_minlength", 3).toUInt();
     calenhad_node_name_maxLength = _settings -> value ("calenhad/node/name/maxlength", 50).toUInt();
     calenhad_node_name_validChars = _settings -> value ("calenhad/node/name/validchars", "[A-Za-z_][A-Za-z_0-9]*").toString();
-    
+
     // Notifications
     calenhad_notifications_width = _settings -> value ("calenhad/preferences/width", 300).toUInt();
     calenhad_notifications_margin = _settings -> value ("calenhad/preferences/margin", 5).toUInt();
@@ -180,16 +172,6 @@ void Preferences::loadSettings() {
     calenhad_module_raster = _settings -> value ("calenhad/module/raster", "raster").toString();
     calenhad_module_raster_file = _settings -> value ("calenhad/module/rasterfile", "rasterfile").toString();
     calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "nodegroup").toString();
-
-
-    // Make stylesheet available to the application
-    QString fileName =  calenhad_stylesheet;
-    QFile file (fileName);
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String (file.readAll());
-    std::cout << "Stylesheet: " << file.fileName().toStdString() << "\n";
-    setStylesheet (styleSheet);
-    _styleSheet = styleSheet;
 
 }
 

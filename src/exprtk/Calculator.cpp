@@ -169,6 +169,7 @@ bool Calculator::hasErrors() {
 
 double Calculator::compute (const QString& expression) {
     _errors.clear ();
+    if (expression.isNull()) { return 0.0; }
     if (! _cache.contains (expression)) {
 
         parser<double> p;

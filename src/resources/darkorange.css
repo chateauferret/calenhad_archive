@@ -1,5 +1,5 @@
 QGraphicsView {
-    background-color: #323232;
+    background-color: #000020;
     border: none;
 }
 
@@ -10,12 +10,11 @@ calenhad--nodeedit--CalenhadView:disabled {
 
 calenhad--nodeedit--CalenhadView {
     color: #323232;
-    background-color: #ff7f7f;
+    background-color: #000020;
 }
 
-QPushButton
-{
-    background-color: #7f7f7f;
+QPushButton {
+    background-color: #808080;
 }
 
 QPushButton:hover{
@@ -23,7 +22,7 @@ QPushButton:hover{
 }
 
 QPushButton:pressed{
-    background-color:#7f7fff;
+    background-color: #7f7fff;
 }
 
 QToolTip {
@@ -96,9 +95,18 @@ QToolBox {
 }
 
 QToolBar {
-    background: lightyellow;
+    background: silver;
 }
-
+ 
 QDockWidget {
     background: silver;
+}
+
+QComboBox {
+    background-color: silver;
+}
+
+QComboBpx QAbsrtractItemView {
+    border: 2px solid darkgray;
+    background-color: darkblue;
 }

@@ -68,8 +68,8 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     _zoomSlider -> setScalePosition (QwtSlider::NoScale);
     _zoomSlider -> setLowerBound (CalenhadServices::preferences() -> calenhad_globe_zoom_min);
     _zoomSlider -> setUpperBound (CalenhadServices::preferences() -> calenhad_globe_zoom_max);
-    _zoomSlider -> move (width() - 20, height() - 20);
-    _zoomSlider -> setFixedSize (40, 150);
+    _zoomSlider -> move (20, 60);
+    _zoomSlider -> setFixedSize (40, 250);
     //_zoomSlider -> setScaleEngine (new QwtLogScaleEngine());
     connect (_globe, &CalenhadMapWidget::zoomRequested, _zoomSlider, &QwtSlider::setValue);
     connect (_globe, &CalenhadMapWidget::zoomInRequested, this, [=] () { _zoomSlider -> setValue (_zoomSlider -> value() * _globe -> sensitivity()); });
@@ -80,7 +80,6 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     // navigator - our navigator replaces both the navigation buttons and the compass rose
     _navigator = new CalenhadNavigator (this);
     _navigator -> move (width() - 20, 20);
-    _zoomSlider -> setFixedSize (100, 100);
     connect (_navigator, &CalenhadNavigator::navigationRequested, _globe, &CalenhadMapWidget::navigate);
     connect (this, SIGNAL (customContextMenuRequested (const QPoint&)), this, SLOT (showContextMenu (const QPoint&)));
     _positionLabel = new QLabel (this);
@@ -244,7 +243,6 @@ CalenhadToolBar* CalenhadGlobeWidget::makeToolBar (const QString& name) {
     toolbar -> setAcceptDrops (false);
     toolbar -> setParent (this);
     toolbar -> setAttribute (Qt::WA_StyledBackground);
-    toolbar -> setStyleSheet("background-color:lightyellow;");
     return toolbar;
 }
 
@@ -272,11 +270,7 @@ void CalenhadGlobeWidget::resizeEvent (QResizeEvent* e) {
         } else {
             _globe -> setFixedSize (height * 2, height);
         }
-        // update positions and sizes of the control widgets
-        if (_zoomSlider) {
-            _zoomSlider->move (std::max (20, width - 20 - _zoomSlider->width ()), std::max (20, height - 20 - _zoomSlider->height ()));
-            _zoomSlider->setFixedSize (40, std::max (150, height - 200));
-        }
+        // update positions and sizes of the control widgets that are right- or bottom-aligned
         if (_navigator) {
             _navigator->setFixedSize (100, 100);
             _navigator->move (std::max (20, width - 20 - _navigator->height ()), 20);

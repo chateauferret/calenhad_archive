@@ -48,12 +48,13 @@ CalenhadGlobeDialog::CalenhadGlobeDialog (QWidget *parent) : QMainWindow (parent
     _widgetDock -> layout() -> setAlignment (Qt::AlignLeft);
     connect (_widgetDock, &QDockWidget::dockLocationChanged, mapWidgetsToolbar, &CalenhadToolBar::arrange);
     connect (_widgetDock, &QDockWidget::topLevelChanged, mapWidgetsToolbar, &CalenhadToolBar::detached);
-
+    resize (800, 600);
     addDockWidget (Qt::TopDockWidgetArea, _mainDock);
     addDockWidget (Qt::TopDockWidgetArea, _mouseDock);
     addDockWidget (Qt::TopDockWidgetArea, _widgetDock);
     //_widget -> setSizePolicy ()
     setCentralWidget (_widget);
+
 
 }
 

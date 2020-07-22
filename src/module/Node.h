@@ -21,6 +21,7 @@
 #include "src/Serializable.h"
 #include "ParamValidator.h"
 #include <limits>
+#include <QtWidgets/QDockWidget>
 
 namespace calenhad {
     namespace pipeline {
@@ -47,7 +48,7 @@ namespace calenhad {
 
 
         public:
-            explicit Node (const QString& nodeType, QWidget* parent = 0);
+            explicit Node (QString  nodeType, QWidget* parent = 0);
 
 
             enum {
@@ -125,14 +126,13 @@ namespace calenhad {
         protected:
 
             NodeGroup* _group;
-            QDialog* _dialog;
+            QWidget *_propertiesWidget;
             calenhad::nodeedit::NodeBlock* _block;
             QString _name;
             QString _notes;
             QLineEdit* _nameEdit;
             QTextEdit* _notesEdit;
             QToolBox* _expander;
-            QComboBox* _groupEdit;
             //QVector<Node*> _dependants;
             QWidget* _content;
             calenhad::pipeline::CalenhadModel* _model;
@@ -157,6 +157,9 @@ namespace calenhad {
 
             // bool _nameVisible;
             virtual void updateCache();
+
+            QWidget* _topPanel;
+            QDockWidget *_propertiesDock;
         };
 
     } // namespace module

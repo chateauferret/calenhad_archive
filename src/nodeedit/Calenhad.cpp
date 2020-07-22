@@ -289,6 +289,6 @@ void Calenhad::showGlobe (Module* module) {
 }
 
 void Calenhad::provideGlobe (Module* module) {
-    _globe = new CalenhadGlobeDialog(this);
+    _globe = new CalenhadGlobeDialog (this);
     CalenhadServices::provideGlobe (_globe);
 }

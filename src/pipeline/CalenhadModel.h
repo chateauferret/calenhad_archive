@@ -51,9 +51,6 @@ namespace calenhad {
 
             module::Module* findModule (const QString& name);
 
-            calenhad::module::NodeGroup* findGroup (const QString& name);
-
-
 
             calenhad::module::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null, calenhad::module::NodeGroup* group = 0);
 
@@ -86,7 +83,6 @@ namespace calenhad {
             void inflate (const QDomElement& element, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile, calenhad::module::NodeGroup* group = nullptr);
             void inflate (const QDomDocument& doc, const calenhad::nodeedit::CalenhadFileType& fileType = calenhad::nodeedit::CalenhadFileType::CalenhadModelFile);
             bool isChanged();
-            calenhad::module::NodeGroup* createGroup (const QString& name);
             QString snapshot ();
             QString lastSnapshot ();
             void setChanged (const bool& changed = true);
@@ -135,7 +131,6 @@ namespace calenhad {
             void modelChanged();
             void showMessage (QString);
             void titleChanged (QString);
-            void groupsUpdated();
 
         protected:
 

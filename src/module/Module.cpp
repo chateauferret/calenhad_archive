@@ -39,6 +39,12 @@ Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, pare
     // all modules have an output
     Port* output = new Port (Port::OutputPort, 0, "Output", QString::null);
     addPort (output);
+    QPushButton* globeButton = new QPushButton();
+    QIcon globeIcon (":/appicons/controls/globe.png");
+    globeButton -> setIcon (globeIcon);
+    connect (globeButton, &QPushButton::pressed, this, [=] () { CalenhadServices::globe (this) -> show(); });
+    _topPanel -> layout() -> addWidget (globeButton);
+
 }
 
 

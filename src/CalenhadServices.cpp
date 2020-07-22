@@ -30,6 +30,7 @@ using namespace calenhad::mapping::projection;
 using namespace calenhad::grid;
 using namespace calenhad::graph;
 using namespace calenhad::module;
+using namespace calenhad::nodeedit;
 
 
 
@@ -44,6 +45,7 @@ Icosphere* CalenhadServices::_icosphere = nullptr;
 CubicSphere* CalenhadServices::_cubicSphere = nullptr;
 ComputeService* CalenhadServices::_computeService = nullptr;
 CalenhadGlobeDialog* CalenhadServices::_globeDialog = nullptr;
+calenhad::nodeedit::Calenhad* CalenhadServices::_mainWindow = nullptr;
 
 
 PreferencesService* CalenhadServices::preferences () {
@@ -199,4 +201,12 @@ CalenhadGlobeDialog* CalenhadServices::globe (Module* module) {
         }
     }
     return _globeDialog;
+}
+
+Calenhad* CalenhadServices::mainWindow() {
+    return _mainWindow;
+}
+
+void CalenhadServices::provideMainWindow (Calenhad* mainWindow) {
+    _mainWindow = mainWindow;
 }

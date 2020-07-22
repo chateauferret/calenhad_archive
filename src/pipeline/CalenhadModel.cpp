@@ -83,7 +83,7 @@ CalenhadModel::~CalenhadModel() {
         delete n;
     }
 
-    if (_menu) { delete _menu; }
+    delete _menu;
 }
 
 // determine whether connection from given input to given output is allowed
@@ -561,16 +561,6 @@ QList<Connection*> CalenhadModel::connections() {
 }
 
 
-NodeGroup* CalenhadModel::findGroup (const QString& name) {
-    for (NodeGroup* qm : nodeGroups()) {
-        if ((! qm -> name().isNull()) && (qm -> name() == name)) {
-            return qm;
-        }
-    }
-    NodeGroup* g = createGroup (uniqueName (name));
-    return g;
-}
-
 Module* CalenhadModel::findModule (const QString& name) {
     for (Node* qm : nodes()) {
         if ((! qm -> name().isNull()) && (qm -> name() == name)) {
@@ -848,11 +838,6 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
             QString name = nameNode.text ();
             QString newName = uniqueName (name);
 
-            if (type == "nodegroup") {
-                NodeGroup* ng = findGroup (newName);
-                QDomElement nodesElement = n.firstChildElement ("nodes");
-                inflate (nodesElement, fileType, ng);
-            }
             if (type == "module") {
                 QString moduleType = n.toElement().attribute ("type");
                 Node* qm = addModule (pos, moduleType, newName, group);
@@ -1066,14 +1051,6 @@ QString CalenhadModel::selectionToXml() {
 
     return doc.toString ();
 
-}
-
-NodeGroup* CalenhadModel::createGroup (const QString& name) {
-    NodeGroup* group = new NodeGroup (this);
-    group -> setName (name);
-    _groups.insert (group);
-    emit groupsUpdated();
-    return group;
 }
 
 void CalenhadModel::goTo (Module* module) {

@@ -87,6 +87,8 @@ namespace calenhad {
         static void provideGlobe (calenhad::controls::globe::CalenhadGlobeDialog* globe);
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::module::Module* module = nullptr);
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::pipeline::CalenhadModel* model = nullptr);
+        static calenhad::nodeedit::Calenhad* mainWindow();
+        static void provideMainWindow (calenhad::nodeedit::Calenhad* mainWindow);
 
     private:
         static calenhad::preferences::PreferencesService* _preferences;
@@ -100,6 +102,7 @@ namespace calenhad {
         static calenhad::grid::CubicSphere* _cubicSphere;
         static calenhad::graph::ComputeService* _computeService;
         static calenhad::controls::globe::CalenhadGlobeDialog* _globeDialog;
+        static calenhad::nodeedit::Calenhad* _mainWindow;
     };
 }
 
