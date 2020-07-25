@@ -89,6 +89,7 @@ Node::Node (QString  nodeType, QWidget* parent) : QWidget (parent),
     l -> setSpacing (0);
     l -> setMargin (5);
     _propertiesWidget = new QWidget();
+    _propertiesWidget -> setFixedSize (400, 300);
     _propertiesDock = new QDockWidget();
     _propertiesDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     _propertiesDock -> setWidget (_propertiesWidget);
@@ -128,7 +129,7 @@ QString Node::name() {
 // responsibility to call this first (since we don't know if the caller wants messages).
 void Node::setName (const QString& name) {
     if (! (name.isNull()) && (name != _name)) {
-        _name = name;
+        _name = _model -> uniqueName (name);
         _name = _name.replace (" ", "_");
         _nameEdit -> setText (_name);
         update();
@@ -194,7 +195,7 @@ void Node::showModuleDetail (const bool& visible) {
     if (visible) {
         _propertiesDock -> setWindowTitle (name () + " (" + nodeType () + ")");
         _propertiesDock -> setAttribute (Qt::WA_DeleteOnClose, false);
-        //CalenhadServices::mainWindow() -> addDockWidget (Qt::LeftDockWidgetArea, _propertiesDock);
+        CalenhadServices::mainWindow() -> addDockWidget (Qt::LeftDockWidgetArea, _propertiesDock);
         _propertiesDock -> show();
     } else {
         _propertiesWidget -> hide();
