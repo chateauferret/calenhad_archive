@@ -204,6 +204,10 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
     updateModules();
     _mapWidgetsToolbar -> addWidget (_selectModuleCombo);
+     _exportImagesAction = new QAction ("Export images");
+     _exportImagesAction -> setIcon (QIcon (":/appicons/controls/save_as.png"));
+     connect (_exportImagesAction, &QAction::triggered, _globe, &CalenhadMapWidget::exportImages);
+    _mapWidgetsToolbar -> addAction (_exportImagesAction);
 }
 
 void CalenhadGlobeWidget::moduleSelected (const QString& name) {

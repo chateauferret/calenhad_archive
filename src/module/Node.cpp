@@ -124,9 +124,6 @@ Node::~Node () {
 QString Node::name() {
     return _name;
 }
-
-// setName assumes the name has been validated using CalenhadModel::validateName - it is the caller's
-// responsibility to call this first (since we don't know if the caller wants messages).
 void Node::setName (const QString& name) {
     if (! (name.isNull()) && (name != _name)) {
         _name = _model -> uniqueName (name);

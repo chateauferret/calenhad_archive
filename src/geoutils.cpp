@@ -9,7 +9,7 @@
 #include <sstream>
 #include <GeographicLib/Geodesic.hpp>
 
-namespace geoutils {
+using namespace geoutils;
 
     Geolocation::Geolocation () : Geolocation (0.0, 0.0, Units::Radians) {}
 
@@ -83,12 +83,12 @@ namespace geoutils {
 
     Cartesian::Cartesian () : Cartesian (0.0, 0.0, 1.0) {}
 
-    Cartesian::Cartesian (const double& newx, const double& newy, const double& newz) : x (newx), y (newy), z (newz) { Math::normalise (*this); }
+    Cartesian::Cartesian (const double& newx, const double& newy, const double& newz) : x (newx), y (newy), z (newz) { Geoutils::normalise (*this); }
 
     Cartesian::Cartesian (const Cartesian& other) : Cartesian (other.x, other.y, other.z) {}
 
     bool Cartesian::operator== (const Cartesian& other) const {
-        return x == other.x && y == other.y && z == other.z;
+        return (x == other.x) && (y == other.y) && (z == other.z);
     }
 
     Cartesian Cartesian::operator+ (const Cartesian& other) {
@@ -96,17 +96,17 @@ namespace geoutils {
         c.x = x + other.x;
         c.y = y + other.y;
         c.z = z + other.z;
-        Math::normalise (c);
+        Geoutils::normalise (c);
         return c;
     }
 
     Cartesian Cartesian::operator- (const Cartesian& other) {
         Cartesian c = Cartesian (x - other.x, y - other.y, z - other.z);
-        Math::normalise (c);
+        Geoutils::normalise (c);
         return c;
     }
 
-    double Math::distSquared (const Cartesian& a, const Cartesian& b) {
+    double Geoutils::distSquared (const Cartesian& a, const Cartesian& b) {
         double dx = abs (a.x - b.x);
         double dy = abs (a.y - b.y);
         double dz = abs (a.z - b.z);
@@ -114,11 +114,11 @@ namespace geoutils {
         return dist;
     }
 
-    bool Math::isNearer (const Cartesian& a, const Cartesian& b, const Cartesian& c) {
+    bool Geoutils::isNearer (const Cartesian& a, const Cartesian& b, const Cartesian& c) {
         return distSquared (a, b) < distSquared (a, c);
     }
 
-    double Math::azimuth (const Geolocation& from, const Geolocation& unto) {
+    double Geoutils::azimuth (const Geolocation& from, const Geolocation& unto) {
         double result = 0.0;
         if (from == unto) {
             return result;
@@ -144,7 +144,7 @@ namespace geoutils {
         return result;
     }
 
-    void Math::normalise (Cartesian& cartesian) {
+    void Geoutils::normalise (Cartesian& cartesian) {
         double magnitude = sqrt (cartesian.x * cartesian.x + cartesian.y * cartesian.y + cartesian.z * cartesian.z);
         cartesian.x /= magnitude;
         cartesian.y /= magnitude;
@@ -152,31 +152,31 @@ namespace geoutils {
     }
 
     // to do - move Geocentric to CalenhadServices
-    Geolocation Math::toGeolocation (const Cartesian& c) {
+    Geolocation Geoutils::toGeolocation (const Cartesian& c) {
         GeographicLib::Geocentric gc = GeographicLib::Geocentric (1, 0);
         double lat, lon, h;
         gc.Reverse (c.x, c.y, c.z, lat, lon, h);
         return Geolocation (lat, lon, Units::Degrees);
     }
 
-    Cartesian Math::toCartesian (const Geolocation& g) {
+    Cartesian Geoutils::toCartesian (const Geolocation& g) {
         GeographicLib::Geocentric gc = GeographicLib::Geocentric (1, 0);
         double x, y, z;
         gc.Forward (g.latitude (Units::Degrees), g.longitude (Units::Degrees), 0, x, y, z);
         return Cartesian (x, y, z);
     }
 
-    QString Math::geoLocationStringDecimal (const Geolocation& loc) {
+    QString Geoutils::geoLocationStringDecimal (const Geolocation& loc) {
         return QString::number (std::abs (loc.latitude (Units::Degrees))) + "°" + (loc.latitude() > 0 ? "N" : "S") + " "
                + QString::number (std::abs (loc.longitude (Units::Degrees))) + "°" + (loc.longitude() > 0 ? "E" : "W");
     }
 
-    QString Math::geoLocationStringTraditional (const Geolocation& loc) {
-        return geoutils::Math::toTraditional (std::abs (loc.latitude (Units::Degrees))) + (loc.latitude() > 0 ? "N" : "S") + " "
-               + geoutils::Math::toTraditional (std::abs (loc.longitude (Units::Degrees))) + (loc.longitude() > 0 ? "E" : "W");
+    QString Geoutils::geoLocationStringTraditional (const Geolocation& loc) {
+        return geoutils::Geoutils::toTraditional (std::abs (loc.latitude (Units::Degrees))) + (loc.latitude() > 0 ? "N" : "S") + " "
+               + geoutils::Geoutils::toTraditional (std::abs (loc.longitude (Units::Degrees))) + (loc.longitude() > 0 ? "E" : "W");
     }
 
-    QString Math::toTraditional (double ang, const unsigned& num_dec_places) {
+    QString Geoutils::toTraditional (double ang, const unsigned& num_dec_places) {
         bool neg (false);
         if (ang < 0.0) {
             neg = true;
@@ -226,9 +226,6 @@ namespace geoutils {
         return QString::fromStdString (oss.str ());
     }
 
-    QString Math::geoLocationString (const Geolocation& loc, const CoordinatesFormat& format) {
+    QString Geoutils::geoLocationString (const Geolocation& loc, const CoordinatesFormat& format) {
         return format == CoordinatesFormat::Decimal ? geoLocationStringDecimal (loc) : geoLocationStringTraditional (loc);
     }
-
-
-} // namespace geoutils

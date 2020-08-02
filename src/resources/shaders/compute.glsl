@@ -6,23 +6,21 @@
 #define SQRT_3 1.732050808
 #define HALF_ROOT_2 0.70710676908493042
 
-layout(local_size_x = 32, local_size_y = 32) in;
+layout (local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
 layout (std430, binding = 1) buffer rasterBuffer { float rasters []; };            // array of input rasters for convolutions
 
 // currently, these are all equirectangular grids 2x wide by x high where x is a power of two.
 // Output and all input grids are to cover the same bounds at the same resolution.
 layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
 
-uniform ivec2 resolution = ivec2 (2048, 1024);
 uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
 
-
 // indices to faces of the cube map
-#define FACE_FRONT 0
+#define FACE_FRONT 2
 #define FACE_BACK 3
-#define FACE_NORTH 1
-#define FACE_SOUTH 4
-#define FACE_WEST 2
+#define FACE_NORTH 0
+#define FACE_SOUTH 1
+#define FACE_WEST 4
 #define FACE_EAST 5
 
 // noise seeds
@@ -63,8 +61,10 @@ float maxAltitude = 0;
 // grid parameters
 uniform int vertexCount;
 
-// cubemap parameters
-uniform int gridSize;
+// cubemap parameter
+uniform int size = 2048;
+int rasterResolution = size;
+
 
 vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
     vec3 cartesian;
@@ -299,8 +299,8 @@ vec4 grad4 (float j, vec4 ip){
     vec4 p,s;
 
     p.xyz = floor (fract (vec3 (j) * ip.xyz) * 7.0) * ip.z - 1.0;
-    p.w = 1.5 - dot(abs(p.xyz), ones.xyz);
-    s = vec4(lessThan(p, vec4(0.0)));
+    p.w = 1.5 - dot (abs (p.xyz), ones.xyz);
+    s = vec4 (lessThan (p, vec4(0.0)));
     p.xyz = p.xyz + (s.xyz * 2.0 - 1.0) * s.www;
 
     return p;
@@ -715,8 +715,8 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
     float dlon = (rg.x + M_PI) / (M_PI * 2);
     float dlat = (rg.y + (M_PI / 2)) / M_PI;
     vec2 r = vec2 ((rg.x - a.x) / (b.x - a.x), (rg.y - a.y) / (b.y - a.y));
-    uvec2 i = uvec2 (r * resolution);
-    uint index = (rasterIndex * resolution.x * resolution.y) + int (i.y * resolution.x) + i.x;
+    uvec2 i = uvec2 (r * rasterResolution);
+    uint index = (rasterIndex * rasterResolution * rasterResolution) + int (i.y * rasterResolution) + i.x;
     return rasters [index];
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
@@ -739,8 +739,6 @@ ivec2 index (vec2 g, vec4 bounds, vec2 size) {
     return ivec2 (rx * size.x, ry * size.y);
 }
 
-// inserted code //
-
 // Coordinate systems:
 //      screen coordinates (corresponds to GlobalInvoicationID) - the coordinates of the texel being rendered. 0 <= x <= resolution * 2; 0 <= x <= resolution.
 //      map coordinates - the coordinates of a point on the logical map. -2 * M_PI < x <= 2 * M_PI; -M_PI <= y <= M_PI.
@@ -758,10 +756,8 @@ vec2 mapPos (ivec2 pos) {
         b.x += M_PI * 2;
     }
 
-    float h = resolution.y;
-    float w = resolution.x;
-    float ix = pos.x / w;
-    float iy = pos.y / h;
+    float ix = pos.x / size;
+    float iy = pos.y / size;
     vec2 g = vec2 ((b.x - a.x) * ix, (b.y - a.y) * iy);
     g += a;
     if (g.x > M_PI) { g.x -= M_PI* 2; }
@@ -773,8 +769,8 @@ vec2 mapPos (ivec2 pos) {
 ivec2 scrPos (vec2 g) {
     vec2 j = g;
     j /= M_PI;
-    j.x = (j.x + 1) * resolution.x;
-    j.y = (j.y + 0.5) * resolution.y;
+    j.x = (j.x + 1) * size;;
+    j.y = (j.y + 0.5) * size;;
     return ivec2 (j);
 }
 
@@ -787,19 +783,20 @@ vec4 toGreyscale (vec4 color) {
 // convert a cubemap index to a cartesian vector
 // the cubemap index consists of x and y = cell's 2D coordinates on its face and z = the index of the face on which the cell sits
 vec3 indexToCartesian (ivec3 fuv) {
-    vec3 xyz;           // cartesian coordinates on the sphere
-    vec2 uv = vec2 (fuv.x / gridSize, fuv.y / gridSize);
+    vec2 uv = vec2 ((float (fuv.x) / float (size)) * 2.0f - 1.0f,
+        (float (fuv.y) / float (size)  * 2.0f - 1.0f));
+
     float x, y, z;      // cartesian coordinates on the cube
-    if (fuv.z == FACE_NORTH)  { y =  1.0; x = uv.x; y = uv.y; }
-    if (fuv.z == FACE_SOUTH)  { y = -1.0; x = uv.x; y = uv.y; }
-    if (fuv.z == FACE_EAST)   { x =  1.0; z = uv.x; y = uv.y; }
-    if (fuv.z == FACE_WEST)   { x = -1.0; z = uv.x; y = uv.y; }
-    if (fuv.z == FACE_FRONT)  { z =  1.0; x = uv.x; z = uv.y; }
-    if (fuv.z == FACE_BACK)   { z = -1.0; x = uv.x; z = uv.y; }
-    xyz.x = x * sqrt (1.0f - y * y * 0.5f - z * z * 0.5f + y * y * z * z / 3.0f);
-    xyz.y = y * sqrt (1.0f - z * z * 0.5f - x * x * 0.5f + z * z * x * x / 3.0f);
-    xyz.z = z * sqrt (1.0f - x * x * 0.5f - y * y * 0.5f + x * x * y * y / 3.0f);
-    return xyz;
+    if (fuv.z == FACE_NORTH)  { y =  1.0; x = uv.x; z = uv.y; }
+    if (fuv.z == FACE_SOUTH)  { y = -1.0; x = uv.x; z = uv.y; }
+    if (fuv.z == FACE_EAST)   { x =  1.0; y = uv.x; z = uv.y; }
+    if (fuv.z == FACE_WEST)   { x = -1.0; y = uv.x; z = uv.y; }
+    if (fuv.z == FACE_FRONT)  { z =  1.0; x = uv.x; y = uv.y; }
+    if (fuv.z == FACE_BACK)   { z = -1.0; x = uv.x; y = uv.y; }
+    float dx = x * sqrt (1.0f - y * y * 0.5f - z * z * 0.5f + (y * y * z * z) / 3.0f);
+    float dy = y * sqrt (1.0f - z * z * 0.5f - x * x * 0.5f + (z * z * x * x) / 3.0f);
+    float dz = z * sqrt (1.0f - x * x * 0.5f - y * y * 0.5f + (x * x * y * y) / 3.0f);
+    return vec3 (dx, dy, dz);
 }
 
 ivec3 cartesianToIndex (vec3 cartesian) {
@@ -821,8 +818,8 @@ ivec3 cartesianToIndex (vec3 cartesian) {
         if (z < 0) { position.z = -position.z; }
         position.y = (y > 0) ? 1.0 : -1.0;;
         fuv.z = (y > 0) ? FACE_NORTH : FACE_SOUTH;;
-        fuv.x = int (floor (0.5 + (position.x * gridSize)));
-        fuv.y = int (floor (0.5 + (position.y * gridSize)));
+        fuv.x = int (floor (0.5 + (position.x * size)));
+        fuv.y = int (floor (0.5 + (position.y * size)));
     } else if (fx >= fy && fx >= fz) {
         float a2 = y * y * 2.0;
         float b2 = z * z * 2.0;
@@ -836,8 +833,8 @@ ivec3 cartesianToIndex (vec3 cartesian) {
         if (z < 0) { position.z = -position.z; }
         position.x = (x > 0) ? 1.0 : -1.0;
         fuv.z = (x > 0) ? FACE_EAST : FACE_WEST;
-        fuv.x = int (floor (0.5 + (position.z * gridSize)));
-        fuv.y = int (floor (0.5 + (position.y * gridSize)));
+        fuv.x = int (floor (0.5 + (position.z * size)));
+        fuv.y = int (floor (0.5 + (position.y * size)));
     } else {
         float a2 = x * x * 2.0;
         float b2 = y * y * 2.0;
@@ -851,19 +848,24 @@ ivec3 cartesianToIndex (vec3 cartesian) {
         if (y < 0) { position.y = -position.y; }
         position.z = (z > 0) ? 1.0 : -1.0;
         fuv.z = (z > 0) ? FACE_FRONT :  FACE_BACK;
-        fuv.x = int (floor (0.5 + (position.x * gridSize)));
-        fuv.y = int (floor (0.5 + (position.z * gridSize)));
+        fuv.x = int (floor (0.5 + (position.x * size)));
+        fuv.y = int (floor (0.5 + (position.z * size)));
     }
     return fuv;
 }
 
+
+// inserted code //
+
 void main() {
-        ivec2 pos = ivec2 (gl_GlobalInvocationID.yx);
-        vec2 g = mapPos (pos);
+        ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
+        vec3 c = indexToCartesian (pos);
+        vec2 g = toGeolocation (c);
+        uint i = pos.z * size * size + pos.y * size + pos.x;
 
-        vec3 c = toCartesian (g);
-        int i = pos.y * resolution.x + pos.x;
-
+    vec2 uv = vec2 ((float (pos.x) / float (size)) * 2.0f - 1.0f,
+    (float (pos.y) / float (size)  * 2.0f - 1.0f));
         float v = value (c, g);
+        //v = c.z;
         height_map_out [i] = v;
 }

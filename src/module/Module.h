@@ -62,6 +62,7 @@ namespace calenhad {
             void parameterChanged() override;
             void invalidate() override;
             void showGlobe();
+
         protected:
 
             QSet<Module*> dependants();

@@ -19,6 +19,7 @@
 #include <src/grid/Extent.h>
 #include "src/matrices.h"
 #include "controls/globe/CalenhadGlobeConstants.h"
+#include "../mapping/Statistics.h"
 
 namespace calenhad {
     namespace graph {
@@ -30,9 +31,12 @@ namespace calenhad {
         }
     }
 
+    namespace grid {
+        class CubicSphere;
+    }
+
     namespace mapping {
         class Viewport;
-        class Statistics;
 
         namespace projection {
             class Projection;
@@ -77,7 +81,7 @@ namespace calenhad {
             bool isGraticuleVisible () const;
             bool isInViewport (geoutils::Geolocation g);
             QSize heightMapSize () const;
-            GLfloat* heightMapBuffer();
+            calenhad::grid::CubicSphere* heightMapBuffer();
             void setCreateHeightMap (const bool& createHeightMap);
             calenhad::controls::globe::CalenhadGlobeDoubleClickMode mouseDoubleClickMode();
             calenhad::controls::globe::CalenhadGlobeDragMode mouseDragMode();
@@ -95,6 +99,7 @@ namespace calenhad {
             void setProjection (const QString& projection);
             void navigate (const calenhad::controls::globe::NavigationEvent& e);
 
+            void exportImages();
             void setMouseDoubleClickMode (const calenhad::controls::globe::CalenhadGlobeDoubleClickMode& mode);
             void setMouseDragMode (const calenhad::controls::globe::CalenhadGlobeDragMode& mode);
 
@@ -160,7 +165,7 @@ namespace calenhad {
             QOpenGLTexture* _globeTexture, * _rasterTexture, * _insetTexture{};
 
 
-            GLfloat* _buffer;
+            calenhad::grid::CubicSphere* _buffer;
             const char* name = "heightMapBuffer";
             QString _code;
 
@@ -189,6 +194,7 @@ namespace calenhad {
 
             calenhad::legend::Legend*  _legend;
             int _size{};
+
         };
     }
 }

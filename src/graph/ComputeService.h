@@ -17,6 +17,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QtGui/QOffscreenSurface>
+#include <src/grid/CubicSphere.h>
 #include "grid//Bounds.h"
 
 //#include "../compute/compute.h"
@@ -33,7 +34,7 @@ namespace calenhad {
         public:
             ComputeService();
             ~ComputeService();
-            void compute (calenhad::module::Module* module, GLfloat* buffer);
+            void compute (calenhad::module::Module* module, calenhad::grid::CubicSphere *buffer);
             void setBounds (const calenhad::grid::Bounds& bounds);
             int size();
 

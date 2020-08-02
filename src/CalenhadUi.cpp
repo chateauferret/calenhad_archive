@@ -222,8 +222,6 @@ QMenu* CalenhadUi::makeContextMenu (QGraphicsItem* item) {
             connect (globeAction, &QAction::triggered, module, &Module::showGlobe);
             globeAction -> setEnabled (module -> isComplete());
             _contextMenu -> addAction (globeAction);
-            QAction* a = new QAction ("Test");
-            _contextMenu -> addAction (a);
         }
         return _contextMenu;
     }

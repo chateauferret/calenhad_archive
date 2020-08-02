@@ -128,7 +128,7 @@ QSet<Module*> Module::dependants() {
             if (c) {
                 Port* p = c->otherEnd (_output);
                 if (p) {
-                    found.insert (p->owner ());
+                    found.insert (p -> owner ());
                 }
             }
         }
@@ -217,8 +217,6 @@ void Module::connectMenu (QMenu* menu, Port* p) {
 Port* Module::output () {
     return _output;
 }
-
-
 
 
 

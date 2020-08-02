@@ -79,7 +79,7 @@ namespace geoutils {
     };
 
 
-    class Math {
+    class Geoutils {
     public:
         static Geolocation toGeolocation (const Cartesian& c);
         static Cartesian toCartesian (const Geolocation& g);

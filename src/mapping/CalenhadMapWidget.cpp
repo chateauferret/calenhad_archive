@@ -15,6 +15,7 @@
 #include <controls/globe/CalenhadGlobeConstants.h>
 #include <GeographicLib/Geodesic.hpp>
 #include <QtWidgets/QToolTip>
+#include <QtWidgets/QFileDialog>
 #include "Graticule.h"
 #include "../module/Module.h"
 #include "../nodeedit/Connection.h"
@@ -155,7 +156,7 @@ void CalenhadMapWidget::paintGL() {
     }
 }
 
-GLfloat* CalenhadMapWidget::heightMapBuffer() {
+CubicSphere* CalenhadMapWidget::heightMapBuffer() {
     return _buffer;
 }
 
@@ -307,30 +308,9 @@ geoutils::CoordinatesFormat CalenhadMapWidget::coordinatesFormat () {
     return _coordinatesFormat;
 }
 
-Statistics CalenhadMapWidget::statistics() {
-    if (! _globeTexture) { return {0.0, 0.0, 0.0, 0, 0, 0}; }
-    double _min = 0, _max = 0, _sum = 0;
-    int count = 0;
-    GLfloat* buffer = heightMapBuffer();
-    if (buffer) {
-        for (int i = 0; i < _globeTexture -> height () * _globeTexture -> width (); i++) {
-            if (!isnan (buffer[i])) {
-                if (buffer[i] < _min) { _min = buffer[i]; }
-                if (buffer[i] > _max) { _max = buffer[i]; }
-                _sum += buffer[i];
-                count++;
-            }
-        }
-    }
-    Statistics statistics = Statistics (_min, _max, _sum, count, _renderTime, _globeTexture -> height());
-    return statistics;
-}
-
 void CalenhadMapWidget::paintEvent (QPaintEvent* e) {
     QOpenGLWidget::paintEvent (e);
 }
-
-
 
 void CalenhadMapWidget::setDatumFormat (DatumFormat format) {
     _datumFormat = format;
@@ -407,18 +387,18 @@ void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
             point.setY ((double) e -> pos().y());
 
             if (geoCoordinates (point, loc)) {
-                QString text = geoutils::Math::geoLocationString (loc, _coordinatesFormat);
+                QString text = geoutils::Geoutils::geoLocationString (loc, _coordinatesFormat);
                 double value;
                 if (_globeTexture) {
                     if (isInViewport (loc)) {
-                        double ix = (loc.longitude() / (M_PI * 2)) + 0.5;
-                        double iy = (loc.latitude() / M_PI) + 0.5;
-                        iy *= _size;
-                        ix *= _size * 2;
-                        int index =  ((int) iy * _size * 2 + (int) ix);
-                        value = _buffer [index];
-                        text += ": " + QString::number (ix) + ", " + QString::number (iy);
-                        text += ": " + QString::number (index) + " : " + QString::number (value);
+                        //double ix = (loc.longitude() / (M_PI * 2)) + 0.5;
+                        //double iy = (loc.latitude() / M_PI) + 0.5;
+                        //iy *= _size;
+                        //ix *= _size * 2;
+                        //int index =  ((int) iy * _size * 2 + (int) ix);
+                        value = _buffer -> valueAt (loc);
+                        //text += ": " + QString::number (ix) + ", " + QString::number (iy);
+                        text += " : " + QString::number (value);
                         QToolTip::showText (e->globalPos (), text, this);
                     }
                 }
@@ -587,19 +567,19 @@ void CalenhadMapWidget::compute () {
     }
 
     // checksum for debugging
-    float checksum = 0;
-    for (int i = 0; i < 2 * _size * _size; i++) {
-        checksum += _buffer [i];
-    }
-    std::cout << "Checksum: " << checksum << "\n";
+    //float checksum = 0;
+    //for (int i = 0; i < 2 * _size * _size; i++) {
+    //    checksum += _buffer [i];
+    //}
+    //std::cout << "Checksum: " << checksum << "\n";
 
     // create and allocate the heightMapBuffer on the GPU and copy the contents across to them.
     if (_buffer) {
-        long bytes = 2 * _size * _size * sizeof (GLfloat);
+        long bytes = 6 * _size * _size * sizeof (GLfloat);
         glGenBuffers (1, &inBuffer);
         if (_buffer) {
             glBindBuffer(GL_SHADER_STORAGE_BUFFER, inBuffer);
-            glBufferData(GL_SHADER_STORAGE_BUFFER, bytes, _buffer, GL_DYNAMIC_COPY);
+            glBufferData(GL_SHADER_STORAGE_BUFFER, bytes, _buffer -> data(), GL_DYNAMIC_COPY);
             glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 5, inBuffer);
             glBindBuffer(GL_SHADER_STORAGE_BUFFER, 5); // unbind
         }
@@ -624,12 +604,11 @@ void CalenhadMapWidget::compute () {
     GLfloat lat = (GLfloat) (_mode == RenderModeOverview ? _mainMap -> _rotation.latitude() : _rotation.latitude());
     GLfloat lon = (GLfloat) (_mode == RenderModeOverview ? _mainMap -> _rotation.longitude() : _rotation.longitude());
     glUniform3f (datumLoc, lon, lat, (GLfloat) _mode == RenderModeOverview ? _mainMap -> scale() : _scale);
-    glUniform1i (projectionLoc, _mode == RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id ());
+    glUniform1i (projectionLoc, _mode == RenderModeOverview ? _mainMap -> projection() -> id() : _projection -> id());
     glUniform1i (imageHeightLoc, _mode == RenderModeOverview ? _mainMap -> textureHeight() : _size);
 
     glUniform1i (cmbsLoc, CalenhadServices::preferences() -> calenhad_colormap_buffersize);
-    std::cout << "Source size " << _size * 2 << " x " << _size << "\n";
-    glUniform2i (sizeLoc, _size * 2, _size);
+    glUniform1i (sizeLoc, _size);
     //glUniform1i (vertexCountLoc, CalenhadServices::grid() -> vertexCount ());
     glUniform1i (renderModeLoc, _mode);
 
@@ -655,12 +634,27 @@ void CalenhadMapWidget::render() {
         if (! _source -> name().isNull()) {
             ComputeService* c = CalenhadServices::compute();
             _size = c -> size();
-           if (_buffer) { free (_buffer); }
-           _buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
+           if (_buffer) { delete _buffer; }
+           //_buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
+           _buffer = new CubicSphere ();
            c -> compute (_source, _buffer);
         }
 
         redraw();
+    }
+}
+
+void CalenhadMapWidget::exportImages() {
+    if (_buffer) {
+        QFileDialog d;
+        d.setFileMode(QFileDialog::Directory);
+        d.setOption(QFileDialog::ShowDirsOnly, true);
+        if (d.exec()) {
+            if (!d.selectedFiles().isEmpty()) {
+                QString dir = d.selectedFiles().first();
+                _buffer -> exportHeightmaps (dir + "/" + _source->name());
+            }
+        }
     }
 }
 

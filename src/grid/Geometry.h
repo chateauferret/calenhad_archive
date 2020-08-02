@@ -22,11 +22,6 @@ namespace calenhad {
                 double lat, lon, height;
             };
 
-            struct CubeCoordinates {
-            public:
-                int u, v;
-                int face;
-            };
 
         }
 }

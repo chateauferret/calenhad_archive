@@ -14,8 +14,7 @@ layout (std430, binding = 6) buffer colorMapBuffer { vec4 color_map_in []; };   
 uniform int colorMapBufferSize;
 uniform int imageHeight = 512;
 
-// input raster geometry
-uniform ivec2 size = ivec2 (4096, 2048);
+
 uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
 uniform vec4 defaultColor;
 
@@ -25,11 +24,11 @@ uniform vec3 datum;
 
 
 // indices to faces of the cube map
-#define FACE_FRONT 0
+#define FACE_FRONT 2
 #define FACE_BACK 3
-#define FACE_NORTH 1
-#define FACE_SOUTH 4
-#define FACE_WEST 2
+#define FACE_NORTH 0
+#define FACE_SOUTH 1
+#define FACE_WEST 4
 #define FACE_EAST 5
 
 // projection types
@@ -54,19 +53,16 @@ int hypsographyResolution;
 float minAltitude = 0;
 float maxAltitude = 0;
 
-// grid parameters
-uniform int vertexCount;
-
 // cubemap parameters
-uniform int gridSize;
+uniform int size;
 
-vec4 toCartesian (in vec3 geolocation) { // x = longitude, y = latitude
-    vec4 cartesian;
+vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
+    vec3 cartesian;
     cartesian.x = cos (geolocation.x) * cos (geolocation.y);
     cartesian.z = cos (geolocation.y) * sin (geolocation.x);
     cartesian.y = sin (geolocation.y);
 
-    cartesian.w = geolocation.z;
+    //cartesian.w = geolocation.z;
     return cartesian;
 }
 
@@ -103,11 +99,12 @@ float lookup (vec2 g) {
         b.x += M_PI * 2;
     }
 
-    float rx = (g.x - a.x) / (b.x - a.x) * size.x;
-    float ry = (g.y - a.y) / (b.y - a.y) * size.y;
-    int index = int (ry * size.x + rx);
+    float rx = (g.x - a.x) / (b.x - a.x) * size;
+    float ry = (g.y - a.y) / (b.y - a.y) * size;
+    int index = int (ry * size + rx);
     return height_map_in [index];
 }
+
 
 
 // Coordinate systems:
@@ -230,19 +227,20 @@ vec4 toGreyscale (vec4 color) {
 // convert a cubemap index to a cartesian vector
 // the cubemap index consists of x and y = cell's 2D coordinates on its face and z = the index of the face on which the cell sits
 vec3 indexToCartesian (ivec3 fuv) {
-    vec3 xyz;           // cartesian coordinates on the sphere
-    vec2 uv = vec2 (fuv.x / gridSize, fuv.y / gridSize);
+    vec2 uv = vec2 ((float (fuv.x) / float (size)) * 2.0f - 1.0f,
+    (float (fuv.y) / float (size)  * 2.0f - 1.0f));
+
     float x, y, z;      // cartesian coordinates on the cube
-    if (fuv.z == FACE_NORTH)  { y =  1.0; x = uv.x; y = uv.y; }
-    if (fuv.z == FACE_SOUTH)  { y = -1.0; x = uv.x; y = uv.y; }
-    if (fuv.z == FACE_EAST)   { x =  1.0; z = uv.x; y = uv.y; }
-    if (fuv.z == FACE_WEST)   { x = -1.0; z = uv.x; y = uv.y; }
-    if (fuv.z == FACE_FRONT)  { z =  1.0; x = uv.x; z = uv.y; }
-    if (fuv.z == FACE_BACK)   { z = -1.0; x = uv.x; z = uv.y; }
-    xyz.x = x * sqrt (1.0f - y * y * 0.5f - z * z * 0.5f + y * y * z * z / 3.0f);
-    xyz.y = y * sqrt (1.0f - z * z * 0.5f - x * x * 0.5f + z * z * x * x / 3.0f);
-    xyz.z = z * sqrt (1.0f - x * x * 0.5f - y * y * 0.5f + x * x * y * y / 3.0f);
-    return xyz;
+    if (fuv.z == FACE_NORTH)  { y =  1.0; x = uv.x; z = uv.y; }
+    if (fuv.z == FACE_SOUTH)  { y = -1.0; x = uv.x; z = uv.y; }
+    if (fuv.z == FACE_EAST)   { x =  1.0; y = uv.x; z = uv.y; }
+    if (fuv.z == FACE_WEST)   { x = -1.0; y = uv.x; z = uv.y; }
+    if (fuv.z == FACE_FRONT)  { z =  1.0; x = uv.x; y = uv.y; }
+    if (fuv.z == FACE_BACK)   { z = -1.0; x = uv.x; y = uv.y; }
+    float dx = x * sqrt (1.0f - y * y * 0.5f - z * z * 0.5f + (y * y * z * z) / 3.0f);
+    float dy = y * sqrt (1.0f - z * z * 0.5f - x * x * 0.5f + (z * z * x * x) / 3.0f);
+    float dz = z * sqrt (1.0f - x * x * 0.5f - y * y * 0.5f + (x * x * y * y) / 3.0f);
+    return vec3 (dx, dy, dz);
 }
 
 ivec3 cartesianToIndex (vec3 cartesian) {
@@ -262,10 +260,9 @@ ivec3 cartesianToIndex (vec3 cartesian) {
         if (position.z > 1.0) { position.z = 1.0; }
         if (x < 0) { position.x = -position.x; }
         if (z < 0) { position.z = -position.z; }
-        position.y = (y > 0) ? 1.0 : -1.0;;
         fuv.z = (y > 0) ? FACE_NORTH : FACE_SOUTH;;
-        fuv.x = int (floor (0.5 + (position.x * gridSize)));
-        fuv.y = int (floor (0.5 + (position.y * gridSize)));
+        fuv.x = int ((position.x * 0.5 + 0.5) * size);
+        fuv.y = int ((position.z * 0.5 + 0.5) * size);
     } else if (fx >= fy && fx >= fz) {
         float a2 = y * y * 2.0;
         float b2 = z * z * 2.0;
@@ -277,10 +274,9 @@ ivec3 cartesianToIndex (vec3 cartesian) {
         if (position.z > 1.0) { position.z = 1.0; }
         if (y < 0) { position.y = -position.y; }
         if (z < 0) { position.z = -position.z; }
-        position.x = (x > 0) ? 1.0 : -1.0;
         fuv.z = (x > 0) ? FACE_EAST : FACE_WEST;
-        fuv.x = int (floor (0.5 + (position.z * gridSize)));
-        fuv.y = int (floor (0.5 + (position.y * gridSize)));
+        fuv.x = int ((position.y * 0.5 + 0.5) * size);
+        fuv.y = int ((position.z * 0.5 + 0.5) * size);
     } else {
         float a2 = x * x * 2.0;
         float b2 = y * y * 2.0;
@@ -292,10 +288,9 @@ ivec3 cartesianToIndex (vec3 cartesian) {
         if (position.y > 1.0) { position.y = 1.0; }
         if (x < 0) { position.x = -position.x; }
         if (y < 0) { position.y = -position.y; }
-        position.z = (z > 0) ? 1.0 : -1.0;
         fuv.z = (z > 0) ? FACE_FRONT :  FACE_BACK;
-        fuv.x = int (floor (0.5 + (position.x * gridSize)));
-        fuv.y = int (floor (0.5 + (position.z * gridSize)));
+        fuv.x = int ((position.x * 0.5 + 0.5) * size);
+        fuv.y = int ((position.y * 0.5 + 0.5) * size);
 
     }
     return fuv;
@@ -304,7 +299,7 @@ ivec3 cartesianToIndex (vec3 cartesian) {
 //
 //float cubemap (vec3 cartesian) {
 //    ivec3 fuv = cartesianToIndex (cartesian);
-//    return grid [fuv.z * gridSize * gridSize + fuv.y * gridSize + fuv.x];
+//    return grid [fuv.z * size * size + fuv.y * size + fuv.x];
 //}
 
 bool inBounds (vec2 g) {
@@ -327,14 +322,10 @@ void main() {
         vec3 g = inverse (i);
         vec4 color = defaultColor;;
         // this provides some antialiasing at the rim of the globe by fading to dark blue over the outermost 1% of the radius
-        vec4 c = toCartesian (g);
-        float pets = smoothstep (0.99, 1.00001, abs (c.w));
-        vec2 geolocation = g.xy;
-        float dlon = (geolocation.x + M_PI) / (M_PI * 2);
-        float dlat = (geolocation.y + (M_PI / 2)) / M_PI;
-        int x = int (dlon * size.x);
-        int y = int (dlat * size.y);
-        int index = y * size.x + x;
+        vec3 c = toCartesian (g.xy);
+        float pets = smoothstep (0.99, 1.00001, abs (g.z));
+        ivec3 fuv = cartesianToIndex (c);
+        int index = int (fuv.z * size * size + fuv.y * size + fuv.x);
         float v = height_map_in [index];
         color = findColor (v);
         color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
@@ -347,13 +338,10 @@ void main() {
         vec3 g = vec3 (i.xy, 1.0);
         vec4 color = defaultColor;
         if (inBounds (g.xy)) {
-            float dlon = (g.x + M_PI) / (M_PI * 2);
-            float dlat = (g.y + (M_PI / 2)) / M_PI;
-            int x = int (dlon * size.x);
-            int y = int (dlat * size.y);
-            int index = y * size.x + x;
-            vec2 geolocation = g.xy;
-            float v = lookup (geolocation);
+            vec3 c = toCartesian (i.xy);
+            ivec3 fuv = cartesianToIndex (c);
+            int index = int (fuv.z * size * size + fuv.y * size + fuv.x);
+            float v = height_map_in [index];
             color = findColor (v);
 
             vec3 f = forward (i);                                                   // get the geolocation of this texel in the inset map

@@ -89,7 +89,7 @@ void QAngleControl::refresh() {
     } else {
         letter = _value >= 0 ? "E" : "W";
     }
-    QString tradText = geoutils::Math::toTraditional (std::abs (_value), 4) + letter;
+    QString tradText = geoutils::Geoutils::toTraditional (std::abs (_value), 4) + letter;
     QString decimalText = QString::number (std::abs (_value)) + "°" + letter;
     _tradDegreesText -> setText (tradText);
     _decimalDegreesText -> setText (decimalText);

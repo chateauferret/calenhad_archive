@@ -298,7 +298,7 @@ void Graticule::setPens (QPen majorPen, QPen minorPen) {
 QString Graticule::longitudeLabel (const double& lon, const bool& major) {
     QString label;
     if (_globe -> coordinatesFormat() == CoordinatesFormat::Traditional) {
-        label = geoutils::Math::toTraditional (std::abs (lon));
+        label = geoutils::Geoutils::toTraditional (std::abs (lon));
         if (label.contains (".00")) {
             label = label.replace (".00", "");
             if (label.contains ("00\"")) {
@@ -322,7 +322,7 @@ QString Graticule::latitudeLabel (const double& lat, const bool& major) {
         return ("Equator");
     }
    if (_globe -> coordinatesFormat() == CoordinatesFormat::Traditional) {
-       label = geoutils::Math::toTraditional (std::abs (lat));
+       label = geoutils::Geoutils::toTraditional (std::abs (lat));
        if (label.contains ("00\"")) {
            label = label.replace ("00\"", "");
            if (label.contains ("00\'")) {

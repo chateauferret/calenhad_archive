@@ -79,7 +79,7 @@ void CalenhadNavigator::mouseMoveEvent (QMouseEvent* e) {
         double lat, lon;
         double azimuth = value();
         _geodesic -> Direct (view -> rotation().latitude (Units::Degrees), view -> rotation().longitude (Units::Degrees), azimuth, _length, lat, lon);
-        setToolTip (geoutils::Math::geoLocationString (Geolocation (lat, lon, Units::Degrees), view -> coordinatesFormat()));
+        setToolTip (geoutils::Geoutils::geoLocationString (Geolocation (lat, lon, Units::Degrees), view -> coordinatesFormat()));
     }
     update();
 }

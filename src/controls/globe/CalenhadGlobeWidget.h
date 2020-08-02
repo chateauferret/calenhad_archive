@@ -141,7 +141,7 @@ namespace calenhad {
                 QComboBox* _selectModuleCombo{};
                 calenhad::nodeedit::CalenhadToolBar* _viewToolbar{}, * _mouseToolbar{}, * _mapWidgetsToolbar{};
                 QAction* _propertiesAction{}, * _mousePanAction{}, * _mouseZoomAction{}, * _mouseGotoAction{}, * _mousePlaceAction{},
-                        * _showGraticuleAction{}, * _disableDoubleClickAction{}, * _disableDragAction{},
+                        * _showGraticuleAction{}, * _disableDoubleClickAction{}, * _disableDragAction{}, *_exportImagesAction{},
                         * _showNavigatorAction{}, * _showScaleAction{}, * _showOverviewAction{}, * _showZoomSliderAction{};
             };
         }
