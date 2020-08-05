@@ -83,7 +83,7 @@ namespace calenhad {
         static grid::CubicSphere* cubicSphere ();
 
         static QStringList recentFiles();
-
+        static void provideGlobe();
         static void provideGlobe (calenhad::controls::globe::CalenhadGlobeDialog* globe);
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::module::Module* module = nullptr);
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::pipeline::CalenhadModel* model = nullptr);

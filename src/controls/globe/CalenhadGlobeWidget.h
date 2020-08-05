@@ -66,7 +66,6 @@ namespace calenhad {
             Q_OBJECT
 
 
-
             public:
 
                 CalenhadGlobeWidget (CalenhadGlobeDialog* parent, module::Module* source);
@@ -80,6 +79,8 @@ namespace calenhad {
                 bool isZoomBarVisible ();
 
                 bool isOverviewVisible ();
+                void updateModules();
+
 
                 bool isGraticuleVisible ();
 
@@ -131,7 +132,6 @@ namespace calenhad {
                 QLabel* _positionLabel{};
                 calenhad::nodeedit::CalenhadToolBar* makeToolBar (const QString& name);
 
-                void updateModules();
                 QMenu* makeGlobeContextMenu  (const QPoint& pos);
                 bool _graticuleVisible{};
                 calenhad::mapping::CalenhadMapWidget* _globe, *_overview;

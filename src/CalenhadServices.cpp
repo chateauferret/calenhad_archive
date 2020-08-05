@@ -182,6 +182,13 @@ QStringList CalenhadServices::recentFiles() {
 
 void CalenhadServices::provideGlobe (CalenhadGlobeDialog* globe) {
     _globeDialog = globe;
+    provideGlobe();
+}
+
+void CalenhadServices::provideGlobe() {
+    if (_globeDialog) {
+        _globeDialog -> widget() -> updateModules();
+    }
 }
 
 CalenhadGlobeDialog* CalenhadServices::globe (CalenhadModel* model) {
@@ -202,6 +209,8 @@ CalenhadGlobeDialog* CalenhadServices::globe (Module* module) {
     }
     return _globeDialog;
 }
+
+
 
 Calenhad* CalenhadServices::mainWindow() {
     return _mainWindow;

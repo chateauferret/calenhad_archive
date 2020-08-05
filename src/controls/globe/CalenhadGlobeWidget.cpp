@@ -215,8 +215,8 @@ void CalenhadGlobeWidget::moduleSelected (const QString& name) {
     if (m && m -> isComplete()) {
             _globe -> setEnabled (true);
             _overview -> setEnabled (true);
-            _globe -> setSource(m);
-            _overview -> setSource(m);
+            _globe -> setSource (m);
+            _overview -> setSource (m);
     } else {
         _globe -> setEnabled (false);
         _overview -> setEnabled (false);

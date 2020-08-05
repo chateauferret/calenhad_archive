@@ -216,7 +216,11 @@ void CalenhadMapWidget::redraw() {
 
 void CalenhadMapWidget::setProjection (const QString& projection) {
     if (_mode == RenderModeGlobe) {
-        _projection = CalenhadServices::projections() -> fetch(projection);
+        _projection = CalenhadServices::projections() -> fetch (projection);
+        // it throws its toys if we try to show a cylindrical projection not centred on the equator, for now
+        if (_projection -> name() != "Orthographic") {
+            rotate (Geolocation (0.0f, rotation().longitude()));
+        }
         redraw();
     }
 }
@@ -673,12 +677,12 @@ Module* CalenhadMapWidget::source() {
 
 void CalenhadMapWidget::setSource (Module* qm) {
     if (_source) {
-        disconnect(_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+        disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
     }
     _source = qm;
     if (_source) {
         render();
-        connect(_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+        connect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
     }
     update();
 }

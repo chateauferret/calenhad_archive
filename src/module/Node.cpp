@@ -118,6 +118,7 @@ Node::Node (QString  nodeType, QWidget* parent) : QWidget (parent),
 Node::~Node () {
     delete _validator;
     delete _palette;
+    CalenhadServices::provideGlobe();
 }
 
 
@@ -133,6 +134,8 @@ void Node::setName (const QString& name) {
         if (_propertiesWidget) {
             _propertiesWidget -> setWindowTitle (_name + " (" + nodeType () + ")");
         }
+
+        CalenhadServices::provideGlobe();
         emit (nameChanged (name));
     }
 }
