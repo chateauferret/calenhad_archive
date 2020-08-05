@@ -10,6 +10,13 @@
 #include <QtGui/QImage>
 #include "../geoutils.h"
 
+#define FACE_FRONT 0
+#define FACE_BACK 1
+#define FACE_NORTH 2
+#define FACE_SOUTH 3
+#define FACE_EAST 4
+#define FACE_WEST 5
+
 namespace calenhad {
     namespace mapping {
         class Statistics;
@@ -37,13 +44,14 @@ namespace calenhad {
             void exportHeightmaps (const QString& filename);
             GLfloat* data();
 
+            void toCubeCoordinates (mapping::CubeCoordinates& fuv, const geoutils::Cartesian& xyz) const;
+
         protected:
             float* _grid;
-            const int FACE_FRONT = 0, FACE_BACK = 3, FACE_NORTH = 1, FACE_SOUTH = 4, FACE_WEST = 2, FACE_EAST = 5;
+
             const double HALF_ROOT_2 = 0.70710676908493042;
 
             void toCartesian (const mapping::CubeCoordinates& fuv, geoutils::Cartesian& xyz) const;
-            void toCubeCoordinates (mapping::CubeCoordinates& fuv, const geoutils::Cartesian& xyz);
 
             int _size;
             int _renderTime;

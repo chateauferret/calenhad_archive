@@ -16,12 +16,14 @@ layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; }
 uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
 
 // indices to faces of the cube map
-#define FACE_FRONT 2
-#define FACE_BACK 3
-#define FACE_NORTH 0
-#define FACE_SOUTH 1
-#define FACE_WEST 4
-#define FACE_EAST 5
+
+
+#define FACE_FRONT 0
+#define FACE_BACK 1
+#define FACE_NORTH 2
+#define FACE_SOUTH 3
+#define FACE_EAST 4
+#define FACE_WEST 5
 
 // noise seeds
 const int X_NOISE_GEN = 1619;
@@ -799,61 +801,6 @@ vec3 indexToCartesian (ivec3 fuv) {
     return vec3 (dx, dy, dz);
 }
 
-ivec3 cartesianToIndex (vec3 cartesian) {
-    vec3 position = cartesian;
-    ivec3 fuv;
-    float x = position.x, y = position.y, z = position.z;
-    float fx = abs (x), fy = abs (y), fz = abs (z);
-
-    if (fy >= fx && fy >= fz) {
-        float a2 = x * x * 2.0;
-        float b2 = z * z * 2.0;
-        float inner = -a2 + b2 - 3;
-        float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
-        position.x = (x == 0.0 || x == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
-        position.z = (z == 0.0 || z == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
-        if (position.x > 1.0) { position.x = 1.0; }
-        if (position.z > 1.0) { position.z = 1.0; }
-        if (x < 0) { position.x = -position.x; }
-        if (z < 0) { position.z = -position.z; }
-        position.y = (y > 0) ? 1.0 : -1.0;;
-        fuv.z = (y > 0) ? FACE_NORTH : FACE_SOUTH;;
-        fuv.x = int (floor (0.5 + (position.x * size)));
-        fuv.y = int (floor (0.5 + (position.y * size)));
-    } else if (fx >= fy && fx >= fz) {
-        float a2 = y * y * 2.0;
-        float b2 = z * z * 2.0;
-        float inner = -a2 + b2 - 3;
-        float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
-        position.y = (y == 0.0 || y == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
-        position.z = (z == 0.0 || z == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
-        if (position.y > 1.0) { position.y = 1.0; }
-        if (position.z > 1.0) { position.z = 1.0; }
-        if (y < 0) { position.y = -position.y; }
-        if (z < 0) { position.z = -position.z; }
-        position.x = (x > 0) ? 1.0 : -1.0;
-        fuv.z = (x > 0) ? FACE_EAST : FACE_WEST;
-        fuv.x = int (floor (0.5 + (position.z * size)));
-        fuv.y = int (floor (0.5 + (position.y * size)));
-    } else {
-        float a2 = x * x * 2.0;
-        float b2 = y * y * 2.0;
-        float inner = -a2 + b2 - 3;
-        float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
-        position.x = (x == 0.0 || x == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
-        position.y = (y == 0.0 || y == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
-        if (position.x > 1.0) { position.x = 1.0; }
-        if (position.y > 1.0) { position.y = 1.0; }
-        if (x < 0) { position.x = -position.x; }
-        if (y < 0) { position.y = -position.y; }
-        position.z = (z > 0) ? 1.0 : -1.0;
-        fuv.z = (z > 0) ? FACE_FRONT :  FACE_BACK;
-        fuv.x = int (floor (0.5 + (position.x * size)));
-        fuv.y = int (floor (0.5 + (position.z * size)));
-    }
-    return fuv;
-}
-
 
 // inserted code //
 
@@ -863,9 +810,7 @@ void main() {
         vec2 g = toGeolocation (c);
         uint i = pos.z * size * size + pos.y * size + pos.x;
 
-    vec2 uv = vec2 ((float (pos.x) / float (size)) * 2.0f - 1.0f,
-    (float (pos.y) / float (size)  * 2.0f - 1.0f));
         float v = value (c, g);
-        //v = c.z;
+        //v = g.x / M_PI;
         height_map_out [i] = v;
 }

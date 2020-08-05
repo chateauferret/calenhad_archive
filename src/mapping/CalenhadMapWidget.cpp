@@ -399,6 +399,15 @@ void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
                         value = _buffer -> valueAt (loc);
                         //text += ": " + QString::number (ix) + ", " + QString::number (iy);
                         text += " : " + QString::number (value);
+
+                        CubeCoordinates fuv;
+                        Cartesian c = Geoutils::toCartesian (loc);
+                        _buffer -> toCubeCoordinates (fuv, c);
+                        text += " (" + QString::number (c.x) + ", " + QString::number (c.y) + ", " + QString::number (c.z) + ") ";
+                        text += " - face " + QString::number (fuv.face) + " / " + QString::number (fuv.u) + ", " + QString::number (fuv.v);
+                        //text += " - " + QString::number ((fuv.face * _size * _size) + (fuv.u * _size) + fuv.v);
+
+
                         QToolTip::showText (e->globalPos (), text, this);
                     }
                 }

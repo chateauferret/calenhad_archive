@@ -162,6 +162,16 @@
         <glsl>cylinders (c, %0)</glsl>
     </module>
 
+    <module role="generate" name="latitude" label="Latitude">
+        <documentation>Latitude of the current point</documentation>
+        <glsl>g.y / (M_PI / 2.0)</glsl>
+    </module>
+
+    <module role="generate" name="longitude" label="Longitude">
+        <documentation>Longitude of the current point</documentation>
+        <glsl>g.x / M_PI</glsl>
+    </module>
+
     <module role="generate" name="spheres" label="Spheres">
         <documentation>Sphere function</documentation>
         <ports>

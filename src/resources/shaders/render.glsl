@@ -24,12 +24,13 @@ uniform vec3 datum;
 
 
 // indices to faces of the cube map
-#define FACE_FRONT 2
-#define FACE_BACK 3
-#define FACE_NORTH 0
-#define FACE_SOUTH 1
-#define FACE_WEST 4
-#define FACE_EAST 5
+
+#define FACE_FRONT 0
+#define FACE_BACK 1
+#define FACE_NORTH 2
+#define FACE_SOUTH 3
+#define FACE_EAST 4
+#define FACE_WEST 5
 
 // projection types
 const int PROJ_EQUIRECTANGULAR = 0;
@@ -224,25 +225,6 @@ vec4 toGreyscale (vec4 color) {
     return vec4 (l, l, l, 1.0);
 }
 
-// convert a cubemap index to a cartesian vector
-// the cubemap index consists of x and y = cell's 2D coordinates on its face and z = the index of the face on which the cell sits
-vec3 indexToCartesian (ivec3 fuv) {
-    vec2 uv = vec2 ((float (fuv.x) / float (size)) * 2.0f - 1.0f,
-    (float (fuv.y) / float (size)  * 2.0f - 1.0f));
-
-    float x, y, z;      // cartesian coordinates on the cube
-    if (fuv.z == FACE_NORTH)  { y =  1.0; x = uv.x; z = uv.y; }
-    if (fuv.z == FACE_SOUTH)  { y = -1.0; x = uv.x; z = uv.y; }
-    if (fuv.z == FACE_EAST)   { x =  1.0; y = uv.x; z = uv.y; }
-    if (fuv.z == FACE_WEST)   { x = -1.0; y = uv.x; z = uv.y; }
-    if (fuv.z == FACE_FRONT)  { z =  1.0; x = uv.x; y = uv.y; }
-    if (fuv.z == FACE_BACK)   { z = -1.0; x = uv.x; y = uv.y; }
-    float dx = x * sqrt (1.0f - y * y * 0.5f - z * z * 0.5f + (y * y * z * z) / 3.0f);
-    float dy = y * sqrt (1.0f - z * z * 0.5f - x * x * 0.5f + (z * z * x * x) / 3.0f);
-    float dz = z * sqrt (1.0f - x * x * 0.5f - y * y * 0.5f + (x * x * y * y) / 3.0f);
-    return vec3 (dx, dy, dz);
-}
-
 ivec3 cartesianToIndex (vec3 cartesian) {
     vec3 position = cartesian;
     ivec3 fuv;
@@ -326,10 +308,11 @@ void main() {
         float pets = smoothstep (0.99, 1.00001, abs (g.z));
         ivec3 fuv = cartesianToIndex (c);
         int index = int (fuv.z * size * size + fuv.y * size + fuv.x);
-        float v = height_map_in [index];
-        color = findColor (v);
-        color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
-
+        float v = (height_map_in [index] + 1.0) / 2.0;
+        //v = float (fuv.y) / float (size);
+        //color = findColor (v);
+        //color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
+        color = vec4 (v, v, v, 1.0);
         imageStore (destTex, pos, color);
     }
 
