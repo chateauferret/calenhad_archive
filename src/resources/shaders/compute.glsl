@@ -65,7 +65,6 @@ uniform int vertexCount;
 
 // cubemap parameter
 uniform int size = 2048;
-int rasterResolution = size;
 
 
 vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
@@ -717,8 +716,8 @@ float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultVal
     float dlon = (rg.x + M_PI) / (M_PI * 2);
     float dlat = (rg.y + (M_PI / 2)) / M_PI;
     vec2 r = vec2 ((rg.x - a.x) / (b.x - a.x), (rg.y - a.y) / (b.y - a.y));
-    uvec2 i = uvec2 (r * rasterResolution);
-    uint index = (rasterIndex * rasterResolution * rasterResolution) + int (i.y * rasterResolution) + i.x;
+    uvec2 i = uvec2 (r.x * size * 2, r.y * size);
+    uint index = (rasterIndex * size * size) + int (i.y * size * 2) + i.x;
     return rasters [index];
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }

@@ -87,7 +87,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
             image -> scaled (_size * 2, _size);
             for (int x = 0; x < _size * 2; x++) {
                 for (int y = 0; y < _size; y++) {
-                    QColor c = image -> pixelColor (x, y);
+                    QColor c = image -> pixelColor (x, _size - y);
                     double value = (c.redF() + c.greenF() + c.blueF()) / 3;
                     value = (value * 2) - 1;
                     int index = (i * _size * _size * 2) + (y * _size * 2) + x;
@@ -99,7 +99,8 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
         f -> glGenBuffers (1, &_rasterBuffer);
         f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);
         f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, _rasterBuffer);
-        f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * _size * _size * graph.rasterCount(), rasterBuffer, GL_DYNAMIC_READ);free (rasterBuffer);
+        f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * _size * _size * graph.rasterCount(), rasterBuffer, GL_DYNAMIC_READ);
+        free (rasterBuffer);
     }
 
     if (newCode != QString::null) {

@@ -169,9 +169,9 @@ QString Graph::glsl (Module* module) {
                     _rasters.insert (_rasterId++, rm);
 
                     // replace the bounds marker with the module's declared bounds
-                    boundsCode.append ("vec2 (" + QString::number (bounds.west ()) + ", " + QString::number (bounds.north ()) + ")");
+                    boundsCode.append ("vec2 (" + QString::number (bounds.west ()) + ", " + QString::number (bounds.south ()) + ")");
                     boundsCode.append (", ");
-                    boundsCode.append ("vec2 (" + QString::number (bounds.east ()) + ", " + QString::number (bounds.south ()) + ")");
+                    boundsCode.append ("vec2 (" + QString::number (bounds.east ()) + ", " + QString::number (bounds.north ()) + ")");
                     _code.replace ("%bounds", boundsCode);
                     _code.append ("; }\n");
                 }
