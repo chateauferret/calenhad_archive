@@ -4,7 +4,6 @@
 
 #include "ModuleTree.h"
 #include "../module/Module.h"
-#include "../module/NodeGroup.h"
 #include <QTreeWidget>
 #include <QList>
 #include <src/CalenhadServices.h>
@@ -78,22 +77,10 @@ void ModuleTree::buildTree() {
     _tree -> clear();
     if (_model) {
         for (Module* m : _model -> modules()) {
+
             NodeGroup* g =  m -> group();
             QTreeWidgetItem* item;
-            if (g) {
-                QList<QTreeWidgetItem*> parent = _tree->findItems (g->name (), Qt::MatchExactly, 0);
-                if (parent.isEmpty ()) {
-                    QTreeWidgetItem* groupItem = new QTreeWidgetItem (_tree);
-                    groupItem -> setText (0, g -> name ());
-                    groupItem -> setIcon (0, *_groupIcon);
-                    groupItem -> setToolTip (0, g -> documentation());
-                    item = new QTreeWidgetItem (groupItem);
-                } else {
-                    item = new QTreeWidgetItem (parent.first ());
-                }
-            } else {
-                item = new QTreeWidgetItem (_tree);
-            }
+            item = new QTreeWidgetItem (_tree);
             QPixmap* pixmap = CalenhadServices::modules() -> getIcon (m -> nodeType());
             QIcon icon (*pixmap);
             item -> setIcon (0, icon);
@@ -108,19 +95,6 @@ void ModuleTree::selectItem (QTreeWidgetItem* item) {
     Module* module = _modules.find (item).value();
     if (module) {
         module -> handle() -> setSelected (! (module -> handle() -> isSelected()));
-    } else {
-        NodeGroup* group = _groups.find (item).value();
-        if (group) {
-            bool state = true;
-            for (Module* module : group -> modules()) {
-                if (! module -> handle() -> isSelected()) {
-                    state = false;
-                }
-            }
-            for (Module* module : group -> modules()) {
-                module -> handle() -> setSelected (! state);
-            }
-        }
     }
 }
 

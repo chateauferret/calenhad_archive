@@ -11,7 +11,6 @@
 #include <nodeedit/NodeNameValidator.h>
 #include <QtWidgets/QComboBox>
 #include <utility>
-#include "NodeGroup.h"
 #include "../nodeedit/CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
 #include "src/CalenhadServices.h"

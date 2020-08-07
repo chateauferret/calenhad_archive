@@ -29,7 +29,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "module/Module.h"
 #include "EditableLabel.h"
 #include "Connection.h"
-#include "module/NodeGroup.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../nodeedit/CalenhadView.h"
 #include "Port.h"

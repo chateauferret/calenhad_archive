@@ -5,7 +5,6 @@
 #include "../nodeedit/CalenhadView.h"
 #include "nodeedit/Connection.h"
 #include "nodeedit/NodeBlock.h"
-#include "module/NodeGroup.h"
 #include "grid/icosphere.h"
 #include "../pipeline/ModuleFactory.h"
 #include "../actions/XmlCommand.h"
@@ -419,9 +418,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) {
     preserve();
     QString name = "New_" + type;
-    Module* n;
-    n = addModule (initPos, type, name);
-    // to do - assign to a group
+    Module* n = addModule (initPos, type, name);
 
     setChanged();
 
@@ -540,7 +537,7 @@ QList<calenhad::module::Module*> CalenhadModel::modules () {
 
 void CalenhadModel::snapToGrid (QPointF& pos) {
     if (CalenhadServices::preferences() -> calenhad_desktop_grid_snap) {
-        int pitch = CalenhadServices::preferences ()->calenhad_desktop_grid_density;
+        uint pitch = CalenhadServices::preferences() -> calenhad_desktop_grid_density;
         pos.setX (round (pos.x () / pitch) * pitch);
         pos.setY (round (pos.y () / pitch) * pitch);
     }
@@ -549,7 +546,7 @@ void CalenhadModel::snapToGrid (QPointF& pos) {
 
 QList<Connection*> CalenhadModel::connections() {
     QList<Connection*> connections;
-            foreach (QGraphicsItem* item, items()) {
+            for (QGraphicsItem* item : items()) {
             int type = item -> type();
             if (type == QGraphicsItem::UserType + 2) {  // is a Connection
                 Connection* c = (Connection*) item;
@@ -627,17 +624,8 @@ QDomDocument CalenhadModel::serialize (const CalenhadFileType& fileType) {
         QDomElement nodesElement = doc.createElement ("nodes");
         modelElement.appendChild (nodesElement);
         for (Node* n : nodes()) {
-            if (! (n -> group())) {
-                n -> serialize (nodesElement);
-            }
+            n -> serialize (nodesElement);
         }
-
-        for (NodeGroup* group : nodeGroups()) {
-            QDomElement groupElement = doc.createElement ("nodegroup");
-            group -> serialize (groupElement);
-            nodesElement.appendChild (groupElement);
-        }
-
 
         // serialize connections
         QDomElement connectionsElement = doc.createElement ("connections");

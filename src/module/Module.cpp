@@ -2,10 +2,8 @@
 // Created by martin on 16/11/16.
 //
 
-
 #include "Module.h"
 #include "nodeedit/NodeBlock.h"
-#include "../module/NodeGroup.h"
 #include "nodeedit/Port.h"
 #include "../nodeedit/Calenhad.h"
 #include "../pipeline/CalenhadModel.h"
@@ -43,12 +41,12 @@ Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, pare
     QIcon globeIcon (":/appicons/controls/globe.png");
     globeButton -> setIcon (globeIcon);
     connect (globeButton, &QPushButton::pressed, this, [=] () { CalenhadServices::globe (this) -> show(); });
+    connect (this, &Node::nodeChanged, this, [=] () { globeButton -> setEnabled (isComplete()); });
     _topPanel -> layout() -> addWidget (globeButton);
-
 }
 
 
-Module::~Module () {
+Module::~Module() {
     close();
     delete _connectMenu;
 }
@@ -72,26 +70,25 @@ void Module::addInputPort (const unsigned& index, const int& portType, const QSt
     addPort (input, index);
 }
 
-
 void Module::setModel (CalenhadModel* model) {
     Node::setModel (model);
 }
 
 bool Module::isComplete() {
         for (Port* p : _ports) {
-            if (p->isRequired () && !p->hasConnection ()) {
+            if (p -> isRequired() && !p -> hasConnection ()) {
                 return false;
             }
         }
 
         bool complete = true;
         QList<ExpressionWidget*> widgets = findChildren<ExpressionWidget*> ();
-        if (!(widgets.isEmpty ())) {
+        if (!(widgets.isEmpty())) {
             for (ExpressionWidget* ew: widgets) {
                 if (!ew->isValid ()) {
                     for (Port* p : _ports) {
-                        if (p -> portName () == ew -> objectName () && p -> portType () != Port::OutputPort) {
-                            if (! (p->hasConnection ())) {
+                        if (p -> portName() == ew -> objectName() && p -> portType() != Port::OutputPort) {
+                            if (! (p -> hasConnection())) {
                                 complete = false;
                                 break;
                             }
@@ -101,7 +98,6 @@ bool Module::isComplete() {
             }
         }
         return complete;
-
 }
 
 
@@ -115,20 +111,20 @@ void Module::parameterChanged() {
 void Module::invalidate() {
     Node::invalidate();
     _valid = false;
-        for (Module* dependant : dependants()) {
-            dependant -> invalidate();
-        }
+    for (Module* dependant : dependants()) {
+        dependant -> invalidate();
+    }
 }
 
 QSet<Module*> Module::dependants() {
 
     QSet<Module*> found;
-    if (! _output -> connections(). isEmpty ()) {
+    if (! _output -> connections(). isEmpty()) {
         foreach (Connection* c, _output -> connections()) {
             if (c) {
                 Port* p = c->otherEnd (_output);
                 if (p) {
-                    found.insert (p -> owner ());
+                    found.insert (p -> owner());
                 }
             }
         }
@@ -154,28 +150,27 @@ QString Module::glsl () {
         if (port -> connections ().isEmpty ()) {
             code.replace ("%" + index, QString::number (parameterValue (port->portName ())));
         } else {
-            Node* other = port -> connections() [0]->otherEnd (port) -> owner ();
+            Node* other = port -> connections() [0] -> otherEnd (port) -> owner ();
             QString source = other -> name();
         }
     }
 
     // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
-    for (QString param : CalenhadServices::modules() -> paramNames ()) {
+    for (QString param : CalenhadServices::modules() -> paramNames()) {
         if (parameters().contains (param)) {
             code.replace ("%" + param, QString::number (parameterValue (param)));
         }
     }
-
     return code;
 }
 
-QMap<unsigned, Port*> Module::inputs () {
+QMap<unsigned, Port*> Module::inputs() {
     return _inputs;
 }
 
 void Module::addPort (Port* port, const unsigned& index) {
     _ports.append (port);
-    if (port -> portType () == Port::OutputPort) {
+    if (port -> portType() == Port::OutputPort) {
         _output = port;
     } else {
         _inputs.insert (index, port);

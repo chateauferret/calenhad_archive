@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "ModuleFactory.h"
-#include "module/NodeGroup.h"
 #include "../nodeedit/Calenhad.h"
 #include "preferences/preferences.h"
 #include "module/AltitudeMap.h"

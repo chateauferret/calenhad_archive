@@ -6,7 +6,6 @@
 #include "Calenhad.h"
 #include "CalenhadController.h"
 #include "../pipeline/CalenhadModel.h"
-#include "module/NodeGroup.h"
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <src/CalenhadServices.h>

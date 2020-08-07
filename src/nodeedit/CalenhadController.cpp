@@ -28,7 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "NodeBlock.h"
 #include "Connection.h"
 #include "src/CalenhadServices.h"
-#include "module/NodeGroup.h"
 #include "Calenhad.h"
 #include "../preferences/PreferencesService.h"
 #include <QGraphicsScene>

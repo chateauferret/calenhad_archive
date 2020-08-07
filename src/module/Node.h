@@ -121,7 +121,6 @@ namespace calenhad {
             void notesChanged (const QString&);
 
             void nodeChanged ();
-            void groupChanged();
 
         protected:
 

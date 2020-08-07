@@ -92,7 +92,7 @@ void CalenhadGlobeDialog::selectModule (Module* module) {
     }
 }
 
-void CalenhadGlobeDialog::setModel(CalenhadModel* model) {
+void CalenhadGlobeDialog::setModel (CalenhadModel* model) {
     _model = model;
 }
 
