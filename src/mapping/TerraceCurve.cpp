@@ -5,7 +5,7 @@
 #include <assert.h>
 #include "TerraceCurve.h"
 
-#include "../libnoiseutils/Interpolation.h"
+#include "src/Interpolation.h"
 
 using namespace calenhad::mapping;
 

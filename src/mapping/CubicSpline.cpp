@@ -20,7 +20,7 @@
 //
 
 #include <iostream>
-#include "../libnoiseutils/Interpolation.h"
+#include "src/Interpolation.h"
 #include "CubicSpline.h"
 
 

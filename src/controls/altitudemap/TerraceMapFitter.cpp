@@ -5,7 +5,7 @@
 #include <iostream>
 #include <qwt/qwt_plot.h>
 #include <cmath>
-#include <libnoiseutils/Interpolation.h>
+#include <src/Interpolation.h>
 #include "TerraceMapFitter.h"
 
 using namespace calenhad::controls::altitudemap;

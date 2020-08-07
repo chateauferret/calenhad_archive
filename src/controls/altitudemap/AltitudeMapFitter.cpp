@@ -3,7 +3,7 @@
 //
 
 #include "AltitudeMapFitter.h"
-#include "../../libnoiseutils/Interpolation.h"
+#include "src/Interpolation.h"
 #include <qwt/qwt_plot.h>
 
 using namespace calenhad::controls::altitudemap;
@@ -76,7 +76,7 @@ double AltitudeMapFitter::getY (const double& x, const QPolygonF& points) const 
     double alpha = (x - input0) / (input1 - input0);
 
     // Now perform the cubic interpolation given the alpha value.
-    return noise::CubicInterp (
+    return noise::utils::Interpolation::cubicInterp (
             points.at (index0).y(),
             points.at (index1).y(),
             points.at (index2).y(),

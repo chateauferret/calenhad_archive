@@ -50,7 +50,6 @@ include (${CONTROLS_SOURCE_DIR}/CMakeLists.txt)
 include (${PIPELINE_SOURCE_DIR}/CMakeLists.txt)
 include (${ACTIONS_SOURCE_DIR}/CMakeLists.txt)
 include (${MAPPING_SOURCE_DIR}/CMakeLists.txt)
-include (${LIBNOISEUTILS_SOURCE_DIR}/CMakeLists.txt)
 include (${ICOSPHERE_SOURCE_DIR}/CMakeLists.txt)
 include (${EXPRTK_SOURCE_DIR}/CMakeLists.txt)
 include (${LEGEND_SOURCE_DIR}/CMakeLists.txt)
@@ -83,7 +82,6 @@ set (SOURCE_FILES ${SOURCE_FILES}
         ${HTTPSERVER_SOURCE_FILES}
         ${ACTIONS_SOURCE_FILES}
         ${MAPPING_SOURCE_FILES}
-        ${LIBNOISEUTILS_SOURCE_FILES}
         ${ICOSPHERE_SOURCE_FILES}
         ${EXPRTK_SOURCE_FILES}
         ${LEGEND_SOURCE_FILES}
