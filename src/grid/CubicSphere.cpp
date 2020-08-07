@@ -7,14 +7,19 @@
 #include <src/mapping/Statistics.h>
 #include <QtGui/QImage>
 #include <QtCore/QFile>
+#include <src/CalenhadServices.h>
 #include "../geoutils.h"
 
 using namespace geoutils;
 using namespace calenhad::grid;
 using namespace calenhad::mapping;
-
-CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0) {
-    _size = std::pow (2, depth);
+/*
+CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr) {
+    _size = std::pow(2, depth);
+    initialise();
+}
+ */
+void CubicSphere::initialise() {
     _grid = (float*) malloc (6 * _size * _size * sizeof (float));
 
     for (int i = 0; i < 6; i++) {
@@ -24,6 +29,11 @@ CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0) {
             }
         }
     }
+}
+
+CubicSphere::CubicSphere() : _renderTime (0.0), _grid (nullptr) {
+    _size = CalenhadServices::gridSize();
+    initialise();
 }
 
 CubicSphere::~CubicSphere() {

@@ -29,6 +29,7 @@ void Preferences::loadSettings() {
     calenhad_colormap_buffersize = _settings -> value ("calenhad/colormap/buffersize", 2048).toUInt();
     calenhad_altitudemap_buffersize = _settings -> value ("calenhad/altitudemap/buffersize", 2048).toUInt();
     calenhad_icosphere_depth = _settings -> value ("calenhad/grid/depth", 8).toUInt();
+    calenhad_compute_gridsize = _settings -> value ("calenhad/compute/gidsize", 11).toUInt();
 
     // Styling for non-QGraphicsItem elements
     calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/martin/.config/calenhad/darkorange.css").toString();
@@ -290,6 +291,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/desktop/nodegroup/width/default", calenhad_desktop_nodegroup_width_default);
     _settings -> setValue ("calenhad/model/extent", calenhad_model_extent);
     _settings -> setValue ("calenhad/grid/depth", calenhad_icosphere_depth);
+    _settings -> setValue ("calenhad/compute/gridsize", calenhad_compute_gridsize);
 
     // Modules
 

@@ -194,7 +194,7 @@ namespace calenhad {
             GLfloat* _gridBuffer{};
 
             calenhad::legend::Legend*  _legend;
-            int _size{};
+            int _size;
 
         };
     }

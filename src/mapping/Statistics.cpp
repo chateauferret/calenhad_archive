@@ -10,14 +10,14 @@ Statistics::Statistics (double min, double max, double sum, int count, int rende
 
 }
 
-double Statistics::range () {
+double Statistics::range () const {
     return _max - _min;
 }
 
-double Statistics::mean () {
+double Statistics::mean () const {
     return _sum / _count;
 }
 
-bool Statistics::ok () {
+bool Statistics::ok () const {
     return _max > _min && _count > 0;
 }

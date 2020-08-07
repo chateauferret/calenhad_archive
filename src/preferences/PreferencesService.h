@@ -137,7 +137,7 @@ namespace calenhad {
             QColor calenhad_toolpalette_icon_color_normal;
             QColor calenhad_toolpalette_icon_color_mouseover;
             QColor calenhad_toolpalette_icon_color_shadow;
-
+            int calenhad_compute_gridsize;
         };
     }
 }

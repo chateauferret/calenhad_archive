@@ -25,9 +25,9 @@
 #include <QBrush>
 #include <iostream>
 #include <QtCore/QTimer>
-#include "SizeGripItem.h"
 #include <QGraphicsSceneHoverEvent>
 #include <cmath>
+#include "SizeGripItem.h"
 
 using namespace calenhad::controls;
 

@@ -47,8 +47,6 @@ ComputeService::ComputeService () :  _computeProgram (nullptr), _computeShader (
     }
     _surface.create();
     _context.makeCurrent( &_surface);
-     resolution = 12; //extent -> resolution();
-     _size = std::pow (2, resolution);
     QOpenGLFunctions_4_3_Core openglFunctions;
     if (!openglFunctions.initializeOpenGLFunctions()) {
         throw std::runtime_error ("initialization failed");
@@ -69,7 +67,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
     delete _computeShader;
     delete _computeProgram;
     _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
-    _computeProgram = new QOpenGLShaderProgram ();
+    _computeProgram = new QOpenGLShaderProgram();
     clock_t start = clock ();
 
     // create and allocate a buffer for any input rasters
@@ -78,17 +76,18 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
     //}
     if (graph.rasterCount() > 0) {
         // write the data in the rasters out to the raster content buffer
-        long bytes = 6 * _size * _size * sizeof (GLfloat) * graph.rasterCount();
+        int size = CalenhadServices::gridSize();
+        long bytes = 6 * size * size * sizeof (GLfloat) * graph.rasterCount();
         float* rasterBuffer = (float*) malloc (bytes);
         for (int i = 0; i < graph.rasterCount(); i++) {
             QImage* image = graph.raster (i);
-            image -> scaled (_size * 2, _size);
-            for (int x = 0; x < _size * 2; x++) {
-                for (int y = 0; y < _size; y++) {
-                    QColor c = image -> pixelColor (x, _size - y);
+            image -> scaled (size * 2, size);
+            for (int x = 0; x < size * 2; x++) {
+                for (int y = 0; y < size; y++) {
+                    QColor c = image -> pixelColor (x, size - y);
                     double value = (c.redF() + c.greenF() + c.blueF()) / 3;
                     value = (value * 2) - 1;
-                    int index = (i * _size * _size * 2) + (y * _size * 2) + x;
+                    int index = (i * size * size * 2) + (y * size * 2) + x;
                     rasterBuffer [index] = (float) value;
                 }
             }
@@ -97,7 +96,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
         f -> glGenBuffers (1, &_rasterBuffer);
         f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);
         f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, _rasterBuffer);
-        f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * _size * _size * graph.rasterCount(), rasterBuffer, GL_DYNAMIC_READ);
+        f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * size * size * graph.rasterCount(), rasterBuffer, GL_DYNAMIC_READ);
         free (rasterBuffer);
     }
 
@@ -134,19 +133,17 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 void ComputeService::execute (GLfloat* buffer) {
 
     f -> glGenBuffers (1, &_heightMap);
-    ulong bytes = 6 * _size * _size * sizeof (GLfloat);
+    uint size = CalenhadServices::gridSize();
+    ulong bytes = 6 * size * size * sizeof (GLfloat);
     f -> glUseProgram (_computeProgram -> programId ());
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
     f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 0, _heightMap);
     f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, nullptr, GL_DYNAMIC_READ);
 
     static GLint gridSizeLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "size");
-    f -> glUniform1i (gridSizeLoc, _size);
+    f -> glUniform1i (gridSizeLoc, size);
 
-
-    //static GLint boundsLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "bounds");
-    //f -> glUniform4f (boundsLoc, bounds.west(), bounds.south(), bounds.east(), bounds.north());
-    int xp = 128; // for now;
+    uint xp = size / 32; // the grid size divided by the number of local invocations defined in the shader which is 32 x 32 x 1
     f -> glDispatchCompute (xp, xp, 6);
     f -> glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
 
@@ -160,9 +157,5 @@ void ComputeService::execute (GLfloat* buffer) {
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
     f -> glDeleteBuffers (1, &_heightMap);
     f -> glDeleteBuffers (1, &_rasterBuffer);
-}
-
-int ComputeService::size() {
-    return _size;
 }
 

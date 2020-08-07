@@ -143,7 +143,7 @@ calenhad::grid::Icosphere* CalenhadServices::icosphere () {
 void CalenhadServices::provideCubicSphere (const int& depth) {
     delete _cubicSphere;
     double start = clock () / static_cast<double> (CLOCKS_PER_SEC);
-    _cubicSphere = new CubicSphere (depth);
+    _cubicSphere = new CubicSphere();
     double end = clock () / static_cast<double> (CLOCKS_PER_SEC);
     std::cout << "Built cubic sphere with " << _cubicSphere -> count()  << " vertices in " << end - start << " seconds" << "\n";
 
@@ -218,4 +218,9 @@ Calenhad* CalenhadServices::mainWindow() {
 
 void CalenhadServices::provideMainWindow (Calenhad* mainWindow) {
     _mainWindow = mainWindow;
+}
+
+
+int CalenhadServices::gridSize() {
+    return std::pow (2, CalenhadServices::preferences() -> calenhad_compute_gridsize);
 }

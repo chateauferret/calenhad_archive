@@ -64,7 +64,7 @@ float maxAltitude = 0;
 uniform int vertexCount;
 
 // cubemap parameter
-uniform int size = 2048;
+uniform int size;
 
 
 vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
@@ -810,6 +810,5 @@ void main() {
         uint i = pos.z * size * size + pos.y * size + pos.x;
 
         float v = value (c, g);
-        //v = g.x / M_PI;
         height_map_out [i] = v;
 }

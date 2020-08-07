@@ -14,9 +14,9 @@ namespace calenhad {
             double _min, _max, _sum;
             int _count;
             int _renderTime, _size;
-            double range();
-            double mean();
-            bool ok();
+            double range() const;
+            double mean() const;
+            bool ok() const;
         };
     }
 }

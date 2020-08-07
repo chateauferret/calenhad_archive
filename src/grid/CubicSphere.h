@@ -32,7 +32,8 @@ namespace calenhad {
         class CubicSphere {
 
         public:
-            explicit CubicSphere (const int& depth = 12);
+            //explicit CubicSphere (const int& depth);
+            CubicSphere();
             ~CubicSphere();
             long count() const;
 
@@ -57,6 +58,8 @@ namespace calenhad {
             int _renderTime;
 
             float valueAt(const mapping::CubeCoordinates &fuv);
+
+            void initialise();
         };
     }
 }
