@@ -25,9 +25,6 @@ namespace calenhad {
             class CalenhadGlobeDialog : public QMainWindow {
             Q_OBJECT
 
-
-
-
             public:
                 CalenhadGlobeDialog (QWidget *parent);
                 ~CalenhadGlobeDialog() override;
@@ -35,6 +32,7 @@ namespace calenhad {
                 void setModel (calenhad::pipeline::CalenhadModel* model);
                 void selectModule (module::Module *module);
 
+                QMenu *toolbarMenu();
                 calenhad::pipeline::CalenhadModel* model() const;
 
             protected:

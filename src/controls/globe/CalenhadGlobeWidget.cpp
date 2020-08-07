@@ -400,6 +400,7 @@ QMenu* CalenhadGlobeWidget::makeGlobeContextMenu  (const QPoint& pos) {
     _contextMenu -> addAction (_showOverviewAction);
     _contextMenu -> addAction (_showScaleAction);
     _contextMenu -> addAction (_showGraticuleAction);
+    _contextMenu -> addMenu (((CalenhadGlobeDialog*) parent()) -> toolbarMenu());
     _showZoomSliderAction = new QAction ("Zoom bar", this);
 
     _showZoomSliderAction->setCheckable (true);

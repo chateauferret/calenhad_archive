@@ -87,6 +87,7 @@ namespace calenhad {
         QAction* _gridAction = nullptr;
         QAction* _snapAction = nullptr;
         QAction *_importAction = nullptr;
+        QMenu *_toolbarsMenu;
     };
 
 }

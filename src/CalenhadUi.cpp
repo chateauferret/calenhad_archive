@@ -101,6 +101,7 @@ void CalenhadUi::makeWidgets() {
     _viewMenu -> addAction (_zoomToFitAction);
     _viewMenu -> addAction (_zoomSelectionAction);
 
+
     _defaultContextMenu -> addMenu (_mouseModeMenu);
     _defaultContextMenu->addAction (_undoAction);
     _defaultContextMenu -> addAction (_redoAction);
@@ -114,6 +115,7 @@ void CalenhadUi::makeWidgets() {
     legendsMenu -> addAction (_manageLegendsAction);
 
     // toolbars
+    _toolbarsMenu = new QMenu ("Toolbars");
 
     _modulesToolbar = makeToolbar ("Modules");
     QStringList types = CalenhadServices::modules() -> types();
@@ -160,6 +162,11 @@ void CalenhadUi::makeWidgets() {
     _viewToolbar -> addSeparator();
     _viewToolbar -> addAction (_selectModeAction);
     _viewToolbar -> addAction (_panModeAction);
+
+    _viewMenu -> addSeparator();
+    _viewMenu -> addMenu (_toolbarsMenu);
+
+
 }
 
 
@@ -168,6 +175,8 @@ QToolBar * CalenhadUi::makeToolbar (const QString& name) {
     toolbar -> setOrientation (Qt::Vertical);
     toolbar -> setAcceptDrops (false);
     QDockWidget* toolsDock = new QDockWidget (toolbar -> windowTitle(), _app);
+    _toolbarsMenu -> addAction (toolsDock -> toggleViewAction());
+
     toolsDock -> setAllowedAreas (Qt::AllDockWidgetAreas);
     toolsDock -> setWidget (toolbar);
     connect (toolsDock, &QDockWidget::dockLocationChanged, toolbar, &CalenhadToolBar::arrange);

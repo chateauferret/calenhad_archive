@@ -9,7 +9,7 @@
 #include "../../nodeedit/CalenhadToolBar.h"
 #include <QDockWidget>
 #include "../FlowLayout.h"
-
+#include <QMenu>
 
 using namespace calenhad::controls;
 using namespace calenhad::controls::globe;
@@ -99,4 +99,12 @@ void CalenhadGlobeDialog::setModel(CalenhadModel* model) {
 CalenhadModel* CalenhadGlobeDialog::model() const {
 
     return _model;
+}
+
+QMenu* CalenhadGlobeDialog::toolbarMenu() {
+    QMenu* menu = new QMenu ("Toolbars");
+    menu -> addAction (_mainDock -> toggleViewAction());
+    menu -> addAction (_mouseDock -> toggleViewAction());
+    menu -> addAction (_widgetDock -> toggleViewAction());
+    return menu;
 }
