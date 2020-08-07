@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmessages.a  CMakeFiles/messages.dir/messages_autogen/mocs_compilation.cpp.o CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o CMakeFiles/messages.dir/messages/QNotification.cpp.o CMakeFiles/messages.dir/messages/QProgressNotification.cpp.o
+/usr/bin/ranlib libmessages.a

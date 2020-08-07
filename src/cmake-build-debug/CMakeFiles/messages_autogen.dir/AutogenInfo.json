@@ -1,0 +1,97 @@
+{
+	"BUILD_DIR" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/messages_autogen",
+	"CMAKE_BINARY_DIR" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/ferret/CLionProjects/calenhad/src",
+	"CMAKE_EXECUTABLE" : "/usr/bin/clion-2020.1.1/bin/cmake/linux/bin/cmake",
+	"CMAKE_SOURCE_DIR" : "/home/ferret/CLionProjects/calenhad/src",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"/home/ferret/CLionProjects/calenhad/src/messages/QNotification.h",
+			"Mu",
+			"YS75T3UWQ3/moc_QNotification.cpp"
+		],
+		[
+			"/home/ferret/CLionProjects/calenhad/src/messages/QNotificationHost.h",
+			"Mu",
+			"YS75T3UWQ3/moc_QNotificationHost.cpp"
+		],
+		[
+			"/home/ferret/CLionProjects/calenhad/src/messages/QProgressNotification.h",
+			"Mu",
+			"YS75T3UWQ3/moc_QProgressNotification.cpp"
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/messages_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/messages_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_WIDGETS_LIB", "QT_XML_LIB" ],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/ferret/CLionProjects/calenhad",
+		"/home/ferret/CLionProjects/calenhad/src/cmake-build-debug",
+		"/home/ferret/CLionProjects/calenhad/src",
+		"/home/ferret/CLionProjects/calenhad/src/messages",
+		"/usr/include/x86_64-linux-gnu/qt5",
+		"/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+		"/usr/include/x86_64-linux-gnu/qt5/QtGui",
+		"/usr/include/x86_64-linux-gnu/qt5/QtCore",
+		"/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++",
+		"/usr/include/x86_64-linux-gnu/qt5/QtXml",
+		"/usr/include",
+		"/usr/include/c++/9",
+		"/usr/include/x86_64-linux-gnu/c++/9",
+		"/usr/include/c++/9/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/9/include",
+		"/usr/local/include",
+		"/usr/include/x86_64-linux-gnu"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : true,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/bin/clion-2020.1.1/bin/cmake/linux/share/cmake-3.17/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/messages_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/messages_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 12,
+	"SETTINGS_FILE" : "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/messages_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/home/ferret/CLionProjects/calenhad/src/messages/QNotification.cpp",
+			"Mu"
+		],
+		[
+			"/home/ferret/CLionProjects/calenhad/src/messages/QNotificationHost.cpp",
+			"Mu"
+		],
+		[
+			"/home/ferret/CLionProjects/calenhad/src/messages/QProgressNotification.cpp",
+			"Mu"
+		]
+	],
+	"VERBOSITY" : 0
+}
