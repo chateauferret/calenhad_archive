@@ -181,7 +181,7 @@ void Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
 
     double lat0 = g.first - interval;
     for (int i = 0; i <= segments; i++) {
-        if (!isinf (start.x ()) && !isinf (start.y ()) && !isinf (end.x ()) && !isinf (end.y ())) {
+        if (! std::isinf (start.x ()) && ! std::isinf (start.y ()) && ! std::isinf (end.x ()) && ! std::isinf (end.y ())) {
             Geolocation g0 = Geolocation (lat0, g.second, Units::Degrees);
             bool visible = _globe->screenCoordinates (g0, end);
             if (visible) {
@@ -221,7 +221,7 @@ void Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, doub
     _globe->screenCoordinates (Geolocation (g.first, g.second - interval, Units::Degrees), start);
     double lon0 = g.second - interval;
     for (int i = 0; i <= segments; i++) {
-        if (!isinf (start.x ()) && !isinf (start.y ()) && !isinf (end.x ()) && !isinf (end.y ())) {
+        if (! std::isinf (start.x ()) && ! std::isinf (start.y ()) && ! std::isinf (end.x ()) && !std::isinf (end.y ())) {
             Geolocation g0 = Geolocation (g.first, lon0, Units::Degrees);
             bool visible = _globe -> screenCoordinates (g0, end);
             if (visible) {

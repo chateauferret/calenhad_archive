@@ -74,6 +74,7 @@ set (SOURCE_FILES ${SOURCE_FILES}
         matrices.cpp
         matrices.h
         noiseconstants.h
+        CalenhadUi.cpp CalenhadUi.h
         ${MESSAGES_SOURCE_FILES}
         ${QMODULE_SOURCE_FILES}
         ${NODEEDIT_SOURCE_FILES}
@@ -87,8 +88,7 @@ set (SOURCE_FILES ${SOURCE_FILES}
         ${EXPRTK_SOURCE_FILES}
         ${LEGEND_SOURCE_FILES}
         ${GRAPH_SOURCE_FILES}
-        ${PREFERENCES_SOURCE_FILES}
-        CalenhadUi.cpp CalenhadUi.h grid/Extent.h)
+        ${PREFERENCES_SOURCE_FILES})
 
 set (RESOURCES_DIR resources)
 qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)

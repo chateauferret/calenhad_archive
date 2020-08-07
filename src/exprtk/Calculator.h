@@ -18,7 +18,7 @@ namespace calenhad {
 
         struct CalenhadVariable {
         public:
-            CalenhadVariable (const QString& name, const QString& notes, const double& value);
+            CalenhadVariable (QString  name, QString  notes, const double& value);
             CalenhadVariable (const CalenhadVariable& other);
             CalenhadVariable () {}
             QString _name;

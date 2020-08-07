@@ -161,8 +161,7 @@ void ModuleTree::showMenu (const QPoint& pos) {
         connect (propertiesAction, &QAction::toggled, this, [=] (bool visible) {
             module -> showModuleDetail (visible);
             propertiesAction -> setChecked (visible);
-            std::cout << visible << "\n";
-        });
+         });
         _menu -> addAction (propertiesAction);
 
         QAction* gotoAction = new QAction ("Go to");

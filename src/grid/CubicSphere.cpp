@@ -163,7 +163,6 @@ void CubicSphere::heightmap (const int& face, QImage* image) {
                 //float v = (_grid [index] + 1) / 2;
                 v =  std::max (0.0, (double) std::min ((double) v, 1.0));
 
-                //std::cout << v << "\n";
                 QColor c;
                 c.setBlueF (v);
                 c.setRedF (v);

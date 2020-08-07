@@ -46,7 +46,6 @@ void calenhad::module::RasterFileModule::openFile (const QString& filename) {
     _filenameLabel -> setToolTip (_filename);
     QPixmap pixmap = QPixmap::fromImage (*_raster).scaled (_filenameLabel -> size());
     _filenameLabel -> setPixmap (pixmap);
-    CalenhadServices::compute() -> setForceRender (true);
     invalidate();
 
 }

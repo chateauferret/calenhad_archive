@@ -18,7 +18,7 @@
 #include <QOpenGLTexture>
 #include <QtGui/QOffscreenSurface>
 #include <src/grid/CubicSphere.h>
-#include "grid//Bounds.h"
+
 
 //#include "../compute/compute.h"
 
@@ -35,10 +35,8 @@ namespace calenhad {
             ComputeService();
             ~ComputeService();
             void compute (calenhad::module::Module* module, calenhad::grid::CubicSphere *buffer);
-            void setBounds (const calenhad::grid::Bounds& bounds);
-            int size();
 
-            void setForceRender (const bool& forceRender);
+            int size();
 
         private:
             QString _codeTemplate;
@@ -52,7 +50,6 @@ namespace calenhad {
             GLuint _heightMap;
             void execute(GLfloat *buffer);
 
-            calenhad::grid::Bounds _bounds;
             int resolution;
             int _size;
             QString code;

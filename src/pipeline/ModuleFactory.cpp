@@ -59,7 +59,6 @@ void ModuleFactory::initialise() {
             QDomElement glslElement = element.firstChildElement ("glsl");
             QString glsl = glslElement.text();
             _moduleCodes.insert (type, glsl);
-            std::cout << glsl.toStdString () << "\n";
         }
 
 
@@ -89,7 +88,7 @@ void ModuleFactory::initialise() {
 
 
     } else {
-        std::cout << "Couldn't read file " << CalenhadServices::preferences() -> calenhad_moduletypes_filename.toStdString() << "\n";
+        CalenhadServices::messages() -> message ("File error", "Couldn't read file " + CalenhadServices::preferences() -> calenhad_moduletypes_filename);
     }
 }
 
@@ -97,7 +96,6 @@ QString ModuleFactory::getIconFile (const QString& icon) {
     QString iconFile = CalenhadServices::preferences() -> calenhad_moduletypes_icons_path + icon + ".png";
     if (! QFileInfo (iconFile).exists()) {
         iconFile = ":/icons/" + icon + ".png";
-        std::cout << "Icon " << iconFile.toStdString() << "\n";
     }
     return iconFile;
 }
@@ -291,11 +289,9 @@ QStringList ModuleFactory::types () {
 }
 
 QPixmap* ModuleFactory::makeIcon (const QString& type) {
-    std::cout << "Module " << type.toStdString() << "\n";
     if (type != QString()) {
         Module *module = (Module *) createModule(QString(), type, nullptr);
         if (module) {
-            std::cout << "Making icon " << type.toStdString() << "\n";
             QGraphicsItem *handle = module->makeHandle();
             NodeBlock *block = (NodeBlock *) handle;
             for (Port *port : module -> ports()) {

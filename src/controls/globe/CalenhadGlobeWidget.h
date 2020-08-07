@@ -13,7 +13,6 @@
 #include <QtWidgets/QLabel>
 #include <QtCore/QMutex>
 #include <src/geoutils.h>
-#include "../../grid/Bounds.h"
 #include "CalenhadGlobeConstants.h"
 #include "mapping/CalenhadMapWidget.h"
 #include "GlobeScaleWidget.h"
@@ -119,8 +118,6 @@ namespace calenhad {
 
                 void resized (const QSize& size);
 
-                void viewChanged (const grid::Bounds&);
-
             protected:
                 CalenhadNavigator* _navigator;
                 QMenu* _contextMenu;
@@ -135,7 +132,6 @@ namespace calenhad {
                 QMenu* makeGlobeContextMenu  (const QPoint& pos);
                 bool _graticuleVisible{};
                 calenhad::mapping::CalenhadMapWidget* _globe, *_overview;
-                grid::Bounds _bounds;
                 graph::Graph* _graph;
                 calenhad::controls::globe::GlobeScaleWidget* _scale{};
                 QComboBox* _selectModuleCombo{};

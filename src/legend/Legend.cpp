@@ -100,8 +100,6 @@ void Legend::addEntry (const LegendEntry& entry) {
     }
     _entries.append(entry);
     CalenhadServices::legends()->setDirty();
-    std::cout << "Legend " << _name.toStdString() << " entry " << entry.key().toStdString() << " -> "
-              << entry.color().name().toStdString() << "\n";
 }
 
 unsigned Legend::removeEntries (const double& from, const double& unto) {
@@ -161,12 +159,12 @@ QColor Legend::lookup (const std::experimental::optional<double>& value) {
 void Legend::setName (const QString& name) {
 
     // when we change the name of a legend, we need to tell the LegendService so that it can find it under the new name
-    CalenhadServices::legends() -> rename (_name, name);
-    _name = name;
-    if (name.isEmpty ()) {
-        std::cout << "Set empty name to legend\n";
+
+    if (! (name.isEmpty())) {
+        CalenhadServices::legends() -> rename (_name, name);
+        _name = name;
+        emit renamed (name);
     }
-    emit renamed (name);
 }
 
 void Legend::setNotes (const QString& notes) {
@@ -263,10 +261,6 @@ float* Legend::colorMapBuffer() {
         if (! _colorMapBuffer) {
             _colorMapBuffer = new float [size * 4];
         }
-
-    for (LegendEntry entry : entries()) {
-        std::cout << entry.key().toStdString() << " = " << entry.color().name().toStdString() << "\n";
-    }
 
         int k = 0;
         QColor c = _entries.first().color();

@@ -53,7 +53,6 @@ Graph::~Graph () {
 
 QString Graph::glsl() {
     _code =  glsl (_module);
-    std::cout << "Module " << _module -> name().toStdString () << "\n";
 
     if (_code != QString::null) {
         _code.append ("\n\nfloat value (vec3 cartesian, vec2 geolocation) {\n");
@@ -156,23 +155,18 @@ QString Graph::glsl (Module* module) {
                     _code += "}\n";
                 } else {
                     QString func = qm -> glsl ();;
-                    _code.append ("float _" + name + " (vec3 c, vec2 g) { return " + func);
+                    _code.append ("float _" + name + " (vec3 c, vec2 g) { \n    return " + func);
                     //_code.append ("; }\n");
                 }
 
                 // if it's a convolution module, compile and queue the module for raster upload
                 if (type == CalenhadServices::preferences()->calenhad_module_raster) {
                     Convolution* rm = (Convolution*) qm;
-                    Bounds bounds = Bounds();
-                    QString boundsCode;
 
                     _rasters.insert (_rasterId++, rm);
 
-                    // replace the bounds marker with the module's declared bounds
-                    boundsCode.append ("vec2 (" + QString::number (bounds.west ()) + ", " + QString::number (bounds.south ()) + ")");
-                    boundsCode.append (", ");
-                    boundsCode.append ("vec2 (" + QString::number (bounds.east ()) + ", " + QString::number (bounds.north ()) + ")");
-                    _code.replace ("%bounds", boundsCode);
+                    // bounds: whole world coverage
+                    _code.replace ("%bounds", "vec2 ( -M_PI, -M_PI / 2), vec2 (M_PI, M_PI / 2)");
                     _code.append ("; }\n");
                 }
 

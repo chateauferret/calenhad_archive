@@ -9,6 +9,7 @@
 #include "HypsographyWidget.h"
 #include "mapping/CalenhadMapWidget.h"
 #include "CalenhadGlobeConfigDialog.h"
+#include "../grid/CubicSphere.h"
 
 using namespace calenhad::mapping;
 using namespace calenhad::controls::globe;
@@ -55,7 +56,7 @@ void HypsographyWidget::refresh() {
     }
 
     for (int i = 0; i < n; i++) {
-        if (! isnan (buffer [i])) {
+        if (! std::isnan (buffer [i])) {
             double normalised = (buffer[i] - _statistics._min) / _statistics.range ();
             int h = _globe -> heightMapSize().height();
             int w = _globe -> heightMapSize().width();

@@ -63,7 +63,6 @@ CalenhadModel::CalenhadModel() : QGraphicsScene(),
     if (! QFileInfo (file).exists()) {
         file = ":/legends.xml";
     }
-    std::cout << "Loading legends from " << file.toStdString() << "\n";
     inflate (file, CalenhadFileType::CalenhadLegendFile);
 
 }
@@ -861,7 +860,7 @@ void CalenhadModel::inflate (const QDomElement& parent, const CalenhadFileType& 
                         }
                     }
                 } else {
-                    std::cout << "No such module " << newName.toStdString () << " of type " << type.toStdString () << "\n";
+                    CalenhadServices::messages() -> message("Module not found", "No such module as " + newName + " of type " + type);
                 }
                 _changed = false;
             }

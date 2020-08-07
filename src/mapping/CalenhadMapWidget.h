@@ -12,16 +12,17 @@
 #include <QOpenGLVertexArrayObject>
 #include <QDir>
 #include <src/geoutils.h>
-#include <grid/Bounds.h>
 #include <GeographicLib/Geodesic.hpp>
 #include <controls/globe/CalenhadNavigator.h>
 #include <legend/Legend.h>
-#include <src/grid/Extent.h>
 #include "src/matrices.h"
 #include "controls/globe/CalenhadGlobeConstants.h"
 #include "../mapping/Statistics.h"
 
 namespace calenhad {
+    namespace module {
+        class Module;
+    }
     namespace graph {
         class Graph;
     }

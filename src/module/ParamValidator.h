@@ -84,7 +84,6 @@ namespace calenhad {
             }
             bool isInBestSet (const double& value) override { return isInValidSet (value); }
             QString toString (const double& value) override {
-                std::cout << "Failed validation on " << value << "\n";
                 QString message = "Enter any value";
                 if (_validMin != -DBL_MAX && _validMax != DBL_MAX) { message += " between " + QString::number (_validMax) + "° " +  _minLetter + " and " + QString::number (_validMax) + "° " + _maxLetter; }
                 return message;

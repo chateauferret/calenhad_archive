@@ -9,6 +9,7 @@
 #include "../preferences/PreferencesService.h"
 #include "../messages/QNotificationHost.h"
 #include <QCache>
+#include <utility>
 
 using namespace exprtk;
 using namespace calenhad::expressions;
@@ -182,7 +183,7 @@ double Calculator::compute (const QString& expression) {
                 parser_error::type error = p.get_error (i);
                 QString e (QString (error.mode) + "error at position " + error.token.position + ": " + QString (error.diagnostic.c_str()));
                 _errors.append (e);
-                std::cout << expression.toStdString() << ": Error " << e.toStdString () << "\n";
+                CalenhadServices::messages() -> message ("Error parsing expression", QString::fromStdString( expression.toStdString()) + "\n" + QString::fromStdString(e.toStdString()));
                 return 0.0;
             }
         }
@@ -192,7 +193,7 @@ double Calculator::compute (const QString& expression) {
     return  e -> value();
 }
 
-CalenhadVariable::CalenhadVariable (const QString& name, const QString& notes, const double& value) : _name (name), _notes (notes), _value (value) {
+CalenhadVariable::CalenhadVariable (QString  name, QString  notes, const double& value) : _name (std::move (name)), _notes (std::move (notes)), _value (value) {
 
 }
 

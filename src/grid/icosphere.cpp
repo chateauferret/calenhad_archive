@@ -12,7 +12,7 @@
 #include <GL/gl.h>
 #include <QtGui/QImage>
 #include "icosphere.h"
-#include "Bounds.h"
+
 #include "../module/Module.h"
 
 using namespace calenhad::grid;

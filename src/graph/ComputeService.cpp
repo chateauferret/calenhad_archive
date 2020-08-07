@@ -4,16 +4,14 @@
 #include <iostream>
 #include <src/CalenhadServices.h>
 #include "ComputeService.h"
-#include "../module/Module.h"
 #include "../nodeedit/Port.h"
 #include "../nodeedit/Connection.h"
 #include <cmath>
-#include "../grid/Extent.h"
 #include "graph.h"
-
+#include "../messages/QNotificationHost.h"
 /*
 
-calenhad::graph::ComputeService::ComputeService () {
+calenhad::graph::ComputeService::ComputeS ervice () {
     // read cuda code from files into memory for use at compute time
     QDirIterator it(":/cuda");
     while (it.hasNext()) {
@@ -114,17 +112,17 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
         if (_computeShader) {
             _computeProgram -> removeAllShaders();
             if (_computeShader -> compileSourceCode(sourceCode)) {
-                _computeProgram -> addShader(_computeShader);
+                _computeProgram -> addShader (_computeShader);
                 _computeProgram -> link();
                 _computeProgram -> bind();
                 execute (buffer -> data());
             } else {
-                std::cout << "Compute shader would not compile\n";
+                CalenhadServices::messages() -> message ("Compute shader would not compile", code);
             }
         }
     //}
     } else {
-        std::cout << "No render code for compute shader\n";
+        CalenhadServices::messages() -> message ("No code for compute shader",  code);
     }
 
     clock_t end = clock ();
@@ -164,14 +162,7 @@ void ComputeService::execute (GLfloat* buffer) {
     f -> glDeleteBuffers (1, &_rasterBuffer);
 }
 
-void ComputeService::setBounds (const Bounds &bounds) {
-    _bounds = bounds;
-}
-
 int ComputeService::size() {
     return _size;
 }
 
-void ComputeService::setForceRender(const bool& forceRender) {
-    _forceRender = forceRender;
-}

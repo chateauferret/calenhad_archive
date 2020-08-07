@@ -22,6 +22,7 @@
 #include "../grid/icosphere.h"
 #include "../CalenhadServices.h"
 #include "../legend//LegendService.h"
+#include "../messages/QNotificationHost.h"
 
 using namespace calenhad;
 using namespace geoutils;
@@ -543,9 +544,8 @@ void CalenhadMapWidget::initializeGL() {
 }
 
 void CalenhadMapWidget::compute () {
-    std::cout << "Mode "<< _mode << "\n";
     unsigned long colorMapBytes = CalenhadServices::preferences() -> calenhad_colormap_buffersize * sizeof (float) * 4;
-    if (! context()) { std::cout << "No context"; }
+    if (! context()) { CalenhadServices::messages() -> message ("Render error", "No compute context for rendering shader"); return; }
 
     makeCurrent ();
     createTexture ();
@@ -555,7 +555,7 @@ void CalenhadMapWidget::compute () {
         if (_computeShader -> compileSourceCode (_shader)) {
             _computeProgram -> addShader (_computeShader);
         } else {
-            std::cout << "Compute shader would not compile\n";
+            CalenhadServices::messages() -> message ("Render error", "Compute shader would not compile");
         }
     }
     _computeProgram -> bind ();
@@ -629,8 +629,8 @@ void CalenhadMapWidget::compute () {
     int xp = _size / 32;
     glDispatchCompute (xp, xp * 2, 1);
     glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
-    std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
-    std::cout << "Image size " << width () << " x " << height () << "\n\n";
+    //std::cout << "Texture size " << _globeTexture -> width () << " x " << _globeTexture->height () << "  -  ";
+    //std::cout << "Image size " << width () << " x " << height () << "\n\n";
     clock_t end = clock ();
     _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
     std::cout << "Render finished in " << _renderTime << " milliseconds\n\n";
@@ -647,7 +647,7 @@ void CalenhadMapWidget::render() {
         if (! _source -> name().isNull()) {
             ComputeService* c = CalenhadServices::compute();
             _size = c -> size();
-           if (_buffer) { delete _buffer; }
+           delete _buffer;
            //_buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
            _buffer = new CubicSphere ();
            c -> compute (_source, _buffer);
