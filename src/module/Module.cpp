@@ -120,7 +120,7 @@ QSet<Module*> Module::dependants() {
 
     QSet<Module*> found;
     if (! _output -> connections(). isEmpty()) {
-        foreach (Connection* c, _output -> connections()) {
+        for (Connection* c : _output -> connections()) {
             if (c) {
                 Port* p = c->otherEnd (_output);
                 if (p) {
@@ -156,7 +156,7 @@ QString Module::glsl () {
     }
 
     // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
-    for (QString param : CalenhadServices::modules() -> paramNames()) {
+    for (const QString& param : CalenhadServices::modules() -> paramNames()) {
         if (parameters().contains (param)) {
             code.replace ("%" + param, QString::number (parameterValue (param)));
         }

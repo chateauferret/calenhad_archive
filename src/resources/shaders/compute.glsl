@@ -703,23 +703,22 @@ float select (float control, float in0, float in1, float lowerBound, float upper
 }
 
 // raster constrained to bounds (a.x, a.y) - (b.x, b.y)
-float raster (vec3 cartesian, uint rasterIndex, vec2 a, vec2 b, float defaultValue) {
+float raster (vec3 cartesian, uint rasterIndex, float defaultValue) {
     vec2 rg = toGeolocation (cartesian);
-
-    if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
-        if (rg.x < a.x) {
-            rg.x += M_PI * 2;
-        }
-        b.x += M_PI * 2;
-    }
 
     float dlon = (rg.x + M_PI) / (M_PI * 2);
     float dlat = (rg.y + (M_PI / 2)) / M_PI;
-    vec2 r = vec2 ((rg.x - a.x) / (b.x - a.x), (rg.y - a.y) / (b.y - a.y));
-    uvec2 i = uvec2 (r.x * size * 2, r.y * size);
-    uint index = (rasterIndex * size * size) + int (i.y * size * 2) + i.x;
+    uvec2 i = uvec2 (dlon * size * 2, dlat * size);
+    uint index = (rasterIndex * size * size * 2) + int (i.y * size * 2) + i.x;
     return rasters [index];
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
+}
+
+float convolution (uint rasterIndex) {
+    ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
+    uint i = pos.z * size * size + pos.y * size + pos.x;
+    i += rasterIndex * size * size * 6;
+    return 0.0; //convolutions [i];
 }
 
 // Find the x and y coordinates for a geolocation in a raster of height and width given by size and

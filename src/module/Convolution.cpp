@@ -11,7 +11,7 @@
 #include "../controls/QAngleControl.h"
 #include "../preferences/PreferencesService.h"
 #include "mapping/CalenhadMapWidget.h"
-#include "RasterFileModule.h"
+#include "RasterModule.h"
 #include <QtMath>
 
 
@@ -23,34 +23,25 @@ using namespace calenhad::controls;
 using namespace geoutils;
 
 Convolution::Convolution (const QString& type) : Module (type, nullptr),
-                                                 _raster (nullptr) {
+                                                 _buffer (new CubicSphere()) {
 }
 
 Convolution::~Convolution() {
-    delete _raster;
+    delete _buffer;
 }
 
 bool Convolution::isComplete() {
-
-    if (_raster) {
-        return Module::isComplete();
-    } else {
-        return false;
-    }
+    return Module::isComplete();
 }
 
 void Convolution::inflate (const QDomElement& element) {
     Module::inflate (element);
-
-
 }
 
 void Convolution::serialize (QDomElement& element) {
     Module::serialize (element);
 }
 
-
-
 QString Convolution::glsl () {
-   return  "raster (c, %index, %bounds, %0)";
+   return  "convolution (%index)";
 }

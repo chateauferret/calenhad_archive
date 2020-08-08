@@ -12130,7 +12130,9 @@ CMakeFiles/calenhad.dir/graph/graph.cpp.o
  ../../src/graph/ComputeService.h
  ../../src/grid/CubicSphere.h
  ../../src/matrices.h
+ ../../src/module/Convolution.h
  ../../src/module/Module.h
+ ../../src/module/RasterModule.h
  ../../src/preferences/PreferencesService.h
  ../CalenhadServices.h
  ../controls/altitudemap/AltitudeMapConstants.h
@@ -17922,6 +17924,259 @@ CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxmlglobal.h
  /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxmlversion.h
  /usr/include/x86_64-linux-gnu/qt5/QtXml/qxml.h
+CMakeFiles/calenhad.dir/module/Cache.cpp.o
+ ../../src/CalenhadServices.h
+ ../../src/Serializable.h
+ ../../src/controls/SplashDialog.h
+ ../../src/controls/globe/CalenhadGlobeConstants.h
+ ../../src/controls/globe/CalenhadGlobeDialog.h
+ ../../src/controls/globe/CalenhadGlobeWidget.h
+ ../../src/controls/globe/GlobeScaleWidget.h
+ ../../src/geoutils.h
+ ../../src/graph/ComputeService.h
+ ../../src/grid/CubicSphere.h
+ ../../src/matrices.h
+ ../../src/module/Module.h
+ ../../src/preferences/PreferencesService.h
+ ../controls/globe/CalenhadGlobeConstants.h
+ ../controls/globe/CalenhadNavigator.h
+ ../exprtk/ExpressionWidget.h
+ ../exprtk/exprtk.hpp
+ ../legend/Legend.h
+ ../legend/LegendEntry.h
+ ../mapping/CalenhadMapWidget.h
+ ../mapping/Statistics.h
+ /home/ferret/CLionProjects/calenhad/src/CalenhadServices.h
+ /home/ferret/CLionProjects/calenhad/src/geoutils.h
+ /home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h
+ /home/ferret/CLionProjects/calenhad/src/module/Cache.cpp
+ /home/ferret/CLionProjects/calenhad/src/module/Cache.h
+ /home/ferret/CLionProjects/calenhad/src/module/Convolution.h
+ /home/ferret/CLionProjects/calenhad/src/module/Module.h
+ /home/ferret/CLionProjects/calenhad/src/module/Node.h
+ /home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h
+ /home/ferret/CLionProjects/calenhad/src/nodeedit/Connection.h
+ /home/ferret/CLionProjects/calenhad/src/nodeedit/Port.h
+ /home/ferret/CLionProjects/calenhad/src/preferences/PreferencesService.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QMutex
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QPair
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QScopedPointer
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QSet
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QSettings
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QString
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QTextStream
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QUuid
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QVector
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_bootstrap.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_msvc.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasicatomic.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasictimer.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearraylist.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcompilerdetection.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig-bootstrapped.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qfiledevice.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qfileinfo.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qhashfunctions.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qiterator.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qline.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmargins.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmutex.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs_impl.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qpair.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qprocessordetection.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qrect.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qregexp.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qregularexpression.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qscopedpointer.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsettings.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer_impl.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsize.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringalgorithms.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringbuilder.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringliteral.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringmatcher.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringview.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qt_windows.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qurlquery.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/quuid.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QColor
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QImage
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOffscreenSurface
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOpenGLBuffer
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOpenGLFunctions_4_3_Core
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOpenGLShader
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOpenGLShaderProgram
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOpenGLTexture
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOpenGLVersionFunctions
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QOpenGLVertexArrayObject
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QSurfaceFormat
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qbrush.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qcolor.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qcursor.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qfont.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qfontinfo.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qfontmetrics.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qgenericmatrix.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qicon.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qimage.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qkeysequence.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qmatrix.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qmatrix4x4.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qoffscreensurface.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopengl.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopenglbuffer.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopenglcontext.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopengles2ext.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopenglext.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopenglfunctions_4_3_core.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopenglshaderprogram.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopengltexture.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopenglversionfunctions.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qopenglvertexarrayobject.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpaintdevice.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpainterpath.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpalette.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpen.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpixelformat.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpixmap.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qpolygon.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qquaternion.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qregion.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qrgb.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qrgba64.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qsurface.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qsurfaceformat.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtextcursor.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtextdocument.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtextformat.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtextoption.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtgui-config.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtguiglobal.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtransform.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qvalidator.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector3d.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector4d.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs.h
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs_win.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QAction
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QCheckBox
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QComboBox
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QDialog
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QDockWidget
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QDoubleSpinBox
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QFormLayout
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QGraphicsItem
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QGraphicsPathItem
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLayout
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLineEdit
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QOpenGLWidget
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QSlider
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTextEdit
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QToolBox
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractitemdelegate.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractscrollarea.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractslider.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractspinbox.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qaction.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qactiongroup.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qcheckbox.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qcombobox.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdockwidget.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qformlayout.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qgraphicsitem.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qgridlayout.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlayout.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlayoutitem.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlineedit.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qopenglwidget.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qpushbutton.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qrubberband.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsizepolicy.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qslider.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qspinbox.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstyle.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstyleoption.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabbar.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabwidget.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtextedit.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtoolbox.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
+ /usr/include/x86_64-linux-gnu/qt5/QtXml/QDomDocument
+ /usr/include/x86_64-linux-gnu/qt5/QtXml/QDomElement
+ /usr/include/x86_64-linux-gnu/qt5/QtXml/QDomNode
+ /usr/include/x86_64-linux-gnu/qt5/QtXml/qdom.h
+ /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxml-config.h
+ /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxmlglobal.h
 CMakeFiles/calenhad.dir/module/Convolution.cpp.o
  ../../src/CalenhadServices.h
  ../../src/Serializable.h
@@ -17952,7 +18207,7 @@ CMakeFiles/calenhad.dir/module/Convolution.cpp.o
  /home/ferret/CLionProjects/calenhad/src/module/Module.h
  /home/ferret/CLionProjects/calenhad/src/module/Node.h
  /home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h
- /home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.h
+ /home/ferret/CLionProjects/calenhad/src/module/RasterModule.h
  /home/ferret/CLionProjects/calenhad/src/preferences/PreferencesService.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
@@ -19858,7 +20113,7 @@ CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtXml/qdom.h
  /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxml-config.h
  /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxmlglobal.h
-CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o
  ../../src/CalenhadServices.h
  ../../src/Serializable.h
  ../../src/controls/SplashDialog.h
@@ -19887,8 +20142,8 @@ CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o
  /home/ferret/CLionProjects/calenhad/src/module/Module.h
  /home/ferret/CLionProjects/calenhad/src/module/Node.h
  /home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h
- /home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.cpp
- /home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.h
+ /home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp
+ /home/ferret/CLionProjects/calenhad/src/module/RasterModule.h
  /home/ferret/CLionProjects/calenhad/src/preferences/PreferencesService.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
@@ -25535,7 +25790,7 @@ CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o
  ../../src/matrices.h
  ../../src/module/Convolution.h
  ../../src/module/Module.h
- ../../src/module/RasterFileModule.h
+ ../../src/module/RasterModule.h
  ../../src/noiseconstants.h
  ../../src/preferences/PreferencesService.h
  ../CalenhadServices.h

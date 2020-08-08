@@ -230,7 +230,7 @@ void CalenhadGlobeWidget::updateModules() {
         CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
         if (model) {
             for (Module* m : model -> modules()) {
-                QPixmap *pixmap = CalenhadServices::modules()->getIcon(m->nodeType());
+                QPixmap *pixmap = CalenhadServices::modules() -> getIcon (m -> nodeType());
                 QIcon icon (*pixmap);
                 if (m -> isComplete()) {
                     _selectModuleCombo -> addItem (icon, m -> name());

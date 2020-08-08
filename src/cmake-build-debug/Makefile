@@ -2135,6 +2135,33 @@ module/AltitudeMap.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.s
 .PHONY : module/AltitudeMap.cpp.s
 
+module/Cache.o: module/Cache.cpp.o
+
+.PHONY : module/Cache.o
+
+# target to build an object file
+module/Cache.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Cache.cpp.o
+.PHONY : module/Cache.cpp.o
+
+module/Cache.i: module/Cache.cpp.i
+
+.PHONY : module/Cache.i
+
+# target to preprocess a source file
+module/Cache.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Cache.cpp.i
+.PHONY : module/Cache.cpp.i
+
+module/Cache.s: module/Cache.cpp.s
+
+.PHONY : module/Cache.s
+
+# target to generate assembly for a file
+module/Cache.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Cache.cpp.s
+.PHONY : module/Cache.cpp.s
+
 module/Convolution.o: module/Convolution.cpp.o
 
 .PHONY : module/Convolution.o
@@ -2243,32 +2270,32 @@ module/NodeGroup.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/NodeGroup.cpp.s
 .PHONY : module/NodeGroup.cpp.s
 
-module/RasterFileModule.o: module/RasterFileModule.cpp.o
+module/RasterModule.o: module/RasterModule.cpp.o
 
-.PHONY : module/RasterFileModule.o
+.PHONY : module/RasterModule.o
 
 # target to build an object file
-module/RasterFileModule.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o
-.PHONY : module/RasterFileModule.cpp.o
+module/RasterModule.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/RasterModule.cpp.o
+.PHONY : module/RasterModule.cpp.o
 
-module/RasterFileModule.i: module/RasterFileModule.cpp.i
+module/RasterModule.i: module/RasterModule.cpp.i
 
-.PHONY : module/RasterFileModule.i
+.PHONY : module/RasterModule.i
 
 # target to preprocess a source file
-module/RasterFileModule.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.i
-.PHONY : module/RasterFileModule.cpp.i
+module/RasterModule.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/RasterModule.cpp.i
+.PHONY : module/RasterModule.cpp.i
 
-module/RasterFileModule.s: module/RasterFileModule.cpp.s
+module/RasterModule.s: module/RasterModule.cpp.s
 
-.PHONY : module/RasterFileModule.s
+.PHONY : module/RasterModule.s
 
 # target to generate assembly for a file
-module/RasterFileModule.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.s
-.PHONY : module/RasterFileModule.cpp.s
+module/RasterModule.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/RasterModule.cpp.s
+.PHONY : module/RasterModule.cpp.s
 
 nodeedit/Calenhad.o: nodeedit/Calenhad.cpp.o
 
@@ -2903,6 +2930,9 @@ help:
 	@echo "... module/AltitudeMap.o"
 	@echo "... module/AltitudeMap.i"
 	@echo "... module/AltitudeMap.s"
+	@echo "... module/Cache.o"
+	@echo "... module/Cache.i"
+	@echo "... module/Cache.s"
 	@echo "... module/Convolution.o"
 	@echo "... module/Convolution.i"
 	@echo "... module/Convolution.s"
@@ -2915,9 +2945,9 @@ help:
 	@echo "... module/NodeGroup.o"
 	@echo "... module/NodeGroup.i"
 	@echo "... module/NodeGroup.s"
-	@echo "... module/RasterFileModule.o"
-	@echo "... module/RasterFileModule.i"
-	@echo "... module/RasterFileModule.s"
+	@echo "... module/RasterModule.o"
+	@echo "... module/RasterModule.i"
+	@echo "... module/RasterModule.s"
 	@echo "... nodeedit/Calenhad.o"
 	@echo "... nodeedit/Calenhad.i"
 	@echo "... nodeedit/Calenhad.s"

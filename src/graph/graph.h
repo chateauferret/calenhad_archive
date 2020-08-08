@@ -11,6 +11,7 @@ namespace calenhad {
     namespace module {
         class Module;
         class Convolution;
+        class RasterModule;
     }
 
     namespace legend {
@@ -38,7 +39,7 @@ namespace calenhad {
             QString _code;
             QString _nodeName;
             float* _colorMapBuffer;
-            QMap<int, calenhad::module::Convolution*> _rasters;
+            QMap<int, calenhad::module::RasterModule*> _rasters;
 
             exprtk::parser<double>* _parser;
             int _rasterId;

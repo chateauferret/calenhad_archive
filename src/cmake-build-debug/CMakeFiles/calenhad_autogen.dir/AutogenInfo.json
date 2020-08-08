@@ -395,6 +395,11 @@
 			"D72IQXBNBH/moc_AltitudeMap.cpp"
 		],
 		[
+			"/home/ferret/CLionProjects/calenhad/src/module/Cache.h",
+			"Mu",
+			"D72IQXBNBH/moc_Cache.cpp"
+		],
+		[
 			"/home/ferret/CLionProjects/calenhad/src/module/Convolution.h",
 			"Mu",
 			"D72IQXBNBH/moc_Convolution.cpp"
@@ -420,9 +425,9 @@
 			"D72IQXBNBH/moc_ParamValidator.cpp"
 		],
 		[
-			"/home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.h",
+			"/home/ferret/CLionProjects/calenhad/src/module/RasterModule.h",
 			"Mu",
-			"D72IQXBNBH/moc_RasterFileModule.cpp"
+			"D72IQXBNBH/moc_RasterModule.cpp"
 		],
 		[
 			"/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.h",
@@ -814,6 +819,7 @@
 			"/home/ferret/CLionProjects/calenhad/src/module/AltitudeMap.cpp",
 			"Mu"
 		],
+		[ "/home/ferret/CLionProjects/calenhad/src/module/Cache.cpp", "Mu" ],
 		[
 			"/home/ferret/CLionProjects/calenhad/src/module/Convolution.cpp",
 			"Mu"
@@ -822,7 +828,7 @@
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Node.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/NodeGroup.cpp", "Mu" ],
 		[
-			"/home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.cpp",
+			"/home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp",
 			"Mu"
 		],
 		[ "/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp", "Mu" ],

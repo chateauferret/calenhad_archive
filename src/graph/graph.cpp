@@ -16,6 +16,7 @@
 #include <QList>
 #include <module/AltitudeMap.h>
 #include <module/Convolution.h>
+#include <src/module/RasterModule.h>
 #include "../messages/QNotificationHost.h"
 #include "../legend//Legend.h"
 
@@ -159,16 +160,20 @@ QString Graph::glsl (Module* module) {
                     //_code.append ("; }\n");
                 }
 
-                // if it's a convolution module, compile and queue the module for raster upload
-                if (type == CalenhadServices::preferences()->calenhad_module_raster) {
-                    Convolution* rm = (Convolution*) qm;
+                // if it's a raster module, compile and queue the module for raster upload
+                if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
+                    RasterModule* rm = (RasterModule*) qm;
 
-                    _rasters.insert (_rasterId++, rm);
+                    _rasters.insert (_rasterId, rm);
 
                     // bounds: whole world coverage
-                    _code.replace ("%bounds", "vec2 ( -M_PI, -M_PI / 2), vec2 (M_PI, M_PI / 2)");
+                    _code.replace ("%index", QString::number (_rasterId));
                     _code.append ("; }\n");
+                    _rasterId++;
                 }
+
+                // To do - the same for a convolution module
+                // Also don't bring in antecendent modules of generators (convolutions are generators)
 
                 // replace the input module markers with their names referencing their member variables in glsl
                 int i = 0;

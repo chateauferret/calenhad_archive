@@ -12,7 +12,7 @@
 #include <QList>
 #include <module/Convolution.h>
 #include <nodeedit/Port.h>
-#include <src/module/RasterFileModule.h>
+#include <src/module/RasterModule.h>
 #include "src/noiseconstants.h"
 #include "../nodeedit/NodeBlock.h"
 
@@ -114,7 +114,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         Node* n = nullptr;
         Module* qm = nullptr;
         if (type == "altitudemap") { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
-        if (type == "raster") { RasterFileModule* rm = new RasterFileModule(); qm = rm; n = qm; }
+        if (type == "raster") { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
         if (! n) {
             qm = new Module (type, nullptr);
             n = qm;

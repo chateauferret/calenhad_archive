@@ -346,22 +346,35 @@ CMakeFiles/calenhad.dir/module/Convolution.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/module/Convolution.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/module/Convolution.cpp -o CMakeFiles/calenhad.dir/module/Convolution.cpp.s
 
-CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o: CMakeFiles/calenhad.dir/flags.make
-CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o: ../module/RasterFileModule.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o -c /home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.cpp
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: CMakeFiles/calenhad.dir/flags.make
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../module/RasterModule.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/calenhad.dir/module/RasterModule.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/module/RasterModule.cpp.o -c /home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp
 
-CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.cpp > CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.i
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calenhad.dir/module/RasterModule.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp > CMakeFiles/calenhad.dir/module/RasterModule.cpp.i
 
-CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/module/RasterFileModule.cpp -o CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.s
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/module/RasterModule.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp -o CMakeFiles/calenhad.dir/module/RasterModule.cpp.s
+
+CMakeFiles/calenhad.dir/module/Cache.cpp.o: CMakeFiles/calenhad.dir/flags.make
+CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../module/Cache.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/calenhad.dir/module/Cache.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/module/Cache.cpp.o -c /home/ferret/CLionProjects/calenhad/src/module/Cache.cpp
+
+CMakeFiles/calenhad.dir/module/Cache.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calenhad.dir/module/Cache.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferret/CLionProjects/calenhad/src/module/Cache.cpp > CMakeFiles/calenhad.dir/module/Cache.cpp.i
+
+CMakeFiles/calenhad.dir/module/Cache.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/module/Cache.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/module/Cache.cpp -o CMakeFiles/calenhad.dir/module/Cache.cpp.s
 
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../nodeedit/NodeNameValidator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/NodeNameValidator.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.i: cmake_force
@@ -374,7 +387,7 @@ CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../nodeedit/PortNameValidator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/PortNameValidator.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.i: cmake_force
@@ -387,7 +400,7 @@ CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../nodeedit/NodeBlock.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/NodeBlock.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.i: cmake_force
@@ -400,7 +413,7 @@ CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../nodeedit/Connection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/Connection.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.i: cmake_force
@@ -413,7 +426,7 @@ CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../nodeedit/Calenhad.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.i: cmake_force
@@ -426,7 +439,7 @@ CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../nodeedit/Port.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/Port.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.i: cmake_force
@@ -439,7 +452,7 @@ CMakeFiles/calenhad.dir/nodeedit/Port.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../nodeedit/CalenhadController.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadController.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.i: cmake_force
@@ -452,7 +465,7 @@ CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.o: ../nodeedit/CalenhadToolBar.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadToolBar.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.i: cmake_force
@@ -465,7 +478,7 @@ CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../nodeedit/CalenhadView.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadView.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.i: cmake_force
@@ -478,7 +491,7 @@ CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../nodeedit/EditableLabel.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/EditableLabel.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.i: cmake_force
@@ -491,7 +504,7 @@ CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../nodeedit/ProjectPropertiesDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/nodeedit/ProjectPropertiesDialog.cpp
 
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.i: cmake_force
@@ -504,7 +517,7 @@ CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../controls/globe/CalenhadNavigator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadNavigator.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.i: cmake_force
@@ -517,7 +530,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../controls/globe/CalenhadGlobeContextMenu.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeContextMenu.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.i: cmake_force
@@ -530,7 +543,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.s: cmake_for
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/CalenhadGlobeConfigDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeConfigDialog.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.i: cmake_force
@@ -543,7 +556,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.s: cmake_fo
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/CalenhadStatsPanel.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadStatsPanel.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.i: cmake_force
@@ -556,7 +569,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: ../controls/globe/StatisticsService.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/StatisticsService.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.i: cmake_force
@@ -569,7 +582,7 @@ CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../controls/globe/CalenhadGlobeDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeDialog.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.i: cmake_force
@@ -582,7 +595,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../controls/globe/CalenhadGlobeWidget.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeWidget.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.i: cmake_force
@@ -595,7 +608,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../controls/globe/GlobeScaleWidget.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/GlobeScaleWidget.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.i: cmake_force
@@ -608,7 +621,7 @@ CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../controls/globe/HypsographyWidget.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/globe/HypsographyWidget.cpp
 
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.i: cmake_force
@@ -621,7 +634,7 @@ CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../controls/altitudemap/AltitudeMapPlot.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapPlot.cpp
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.i: cmake_force
@@ -634,7 +647,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../controls/altitudemap/AltitudeMapping.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapping.cpp
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.i: cmake_force
@@ -647,7 +660,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o: ../controls/altitudemap/AltitudeMappingDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMappingDialog.cpp
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.i: cmake_force
@@ -660,7 +673,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.s: cmake_
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../controls/altitudemap/AltitudeMapEditor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapEditor.cpp
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.i: cmake_force
@@ -673,7 +686,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.s: cmake_forc
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o: ../controls/altitudemap/AltitudeMapFitter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapFitter.cpp
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.i: cmake_force
@@ -686,7 +699,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.s: cmake_forc
 
 CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o: ../controls/altitudemap/TerraceMapFitter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp
 
 CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.i: cmake_force
@@ -699,7 +712,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../controls/legend/LegendEditor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditor.cpp
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.i: cmake_force
@@ -712,7 +725,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../controls/legend/LegendEditorSlider.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorSlider.cpp
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.i: cmake_force
@@ -725,7 +738,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.o: ../controls/legend/LegendPreview.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/legend/LegendPreview.cpp
 
 CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.i: cmake_force
@@ -738,7 +751,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSliderPanel.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSliderPanel.cpp.o: ../controls/legend/LegendEditorSliderPanel.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditorSliderPanel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditorSliderPanel.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/legend/LegendEditorSliderPanel.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorSliderPanel.cpp
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSliderPanel.cpp.i: cmake_force
@@ -751,7 +764,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditorSliderPanel.cpp.s: cmake_for
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorScale.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorScale.cpp.o: ../controls/legend/LegendEditorScale.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditorScale.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEditorScale.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/legend/LegendEditorScale.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorScale.cpp
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorScale.cpp.i: cmake_force
@@ -764,7 +777,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditorScale.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../controls/legend/LegendEntryDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEntryDialog.cpp
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.i: cmake_force
@@ -777,7 +790,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/QExpander.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/QExpander.cpp.o: ../controls/QExpander.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/calenhad.dir/controls/QExpander.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/calenhad.dir/controls/QExpander.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/QExpander.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/QExpander.cpp
 
 CMakeFiles/calenhad.dir/controls/QExpander.cpp.i: cmake_force
@@ -790,7 +803,7 @@ CMakeFiles/calenhad.dir/controls/QExpander.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../controls/QIconPalette.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/QIconPalette.cpp
 
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.i: cmake_force
@@ -803,7 +816,7 @@ CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/SizeGripItem.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/SizeGripItem.cpp.o: ../controls/SizeGripItem.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/calenhad.dir/controls/SizeGripItem.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object CMakeFiles/calenhad.dir/controls/SizeGripItem.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/SizeGripItem.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/SizeGripItem.cpp
 
 CMakeFiles/calenhad.dir/controls/SizeGripItem.cpp.i: cmake_force
@@ -816,7 +829,7 @@ CMakeFiles/calenhad.dir/controls/SizeGripItem.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/FlowLayout.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/FlowLayout.cpp.o: ../controls/FlowLayout.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object CMakeFiles/calenhad.dir/controls/FlowLayout.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object CMakeFiles/calenhad.dir/controls/FlowLayout.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/FlowLayout.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/FlowLayout.cpp
 
 CMakeFiles/calenhad.dir/controls/FlowLayout.cpp.i: cmake_force
@@ -829,7 +842,7 @@ CMakeFiles/calenhad.dir/controls/FlowLayout.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/TextEdit.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/TextEdit.cpp.o: ../controls/TextEdit.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object CMakeFiles/calenhad.dir/controls/TextEdit.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/calenhad.dir/controls/TextEdit.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/TextEdit.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/TextEdit.cpp
 
 CMakeFiles/calenhad.dir/controls/TextEdit.cpp.i: cmake_force
@@ -842,7 +855,7 @@ CMakeFiles/calenhad.dir/controls/TextEdit.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/ColorButton.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/ColorButton.cpp.o: ../controls/ColorButton.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/calenhad.dir/controls/ColorButton.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/calenhad.dir/controls/ColorButton.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/ColorButton.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/ColorButton.cpp
 
 CMakeFiles/calenhad.dir/controls/ColorButton.cpp.i: cmake_force
@@ -855,7 +868,7 @@ CMakeFiles/calenhad.dir/controls/ColorButton.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../controls/CalenhadLegendDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/CalenhadLegendDialog.cpp
 
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.i: cmake_force
@@ -868,7 +881,7 @@ CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/QAngleControl.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/QAngleControl.cpp.o: ../controls/QAngleControl.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object CMakeFiles/calenhad.dir/controls/QAngleControl.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object CMakeFiles/calenhad.dir/controls/QAngleControl.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/QAngleControl.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/QAngleControl.cpp
 
 CMakeFiles/calenhad.dir/controls/QAngleControl.cpp.i: cmake_force
@@ -881,7 +894,7 @@ CMakeFiles/calenhad.dir/controls/QAngleControl.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../controls/SplashDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/SplashDialog.cpp
 
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.i: cmake_force
@@ -894,7 +907,7 @@ CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../controls/ModuleTree.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/ModuleTree.cpp
 
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.i: cmake_force
@@ -907,7 +920,7 @@ CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../pipeline/ModuleFactory.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o -c /home/ferret/CLionProjects/calenhad/src/pipeline/ModuleFactory.cpp
 
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.i: cmake_force
@@ -920,7 +933,7 @@ CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../pipeline/CalenhadModel.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o -c /home/ferret/CLionProjects/calenhad/src/pipeline/CalenhadModel.cpp
 
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.i: cmake_force
@@ -933,7 +946,7 @@ CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/actions/ZoomCommand.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/actions/ZoomCommand.cpp.o: ../actions/ZoomCommand.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object CMakeFiles/calenhad.dir/actions/ZoomCommand.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/calenhad.dir/actions/ZoomCommand.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/actions/ZoomCommand.cpp.o -c /home/ferret/CLionProjects/calenhad/src/actions/ZoomCommand.cpp
 
 CMakeFiles/calenhad.dir/actions/ZoomCommand.cpp.i: cmake_force
@@ -946,7 +959,7 @@ CMakeFiles/calenhad.dir/actions/ZoomCommand.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../actions/ChangeModuleCommand.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o -c /home/ferret/CLionProjects/calenhad/src/actions/ChangeModuleCommand.cpp
 
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.i: cmake_force
@@ -959,7 +972,7 @@ CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../actions/XmlCommand.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o -c /home/ferret/CLionProjects/calenhad/src/actions/XmlCommand.cpp
 
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.i: cmake_force
@@ -972,7 +985,7 @@ CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../actions/GridCommand.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o -c /home/ferret/CLionProjects/calenhad/src/actions/GridCommand.cpp
 
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.i: cmake_force
@@ -985,7 +998,7 @@ CMakeFiles/calenhad.dir/actions/GridCommand.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../actions/SnapToGridCommand.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o -c /home/ferret/CLionProjects/calenhad/src/actions/SnapToGridCommand.cpp
 
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.i: cmake_force
@@ -998,7 +1011,7 @@ CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/projection/ProjectionService.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/projection/ProjectionService.cpp.o: ../mapping/projection/ProjectionService.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/ProjectionService.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/ProjectionService.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/projection/ProjectionService.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/projection/ProjectionService.cpp
 
 CMakeFiles/calenhad.dir/mapping/projection/ProjectionService.cpp.i: cmake_force
@@ -1011,7 +1024,7 @@ CMakeFiles/calenhad.dir/mapping/projection/ProjectionService.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/projection/EquirectangularProjection.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/projection/EquirectangularProjection.cpp.o: ../mapping/projection/EquirectangularProjection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/EquirectangularProjection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/EquirectangularProjection.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/projection/EquirectangularProjection.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/projection/EquirectangularProjection.cpp
 
 CMakeFiles/calenhad.dir/mapping/projection/EquirectangularProjection.cpp.i: cmake_force
@@ -1024,7 +1037,7 @@ CMakeFiles/calenhad.dir/mapping/projection/EquirectangularProjection.cpp.s: cmak
 
 CMakeFiles/calenhad.dir/mapping/projection/MercatorProjection.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/projection/MercatorProjection.cpp.o: ../mapping/projection/MercatorProjection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/MercatorProjection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/MercatorProjection.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/projection/MercatorProjection.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/projection/MercatorProjection.cpp
 
 CMakeFiles/calenhad.dir/mapping/projection/MercatorProjection.cpp.i: cmake_force
@@ -1037,7 +1050,7 @@ CMakeFiles/calenhad.dir/mapping/projection/MercatorProjection.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/projection/OrthographicProjection.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/projection/OrthographicProjection.cpp.o: ../mapping/projection/OrthographicProjection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/OrthographicProjection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/calenhad.dir/mapping/projection/OrthographicProjection.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/projection/OrthographicProjection.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/projection/OrthographicProjection.cpp
 
 CMakeFiles/calenhad.dir/mapping/projection/OrthographicProjection.cpp.i: cmake_force
@@ -1050,7 +1063,7 @@ CMakeFiles/calenhad.dir/mapping/projection/OrthographicProjection.cpp.s: cmake_f
 
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../mapping/CalenhadMapWidget.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/CalenhadMapWidget.cpp
 
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.i: cmake_force
@@ -1063,7 +1076,7 @@ CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../mapping/Curve.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object CMakeFiles/calenhad.dir/mapping/Curve.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object CMakeFiles/calenhad.dir/mapping/Curve.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/Curve.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/Curve.cpp
 
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.i: cmake_force
@@ -1076,7 +1089,7 @@ CMakeFiles/calenhad.dir/mapping/Curve.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/CubicSpline.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/CubicSpline.cpp.o: ../mapping/CubicSpline.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object CMakeFiles/calenhad.dir/mapping/CubicSpline.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object CMakeFiles/calenhad.dir/mapping/CubicSpline.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/CubicSpline.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/CubicSpline.cpp
 
 CMakeFiles/calenhad.dir/mapping/CubicSpline.cpp.i: cmake_force
@@ -1089,7 +1102,7 @@ CMakeFiles/calenhad.dir/mapping/CubicSpline.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.o: ../mapping/TerraceCurve.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/TerraceCurve.cpp
 
 CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.i: cmake_force
@@ -1102,7 +1115,7 @@ CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../mapping/Graticule.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/Graticule.cpp
 
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.i: cmake_force
@@ -1115,7 +1128,7 @@ CMakeFiles/calenhad.dir/mapping/Graticule.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o: ../mapping/Statistics.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o -c /home/ferret/CLionProjects/calenhad/src/mapping/Statistics.cpp
 
 CMakeFiles/calenhad.dir/mapping/Statistics.cpp.i: cmake_force
@@ -1128,7 +1141,7 @@ CMakeFiles/calenhad.dir/mapping/Statistics.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../grid/icosphere.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object CMakeFiles/calenhad.dir/grid/icosphere.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object CMakeFiles/calenhad.dir/grid/icosphere.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/grid/icosphere.cpp.o -c /home/ferret/CLionProjects/calenhad/src/grid/icosphere.cpp
 
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.i: cmake_force
@@ -1141,7 +1154,7 @@ CMakeFiles/calenhad.dir/grid/icosphere.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../grid/CubicSphere.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o -c /home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.cpp
 
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.i: cmake_force
@@ -1154,7 +1167,7 @@ CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../exprtk/Calculator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o -c /home/ferret/CLionProjects/calenhad/src/exprtk/Calculator.cpp
 
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.i: cmake_force
@@ -1167,7 +1180,7 @@ CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../exprtk/VariablesDialog.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o -c /home/ferret/CLionProjects/calenhad/src/exprtk/VariablesDialog.cpp
 
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.i: cmake_force
@@ -1180,7 +1193,7 @@ CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../exprtk/ExpressionWidget.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o -c /home/ferret/CLionProjects/calenhad/src/exprtk/ExpressionWidget.cpp
 
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.i: cmake_force
@@ -1193,7 +1206,7 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../exprtk/ExpressionEdit.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o -c /home/ferret/CLionProjects/calenhad/src/exprtk/ExpressionEdit.cpp
 
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.i: cmake_force
@@ -1206,7 +1219,7 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../legend/Legend.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object CMakeFiles/calenhad.dir/legend/Legend.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object CMakeFiles/calenhad.dir/legend/Legend.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/legend/Legend.cpp.o -c /home/ferret/CLionProjects/calenhad/src/legend/Legend.cpp
 
 CMakeFiles/calenhad.dir/legend/Legend.cpp.i: cmake_force
@@ -1219,7 +1232,7 @@ CMakeFiles/calenhad.dir/legend/Legend.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../legend/LegendChooser.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o -c /home/ferret/CLionProjects/calenhad/src/legend/LegendChooser.cpp
 
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.i: cmake_force
@@ -1232,7 +1245,7 @@ CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/LegendManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o -c /home/ferret/CLionProjects/calenhad/src/legend/LegendManager.cpp
 
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.i: cmake_force
@@ -1245,7 +1258,7 @@ CMakeFiles/calenhad.dir/legend/LegendManager.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../legend/LegendRoster.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o -c /home/ferret/CLionProjects/calenhad/src/legend/LegendRoster.cpp
 
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.i: cmake_force
@@ -1258,7 +1271,7 @@ CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../legend/LegendWidget.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o -c /home/ferret/CLionProjects/calenhad/src/legend/LegendWidget.cpp
 
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.i: cmake_force
@@ -1271,7 +1284,7 @@ CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/legend/QColorButton.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/legend/QColorButton.cpp.o: ../legend/QColorButton.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building CXX object CMakeFiles/calenhad.dir/legend/QColorButton.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building CXX object CMakeFiles/calenhad.dir/legend/QColorButton.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/legend/QColorButton.cpp.o -c /home/ferret/CLionProjects/calenhad/src/legend/QColorButton.cpp
 
 CMakeFiles/calenhad.dir/legend/QColorButton.cpp.i: cmake_force
@@ -1284,7 +1297,7 @@ CMakeFiles/calenhad.dir/legend/QColorButton.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../legend/LegendEntry.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building CXX object CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o -c /home/ferret/CLionProjects/calenhad/src/legend/LegendEntry.cpp
 
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.i: cmake_force
@@ -1297,7 +1310,7 @@ CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../graph/graph.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building CXX object CMakeFiles/calenhad.dir/graph/graph.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building CXX object CMakeFiles/calenhad.dir/graph/graph.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/graph/graph.cpp.o -c /home/ferret/CLionProjects/calenhad/src/graph/graph.cpp
 
 CMakeFiles/calenhad.dir/graph/graph.cpp.i: cmake_force
@@ -1310,7 +1323,7 @@ CMakeFiles/calenhad.dir/graph/graph.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../graph/ComputeService.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building CXX object CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building CXX object CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o -c /home/ferret/CLionProjects/calenhad/src/graph/ComputeService.cpp
 
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.i: cmake_force
@@ -1323,7 +1336,7 @@ CMakeFiles/calenhad.dir/graph/ComputeService.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/preferences/preferences.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/preferences/preferences.cpp.o: ../preferences/preferences.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building CXX object CMakeFiles/calenhad.dir/preferences/preferences.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building CXX object CMakeFiles/calenhad.dir/preferences/preferences.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/preferences/preferences.cpp.o -c /home/ferret/CLionProjects/calenhad/src/preferences/preferences.cpp
 
 CMakeFiles/calenhad.dir/preferences/preferences.cpp.i: cmake_force
@@ -1336,7 +1349,7 @@ CMakeFiles/calenhad.dir/preferences/preferences.cpp.s: cmake_force
 
 CMakeFiles/calenhad.dir/qrc_resources.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/qrc_resources.cpp.o: qrc_resources.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building CXX object CMakeFiles/calenhad.dir/qrc_resources.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Building CXX object CMakeFiles/calenhad.dir/qrc_resources.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/qrc_resources.cpp.o -c /home/ferret/CLionProjects/calenhad/src/cmake-build-debug/qrc_resources.cpp
 
 CMakeFiles/calenhad.dir/qrc_resources.cpp.i: cmake_force
@@ -1363,7 +1376,8 @@ calenhad_OBJECTS = \
 "CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o" \
 "CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o" \
 "CMakeFiles/calenhad.dir/module/Convolution.cpp.o" \
-"CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o" \
+"CMakeFiles/calenhad.dir/module/RasterModule.cpp.o" \
+"CMakeFiles/calenhad.dir/module/Cache.cpp.o" \
 "CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o" \
 "CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o" \
 "CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o" \
@@ -1458,7 +1472,8 @@ calenhad: CMakeFiles/calenhad.dir/module/Module.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/Convolution.cpp.o
-calenhad: CMakeFiles/calenhad.dir/module/RasterFileModule.cpp.o
+calenhad: CMakeFiles/calenhad.dir/module/RasterModule.cpp.o
+calenhad: CMakeFiles/calenhad.dir/module/Cache.cpp.o
 calenhad: CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o
 calenhad: CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o
 calenhad: CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o
@@ -1546,7 +1561,7 @@ calenhad: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.12.8
 calenhad: /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.12.8
 calenhad: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.12.8
 calenhad: CMakeFiles/calenhad.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Linking CXX executable calenhad"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_94) "Linking CXX executable calenhad"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/calenhad.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

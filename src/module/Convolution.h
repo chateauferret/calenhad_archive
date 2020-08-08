@@ -16,21 +16,17 @@ namespace calenhad {
         public:
             explicit Convolution (const QString& type = CalenhadServices::preferences() -> calenhad_module_raster);
             ~Convolution() override;
-
-            virtual QImage* raster() = 0;
-
             bool isComplete() override;
             QString glsl() override;
 
-        protected:
-
-            QImage* _raster;
-            QWidget* _rasterContent;
 
         protected slots:
 
             void serialize (QDomElement& element) override;
             void inflate (const QDomElement& element) override;
+
+        protected:
+            calenhad::grid::CubicSphere* _buffer;
 
         };
     }
