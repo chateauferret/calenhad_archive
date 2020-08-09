@@ -7,10 +7,9 @@
 #define HALF_ROOT_2 0.70710676908493042
 
 layout (local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
-layout (std430, binding = 1) buffer rasterBuffer { float rasters []; };            // array of input rasters for convolutions
+layout (std430, binding = 1) buffer rasterBuffer { float rasters []; };            // array of input rasters for convolutions //                  if x has height 0 then it is a cubix sphere, otherwise an equirectangular raster
 
-// currently, these are all equirectangular grids 2x wide by x high where x is a power of two.
-// Output and all input grids are to cover the same bounds at the same resolution.
+// this is the cubic sphere into which the output will be written
 layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
 
 uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
@@ -703,22 +702,21 @@ float select (float control, float in0, float in1, float lowerBound, float upper
 }
 
 // raster constrained to bounds (a.x, a.y) - (b.x, b.y)
-float raster (vec3 cartesian, uint rasterIndex, float defaultValue) {
+float raster (vec3 cartesian, uint rasterIndex, ivec2 rasterSize) { //, float defaultValue) {
     vec2 rg = toGeolocation (cartesian);
 
     float dlon = (rg.x + M_PI) / (M_PI * 2);
     float dlat = (rg.y + (M_PI / 2)) / M_PI;
-    uvec2 i = uvec2 (dlon * size * 2, dlat * size);
-    uint index = (rasterIndex * size * size * 2) + int (i.y * size * 2) + i.x;
-    return rasters [index];
+    uvec2 i = uvec2 (uint (dlon * rasterSize.y), uint (dlat * rasterSize.x));
+    uint index = i.y * rasterSize.y + i.x;
+    return rasters [index + rasterIndex];
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
-float convolution (uint rasterIndex) {
+float convolution (uint rasterIndex, uint rasterSize) {
     ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
-    uint i = pos.z * size * size + pos.y * size + pos.x;
-    i += rasterIndex * size * size * 6;
-    return 0.0; //convolutions [i];
+    uint i = pos.z * rasterSize.x * rasterSize.x + pos.y * rasterSize.x + pos.x;
+    return rasters [i + rasterIndex];
 }
 
 // Find the x and y coordinates for a geolocation in a raster of height and width given by size and

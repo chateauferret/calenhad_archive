@@ -9,6 +9,10 @@
 #include <cmath>
 #include "graph.h"
 #include "../messages/QNotificationHost.h"
+#include "../grid/CubicSphere.h"
+#include <QImage>
+#include "../module/Convolution.h"
+#include "../module/RasterModule.h"
 /*
 
 calenhad::graph::ComputeService::ComputeS ervice () {
@@ -75,28 +79,53 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
     //    delete _rasterTexture;
     //}
     if (graph.rasterCount() > 0) {
-        // write the data in the rasters out to the raster content buffer
-        int size = CalenhadServices::gridSize();
-        long bytes = 6 * size * size * sizeof (GLfloat) * graph.rasterCount();
+
+        // work out the size of the buffer we need for all rasters and convolutions
+        ulong bytes = 0;
+        for (int i = 0; i < graph.rasterCount(); i++) {
+            QImage* image = dynamic_cast<QImage*> (graph.raster (i));
+            if (image) {
+                bytes += image -> height() * image -> width() * sizeof (GLfloat);
+            }
+            CubicSphere* cube = dynamic_cast<CubicSphere*> (graph.raster (i));
+            if (cube) {
+                bytes += cube -> size() * sizeof (GLfloat);
+            }
+        }
+        // unpack the raster data from the raster / convolution modules
+        ulong bufferIndex = 0;
         float* rasterBuffer = (float*) malloc (bytes);
         for (int i = 0; i < graph.rasterCount(); i++) {
             QImage* image = graph.raster (i);
-            image -> scaled (size * 2, size);
-            for (int x = 0; x < size * 2; x++) {
-                for (int y = 0; y < size; y++) {
-                    QColor c = image -> pixelColor (x, size - y);
-                    double value = (c.redF() + c.greenF() + c.blueF()) / 3;
-                    value = (value * 2) - 1;
-                    int index = (i * size * size * 2) + (y * size * 2) + x;
-                    rasterBuffer [index] = (float) value;
+            if (image) {
+                for (int x = 0; x < image -> width(); x++) {
+                    for (int y = 0; y < image -> height(); y++) {
+                        QColor c = image -> pixelColor (x, image -> height() - y);
+                        double value = (c.redF() + c.greenF() + c.blueF()) / 3;
+                        value = (value * 2) - 1;
+                        ulong index = bufferIndex + (y * image -> width()) + x;
+                        rasterBuffer [index] = (GLfloat) value;
+                    }
+                }
+            }
+
+            CubicSphere* cm = graph.cube (i);
+            if (cm) {
+                for (int x = 0; x < cm -> size(); x++) {
+                    for (int y = 0; y < cm -> size(); y++) {
+                        ulong index = bufferIndex + (y * cm -> size() + x);
+                        double value = cm -> data() [index];
+                        rasterBuffer [index] = (GLfloat) value;
+                    }
                 }
             }
         }
 
+        // upload the raster data to the GPU
         f -> glGenBuffers (1, &_rasterBuffer);
         f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);
         f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, _rasterBuffer);
-        f -> glBufferData (GL_SHADER_STORAGE_BUFFER, sizeof (GLfloat) * 2 * size * size * graph.rasterCount(), rasterBuffer, GL_DYNAMIC_READ);
+        f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, rasterBuffer, GL_DYNAMIC_READ);
         free (rasterBuffer);
     }
 

@@ -42,7 +42,13 @@ Graph::Graph (const QDomDocument& doc, const QString& nodeName): _doc (doc), _no
 }
 */
 
-Graph::Graph (calenhad::module::Module* module) : _model (module -> model()), _module (module), _nodeName (module -> name()), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId (0) {
+Graph::Graph (calenhad::module::Module* module) :
+    _model (module -> model()),
+    _module (module),
+    _nodeName (module -> name()),
+    _colorMapBuffer (nullptr),
+    _parser (new parser<double>()),
+    _index (0) {
 
 }
 
@@ -65,6 +71,8 @@ QString Graph::glsl() {
 }
 
 QString Graph::glsl (Module* module) {
+    _index = 0;
+    _rasters.clear();
     if (module -> isComplete()) {
         QString name = module -> name ();
         if (! _code.contains ("float _" + name)) {
@@ -163,26 +171,38 @@ QString Graph::glsl (Module* module) {
                 // if it's a raster module, compile and queue the module for raster upload
                 if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
                     RasterModule* rm = (RasterModule*) qm;
-
-                    _rasters.insert (_rasterId, rm);
-
+                    _rasters.append (rm);
                     // bounds: whole world coverage
-                    _code.replace ("%index", QString::number (_rasterId));
+                    int length = rm -> raster() -> height() * rm -> raster() -> width();
+                    _code.replace ("%rasterIndex", QString::number (_index));
+                    _index += length;
+                    _code.replace ("%rasterSize", "ivec2 (" + QString::number (rm -> raster() -> height()) + ", " + QString::number (rm -> raster() -> width()) + ")");
+
                     _code.append ("; }\n");
-                    _rasterId++;
                 }
 
                 // To do - the same for a convolution module
                 // Also don't bring in antecendent modules of generators (convolutions are generators)
+
+                Convolution* cm = dynamic_cast<Convolution*> (qm);
+                if (cm) {
+                    _rasters.append (cm);
+                    int length = cm -> rasterSize() * 6;
+                    _code.replace ("%rasterIndex", QString::number (_index));
+                    _index += length;
+
+                    _code.replace ("%rasterSize", QString::number (cm -> rasterSize()));
+                    _code.append ("; }\n");
+                }
 
                 // replace the input module markers with their names referencing their member variables in glsl
                 int i = 0;
                 for (Port* port : qm->inputs ()) {
                     QString index = QString::number (i++);
                     if (port->connections ().isEmpty ()) {
-                        _code.replace ("%" + index, QString::number (qm -> parameterValue (port ->portName ())));
+                        _code.replace ("%" + index, QString::number (qm -> parameterValue (port -> portName ())));
                     } else {
-                        Node* other = port->connections ()[0]->otherEnd (port)->owner ();
+                        Node* other = port -> connections ()[0] -> otherEnd (port) -> owner();
                         QString source = other->name ();
                         _code.replace ("%" + index, "_" + source + " (c, g)");    // "%0" is shorthand for "$0 (c)"
                         _code.replace ("$" + index, "_" + source);
@@ -195,12 +215,6 @@ QString Graph::glsl (Module* module) {
                         _code.replace ("%" + param, QString::number (qm->parameterValue (param)));
                     }
                 }
-
-                // populate index number for a raster
-                Convolution* rm = dynamic_cast<Convolution*> (module);
-                if (rm) {
-                    _code.replace ("%index", QString::number (_rasterId - 1));
-                }
             }
         }
         return _code;
@@ -211,10 +225,22 @@ QString Graph::glsl (Module* module) {
 
 
 int Graph::rasterCount() const {
-    return _rasterId;
+    return _rasters.size();
 }
 
 QImage* Graph::raster (const int& index) {
-    return _rasters.value (index) -> raster();
+    RasterModule* rm = dynamic_cast<RasterModule*> (_rasters [index]);
+    if (rm) {
+        return rm -> raster();
+    } else return nullptr;
 }
+
+CubicSphere* Graph::cube (const int& index) {
+    Convolution* cm = dynamic_cast<Convolution*> (_rasters [index]);
+    if (cm) {
+        return cm -> buffer();
+    } else return nullptr;
+}
+
+
 

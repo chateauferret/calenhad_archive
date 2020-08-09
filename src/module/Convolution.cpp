@@ -30,6 +30,10 @@ Convolution::~Convolution() {
     delete _buffer;
 }
 
+CubicSphere *Convolution::buffer() const {
+    return _buffer;
+}
+
 bool Convolution::isComplete() {
     return Module::isComplete();
 }
@@ -43,5 +47,9 @@ void Convolution::serialize (QDomElement& element) {
 }
 
 QString Convolution::glsl () {
-   return  "convolution (%index)";
+   return  "convolution (%rasterIndex, %rasterSize)";
+}
+
+int Convolution::rasterSize() {
+    return _buffer -> size();
 }

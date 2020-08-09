@@ -11881,8 +11881,6 @@ CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o
  ../../src/grid/CubicSphere.h
  ../../src/matrices.h
  ../../src/module/Module.h
- ../../src/module/Node.h
- ../../src/module/ParamValidator.h
  ../../src/preferences/PreferencesService.h
  ../controls/globe/CalenhadGlobeConstants.h
  ../controls/globe/CalenhadNavigator.h
@@ -11892,13 +11890,22 @@ CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o
  ../legend/LegendEntry.h
  ../mapping/CalenhadMapWidget.h
  ../mapping/Statistics.h
+ /home/ferret/CLionProjects/calenhad/src/CalenhadServices.h
  /home/ferret/CLionProjects/calenhad/src/exprtk/exprtk.hpp
+ /home/ferret/CLionProjects/calenhad/src/geoutils.h
  /home/ferret/CLionProjects/calenhad/src/graph/ComputeService.cpp
  /home/ferret/CLionProjects/calenhad/src/graph/ComputeService.h
  /home/ferret/CLionProjects/calenhad/src/graph/graph.h
+ /home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h
  /home/ferret/CLionProjects/calenhad/src/messages/QNotificationHost.h
+ /home/ferret/CLionProjects/calenhad/src/module/Convolution.h
+ /home/ferret/CLionProjects/calenhad/src/module/Module.h
+ /home/ferret/CLionProjects/calenhad/src/module/Node.h
+ /home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h
+ /home/ferret/CLionProjects/calenhad/src/module/RasterModule.h
  /home/ferret/CLionProjects/calenhad/src/nodeedit/Connection.h
  /home/ferret/CLionProjects/calenhad/src/nodeedit/Port.h
+ /home/ferret/CLionProjects/calenhad/src/preferences/PreferencesService.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile

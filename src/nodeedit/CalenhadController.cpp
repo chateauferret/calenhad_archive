@@ -93,19 +93,21 @@ CalenhadModel* CalenhadController::model() {
 }
 
 void CalenhadController::toolSelected() {
-    QAction* tool = (QAction*) sender();
-    if (tool -> isChecked()) {
-        // activated
-        _model -> setActiveTool (tool);
-        for (QGraphicsView* view : _model -> views()) {
-            QPixmap* pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString ());
-            QCursor cursor = QCursor (*pixmap);
-            view -> viewport() -> setCursor (cursor);
-        }
-    } else {
-        _model -> setActiveTool (nullptr);
-        for (QGraphicsView* view : _model -> views()) {
-            view -> setDragMode (QGraphicsView::RubberBandDrag);
+    if (_model) {
+        QAction* tool = (QAction*) sender();
+        if (tool -> isChecked()) {
+            // activated
+            _model -> setActiveTool(tool);
+            for (QGraphicsView *view : _model->views()) {
+                QPixmap *pixmap = CalenhadServices::modules()->getIcon(tool->data().toString());
+                QCursor cursor = QCursor(*pixmap);
+                view -> viewport() -> setCursor(cursor);
+            }
+        } else {
+            _model->setActiveTool(nullptr);
+            for (QGraphicsView *view : _model->views()) {
+                view -> setDragMode (QGraphicsView::RubberBandDrag);
+            }
         }
     }
 }

@@ -31,6 +31,8 @@ namespace calenhad {
 
             int rasterCount() const;
 
+            grid::CubicSphere *cube(const int &index);
+
         protected:
             QString glsl (calenhad::module::Module* node);
 
@@ -39,11 +41,11 @@ namespace calenhad {
             QString _code;
             QString _nodeName;
             float* _colorMapBuffer;
-            QMap<int, calenhad::module::RasterModule*> _rasters;
+            QList<calenhad::module::Module*> _rasters;
 
             exprtk::parser<double>* _parser;
-            int _rasterId;
 
+            int _index;
         };
 
 

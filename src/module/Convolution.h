@@ -19,6 +19,9 @@ namespace calenhad {
             bool isComplete() override;
             QString glsl() override;
 
+            int rasterSize();
+            grid::CubicSphere *buffer() const;
+
 
         protected slots:
 

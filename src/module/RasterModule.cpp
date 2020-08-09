@@ -77,5 +77,5 @@ bool RasterModule::isComplete() {
 }
 
 QString RasterModule::glsl() {
-    return  "raster (c, %index, %0)";
+    return  "raster (c, %rasterIndex, %rasterSize)";
 }
