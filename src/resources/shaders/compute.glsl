@@ -708,7 +708,7 @@ float raster (vec3 cartesian, uint rasterIndex, ivec2 rasterSize) { //, float de
     float dlon = (rg.x + M_PI) / (M_PI * 2);
     float dlat = (rg.y + (M_PI / 2)) / M_PI;
     uvec2 i = uvec2 (uint (dlon * rasterSize.y), uint (dlat * rasterSize.x));
-    uint index = i.y * rasterSize.y + i.x;
+    uint index = i.y * rasterSize.y + i.x;    // rasterSize is QImage::size() - so x is height and y is width
     return rasters [index + rasterIndex];
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
