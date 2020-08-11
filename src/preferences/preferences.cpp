@@ -32,7 +32,7 @@ void Preferences::loadSettings() {
     calenhad_compute_gridsize = _settings -> value ("calenhad/compute/gidsize", 11).toUInt();
 
     // Styling for non-QGraphicsItem elements
-    calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/martin/.config/calenhad/darkorange.css").toString();
+    calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/ferret/.config/calenhad/darkorange.css").toString();
 
     // CalenhadView zooming
     calenhad_desktop_zoom_limit_zoomin = _settings -> value ("calenhad/desktop/zoom/limit/zoomin", 4).toDouble (&ok);
@@ -50,7 +50,7 @@ void Preferences::loadSettings() {
     calenhad_desktop_grid_minor_weight = _settings -> value ("calenhad/desktop/grid/minor/weights", 1).toUInt();
     calenhad_desktop_grid_density = _settings -> value ("calenhad/desktop/grid/density", 50).toUInt();
     calenhad_desktop_grid_visible = _settings -> value ("calenhad/desktop/grid/visible", true).toBool();
-    calenhad_desktop_grid_snap = _settings -> value ("calenhad/desktop/grid/snao", true).toBool();
+    calenhad_desktop_grid_snap = _settings -> value ("calenhad/desktop/grid/snap", true).toBool();
 
     // Modules in the CalenhadView
     calenhad_module_brush_color_selected = _settings -> value ("calenhad/module/brush/color/selected", "#00F0F0").value<QColor>();
@@ -67,7 +67,7 @@ void Preferences::loadSettings() {
     calenhad_handle_module_margin = _settings -> value ("calenhad/handle/module/margin", 2).toUInt();
 
     // Ports attached to modules
-    calenhad_port_in_border_color = _settings -> value ("calenhad/port/in/border/color", "#000000").value<QColor>();
+    calenhad_port_in_border_color = _settings -> value ("calenhad/port/in/border/color", "#808080").value<QColor>();
     calenhad_port_in_fill_color = _settings -> value ("calenhad/port/in/fill/color", "#FF0000").value<QColor>();
     calenhad_port_in_fill_color_drop = _settings -> value ("calenhad/port/in/fill/color/drop", "#8080FF").value<QColor>();
     calenhad_port_in_border_color_drop = _settings -> value ("calenhad/port/in/border/color/drop", "#0000FF").value<QColor>();
@@ -82,11 +82,11 @@ void Preferences::loadSettings() {
     calenhad_port_spacing = _settings -> value ("calenhad/port/spacing", 2).toUInt();
 
     // Connections between ports
-    calenhad_connector_normal_color = _settings -> value ("calenhad/connector/normal/color", "#000080").value<QColor>();
+    calenhad_connector_normal_color = _settings -> value ("calenhad/connector/normal/color", "#8080FF").value<QColor>();
     calenhad_connector_normal_weight = _settings -> value ("calenhad/connector/normal/weight", 3).toUInt();
-    calenhad_connector_selected_color = _settings -> value ("calenhad/connector/selected/color", "#FF0000").value<QColor>();
+    calenhad_connector_selected_color = _settings -> value ("calenhad/connector/selected/color", "#00FFFF").value<QColor>();
     calenhad_connector_selected_weight = _settings -> value ("calenhad/connector/selected/weight", 3).toUInt();
-    calenhad_connector_drawing_color = _settings -> value ("calenhad/connector/drawing/color", "#000080").value<QColor>();
+    calenhad_connector_drawing_color = _settings -> value ("calenhad/connector/drawing/color", "#8080FF").value<QColor>();
     calenhad_connector_drawing_weight = _settings -> value ("calenhad/connector/drawing/weight", 1).toUInt();
     calenhad_connector_inactive_color = _settings -> value ("calenhad/connector/inactive/color", "808080").value<QColor>();
     calenhad_connector_inactive_weight = _settings -> value ("calenhad/connector/inactive_weight", 1).toUInt();
@@ -147,11 +147,11 @@ void Preferences::loadSettings() {
     // Configuration
 
     // File paths
-    calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/martin/.config/calenhad/legends.xml").toString ();
-    calenhad_legends_filename_temp = _settings -> value ("calenhad/legends/filename/temp", "/home/martin/.config/calenhad/legends.temp.xml").toString ();
-    calenhad_moduletypes_icons_path = _settings -> value ("calenhad/moduletypes/icons/path", "/home/martin/.config/calenhad/modules/icons/").toString();
-    calenhad_moduletypes_filename = _settings -> value ("calenhad/moduletypes/filename", "/home/martin/.config/calenhad/modules/modules.xml").toString();
-    calenhad_recentfiles_filename = _settings -> value ("calenhad/recentfiles/filename", "/home/martin/.config/calenhad/recentfiles.txt").toString ();
+    calenhad_legends_filename = _settings -> value ("calenhad/legends/filename", "/home/ferret/.config/calenhad/legends.xml").toString ();
+    calenhad_legends_filename_temp = _settings -> value ("calenhad/legends/filename/temp", "/home/ferret/.config/calenhad/legends.temp.xml").toString ();
+    calenhad_moduletypes_icons_path = _settings -> value ("calenhad/moduletypes/icons/path", "/home/ferret/.config/calenhad/modules/icons/").toString();
+    calenhad_moduletypes_filename = _settings -> value ("calenhad/moduletypes/filename", "/home/ferret/.config/calenhad/modules/modules.xml").toString();
+    calenhad_recentfiles_filename = _settings -> value ("calenhad/recentfiles/filename", "/home/ferret/.config/calenhad/recentfiles.txt").toString ();
     calenhad_variables_name_maxlength = _settings -> value ("calenhad/variables/name/maxlength", 50).toUInt();
 
     // Validations

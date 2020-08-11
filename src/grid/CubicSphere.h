@@ -26,6 +26,7 @@ namespace calenhad {
         public:
             int u, v;
             int face;
+            CubeCoordinates (const int& f, const int& x, const int& y) : u (x), v (y), _face (f) { }
         };
     }
     namespace grid {
@@ -44,7 +45,7 @@ namespace calenhad {
             void heightmap (const int& face, QImage* image);
             void exportHeightmaps (const QString& filename);
             GLfloat* data();
-
+            calenhad::mapping::CubeCoordinates [4] adjacent (const calenhad::mapping::CubeCoordinates& index);
             void toCubeCoordinates (mapping::CubeCoordinates& fuv, const geoutils::Cartesian& xyz) const;
 
         protected:
@@ -53,6 +54,7 @@ namespace calenhad {
             const double HALF_ROOT_2 = 0.70710676908493042;
 
             void toCartesian (const mapping::CubeCoordinates& fuv, geoutils::Cartesian& xyz) const;
+            int adjacentFace (const int& face, const int& direction);
 
             int _size;
             int _renderTime;
@@ -60,6 +62,8 @@ namespace calenhad {
             float valueAt(const mapping::CubeCoordinates &fuv);
 
             void initialise();
+
+            mapping::CubeCoordinates traverse (const mapping::CubeCoordinates& cube, const int& up, const int& right);
         };
     }
 }

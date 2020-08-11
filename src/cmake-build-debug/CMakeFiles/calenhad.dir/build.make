@@ -333,18 +333,18 @@ CMakeFiles/calenhad.dir/module/NodeGroup.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/module/NodeGroup.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/module/NodeGroup.cpp -o CMakeFiles/calenhad.dir/module/NodeGroup.cpp.s
 
-CMakeFiles/calenhad.dir/module/Convolution.cpp.o: CMakeFiles/calenhad.dir/flags.make
-CMakeFiles/calenhad.dir/module/Convolution.cpp.o: ../module/Convolution.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/calenhad.dir/module/Convolution.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/module/Convolution.cpp.o -c /home/ferret/CLionProjects/calenhad/src/module/Convolution.cpp
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: CMakeFiles/calenhad.dir/flags.make
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../module/StructuredGrid.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o -c /home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.cpp
 
-CMakeFiles/calenhad.dir/module/Convolution.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calenhad.dir/module/Convolution.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferret/CLionProjects/calenhad/src/module/Convolution.cpp > CMakeFiles/calenhad.dir/module/Convolution.cpp.i
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.cpp > CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.i
 
-CMakeFiles/calenhad.dir/module/Convolution.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/module/Convolution.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/module/Convolution.cpp -o CMakeFiles/calenhad.dir/module/Convolution.cpp.s
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.cpp -o CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.s
 
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../module/RasterModule.cpp
@@ -1375,7 +1375,7 @@ calenhad_OBJECTS = \
 "CMakeFiles/calenhad.dir/module/Module.cpp.o" \
 "CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o" \
 "CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o" \
-"CMakeFiles/calenhad.dir/module/Convolution.cpp.o" \
+"CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o" \
 "CMakeFiles/calenhad.dir/module/RasterModule.cpp.o" \
 "CMakeFiles/calenhad.dir/module/Cache.cpp.o" \
 "CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o" \
@@ -1471,7 +1471,7 @@ calenhad: CMakeFiles/calenhad.dir/module/Node.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/Module.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o
-calenhad: CMakeFiles/calenhad.dir/module/Convolution.cpp.o
+calenhad: CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/RasterModule.cpp.o
 calenhad: CMakeFiles/calenhad.dir/module/Cache.cpp.o
 calenhad: CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o

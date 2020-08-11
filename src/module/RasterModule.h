@@ -5,7 +5,7 @@
 #ifndef CALENHAD_RASTERFILEMODULE_H
 #define CALENHAD_RASTERFILEMODULE_H
 
-#include "Convolution.h"
+#include "StructuredGrid.h"
 
 namespace calenhad {
     namespace module {

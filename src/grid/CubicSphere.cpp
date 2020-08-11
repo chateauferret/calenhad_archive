@@ -192,3 +192,33 @@ void CubicSphere::exportHeightmaps (const QString &filename) {
         delete image;
     }
 }
+
+int CubicSphere::adjacentFace (const int& face, const int& direction) {
+
+}
+
+CubeCoordinates CubicSphere::traverse (const CubeCoordinates& cube, const int& up, const int& right) {
+    CubeCoordinates cube;
+    int f = cube.face;
+    int x = cube.u + up;
+
+    if (x < 0) {
+
+    }
+    if (x > _size) {
+
+    };
+
+    int y = cube.v + right;
+
+    if (y < 0) {
+
+    }
+    if (x > _size) {
+
+    }
+
+    return CubeCoordinates (f, x, y);
+
+}
+

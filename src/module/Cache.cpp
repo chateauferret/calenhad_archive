@@ -11,7 +11,7 @@ using namespace calenhad::graph;
 using namespace calenhad::grid;
 using namespace calenhad::nodeedit;
 
-Cache::Cache (const QString &nodeType) : Convolution (nodeType) {
+Cache::Cache (const QString &nodeType) : StructuredGrid (nodeType) {
 
 }
 
@@ -21,18 +21,21 @@ Cache::~Cache() {
 
 void Cache::invalidate() {
     refresh();
-    Convolution::invalidate();
+    StructuredGrid::invalidate();
 
 }
 
 void Cache::refresh() {
     ComputeService* c = CalenhadServices::compute();
     if (c && isComplete()) {
-        int size = CalenhadServices::gridSize();
         delete _buffer;
         _buffer = new CubicSphere();
-        Port *p = inputs().first();
-        Module *source = p -> connections().first() -> otherEnd(p) -> owner();
-        c -> compute(source, _buffer);
+        Port* p = inputs().first();
+        Module* source = p -> connections().first() -> otherEnd(p) -> owner();
+
+        // copy data from the source module into the structured grid buffer
+        c -> compute (source, _buffer);
+
+
     }
 }

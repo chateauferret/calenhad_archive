@@ -6,7 +6,7 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QPushButton>
-#include "Convolution.h"
+#include "StructuredGrid.h"
 #include "src/CalenhadServices.h"
 #include "../controls/QAngleControl.h"
 #include "../preferences/PreferencesService.h"
@@ -22,34 +22,34 @@ using namespace grid;
 using namespace calenhad::controls;
 using namespace geoutils;
 
-Convolution::Convolution (const QString& type) : Module (type, nullptr),
-                                                 _buffer (new CubicSphere()) {
+StructuredGrid::StructuredGrid (const QString& type) : Module (type, nullptr),
+                                                       _buffer (new CubicSphere()) {
 }
 
-Convolution::~Convolution() {
+StructuredGrid::~StructuredGrid() {
     delete _buffer;
 }
 
-CubicSphere *Convolution::buffer() const {
+CubicSphere *StructuredGrid::buffer() const {
     return _buffer;
 }
 
-bool Convolution::isComplete() {
+bool StructuredGrid::isComplete() {
     return Module::isComplete();
 }
 
-void Convolution::inflate (const QDomElement& element) {
+void StructuredGrid::inflate (const QDomElement& element) {
     Module::inflate (element);
 }
 
-void Convolution::serialize (QDomElement& element) {
+void StructuredGrid::serialize (QDomElement& element) {
     Module::serialize (element);
 }
 
-QString Convolution::glsl () {
+QString StructuredGrid::glsl () {
    return  "convolution (%rasterIndex, %rasterSize)";
 }
 
-int Convolution::rasterSize() {
+int StructuredGrid::rasterSize() {
     return _buffer -> size();
 }

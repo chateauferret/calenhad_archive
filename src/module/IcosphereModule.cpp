@@ -3,7 +3,7 @@
 //
 
 #include "IcosphereModule.h"
-#include "Convolution.h"
+#include "StructuredGrid.h"
 
 using namespace calenhad::preferences;
 using namespace calenhad::module;

@@ -10,7 +10,7 @@
 #include "pipeline/CalenhadModel.h"
 #include "src/CalenhadServices.h"
 #include <QList>
-#include <module/Convolution.h>
+#include <module/StructuredGrid.h>
 #include <nodeedit/Port.h>
 #include <src/module/RasterModule.h>
 #include <src/module/Cache.h>

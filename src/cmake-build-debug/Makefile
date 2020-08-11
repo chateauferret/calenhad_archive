@@ -2162,33 +2162,6 @@ module/Cache.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Cache.cpp.s
 .PHONY : module/Cache.cpp.s
 
-module/Convolution.o: module/Convolution.cpp.o
-
-.PHONY : module/Convolution.o
-
-# target to build an object file
-module/Convolution.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Convolution.cpp.o
-.PHONY : module/Convolution.cpp.o
-
-module/Convolution.i: module/Convolution.cpp.i
-
-.PHONY : module/Convolution.i
-
-# target to preprocess a source file
-module/Convolution.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Convolution.cpp.i
-.PHONY : module/Convolution.cpp.i
-
-module/Convolution.s: module/Convolution.cpp.s
-
-.PHONY : module/Convolution.s
-
-# target to generate assembly for a file
-module/Convolution.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Convolution.cpp.s
-.PHONY : module/Convolution.cpp.s
-
 module/Module.o: module/Module.cpp.o
 
 .PHONY : module/Module.o
@@ -2296,6 +2269,33 @@ module/RasterModule.s: module/RasterModule.cpp.s
 module/RasterModule.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/RasterModule.cpp.s
 .PHONY : module/RasterModule.cpp.s
+
+module/StructuredGrid.o: module/StructuredGrid.cpp.o
+
+.PHONY : module/StructuredGrid.o
+
+# target to build an object file
+module/StructuredGrid.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o
+.PHONY : module/StructuredGrid.cpp.o
+
+module/StructuredGrid.i: module/StructuredGrid.cpp.i
+
+.PHONY : module/StructuredGrid.i
+
+# target to preprocess a source file
+module/StructuredGrid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.i
+.PHONY : module/StructuredGrid.cpp.i
+
+module/StructuredGrid.s: module/StructuredGrid.cpp.s
+
+.PHONY : module/StructuredGrid.s
+
+# target to generate assembly for a file
+module/StructuredGrid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.s
+.PHONY : module/StructuredGrid.cpp.s
 
 nodeedit/Calenhad.o: nodeedit/Calenhad.cpp.o
 
@@ -2933,9 +2933,6 @@ help:
 	@echo "... module/Cache.o"
 	@echo "... module/Cache.i"
 	@echo "... module/Cache.s"
-	@echo "... module/Convolution.o"
-	@echo "... module/Convolution.i"
-	@echo "... module/Convolution.s"
 	@echo "... module/Module.o"
 	@echo "... module/Module.i"
 	@echo "... module/Module.s"
@@ -2948,6 +2945,9 @@ help:
 	@echo "... module/RasterModule.o"
 	@echo "... module/RasterModule.i"
 	@echo "... module/RasterModule.s"
+	@echo "... module/StructuredGrid.o"
+	@echo "... module/StructuredGrid.i"
+	@echo "... module/StructuredGrid.s"
 	@echo "... nodeedit/Calenhad.o"
 	@echo "... nodeedit/Calenhad.i"
 	@echo "... nodeedit/Calenhad.s"

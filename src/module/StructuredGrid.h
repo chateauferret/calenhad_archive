@@ -12,10 +12,10 @@ namespace calenhad {
         class QAngleControl;
     }
     namespace module {
-        class Convolution : public Module {
+        class StructuredGrid : public Module {
         public:
-            explicit Convolution (const QString& type = CalenhadServices::preferences() -> calenhad_module_raster);
-            ~Convolution() override;
+            explicit StructuredGrid (const QString& type = CalenhadServices::preferences() -> calenhad_module_raster);
+            ~StructuredGrid() override;
             bool isComplete() override;
             QString glsl() override;
 

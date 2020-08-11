@@ -7,7 +7,7 @@
 
 #include "Module.h"
 #include "../icosphere/icosphere.h"
-#include "Convolution.h"
+#include "StructuredGrid.h"
 
 
 namespace calenhad {

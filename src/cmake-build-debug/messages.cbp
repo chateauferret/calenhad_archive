@@ -672,12 +672,6 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Cache.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Convolution.cpp">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Convolution.h">
-			<Option target="calenhad"/>
-		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Module.cpp">
 			<Option target="calenhad"/>
 		</Unit>
@@ -703,6 +697,12 @@
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/RasterModule.h">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp">

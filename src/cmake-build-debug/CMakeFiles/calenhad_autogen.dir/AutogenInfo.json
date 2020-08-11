@@ -400,11 +400,6 @@
 			"D72IQXBNBH/moc_Cache.cpp"
 		],
 		[
-			"/home/ferret/CLionProjects/calenhad/src/module/Convolution.h",
-			"Mu",
-			"D72IQXBNBH/moc_Convolution.cpp"
-		],
-		[
 			"/home/ferret/CLionProjects/calenhad/src/module/Module.h",
 			"Mu",
 			"D72IQXBNBH/moc_Module.cpp"
@@ -428,6 +423,11 @@
 			"/home/ferret/CLionProjects/calenhad/src/module/RasterModule.h",
 			"Mu",
 			"D72IQXBNBH/moc_RasterModule.cpp"
+		],
+		[
+			"/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h",
+			"Mu",
+			"D72IQXBNBH/moc_StructuredGrid.cpp"
 		],
 		[
 			"/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.h",
@@ -820,15 +820,15 @@
 			"Mu"
 		],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Cache.cpp", "Mu" ],
-		[
-			"/home/ferret/CLionProjects/calenhad/src/module/Convolution.cpp",
-			"Mu"
-		],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Module.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Node.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/NodeGroup.cpp", "Mu" ],
 		[
 			"/home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp",
+			"Mu"
+		],
+		[
+			"/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.cpp",
 			"Mu"
 		],
 		[ "/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp", "Mu" ],

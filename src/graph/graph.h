@@ -10,7 +10,7 @@ namespace calenhad {
     }
     namespace module {
         class Module;
-        class Convolution;
+        class StructuredGrid;
         class RasterModule;
     }
 

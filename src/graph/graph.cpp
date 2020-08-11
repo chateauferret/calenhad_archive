@@ -15,7 +15,7 @@
 #include "exprtk/Calculator.h"
 #include <QList>
 #include <module/AltitudeMap.h>
-#include <module/Convolution.h>
+#include <module/StructuredGrid.h>
 #include <src/module/RasterModule.h>
 #include "../messages/QNotificationHost.h"
 #include "../legend//Legend.h"
@@ -87,7 +87,7 @@ QString Graph::glsl (Module* module) {
                             Node* other = p -> owner ();
                             if (other && other != module) {
                                 Module* qm = dynamic_cast<Module*> (other);
-                                Convolution* cm = dynamic_cast<Convolution*> (other);
+                                StructuredGrid* cm = dynamic_cast<StructuredGrid*> (other);
                                 if (qm && ! cm) {
                                     _code = glsl (qm);
                                 }
@@ -186,7 +186,7 @@ QString Graph::glsl (Module* module) {
                 // To do - the same for a convolution module
                 // Also don't bring in antecendent modules of generators (convolutions are generators)
 
-                Convolution* cm = dynamic_cast<Convolution*> (qm);
+                StructuredGrid* cm = dynamic_cast<StructuredGrid*> (qm);
                 if (cm) {
                     _rasters.append (cm);
                     int length = cm -> rasterSize() * 6;
@@ -238,7 +238,7 @@ QImage* Graph::raster (const int& index) {
 }
 
 CubicSphere* Graph::cube (const int& index) {
-    Convolution* cm = dynamic_cast<Convolution*> (_rasters [index]);
+    StructuredGrid* cm = dynamic_cast<StructuredGrid*> (_rasters [index]);
     if (cm) {
         return cm -> buffer();
     } else return nullptr;

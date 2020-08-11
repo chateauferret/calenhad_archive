@@ -5,11 +5,11 @@
 #ifndef MESSAGES_CACHE_H
 #define MESSAGES_CACHE_H
 
-#include "Convolution.h"
+#include "StructuredGrid.h"
 
 namespace calenhad {
     namespace module {
-        class Cache : public Convolution {
+        class Cache : public StructuredGrid {
             virtual ~Cache();
 
 

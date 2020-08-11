@@ -11,7 +11,7 @@
 #include "../messages/QNotificationHost.h"
 #include "../grid/CubicSphere.h"
 #include <QImage>
-#include "../module/Convolution.h"
+#include "../module/StructuredGrid.h"
 #include "../module/RasterModule.h"
 /*
 
