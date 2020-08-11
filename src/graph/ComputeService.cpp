@@ -87,9 +87,10 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
             if (image) {
                 bytes += image -> height() * image -> width() * sizeof (GLfloat);
             }
-            CubicSphere* cube = dynamic_cast<CubicSphere*> (graph.raster (i));
+            CubicSphere* cube = dynamic_cast<CubicSphere*> (graph.cube (i));
             if (cube) {
-                bytes += cube -> size() * sizeof (GLfloat);
+                int r = cube -> size();
+                bytes += r * r * 6 * sizeof (GLfloat);
             }
         }
         // unpack the raster data from the raster / convolution modules
@@ -100,7 +101,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
             if (image) {
                 for (int x = 0; x < image -> width(); x++) {
                     for (int y = 0; y < image -> height(); y++) {
-                        QColor c = image -> pixelColor (x, image -> height() - y);
+                        QColor c = image -> pixelColor (x, image -> height() - y - 1);
                         double value = (c.redF() + c.greenF() + c.blueF()) / 3;
                         value = (value * 2) - 1;
                         ulong index = bufferIndex + (y * image -> width()) + x;
@@ -111,11 +112,14 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 
             CubicSphere* cm = graph.cube (i);
             if (cm) {
-                for (int x = 0; x < cm -> size(); x++) {
-                    for (int y = 0; y < cm -> size(); y++) {
-                        ulong index = bufferIndex + (y * cm -> size() + x);
-                        double value = cm -> data() [index];
-                        rasterBuffer [index] = (GLfloat) value;
+                for (int face = 0; face < 6; face++) {
+                    for (int x = 0; x < cm -> size(); x++) {
+                        for (int y = 0; y < cm -> size(); y++) {
+                            int s = cm -> size();
+                            ulong index = bufferIndex + (face * s * s + y * s + x);
+                            double value = cm -> data() [index];
+                            rasterBuffer [index] = (GLfloat) value;
+                        }
                     }
                 }
             }
@@ -123,6 +127,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 
         // upload the raster data to the GPU
         f -> glGenBuffers (1, &_rasterBuffer);
+        std::cout << "Generate buffer " << _rasterBuffer << " of " << bytes << " bytes\n";
         f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);
         f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, _rasterBuffer);
         f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, rasterBuffer, GL_DYNAMIC_READ);

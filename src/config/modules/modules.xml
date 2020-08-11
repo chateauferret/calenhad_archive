@@ -17,6 +17,14 @@
         </ports>
     </module>
 
+    <module role = "convolve" name="cache" label="Cache">
+        <documentation>Cache</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
+        </ports>
+    </module>
+
+
     <module name="icospheremap" label="Icosphere map">
         <documentation>Icosphere map</documentation>
         <ports>
@@ -219,9 +227,6 @@
             <input index="2" mode="control" name="maximum" default="1.0"  label="max" />
         </ports>
         <glsl>clamp (%0, %1, %2)</glsl>
-        <cuda>
-            out [index] = in0 < in1 ? in1 : in0 > in2 ? in2 : in0;
-        </cuda>
     </module>
 
 

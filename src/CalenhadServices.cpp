@@ -191,6 +191,14 @@ void CalenhadServices::provideGlobe() {
     }
 }
 
+void CalenhadServices::disposeGlobe() {
+    if (_globeDialog) {
+        _globeDialog -> close();
+        delete _globeDialog;
+        _globeDialog = nullptr;
+    }
+}
+
 CalenhadGlobeDialog* CalenhadServices::globe (CalenhadModel* model) {
     if (model) {
         _globeDialog -> selectModule (nullptr);

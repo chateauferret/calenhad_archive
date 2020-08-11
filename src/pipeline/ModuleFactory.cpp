@@ -13,6 +13,7 @@
 #include <module/Convolution.h>
 #include <nodeedit/Port.h>
 #include <src/module/RasterModule.h>
+#include <src/module/Cache.h>
 #include "src/noiseconstants.h"
 #include "../nodeedit/NodeBlock.h"
 
@@ -49,7 +50,7 @@ void ModuleFactory::initialise() {
             QDomElement element = nodes.at (i).toElement();
             QString type = element.attribute ("name");
             _types.insert (type, element);
-
+            std::cout << type.toStdString() << "\n";
             // Create code snippet to be inserted into the compute shader to realise each module's function.
             // %n - will be replaced with the module's name which will serve as the method name representing it in the generated shader code.
             // %0, %1, etc - will be replaced with calls to the module outputs serving the corresponding port as input.
@@ -78,13 +79,6 @@ void ModuleFactory::initialise() {
             }
         }
 
-        _moduleLabels.insert ("altitudemap", "Altitude map");
-        _moduleLabels.insert ("raster", "Raster");
-        _moduleLabels.insert ("icospheremap", "Icosphere");
-        _moduleDescriptions.insert ("altitudemap", "Altitude map");
-        _moduleDescriptions.insert ("raster", "Raster");
-        _moduleDescriptions.insert ("icospheremap", "Icosphere");
-
 
     } else {
         CalenhadServices::messages() -> message ("File error", "Couldn't read file " + CalenhadServices::preferences() -> calenhad_moduletypes_filename);
@@ -107,7 +101,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
     if (_types.keys().contains (type)) {
         bool ok;
         QDomElement element = _types.value (type);
-
+        QString role = element.attribute ("role");
         bool suppressRender = element.hasAttribute ("render") && element.attribute ("render").toLower() == "false";
 
         // special types which need more than generic construction code
@@ -115,6 +109,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         Module* qm = nullptr;
         if (type == "altitudemap") { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
         if (type == "raster") { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
+        if (role == "convolve") { Cache* cm = new Cache (type); qm = cm; n = qm; }
         if (! n) {
             qm = new Module (type, nullptr);
             n = qm;

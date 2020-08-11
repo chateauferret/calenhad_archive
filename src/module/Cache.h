@@ -10,13 +10,15 @@
 namespace calenhad {
     namespace module {
         class Cache : public Convolution {
-            explicit Cache (const QString& nodeType);
             virtual ~Cache();
 
 
             void invalidate();
 
             void refresh();
+
+        public:
+            explicit Cache (const QString& nodeType);
         };
     }
 }

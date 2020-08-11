@@ -85,6 +85,7 @@ namespace calenhad {
         static QStringList recentFiles();
         static void provideGlobe();
         static void provideGlobe (calenhad::controls::globe::CalenhadGlobeDialog* globe);
+        static void disposeGlobe();
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::module::Module* module = nullptr);
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::pipeline::CalenhadModel* model = nullptr);
         static calenhad::nodeedit::Calenhad* mainWindow();
@@ -105,6 +106,7 @@ namespace calenhad {
         static calenhad::controls::globe::CalenhadGlobeDialog* _globeDialog;
         static calenhad::nodeedit::Calenhad* _mainWindow;
 ;
+
     };
 }
 

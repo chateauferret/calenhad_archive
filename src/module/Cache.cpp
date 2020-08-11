@@ -27,11 +27,12 @@ void Cache::invalidate() {
 
 void Cache::refresh() {
     ComputeService* c = CalenhadServices::compute();
-    int size = CalenhadServices::gridSize();
-    delete _buffer;
-    //_buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
-    _buffer = new CubicSphere();
-    Port* p = inputs().first();
-    Module* source = p -> connections().first() -> otherEnd (p) -> owner();
-    c -> compute (source, _buffer);
+    if (c && isComplete()) {
+        int size = CalenhadServices::gridSize();
+        delete _buffer;
+        _buffer = new CubicSphere();
+        Port *p = inputs().first();
+        Module *source = p -> connections().first() -> otherEnd(p) -> owner();
+        c -> compute(source, _buffer);
+    }
 }

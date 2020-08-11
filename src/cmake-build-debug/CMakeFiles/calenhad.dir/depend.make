@@ -25794,6 +25794,7 @@ CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/grid/CubicSphere.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/matrices.h
+CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/module/Cache.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/module/Convolution.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/module/Module.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/module/RasterModule.h

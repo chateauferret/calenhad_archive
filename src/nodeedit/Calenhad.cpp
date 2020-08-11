@@ -224,6 +224,7 @@ void Calenhad::closeProject() {
                     saveFile ();
                 }
             }
+            CalenhadServices::disposeGlobe();
             delete _model;
             _model = nullptr;
         }

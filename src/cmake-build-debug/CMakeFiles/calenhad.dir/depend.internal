@@ -25795,6 +25795,7 @@ CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o
  ../../src/graph/ComputeService.h
  ../../src/grid/CubicSphere.h
  ../../src/matrices.h
+ ../../src/module/Cache.h
  ../../src/module/Convolution.h
  ../../src/module/Module.h
  ../../src/module/RasterModule.h

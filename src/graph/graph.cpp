@@ -76,17 +76,19 @@ QString Graph::glsl (Module* module) {
     if (module -> isComplete()) {
         QString name = module -> name ();
         if (! _code.contains ("float _" + name)) {
-            // Compile any antecedent modules recurisvely
-            for (unsigned p: module->inputs ().keys ()) {
-                Port* port = module->inputs ().value (p);
-                if (!port->connections ().empty ()) {
-                    for (Connection* c : port->connections ()) {
-                        Port* p = c->otherEnd (port);
+            // Compile any antecedent modules recurisvely,
+            // nless this one is a convolution, in which case don't bother your arse
+            for (unsigned p: module -> inputs ().keys ()) {
+                Port* port = module -> inputs ().value (p);
+                if (!port -> connections ().empty ()) {
+                    for (Connection* c : port -> connections ()) {
+                        Port* p = c -> otherEnd (port);
                         if (p) {
-                            Node* other = p->owner ();
+                            Node* other = p -> owner ();
                             if (other && other != module) {
-                                Module* qm = static_cast<Module*> (other);
-                                if (qm) {
+                                Module* qm = dynamic_cast<Module*> (other);
+                                Convolution* cm = dynamic_cast<Convolution*> (other);
+                                if (qm && ! cm) {
                                     _code = glsl (qm);
                                 }
                             }
