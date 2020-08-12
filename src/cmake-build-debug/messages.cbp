@@ -8,116 +8,38 @@
 		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\;CMake Files\modules\;CMake Files\messages\;CMake Files\module\;CMake Files\nodeedit\;CMake Files\controls\;CMake Files\controls\globe\;CMake Files\controls\altitudemap\;CMake Files\controls\legend\;CMake Files\pipeline\;CMake Files\actions\;CMake Files\mapping\;CMake Files\mapping\projection\;CMake Files\grid\;CMake Files\exprtk\;CMake Files\legend\;CMake Files\graph\;CMake Files\preferences\;CMake Files\resources\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="calenhad">
-				<Option output="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/calenhad" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DQT_CORE_LIB"/>
-					<Add option="-DQT_WIDGETS_LIB"/>
-					<Add option="-DQT_GUI_LIB"/>
-					<Add option="-DQT_XML_LIB"/>
-					<Add option="-DQT_OPENGL_LIB"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/calenhad_autogen/include"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/.."/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/messages"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
-					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtOpenGL"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="calenhad/fast">
-				<Option output="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/calenhad" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add option="-DQT_CORE_LIB"/>
-					<Add option="-DQT_WIDGETS_LIB"/>
-					<Add option="-DQT_GUI_LIB"/>
-					<Add option="-DQT_XML_LIB"/>
-					<Add option="-DQT_OPENGL_LIB"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/calenhad_autogen/include"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/.."/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/messages"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
-					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtOpenGL"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="messages">
-				<Option output="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/libmessages.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
+				<Option output="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/libmessages.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -126,11 +48,11 @@
 					<Add option="-DQT_WIDGETS_LIB"/>
 					<Add option="-DQT_GUI_LIB"/>
 					<Add option="-DQT_XML_LIB"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/messages_autogen/include"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/.."/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/messages"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/messages_autogen/include"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/.."/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/messages"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
@@ -146,15 +68,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="messages/fast">
-				<Option output="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/libmessages.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
+				<Option output="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/libmessages.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -163,11 +85,11 @@
 					<Add option="-DQT_WIDGETS_LIB"/>
 					<Add option="-DQT_GUI_LIB"/>
 					<Add option="-DQT_XML_LIB"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/messages_autogen/include"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/.."/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src"/>
-					<Add directory="/home/ferret/CLionProjects/calenhad/src/messages"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/messages_autogen/include"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/.."/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/messages"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
@@ -183,814 +105,892 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="calenhad_autogen">
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
-				<Option type="4"/>
+			<Target title="calenhad">
+				<Option output="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/calenhad" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_XML_LIB"/>
+					<Add option="-DQT_OPENGL_LIB"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/calenhad_autogen/include"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/.."/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/messages"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtOpenGL"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad_autogen"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="calenhad/fast">
+				<Option output="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/calenhad" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_XML_LIB"/>
+					<Add option="-DQT_OPENGL_LIB"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/calenhad_autogen/include"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/.."/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src"/>
+					<Add directory="/home/martin/ClionProjects/calenhad/src/messages"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtOpenGL"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="messages_autogen">
-				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages_autogen"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages_autogen"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="calenhad_autogen">
+				<Option working_dir="/home/martin/ClionProjects/calenhad/src/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad_autogen"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/martin/ClionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/CalenhadServices.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/CalenhadServices.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/CalenhadServices.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/CalenhadServices.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/CalenhadUi.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/CalenhadUi.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/CalenhadUi.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/CalenhadUi.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/Serializable.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/Serializable.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/ChangeModuleCommand.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/ChangeModuleCommand.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/ChangeModuleCommand.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/ChangeModuleCommand.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/ContextAction.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/ContextAction.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/GridCommand.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/GridCommand.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/GridCommand.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/GridCommand.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/SnapToGridCommand.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/SnapToGridCommand.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/SnapToGridCommand.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/SnapToGridCommand.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/XmlCommand.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/XmlCommand.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/XmlCommand.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/XmlCommand.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/ZoomCommand.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/ZoomCommand.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/ZoomCommand.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/ZoomCommand.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/calenhad_autogen/mocs_compilation.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/calenhad_autogen/mocs_compilation.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/messages_autogen/mocs_compilation.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/messages_autogen/mocs_compilation.cpp">
 			<Option target="messages"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/qrc_resources.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/cmake-build-debug/qrc_resources.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/CalenhadLegendDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/CalenhadLegendDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/CalenhadLegendDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/CalenhadLegendDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/ColorButton.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/ColorButton.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/ColorButton.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/ColorButton.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/FlowLayout.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/FlowLayout.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/FlowLayout.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/FlowLayout.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/ModuleTree.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/ModuleTree.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/ModuleTree.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/ModuleTree.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/QAngleControl.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/QAngleControl.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/QAngleControl.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/QAngleControl.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/QExpander.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/QExpander.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/QExpander.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/QExpander.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/QIconPalette.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/QIconPalette.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/QIconPalette.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/QIconPalette.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/QxtGlobal.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/QxtGlobal.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/SizeGripItem.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/SizeGripItem.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/SizeGripItem.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/SizeGripItem.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/SplashDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/SplashDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/SplashDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/SplashDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/TextEdit.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/TextEdit.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/TextEdit.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/TextEdit.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapConstants.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapConstants.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapEditor.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapEditor.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapEditor.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapEditor.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapFitter.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapFitter.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapFitter.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapFitter.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapPlot.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapPlot.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapPlot.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapPlot.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapping.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapping.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapping.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMapping.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMappingDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMappingDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMappingDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/AltitudeMappingDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeConfigDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeConfigDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeConfigDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeConfigDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeConstants.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeConstants.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeContextMenu.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeContextMenu.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeContextMenu.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeContextMenu.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeWidget.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeWidget.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeWidget.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadGlobeWidget.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadNavigator.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadNavigator.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadNavigator.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadNavigator.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadStatsPanel.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadStatsPanel.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadStatsPanel.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CalenhadStatsPanel.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/GlobeScaleWidget.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/GlobeScaleWidget.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/GlobeScaleWidget.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/GlobeScaleWidget.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/HypsographyWidget.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/HypsographyWidget.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/HypsographyWidget.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/HypsographyWidget.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/StatisticsService.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/StatisticsService.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/StatisticsService.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/StatisticsService.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditor.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditor.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditor.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditor.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorScale.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditorScale.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorScale.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditorScale.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorSlider.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditorSlider.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorSlider.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditorSlider.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorSliderPanel.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditorSliderPanel.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditorSliderPanel.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEditorSliderPanel.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEntryDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEntryDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEntryDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendEntryDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendPreview.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendPreview.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendPreview.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/LegendPreview.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/Calculator.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/Calculator.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/Calculator.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/Calculator.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/ExpressionEdit.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/ExpressionEdit.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/ExpressionEdit.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/ExpressionEdit.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/ExpressionWidget.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/ExpressionWidget.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/ExpressionWidget.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/ExpressionWidget.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/VariablesDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/VariablesDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/VariablesDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/VariablesDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/exprtk.hpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/exprtk.hpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/geoutils.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/geoutils.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/geoutils.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/geoutils.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/graph/ComputeService.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/graph/ComputeService.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/graph/ComputeService.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/graph/ComputeService.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/graph/graph.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/graph/graph.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/graph/graph.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/graph/graph.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/grid/CubicSphere.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/grid/CubicSphere.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/icosphere.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/grid/icosphere.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/icosphere.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/grid/icosphere.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/Legend.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/Legend.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/Legend.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/Legend.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendChooser.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendChooser.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendChooser.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendChooser.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendEntry.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendEntry.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendEntry.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendEntry.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendManager.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendManager.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendManager.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendManager.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendRoster.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendRoster.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendRoster.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendRoster.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendService.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendService.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendWidget.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendWidget.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/LegendWidget.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/LegendWidget.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/QColorButton.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/QColorButton.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/QColorButton.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/QColorButton.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/main.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/main.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/CalenhadMapWidget.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/CalenhadMapWidget.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/CalenhadMapWidget.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/CalenhadMapWidget.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/CubicSpline.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/CubicSpline.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/CubicSpline.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/CubicSpline.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Curve.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/Curve.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Curve.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/Curve.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Graticule.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/Graticule.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Graticule.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/Graticule.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Statistics.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/Statistics.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Statistics.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/Statistics.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/TerraceCurve.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/TerraceCurve.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/TerraceCurve.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/TerraceCurve.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/EquirectangularProjection.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/EquirectangularProjection.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/EquirectangularProjection.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/EquirectangularProjection.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/MercatorProjection.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/MercatorProjection.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/MercatorProjection.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/MercatorProjection.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/OrthographicProjection.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/OrthographicProjection.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/OrthographicProjection.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/OrthographicProjection.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/Projection.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/Projection.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/ProjectionService.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/ProjectionService.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/ProjectionService.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/ProjectionService.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/matrices.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/matrices.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/matrices.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/matrices.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/QNotification.cpp">
-			<Option target="calenhad"/>
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/messages/QNotification.cpp">
 			<Option target="messages"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/QNotification.h">
 			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/messages/QNotification.h">
 			<Option target="messages"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/QNotificationHost.cpp">
 			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/messages/QNotificationHost.cpp">
 			<Option target="messages"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/QNotificationHost.h">
 			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/messages/QNotificationHost.h">
 			<Option target="messages"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/QProgressNotification.cpp">
 			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/messages/QProgressNotification.cpp">
 			<Option target="messages"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/QProgressNotification.h">
 			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/messages/QProgressNotification.h">
 			<Option target="messages"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/AltitudeMap.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/AltitudeMap.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/AltitudeMap.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Cache.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/AltitudeMap.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Cache.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/Cache.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Module.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/Cache.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Module.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/Module.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Node.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/Module.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Node.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/Node.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/NodeGroup.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/Node.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/NodeGroup.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/NodeGroup.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/NodeGroup.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/ParamValidator.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/RasterModule.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/RasterModule.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/RasterModule.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/StructuredGrid.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/StructuredGrid.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/Calenhad.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadController.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/Calenhad.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadController.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/CalenhadController.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadToolBar.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/CalenhadController.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadToolBar.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/CalenhadToolBar.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadView.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/CalenhadToolBar.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadView.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/CalenhadView.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Connection.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/CalenhadView.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Connection.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/Connection.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/EditableLabel.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/Connection.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/EditableLabel.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/EditableLabel.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/NodeBlock.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/EditableLabel.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/NodeBlock.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/NodeBlock.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/NodeNameValidator.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/NodeBlock.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/NodeNameValidator.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/NodeNameValidator.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Port.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/NodeNameValidator.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Port.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/Port.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/PortNameValidator.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/Port.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/PortNameValidator.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/PortNameValidator.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/ProjectPropertiesDialog.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/PortNameValidator.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/ProjectPropertiesDialog.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/ProjectPropertiesDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/ui_qnemainwindow.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/ProjectPropertiesDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/noiseconstants.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/ui_qnemainwindow.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/pipeline/CalenhadModel.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/noiseconstants.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/pipeline/CalenhadModel.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/pipeline/CalenhadModel.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/pipeline/ModuleFactory.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/pipeline/CalenhadModel.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/pipeline/ModuleFactory.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/pipeline/ModuleFactory.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/preferences/PreferencesService.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/pipeline/ModuleFactory.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/preferences/preferences.cpp">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/preferences/PreferencesService.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/preferences/preferences.h">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/preferences/preferences.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/resources/resources.qrc">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/preferences/preferences.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/resources/resources.qrc">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5Config.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5Config.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ConfigVersion.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ModuleLocation.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ModuleLocation.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QComposePlatformInputContextPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QComposePlatformInputContextPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSEmulatorIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSEmulatorIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsEglDeviceIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsEglDeviceIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsGbmIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsGbmIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSX11IntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSX11IntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTabletPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTabletPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTouchScreenPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTouchScreenPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QIbusPlatformInputContextPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QIbusPlatformInputContextPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLibInputPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLibInputPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLinuxFbIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLinuxFbIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalEglIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalEglIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QVncIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QVncIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfig.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfigVersion.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Xml/Qt5XmlConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5OpenGL/Qt5OpenGLConfig.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5OpenGL/Qt5OpenGLConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5OpenGL/Qt5OpenGLConfigVersion.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5OpenGL/Qt5OpenGLConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/CMakeFindDependencyMacro.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/modules/CMakeFindDependencyMacro.cmake">
 			<Option virtualFolder="CMake Files\modules\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindGeographicLib.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/modules/FindGeographicLib.cmake">
 			<Option virtualFolder="CMake Files\modules\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindQwt.cmake">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/modules/FindQwt.cmake">
 			<Option virtualFolder="CMake Files\modules\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/messages/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\messages\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/module/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\module\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/nodeedit/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\nodeedit\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\controls\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/globe/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\controls\globe\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/altitudemap/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\controls\altitudemap\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/controls/legend/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\controls\legend\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/pipeline/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/pipeline/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\pipeline\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/actions/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/actions/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\actions\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\mapping\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/projection/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/mapping/projection/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\mapping\projection\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/grid/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\grid\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/exprtk/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/exprtk/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\exprtk\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/legend/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/legend/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\legend\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/graph/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/graph/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\graph\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/preferences/CMakeLists.txt">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/preferences/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\preferences\"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/resources/resources.qrc">
+		<Unit filename="/home/martin/ClionProjects/calenhad/src/resources/resources.qrc">
 			<Option virtualFolder="CMake Files\resources\"/>
 		</Unit>
 	</Project>

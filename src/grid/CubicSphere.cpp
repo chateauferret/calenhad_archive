@@ -198,7 +198,7 @@ int CubicSphere::adjacentFace (const int& face, const int& direction) {
 }
 
 CubeCoordinates CubicSphere::traverse (const CubeCoordinates& cube, const int& up, const int& right) {
-    CubeCoordinates cube;
+
     int f = cube.face;
     int x = cube.u + up;
 
