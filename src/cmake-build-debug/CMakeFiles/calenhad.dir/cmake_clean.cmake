@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/calenhad_autogen.dir/AutogenOldSettings.txt"
+  "CMakeFiles/calenhad_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/calenhad_autogen.dir/ParseCache.txt"
   "calenhad_autogen"
   "CMakeFiles/calenhad.dir/CalenhadServices.cpp.o"
@@ -74,6 +74,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/calenhad.dir/messages/QProgressNotification.cpp.o"
   "CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o"
   "CMakeFiles/calenhad.dir/module/Cache.cpp.o"
+  "CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o"
   "CMakeFiles/calenhad.dir/module/Module.cpp.o"
   "CMakeFiles/calenhad.dir/module/Node.cpp.o"
   "CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o"

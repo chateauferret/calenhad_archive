@@ -1,6 +1,6 @@
-/usr/bin/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/martin/ClionProjects/calenhad/src
+/usr/bin/clion-2020.1.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/ferret/CLionProjects/calenhad/src
 -- (CMake prefix )
-CMake Warning (dev) at /usr/bin/clion/bin/cmake/linux/share/cmake-3.15/Modules/FindOpenGL.cmake:275 (message):
+CMake Warning (dev) at /usr/bin/clion-2020.1.1/bin/cmake/linux/share/cmake-3.17/Modules/FindOpenGL.cmake:305 (message):
   Policy CMP0072 is not set: FindOpenGL prefers GLVND by default when
   available.  Run "cmake --help-policy CMP0072" for policy details.  Use the
   cmake_policy command to set the policy and suppress this warning.
@@ -27,4 +27,4 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 -- QtOpenGL v5.12.8
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/martin/ClionProjects/calenhad/src/cmake-build-debug
+-- Build files have been written to: /home/ferret/CLionProjects/calenhad/src/cmake-build-debug

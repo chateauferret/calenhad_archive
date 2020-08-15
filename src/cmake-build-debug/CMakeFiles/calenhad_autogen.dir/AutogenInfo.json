@@ -400,6 +400,11 @@
 			"D72IQXBNBH/moc_Cache.cpp"
 		],
 		[
+			"/home/ferret/CLionProjects/calenhad/src/module/ConvolutionKernel.h",
+			"Mu",
+			"D72IQXBNBH/moc_ConvolutionKernel.cpp"
+		],
+		[
 			"/home/ferret/CLionProjects/calenhad/src/module/Module.h",
 			"Mu",
 			"D72IQXBNBH/moc_Module.cpp"
@@ -820,6 +825,10 @@
 			"Mu"
 		],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Cache.cpp", "Mu" ],
+		[
+			"/home/ferret/CLionProjects/calenhad/src/module/ConvolutionKernel.cpp",
+			"Mu"
+		],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Module.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Node.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/NodeGroup.cpp", "Mu" ],

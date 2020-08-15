@@ -713,10 +713,10 @@ float raster (vec3 cartesian, uint rasterIndex, ivec2 rasterSize) { //, float de
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
-float convolution (uint rasterIndex, uint rasterSize) {
+float grid (uint gridIndex, uint gridSize) {
     ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
-    uint i = pos.z * rasterSize.x * rasterSize.x + pos.y * rasterSize.x + pos.x;
-    return rasters [i + rasterIndex];
+    uint i = pos.z * gridSize.x * gridSize.x + pos.y * gridSize.x + pos.x;
+    return rasters [i + gridIndex];
 }
 
 // Find the x and y coordinates for a geolocation in a raster of height and width given by size and
@@ -801,11 +801,9 @@ vec3 indexToCartesian (ivec3 fuv) {
 // inserted code //
 
 void main() {
-        ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
-        vec3 c = indexToCartesian (pos);
-        vec2 g = toGeolocation (c);
-        uint i = pos.z * size * size + pos.y * size + pos.x;
-
-        float v = value (c, g);
-        height_map_out [i] = v;
+    ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
+    vec3 c = indexToCartesian (pos);
+    vec2 g = toGeolocation (c);
+    uint i = pos.z * size * size + pos.y * size + pos.x;
+    height_map_out [i] = value (pos, c, g);
 }

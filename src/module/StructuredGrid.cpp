@@ -47,7 +47,7 @@ void StructuredGrid::serialize (QDomElement& element) {
 }
 
 QString StructuredGrid::glsl () {
-   return  "convolution (%rasterIndex, %rasterSize)";
+   return  "grid (%gridIndex, %gridSize)";
 }
 
 int StructuredGrid::rasterSize() {

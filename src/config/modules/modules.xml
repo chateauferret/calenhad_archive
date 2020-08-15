@@ -17,7 +17,7 @@
         </ports>
     </module>
 
-    <module role = "convolve" name="cache" label="Cache">
+    <module role = "grid" name="cache" label="Cache">
         <documentation>Cache</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
@@ -41,9 +41,6 @@
             </parameter>
         </parameters>
         <glsl>%value</glsl>
-        <cuda>
-            out [index] = %value;
-        </cuda>
     </module>
 
     <!-- Externally programmeable modules -->
@@ -54,9 +51,6 @@
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
         <glsl>abs (%0)</glsl>
-        <cuda>
-            out [index] = fabs (in);
-        </cuda>
     </module>
 
     <module role="modify" name="invert" label="Invert">
@@ -65,10 +59,17 @@
             <input index="0" mode="value" name="Input" label="in" required="true"/>
         </ports>
         <glsl>- %0</glsl>
-        <cuda>
-            out [index] = - in;
-        </cuda>
     </module>
+
+    <module role="modify" name="convolve" label="Convolve">
+        <documentation>Apply a convolution matrix to the values</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input" label="in" required="true"/>
+        </ports>
+        <glsl></glsl>
+    </module>
+
+
 
     <module role="combine" name="add" label="Add">
         <documentation>Addition of two, three or four values</documentation>
@@ -79,9 +80,6 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="0.0" />
         </ports>
         <glsl>%0 + %1</glsl>
-        <cuda>
-            out [index] = in0 + in1 + in2 + in3;
-        </cuda>
     </module>
 
     <module role="combine" name="max" label="Maximum">
@@ -93,9 +91,6 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="-1.0" />
         </ports>
         <glsl>max (%0, %1)</glsl>
-        <cuda>
-            out [index] = max (in0, max (in1, max (in2, in3)));
-        </cuda>
     </module>
 
     <module role="combine" name="min" label="Minimum">
@@ -107,9 +102,6 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
         <glsl>min (%0, %1)</glsl>
-        <cuda>
-            out [index] = min (in0, min (in1, min (in2, in3)));
-        </cuda>
     </module>
 
     <module role="combine" name="multiply" label="Multiply">
@@ -121,9 +113,6 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
         <glsl>%0 * %1</glsl>
-        <cuda>
-            out [index] = in0 * in1 * in2 * in3;
-        </cuda>
     </module>
 
     <module role="combine" name="power" label="Power">
@@ -133,9 +122,6 @@
             <input index="1" mode="value" name="Exponent" default="2.0" label="exp"/>
         </ports>
         <glsl>pow (%0, %1)</glsl>
-        <cuda>
-            out [index] = pow (in0, in1);
-        </cuda>
     </module>
 
     <module role="combine" name="diff" label = "Difference">
@@ -145,9 +131,6 @@
             <input index="1" mode="value" name="Subtrahend" label="sub"/>
         </ports>
         <glsl>%0 - %1</glsl>
-        <cuda>
-            out [index] = in0 - in1;
-        </cuda>
     </module>
 
     <module role="combine" name="blend" label="Blend">
@@ -158,9 +141,6 @@
             <input index="2" mode="control" name="Control" label="ctrl" required="true" />
         </ports>
         <glsl>mix (%0, %1, %2)</glsl>
-        <cuda>
-            out [index] = mix (in0, in1, in2);
-        </cuda>
     </module>
 
     <module role="transform" name="translate" label="Translate">
@@ -172,12 +152,9 @@
             <input index="3" mode="control" name="Z" label="z"/>
         </ports>
         <glsl>$0 (c + vec3 (%1, %2, %3))</glsl>
-        <cuda>
-            out [index] = mix (in0, in1, in2);
-        </cuda>
     </module>
 
-    <module name="rotate" label="Rotate">
+    <module role="transform" name="rotate" label="Rotate">
         <documentation>Take the value from a point rotated from the input point around each axis</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
@@ -188,7 +165,7 @@
         <glsl>$0 (rotate (c, vec3 (%1, %2, %3)))</glsl>
     </module>
 
-    <module name="scalepoint" label="Scalepoint">
+    <module role="transform" name="scalepoint" label="Scalepoint">
         <documentation>Scale the noise relative to a point</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
@@ -199,7 +176,7 @@
         <glsl>$0 (c * vec3 (%1, %2, %3))</glsl>
     </module>
 
-    <module name="cylinders" label="Cylinders">
+    <module role="generate" name="cylinders" label="Cylinders">
         <documentation>Cylinder function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0" label="freq">
@@ -209,7 +186,7 @@
         <glsl>cylinders (c, %0)</glsl>
     </module>
 
-    <module name="spheres" label="Spheres">
+    <module role="generate" name="spheres" label="Spheres">
         <documentation>Sphere function</documentation>
         <ports>
             <input index="0" mode="value" name="frequency" default="1.0"  label="freq">
@@ -227,6 +204,32 @@
             <input index="2" mode="control" name="maximum" default="1.0"  label="max" />
         </ports>
         <glsl>clamp (%0, %1, %2)</glsl>
+    </module>
+
+    <module role="convolve" name="Gaussian blur" label="Gaussian blur">
+        <documentation>Gaussian blur filter</documentation>
+        <ports>
+            <input index="0" mode="value" name="input" default="0.0" label="in">
+                <documentation>Input value</documentation>
+            </input>
+        </ports>
+        <parameters>
+
+        </parameters>
+        <declare>
+
+        </declare>
+        <glsl>
+            // for now a simple block blur
+            float acc = 0.0;
+            for (int i = -1; i &lt; 1; i++) {
+                for (int j = -1; i &lt; 1; i++) {
+                    ivec3 dpos = displace (pos, i, j);
+                    acc += 1.0 / 9.0 * $0 (dpos);
+                }
+            }
+            return acc;
+        </glsl>
     </module>
 
 
@@ -254,9 +257,6 @@
             </parameter>
         </parameters>
         <glsl>perlin (c, %0, %1, %2, %octaves, %seed)</glsl>
-        <cuda>
-            out [index] = perlin (toCartesian (geolocation));
-        </cuda>
     </module>
 
 
@@ -284,9 +284,6 @@
             </parameter>
         </parameters>
         <glsl>simplex (c, %0, %1, %2, %octaves, %seed)</glsl>
-        <cuda>
-            out [index] = simplex (toCartesian (geolocation));
-        </cuda>
     </module>
 
     <module role="generate" name="billow" label="Billow noise">
@@ -313,9 +310,6 @@
             </parameter>
         </parameters>
         <glsl>billow (c, %0, %1, %2, %octaves, %seed)</glsl>
-        <cuda>
-            out [index] = billow (toCartesian (geolocation));
-        </cuda>
     </module>
 
     <module role="generate" name="ridgedmultifractal" label="Ridged multifractal">
@@ -339,9 +333,6 @@
             </parameter>
         </parameters>
         <glsl>ridgedmulti (c, %0, %1, %octaves, %seed, 1.0, 1.0, 2.0, 2.0)</glsl>
-        <cuda>
-            out [index] = ridgedMulti (toCartesian (geolocation));
-        </cuda>
     </module>
 
 
@@ -353,9 +344,6 @@
             <input index="2" mode="control" name="bias" default="0.0"  label="bias" />
         </ports>
         <glsl>%0 * %1 + %2</glsl>
-        <cuda>
-            out [index] = __fma_rn (in0, in1, in2);
-        </cuda>
     </module>
 
     <module role="combine" name="select" label="Select">
@@ -380,9 +368,6 @@
             </parameter>
         </parameters>
         <glsl>select (%0, %1, %2, %lowerBound, %upperBound, %falloff)</glsl>
-        <cuda>
-            out [index] = select (in0, in1, in2);
-        </cuda>
     </module>
     <!--
     <module role="transform"  label="Turbulence">
@@ -428,14 +413,10 @@
                 <validator type="AcceptAny"/>
             </parameter>
             <parameter type="integer" name="seed" default="0">
-                <documentation>Random seed</documentation>
-                <validator type="AcceptAny"/>
+                <documentation>Random seed</documentation>z\a                <validator type="AcceptAny"/>
             </parameter>
         </parameters>
         <glsl>voronoi (c, %0, %1, %scale, %seed)</glsl>
-        <cuda>
-            out [index] = voronoi (toCartesian (geolocation));
-        </cuda>
 
     </module>
 

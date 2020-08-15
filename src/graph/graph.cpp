@@ -62,8 +62,8 @@ QString Graph::glsl() {
     _code =  glsl (_module);
 
     if (_code != QString::null) {
-        _code.append ("\n\nfloat value (vec3 cartesian, vec2 geolocation) {\n");
-        _code.append ("    return _" + _nodeName + " (cartesian, geolocation);\n");
+        _code.append ("\n\nfloat value (ivec3 pos, vec3 cartesian, vec2 geolocation) {\n");
+        _code.append ("    return _" + _nodeName + " (pos, cartesian, geolocation);\n");
         _code.append ("}\n");
     }
     std::cout << _code.toStdString () << "\n\n";
@@ -109,7 +109,7 @@ QString Graph::glsl (Module* module) {
                     QVector<AltitudeMapping> entries = am->entries ();
 
                     // input is below the bottom of the range
-                    _code += "float _" + name + " (vec3 c, vec2 g) {\n";
+                    _code += "float _" + name + " (ivec3 pos, vec3 c, vec2 g) {\n";
                     _code += "  float value = %0 ;\n";
                     _code += "  if (value < " + QString::number (entries.first ().x ()) + ") { return " + QString::number (entries.first ().y ()) + "; }\n";
 
@@ -166,7 +166,7 @@ QString Graph::glsl (Module* module) {
                     _code += "}\n";
                 } else {
                     QString func = qm -> glsl ();;
-                    _code.append ("float _" + name + " (vec3 c, vec2 g) { \n    return " + func);
+                    _code.append ("float _" + name + " (ivec3 pos, vec3 c, vec2 g) { \n    return " + func);
                     //_code.append ("; }\n");
                 }
 
@@ -190,10 +190,10 @@ QString Graph::glsl (Module* module) {
                 if (cm) {
                     _rasters.append (cm);
                     int length = cm -> rasterSize() * 6;
-                    _code.replace ("%rasterIndex", QString::number (_index));
+                    _code.replace ("%gridIndex", QString::number (_index));
                     _index += length;
 
-                    _code.replace ("%rasterSize", QString::number (cm -> rasterSize()));
+                    _code.replace ("%gridSize", QString::number (cm -> rasterSize()));
                     _code.append ("; }\n");
                 }
 
@@ -201,12 +201,12 @@ QString Graph::glsl (Module* module) {
                 int i = 0;
                 for (Port* port : qm->inputs ()) {
                     QString index = QString::number (i++);
-                    if (port->connections ().isEmpty ()) {
+                    if (port->connections().isEmpty ()) {
                         _code.replace ("%" + index, QString::number (qm -> parameterValue (port -> portName ())));
                     } else {
-                        Node* other = port -> connections ()[0] -> otherEnd (port) -> owner();
+                        Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
                         QString source = other->name ();
-                        _code.replace ("%" + index, "_" + source + " (c, g)");    // "%0" is shorthand for "$0 (c)"
+                        _code.replace ("%" + index, "_" + source + " (pos, c, g)");    // "%0" is shorthand for "$0 (pos, c, g)"
                         _code.replace ("$" + index, "_" + source);
                     }
                 }
