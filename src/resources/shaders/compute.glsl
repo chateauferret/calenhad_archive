@@ -110,42 +110,24 @@ float cubicInterpolate (float n0, float n1, float n2, float n3, float a) {
     return p * a * a * a + q * a * a + r * a + s;
 }
 
-mat3 rotateX (float rad) {
-    float c = cos(rad);
-    float s = sin(rad);
-    return mat3 (
-    1.0, 0.0, 0.0,
-    0.0, c, s,
-    0.0, -s, c
-    );
+vec3 rotate (float theta, vec3 pole, vec3 c) {
+    vec4 quat = vec4 (cos (theta / 2), sin (theta / 2) * pole.x, sin (theta / 2) * pole.y, sin (theta / 2) * pole.z);
+    float w = quat.x;
+    float x = quat.y;
+    float y = quat.z;
+    float z = quat.w;
+
+    mat3 m = mat3  (1 - 2 * y * y - 2 * z * z, 2 * x * y - 2 * w * z, 2 * x * z + 2 * w * y, // 0.0,
+                    2 * x * y + 2 * w * z, 1 - 2 * x * x - 2 * z * z, 2 * y * z - 2 * w * x, //0.0,
+                    2 * x * z - 2 * w * y, 2 * y * z + 2 * w * x, 1 - 2 * x * x - 2 * y * y//, 0.0,
+                    //0.0, 0.0, 0.0, 1.0
+                    );
+
+    return vec3 (m [0].x * c.x + m [0].y * c.y + m [0].z * c.z,
+                 m [1].x * c.x + m [1].y * c.y + m [1].z * c.z,
+                 m [2].x * c.x + m [2].y * c.y + m [2].z * c.z);
 }
 
-mat3 rotateY(float rad) {
-    float c = cos(rad);
-    float s = sin(rad);
-    return mat3(
-    c, 0.0, -s,
-    0.0, 1.0, 0.0,
-    s, 0.0, c
-    );
-}
-
-mat3 rotateZ(float rad) {
-    float c = cos(rad);
-    float s = sin(rad);
-    return mat3(
-    c, s, 0.0,
-    -s, c, 0.0,
-    0.0, 0.0, 1.0
-    );
-}
-
-vec3 rotate (vec3 pos, vec3 rotations) {
-    pos = rotateZ (radians (rotations.z)) * pos;
-    pos = rotateY (radians (rotations.y)) * pos;
-    pos = rotateX (radians (rotations.x)) * pos;
-    return pos;
-}
 
 //	Classic Perlin 4D Noise
 //	by Stefan Gustavson
@@ -796,6 +778,61 @@ vec3 indexToCartesian (ivec3 fuv) {
     float dz = z * sqrt (1.0f - x * x * 0.5f - y * y * 0.5f + (x * x * y * y) / 3.0f);
     return vec3 (dx, dy, dz);
 }
+
+
+ivec3 cartesianToIndex (vec3 cartesian) {
+    vec3 position = cartesian;
+    ivec3 fuv;
+    float x = position.x, y = position.y, z = position.z;
+    float fx = abs (x), fy = abs (y), fz = abs (z);
+
+    if (fy >= fx && fy >= fz) {
+        float a2 = x * x * 2.0;
+        float b2 = z * z * 2.0;
+        float inner = -a2 + b2 - 3;
+        float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
+        position.x = (x == 0.0 || x == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
+        position.z = (z == 0.0 || z == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
+        if (position.x > 1.0) { position.x = 1.0; }
+        if (position.z > 1.0) { position.z = 1.0; }
+        if (x < 0) { position.x = -position.x; }
+        if (z < 0) { position.z = -position.z; }
+        fuv.z = (y > 0) ? FACE_NORTH : FACE_SOUTH;;
+        fuv.x = int ((position.x * 0.5 + 0.5) * size);
+        fuv.y = int ((position.z * 0.5 + 0.5) * size);
+    } else if (fx >= fy && fx >= fz) {
+        float a2 = y * y * 2.0;
+        float b2 = z * z * 2.0;
+        float inner = -a2 + b2 - 3;
+        float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
+        position.y = (y == 0.0 || y == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
+        position.z = (z == 0.0 || z == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
+        if (position.y > 1.0) { position.y = 1.0; }
+        if (position.z > 1.0) { position.z = 1.0; }
+        if (y < 0) { position.y = -position.y; }
+        if (z < 0) { position.z = -position.z; }
+        fuv.z = (x > 0) ? FACE_EAST : FACE_WEST;
+        fuv.x = int ((position.y * 0.5 + 0.5) * size);
+        fuv.y = int ((position.z * 0.5 + 0.5) * size);
+    } else {
+        float a2 = x * x * 2.0;
+        float b2 = y * y * 2.0;
+        float inner = -a2 + b2 - 3;
+        float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
+        position.x = (x == 0.0 || x == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
+        position.y = (y == 0.0 || y == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
+        if (position.x > 1.0) { position.x = 1.0; }
+        if (position.y > 1.0) { position.y = 1.0; }
+        if (x < 0) { position.x = -position.x; }
+        if (y < 0) { position.y = -position.y; }
+        fuv.z = (z > 0) ? FACE_FRONT :  FACE_BACK;
+        fuv.x = int ((position.x * 0.5 + 0.5) * size);
+        fuv.y = int ((position.y * 0.5 + 0.5) * size);
+
+    }
+    return fuv;
+}
+
 
 
 // inserted code //

@@ -165,8 +165,12 @@ QString Graph::glsl (Module* module) {
                     _code += "  if (value > " + QString::number (entries.last ().x ()) + ") { return " + QString::number (entries.last ().y ()) + "; }\n";
                     _code += "}\n";
                 } else {
-                    QString func = qm -> glsl ();;
-                    _code.append ("float _" + name + " (ivec3 pos, vec3 c, vec2 g) { \n    return " + func);
+                    QString func = qm -> glsl();
+                    _code.append ("float _" + name + " (ivec3 pos, vec3 c, vec2 g) { \n");
+                    if (! func.contains ("return")) {
+                        _code.append ("    return ");
+                    }
+                    _code += func;
                     //_code.append ("; }\n");
                 }
 
@@ -201,11 +205,11 @@ QString Graph::glsl (Module* module) {
                 int i = 0;
                 for (Port* port : qm->inputs ()) {
                     QString index = QString::number (i++);
-                    if (port->connections().isEmpty ()) {
+                    if (port -> connections().isEmpty ()) {
                         _code.replace ("%" + index, QString::number (qm -> parameterValue (port -> portName ())));
                     } else {
                         Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
-                        QString source = other->name ();
+                        QString source = other -> name();
                         _code.replace ("%" + index, "_" + source + " (pos, c, g)");    // "%0" is shorthand for "$0 (pos, c, g)"
                         _code.replace ("$" + index, "_" + source);
                     }
@@ -213,8 +217,8 @@ QString Graph::glsl (Module* module) {
 
                 // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
                 for (QString param : CalenhadServices::modules() -> paramNames ()) {
-                    if (qm->parameters ().contains (param)) {
-                        _code.replace ("%" + param, QString::number (qm->parameterValue (param)));
+                    if (qm -> parameters ().contains (param)) {
+                        _code.replace ("%" + param, QString::number (qm -> parameterValue (param)));
                     }
                 }
             }
