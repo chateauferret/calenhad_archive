@@ -61,7 +61,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="0.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="0.0" />
         </ports>
-        <glsl>%0 + %1</glsl>
+        <glsl>%0 + %1 + %2 + %3</glsl>
     </module>
 
     <module role="combine" name="max" label="Maximum">
@@ -72,7 +72,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="-1.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="-1.0" />
         </ports>
-        <glsl>max (%0, %1)</glsl>
+        <glsl>max (%0, max (%1, max (%2, %3)))</glsl>
     </module>
 
     <module role="combine" name="min" label="Minimum">
@@ -83,7 +83,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="1.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
-        <glsl>min (%0, %1)</glsl>
+        <glsl>min (%0, min (%1, min (%2, %3)))</glsl>
     </module>
 
     <module role="combine" name="multiply" label="Multiply">
@@ -94,7 +94,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="1.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
-        <glsl>%0 * %1</glsl>
+        <glsl>%0 * %1 * %2 * %3</glsl>
     </module>
 
     <module role="combine" name="power" label="Power">
@@ -114,7 +114,8 @@
         </ports>
         <glsl>%0 - %1</glsl>
     </module>
-
+Quote:
+Originally Posted by adrenalin john View Post
     <module role="combine" name="blend" label="Blend">
         <documentation>Blend two inputs, weighting each according to the value of a control</documentation>
         <ports>
@@ -126,21 +127,52 @@
     </module>
 
     <module role="transform" name="rotate" label="Rotate">
-        <documentation>Rotate the signal around a selected Euler pole</documentation>
+        <documentation>Rotate the input around a selected Euler pole</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
-            <input index="1" mode="control" name="Latitude" label="lat"/>
-            <input index="2" mode="control" name="Longitude" label="lon"/>
-            <input index="3" mode="control" name="Rotation" label="theta"/>
         </ports>
+        <parameters>
+            <parameter type="double" name="latitude" default="0">
+                <documentation>Latitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-90" max="90"/>
+            </parameter>
+            <parameter type="double" name="longitude" default="0">
+                <documentation>Longitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-180" max="90"/>
+            </parameter>
+            <parameter type="double" name="theta" default="45">
+                <documentation>Angle of rotation about pole of rotation</documentation>
+                <validator type="AcceptRange" min="-180" max="180"/>
+            </parameter>
+        </parameters>
         <glsl>
-            vec3 pole = toCartesian (vec2 (%2, %1));
-            vec3 rc = rotate (radians (%3), pole, c);
+            vec3 pole = toCartesian (vec2 (%longitude, %latitude));
+            vec3 rc = rotate (radians (%theta), pole, c);
             ivec3 fuv = cartesianToIndex (rc);
             vec2 rg = toGeolocation (rc);
             return $0 (fuv, rc, rg);
         </glsl>
     </module>
+
+    <module role="generate" name="distance" label="Distance">
+        <documentation>Distance from a given point. At the point, value = 1, and value declines with increasing distance to -1 at distance = %range.</documentation>
+        <parameters>
+            <parameter type="double" name="latitude" default="0">
+                <documentation>Latitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-90" max="90"/>
+            </parameter>
+            <parameter type="double" name="longitude" default="0">
+                <documentation>Longitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-180" max="90"/>
+            </parameter>
+            <parameter type="double" name="range" default="0.5">
+                <documentation>Distance from the given point at which value = -1</documentation>
+                <validator type="AcceptRange" min="0.0" max="2.0"/>
+            </parameter>
+        </parameters>
+        <glsl>distance (g, vec2 (%longitude, %latitude), %range)</glsl>
+    </module>
+
 
     <module role="generate" name="cylinders" label="Cylinders">
         <documentation>Cylinder function</documentation>
@@ -172,7 +204,17 @@
         <glsl>clamp (%0, %1, %2)</glsl>
     </module>
 
-    <module role="convolve" name="Block blur" label="Block blur">
+    <module role="generate" name="latitude" label="Latitude">
+        <documentation>The latitude of the location, mapped to the range -1 &lt; value &lt; 1</documentation>
+        <glsl>g.y / (M_PI / 2.0)</glsl>
+    </module>
+
+    <module role="generate" name="longitude" label="Longitude">
+        <documentation>The longitude of the location, mapped to the range -1 &lt; value &lt; 1</documentation>
+        <glsl>g.x / M_PI</glsl>
+    </module>
+
+    <module role="modify" name="Block blur" label="Block blur">
         <documentation>For now a simple block blur filter</documentation>
         <ports>
             <input index="0" mode="value" name="input" required="true" label="in">

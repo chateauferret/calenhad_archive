@@ -760,6 +760,11 @@ vec4 toGreyscale (vec4 color) {
     return vec4 (l, l, l, 1.0);
 }
 
+float distance (vec2 loc1, vec2 loc2, float range) {
+    float s = acos (sin (loc1.x) * sin (loc2.x) + cos (loc1.x) * cos (loc2.x) * cos (abs (loc1.y - loc2.y)));
+    return mix (1.0, -1.0, s / range);
+}
+
 // convert a cubemap index to a cartesian vector
 // the cubemap index consists of x and y = cell's 2D coordinates on its face and z = the index of the face on which the cell sits
 vec3 indexToCartesian (ivec3 fuv) {
@@ -842,5 +847,7 @@ void main() {
     vec3 c = indexToCartesian (pos);
     vec2 g = toGeolocation (c);
     uint i = pos.z * size * size + pos.y * size + pos.x;
+
     height_map_out [i] = value (pos, c, g);
+    //height_map_out [i] = (pos.x /  3.0) - 1.0;
 }

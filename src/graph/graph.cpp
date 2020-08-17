@@ -217,7 +217,7 @@ QString Graph::glsl (Module* module) {
 
                 // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
                 for (QString param : CalenhadServices::modules() -> paramNames ()) {
-                    if (qm -> parameters ().contains (param)) {
+                    if (qm -> parameters().contains (param)) {
                         _code.replace ("%" + param, QString::number (qm -> parameterValue (param)));
                     }
                 }
