@@ -308,11 +308,9 @@ void main() {
         float pets = smoothstep (0.99, 1.00001, abs (g.z));
         ivec3 fuv = cartesianToIndex (c);
         int index = int (fuv.z * size * size + fuv.y * size + fuv.x);
-        float v = (height_map_in [index] + 1.0) / 2.0;
-        //v = float (fuv.y) / float (size);
-        //color = findColor (v);
-        //color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
-        color = vec4 (v, v, v, 1.0);
+
+        color = findColor (height_map_in [index]);
+        color = mix (color, vec4 (0.0, 0.0, 0.1, 1.0), pets);
         imageStore (destTex, pos, color);
     }
 
@@ -329,9 +327,9 @@ void main() {
 
             vec3 f = forward (i);                                                   // get the geolocation of this texel in the inset map
             ivec2 s = scrPos (f.xy);                                                // find the corresponding texel in the main map
-            if (f.z > 1.0 || f.z < 0.0 ||                                           // if the texel is out of the projection's  bounds or ...
-            s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight) {    // if the texel is not on the main map ...
-                color = toGreyscale (findColor (v));                                // ... grey out the corresponding texel in the inset map.
+            if (! (f.z > 1.0 || f.z < 0.0 ||                                        // if the texel is out of the projection's  bounds or ...
+            s.x < 0 || s.x > imageHeight * 2  || s.y < 0 || s.y > imageHeight)) {   // if the texel is not on the main map ...
+                color = toGreyscale (findColor (v));                                 // ... grey out the corresponding texel in the inset map.
             }
         }
         imageStore (destTex, pos, color);

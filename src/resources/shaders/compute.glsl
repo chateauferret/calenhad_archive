@@ -7,22 +7,14 @@
 #define HALF_ROOT_2 0.70710676908493042
 
 layout (local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
-layout (std430, binding = 1) buffer rasterBuffer { float rasters []; };            // array of input rasters for convolutions //                  if x has height 0 then it is a cubix sphere, otherwise an equirectangular raster
+layout (std430, binding = 1) buffer rasterBuffer { float rasters []; };            // array of input rasters for GRIDS- if x has height 0 then it is a cubix sphere, otherwise an equirectangular raster
 
 // this is the cubic sphere into which the output will be written
 layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
 
 uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
 
-// indices to faces of the cube map
 
-
-#define FACE_FRONT 0
-#define FACE_BACK 1
-#define FACE_NORTH 2
-#define FACE_SOUTH 3
-#define FACE_EAST 4
-#define FACE_WEST 5
 
 // noise seeds
 const int X_NOISE_GEN = 1619;
@@ -64,6 +56,53 @@ uniform int vertexCount;
 
 // cubemap parameter
 uniform int size;
+
+
+// indices to faces of the cube map
+
+
+#define FACE_FRONT 4
+#define FACE_BACK 5
+#define FACE_NORTH 2
+#define FACE_SOUTH 3
+#define FACE_EAST 0
+#define FACE_WEST 1
+
+
+
+// Neighbouring panels for each panel, in the order +x, -x, +y, -y
+const uint ADJACENT [6] [4] = { { 4, 5, 2, 3 }, { 4, 5, 2, 3, }, { 4, 5, 0, 1 }, { 4, 5, 0, 1 }, { 2, 3, 0, 1 }, { 2, 3, 0, 1 } };
+
+ivec3 [4] adjacent (ivec3 fuv) {
+    ivec3 [4] m;
+
+    m[0] = ivec3 (fuv.x + 1, fuv.y, fuv.z);
+    m[1] = ivec3 (fuv.x - 1, fuv.y, fuv.z);
+    m[2] = ivec3 (fuv.x, fuv.y + 1, fuv.z);
+    m[3] = ivec3 (fuv.x, fuv.y - 1, fuv.z);
+
+    if (m[0].x < 0)         { m[0].x = 0;           m[0].z = int (ADJACENT [fuv.z] [0]); }
+    if (m[1].x > size - 1)  { m[1].x = size - 1;    m[0].z = int (ADJACENT [fuv.z] [1]); }
+    if (m[2].y < 0)         { m[2].y = 0;           m[2].z = int (ADJACENT [fuv.z] [2]); }
+    if (m[3].y > size - 1)  { m[3].x = size - 1;    m[3].z = int (ADJACENT [fuv.z] [3]); }
+
+    return m;
+}
+
+ivec3 [3] [3] surrounding (ivec3 fuv) {
+    ivec3 [4] adj = adjacent (fuv);
+    ivec3 [3] [3] k;
+    k [0] [0] = ivec3 (adj [1].x, adj [3].y, adj [1].z == fuv.z ? (adj [3].z == fuv.z ? fuv.z : adj [3].z) : adj [1].z);
+    k [0] [1] = ivec3 (adj [1].x, fuv.y, adj [1].z);
+    k [0] [2] = ivec3 (adj [1].x, adj [2].y, adj [1].z == fuv.z ? (adj [2].z == fuv.z ? fuv.z : adj [2].z) : adj [1].z);
+    k [1] [0] = ivec3 (fuv.x, adj [3].y, adj [3].z);
+    k [1] [1] = ivec3 (fuv.x, fuv.y, fuv.z);
+    k [1] [2] = ivec3 (fuv.x, adj [2].y, adj [2].z);
+    k [0] [0] = ivec3 (adj [0].x, adj [3].y, adj [0].z == fuv.z ? (adj [3].z == fuv.z ? fuv.z : adj [3].z) : adj [0].z);
+    k [0] [0] = ivec3 (adj [0].x, fuv.y, adj [0].z);
+    k [0] [0] = ivec3 (adj [0].x, adj [2].y, adj [0].z == fuv.z ? (adj [2].z == fuv.z ? fuv.z : adj [2].z) : adj [0].z);
+    return k;
+}
 
 
 vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
@@ -695,6 +734,7 @@ float raster (vec3 cartesian, uint rasterIndex, ivec2 rasterSize) { //, float de
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
+// get a value from a cubic sphere grid given as input
 float grid (uint gridIndex, uint gridSize) {
     ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
     uint i = pos.z * gridSize.x * gridSize.x + pos.y * gridSize.x + pos.x;
@@ -846,8 +886,12 @@ void main() {
     ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
     vec3 c = indexToCartesian (pos);
     vec2 g = toGeolocation (c);
-    uint i = pos.z * size * size + pos.y * size + pos.x;
+    uint i = pos.z * size * size + pos.x * size + pos.y;
 
     height_map_out [i] = value (pos, c, g);
-    //height_map_out [i] = (pos.x /  3.0) - 1.0;
+
+    // debugging outputs
+    //height_map_out [i] = (float (pos.z) /  3.0) - 1.0;   // face
+    //height_map_out [i] = (float (pos.y) /  size) * 2.0 - 1.0;  // y-coordinate
+    //height_map_out [i] = (float (pos.x) /  size) * 2.0 - 1.0;  // x-coordinate
 }

@@ -214,7 +214,7 @@ Originally Posted by adrenalin john View Post
         <glsl>g.x / M_PI</glsl>
     </module>
 
-    <module role="modify" name="Block blur" label="Block blur">
+    <module role="modify" name="blur" label="Block blur">
         <documentation>For now a simple block blur filter</documentation>
         <ports>
             <input index="0" mode="value" name="input" required="true" label="in">
@@ -226,13 +226,16 @@ Originally Posted by adrenalin john View Post
         </parameters>
         <glsl>
             float acc = 0.0;
-            for (int i = -1; i &lt; 1; i++) {
-                for (int j = -1; i &lt; 1; i++) {
-                    ivec3 dpos = displace (pos, i, j);
-                    acc += 1.0 / 9.0 * $0 (dpos);
+            ivec3 [3] [3] surr = surrounding (pos);
+            for (int i = 0; i &lt; 3; i++) {
+                for (int j = 0; j &lt; 3; j++) {
+                    ivec3 p = surr [i] [j];
+                    vec3 c = indexToCartesian (p);
+                    vec2 g = toGeolocation (c);
+                    acc += $0 (p, c, g);
                 }
             }
-            return acc;
+            return acc / 9.0;
         </glsl>
     </module>
 
