@@ -735,9 +735,8 @@ float raster (vec3 cartesian, uint rasterIndex, ivec2 rasterSize) { //, float de
 }
 
 // get a value from a cubic sphere grid given as input
-float grid (uint gridIndex, uint gridSize) {
-    ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
-    uint i = pos.z * gridSize.x * gridSize.x + pos.y * gridSize.x + pos.x;
+float grid (ivec3 pos, uint gridIndex, uint gridSize) {
+    uint i = pos.z * gridSize * gridSize + pos.x * gridSize + pos.y;
     return rasters [i + gridIndex];
 }
 

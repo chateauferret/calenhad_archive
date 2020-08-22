@@ -11,9 +11,9 @@
 using namespace calenhad::preferences;
 
 
-Preferences::Preferences() {
+Preferences::Preferences() : PreferencesService() {
     _settings = new QSettings();
-    std::cout << "Preferences file: " <<  _settings -> fileName ().toStdString () << "\n";
+    std::cout << "Preferences file: " <<  _settings -> fileName().toStdString () << "\n";
 }
 
 Preferences::~Preferences () {
@@ -171,6 +171,8 @@ void Preferences::loadSettings() {
     calenhad_module_icospheremap = _settings -> value ("calenhad/module/icospheremap", "icospheremap").toString();
     calenhad_module_altitudemap = _settings -> value ("calenhad/module/altitudemap", "altitudemap").toString();
     calenhad_module_raster = _settings -> value ("calenhad/module/raster", "raster").toString();
+    calenhad_module_map = _settings -> value ("calenhad/module/map", "map").toString();
+    calenhad_module_cache = _settings -> value ("calenhad/module/cache", "cache").toString();
     calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "nodegroup").toString();
 
 }
@@ -297,6 +299,8 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/module/icospheremap", calenhad_module_icospheremap);
     _settings -> setValue ("calenhad/module/altitudemap", calenhad_module_altitudemap);
     _settings -> setValue ("calenhad/module/raster", calenhad_module_raster);
+    _settings -> setValue ("calenhad/module/map", calenhad_module_map);
+    _settings -> setValue ("calenhad/module/cache", calenhad_module_cache);
     _settings -> setValue ("calenhad/nodegroup", calenhad_nodegroup);
 
 }

@@ -3,7 +3,7 @@
 
     <!-- Obligatory modules - behaviour is hardcoded in Calenhad - do not change -->
 
-    <module role="transform" name="altitudemap" label="Altitude map">
+    <module role="modify" name="altitudemap" label="Altitude map">
         <documentation>Altitude map</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
@@ -14,6 +14,13 @@
         <documentation>Raster</documentation>
         <ports>
             <input index="0" mode="defaultValue" name="Input" label="def" default="0.0" />
+        </ports>
+    </module>
+
+    <module role = "grid" name="cache" label="Cache">
+        <documentation>Cache</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
         </ports>
     </module>
 
@@ -28,9 +35,30 @@
         <glsl>%value</glsl>
     </module>
 
+    <module role="output" name="map" label="Map" render="false">
+        <documentation>Output detailed map of a region</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
+        </ports>
+        <parameters>
+            <parameter type="double" name="latitude" default="0">
+                <documentation>Latitude of the centre of the map</documentation>
+                <validator type="AcceptRange" min="-90.0" max="90.0"/>
+            </parameter>
+            <parameter type="double" name="longitude" default="0">
+                <documentation>Longitude of the centre of the map</documentation>
+                <validator type="AcceptRange" min="-180.0" max="90.0"/>
+            </parameter>
+            <parameter type="double" name="scale" default="10.0">
+                <documentation>Scale of the map</documentation>
+                <validator type="AcceptRange" min="0.5" max="100.0"/> <!-- to do - translate to comprehensible units -->
+            </parameter>
+        </parameters>
+    </module>
+
     <!-- Externally programmeable modules -->
 
-    <module role="transform" name="abs" label="Absolute">
+    <module role="modify" name="abs" label="Absolute">
         <documentation>Absolute value</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
@@ -38,7 +66,7 @@
         <glsl>abs (%0)</glsl>
     </module>
 
-    <module role="transform" name="invert" label="Invert">
+    <module role="modify" name="invert" label="Invert">
         <documentation>Inverse value</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true"/>
@@ -54,7 +82,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="0.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="0.0" />
         </ports>
-        <glsl>%0 + %1</glsl>
+        <glsl>%0 + %1 + %2 + %3</glsl>
     </module>
 
     <module role="combine" name="max" label="Maximum">
@@ -65,7 +93,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="-1.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="-1.0" />
         </ports>
-        <glsl>max (%0, %1)</glsl>
+        <glsl>max (%0, max (%1, max (%2, %3)))</glsl>
     </module>
 
     <module role="combine" name="min" label="Minimum">
@@ -76,8 +104,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="1.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
-        <glsl>min (%0, %1)</glsl>
-
+        <glsl>min (%0, min (%1, min (%2, %3)))</glsl>
     </module>
 
     <module role="combine" name="multiply" label="Multiply">
@@ -88,7 +115,7 @@
             <input index="2" mode="value" name="Input 2" label="in2" default="1.0" />
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
-        <glsl>%0 * %1</glsl>
+        <glsl>%0 * %1 * %2 * %3</glsl>
     </module>
 
     <module role="combine" name="power" label="Power">
@@ -119,38 +146,53 @@
         <glsl>mix (%0, %1, %2)</glsl>
     </module>
 
-    <module role="transform" name="translate" label="Translate">
-        <documentation>Take the value from a point displaced from the input point by a vector</documentation>
-        <ports>
-            <input index="0" mode="value" name="Input" label="in" required="true" />
-            <input index="1" mode="control" name="X" label="x"/>
-            <input index="2" mode="control" name="Y" label="y"/>
-            <input index="3" mode="control" name="Z" label="z"/>
-        </ports>
-        <glsl>$0 (c + vec3 (%1, %2, %3))</glsl>
-    </module>
-
     <module role="transform" name="rotate" label="Rotate">
-        <documentation>Take the value from a point rotated from the input point around each axis</documentation>
+        <documentation>Rotate the input around a selected Euler pole</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
-            <input index="1" mode="control" name="X" label="x"/>
-            <input index="2" mode="control" name="Y" label="y"/>
-            <input index="3" mode="control" name="Z" label="z"/>
         </ports>
-        <glsl>$0 (rotate (c, vec3 (%1, %2, %3)))</glsl>
+        <parameters>
+            <parameter type="double" name="latitude" default="0">
+                <documentation>Latitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-90" max="90"/>
+            </parameter>
+            <parameter type="double" name="longitude" default="0">
+                <documentation>Longitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-180" max="90"/>
+            </parameter>
+            <parameter type="double" name="theta" default="45">
+                <documentation>Angle of rotation about pole of rotation</documentation>
+                <validator type="AcceptRange" min="-180" max="180"/>
+            </parameter>
+        </parameters>
+        <glsl>
+            vec3 pole = toCartesian (vec2 (%longitude, %latitude));
+            vec3 rc = rotate (radians (%theta), pole, c);
+            ivec3 fuv = cartesianToIndex (rc);
+            vec2 rg = toGeolocation (rc);
+            return $0 (fuv, rc, rg);
+        </glsl>
     </module>
 
-    <module role="transform" name="scalepoint" label="Scalepoint">
-        <documentation>Scale the noise relative to a point</documentation>
-        <ports>
-            <input index="0" mode="value" name="Input" label="in" required="true" />
-            <input index="1" mode="control" name="X" label="x"/>
-            <input index="2" mode="control" name="Y" label="y"/>
-            <input index="3" mode="control" name="Z" label="z"/>
-        </ports>
-        <glsl>$0 (c * vec3 (%1, %2, %3))</glsl>
+    <module role="generate" name="distance" label="Distance">
+        <documentation>Distance from a given point. At the point, value = 1, and value declines with increasing distance to -1 at distance = %range.</documentation>
+        <parameters>
+            <parameter type="double" name="latitude" default="0">
+                <documentation>Latitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-90" max="90"/>
+            </parameter>
+            <parameter type="double" name="longitude" default="0">
+                <documentation>Longitude of the pole of rotation</documentation>
+                <validator type="AcceptRange" min="-180" max="90"/>
+            </parameter>
+            <parameter type="double" name="range" default="0.5">
+                <documentation>Distance from the given point at which value = -1</documentation>
+                <validator type="AcceptRange" min="0.0" max="2.0"/>
+            </parameter>
+        </parameters>
+        <glsl>distance (g, vec2 (%longitude, %latitude), %range)</glsl>
     </module>
+
 
     <module role="generate" name="cylinders" label="Cylinders">
         <documentation>Cylinder function</documentation>
@@ -160,16 +202,6 @@
             </input>
         </ports>
         <glsl>cylinders (c, %0)</glsl>
-    </module>
-
-    <module role="generate" name="latitude" label="Latitude">
-        <documentation>Latitude of the current point</documentation>
-        <glsl>g.y / (M_PI / 2.0)</glsl>
-    </module>
-
-    <module role="generate" name="longitude" label="Longitude">
-        <documentation>Longitude of the current point</documentation>
-        <glsl>g.x / M_PI</glsl>
     </module>
 
     <module role="generate" name="spheres" label="Spheres">
@@ -191,6 +223,42 @@
         </ports>
         <glsl>clamp (%0, %1, %2)</glsl>
     </module>
+
+    <module role="generate" name="latitude" label="Latitude">
+        <documentation>The latitude of the location, mapped to the range -1 &lt; value &lt; 1</documentation>
+        <glsl>g.y / (M_PI / 2.0)</glsl>
+    </module>
+
+    <module role="generate" name="longitude" label="Longitude">
+        <documentation>The longitude of the location, mapped to the range -1 &lt; value &lt; 1</documentation>
+        <glsl>g.x / M_PI</glsl>
+    </module>
+
+    <module role="modify" name="blur" label="Block blur">
+        <documentation>For now a simple block blur filter</documentation>
+        <ports>
+            <input index="0" mode="value" name="input" required="true" label="in">
+                <documentation>Input value</documentation>
+            </input>
+        </ports>
+        <parameters>
+
+        </parameters>
+        <glsl>
+            float acc = 0.0;
+            ivec3 [3] [3] surr = surrounding (pos);
+            for (int i = 0; i &lt; 3; i++) {
+                for (int j = 0; j &lt; 3; j++) {
+                    ivec3 p = surr [i] [j];
+                    vec3 c = indexToCartesian (p);
+                    vec2 g = toGeolocation (c);
+                    acc += $0 (p, c, g);
+                }
+            }
+            return acc / 9.0;
+        </glsl>
+    </module>
+
 
     <module role="generate" name="perlin" label="Perlin noise">
         <documentation>Perlin noise function</documentation>
@@ -336,7 +404,7 @@
             <input index="1" mode="value" name="frequency" default="1.0" label="freq"  >
                 <documentation>Frequency of the turbulence function</documentation>
             </input>
-            <input index="2" mode="value"  name="power" deowerfault="2.0" label="pow" >
+            <input index="2" mode="value"  name="power" default="2.0" label="pow" >
                 <documentation>Power of the turbulence function</documentation>
             </input>
             <input index="3" mode="value" name="roughness" default="1.0"  label="rough" >
@@ -355,7 +423,7 @@
         </parameters>
         <glsl>$0 (turbulence (c, %1, %2, %3, %seed))</glsl>
     </module>
-   -->
+    -->
     <module role="generate" name="voronoi" label="Voronoi noise">
         <documentation>Voronoi noise function</documentation>
         <ports>
@@ -372,11 +440,11 @@
                 <validator type="AcceptAny"/>
             </parameter>
             <parameter type="integer" name="seed" default="0">
-                <documentation>Random seed</documentation>
-                <validator type="AcceptAny"/>
+                <documentation>Random seed</documentation>z\a                <validator type="AcceptAny"/>
             </parameter>
         </parameters>
         <glsl>voronoi (c, %0, %1, %scale, %seed)</glsl>
+
     </module>
 
 </palette>

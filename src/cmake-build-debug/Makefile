@@ -2189,6 +2189,33 @@ module/ConvolutionKernel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.s
 .PHONY : module/ConvolutionKernel.cpp.s
 
+module/Map.o: module/Map.cpp.o
+
+.PHONY : module/Map.o
+
+# target to build an object file
+module/Map.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Map.cpp.o
+.PHONY : module/Map.cpp.o
+
+module/Map.i: module/Map.cpp.i
+
+.PHONY : module/Map.i
+
+# target to preprocess a source file
+module/Map.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Map.cpp.i
+.PHONY : module/Map.cpp.i
+
+module/Map.s: module/Map.cpp.s
+
+.PHONY : module/Map.s
+
+# target to generate assembly for a file
+module/Map.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Map.cpp.s
+.PHONY : module/Map.cpp.s
+
 module/Module.o: module/Module.cpp.o
 
 .PHONY : module/Module.o
@@ -2963,6 +2990,9 @@ help:
 	@echo "... module/ConvolutionKernel.o"
 	@echo "... module/ConvolutionKernel.i"
 	@echo "... module/ConvolutionKernel.s"
+	@echo "... module/Map.o"
+	@echo "... module/Map.i"
+	@echo "... module/Map.s"
 	@echo "... module/Module.o"
 	@echo "... module/Module.i"
 	@echo "... module/Module.s"

@@ -13,9 +13,13 @@ namespace calenhad {
     namespace preferences {
         class PreferencesService {
         public:
-            virtual void saveSettings () = 0;
-            virtual void loadSettings () = 0;
-            virtual QSettings* settings () = 0;
+            PreferencesService() {
+
+            }
+
+            virtual void saveSettings() = 0;
+            virtual void loadSettings() = 0;
+            virtual QSettings* settings() = 0;
 
             // Colours and styles
 
@@ -132,6 +136,8 @@ namespace calenhad {
             QString calenhad_module_icospheremap;
             QString calenhad_module_altitudemap;
             QString calenhad_module_raster;
+            QString calenhad_module_cache;
+            QString calenhad_module_map;
             QString calenhad_nodegroup;
             QColor calenhad_toolpalette_icon_color_normal;
             QColor calenhad_toolpalette_icon_color_mouseover;

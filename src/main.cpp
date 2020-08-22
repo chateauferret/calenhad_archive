@@ -65,6 +65,8 @@ int main (int argc, char **argv) {
     // Preferences service
     Preferences* preferences = new Preferences();
     preferences -> loadSettings();
+    preferences -> calenhad_compute_gridsize = 8;
+    preferences -> saveSettings();
     CalenhadServices::providePreferences (preferences);
 
     // Make stylesheet available to the application

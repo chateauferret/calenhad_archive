@@ -350,7 +350,7 @@ void Node::setParameter (const QString& key, const QString& text) {
     if (item == _parameters.end()) {
         CalenhadServices::messages() -> message ("No such parameter", "Parameter " + key + " not found for node " + name() + " of type " + nodeType(), NotificationStyle::WarningNotification);
     } else {
-        item.value ()->setText (text);
+        item.value() -> setText (text);
     }
 }
 
@@ -360,7 +360,7 @@ QString Node::parameter (const QString& name) {
 
 double Node::parameterValue (const QString& name) {
     if (_parameters.keys().contains (name)) {
-        return _parameters.value (name)->value ();
+        return _parameters.value (name) -> value();
     } else {
         return 0.0;
     }

@@ -405,6 +405,11 @@
 			"D72IQXBNBH/moc_ConvolutionKernel.cpp"
 		],
 		[
+			"/home/ferret/CLionProjects/calenhad/src/module/Map.h",
+			"Mu",
+			"D72IQXBNBH/moc_Map.cpp"
+		],
+		[
 			"/home/ferret/CLionProjects/calenhad/src/module/Module.h",
 			"Mu",
 			"D72IQXBNBH/moc_Module.cpp"
@@ -829,6 +834,7 @@
 			"/home/ferret/CLionProjects/calenhad/src/module/ConvolutionKernel.cpp",
 			"Mu"
 		],
+		[ "/home/ferret/CLionProjects/calenhad/src/module/Map.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Module.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/Node.cpp", "Mu" ],
 		[ "/home/ferret/CLionProjects/calenhad/src/module/NodeGroup.cpp", "Mu" ],

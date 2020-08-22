@@ -3,14 +3,14 @@
 
     <!-- Obligatory modules - behaviour is hardcoded in Calenhad - do not change -->
 
-    <module name="altitudemap" label="Altitude map">
+    <module role="modify" name="altitudemap" label="Altitude map">
         <documentation>Altitude map</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
     </module>
 
-    <module name="raster" label="Raster">
+    <module role="generate" name="raster" label="Raster">
         <documentation>Raster</documentation>
         <ports>
             <input index="0" mode="defaultValue" name="Input" label="def" default="0.0" />
@@ -33,6 +33,27 @@
             </parameter>
         </parameters>
         <glsl>%value</glsl>
+    </module>
+
+    <module role="output" name="map" label="Map" render="false">
+        <documentation>Output detailed map of a region</documentation>
+        <ports>
+            <input index="0" mode="value" name="Input" label="in" required="true" />
+        </ports>
+        <parameters>
+            <parameter type="double" name="latitude" default="0">
+                <documentation>Latitude of the centre of the map</documentation>
+                <validator type="AcceptRange" min="-90.0" max="90.0"/>
+            </parameter>
+            <parameter type="double" name="longitude" default="0">
+                <documentation>Longitude of the centre of the map</documentation>
+                <validator type="AcceptRange" min="-180.0" max="90.0"/>
+            </parameter>
+            <parameter type="double" name="scale" default="10.0">
+                <documentation>Scale of the map</documentation>
+                <validator type="AcceptRange" min="0.5" max="100.0"/> <!-- to do - translate to comprehensible units -->
+            </parameter>
+        </parameters>
     </module>
 
     <!-- Externally programmeable modules -->
@@ -114,8 +135,7 @@
         </ports>
         <glsl>%0 - %1</glsl>
     </module>
-Quote:
-Originally Posted by adrenalin john View Post
+
     <module role="combine" name="blend" label="Blend">
         <documentation>Blend two inputs, weighting each according to the value of a control</documentation>
         <ports>

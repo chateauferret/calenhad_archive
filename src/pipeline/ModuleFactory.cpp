@@ -8,13 +8,14 @@
 #include "preferences/preferences.h"
 #include "module/AltitudeMap.h"
 #include "pipeline/CalenhadModel.h"
-#include "src/CalenhadServices.h"
+#include "../CalenhadServices.h"
 #include <QList>
 #include <module/StructuredGrid.h>
 #include <nodeedit/Port.h>
-#include <src/module/RasterModule.h>
-#include <src/module/Cache.h>
-#include "src/noiseconstants.h"
+#include "../module/RasterModule.h"
+#include "../module/Cache.h"
+#include "../module/Map.h"
+#include "../noiseconstants.h"
 #include "../nodeedit/NodeBlock.h"
 
 using namespace calenhad;
@@ -107,9 +108,12 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         // special types which need more than generic construction code
         Node* n = nullptr;
         Module* qm = nullptr;
-        if (type == "altitudemap") { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
-        if (type == "raster") { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
-        if (role == "convolve") { Cache* cm = new Cache (type); qm = cm; n = qm; }
+        std::cout << "Found type " << type.toStdString() << "\n";
+        if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
+        if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
+        if (type == CalenhadServices::preferences() -> calenhad_module_cache) { Cache* cm = new Cache (type); qm = cm; n = qm; }
+        if (type == CalenhadServices::preferences() -> calenhad_module_map) { Map* mm = new Map(); qm = mm; n = qm; }
+
         if (! n) {
             qm = new Module (type, nullptr);
             n = qm;
@@ -144,13 +148,12 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                 QString label = portNode.attribute ("label");
                 int index = portNode.attribute ("index").toInt (&ok);
                 if (ok) {
-                    bool required = portNode.hasAttribute ("required") ? portNode.attribute ("required") == "true" : false;
+                    bool required = portNode.hasAttribute ("required") && portNode.attribute ("required") == "true";
                     if (portNode.hasAttribute ("default")) {
                         double defaultValue = portNode.attribute ("default").toDouble (&ok);
                         if (! ok) {
                             defaultValue = 0.0;
                         }
-
                         qm -> addInputPort (index, pt, portName, label, defaultValue, required);
                     } else {
                         qm -> addInputPort (index, pt, portName, label, 0.0, required);
@@ -198,6 +201,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                     qm -> addParameter (paramLabel, paramName, initial, v);
                     if (paramElement.hasAttribute ("display")) {
 //                        qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
+                          //qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
                     }
                 }
 

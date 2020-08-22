@@ -17,6 +17,7 @@
 #include <module/AltitudeMap.h>
 #include <module/StructuredGrid.h>
 #include <src/module/RasterModule.h>
+#include <src/module/Cache.h>
 #include "../messages/QNotificationHost.h"
 #include "../legend//Legend.h"
 
@@ -77,18 +78,18 @@ QString Graph::glsl (Module* module) {
         QString name = module -> name ();
         if (! _code.contains ("float _" + name)) {
             // Compile any antecedent modules recurisvely,
-            // nless this one is a convolution, in which case don't bother your arse
-            for (unsigned p: module -> inputs ().keys ()) {
-                Port* port = module -> inputs ().value (p);
-                if (!port -> connections ().empty ()) {
-                    for (Connection* c : port -> connections ()) {
-                        Port* p = c -> otherEnd (port);
-                        if (p) {
-                            Node* other = p -> owner ();
-                            if (other && other != module) {
-                                Module* qm = dynamic_cast<Module*> (other);
-                                StructuredGrid* cm = dynamic_cast<StructuredGrid*> (other);
-                                if (qm && ! cm) {
+            // unless this one is a cache, in which case don't bother your arse
+            StructuredGrid* cm = dynamic_cast<StructuredGrid*> (module);
+            if (! cm) {
+                for (unsigned p: module -> inputs().keys()) {
+                    Port* port = module -> inputs().value (p);
+                    if (!port -> connections().empty()) {
+                        for (Connection* c : port -> connections()) {
+                            Port* source = c -> otherEnd (port);
+                            if (source) {
+                                Node* other = source -> owner();
+                                if (other && other != module) {
+                                    Module* qm = dynamic_cast<Module*> (other);
                                     _code = glsl (qm);
                                 }
                             }
@@ -186,11 +187,10 @@ QString Graph::glsl (Module* module) {
 
                     _code.append ("; }\n");
                 }
-
                 // To do - the same for a convolution module
-                // Also don't bring in antecendent modules of generators (convolutions are generators)
+                // Also don't bring in antecendent modules of generators (these are generators)
 
-                StructuredGrid* cm = dynamic_cast<StructuredGrid*> (qm);
+                Cache* cm = dynamic_cast<Cache*> (qm);
                 if (cm) {
                     _rasters.append (cm);
                     int length = cm -> rasterSize() * 6;

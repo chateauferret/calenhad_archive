@@ -678,6 +678,12 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/ConvolutionKernel.h">
 			<Option target="calenhad"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Map.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Map.h">
+			<Option target="calenhad"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Module.cpp">
 			<Option target="calenhad"/>
 		</Unit>

@@ -10,11 +10,9 @@
 namespace calenhad {
     namespace module {
         class Cache : public StructuredGrid {
+        public:
             virtual ~Cache();
-
-
             void invalidate();
-
             void refresh();
 
         public:
