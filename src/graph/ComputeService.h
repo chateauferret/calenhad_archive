@@ -58,6 +58,7 @@ namespace calenhad {
             GLuint _rasterBuffer;
             bool _forceRender;
 
+            void computeDetail(module::Module *module, grid::CubicSphere *buffer);
         };
     }
 }
