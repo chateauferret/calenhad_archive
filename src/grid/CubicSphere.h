@@ -8,7 +8,9 @@
 #include <array>
 #include <GL/gl.h>
 #include <QtGui/QImage>
+#include <src/CalenhadServices.h>
 #include "../geoutils.h"
+#include "../CalenhadServices.h"
 
 #define FACE_FRONT 0
 #define FACE_BACK 1
@@ -18,6 +20,7 @@
 #define FACE_WEST 5
 
 namespace calenhad {
+    class CalenhadServices;
     namespace mapping {
         class Statistics;
 
@@ -34,7 +37,7 @@ namespace calenhad {
 
         public:
             //explicit CubicSphere (const int& depth);
-            CubicSphere();
+            CubicSphere (const int& depth);
             ~CubicSphere();
             long count() const;
 

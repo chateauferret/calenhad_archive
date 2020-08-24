@@ -187,7 +187,7 @@ QString Graph::glsl (Module* module) {
 
                     _code.append ("; }\n");
                 }
-                // To do - the same for a convolution module
+                // To do - the same for a structured grid module (Cache and subclasses)
                 // Also don't bring in antecendent modules of generators (these are generators)
 
                 Cache* cm = dynamic_cast<Cache*> (qm);

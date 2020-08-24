@@ -13,12 +13,12 @@
 using namespace geoutils;
 using namespace calenhad::grid;
 using namespace calenhad::mapping;
-/*
-CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr) {
-    _size = std::pow(2, depth);
+
+CubicSphere::CubicSphere (const int& depth  = CalenhadServices::gridSize()) : _renderTime (0.0), _grid (nullptr) {
+    _size = std::pow (2, depth);
     initialise();
 }
- */
+
 void CubicSphere::initialise() {
     _grid = (float*) malloc (6 * _size * _size * sizeof (float));
 
@@ -29,11 +29,6 @@ void CubicSphere::initialise() {
             }
         }
     }
-}
-
-CubicSphere::CubicSphere() : _renderTime (0.0), _grid (nullptr) {
-    _size = CalenhadServices::gridSize();
-    initialise();
 }
 
 CubicSphere::~CubicSphere() {

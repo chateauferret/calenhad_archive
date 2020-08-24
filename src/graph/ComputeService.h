@@ -29,6 +29,11 @@ namespace calenhad {
     namespace module {
         class Module;
     }
+
+    namespace grid {
+        class CubicSphere;
+    }
+
     namespace graph {
         class ComputeService {
         public:

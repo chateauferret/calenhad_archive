@@ -652,7 +652,7 @@ void CalenhadMapWidget::render() {
             _size = CalenhadServices::gridSize();
            delete _buffer;
            //_buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
-           _buffer = new CubicSphere ();
+           _buffer = new CubicSphere (CalenhadServices::gridSize());
            c -> compute (_source, _buffer);
         }
 

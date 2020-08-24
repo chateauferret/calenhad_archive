@@ -12,7 +12,9 @@
 #include "../preferences/PreferencesService.h"
 #include "mapping/CalenhadMapWidget.h"
 #include "RasterModule.h"
+#include "../messages/QNotificationHost.h"
 #include <QtMath>
+
 
 
 using namespace calenhad::module;
@@ -23,7 +25,7 @@ using namespace calenhad::controls;
 using namespace geoutils;
 
 StructuredGrid::StructuredGrid (const QString& type) : Module (type, nullptr),
-                                                       _buffer (new CubicSphere()) {
+                                                       _buffer (new CubicSphere (CalenhadServices::gridSize())) {
 }
 
 StructuredGrid::~StructuredGrid() {
@@ -52,4 +54,13 @@ QString StructuredGrid::glsl() {
 
 int StructuredGrid::rasterSize() {
     return _buffer -> size();
+}
+
+void StructuredGrid::setRasterSize (const int& depth) {
+    if (depth >= 6 && depth < 13) {  // to do: externalise
+        delete _buffer;
+        _buffer = new CubicSphere (depth);
+    } else {
+        CalenhadServices::messages() -> message ("Raster size out of range", "Needs to be between 6 and 12 inclusive");
+    }
 }
