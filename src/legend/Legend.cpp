@@ -41,16 +41,21 @@ int Legend::size() {
 }
 
 QColor Legend::lookup (const double& index) {
-
+    std::cout << "Legend '" << _name.toStdString() <<"'\n";
     if (_interpolate) {
         QVector<LegendEntry>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (LegendEntry entry) -> bool {
             return entry.keyValue() <= index;
         });
         QVector<LegendEntry>::iterator j = i;
-        if (j == _entries.begin()) {
-            return j -> color();
+        if (i == _entries.begin()) {
+            return i -> color();
         } else {
-            return interpolateColors (i, --j, index);
+            if (i == _entries.end()) {
+                return i->color();
+            } else {
+                QVector<LegendEntry>::iterator j = i;
+                return interpolateColors(--j, i, index);
+            }
         }
     } else {
         QVector<LegendEntry>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (LegendEntry entry) -> bool {

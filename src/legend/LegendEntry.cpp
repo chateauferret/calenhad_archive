@@ -35,7 +35,9 @@ QString LegendEntry::key ()const {
 }
 
 double LegendEntry::keyValue () {
-    return CalenhadServices::calculator() -> compute (_key);
+    if (! _key.isNull() || ! _color.isValid()) {
+        return CalenhadServices::calculator() -> compute(_key);
+    } else return 0.0;
 }
 
 QString LegendEntry::label () {
