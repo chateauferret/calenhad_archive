@@ -205,7 +205,6 @@ void Legend::inflate (const QDomNode& n) {
                 QString index = element.attribute("index");
                 QColor c = QColor(element.attribute("color"));
                 addEntry(LegendEntry(index, c));
-                std::cout << "Entry '" << index.toStdString() << "' color '" << c.name().toStdString() << "'\n";
             }
         }
     }

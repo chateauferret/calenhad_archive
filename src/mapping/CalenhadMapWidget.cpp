@@ -636,7 +636,7 @@ void CalenhadMapWidget::compute () {
     //std::cout << "Image size " << width () << " x " << height () << "\n\n";
     clock_t end = clock ();
     _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    std::cout << "Render finished in " << _renderTime << " milliseconds\n\n";
+    //std::cout << "Render finished in " << _renderTime << " milliseconds\n\n";
     glDeleteBuffers (1, &inBuffer);
     glDeleteBuffers (1, &colBuffer);
     if (_mode == RenderModeGlobe && _mainMap) {
@@ -651,7 +651,6 @@ void CalenhadMapWidget::render() {
             ComputeService* c = CalenhadServices::compute();
             _size = std::pow (2, CalenhadServices::gridResolution());
            delete _buffer;
-           //_buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
            _buffer = new CubicSphere (CalenhadServices::gridResolution());
            c -> compute (_source, _buffer);
         }

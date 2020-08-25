@@ -232,7 +232,6 @@ void CalenhadGlobeWidget::updateModules() {
             for (Module* m : model -> modules()) {
                 QPixmap *pixmap = CalenhadServices::modules() -> getIcon (m -> nodeType());
                 QIcon icon (*pixmap);
-                std::cout << "Add " << m -> name().toStdString() << "\n";
                 if (m -> isComplete()) {
                     _selectModuleCombo -> addItem (icon, m -> name());
                 } else {

@@ -51,7 +51,7 @@ void ModuleFactory::initialise() {
             QDomElement element = nodes.at (i).toElement();
             QString type = element.attribute ("name");
             _types.insert (type, element);
-            std::cout << type.toStdString() << "\n";
+
             // Create code snippet to be inserted into the compute shader to realise each module's function.
             // %n - will be replaced with the module's name which will serve as the method name representing it in the generated shader code.
             // %0, %1, etc - will be replaced with calls to the module outputs serving the corresponding port as input.
@@ -108,7 +108,6 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         // special types which need more than generic construction code
         Node* n = nullptr;
         Module* qm = nullptr;
-        std::cout << "Found type " << type.toStdString() << "\n";
         if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_cache) { Cache* cm = new Cache (type); qm = cm; n = qm; }
