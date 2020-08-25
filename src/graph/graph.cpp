@@ -105,77 +105,15 @@ QString Graph::glsl (Module* module) {
                 QString type = qm->nodeType ();
 
                 // if it's an altitude map, compile the decision tree
-                if (type == CalenhadServices::preferences ()->calenhad_module_altitudemap) {
-                    AltitudeMap* am = dynamic_cast<AltitudeMap*> (qm);
-                    QVector<AltitudeMapping> entries = am->entries ();
-
-                    // input is below the bottom of the range
-                    _code += "float _" + name + " (ivec3 pos, vec3 c, vec2 g) {\n";
-                    _code += "  float value = %0 ;\n";
-                    _code += "  if (value < " + QString::number (entries.first ().x ()) + ") { return " + QString::number (entries.first ().y ()) + "; }\n";
-
-                    for (int j = 0; j < entries.size (); j++) {
-                        // Do we need to sort the entries?
-                        QString mapFunction;
-
-                        // compose the mapping function
-                        // spline function
-                        if (am->curveFunction () == "spline") {
-                            double x[4], y[4];
-
-                            for (int i = 0; i < 4; i++) {
-                                int k = std::max (j + i - 2, 0);
-                                k = std::min (k, entries.size () - 1);
-                                x[i] = entries.at (k).x ();
-                                y[i] = entries.at (k).y ();
-                            }
-
-                            // Compute the alpha value used for cubic interpolation.
-                            mapFunction += "        float alpha = ((value - " + QString::number (x[1]) + ") / " + QString::number (x[2] - x[1]) + ");\n";
-                            mapFunction += "        return cubicInterpolate (" +
-                                           QString::number (y[0]) + ", " +
-                                           QString::number (y[1]) + ", " +
-                                           QString::number (y[2]) + ", " +
-                                           QString::number (y[3]) + ", alpha);";
-                            _code += "  if (value > " + QString::number (x[1]) + " && value <= " + QString::number (x[2]) + ") {\n" + mapFunction + "\n   }\n";
-                        }
-
-                        // terrace function
-                        if (am -> curveFunction () == "terrace") {
-                            double x[2], y[2];
-                            for (int i = 0; i < 2; i++) {
-                                int k = std::max (j + i - 1, 0);
-                                k = std::min (k, entries.size () - 1);
-                                x[i] = entries.at (k).x ();
-                                y[i] = entries.at (k).y ();
-                            }
-
-                            // Compute the alpha value used for cubic interpolation.
-                            mapFunction += "        float alpha = ((value - " + QString::number (x[0]) + ") / " + QString::number (x[1] - x[0]) + ");\n";
-                            if (am->isFunctionInverted ()) { mapFunction += "        alpha = 1 - alpha;\n"; }
-                            mapFunction += "        alpha *= alpha;\n";
-                            mapFunction += "        return mix ( float(" +
-                                           QString::number (am->isFunctionInverted () ? y[1] : y[0]) + "), float (" +
-                                           QString::number (am->isFunctionInverted () ? y[0] : y[1]) + "), " +
-                                           "alpha);";
-                            _code += "  if (value > " + QString::number (x[0]) + " && value <= " + QString::number (x[1]) + ") {\n" + mapFunction + "\n   }\n";
-                        }
-                    }
-
-                    // input is beyond the top of the range
-                    _code += "  if (value > " + QString::number (entries.last ().x ()) + ") { return " + QString::number (entries.last ().y ()) + "; }\n";
-                    _code += "}\n";
-                } else {
-                    QString func = qm -> glsl();
-                    _code.append ("float _" + name + " (ivec3 pos, vec3 c, vec2 g) { \n");
-                    if (! func.contains ("return")) {
-                        _code.append ("    return ");
-                    }
-                    _code += func;
-                    //_code.append ("; }\n");
+                QString func = qm -> glsl();
+                _code.append ("float _" + name + " (ivec3 pos, vec3 c, vec2 g) { \n");
+                if (! func.contains ("return")) {
+                    _code.append ("    return ");
                 }
+                _code += func;
+                    //_code.append ("; }\n");
 
-                // if it's a raster module, compile and queue the module for raster upload
+                // if it's a raster or cache module, compile and queue the module for raster upload
                 if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
                     RasterModule* rm = (RasterModule*) qm;
                     _rasters.append (rm);
@@ -184,11 +122,8 @@ QString Graph::glsl (Module* module) {
                     _code.replace ("%rasterIndex", QString::number (_index));
                     _index += length;
                     _code.replace ("%rasterSize", "ivec2 (" + QString::number (rm -> raster() -> height()) + ", " + QString::number (rm -> raster() -> width()) + ")");
-
                     _code.append ("; }\n");
                 }
-                // To do - the same for a structured grid module (Cache and subclasses)
-                // Also don't bring in antecendent modules of generators (these are generators)
 
                 Cache* cm = dynamic_cast<Cache*> (qm);
                 if (cm) {
@@ -196,12 +131,11 @@ QString Graph::glsl (Module* module) {
                     int length = cm -> rasterSize() * 6;
                     _code.replace ("%gridIndex", QString::number (_index));
                     _index += length;
-
-                    _code.replace ("%gridSize", QString::number (cm -> rasterSize()));
+                    _code.replace ("%gridResolution", QString::number (cm -> rasterSize()));
                     _code.append ("; }\n");
                 }
 
-                // replace the input module markers with their names referencing their member variables in glsl
+/*                // replace the input module markers with their names referencing their member variables in glsl
                 int i = 0;
                 for (Port* port : qm->inputs ()) {
                     QString index = QString::number (i++);
@@ -220,7 +154,7 @@ QString Graph::glsl (Module* module) {
                     if (qm -> parameters().contains (param)) {
                         _code.replace ("%" + param, QString::number (qm -> parameterValue (param)));
                     }
-                }
+                }*/
             }
         }
         return _code;

@@ -216,3 +216,61 @@ void AltitudeMap::preserve () {
     _oldXml = doc.toString();
 }
 
+QString AltitudeMap::glsl() {
+    // input is below the bottom of the range
+    QString code = "float _" + name() + " (ivec3 pos, vec3 c, vec2 g) {\n";
+    code += "  float value = %0 ;\n";
+    code += "  if (value < " + QString::number (entries().first ().x ()) + ") { return " + QString::number (entries().first ().y ()) + "; }\n";
+
+    for (int j = 0; j < entries().size (); j++) {
+        // Do we need to sort the entries?
+        QString mapFunction;
+
+        // compose the mapping function
+        // spline function
+        if (curveFunction () == "spline") {
+            double x[4], y[4];
+
+            for (int i = 0; i < 4; i++) {
+                int k = std::max (j + i - 2, 0);
+                k = std::min (k, entries().size () - 1);
+                x[i] = entries().at (k).x ();
+                y[i] = entries().at (k).y ();
+            }
+
+            // Compute the alpha value used for cubic interpolation.
+            mapFunction += "        float alpha = ((value - " + QString::number (x[1]) + ") / " + QString::number (x[2] - x[1]) + ");\n";
+            mapFunction += "        return cubicInterpolate (" +
+                           QString::number (y[0]) + ", " +
+                           QString::number (y[1]) + ", " +
+                           QString::number (y[2]) + ", " +
+                           QString::number (y[3]) + ", alpha);";
+            code += "  if (value > " + QString::number (x[1]) + " && value <= " + QString::number (x[2]) + ") {\n" + mapFunction + "\n   }\n";
+        }
+
+        // terrace function
+        if (curveFunction() == "terrace") {
+            double x[2], y[2];
+            for (int i = 0; i < 2; i++) {
+                int k = std::max (j + i - 1, 0);
+                k = std::min (k, entries().size () - 1);
+                x[i] = entries().at (k).x ();
+                y[i] = entries().at (k).y ();
+            }
+
+            // Compute the alpha value used for cubic interpolation.
+            mapFunction += "        float alpha = ((value - " + QString::number (x[0]) + ") / " + QString::number (x[1] - x[0]) + ");\n";
+            if (isFunctionInverted ()) { mapFunction += "        alpha = 1 - alpha;\n"; }
+            mapFunction += "        alpha *= alpha;\n";
+            mapFunction += "        return mix ( float(" +
+                           QString::number (isFunctionInverted () ? y[1] : y[0]) + "), float (" +
+                           QString::number (isFunctionInverted () ? y[0] : y[1]) + "), " +
+                           "alpha);";
+            code += "  if (value > " + QString::number (x[0]) + " && value <= " + QString::number (x[1]) + ") {\n" + mapFunction + "\n   }\n";
+        }
+    }
+
+    // input is beyond the top of the range
+    code += "  if (value > " + QString::number (entries().last ().x ()) + ") { return " + QString::number (entries().last ().y ()) + "; }\n";
+    code += "}\n";
+}

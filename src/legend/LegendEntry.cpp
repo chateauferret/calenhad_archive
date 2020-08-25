@@ -8,16 +8,9 @@
 
 using namespace calenhad::legend;
 
-
-LegendEntry::LegendEntry () : _key ("0.0"), _color (Qt::black) {
-
-}
+LegendEntry::LegendEntry() : _key ("0.0"), _color (QColor ("black")) {}
 
 LegendEntry::LegendEntry (const QString& key, const QColor& color) : _key (key), _color (color) {
-
-}
-
-LegendEntry::LegendEntry (const double& key, const QColor& color) : _key (QString::number (key)), _color (color) {
 
 }
 

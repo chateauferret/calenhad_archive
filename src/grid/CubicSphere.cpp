@@ -14,7 +14,7 @@ using namespace geoutils;
 using namespace calenhad::grid;
 using namespace calenhad::mapping;
 
-CubicSphere::CubicSphere (const int& depth  = CalenhadServices::gridSize()) : _renderTime (0.0), _grid (nullptr) {
+CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr) {
     _size = std::pow (2, depth);
     initialise();
 }

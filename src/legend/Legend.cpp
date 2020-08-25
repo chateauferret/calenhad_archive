@@ -196,9 +196,12 @@ void Legend::inflate (const QDomNode& n) {
         QDomNodeList nodes = e.elementsByTagName ("entry");
         for (int i = 0; i < nodes.size (); i++) {
             QDomElement element = nodes.item (i).toElement ();
-            QString index = element.attribute ("index");
-            QColor c = QColor (element.attribute ("color"));
-            addEntry (LegendEntry (index, c));
+            if (element.hasAttribute ("index") && element.hasAttribute ("color")) {
+                QString index = element.attribute("index");
+                QColor c = QColor(element.attribute("color"));
+                addEntry(LegendEntry(index, c));
+                std::cout << "Entry '" << index.toStdString() << "' color '" << c.name().toStdString() << "'\n";
+            }
         }
     }
 }

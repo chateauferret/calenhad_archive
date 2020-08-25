@@ -42,7 +42,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
                                                                                  _datumFormat (DatumFormat::Scaled),
                                                                                  _zoomDrag (false),
                                                                                  _graph (nullptr),
-                                                                                 _size (CalenhadServices::gridSize()),
+                                                                                 _size (std::pow (2, CalenhadServices::gridResolution())),
                                                                                  _mouseDragMode (CalenhadGlobeDragMode::Pan),
                                                                                  _previewType (OverviewPreviewType::WholeWorld),
                                                                                  _createHeightMap (mode == RenderMode::RenderModeGlobe),
@@ -649,10 +649,10 @@ void CalenhadMapWidget::render() {
     if (_source && _source -> isComplete ()) {
         if (! _source -> name().isNull()) {
             ComputeService* c = CalenhadServices::compute();
-            _size = CalenhadServices::gridSize();
+            _size = std::pow (2, CalenhadServices::gridResolution());
            delete _buffer;
            //_buffer = (GLfloat*) malloc (_size * _size * 2 * sizeof (GLfloat));
-           _buffer = new CubicSphere (CalenhadServices::gridSize());
+           _buffer = new CubicSphere (CalenhadServices::gridResolution());
            c -> compute (_source, _buffer);
         }
 

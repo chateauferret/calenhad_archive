@@ -58,7 +58,7 @@ namespace calenhad {
             void resetMap ();
 
             void editAltitudeMap ();
-
+            QString glsl() override;
         protected:
             calenhad::controls::altitudemap::AltitudeMapEditor* _editor;
             QMap<calenhad::controls::altitudemap::CurveType, calenhad::mapping::Curve*> _curves;
@@ -69,6 +69,7 @@ namespace calenhad {
             void preserve ();
 
             mapping::Curve* _curve;
+
 
 
         };

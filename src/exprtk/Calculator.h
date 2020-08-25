@@ -65,7 +65,7 @@ namespace calenhad {
 
             void inflate (const QDomElement& element) override;
 
-            double compute (const QString& exp);
+            double compute (QString expression);
 
             void publish();
 

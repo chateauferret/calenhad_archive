@@ -168,9 +168,10 @@ bool Calculator::hasErrors() {
     return ! _errors.isEmpty();
 }
 
-double Calculator::compute (const QString& expression) {
+double Calculator::compute (QString expression) {
     _errors.clear ();
     if (expression.isNull()) { return 0.0; }
+    std::cout << "Expression '" << expression.toStdString() << "'\n";
     if (! _cache.contains (expression)) {
 
         parser<double> p;

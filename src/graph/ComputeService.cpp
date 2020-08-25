@@ -144,7 +144,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
         std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
         if (_computeShader) {
             _computeProgram -> removeAllShaders();
-            if (_computeShader -> compileSourceCode(sourceCode)) {
+            if (_computeShader -> compileSourceCode (sourceCode)) {
                 _computeProgram -> addShader (_computeShader);
                 _computeProgram -> link();
                 _computeProgram -> bind();
@@ -167,7 +167,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 void ComputeService::execute (GLfloat* buffer) {
 
     f -> glGenBuffers (1, &_heightMap);
-    uint size = CalenhadServices::gridSize();
+    uint size = std::pow (2, CalenhadServices::gridResolution());
     ulong bytes = 6 * size * size * sizeof (GLfloat);
     f -> glUseProgram (_computeProgram -> programId ());
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);

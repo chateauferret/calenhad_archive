@@ -12,11 +12,10 @@ namespace calenhad {
         namespace legend {
             class LegendEntry {
             public:
-                LegendEntry ();
 
                 LegendEntry (const QString& key, const QColor& color);
 
-                LegendEntry (const double& key, const QColor& color);
+                LegendEntry();
 
                 ~LegendEntry ();
 

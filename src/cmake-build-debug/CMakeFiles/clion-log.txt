@@ -1,15 +1,15 @@
-/usr/bin/clion-2020.1.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/ferret/CLionProjects/calenhad/src
+/usr/bin/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/martin/ClionProjects/calenhad/src
 -- The CXX compiler identification is GNU 9.3.0
 -- Check for working CXX compiler: /usr/bin/c++
--- Check for working CXX compiler: /usr/bin/c++ - works
+-- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- (CMake prefix )
 -- Found Qwt: /usr/lib/libqwt-qt5.so  
--- Found GeographicLib: /usr/lib/x86_64-linux-gnu/libGeographic.so (Required is at least version "1.34") 
-CMake Warning (dev) at /usr/bin/clion-2020.1.1/bin/cmake/linux/share/cmake-3.17/Modules/FindOpenGL.cmake:305 (message):
+-- Found GeographicLib: /usr/local/lib/libGeographic.so (Required is at least version "1.34") 
+CMake Warning (dev) at /usr/bin/clion/bin/cmake/linux/share/cmake-3.15/Modules/FindOpenGL.cmake:275 (message):
   Policy CMP0072 is not set: FindOpenGL prefers GLVND by default when
   available.  Run "cmake --help-policy CMP0072" for policy details.  Use the
   cmake_policy command to set the policy and suppress this warning.
@@ -37,11 +37,11 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 -- QtOpenGL v5.12.8
 -- The C compiler identification is GNU 9.3.0
 -- Check for working C compiler: /usr/bin/cc
--- Check for working C compiler: /usr/bin/cc - works
+-- Check for working C compiler: /usr/bin/cc -- works
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Detecting C compile features
 -- Detecting C compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/ferret/CLionProjects/calenhad/src/cmake-build-debug
+-- Build files have been written to: /home/martin/ClionProjects/calenhad/src/cmake-build-debug

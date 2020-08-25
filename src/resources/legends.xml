@@ -7,7 +7,6 @@
    <name>default</name>
    <notes></notes>
    <entry index="-1" color="#000000"/>
-   <entry index="0.585981206239661" color="#ffffff"/>
    <entry index="1" color="#ffffff"/>
   </legend>
   <legend type="gradient">
@@ -17,16 +16,6 @@
    <entry index="-0.5121951219512195" color="#ffffff"/>
    <entry index="0.9841269841269842" color="#ffaa00"/>
    <entry index="1.045370691249745" color="#ffffff"/>
-   <entry index="8117" color="#4e9a06"/>
-   <entry index="8363" color="#e9b96e"/>
-   <entry index="14513" color="#ffffff"/>
-   <entry index="18449" color="#ffffff"/>
-   <entry index="24845" color="#ffffff"/>
-   <entry index="27305" color="#729fcf"/>
-   <entry index="35423" color="#3465a4"/>
-   <entry index="38621" color="#ffffff"/>
-   <entry index="41573" color="#73d216"/>
-   <entry index="51167" color="#c4a000"/>
   </legend>
  </legends>
 </model>

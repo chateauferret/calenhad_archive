@@ -25,7 +25,7 @@ using namespace calenhad::controls;
 using namespace geoutils;
 
 StructuredGrid::StructuredGrid (const QString& type) : Module (type, nullptr),
-                                                       _buffer (new CubicSphere (CalenhadServices::gridSize())) {
+                                                       _buffer (new CubicSphere (CalenhadServices::gridResolution())) {
 }
 
 StructuredGrid::~StructuredGrid() {
@@ -49,7 +49,7 @@ void StructuredGrid::serialize (QDomElement& element) {
 }
 
 QString StructuredGrid::glsl() {
-   return  "grid (pos, %gridIndex, %gridSize)";
+   return  "grid (pos, %gridIndex, %gridResolution)";
 }
 
 int StructuredGrid::rasterSize() {
