@@ -121,8 +121,12 @@ GL/gl.h
 -
 QtGui/QImage
 -
+src/CalenhadServices.h
+-
 ../geoutils.h
 ../../src/geoutils.h
+../CalenhadServices.h
+../../src/CalenhadServices.h
 
 ../../src/matrices.h
 
@@ -294,7 +298,7 @@ controls/globe/CalenhadGlobeConstants.h
 
 ../mapping/Statistics.h
 
-/home/martin/ClionProjects/calenhad/src/CalenhadServices.h
+/home/ferret/CLionProjects/calenhad/src/CalenhadServices.h
 QString
 -
 QDomDocument
@@ -306,9 +310,9 @@ src/controls/SplashDialog.h
 src/controls/globe/CalenhadGlobeDialog.h
 -
 grid/CubicSphere.h
-/home/martin/ClionProjects/calenhad/src/grid/CubicSphere.h
+/home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h
 
-/home/martin/ClionProjects/calenhad/src/exprtk/exprtk.hpp
+/home/ferret/CLionProjects/calenhad/src/exprtk/exprtk.hpp
 algorithm
 -
 cctype
@@ -362,7 +366,7 @@ sys/types.h
 fstream
 -
 
-/home/martin/ClionProjects/calenhad/src/geoutils.h
+/home/ferret/CLionProjects/calenhad/src/geoutils.h
 iostream
 -
 GeographicLib/Geocentric.hpp
@@ -370,33 +374,33 @@ GeographicLib/Geocentric.hpp
 QtCore/QString
 -
 
-/home/martin/ClionProjects/calenhad/src/graph/ComputeService.cpp
+/home/ferret/CLionProjects/calenhad/src/graph/ComputeService.cpp
 iostream
 -
 src/CalenhadServices.h
 -
 ComputeService.h
-/home/martin/ClionProjects/calenhad/src/graph/ComputeService.h
+/home/ferret/CLionProjects/calenhad/src/graph/ComputeService.h
 ../nodeedit/Port.h
-/home/martin/ClionProjects/calenhad/src/nodeedit/Port.h
+/home/ferret/CLionProjects/calenhad/src/nodeedit/Port.h
 ../nodeedit/Connection.h
-/home/martin/ClionProjects/calenhad/src/nodeedit/Connection.h
+/home/ferret/CLionProjects/calenhad/src/nodeedit/Connection.h
 cmath
 -
 graph.h
-/home/martin/ClionProjects/calenhad/src/graph/graph.h
+/home/ferret/CLionProjects/calenhad/src/graph/graph.h
 ../messages/QNotificationHost.h
-/home/martin/ClionProjects/calenhad/src/messages/QNotificationHost.h
+/home/ferret/CLionProjects/calenhad/src/messages/QNotificationHost.h
 ../grid/CubicSphere.h
-/home/martin/ClionProjects/calenhad/src/grid/CubicSphere.h
+/home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h
 QImage
 -
 ../module/StructuredGrid.h
-/home/martin/ClionProjects/calenhad/src/module/StructuredGrid.h
+/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h
 ../module/RasterModule.h
-/home/martin/ClionProjects/calenhad/src/module/RasterModule.h
+/home/ferret/CLionProjects/calenhad/src/module/RasterModule.h
 
-/home/martin/ClionProjects/calenhad/src/graph/ComputeService.h
+/home/ferret/CLionProjects/calenhad/src/graph/ComputeService.h
 QtCore/QString
 -
 QOpenGLWidget
@@ -422,13 +426,13 @@ QtGui/QOffscreenSurface
 src/grid/CubicSphere.h
 -
 
-/home/martin/ClionProjects/calenhad/src/graph/graph.h
+/home/ferret/CLionProjects/calenhad/src/graph/graph.h
 QtCore/QString
 -
 ../exprtk/exprtk.hpp
-/home/martin/ClionProjects/calenhad/src/exprtk/exprtk.hpp
+/home/ferret/CLionProjects/calenhad/src/exprtk/exprtk.hpp
 
-/home/martin/ClionProjects/calenhad/src/grid/CubicSphere.h
+/home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h
 array
 -
 GL/gl.h
@@ -438,11 +442,11 @@ QtGui/QImage
 src/CalenhadServices.h
 -
 ../geoutils.h
-/home/martin/ClionProjects/calenhad/src/geoutils.h
+/home/ferret/CLionProjects/calenhad/src/geoutils.h
 ../CalenhadServices.h
-/home/martin/ClionProjects/calenhad/src/CalenhadServices.h
+/home/ferret/CLionProjects/calenhad/src/CalenhadServices.h
 
-/home/martin/ClionProjects/calenhad/src/messages/QNotificationHost.h
+/home/ferret/CLionProjects/calenhad/src/messages/QNotificationHost.h
 QWidget
 -
 QVector
@@ -454,7 +458,7 @@ memory
 QtWidgets/QMainWindow
 -
 
-/home/martin/ClionProjects/calenhad/src/module/Module.h
+/home/ferret/CLionProjects/calenhad/src/module/Module.h
 QWidget
 -
 QtWidgets/QFormLayout
@@ -468,17 +472,17 @@ QtWidgets/QTextEdit
 QUuid
 -
 ../CalenhadServices.h
-/home/martin/ClionProjects/calenhad/src/CalenhadServices.h
+/home/ferret/CLionProjects/calenhad/src/CalenhadServices.h
 ../preferences/PreferencesService.h
-/home/martin/ClionProjects/calenhad/src/preferences/PreferencesService.h
+/home/ferret/CLionProjects/calenhad/src/preferences/PreferencesService.h
 memory
 -
 QtWidgets/QCheckBox
 -
 Node.h
-/home/martin/ClionProjects/calenhad/src/module/Node.h
+/home/ferret/CLionProjects/calenhad/src/module/Node.h
 
-/home/martin/ClionProjects/calenhad/src/module/Node.h
+/home/ferret/CLionProjects/calenhad/src/module/Node.h
 QWidget
 -
 QtWidgets/QFormLayout
@@ -502,15 +506,15 @@ QtXml/QDomElement
 exprtk/ExpressionWidget.h
 -
 src/Serializable.h
-/home/martin/ClionProjects/calenhad/src/module/src/Serializable.h
+/home/ferret/CLionProjects/calenhad/src/module/src/Serializable.h
 ParamValidator.h
-/home/martin/ClionProjects/calenhad/src/module/ParamValidator.h
+/home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h
 limits
 -
 QtWidgets/QDockWidget
 -
 
-/home/martin/ClionProjects/calenhad/src/module/ParamValidator.h
+/home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h
 QtCore/QString
 -
 cfloat
@@ -520,17 +524,17 @@ cmath
 iostream
 -
 src/geoutils.h
-/home/martin/ClionProjects/calenhad/src/module/src/geoutils.h
+/home/ferret/CLionProjects/calenhad/src/module/src/geoutils.h
 
-/home/martin/ClionProjects/calenhad/src/module/RasterModule.h
+/home/ferret/CLionProjects/calenhad/src/module/RasterModule.h
 StructuredGrid.h
-/home/martin/ClionProjects/calenhad/src/module/StructuredGrid.h
+/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h
 
-/home/martin/ClionProjects/calenhad/src/module/StructuredGrid.h
+/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h
 Module.h
-/home/martin/ClionProjects/calenhad/src/module/Module.h
+/home/ferret/CLionProjects/calenhad/src/module/Module.h
 
-/home/martin/ClionProjects/calenhad/src/nodeedit/Connection.h
+/home/ferret/CLionProjects/calenhad/src/nodeedit/Connection.h
 QGraphicsPathItem
 -
 QtXml/QDomDocument
@@ -538,13 +542,13 @@ QtXml/QDomDocument
 QtWidgets/QAction
 -
 
-/home/martin/ClionProjects/calenhad/src/nodeedit/Port.h
+/home/ferret/CLionProjects/calenhad/src/nodeedit/Port.h
 QGraphicsPathItem
 -
 QtWidgets/QLabel
 -
 
-/home/martin/ClionProjects/calenhad/src/preferences/PreferencesService.h
+/home/ferret/CLionProjects/calenhad/src/preferences/PreferencesService.h
 QtCore/QSettings
 -
 QColor

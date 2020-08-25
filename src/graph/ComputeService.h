@@ -41,6 +41,8 @@ namespace calenhad {
             ~ComputeService();
             void compute (calenhad::module::Module* module, calenhad::grid::CubicSphere *buffer);
 
+            void computeDetail (module::Module *module, grid::CubicSphere *buffer);
+
         private:
             QString _codeTemplate;
             QOffscreenSurface _surface;
@@ -58,7 +60,6 @@ namespace calenhad {
             GLuint _rasterBuffer;
             bool _forceRender;
 
-            void computeDetail(module::Module *module, grid::CubicSphere *buffer);
         };
     }
 }

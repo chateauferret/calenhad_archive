@@ -193,17 +193,40 @@ void ComputeService::execute (GLfloat* buffer) {
     f -> glDeleteBuffers (1, &_rasterBuffer);
 }
 
-/*
-void ComputeService::computeDetail (Module *module, CubicSphere *buffer) {
-    if (! module -> )
 
-    _context.makeCurrent( &_surface);
-    delete _computeShader;
-    delete _computeProgram;
-    _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
-    _computeProgram = new QOpenGLShaderProgram();
-    clock_t start = clock ();
-*/
+void ComputeService::computeDetail (Module *module, CubicSphere *buffer) { }
+//    Graph g;
+//    QString code = g.glsl (module);
+
+
+ //   for (unsigned p: module -> inputs().keys()) {
+ //       Port* port = module->inputs ().value (p);
+ //       if (!port->connections ().empty ()) {
+ //           for (Connection* c : port->connections ()) {
+ //               Port* source = c->otherEnd (port);
+ //               if (source) {
+ //                   Node* other = source->owner ();
+ //                   if (other && other != module) {
+ //                       Module* qm = dynamic_cast<Module*> (other);
+ //                       if (qm) {
+                            //QStrinng call = ("\n\nfloat value (ivec3 pos, vec3 cartesian, vec2 geolocation) {\n");
+                            //call.append ("    return _" + _nodeName + " (pos, cartesian, geolocation);\n");
+                            //call.append ("}\n");
+                            //std::cout << _code.toStdString () << "\n\n";
+  //                      }
+  // /                 }
+  //              }
+  //          }
+  //      }
+  //  }
+
+   // _context.makeCurrent( &_surface);
+   // delete _computeShader;
+   // delete _computeProgram;
+   // _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
+   // _computeProgram = new QOpenGLShaderProgram();
+   // clock_t start = clock ();
+
 
     // create and allocate a buffer for any input rasters
     //if (!_rasterTexture) {
