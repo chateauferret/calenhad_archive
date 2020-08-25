@@ -1,5 +1,5 @@
 /****************************************************************************
-**
+** Includes code which is
 ** Copyright (c) 2012 Richard Steffen and/or its subsidiary(-ies).
 ** All rights reserved.
 ** Contact: rsteffen@messbild.de, rsteffen@uni-bonn.de
@@ -22,9 +22,6 @@ using namespace calenhad::controls::legend;
 using namespace calenhad::legend;
 using namespace calenhad::expressions;
 
-// -----------------------------------------------------------
-// LegendEditor ------------------------------------------
-// -----------------------------------------------------------
 LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : QWidget (parent), _legend (legend),
      _orientation (orientation),
     activeSlider_ (-1), _slideUpdate (false),
@@ -42,16 +39,16 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
     } else {
         setLayout (new QHBoxLayout ());
     }
-    layout ()->setMargin (0);
-    layout ()->setSpacing (0);
-    layout ()->setContentsMargins (0, 0, 0, 0);
+    layout() -> setMargin (0);
+    layout() -> setSpacing (0);
+    layout() -> setContentsMargins (0, 0, 0, 0);
 
-    rampwid_ = new LegendPreview ();
-    rampwid_->_editor = this;
-    rampwid_->setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding);
-    rampwid_->setContentsMargins (0, 0, 0, 0);
+    _rampWidget = new LegendPreview ();
+    _rampWidget -> _editor = this;
+    _rampWidget -> setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding);
+    _rampWidget -> setContentsMargins (0, 0, 0, 0);
 
-    layout() -> addWidget (rampwid_);
+    layout() -> addWidget (_rampWidget);
 
     _sliderWidget_ = new LegendEditorSliderPanel ();
     _sliderWidget_->_editor = this;
@@ -79,21 +76,18 @@ LegendEditor::LegendEditor (Legend* legend, QWidget* parent, int orientation) : 
     _scale->setVisible (true);
 
     _dialog = new LegendEntryDialog (this);
-    //connect (CalenhadServices::calculator(), &Calculator::variableChanged, this, &LegendEditor::updateRamp);
+    connect (CalenhadServices::calculator(), &Calculator::variableChanged, this, &LegendEditor::updateRamp);
 }
 
-// -----------------------------------------------------------
 LegendEditor::~LegendEditor () {
     for (int i = 0; i < _sliders.size (); i++) delete (_sliders[i]);
     if (_dialog) { delete _dialog; }
 }
 
-// -----------------------------------------------------------
 int LegendEditor::getSliderCount () {
     return _sliders.size ();
 }
 
-// -----------------------------------------------------------
 void LegendEditor::setSlideUpdate (bool val) {
     _slideUpdate = val;
 }
@@ -102,12 +96,10 @@ bool LegendEditor::SliderSort (const LegendEditorSlider* a1, const LegendEditorS
     return a1-> value() < a2-> value();
 }
 
-// -----------------------------------------------------------
 Legend* LegendEditor::legend () {
     return _legend;
 }
 
-// -----------------------------------------------------------
 void LegendEditor::showEvent (QShowEvent* e) {
 
     for (int i = 0; i < _sliders.size (); i++) delete (_sliders[i]);

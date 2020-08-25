@@ -137,7 +137,7 @@ namespace calenhad {
                 int bspace_;
 
                 /// the widgets drawint the ramp, the sliders, the text
-                LegendPreview* rampwid_;
+                LegendPreview* _rampWidget;
                 LegendEditorSliderPanel* _sliderWidget_;
                 LegendEditorScale* _scale;
 

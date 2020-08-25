@@ -348,6 +348,7 @@ void CalenhadGlobeWidget::updateConfig() {
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
     _globe -> setProjection (_configDialog -> selectedProjection() -> name ());
+    _globe -> setLegend (_configDialog -> selectedLegend());
     _overview -> setProjection (_configDialog -> selectedProjection() -> name ());
 
     if (_configDialog) {

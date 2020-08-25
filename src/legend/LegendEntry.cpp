@@ -44,7 +44,7 @@ QString LegendEntry::label () {
     double value = keyValue();
     if (CalenhadServices::calculator() -> hasErrors()) {
         QString errors;
-        for (QString error : CalenhadServices::calculator () -> errors()) {
+        for (const QString& error : CalenhadServices::calculator() -> errors()) {
             errors += error + "\n";
         }
         return errors;

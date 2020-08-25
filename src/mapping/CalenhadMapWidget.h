@@ -94,7 +94,7 @@ namespace calenhad {
 
             controls::globe::RenderMode renderMode ();
             void setMainMap (CalenhadMapWidget* mainMap);
-
+            void setLegend (legend::Legend *legend);
         public slots:
 
             void setProjection (const QString& projection);
@@ -110,6 +110,8 @@ namespace calenhad {
             void zoomRequested (const double& zoom);
             void zoomInRequested();
             void zoomOutRequested();
+
+
 
         protected:
             void paintGL() override;

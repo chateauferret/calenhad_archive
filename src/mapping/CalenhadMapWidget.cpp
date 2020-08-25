@@ -694,6 +694,11 @@ Legend* CalenhadMapWidget::legend () {
     return _legend;
 }
 
+void CalenhadMapWidget::setLegend (Legend *legend) {
+    _legend = legend;
+    update();
+}
+
 void CalenhadMapWidget::showEvent (QShowEvent* event) {
     update();
 }

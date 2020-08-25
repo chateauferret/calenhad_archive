@@ -65,7 +65,7 @@ void LegendManager::setCurrentLegend (Legend* legend) {
 
 void LegendManager::showLegend () {
     _legend = _chooser -> selectedLegend();
-    ((QStackedLayout*) _legendDetailArea -> layout())->setCurrentWidget (_legend -> widget());
+    ((QStackedLayout*) _legendDetailArea -> layout()) -> setCurrentWidget (_legend -> widget());
 }
 
 void LegendManager::newLegend() {
