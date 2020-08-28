@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/messages_autogen.dir/AutogenOldSettings.txt"
+  "CMakeFiles/messages_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/messages_autogen.dir/ParseCache.txt"
   "messages_autogen"
   "CMakeFiles/messages.dir/messages/QNotification.cpp.o"

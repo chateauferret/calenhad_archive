@@ -12,9 +12,6 @@ layout (std430, binding = 1) buffer rasterBuffer { float rasters []; };         
 // this is the cubic sphere into which the output will be written
 layout (std430, binding = 0) buffer heightMapBuffer { float height_map_out []; };
 
-uniform vec4 bounds = vec4 (-M_PI, -M_PI / 2, M_PI, M_PI / 2);
-
-
 
 // noise seeds
 const int X_NOISE_GEN = 1619;
@@ -38,24 +35,16 @@ const float BILLOW_BIAS = 0.0;
 const float BILLOW_SCALE = 1.0;
 
 
-
-// output identifiers
-const int MODE_EQUIRECTANGULAR = 0;
-const int MODE_VERTEXLIST = 3;
-const int MODE_CUBEMAP = 4;
-
-uniform int mode = MODE_EQUIRECTANGULAR;
-
 // statistics
 int hypsographyResolution;
 float minAltitude = 0;
 float maxAltitude = 0;
 
-// grid parameters
-uniform int vertexCount;
 
 // cubemap parameter
-uniform int size;
+uniform int size;               // the size of each face of the cubic sphere (it's square)
+uniform int tileSize;           // the size of each tile (tiles are square)
+uniform ivec2 tileIndex;        // the x and y index of the current tiles within each face of the cubic sphere
 
 
 // indices to faces of the cube map
@@ -769,8 +758,8 @@ ivec2 index (vec2 g, vec4 bounds, vec2 size) {
 // to do - deal with bounds crossing dateline; set bounds via uniform variable; map bounds to globe in the rendering shader
 
 vec2 mapPos (ivec2 pos) {
-    vec2 a = bounds.xy;
-    vec2 b = bounds.zw;
+    vec2 a = vec2 (-M_PI, M_PI);
+    vec2 b = vec2 (-M_PI / 2, M_PI / 2);
     if (a.x > b.x) { // if this is TRUE the raster bounds straddle the dateline
         b.x += M_PI * 2;
     }
@@ -883,6 +872,8 @@ ivec3 cartesianToIndex (vec3 cartesian) {
 
 void main() {
     ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
+    pos.x += tileSize * tileIndex.x;
+    pos.y += tileSize * tileIndex.y;
     vec3 c = indexToCartesian (pos);
     vec2 g = toGeolocation (c);
     uint i = pos.z * size * size + pos.x * size + pos.y;

@@ -47,7 +47,7 @@ ComputeService::ComputeService () :  _computeProgram (nullptr), _computeShader (
 
     _context.setFormat(format);
     if (!_context.create()) {
-        throw std::runtime_error("context creation failed");
+        throw std::runtime_error ("context creation failed");
     }
     _surface.create();
     _context.makeCurrent( &_surface);
@@ -56,7 +56,6 @@ ComputeService::ComputeService () :  _computeProgram (nullptr), _computeShader (
         throw std::runtime_error ("initialization failed");
     }
     f = dynamic_cast<QOpenGLFunctions_4_3_Core*> (_context.versionFunctions());
-
 }
 
 ComputeService::~ComputeService () {
@@ -75,9 +74,83 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
     clock_t start = clock ();
 
     // create and allocate a buffer for any input rasters
-    //if (!_rasterTexture) {
-    //    delete _rasterTexture;
-    //}
+
+    if (newCode != QString::null) {
+    //if (_forceRender || code != newCode)) {
+        _forceRender = false;
+        code = newCode;
+        QString ct = _codeTemplate;
+        ct.detach();                 // deep copy, otherwise we overwrite the placeholder
+        QString sourceCode = ct.replace("// inserted code //", code);
+        std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
+        if (_computeShader) {
+            _computeProgram -> removeAllShaders();
+            if (_computeShader -> compileSourceCode (sourceCode)) {
+                _computeProgram -> addShader (_computeShader);
+                _computeProgram -> link();
+                _computeProgram -> bind();
+                extractRasters (graph);
+                execute (buffer -> data());
+            } else {
+                CalenhadServices::messages() -> message ("Compute shader would not compile", code);
+            }
+        }
+        clock_t end = clock ();
+        int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+        std::cout << " ... finished in " << time << " milliseconds\n\n";
+    } else {
+        CalenhadServices::messages() -> message ("No code for compute shader",  code);
+    }
+
+
+}
+
+
+
+void ComputeService::execute (GLfloat* buffer) {
+
+    f -> glGenBuffers (1, &_heightMap);
+    uint size = std::pow (2, CalenhadServices::gridResolution());
+    ulong bytes = 6 * size * size * sizeof (GLfloat);
+    f -> glUseProgram (_computeProgram -> programId ());
+    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
+    f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 0, _heightMap);
+    f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, nullptr, GL_DYNAMIC_READ);
+
+    static GLint gridSizeLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "size");
+    f -> glUniform1i (gridSizeLoc, size);
+    _tileSize = size / _tiles;
+    for (int i = 0; i < _tiles; i++) {
+        for (int j = 0; j < _tiles; j++) {
+            static GLint tileIndexLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "tileIndex");
+            f -> glUniform2i (tileIndexLoc, i, j);
+            static GLint tileSizeLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "tileSize");
+            f -> glUniform1i (tileSizeLoc, _tileSize);
+            uint xp = _tileSize / 32; // the grid size divided by the number of local invocations defined in the shader which is 32 x 32 x 1
+            f -> glDispatchCompute (xp, xp, 6);
+        }
+    }
+
+
+    f -> glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
+
+    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
+    f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 5, _heightMap);
+
+    GLfloat *ptr = (GLfloat*) f -> glMapBufferRange (GL_SHADER_STORAGE_BUFFER, 0, bytes, GL_MAP_READ_BIT);
+    memcpy (buffer, ptr, bytes);
+    f -> glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
+    f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
+    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
+    f -> glDeleteBuffers (1, &_heightMap);
+    f -> glDeleteBuffers (1, &_rasterBuffer);
+}
+
+
+void ComputeService::computeDetail (Module *module, CubicSphere *buffer) { }
+
+void ComputeService::extractRasters (Graph& graph) {
+
     if (graph.rasterCount() > 0) {
 
         // work out the size of the buffer we need for all rasters and convolutions
@@ -134,186 +207,5 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
         free (rasterBuffer);
     }
 
-    if (newCode != QString::null) {
-    //if (_forceRender || code != newCode)) {
-        _forceRender = false;
-        code = newCode;
-        QString ct = _codeTemplate;
-        ct.detach();                 // deep copy, otherwise we overwrite the placeholder
-        QString sourceCode = ct.replace("// inserted code //", code);
-        std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
-        if (_computeShader) {
-            _computeProgram -> removeAllShaders();
-            if (_computeShader -> compileSourceCode (sourceCode)) {
-                _computeProgram -> addShader (_computeShader);
-                _computeProgram -> link();
-                _computeProgram -> bind();
-                execute (buffer -> data());
-            } else {
-                CalenhadServices::messages() -> message ("Compute shader would not compile", code);
-            }
-        }
-    //}
-    } else {
-        CalenhadServices::messages() -> message ("No code for compute shader",  code);
-    }
-
-    clock_t end = clock ();
-    int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    std::cout << " ... finished in " << time << " milliseconds\n\n";
-
 }
 
-void ComputeService::execute (GLfloat* buffer) {
-
-    f -> glGenBuffers (1, &_heightMap);
-    uint size = std::pow (2, CalenhadServices::gridResolution());
-    ulong bytes = 6 * size * size * sizeof (GLfloat);
-    f -> glUseProgram (_computeProgram -> programId ());
-    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
-    f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 0, _heightMap);
-    f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, nullptr, GL_DYNAMIC_READ);
-
-    static GLint gridSizeLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "size");
-    f -> glUniform1i (gridSizeLoc, size);
-
-    uint xp = size / 32; // the grid size divided by the number of local invocations defined in the shader which is 32 x 32 x 1
-    f -> glDispatchCompute (xp, xp, 6);
-    f -> glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
-
-    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
-    f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 5, _heightMap);
-
-    GLfloat *ptr = (GLfloat*) f -> glMapBufferRange (GL_SHADER_STORAGE_BUFFER, 0, bytes, GL_MAP_READ_BIT);
-    memcpy (buffer, ptr, bytes);
-    f -> glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
-    f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
-    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
-    f -> glDeleteBuffers (1, &_heightMap);
-    f -> glDeleteBuffers (1, &_rasterBuffer);
-}
-
-
-void ComputeService::computeDetail (Module *module, CubicSphere *buffer) { }
-//    Graph g;
-//    QString code = g.glsl (module);
-
-
- //   for (unsigned p: module -> inputs().keys()) {
- //       Port* port = module->inputs ().value (p);
- //       if (!port->connections ().empty ()) {
- //           for (Connection* c : port->connections ()) {
- //               Port* source = c->otherEnd (port);
- //               if (source) {
- //                   Node* other = source->owner ();
- //                   if (other && other != module) {
- //                       Module* qm = dynamic_cast<Module*> (other);
- //                       if (qm) {
-                            //QStrinng call = ("\n\nfloat value (ivec3 pos, vec3 cartesian, vec2 geolocation) {\n");
-                            //call.append ("    return _" + _nodeName + " (pos, cartesian, geolocation);\n");
-                            //call.append ("}\n");
-                            //std::cout << _code.toStdString () << "\n\n";
-  //                      }
-  // /                 }
-  //              }
-  //          }
-  //      }
-  //  }
-
-   // _context.makeCurrent( &_surface);
-   // delete _computeShader;
-   // delete _computeProgram;
-   // _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
-   // _computeProgram = new QOpenGLShaderProgram();
-   // clock_t start = clock ();
-
-
-    // create and allocate a buffer for any input rasters
-    //if (!_rasterTexture) {
-    //    delete _rasterTexture;
-    //}
-    /*if (graph.rasterCount() > 0) {
-
-        // work out the size of the buffer we need for all rasters and convolutions
-        ulong bytes = 0;
-        for (int i = 0; i < graph.rasterCount(); i++) {
-            QImage* image = dynamic_cast<QImage*> (graph.raster (i));
-            if (image) {
-                bytes += image -> height() * image -> width() * sizeof (GLfloat);
-            }
-            CubicSphere* cube = dynamic_cast<CubicSphere*> (graph.cube (i));
-            if (cube) {
-                int r = cube -> size();
-                bytes += r * r * 6 * sizeof (GLfloat);
-            }
-        }
-        // unpack the raster data from the raster / convolution modules
-        ulong bufferIndex = 0;
-        float* rasterBuffer = (float*) malloc (bytes);
-        for (int i = 0; i < graph.rasterCount(); i++) {
-            QImage* image = graph.raster (i);
-            if (image) {
-                for (int x = 0; x < image -> width(); x++) {
-                    for (int y = 0; y < image -> height(); y++) {
-                        QColor c = image -> pixelColor (x, image -> height() - y - 1);
-                        double value = (c.redF() + c.greenF() + c.blueF()) / 3;
-                        value = (value * 2) - 1;
-                        ulong index = bufferIndex + (y * image -> width()) + x;
-                        rasterBuffer [index] = (GLfloat) value;
-                    }
-                }
-            }
-
-            CubicSphere* cm = graph.cube (i);
-            if (cm) {
-                for (int face = 0; face < 6; face++) {
-                    for (int x = 0; x < cm -> size(); x++) {
-                        for (int y = 0; y < cm -> size(); y++) {
-                            int s = cm -> size();
-                            ulong index = bufferIndex + (face * s * s + y * s + x);
-                            double value = cm -> data() [index];
-                            rasterBuffer [index] = (GLfloat) value;
-                        }
-                    }
-                }
-            }
-        }
-
-        // upload the raster data to the GPU
-        f -> glGenBuffers (1, &_rasterBuffer);
-        std::cout << "Generate buffer " << _rasterBuffer << " of " << bytes << " bytes\n";
-        f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);
-        f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, _rasterBuffer);
-        f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, rasterBuffer, GL_DYNAMIC_READ);
-        free (rasterBuffer);
-    }
-
-    if (newCode != QString::null) {
-        //if (_forceRender || code != newCode)) {
-        _forceRender = false;
-        code = newCode;
-        QString ct = _codeTemplate;
-        ct.detach();                 // deep copy, otherwise we overwrite the placeholder
-        QString sourceCode = ct.replace("// inserted code //", code);
-        std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
-        if (_computeShader) {
-            _computeProgram -> removeAllShaders();
-            if (_computeShader -> compileSourceCode(sourceCode)) {
-                _computeProgram -> addShader (_computeShader);
-                _computeProgram -> link();
-                _computeProgram -> bind();
-                execute (buffer -> data());
-            } else {
-                CalenhadServices::messages() -> message ("Compute shader would not compile", code);
-            }
-        }
-        //}
-    } else {
-        CalenhadServices::messages() -> message ("No code for compute shader",  code);
-    }
-
-    clock_t end = clock ();
-    int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    std::cout << " ... finished in " << time << " milliseconds\n\n";
-
-}*/

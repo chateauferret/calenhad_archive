@@ -35,6 +35,7 @@ namespace calenhad {
     }
 
     namespace graph {
+        class Graph;
         class ComputeService {
         public:
             ComputeService();
@@ -59,7 +60,11 @@ namespace calenhad {
             //QOpenGLTexture* _rasterTexture;
             GLuint _rasterBuffer;
             bool _forceRender;
+            uint _tileSize;
 
+            void extractRasters (Graph& graph);
+
+            const uint _tiles = 8;
         };
     }
 }
