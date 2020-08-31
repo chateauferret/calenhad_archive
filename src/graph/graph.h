@@ -27,7 +27,7 @@ namespace calenhad {
             ~Graph();
             QString glsl();
 
-            QImage* raster (const int& index) const;
+            grid::CubicSphere* raster (const int& index) const;
 
             int rasterCount() const;
 

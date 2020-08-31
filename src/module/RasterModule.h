@@ -22,7 +22,7 @@ namespace calenhad {
             QString glsl() override;
             void openFile (const QString& filename);
             bool isComplete() override;
-            QImage* raster();
+            calenhad::grid::CubicSphere* raster();
 
 
         protected slots:
@@ -34,13 +34,13 @@ namespace calenhad {
         protected:
 
             QString _filename;
-
-            QImage* _raster;
+            calenhad::grid::CubicSphere* _cube;
             QWidget* _rasterContent;
             QFormLayout* _rasterLayout{};
 
             QLabel* _filenameLabel;
 
+            void assimilateRaster (QImage* image);
         };
 
     }

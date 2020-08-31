@@ -39,7 +39,6 @@ void CubicSphere::makeTile (const int& x, const int& y, CubicSphere* source) {
 
 void CubicSphere::initialise() {
     _grid = (float*) malloc (6 * _size * _size * sizeof (float));
-
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < _size; j++) {
             for (int k = 0; k < _size; k++) {
@@ -57,15 +56,22 @@ long CubicSphere::count() const {
     return 6 * _size * _size;
 }
 
-void CubicSphere::toCartesian (const CubeCoordinates& fuv, Cartesian& xyz) const {
+void CubicSphere::toGeolocation (const CubeCoordinates& fuv, Geolocation& g) const {
+    Cartesian c;
+    toCartesian (fuv, c);
+    g = geoutils::Geoutils::toGeolocation(c);
+}
 
+void CubicSphere::toCartesian (const CubeCoordinates& fuv, Cartesian& xyz) const {
+    double u = ((float) fuv.u / (float) _size) * 2.0 - 1.0;
+    double v = ((float) fuv.v / (float) _size) * 2.0 - 1.0;
     double x = 0.0, y = 0.0, z = 0.0;
-    if (fuv.face == FACE_NORTH)  { y =  1.0; x = fuv.u; z = fuv.v; }
-    if (fuv.face == FACE_SOUTH)  { y = -1.0; x = fuv.u; z = fuv.v; }
-    if (fuv.face == FACE_EAST)   { x =  1.0; z = fuv.u; y = fuv.v; }
-    if (fuv.face == FACE_WEST)   { x = -1.0; z = fuv.u; y = fuv.v; }
-    if (fuv.face == FACE_FRONT)  { z =  1.0; x = fuv.u; y = fuv.v; }
-    if (fuv.face == FACE_BACK)   { z = -1.0; x = fuv.u; y = fuv.v; }
+    if (fuv.face == FACE_FRONT)  { y =  1.0; x = v; z = u; }
+    if (fuv.face == FACE_BACK)  { y = -1.0; x = v; z = u; }
+    if (fuv.face == FACE_EAST)   { x =  1.0; z = v; y = u; }
+    if (fuv.face == FACE_WEST)   { x = -1.0; z = v; y = u; }
+    if (fuv.face == FACE_NORTH)  { z =  1.0; x = v; y = u; }
+    if (fuv.face == FACE_SOUTH)   { z = -1.0; x = v; y = u; }
     xyz.x = x * sqrt (1.0f - y * y * 0.5f - z * z * 0.5f + y * y * z * z / 3.0f);
     xyz.y = y * sqrt (1.0f - z * z * 0.5f - x * x * 0.5f + z * z * x * x / 3.0f);
     xyz.z = z * sqrt (1.0f - x * x * 0.5f - y * y * 0.5f + x * x * y * y / 3.0f);
@@ -121,7 +127,6 @@ void CubicSphere::toCubeCoordinates (CubeCoordinates& fuv, const Cartesian& xyz)
             fuv.face = (z > 0) ? FACE_NORTH :  FACE_SOUTH;
             fuv.u = int ((position.y * 0.5 + 0.5) * _size);
             fuv.v = int ((position.x * 0.5 + 0.5) * _size);
-
         }
 }
 
@@ -170,6 +175,27 @@ GLfloat *CubicSphere::data() {
 }
 
 
+void CubicSphere::fromRaster (QImage* image) {
+
+    Geolocation g;
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < _size; j++) {
+            for (int k = 0; k < _size; k++) {
+                CubeCoordinates fuv (i, j, k);
+                toGeolocation (fuv, g);
+                double dx = g.longitude() / (M_PI * 2) + 0.5;
+                double dy = g.latitude() / M_PI + 0.5;
+                int ix = (int) (dx * image -> width());
+                int iy = (int) ((1 - dy) * image -> height());
+                QColor c = image -> pixelColor (ix, iy);
+                double value = (c.redF() + c.blueF() + c. greenF()) / 3.0;
+                value *= 2.0;
+                value -+ 1.0;
+                _grid [i * _size * _size + j * _size + k] = (float) value;
+            }
+        }
+    }
+}
 
 void CubicSphere::heightmap (const int& face, QImage* image) {
 

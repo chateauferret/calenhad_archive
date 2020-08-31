@@ -117,22 +117,16 @@ QString Graph::glsl (Module* module) {
                 if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
                     RasterModule* rm = (RasterModule*) qm;
                     _rasters.append (rm);
-                    // bounds: whole world coverage
-                    int length = rm -> raster() -> height() * rm -> raster() -> width();
-                    _code.replace ("%rasterIndex", QString::number (_index));
-                    _index += length;
-                    _code.replace ("%rasterSize", "ivec2 (" + QString::number (rm -> raster() -> height()) + ", " + QString::number (rm -> raster() -> width()) + ")");
+                    _code.replace ("%gridIndex", QString::number (_index));
+                    _index += CalenhadServices::preferences() -> calenhad_compute_gridsize;
                     _code.append ("; }\n");
                 }
 
                 Cache* cm = dynamic_cast<Cache*> (qm);
-
                 if (cm) {
                     _rasters.append (cm);
-                    int length = cm -> rasterSize() * 6;
                     _code.replace ("%gridIndex", QString::number (_index));
-                    _index += length;
-                    _code.replace ("%gridResolution", QString::number (cm -> rasterSize()));
+                    _index += CalenhadServices::preferences() -> calenhad_compute_gridsize;
                     _code.append ("; }\n");
                 }
             }
@@ -143,19 +137,16 @@ QString Graph::glsl (Module* module) {
     }
 }
 
-
 int Graph::rasterCount() const {
     return _rasters.size();
 }
 
-QImage* Graph::raster (const int& index) const {
+CubicSphere* Graph::cube (const int& index) const {
     RasterModule* rm = dynamic_cast<RasterModule*> (_rasters [index]);
     if (rm) {
         return rm -> raster();
-    } else return nullptr;
-}
+    }
 
-CubicSphere* Graph::cube (const int& index) const {
     StructuredGrid* cm = dynamic_cast<StructuredGrid*> (_rasters [index]);
     if (cm) {
         return cm -> buffer();

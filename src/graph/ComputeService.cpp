@@ -167,10 +167,6 @@ void ComputeService::extractRasters (const Graph& graph, const int& xIndex, cons
         // work out the size of the buffer we need for all rasters and convolutions
         ulong bytes = 0;
         for (int i = 0; i < graph.rasterCount(); i++) {
-            QImage* image = dynamic_cast<QImage*> (graph.raster (i));
-            if (image) {
-                bytes += image -> height() * image -> width() * sizeof (GLfloat);
-            }
             CubicSphere* cube = dynamic_cast<CubicSphere*> (graph.cube (i));
             if (cube) {
                 int r = _tile -> size();
@@ -182,18 +178,6 @@ void ComputeService::extractRasters (const Graph& graph, const int& xIndex, cons
         ulong bufferIndex = 0;
         float* rasterBuffer = (float*) malloc (bytes);
         for (int i = 0; i < graph.rasterCount(); i++) {
-            QImage* image = graph.raster (i);
-            if (image) {
-                for (int x = 0; x < image -> width(); x++) {
-                    for (int y = 0; y < image -> height(); y++) {
-                        QColor c = image -> pixelColor (x, image -> height() - y - 1);
-                        double value = (c.redF() + c.greenF() + c.blueF()) / 3;
-                        value = (value * 2) - 1;
-                        ulong index = bufferIndex + (y * image -> width()) + x;
-                        rasterBuffer [index] = (GLfloat) value;
-                    }
-                }
-            }
 
             CubicSphere* cube = graph.cube (i);
             _tile -> makeTile (xIndex, yIndex, cube);

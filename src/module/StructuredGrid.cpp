@@ -49,7 +49,6 @@ void StructuredGrid::serialize (QDomElement& element) {
 }
 
 QString StructuredGrid::glsl() {
-   //return  "grid (pos, %gridIndex, %gridResolution)";
     return  "grid (%gridIndex)";
 }
 

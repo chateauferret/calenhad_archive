@@ -5,13 +5,17 @@
 #include <QtWidgets/QFileDialog>
 #include <QtGui/QPainter>
 #include "RasterModule.h"
+#include "geoutils.h"
 
 
 using namespace calenhad::module;
 using namespace calenhad;
 using namespace calenhad::preferences;
+using namespace calenhad::mapping;
+using namespace calenhad::grid;
+using namespace geoutils;
 
-RasterModule::RasterModule (const QString& type) : Module (type), _raster (nullptr),
+RasterModule::RasterModule (const QString& type) : Module (type), _cube (nullptr),
                                                    _filename (QString::null),
                                                    _rasterLayout (new QFormLayout()) {
     _rasterContent = new QWidget (_expander);
@@ -29,7 +33,7 @@ RasterModule::RasterModule (const QString& type) : Module (type), _raster (nullp
     connect (selectFileButton, &QAbstractButton::pressed, this, &RasterModule::fileDialogRequested);
 }
 
-void calenhad::module::RasterModule::fileDialogRequested () {
+void RasterModule::fileDialogRequested () {
     QString dir;
     if (_filename != QString::null) {
         QDir f (_filename);
@@ -39,16 +43,16 @@ void calenhad::module::RasterModule::fileDialogRequested () {
     openFile (filename);
 }
 
-void calenhad::module::RasterModule::openFile (const QString& filename) {
-    delete _raster;
-    _raster = new QImage (filename);
+void RasterModule::openFile (const QString& filename) {
+    QImage* raster = new QImage (filename);
     _filename = filename;
     _filenameLabel -> setToolTip (_filename);
-    QPixmap pixmap = QPixmap::fromImage (*_raster).scaled (_filenameLabel -> size());
+    QPixmap pixmap = QPixmap::fromImage (*raster).scaled (_filenameLabel -> size());
+    assimilateRaster (raster);
     _filenameLabel -> setPixmap (pixmap);
     invalidate();
-
 }
+
 
 void RasterModule::inflate (const QDomElement& element) {
     Module::inflate (element);
@@ -64,12 +68,12 @@ void RasterModule::serialize (QDomElement& element) {
     _element.appendChild (rasterElement);
 }
 
-QImage* RasterModule::raster() {
-    return  _raster;
+CubicSphere* RasterModule::raster() {
+    return  _cube;
 }
 
 bool RasterModule::isComplete() {
-    if (_raster) {
+    if (_cube) {
         return Module::isComplete();
     } else {
         return false;
@@ -77,5 +81,12 @@ bool RasterModule::isComplete() {
 }
 
 QString RasterModule::glsl() {
-    return  "raster (c, %rasterIndex, %rasterSize)";
+    return  "grid (%gridIndex)";
+}
+
+void RasterModule::assimilateRaster (QImage* image) {
+    if (! _cube) {
+        _cube = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
+    }
+    _cube -> fromRaster (image);
 }

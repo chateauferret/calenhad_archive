@@ -55,6 +55,10 @@ namespace calenhad {
 
             float valueAt(const mapping::CubeCoordinates &fuv);
 
+            void toGeolocation (const mapping::CubeCoordinates& fuv, geoutils::Geolocation& g) const;
+
+            void fromRaster (QImage* image);
+
         protected:
             float* _grid;
 

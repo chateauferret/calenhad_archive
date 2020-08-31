@@ -20433,6 +20433,7 @@ CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../controls/globe/CalenhadGlo
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../controls/globe/CalenhadNavigator.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../exprtk/ExpressionWidget.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../exprtk/exprtk.hpp
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../mapping/CalenhadMapWidget.h
