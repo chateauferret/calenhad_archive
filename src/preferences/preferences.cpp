@@ -13,7 +13,7 @@ using namespace calenhad::preferences;
 
 Preferences::Preferences() : PreferencesService() {
     _settings = new QSettings();
-    std::cout << "Preferences file: " <<  _settings -> fileName().toStdString () << "\n";
+    std::cout << "Preferences file: " <<  _settings -> fileName().toStdString() << "\n";
 }
 
 Preferences::~Preferences () {
@@ -29,7 +29,8 @@ void Preferences::loadSettings() {
     calenhad_colormap_buffersize = _settings -> value ("calenhad/colormap/buffersize", 2048).toUInt();
     calenhad_altitudemap_buffersize = _settings -> value ("calenhad/altitudemap/buffersize", 2048).toUInt();
     calenhad_icosphere_depth = _settings -> value ("calenhad/grid/depth", 8).toUInt();
-    calenhad_compute_gridsize = _settings -> value ("calenhad/compute/gidsize", 11).toUInt();
+    calenhad_compute_gridsize = _settings -> value ("calenhad/compute/gridsize", 11).toUInt();
+    calenhad_compute_tilesize = _settings -> value ("calenhad/compute/tilesize", 8).toUInt();
 
     // Styling for non-QGraphicsItem elements
     calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/ferret/.config/calenhad/darkorange.css").toString();
@@ -293,6 +294,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/model/extent", calenhad_model_extent);
     _settings -> setValue ("calenhad/grid/depth", calenhad_icosphere_depth);
     _settings -> setValue ("calenhad/compute/gridsize", calenhad_compute_gridsize);
+    _settings -> setValue ("calenhad/compute/tilesize", calenhad_compute_tilesize);
 
     // Modules
 

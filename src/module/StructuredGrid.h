@@ -30,7 +30,6 @@ namespace calenhad {
 
         protected:
             calenhad::grid::CubicSphere* _buffer;
-            void setRasterSize (const int& depth);
         };
     }
 }

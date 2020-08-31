@@ -77,7 +77,6 @@ include CMakeFiles/calenhad.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/calenhad.dir/flags.make
 
-qrc_resources.cpp: ../resources/calenhad.conf
 qrc_resources.cpp: ../resources/darkorange.css
 qrc_resources.cpp: ../resources/modules.xml
 qrc_resources.cpp: ../resources/legends.xml

@@ -29,7 +29,7 @@ void Cache::refresh() {
     ComputeService* c = CalenhadServices::compute();
     if (c && isComplete()) {
         delete _buffer;
-        _buffer = new CubicSphere (CalenhadServices::gridResolution());
+        _buffer = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
         Port* p = inputs().first();
         Module* source = p -> connections().first() -> otherEnd(p) -> owner();
 

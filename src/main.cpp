@@ -65,15 +65,13 @@ int main (int argc, char **argv) {
     // Preferences service
     Preferences* preferences = new Preferences();
     preferences -> loadSettings();
-    preferences -> calenhad_compute_gridsize = 8;
-    preferences -> saveSettings();
     CalenhadServices::providePreferences (preferences);
 
     // Make stylesheet available to the application
     QString fileName = preferences -> calenhad_stylesheet;
     QFile file (fileName);
     bool f = file.open (QFile::ReadOnly);
-    QString styleSheet = "bollocks";
+    QString styleSheet = "";
     if (f) {
         styleSheet = QLatin1String (file.readAll());
     } else {

@@ -54,7 +54,7 @@ namespace calenhad {
             QOpenGLShaderProgram* _computeProgram;
             QOpenGLFunctions_4_3_Core* f;
             GLuint _heightMap;
-            void execute(GLfloat *buffer);
+            void execute(GLfloat *buffer, const calenhad::graph::Graph& graph);
 
             QString code;
             //QOpenGLTexture* _rasterTexture;
@@ -62,9 +62,10 @@ namespace calenhad {
             bool _forceRender;
             uint _tileSize;
 
-            void extractRasters (Graph& graph);
+            void extractRasters (const Graph& graph, const int& xIndex, const int& yIndex);
 
-            const uint _tiles = 8;
+            const uint _tiles;
+            calenhad::grid::CubicSphere* _tile;
         };
     }
 }

@@ -126,6 +126,7 @@ QString Graph::glsl (Module* module) {
                 }
 
                 Cache* cm = dynamic_cast<Cache*> (qm);
+
                 if (cm) {
                     _rasters.append (cm);
                     int length = cm -> rasterSize() * 6;
@@ -134,27 +135,6 @@ QString Graph::glsl (Module* module) {
                     _code.replace ("%gridResolution", QString::number (cm -> rasterSize()));
                     _code.append ("; }\n");
                 }
-
-/*                // replace the input module markers with their names referencing their member variables in glsl
-                int i = 0;
-                for (Port* port : qm->inputs ()) {
-                    QString index = QString::number (i++);
-                    if (port -> connections().isEmpty ()) {
-                        _code.replace ("%" + index, QString::number (qm -> parameterValue (port -> portName ())));
-                    } else {
-                        Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
-                        QString source = other -> name();
-                        _code.replace ("%" + index, "_" + source + " (pos, c, g)");    // "%0" is shorthand for "$0 (pos, c, g)"
-                        _code.replace ("$" + index, "_" + source);
-                    }
-                }
-
-                // fill in attribute values by looking for words beginning with % and replacing them with the parameter values from the XML
-                for (QString param : CalenhadServices::modules() -> paramNames ()) {
-                    if (qm -> parameters().contains (param)) {
-                        _code.replace ("%" + param, QString::number (qm -> parameterValue (param)));
-                    }
-                }*/
             }
         }
         return _code;
@@ -168,14 +148,14 @@ int Graph::rasterCount() const {
     return _rasters.size();
 }
 
-QImage* Graph::raster (const int& index) {
+QImage* Graph::raster (const int& index) const {
     RasterModule* rm = dynamic_cast<RasterModule*> (_rasters [index]);
     if (rm) {
         return rm -> raster();
     } else return nullptr;
 }
 
-CubicSphere* Graph::cube (const int& index) {
+CubicSphere* Graph::cube (const int& index) const {
     StructuredGrid* cm = dynamic_cast<StructuredGrid*> (_rasters [index]);
     if (cm) {
         return cm -> buffer();

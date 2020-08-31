@@ -33,7 +33,15 @@ using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 using namespace calenhad::grid;
 
-ComputeService::ComputeService () :  _computeProgram (nullptr), _computeShader (nullptr), _heightMap (0) {
+
+ComputeService::ComputeService () :
+    _computeProgram (nullptr),
+    _computeShader (nullptr),
+    _rasterBuffer (0),
+    _heightMap (0),
+    _tileSize (std::pow (2, CalenhadServices::preferences() -> calenhad_compute_tilesize)),
+    _tile (new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_tilesize)),
+    _tiles (std::pow (2, CalenhadServices::preferences() -> calenhad_compute_gridsize - CalenhadServices::preferences() -> calenhad_compute_tilesize)) {
     // read cuda code from files into memory for use at compute time
     QFile csFile (":/shaders/compute.glsl");
     csFile.open (QIODevice::ReadOnly);
@@ -61,6 +69,7 @@ ComputeService::ComputeService () :  _computeProgram (nullptr), _computeShader (
 ComputeService::~ComputeService () {
     delete _computeShader;
     delete _computeProgram;
+    delete _tile;
 }
 
 void ComputeService::compute (Module *module, CubicSphere *buffer) {
@@ -89,8 +98,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
                 _computeProgram -> addShader (_computeShader);
                 _computeProgram -> link();
                 _computeProgram -> bind();
-                extractRasters (graph);
-                execute (buffer -> data());
+                execute (buffer -> data(), graph);
             } else {
                 CalenhadServices::messages() -> message ("Compute shader would not compile", code);
             }
@@ -101,16 +109,14 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
     } else {
         CalenhadServices::messages() -> message ("No code for compute shader",  code);
     }
-
-
 }
 
 
 
-void ComputeService::execute (GLfloat* buffer) {
+void ComputeService::execute (GLfloat* buffer, const Graph& graph) {
 
     f -> glGenBuffers (1, &_heightMap);
-    uint size = std::pow (2, CalenhadServices::gridResolution());
+    uint size = std::pow (2, CalenhadServices::preferences() -> calenhad_compute_gridsize);
     ulong bytes = 6 * size * size * sizeof (GLfloat);
     f -> glUseProgram (_computeProgram -> programId ());
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
@@ -122,18 +128,24 @@ void ComputeService::execute (GLfloat* buffer) {
     _tileSize = size / _tiles;
     for (int i = 0; i < _tiles; i++) {
         for (int j = 0; j < _tiles; j++) {
+
+            // upload raster tiles for this tile
+            extractRasters (graph, i, j);
+
+            // set the tile geometry on the shader
             static GLint tileIndexLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "tileIndex");
             f -> glUniform2i (tileIndexLoc, i, j);
             static GLint tileSizeLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "tileSize");
             f -> glUniform1i (tileSizeLoc, _tileSize);
+
+            // invoke the shader
             uint xp = _tileSize / 32; // the grid size divided by the number of local invocations defined in the shader which is 32 x 32 x 1
             f -> glDispatchCompute (xp, xp, 6);
+            f -> glDeleteBuffers (1, &_rasterBuffer);
         }
     }
 
-
     f -> glMemoryBarrier (GL_SHADER_STORAGE_BARRIER_BIT);
-
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _heightMap);
     f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 5, _heightMap);
 
@@ -143,13 +155,12 @@ void ComputeService::execute (GLfloat* buffer) {
     f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
     f -> glDeleteBuffers (1, &_heightMap);
-    f -> glDeleteBuffers (1, &_rasterBuffer);
 }
 
 
 void ComputeService::computeDetail (Module *module, CubicSphere *buffer) { }
 
-void ComputeService::extractRasters (Graph& graph) {
+void ComputeService::extractRasters (const Graph& graph, const int& xIndex, const int& yIndex) {
 
     if (graph.rasterCount() > 0) {
 
@@ -162,10 +173,11 @@ void ComputeService::extractRasters (Graph& graph) {
             }
             CubicSphere* cube = dynamic_cast<CubicSphere*> (graph.cube (i));
             if (cube) {
-                int r = cube -> size();
+                int r = _tile -> size();
                 bytes += r * r * 6 * sizeof (GLfloat);
             }
         }
+
         // unpack the raster data from the raster / convolution modules
         ulong bufferIndex = 0;
         float* rasterBuffer = (float*) malloc (bytes);
@@ -183,14 +195,15 @@ void ComputeService::extractRasters (Graph& graph) {
                 }
             }
 
-            CubicSphere* cm = graph.cube (i);
-            if (cm) {
+            CubicSphere* cube = graph.cube (i);
+            _tile -> makeTile (xIndex, yIndex, cube);
+            if (_tile) {
+                int s = _tile -> size();
                 for (int face = 0; face < 6; face++) {
-                    for (int x = 0; x < cm -> size(); x++) {
-                        for (int y = 0; y < cm -> size(); y++) {
-                            int s = cm -> size();
-                            ulong index = bufferIndex + (face * s * s + y * s + x);
-                            double value = cm -> data() [index];
+                    for (int x = 0; x < _tile -> size(); x++) {
+                        for (int y = 0; y < _tile -> size(); y++) {
+                            ulong index = bufferIndex + face * s * s + x * s + y;
+                            float value = _tile -> data() [(face * s * s) + x * s + y];
                             rasterBuffer [index] = (GLfloat) value;
                         }
                     }
@@ -200,7 +213,6 @@ void ComputeService::extractRasters (Graph& graph) {
 
         // upload the raster data to the GPU
         f -> glGenBuffers (1, &_rasterBuffer);
-        std::cout << "Generate buffer " << _rasterBuffer << " of " << bytes << " bytes\n";
         f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);
         f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, _rasterBuffer);
         f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, rasterBuffer, GL_DYNAMIC_READ);

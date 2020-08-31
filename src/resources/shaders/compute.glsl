@@ -711,7 +711,6 @@ float select (float control, float in0, float in1, float lowerBound, float upper
     return mix (in0, in1, alpha);
 }
 
-// raster constrained to bounds (a.x, a.y) - (b.x, b.y)
 float raster (vec3 cartesian, uint rasterIndex, ivec2 rasterSize) { //, float defaultValue) {
     vec2 rg = toGeolocation (cartesian);
 
@@ -723,11 +722,17 @@ float raster (vec3 cartesian, uint rasterIndex, ivec2 rasterSize) { //, float de
     //return mix (foundValue, defaultValue, 1.0 - texel.w);  // blend with the default value according to the transparency channel
 }
 
-// get a value from a cubic sphere grid given as input
-float grid (ivec3 pos, uint gridIndex, uint gridSize) {
-    uint i = pos.z * gridSize * gridSize + pos.x * gridSize + pos.y;
-    return rasters [i + gridIndex];
+// rObtain value from an uploaded tile with the xsame geometry
+float grid (uint gridIndex) { //, float defaultValue) {
+    uint index = gl_WorkGroupID.z * tileSize * tileSize + gl_GlobalInvocationID.y * tileSize + gl_GlobalInvocationID.x;
+    return rasters [index + gridIndex];
 }
+
+// get a value from a cubic sphere grid given as input
+//float grid (ivec3 pos, uint gridIndex, uint gridSize) {
+//    uint i = pos.z * gridSize * gridSize + pos.x * gridSize + pos.y;
+//    return rasters [i + gridIndex];
+//}
 
 // Find the x and y coordinates for a geolocation in a raster of height and width given by size and
 // spanning the given bounds. If the geolocation is outwith the bounds the returned index will be outwith

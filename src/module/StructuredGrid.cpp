@@ -25,14 +25,14 @@ using namespace calenhad::controls;
 using namespace geoutils;
 
 StructuredGrid::StructuredGrid (const QString& type) : Module (type, nullptr),
-                                                       _buffer (new CubicSphere (CalenhadServices::gridResolution())) {
+                                                       _buffer (new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize)) {
 }
 
 StructuredGrid::~StructuredGrid() {
     delete _buffer;
 }
 
-CubicSphere *StructuredGrid::buffer() const {
+CubicSphere* StructuredGrid::buffer() const {
     return _buffer;
 }
 
@@ -49,18 +49,11 @@ void StructuredGrid::serialize (QDomElement& element) {
 }
 
 QString StructuredGrid::glsl() {
-   return  "grid (pos, %gridIndex, %gridResolution)";
+   //return  "grid (pos, %gridIndex, %gridResolution)";
+    return  "grid (%gridIndex)";
 }
 
 int StructuredGrid::rasterSize() {
     return _buffer -> size();
 }
 
-void StructuredGrid::setRasterSize (const int& depth) {
-    if (depth >= 6 && depth < 13) {  // to do: externalise
-        delete _buffer;
-        _buffer = new CubicSphere (depth);
-    } else {
-        CalenhadServices::messages() -> message ("Raster size out of range", "Needs to be between 6 and 12 inclusive");
-    }
-}

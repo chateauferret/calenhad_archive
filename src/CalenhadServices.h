@@ -90,7 +90,6 @@ namespace calenhad {
         static calenhad::controls::globe::CalenhadGlobeDialog* globe (calenhad::pipeline::CalenhadModel* model = nullptr);
         static calenhad::nodeedit::Calenhad* mainWindow();
         static void provideMainWindow (calenhad::nodeedit::Calenhad* mainWindow);
-        static int gridResolution();
 
     private:
         static calenhad::preferences::PreferencesService* _preferences;

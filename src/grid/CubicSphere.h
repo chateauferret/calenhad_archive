@@ -51,6 +51,10 @@ namespace calenhad {
 
             void toCubeCoordinates (mapping::CubeCoordinates& fuv, const geoutils::Cartesian& xyz) const;
 
+            void makeTile (const int& x, const int& y, CubicSphere* source);
+
+            float valueAt(const mapping::CubeCoordinates &fuv);
+
         protected:
             float* _grid;
 
@@ -62,11 +66,11 @@ namespace calenhad {
             int _size;
             int _renderTime;
 
-            float valueAt(const mapping::CubeCoordinates &fuv);
-
             void initialise();
 
             mapping::CubeCoordinates traverse (const mapping::CubeCoordinates& cube, const int& up, const int& right);
+
+
         };
     }
 }

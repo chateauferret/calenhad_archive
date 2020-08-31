@@ -1,6 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-        <file>calenhad.conf</file>
         <file>darkorange.css</file>
         <file>modules.xml</file>
         <file>legends.xml</file>

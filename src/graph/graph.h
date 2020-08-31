@@ -27,11 +27,11 @@ namespace calenhad {
             ~Graph();
             QString glsl();
 
-            QImage* raster (const int& index);
+            QImage* raster (const int& index) const;
 
             int rasterCount() const;
 
-            grid::CubicSphere *cube(const int &index);
+            grid::CubicSphere* cube(const int &index) const;
 
         protected:
             QString glsl (calenhad::module::Module* node);

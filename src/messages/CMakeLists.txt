@@ -23,11 +23,8 @@ SET(MESSAGES_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/QProgressNotification.cpp
         ${CMAKE_CURRENT_LIST_DIR}/QProgressNotification.h)
 
-
 #set (RESOURCES_DIR resources)
 #qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 #MESSAGE (STATUS "Resources dir " ${RESOURCES})
 add_library (messages ${MESSAGES_SOURCE_FILES})
-
-
 target_link_libraries (messages Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml)

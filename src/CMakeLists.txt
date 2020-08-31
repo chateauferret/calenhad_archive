@@ -98,7 +98,6 @@ target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::Op
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}
         ${QWT_LIBRARY}
-        ${OPENGL_LIBRARIES}
-        )
+        ${OPENGL_LIBRARIES})
 
 

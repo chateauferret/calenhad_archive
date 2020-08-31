@@ -19,6 +19,24 @@ CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr)
     initialise();
 }
 
+void CubicSphere::makeTile (const int& x, const int& y, CubicSphere* source) {
+    int xOffset = y * _size;
+    int stride = source -> size();
+    int yOffset = x * stride * _size;
+    for (int i = 0; i < 6; i++) {
+        int faceOffset = i * stride * stride;
+        for (int j = 0; j < _size; j++) {
+            for (int k = 0; k < _size; k++) {
+                int iy = xOffset + j * stride;
+                int ix = yOffset + k;
+                float value = source -> data() [faceOffset + ix + iy];
+                _grid [i * _size * _size + k * _size + j] = value;
+                //std::cout << x << " " << y << ":  " << i << ", " << j << ", " << k << ": " << sourceIndex << " = " << value << "\n";
+            }
+        }
+    }
+}
+
 void CubicSphere::initialise() {
     _grid = (float*) malloc (6 * _size * _size * sizeof (float));
 
@@ -123,7 +141,6 @@ float CubicSphere::valueAt (const Geolocation& g) {
 }
 
 float CubicSphere::valueAt (const CubeCoordinates& fuv) {
-
     if (fuv.face == 0) { return _grid [fuv.face * _size * _size + fuv.v * _size + fuv.u]; }
     if (fuv.face == 1) { return _grid [fuv.face * _size * _size + fuv.v * _size + fuv.u]; }
     if (fuv.face == 2) { return _grid [fuv.face * _size * _size + fuv.u * _size + fuv.v]; }
