@@ -51,7 +51,7 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
             _graph (nullptr),
             _geodesic (new Geodesic (1, 0)),
             _zoomSlider (nullptr),
-            _selectModuleCombo (nullptr),
+            _selectModuleCombo (nullptr), _selectLegendCombo (nullptr),
             _navigator (nullptr) {
     // Turn on mouse tracking so that we can keep showing the mouse pointer coordinates.
     _globe -> setMouseTracking (true);
@@ -202,8 +202,20 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     _selectModuleCombo = new QComboBox (this);
     connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
     connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
-    updateModules();
+
     _mapWidgetsToolbar -> addWidget (_selectModuleCombo);
+    _selectLegendCombo = new QComboBox (this);
+    connect (_selectLegendCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) {
+        QString name = _selectLegendCombo->currentText();
+        if (CalenhadServices::legends()->exists(name)) {
+            Legend* legend = CalenhadServices::legends() -> find (name);
+            _globe -> setLegend (legend);
+        }
+    });
+    connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
+
+    updateModules();
+    _mapWidgetsToolbar -> addWidget (_selectLegendCombo);
      _exportImagesAction = new QAction ("Export images");
      _exportImagesAction -> setIcon (QIcon (":/appicons/controls/save_as.png"));
      connect (_exportImagesAction, &QAction::triggered, _globe, &CalenhadMapWidget::exportImages);
@@ -224,7 +236,7 @@ void CalenhadGlobeWidget::moduleSelected (const QString& name) {
 }
 
 void CalenhadGlobeWidget::updateModules() {
-        QString current = _selectModuleCombo -> currentText();
+        QString currentModule = _selectModuleCombo -> currentText();
         _selectModuleCombo -> clear();
 
         CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
@@ -239,6 +251,16 @@ void CalenhadGlobeWidget::updateModules() {
                 }
             }
         }
+        _selectModuleCombo -> setCurrentText (currentModule);
+
+        QString currentLegend = _selectLegendCombo -> currentText();
+        _selectLegendCombo -> clear();
+
+        QList<Legend*> legends = CalenhadServices::legends() -> all();
+        for (Legend* l : legends) {
+            _selectLegendCombo -> addItem (l -> icon(), l -> name());
+        }
+        _selectLegendCombo -> setCurrentText (currentLegend);
 }
 
 CalenhadToolBar* CalenhadGlobeWidget::makeToolBar (const QString& name) {

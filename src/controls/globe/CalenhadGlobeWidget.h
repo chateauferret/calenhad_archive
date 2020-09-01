@@ -134,7 +134,7 @@ namespace calenhad {
                 calenhad::mapping::CalenhadMapWidget* _globe, *_overview;
                 graph::Graph* _graph;
                 calenhad::controls::globe::GlobeScaleWidget* _scale{};
-                QComboBox* _selectModuleCombo{};
+                QComboBox* _selectModuleCombo{}, * _selectLegendCombo{};
                 calenhad::nodeedit::CalenhadToolBar* _viewToolbar{}, * _mouseToolbar{}, * _mapWidgetsToolbar{};
                 QAction* _propertiesAction{}, * _mousePanAction{}, * _mouseZoomAction{}, * _mouseGotoAction{}, * _mousePlaceAction{},
                         * _showGraticuleAction{}, * _disableDoubleClickAction{}, * _disableDragAction{}, *_exportImagesAction{},

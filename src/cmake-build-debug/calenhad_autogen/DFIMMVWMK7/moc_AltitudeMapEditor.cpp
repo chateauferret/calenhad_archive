@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "src/controls/altitudemap/AltitudeMapEditor.h"
+#include "../../../controls/altitudemap/AltitudeMapEditor.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #include <QtCore/QVector>
