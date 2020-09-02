@@ -8,7 +8,7 @@
 
 using namespace calenhad::notification;
 
-QProgressNotification::QProgressNotification (const QString& title, const QString& message, QWidget* host) : QNotification (title, message, host)  {
+QProgressNotification::QProgressNotification (const QString& title, const QString& message, QWidget* host) : QNotification (title, message, host) , _progress (0), _toDo (100) {
     _progressBar = new QProgressBar (this);
     layout() -> addWidget (_progressBar);
     _progressBar -> setOrientation (Qt::Horizontal);

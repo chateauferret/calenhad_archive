@@ -62,6 +62,28 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     _overview -> setProjection ("Equirectangular");
     _overview -> setMainMap (_globe);
 
+
+    // configure menu for selecting the projection
+
+    _selectProjectionCombo = new QComboBox (this);
+    _projectionMenu = new QMenu ("Projection", this);
+    _projectionMenu -> setStatusTip ("Select the cartographic projection");
+    QActionGroup* projectionActions = new QActionGroup (this);
+    QMap<QString, Projection*> m = CalenhadServices::projections() -> all();
+    for (const QString& key : m.keys()) {
+        QAction* action = new QAction (key, this);
+        action -> setToolTip ("Change projection to " + key);
+        action -> setData (key);
+        projectionActions -> addAction (action);
+        action -> setCheckable (true);
+        _projectionMenu -> addAction (action);
+        _selectProjectionCombo -> addItem (key);
+        connect (action, &QAction::toggled, this, [=] () { _selectProjectionCombo -> setCurrentText (action -> data().toString()); });
+    }
+    _selectProjectionCombo -> setToolTip ("Select the cartographic projection");
+    _selectProjectionCombo -> setCurrentText (_globe -> projection() -> name());
+    connect (_selectProjectionCombo, &QComboBox::currentTextChanged, this, [=] () { _globe -> setProjection (_selectProjectionCombo -> currentText()); });
+
     _zoomSlider = new QwtSlider (this);
     _zoomSlider -> setGroove (true);
     _zoomSlider -> setTrough (false);
@@ -200,9 +222,6 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     _mapWidgetsToolbar -> addActions (mapWidgetsGroup -> actions());
     _mapWidgetsToolbar -> addSeparator();
     _selectModuleCombo = new QComboBox (this);
-    connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
-    connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
-
     _mapWidgetsToolbar -> addWidget (_selectModuleCombo);
     _selectLegendCombo = new QComboBox (this);
     connect (_selectLegendCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) {
@@ -212,10 +231,16 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
             _globe -> setLegend (legend);
         }
     });
+    _selectLegendCombo -> setCurrentText (_globe -> legend() -> name());
+    _selectLegendCombo -> setToolTip ("Select the legend used to colour the map");
     connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
 
-    updateModules();
+    _selectModuleCombo -> setToolTip ("Select the module providing source data for the map");
+    connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
+    connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
+
     _mapWidgetsToolbar -> addWidget (_selectLegendCombo);
+    _mapWidgetsToolbar -> addWidget (_selectProjectionCombo);
      _exportImagesAction = new QAction ("Export images");
      _exportImagesAction -> setIcon (QIcon (":/appicons/controls/save_as.png"));
      connect (_exportImagesAction, &QAction::triggered, _globe, &CalenhadMapWidget::exportImages);
@@ -351,6 +376,8 @@ void CalenhadGlobeWidget::showConfigDialog() {
         connect (_configDialog, &QDialog::accepted, this, &CalenhadGlobeWidget::updateConfig);
     }
     _configDialog -> initialise();
+    _configDialog -> setSelectedLegend (_globe -> legend());
+    _configDialog -> setSelectedProjection (_globe -> projection());
     _configDialog -> exec();
 }
 
@@ -368,8 +395,8 @@ void CalenhadGlobeWidget::updateConfig() {
     _globe -> setMouseDragMode (_configDialog -> dragMode ());
     _globe -> setMouseDoubleClickMode (_configDialog -> doubleClickMode());
     _globe -> setSensitivity (_configDialog -> mouseSensitivity());
-    _globe -> setProjection (_configDialog -> selectedProjection() -> name ());
-    _globe -> setLegend (_configDialog -> selectedLegend());
+    _selectProjectionCombo -> setCurrentText (_configDialog -> selectedProjection() -> name ());
+    _selectLegendCombo -> setCurrentText (_configDialog -> selectedLegend() -> name());
     _overview -> setProjection (_configDialog -> selectedProjection() -> name ());
 
     if (_configDialog) {
@@ -461,24 +488,45 @@ QMenu* CalenhadGlobeWidget::makeGlobeContextMenu  (const QPoint& pos) {
     mouseDragMenu -> addAction (_mousePanAction);
     mouseDragMenu -> addAction (_mouseZoomAction);
 
-    // configure menu for selecting the projection
+    _contextMenu -> addMenu (_projectionMenu);
 
-    QMenu* projectionMenu = new QMenu ("Projection", this);
-    projectionMenu -> setStatusTip ("Change the cartographic projection");
-
-
-    QActionGroup* projectionActions = new QActionGroup (this);
-    QMap<QString, Projection*> m = CalenhadServices::projections() -> all ();
-    for (QString key : m.keys()) {
-        QAction* action = new QAction (key, this);
-        action -> setToolTip ("Change projection to " + key);
-        action -> setData (key);
-        projectionActions -> addAction (action);
+    QMenu* legendMenu = new QMenu ("Legend", this);
+    legendMenu -> setStatusTip ("Change the legend which maps altitudes to colours");
+    QActionGroup* legendActions = new QActionGroup (this);
+    QList<Legend*> legends = CalenhadServices::legends() -> all();
+    for (Legend* l : legends) {
+        QAction* action = new QAction (l -> name(), this);
+        action -> setToolTip ("Change legend to " + l -> name());
+        legendActions -> addAction (action);
         action -> setCheckable (true);
-        projectionMenu -> addAction (action);
-        connect (action, &QAction::toggled, this, &CalenhadGlobeWidget::projectionSelected);
+        legendMenu -> addAction (action);
+        connect (action, &QAction::toggled, this, [=] () {
+            _selectLegendCombo -> setCurrentText (l -> name());
+        });
     }
-    _contextMenu -> addMenu (projectionMenu);
+    _contextMenu -> addMenu (legendMenu);
+
+    QMenu* sourceMenu = new QMenu ("Source", this);
+    sourceMenu -> setStatusTip ("Change the source of data for the map");
+    CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
+    if (model) {
+        for (Module* m : model -> modules()) {
+            QPixmap *pixmap = CalenhadServices::modules() -> getIcon (m -> nodeType());
+            QIcon icon (*pixmap);
+            QAction* action = new QAction (icon, m -> name());
+            action -> setCheckable (true);
+            action -> setChecked (_globe -> source() == m);
+            sourceMenu -> addAction (action);
+            if (m -> isComplete()) {
+                connect (action, &QAction::toggled, this, [=] () { _selectModuleCombo -> setCurrentText (m -> name()); });
+            } else {
+                action -> setEnabled (false);
+            }
+        }
+    }
+    _contextMenu -> addMenu (sourceMenu);
+
+
     QMenu* captureMenu = new QMenu ("Capture", this);
     QAction* captureGreyscaleAction = new QAction ("Export heightmap", this);
     captureGreyscaleAction -> setToolTip ("Generate a heightmap map and save");

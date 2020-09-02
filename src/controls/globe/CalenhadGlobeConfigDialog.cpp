@@ -201,7 +201,7 @@ void CalenhadGlobeConfigDialog::initialise() {
     _zoomBarCheck -> setChecked (_parent -> isZoomBarVisible());
     _compassCheck -> setChecked (_parent->isNavigatorVisible ());
     _graticuleCheck -> setChecked (_parent -> globe() -> isGraticuleVisible());
-    _legendManager -> setCurrentLegend (_parent -> globe() -> legend());
+
     switch (_parent -> globe() -> coordinatesFormat()) {
         case (geoutils::CoordinatesFormat::NoCoordinates) : { _tooltipOptionCombo -> setCurrentText ("None"); break; }
         case (geoutils::CoordinatesFormat::Decimal) : { _tooltipOptionCombo -> setCurrentText ("Decimal"); break; }
@@ -312,5 +312,13 @@ DatumFormat CalenhadGlobeConfigDialog::datumFormat() {
 
 int CalenhadGlobeConfigDialog::graticuleDensity () {
     return _densitySlider -> value();
+}
+
+void CalenhadGlobeConfigDialog::setSelectedProjection (calenhad::mapping::projection::Projection* projection) {
+    _projectionCombo -> setCurrentText (projection -> name());
+}
+
+void CalenhadGlobeConfigDialog::setSelectedLegend (calenhad::legend::Legend* legend) {
+    _legendManager -> setCurrentLegend (legend);
 }
 

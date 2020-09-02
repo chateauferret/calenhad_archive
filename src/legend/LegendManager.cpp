@@ -59,7 +59,7 @@ Legend* LegendManager::currentLegend() {
 void LegendManager::setCurrentLegend (Legend* legend) {
     _legend = legend;
     if (_legend) {
-        _chooser->setCurrentText (legend->name ());
+        _chooser -> setCurrentText (_legend -> name ());
     }
 }
 
@@ -101,11 +101,17 @@ void LegendManager::deleteLegend() {
 }
 
 void LegendManager::showEvent (QShowEvent* e) {
+    QString currentLegend = QString::null;
+    if (_legend) {
+        currentLegend = _legend->name ();
+    }
     _chooser -> refresh();
     // turn up the right widget for the legend currently in use
+    if (! currentLegend.isNull()) {
+        _chooser->setCurrentText (currentLegend);
+    }
     if (_legend) {
-        ((QStackedLayout*) _legendDetailArea->layout ())->setCurrentWidget (_legend->widget ());
-        _chooser->setCurrentText (_legend->name ());
+        ((QStackedLayout*) _legendDetailArea -> layout())->setCurrentWidget (_legend->widget ());
     }
 
 }

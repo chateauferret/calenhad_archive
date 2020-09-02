@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/calenhad_autogen.dir/AutogenOldSettings.txt"
+  "CMakeFiles/calenhad_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/calenhad_autogen.dir/ParseCache.txt"
   "calenhad_autogen"
   "CMakeFiles/calenhad.dir/CalenhadServices.cpp.o"

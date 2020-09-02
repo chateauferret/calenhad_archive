@@ -178,6 +178,8 @@ GLfloat *CubicSphere::data() {
 void CubicSphere::fromRaster (QImage* image) {
 
     Geolocation g;
+    int units = _size * 6;
+    int progress = 0;
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < _size; j++) {
             for (int k = 0; k < _size; k++) {
@@ -185,14 +187,15 @@ void CubicSphere::fromRaster (QImage* image) {
                 toGeolocation (fuv, g);
                 double dx = g.longitude() / (M_PI * 2) + 0.5;
                 double dy = g.latitude() / M_PI + 0.5;
-                int ix = (int) (dx * image -> width());
-                int iy = (int) ((1 - dy) * image -> height());
+                int ix = (int) (dx * (image -> width() - 1));
+                int iy = (int) ((1 - dy) * (image -> height() - 1));
+
                 QColor c = image -> pixelColor (ix, iy);
-                double value = (c.redF() + c.blueF() + c. greenF()) / 3.0;
-                value *= 2.0;
-                value -+ 1.0;
+                double value = c.valueF() * 2.0 - 1.0;
                 _grid [i * _size * _size + j * _size + k] = (float) value;
             }
+            progress++;
+
         }
     }
 }
@@ -210,7 +213,6 @@ void CubicSphere::heightmap (const int& face, QImage* image) {
                 //int index = face * _size * _size + i * _size + j;
                 //float v = (_grid [index] + 1) / 2;
                 v =  std::max (0.0, (double) std::min ((double) v, 1.0));
-
                 QColor c;
                 c.setBlueF (v);
                 c.setRedF (v);

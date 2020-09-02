@@ -27,7 +27,6 @@ CalenhadLegendDialog::CalenhadLegendDialog (QWidget* parent) {
 
 void CalenhadLegendDialog::showEvent (QShowEvent* event) {
 
-    _legendManager -> setCurrentLegend (CalenhadServices::legends () -> lastUsed());
 }
 
 void CalenhadLegendDialog::reject() {

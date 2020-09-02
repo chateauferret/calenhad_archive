@@ -9,10 +9,7 @@
 #include <cmath>
 #include "graph.h"
 #include "../messages/QNotificationHost.h"
-#include "../grid/CubicSphere.h"
 #include <QImage>
-#include "../module/StructuredGrid.h"
-#include "../module/RasterModule.h"
 /*
 
 calenhad::graph::ComputeService::ComputeS ervice () {

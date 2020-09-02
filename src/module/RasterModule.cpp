@@ -6,6 +6,8 @@
 #include <QtGui/QPainter>
 #include "RasterModule.h"
 #include "geoutils.h"
+#include <QApplication>
+#include "../messages/QProgressNotification.h"
 
 
 using namespace calenhad::module;
@@ -14,6 +16,7 @@ using namespace calenhad::preferences;
 using namespace calenhad::mapping;
 using namespace calenhad::grid;
 using namespace geoutils;
+using namespace calenhad::notification;
 
 RasterModule::RasterModule (const QString& type) : Module (type), _cube (nullptr),
                                                    _filename (QString::null),
@@ -44,6 +47,7 @@ void RasterModule::fileDialogRequested () {
 }
 
 void RasterModule::openFile (const QString& filename) {
+    QApplication::setOverrideCursor (QCursor (Qt::WaitCursor));
     QImage* raster = new QImage (filename);
     _filename = filename;
     _filenameLabel -> setToolTip (_filename);
@@ -51,6 +55,7 @@ void RasterModule::openFile (const QString& filename) {
     assimilateRaster (raster);
     _filenameLabel -> setPixmap (pixmap);
     invalidate();
+    QApplication::restoreOverrideCursor();
 }
 
 

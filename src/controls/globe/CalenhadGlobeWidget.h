@@ -132,9 +132,10 @@ namespace calenhad {
                 QMenu* makeGlobeContextMenu  (const QPoint& pos);
                 bool _graticuleVisible{};
                 calenhad::mapping::CalenhadMapWidget* _globe, *_overview;
+                QMenu* _projectionMenu;
                 graph::Graph* _graph;
                 calenhad::controls::globe::GlobeScaleWidget* _scale{};
-                QComboBox* _selectModuleCombo{}, * _selectLegendCombo{};
+                QComboBox* _selectModuleCombo{}, * _selectLegendCombo{}, * _selectProjectionCombo;
                 calenhad::nodeedit::CalenhadToolBar* _viewToolbar{}, * _mouseToolbar{}, * _mapWidgetsToolbar{};
                 QAction* _propertiesAction{}, * _mousePanAction{}, * _mouseZoomAction{}, * _mouseGotoAction{}, * _mousePlaceAction{},
                         * _showGraticuleAction{}, * _disableDoubleClickAction{}, * _disableDragAction{}, *_exportImagesAction{},

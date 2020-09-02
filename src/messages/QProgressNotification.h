@@ -24,11 +24,11 @@ namespace calenhad {
 
             void mousePressEvent (QMouseEvent* e) override;
 
-            void setToDo (const int& toDo);
 
         public slots:
 
             void setMessage (const QString& message);
+            void setToDo (const int& toDo);
 
             void setProgress (const int& progress);
 

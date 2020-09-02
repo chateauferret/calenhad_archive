@@ -41,7 +41,6 @@ int Legend::size() {
 }
 
 QColor Legend::lookup (const double& index) {
-    std::cout << "Legend '" << _name.toStdString() <<"'\n";
     if (_interpolate) {
         QVector<LegendEntry>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (LegendEntry entry) -> bool {
             return entry.keyValue() <= index;
@@ -159,7 +158,6 @@ QColor Legend::lookup (const std::experimental::optional<double>& value) {
         return _defaultColor;
     }
 }
-
 
 void Legend::setName (const QString& name) {
 

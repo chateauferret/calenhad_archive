@@ -64,9 +64,9 @@ namespace calenhad {
                 double mouseSensitivity ();
 
                 calenhad::mapping::projection::Projection* selectedProjection ();
-
+                void setSelectedProjection (calenhad::mapping::projection::Projection* projection);
                 calenhad::legend::Legend* selectedLegend ();
-
+                void setSelectedLegend (calenhad::legend::Legend* legend);
                 void commitChanges ();
 
                 geoutils::CoordinatesFormat coordinatesFormat ();
