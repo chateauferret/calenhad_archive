@@ -1584,6 +1584,7 @@ calenhad: /usr/lib/x86_64-linux-gnu/libQt5Xml.so.5.12.8
 calenhad: /usr/lib/x86_64-linux-gnu/libQt5OpenGL.so.5.12.8
 calenhad: /usr/lib/x86_64-linux-gnu/libGeographic.so
 calenhad: /usr/lib/libqwt-qt5.so
+calenhad: /usr/lib/libgmic.so
 calenhad: /usr/lib/x86_64-linux-gnu/libGL.so
 calenhad: /usr/lib/x86_64-linux-gnu/libGLU.so
 calenhad: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.12.8

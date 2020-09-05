@@ -20,11 +20,16 @@ Call Stack (most recent call first):
   CMakeLists.txt:16 (find_package)
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
--- QtCore v5.12.8
--- QtWidgets v5.12.8
--- QtGui v5.12.8
--- QtXml v5.12.8
--- QtOpenGL v5.12.8
+CMake Warning at modules/LibFindMacros.cmake:206 (message):
+  The find module for GMIC does not provide version information, so we'll
+  just assume that it is OK.  Please fix the module or remove package version
+  requirements to get rid of this warning.
+Call Stack (most recent call first):
+  modules/FindGMIC.cmake:54 (libfind_process)
+  CMakeLists.txt:17 (find_package)
+
+
+-- Found GMIC 
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/ferret/CLionProjects/calenhad/src/cmake-build-debug

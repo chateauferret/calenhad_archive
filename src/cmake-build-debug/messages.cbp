@@ -945,10 +945,19 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/CMakeFindDependencyMacro.cmake">
 			<Option virtualFolder="CMake Files\modules\"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/CheckCXXSourceCompiles.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindGMIC.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindGeographicLib.cmake">
 			<Option virtualFolder="CMake Files\modules\"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindQwt.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/LibFindMacros.cmake">
 			<Option virtualFolder="CMake Files\modules\"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/CMakeLists.txt">

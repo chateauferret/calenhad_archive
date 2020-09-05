@@ -86,7 +86,7 @@ void NodeBlock::initialise() {
     if (_size.width() == 0) { _size.setWidth (CalenhadServices::preferences() -> calenhad_handle_module_width); }
     if (! (_node -> name() == QString())) {
 
-        setCursor(Qt::OpenHandCursor);
+        setCursor (Qt::OpenHandCursor);
 
         setFlag (QGraphicsItem::ItemIsMovable);
         setFlag (QGraphicsItem::ItemIsSelectable);
@@ -262,7 +262,6 @@ void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent* event) {
 void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent* event) {
     setCursor (Qt::ClosedHandCursor);
     _oldZ = zValue();
-
     // don't raise the event to the superclass because this would cancel the selection
 }
 

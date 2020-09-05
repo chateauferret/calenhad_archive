@@ -459,3 +459,24 @@ Parsed C implicit link information from above output:
   implicit fwks: []
 
 
+Performing C++ SOURCE FILE Test GMIC_VERSION_OK succeeded with the following output:
+Change Dir: /home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5dc28/fast && /usr/bin/make  -f CMakeFiles/cmTC_5dc28.dir/build.make CMakeFiles/cmTC_5dc28.dir/build
+make[1]: Entering directory '/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_5dc28.dir/src.cxx.o
+/usr/bin/c++    -DGMIC_VERSION_OK   -o CMakeFiles/cmTC_5dc28.dir/src.cxx.o -c /home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_5dc28
+/usr/bin/clion-2020.1.1/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5dc28.dir/link.txt --verbose=1
+/usr/bin/c++   -DGMIC_VERSION_OK    CMakeFiles/cmTC_5dc28.dir/src.cxx.o  -o cmTC_5dc28 
+make[1]: Leaving directory '/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+
+  #include <gmic.h>
+  #if gmic_version < 270 || gmic_version >= 1000
+  #error OLD_VERSION
+  #endif
+  int main() { return 0; }
+  

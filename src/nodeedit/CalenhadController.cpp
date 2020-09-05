@@ -101,12 +101,12 @@ void CalenhadController::toolSelected() {
             for (QGraphicsView *view : _model -> views()) {
                 QPixmap *pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString());
                 QCursor cursor = QCursor (*pixmap);
-                //view -> setCursor (cursor);
+                view -> viewport() -> setCursor (cursor);
             }
         } else {
             _model -> setActiveTool(nullptr);
             for (QGraphicsView *view : _model->views()) {
-           //     view -> setDragMode (QGraphicsView::RubberBandDrag);
+               view -> setDragMode (QGraphicsView::RubberBandDrag);
             }
         }
     }

@@ -10,17 +10,14 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 project (calenhad LANGUAGES CXX)
 message (STATUS ("CMake prefix ") ${CMAKE_PREFIX_PATH})
 
-find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Xml OpenGL)
-find_package(Qwt REQUIRED)
-find_package(GeographicLib 1.34 REQUIRED)
-find_package(OpenGL REQUIRED)
+find_package (Qt5 5.12 REQUIRED COMPONENTS Core Widgets Gui Xml OpenGL)
+find_package (Qwt REQUIRED)
+find_package (GeographicLib 1.34 REQUIRED)
+find_package (OpenGL REQUIRED)
+find_package (GMIC 2.9.2 REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
 
-message (STATUS "QtCore v" ${Qt5Core_VERSION})
-message (STATUS "QtWidgets v" ${Qt5Widgets_VERSION})
-message (STATUS "QtGui v" ${Qt5Gui_VERSION})
-message (STATUS "QtXml v" ${Qt5Xml_VERSION})
-message (STATUS "QtOpenGL v" ${Qt5OpenGL_VERSION})
+
 set (MESSAGES_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/messages)
 set (QMODULE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/module)
 set (NODEEDIT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nodeedit)
@@ -62,6 +59,7 @@ include_directories (..)
 include_directories (${Qt5Widgets_INCLUDE_DIRS})
 include_directories (${Qt5Core_INCLUDE_DIRS})
 include_directories (${Qt5Xml_INCLUDE_DIRS})
+include_directories (${GMIC_INCLUDE_DIR})
 include_directories (messages)
 
 set (SOURCE_FILES ${SOURCE_FILES}
@@ -98,6 +96,7 @@ target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::Op
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}
         ${QWT_LIBRARY}
+        ${GMIC_LIBRARY}
         ${OPENGL_LIBRARIES})
 
 

@@ -396,7 +396,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 _controller -> clearTools();
                 setActiveTool (nullptr);
                 for (QGraphicsView* view : views()) {
-                 //   view -> setCursor (Qt::ArrowCursor);
+                    view -> viewport() -> unsetCursor ();
                 }
             }
             _wasConnectedTo = nullptr;
