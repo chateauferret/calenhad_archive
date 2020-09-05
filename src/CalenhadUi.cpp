@@ -150,6 +150,9 @@ void CalenhadUi::makeWidgets() {
     _editToolbar -> addSeparator();
     _editToolbar -> addAction (_undoAction);
     _editToolbar -> addAction (_redoAction);
+    _editToolbar -> addSeparator();
+    _editToolbar -> addAction (_selectModeAction);
+    _editToolbar -> addAction (_panModeAction);
 
     _viewToolbar -> addAction (_gridAction);
     _viewToolbar -> addAction(_moduleTreeAction);
@@ -159,9 +162,6 @@ void CalenhadUi::makeWidgets() {
     _viewToolbar -> addAction (_zoomOutAction);
     _viewToolbar -> addAction (_zoomToFitAction);
     _viewToolbar -> addAction (_zoomSelectionAction);
-    _viewToolbar -> addSeparator();
-    _viewToolbar -> addAction (_selectModeAction);
-    _viewToolbar -> addAction (_panModeAction);
 
     _viewMenu -> addSeparator();
     _viewMenu -> addMenu (_toolbarsMenu);
@@ -368,14 +368,15 @@ void CalenhadUi::makeActions() {
 
     _selectModeAction = createAction (QIcon(":/appicons/controls/select.png"), tr("Select mode"), "Select mode");
     _selectModeAction -> setCheckable (true);
-    _selectModeAction -> setChecked (false);
-    connect (_selectModeAction, &QAction::toggled, _app, &Calenhad::toggleMouseMode);
+    _selectModeAction -> setChecked (true);
+    connect (_selectModeAction, &QAction::toggled, _app, [=] () { _app -> model() -> setMouseMode (QGraphicsView::DragMode::RubberBandDrag); });
     _mouseModeGroup -> addAction (_selectModeAction);
-    _panModeAction = createAction (QIcon(":/appicons/controls/pan.png"), tr("Select mode"), "Select mode");
+    _panModeAction = createAction (QIcon(":/appicons/controls/pan.png"), tr("Pan mode"), "Pan mode");
     _panModeAction -> setCheckable(true);
-    _panModeAction -> setChecked(true);
-    connect (_panModeAction, &QAction::toggled, _app, &Calenhad::toggleMouseMode);
+    _panModeAction -> setChecked (false);
+    connect (_panModeAction, &QAction::toggled, _app, [=] () { _app -> model() -> setMouseMode (QGraphicsView::DragMode::ScrollHandDrag); });
     _mouseModeGroup -> addAction (_panModeAction);
+
 
     _xmlAction = createAction (QIcon (":/appicons/controls/xml.png"), tr("&XML"), "View model as an XML file", QKeySequence::NativeText);
     connect (_xmlAction, &QAction::triggered, _controller, &CalenhadController::showXml);

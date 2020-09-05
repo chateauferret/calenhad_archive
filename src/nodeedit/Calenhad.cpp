@@ -94,7 +94,6 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     move (settings -> value ("pos", QPoint(200, 200)).toPoint());
     settings -> endGroup();
     setMenuBar (_controller -> getMenuBar());
-
 }
 
 Calenhad::~Calenhad() {
@@ -112,7 +111,7 @@ void Calenhad::moveEvent (QMoveEvent* event) {
 
 void Calenhad::setModel (CalenhadModel* model) {
     _model = model;
-    _controller-> setModel (_model);
+    _controller -> setModel (_model);
     _model -> setController (_controller);
     _view -> setController (_controller);
     _view -> setModel (_model);
@@ -250,16 +249,6 @@ void Calenhad::projectProperties () {
 
 void Calenhad::clearUndo () {
     _controller -> clearUndo ();
-}
-
-void Calenhad::toggleMouseMode () {
-    QAction* a = (QAction*) sender();
-    if (a == selectModeAction) {
-        _model -> setMouseMode (a -> isChecked() ? QGraphicsView::RubberBandDrag : QGraphicsView::ScrollHandDrag);
-    }
-    if (a == panModeAction) {
-        _model -> setMouseMode (a -> isChecked() ? QGraphicsView::ScrollHandDrag :  QGraphicsView::RubberBandDrag);
-    }
 }
 
 

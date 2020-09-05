@@ -21,7 +21,6 @@ SET(NODEEDIT_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadView.h
         ${CMAKE_CURRENT_LIST_DIR}/EditableLabel.cpp
         ${CMAKE_CURRENT_LIST_DIR}/EditableLabel.h
-        ${CMAKE_CURRENT_LIST_DIR}/ui_qnemainwindow.h
         ${CMAKE_CURRENT_LIST_DIR}/ProjectPropertiesDialog.h
         ${CMAKE_CURRENT_LIST_DIR}/ProjectPropertiesDialog.cpp
 

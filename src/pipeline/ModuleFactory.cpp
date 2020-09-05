@@ -133,7 +133,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         _moduleScales.insert (type, scale);
 
         if (model) {
-            n -> setModel(model);
+            n -> setModel (model);
         }
 
         if (qm) {
@@ -176,7 +176,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                     if (paramElement.hasAttribute ("default")) {
                         initial = paramElement.attribute ("default") == "true";
                     }
-                    qm->addParameter (paramLabel, paramName, initial);
+                    qm -> addParameter (paramLabel, paramName, initial);
                 } else {
                     bool ok;
                     double initial = paramElement.attribute ("default").toDouble (&ok);

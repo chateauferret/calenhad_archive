@@ -92,7 +92,7 @@ namespace calenhad {
             void showSplash();
         public slots:
             void titleChanged (const QString& title);
-            void toggleMouseMode();
+
             void newProject();
             void closeProject();
             void saveFile();

@@ -41,6 +41,7 @@ int Legend::size() {
 }
 
 QColor Legend::lookup (const double& index) {
+
     if (_interpolate) {
         QVector<LegendEntry>::iterator i = std::find_if_not (_entries.begin(), _entries.end(), [&index] (LegendEntry entry) -> bool {
             return entry.keyValue() <= index;
@@ -53,7 +54,7 @@ QColor Legend::lookup (const double& index) {
                 return i->color();
             } else {
                 QVector<LegendEntry>::iterator j = i;
-                return interpolateColors(--j, i, index);
+                return interpolateColors (--j, i, index);
             }
         }
     } else {

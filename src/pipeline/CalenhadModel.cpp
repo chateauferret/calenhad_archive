@@ -251,6 +251,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
     QGraphicsSceneMouseEvent* me = dynamic_cast<QGraphicsSceneMouseEvent*> (e);
     for (QGraphicsView* view : views()) {
         view -> setDragMode (_dragMode);
+        view -> setCursor (Qt::ArrowCursor);
     }
     switch ((int) e -> type()) {
 
@@ -269,10 +270,8 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                             }
                             // only allow connections from output ports to input ports
                             Port* port = ((Port*) item);
-                            if (_conn) { delete _conn; }
-                            if (port->portType() == Port::OutputPort) {
-
-
+                            delete _conn;
+                            if (port -> portType() == Port::OutputPort) {
                                 _conn = new Connection (0);
                                 addItem (_conn);
                                 _conn -> setPort1 ((Port*) item);
@@ -339,6 +338,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
 
                 QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                 foreach (QGraphicsItem* item, items) {
+
                         if (item && item->type() == Port::Type) {
                             Port* port = (Port*) item;
                             if (port != _conn -> port1() && !(port -> hasConnection())) {
@@ -358,22 +358,16 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                     }
                 update();
                 return true;
-
-            } else {
-                if (!_activeTool) {
-                    for (QGraphicsView* view : views ()) {
-                        view -> setCursor (_dragMode == QGraphicsView::RubberBandDrag ? Qt::ArrowCursor : Qt::OpenHandCursor);
-                    }
-                }
             }
             update();
             break;
         }
 
         case QEvent::GraphicsSceneMouseRelease: {
-
+            QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos()) ;
             for (QGraphicsView* view : views()) {
                 view -> setDragMode (_dragMode);
+                view -> setCursor (Qt::ArrowCursor);
             }
             lastClick = me -> scenePos();
             if (_conn) {
@@ -401,6 +395,9 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 }
                 _controller -> clearTools();
                 setActiveTool (nullptr);
+                for (QGraphicsView* view : views()) {
+                 //   view -> setCursor (Qt::ArrowCursor);
+                }
             }
             _wasConnectedTo = nullptr;
         }
@@ -421,7 +418,6 @@ Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) 
     Module* n = addModule (initPos, type, name);
 
     setChanged();
-
     QString newXml = snapshot();
     XmlCommand* command = new XmlCommand (this, _oldXml);
     _controller -> doCommand (command);
@@ -1045,7 +1041,6 @@ void CalenhadModel::goTo (Module* module) {
     if (item) {
         CalenhadView* view = (CalenhadView*) views() [0];
         view -> centerOn (item);
-
     }
 }
 
@@ -1062,7 +1057,7 @@ QList<Module*> CalenhadModel::modules (NodeGroup* group) {
 void CalenhadModel::setMouseMode (QGraphicsView::DragMode mode) {
     _dragMode = mode;
     for (QGraphicsView* view : views()) {
-        view -> setCursor (mode == QGraphicsView::RubberBandDrag ? Qt::ArrowCursor : Qt::OpenHandCursor);
+       view -> setDragMode (mode);
     }
 }
 

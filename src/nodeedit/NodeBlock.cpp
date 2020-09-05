@@ -253,17 +253,13 @@ QVector<Port*> NodeBlock::controls() {
     return res;
 }
 
-void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent * event) {
+void NodeBlock::mouseMoveEvent (QGraphicsSceneMouseEvent* event) {
 
     QGraphicsItem::mouseMoveEvent (event);
-    if (event->buttons() | Qt::LeftButton) {
-        setCursor (Qt::ClosedHandCursor);
-    } else {
-        setCursor (Qt::OpenHandCursor);
-    }
+
 }
 
-void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent *event) {
+void NodeBlock::mousePressEvent (QGraphicsSceneMouseEvent* event) {
     setCursor (Qt::ClosedHandCursor);
     _oldZ = zValue();
 

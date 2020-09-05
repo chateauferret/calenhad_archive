@@ -16,11 +16,11 @@ using namespace calenhad::nodeedit;
 
 
 CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
-    setDragMode (QGraphicsView::ScrollHandDrag);
+    setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::ContainsItemShape);
     setRenderHints (QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setZoom (CalenhadServices::preferences() -> calenhad_desktop_zoom_default);
-
+    setCursor (Qt::ArrowCursor);
 }
 
 CalenhadView::~CalenhadView() = default;
@@ -72,7 +72,7 @@ void CalenhadView::dragMoveEvent(QDragMoveEvent *event) {
     scene() -> update ();
 }
 
-void CalenhadView::dropEvent(QDropEvent *event) {
+void CalenhadView::dropEvent (QDropEvent *event) {
     if (event -> mimeData ()->hasFormat ("application/x-dnditemdata")) {
         QByteArray itemData = event -> mimeData () -> data ("application/x-dnditemdata");
         QDataStream dataStream (&itemData, QIODevice::ReadOnly);
@@ -104,21 +104,21 @@ void CalenhadView::wheelEvent (QWheelEvent* event) {
     }
 }
 
-void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
+void CalenhadView::drawBackground (QPainter *painter, const QRectF &rect) {
     // thanks to Bitto at QtCentre for this - https://www.qtcentre.org/threads/5609-Drawing-grids-efficiently-in-QGraphicsScene
     QGraphicsView::drawBackground (painter, rect);
     if (gridVisible()) {
 
         QPen majorPen;
         QPen minorPen;
-        majorPen.setColor (CalenhadServices::preferences ()->calenhad_desktop_grid_major_color);
-        majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences ()->calenhad_desktop_grid_major_style));
-        majorPen.setWidth (CalenhadServices::preferences ()->calenhad_desktop_grid_major_weight);
-        minorPen.setColor (CalenhadServices::preferences ()->calenhad_desktop_grid_minor_color);
-        minorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences ()->calenhad_desktop_grid_minor_style));
-        minorPen.setWidth (CalenhadServices::preferences ()->calenhad_desktop_grid_minor_weight);
-        QRectF r = mapToScene (viewport ()->geometry ()).boundingRect ();
-        int gridSize = CalenhadServices::preferences ()->calenhad_desktop_grid_density;
+        majorPen.setColor (CalenhadServices::preferences() -> calenhad_desktop_grid_major_color);
+        majorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_desktop_grid_major_style));
+        majorPen.setWidth (CalenhadServices::preferences() -> calenhad_desktop_grid_major_weight);
+        minorPen.setColor (CalenhadServices::preferences() -> calenhad_desktop_grid_minor_color);
+        minorPen.setStyle (Qt::PenStyle (CalenhadServices::preferences() -> calenhad_desktop_grid_minor_style));
+        minorPen.setWidth (CalenhadServices::preferences()->calenhad_desktop_grid_minor_weight);
+        QRectF r = mapToScene (viewport() -> geometry()).boundingRect();
+        int gridSize = CalenhadServices::preferences() -> calenhad_desktop_grid_density;
         int steps = CalenhadServices::preferences() -> calenhad_desktop_grid_major_steps;
         int offset = gridSize * (steps + 1);
         qreal minorLeft = (int (r.left ()) - (int (r.left ())) % offset) - offset;
@@ -144,9 +144,9 @@ void CalenhadView::drawBackground(QPainter *painter, const QRectF &rect) {
                 majorLines.append (l);
             }
         }
-        painter->drawLines (minorLines.data (), minorLines.size ());
-        painter->setPen (majorPen);
-        painter->drawLines (majorLines.data (), majorLines.size ());
+        painter -> drawLines (minorLines.data(), minorLines.size());
+        painter -> setPen (majorPen);
+        painter -> drawLines (majorLines.data(), majorLines.size());
 
     }
 }

@@ -783,9 +783,6 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/ProjectPropertiesDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/ui_qnemainwindow.h">
-			<Option target="calenhad"/>
-		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/noiseconstants.h">
 			<Option target="calenhad"/>
 		</Unit>

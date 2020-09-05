@@ -162,7 +162,7 @@ namespace calenhad {
             void inflateConnections (const QDomDocument& doc, const nodeedit::CalenhadFileType& fileType);
             void inflateConnections (QDomNodeList& connectionNodes);
 
-            QGraphicsView::DragMode _dragMode = QGraphicsView::ScrollHandDrag;
+            QGraphicsView::DragMode _dragMode = QGraphicsView::RubberBandDrag;
         };
     }
 }

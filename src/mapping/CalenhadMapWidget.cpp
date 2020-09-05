@@ -366,7 +366,7 @@ void CalenhadMapWidget::mouseMoveEvent (QMouseEvent* e) {
     Geolocation se, nw;
 
     if (e -> buttons() & Qt::LeftButton) {
-        if (cursor().shape () != Qt::ClosedHandCursor) {
+        if (cursor().shape ()!= Qt::ClosedHandCursor) {
             setCursor (Qt::ClosedHandCursor);
         }
 
