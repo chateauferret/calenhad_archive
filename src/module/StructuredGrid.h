@@ -8,13 +8,14 @@
 #include "Module.h"
 
 namespace calenhad {
-    namespace controls {
-        class QAngleControl;
+    namespace grid {
+        class CubicSphere;
     }
     namespace module {
-        class StructuredGrid : public Module {
+
+    class StructuredGrid : public Module {
         public:
-            explicit StructuredGrid (const QString& type = CalenhadServices::preferences() -> calenhad_module_raster);
+            explicit StructuredGrid (const QString& type);
             ~StructuredGrid() override;
             bool isComplete() override;
             QString glsl() override;

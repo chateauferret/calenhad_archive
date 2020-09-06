@@ -147,11 +147,12 @@ QString Module::glsl () {
     int i = 0;
     for (Port* port : inputs ()) {
         QString index = QString::number (i++);
-        if (port -> connections ().isEmpty ()) {
-            code.replace ("%" + index, QString::number (parameterValue (port->portName ())));
+        if (port -> connections().isEmpty ()) {
+            code.replace ("%" + index, QString::number (parameterValue (port -> portName ())));
         } else {
-            Node* other = port -> connections() [0] -> otherEnd (port) -> owner ();
+            Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
             QString source = other -> name();
+            code.replace ("%" + index, "_" + source + " (pos, c, g)");
         }
     }
 

@@ -11,12 +11,11 @@ namespace calenhad {
     namespace module {
         class Cache : public StructuredGrid {
         public:
+            explicit Cache (const QString& nodeType);
             virtual ~Cache();
             void invalidate();
-            void refresh();
+            virtual void refresh();
 
-        public:
-            explicit Cache (const QString& nodeType);
         };
     }
 }

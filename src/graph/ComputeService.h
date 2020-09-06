@@ -17,7 +17,6 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QtGui/QOffscreenSurface>
-#include <src/grid/CubicSphere.h>
 
 
 //#include "../compute/compute.h"
@@ -28,6 +27,8 @@ namespace calenhad {
 
     namespace module {
         class Module;
+        class Cache;
+        class Procedure;
     }
 
     namespace grid {
@@ -42,14 +43,14 @@ namespace calenhad {
             ~ComputeService();
             void compute (calenhad::module::Module* module, calenhad::grid::CubicSphere *buffer);
 
-            void computeDetail (module::Module *module, grid::CubicSphere *buffer);
+            void process (module::Procedure* module, grid::CubicSphere* buffer);
 
         private:
-            QString _codeTemplate;
+            QString _computeTemplate, _processTemplate;
             QOffscreenSurface _surface;
             QOpenGLContext _context;
             //QMap <QString, QString> _templates;
-            //QString sourceCode (const QString& _codeTemplate, const QString& function);
+            //QString sourceCode (const QString& _computeTemplate, const QString& function);
             QOpenGLShader* _computeShader;
             QOpenGLShaderProgram* _computeProgram;
             QOpenGLFunctions_4_3_Core* f;
@@ -63,9 +64,15 @@ namespace calenhad {
             uint _tileSize;
 
             void extractRasters (const Graph& graph, const int& xIndex, const int& yIndex);
-
+            void extractRasters (calenhad::module::Procedure* module);
             const uint _tiles;
             calenhad::grid::CubicSphere* _tile;
+
+            void process (GLfloat* buffer, calenhad::module::Procedure* module);
+
+            uint setupGrid ();
+
+            void downloadBuffer (GLfloat* buffer, const int& size);
         };
     }
 }

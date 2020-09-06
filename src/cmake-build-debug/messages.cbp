@@ -705,6 +705,12 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h">
 			<Option target="calenhad"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Procedure.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Procedure.h">
+			<Option target="calenhad"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp">
 			<Option target="calenhad"/>
 		</Unit>

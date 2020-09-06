@@ -41,10 +41,13 @@ float minAltitude = 0;
 float maxAltitude = 0;
 
 
-// cubemap parameter
+// cubemap parameters.
 uniform int size;               // the size of each face of the cubic sphere (it's square)
 uniform int tileSize;           // the size of each tile (tiles are square)
 uniform ivec2 tileIndex;        // the x and y index of the current tiles within each face of the cubic sphere
+
+// procedure paramaters
+uniform int iterations = 0;     // if non-zero then this is a procedure; if zero a parallel function.
 
 
 // indices to faces of the cube map
@@ -876,14 +879,16 @@ ivec3 cartesianToIndex (vec3 cartesian) {
 // inserted code //
 
 void main() {
-    ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
-    pos.x += tileSize * tileIndex.x;
-    pos.y += tileSize * tileIndex.y;
-    vec3 c = indexToCartesian (pos);
-    vec2 g = toGeolocation (c);
-    uint i = pos.z * size * size + pos.x * size + pos.y;
+        ivec3 pos = ivec3 (gl_GlobalInvocationID.x, gl_GlobalInvocationID.y, gl_WorkGroupID.z);
+        pos.x += tileSize * tileIndex.x;
+        pos.y += tileSize * tileIndex.y;
+        vec3 c = indexToCartesian (pos);
+        vec2 g = toGeolocation (c);
+        uint i = pos.z * size * size + pos.x * size + pos.y;
 
-    height_map_out [i] = value (pos, c, g);
+        height_map_out [i] = value (pos, c, g);
+
+
 
     // debugging outputs
     //height_map_out [i] = (float (pos.z) /  3.0) - 1.0;   // face

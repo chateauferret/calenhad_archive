@@ -18,5 +18,7 @@ SET(QMODULE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/ConvolutionKernel.h
         ${CMAKE_CURRENT_LIST_DIR}/ConvolutionKernel.cpp
         ${CMAKE_CURRENT_LIST_DIR}/Map.h
-        ${CMAKE_CURRENT_LIST_DIR}/Map.cpp)
+        ${CMAKE_CURRENT_LIST_DIR}/Map.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/Procedure.h
+        ${CMAKE_CURRENT_LIST_DIR}/Procedure.cpp)
 

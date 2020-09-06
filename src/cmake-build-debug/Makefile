@@ -2297,6 +2297,33 @@ module/NodeGroup.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/NodeGroup.cpp.s
 .PHONY : module/NodeGroup.cpp.s
 
+module/Procedure.o: module/Procedure.cpp.o
+
+.PHONY : module/Procedure.o
+
+# target to build an object file
+module/Procedure.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Procedure.cpp.o
+.PHONY : module/Procedure.cpp.o
+
+module/Procedure.i: module/Procedure.cpp.i
+
+.PHONY : module/Procedure.i
+
+# target to preprocess a source file
+module/Procedure.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Procedure.cpp.i
+.PHONY : module/Procedure.cpp.i
+
+module/Procedure.s: module/Procedure.cpp.s
+
+.PHONY : module/Procedure.s
+
+# target to generate assembly for a file
+module/Procedure.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Procedure.cpp.s
+.PHONY : module/Procedure.cpp.s
+
 module/RasterModule.o: module/RasterModule.cpp.o
 
 .PHONY : module/RasterModule.o
@@ -3002,6 +3029,9 @@ help:
 	@echo "... module/NodeGroup.o"
 	@echo "... module/NodeGroup.i"
 	@echo "... module/NodeGroup.s"
+	@echo "... module/Procedure.o"
+	@echo "... module/Procedure.i"
+	@echo "... module/Procedure.s"
 	@echo "... module/RasterModule.o"
 	@echo "... module/RasterModule.i"
 	@echo "... module/RasterModule.s"
