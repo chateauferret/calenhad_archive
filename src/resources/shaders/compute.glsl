@@ -46,9 +46,6 @@ uniform int size;               // the size of each face of the cubic sphere (it
 uniform int tileSize;           // the size of each tile (tiles are square)
 uniform ivec2 tileIndex;        // the x and y index of the current tiles within each face of the cubic sphere
 
-// procedure paramaters
-uniform int iterations = 0;     // if non-zero then this is a procedure; if zero a parallel function.
-
 
 // indices to faces of the cube map
 

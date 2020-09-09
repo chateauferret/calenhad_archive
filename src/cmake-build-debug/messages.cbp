@@ -402,6 +402,9 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadNavigator.h">
 			<Option target="calenhad"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadStatistics.h">
+			<Option target="calenhad"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadStatsPanel.cpp">
 			<Option target="calenhad"/>
 		</Unit>
@@ -418,12 +421,6 @@
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/HypsographyWidget.h">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/StatisticsService.cpp">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/StatisticsService.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/legend/LegendEditor.cpp">
@@ -589,12 +586,6 @@
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Graticule.h">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Statistics.cpp">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Statistics.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/TerraceCurve.cpp">

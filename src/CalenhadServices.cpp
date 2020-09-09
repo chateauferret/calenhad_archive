@@ -13,7 +13,7 @@
 #include "messages/QNotificationHost.h"
 #include "legend/LegendService.h"
 #include "mapping/projection/ProjectionService.h"
-#include "controls/globe/StatisticsService.h"
+#include "controls/globe/CalenhadStatistics.h"
 #include "grid/icosphere.h"
 #include "graph/ComputeService.h"
 #include "module/Module.h"
@@ -38,7 +38,6 @@ PreferencesService* CalenhadServices::_preferences;
 QNotificationHost* CalenhadServices::_messages = nullptr;
 ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
-StatisticsService* CalenhadServices::_statistics = new StatisticsService();
 ModuleFactory* CalenhadServices::_modules;
 Calculator* CalenhadServices::_calculator;
 Icosphere* CalenhadServices::_icosphere = nullptr;
@@ -62,10 +61,6 @@ LegendService* CalenhadServices::legends () {
 
 ProjectionService* CalenhadServices::projections() {
     return _projections;
-}
-
-StatisticsService* CalenhadServices::statistics() {
-    return _statistics;
 }
 
 void CalenhadServices::providePreferences (PreferencesService* service) {

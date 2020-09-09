@@ -83,8 +83,6 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     setCentralWidget (_view);
     setDockNestingEnabled (true);
 
-    // Legends
-    initialiseLegends();
 
 // Settings
 
@@ -165,10 +163,6 @@ void Calenhad::closeEvent (QCloseEvent* event) {
     settings -> endGroup();
     event -> accept();
     delete _splash;
-}
-
-void Calenhad::initialiseLegends() {
-
 }
 
 void Calenhad::addToolbar (QToolBar* toolbar, Module* m) {

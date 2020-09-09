@@ -83,8 +83,6 @@ namespace calenhad {
 
             calenhad::pipeline::CalenhadModel* model ();
 
-            void initialiseLegends ();
-
             void addToolbar (QToolBar* toolbar, calenhad::module::Module* m);
 
             CalenhadController* controller ();

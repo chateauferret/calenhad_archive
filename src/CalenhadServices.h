@@ -62,7 +62,6 @@ namespace calenhad {
         static calenhad::notification::QNotificationHost* messages();
         static calenhad::legend::LegendService* legends();
         static calenhad::mapping::projection::ProjectionService* projections();
-        static calenhad::controls::globe::StatisticsService* statistics();
         static calenhad::pipeline::ModuleFactory* modules();
         static calenhad::expressions::Calculator* calculator();
 

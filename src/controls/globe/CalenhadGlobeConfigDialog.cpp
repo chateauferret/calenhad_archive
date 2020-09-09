@@ -28,6 +28,7 @@ using namespace calenhad::legend;
 using namespace calenhad::mapping;
 using namespace calenhad::mapping::projection;
 using namespace calenhad::graph;
+using namespace calenhad::module;
 
 CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeWidget* parent) : QDialog (), _parent (parent) {
     setLayout (new QVBoxLayout ());
@@ -178,7 +179,13 @@ CalenhadGlobeConfigDialog::CalenhadGlobeConfigDialog (CalenhadGlobeWidget* paren
 
     tabs -> addTab (_graticuleTab, "Graticule");
 
-    layout ()->addWidget (tabs);
+    _statisticsTab = new QWidget (tabs);
+    _statisticsTab -> setLayout (new QVBoxLayout (_statisticsTab));
+    CalenhadStatsPanel* stats = new CalenhadStatsPanel (parent);
+    _statisticsTab -> layout() -> addWidget (stats);
+    tabs -> addTab (_statisticsTab, "Statistics");
+
+    layout() -> addWidget (tabs);
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect (buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect (buttonBox, &QDialogButtonBox::rejected, this, &CalenhadGlobeConfigDialog::reject);

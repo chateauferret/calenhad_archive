@@ -8,8 +8,7 @@ SET (GLOBE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConfigDialog.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsPanel.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatsPanel.h
-        ${CMAKE_CURRENT_LIST_DIR}/StatisticsService.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/StatisticsService.h
+        ${CMAKE_CURRENT_LIST_DIR}/CalenhadStatistics.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeConstants.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeDialog.h
         ${CMAKE_CURRENT_LIST_DIR}/CalenhadGlobeDialog.cpp

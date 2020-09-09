@@ -1046,33 +1046,6 @@ controls/globe/HypsographyWidget.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.s
 .PHONY : controls/globe/HypsographyWidget.cpp.s
 
-controls/globe/StatisticsService.o: controls/globe/StatisticsService.cpp.o
-
-.PHONY : controls/globe/StatisticsService.o
-
-# target to build an object file
-controls/globe/StatisticsService.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o
-.PHONY : controls/globe/StatisticsService.cpp.o
-
-controls/globe/StatisticsService.i: controls/globe/StatisticsService.cpp.i
-
-.PHONY : controls/globe/StatisticsService.i
-
-# target to preprocess a source file
-controls/globe/StatisticsService.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.i
-.PHONY : controls/globe/StatisticsService.cpp.i
-
-controls/globe/StatisticsService.s: controls/globe/StatisticsService.cpp.s
-
-.PHONY : controls/globe/StatisticsService.s
-
-# target to generate assembly for a file
-controls/globe/StatisticsService.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.s
-.PHONY : controls/globe/StatisticsService.cpp.s
-
 controls/legend/LegendEditor.o: controls/legend/LegendEditor.cpp.o
 
 .PHONY : controls/legend/LegendEditor.o
@@ -1801,33 +1774,6 @@ mapping/Graticule.s: mapping/Graticule.cpp.s
 mapping/Graticule.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/mapping/Graticule.cpp.s
 .PHONY : mapping/Graticule.cpp.s
-
-mapping/Statistics.o: mapping/Statistics.cpp.o
-
-.PHONY : mapping/Statistics.o
-
-# target to build an object file
-mapping/Statistics.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o
-.PHONY : mapping/Statistics.cpp.o
-
-mapping/Statistics.i: mapping/Statistics.cpp.i
-
-.PHONY : mapping/Statistics.i
-
-# target to preprocess a source file
-mapping/Statistics.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/mapping/Statistics.cpp.i
-.PHONY : mapping/Statistics.cpp.i
-
-mapping/Statistics.s: mapping/Statistics.cpp.s
-
-.PHONY : mapping/Statistics.s
-
-# target to generate assembly for a file
-mapping/Statistics.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/mapping/Statistics.cpp.s
-.PHONY : mapping/Statistics.cpp.s
 
 mapping/TerraceCurve.o: mapping/TerraceCurve.cpp.o
 
@@ -2891,9 +2837,6 @@ help:
 	@echo "... controls/globe/HypsographyWidget.o"
 	@echo "... controls/globe/HypsographyWidget.i"
 	@echo "... controls/globe/HypsographyWidget.s"
-	@echo "... controls/globe/StatisticsService.o"
-	@echo "... controls/globe/StatisticsService.i"
-	@echo "... controls/globe/StatisticsService.s"
 	@echo "... controls/legend/LegendEditor.o"
 	@echo "... controls/legend/LegendEditor.i"
 	@echo "... controls/legend/LegendEditor.s"
@@ -2975,9 +2918,6 @@ help:
 	@echo "... mapping/Graticule.o"
 	@echo "... mapping/Graticule.i"
 	@echo "... mapping/Graticule.s"
-	@echo "... mapping/Statistics.o"
-	@echo "... mapping/Statistics.i"
-	@echo "... mapping/Statistics.s"
 	@echo "... mapping/TerraceCurve.o"
 	@echo "... mapping/TerraceCurve.i"
 	@echo "... mapping/TerraceCurve.s"

@@ -273,4 +273,5 @@ QString AltitudeMap::glsl() {
     // input is beyond the top of the range
     code += "  if (value > " + QString::number (entries().last ().x ()) + ") { return " + QString::number (entries().last ().y ()) + "; }\n";
     code += "}\n";
+    return code;
 }

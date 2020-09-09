@@ -4,7 +4,6 @@
 #include <QIcon>
 
 #include "../graph/graph.h"
-#include "../mapping/Statistics.h"
 #include "src/CalenhadServices.h"
 #include "../preferences/preferences.h"
 #include "projection/ProjectionService.h"
@@ -639,9 +638,8 @@ void CalenhadMapWidget::compute () {
     //std::cout << "Render finished in " << _renderTime << " milliseconds\n\n";
     glDeleteBuffers (1, &inBuffer);
     glDeleteBuffers (1, &colBuffer);
-    if (_mode == RenderModeGlobe && _mainMap) {
-        emit rendered ();
-    }
+    emit rendered();
+    notifySubscribers();
     _refreshHeightMap = true;
 }
 
@@ -653,6 +651,7 @@ void CalenhadMapWidget::render() {
            delete _buffer;
            _buffer = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
            c -> compute (_source, _buffer);
+           emit computed();
         }
 
         redraw();
@@ -700,6 +699,20 @@ void CalenhadMapWidget::setLegend (Legend *legend) {
 
 void CalenhadMapWidget::showEvent (QShowEvent* event) {
     update();
+}
+
+CubicSphere* CalenhadMapWidget::buffer () {
+    return _buffer;
+}
+
+void CalenhadMapWidget::subscribe (CalenhadStatsPanel* panel) {
+    _subscribers.append (panel);
+}
+
+void CalenhadMapWidget::notifySubscribers() {
+    for (CalenhadStatsPanel* subscriber : _subscribers) {
+        subscriber -> refresh();
+    }
 }
 
 

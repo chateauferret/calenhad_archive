@@ -41,9 +41,9 @@ namespace calenhad {
 
 
             public:
-                CalenhadGlobeConfigDialog (CalenhadGlobeWidget* parent);
+                explicit CalenhadGlobeConfigDialog (CalenhadGlobeWidget* parent);
 
-                virtual ~CalenhadGlobeConfigDialog ();
+                ~CalenhadGlobeConfigDialog() override;
 
                 void initialise ();
 
@@ -94,13 +94,13 @@ namespace calenhad {
                 QCheckBox* _graticuleCheck;
                 QComboBox* _projectionCombo;
 
-                QWidget* _legendTab;
+                QWidget* _legendTab, * _statisticsTab;
                 calenhad::legend::LegendManager* _legendManager;
 
                 QComboBox* _tooltipOptionCombo;
                 QComboBox* _tooltipDatumCombo;
 
-                void accept ();
+                void accept() override;
 
                 QSlider* _densitySlider;
                 calenhad::controls::ColorButton* _graticuleMajorColorButton;

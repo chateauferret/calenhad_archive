@@ -237,14 +237,15 @@ void ComputeService::extractRasters (Procedure* module) {
         CubicSphere* cube = module->inputBuffer (i);
         int s = cube->size ();
         for (int face = 0; face < 6; face++) {
-            for (int x = 0; x < cube->size (); x++) {
-                for (int y = 0; y < cube->size (); y++) {
+            for (int x = 0; x < cube -> size(); x++) {
+                for (int y = 0; y < cube -> size(); y++) {
                     ulong index = bufferIndex + face * s * s + x * s + y;
-                    float value = cube->data ()[(face * s * s) + x * s + y];
+                    float value = cube->data() [(face * s * s) + x * s + y];
                     rasterBuffer[index] = (GLfloat) value;
                 }
             }
         }
+        bufferIndex += s;
     }
     f -> glGenBuffers (1, &_rasterBuffer);
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);

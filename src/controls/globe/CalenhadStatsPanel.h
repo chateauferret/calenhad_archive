@@ -24,21 +24,20 @@ namespace calenhad {
 
             class CalenhadStatsPanel : public QWidget {
             public:
-                explicit CalenhadStatsPanel (calenhad::module::Module* source, CalenhadGlobeWidget* parent = nullptr);
+                explicit CalenhadStatsPanel (CalenhadGlobeWidget* parent = nullptr);
 
                 ~CalenhadStatsPanel () override;
 
                 void showEvent (QShowEvent* e) override;
 
             public slots:
-                void refresh ();
+                void refresh();
 
             protected:
                 CalenhadGlobeWidget* dialog;
                 QLabel* _mapExtremesLabel, * _worldExtremesLabel;
                 QLabel* _worldMeanLabel;
                 calenhad::controls::globe::HypsographyWidget* _hypsography;
-                calenhad::module::Module* _source;
 
 
                 QLabel*  _renderTimeLabel, * _renderSizeLabel;

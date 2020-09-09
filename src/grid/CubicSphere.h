@@ -21,9 +21,12 @@
 
 namespace calenhad {
     class CalenhadServices;
+    namespace controls {
+        namespace globe {
+            struct CalenhadStatistics;
+        }
+    }
     namespace mapping {
-        class Statistics;
-
 
         struct CubeCoordinates {
         public:
@@ -36,13 +39,17 @@ namespace calenhad {
         class CubicSphere {
 
         public:
+            // Neighbouring panels for each panel, in the order +x, -x, +y, -y
+            const int ADJACENT [6] [4] = { { 4, 5, 2, 3 }, { 4, 5, 2, 3, }, { 4, 5, 0, 1 }, { 4, 5, 0, 1 }, { 2, 3, 0, 1 }, { 2, 3, 0, 1 } };
+
+
             //explicit CubicSphere (const int& depth);
             CubicSphere (const int& depth);
             ~CubicSphere();
             long count() const;
 
             float* grid ();
-            calenhad::mapping::Statistics statistics() const;
+            void statistics (controls::globe::CalenhadStatistics& statistics) const;
             float valueAt (const geoutils::Geolocation&);
             int size () const;
             void heightmap (const int& face, QImage* image);
@@ -65,16 +72,16 @@ namespace calenhad {
             const double HALF_ROOT_2 = 0.70710676908493042;
 
             void toCartesian (const mapping::CubeCoordinates& fuv, geoutils::Cartesian& xyz) const;
-            int adjacentFace (const int& face, const int& direction);
 
             int _size;
             int _renderTime;
 
             void initialise();
 
-            mapping::CubeCoordinates traverse (const mapping::CubeCoordinates& cube, const int& up, const int& right);
 
+            void adjacent (const mapping::CubeCoordinates& fuv, mapping::CubeCoordinates* m);
 
+            void surrounding (const mapping::CubeCoordinates& fuv, mapping::CubeCoordinates* k);
         };
     }
 }

@@ -15,9 +15,9 @@
 #include <GeographicLib/Geodesic.hpp>
 #include <controls/globe/CalenhadNavigator.h>
 #include <legend/Legend.h>
+#include <src/controls/globe/CalenhadStatsPanel.h>
 #include "src/matrices.h"
 #include "controls/globe/CalenhadGlobeConstants.h"
-#include "../mapping/Statistics.h"
 
 namespace calenhad {
     namespace module {
@@ -50,6 +50,7 @@ namespace calenhad {
         class Graticule;
         class CalenhadMapWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core {
             Q_OBJECT
+
         public:
             explicit CalenhadMapWidget (const controls::globe::RenderMode& mode = controls::globe::RenderModeGlobe, QWidget* parent = 0);
 
@@ -57,6 +58,8 @@ namespace calenhad {
             legend::Legend* legend();
 
             void setSource (module::Module* qm);
+
+            void subscribe (calenhad::controls::globe::CalenhadStatsPanel* panel);
 
             void compute();
 
@@ -70,8 +73,7 @@ namespace calenhad {
             void rotate (const geoutils::Geolocation& rotation);
             const geoutils::Geolocation& rotation ();
             projection::Projection* projection ();
-            calenhad::mapping::Statistics statistics ();
-
+            calenhad::grid::CubicSphere* buffer();
             bool geoCoordinates (QPointF pos, geoutils::Geolocation& geolocation);
             QPoint texCoordinates (const QPointF& sc);
             bool screenCoordinates (const geoutils::Geolocation& geolocation, QPointF& sc);
@@ -107,6 +109,7 @@ namespace calenhad {
             int textureHeight ();
         signals:
             void rendered();
+            void computed();
             void zoomRequested (const double& zoom);
             void zoomInRequested();
             void zoomOutRequested();
@@ -126,7 +129,7 @@ namespace calenhad {
             bool _graticuleVisible;
 
             geoutils::CoordinatesFormat _coordinatesFormat;
-
+            void notifySubscribers();
             OverviewPreviewType _previewType;
             module::Module *_source;
             bool _zoomDrag;
@@ -196,6 +199,7 @@ namespace calenhad {
             calenhad::legend::Legend*  _legend;
             int _size;
 
+            QVector<calenhad::controls::globe::CalenhadStatsPanel*>  _subscribers;
         };
     }
 }

@@ -151,7 +151,10 @@ CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/Spl
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/geoutils.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../../src/grid/CubicSphere.h
@@ -167,12 +170,12 @@ CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../legend/Legend.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../mapping/Statistics.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../messages/QNotification.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../messages/QNotificationHost.cpp
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../messages/QProgressNotification.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -206,6 +209,7 @@ CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-li
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/messages.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h

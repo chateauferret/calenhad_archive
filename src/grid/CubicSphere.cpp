@@ -4,15 +4,14 @@
 
 #include "CubicSphere.h"
 #include <cmath>
-#include <src/mapping/Statistics.h>
 #include <QtGui/QImage>
-#include <QtCore/QFile>
 #include <src/CalenhadServices.h>
-#include "../geoutils.h"
+#include "../controls/globe/CalenhadStatistics.h"
 
 using namespace geoutils;
 using namespace calenhad::grid;
 using namespace calenhad::mapping;
+using namespace calenhad::controls::globe;
 
 CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr) {
     _size = std::pow (2, depth);
@@ -155,19 +154,40 @@ float CubicSphere::valueAt (const CubeCoordinates& fuv) {
     return 0.0f;
 }
 
-Statistics CubicSphere::statistics() const {
-    double _min = 0, _max = 0, _sum = 0;
-    int count = 0;
+void CubicSphere::statistics (CalenhadStatistics& statistics) const {
+    double _sum = 0;
+
+    statistics._minValue = _grid [0];
+    statistics._maxValue = _grid [0];
+    statistics._valueCount = 0;
+    statistics._renderTime = 0.0;
     for (int i = 0; i < _size * _size * 6; i++) {
         if (! std::isnan (_grid [i])) {
-            if (_grid[i] < _min) { _min = _grid[i]; }
-            if (_grid[i] > _max) { _max = _grid[i]; }
+            if (_grid[i] < statistics._minValue || statistics._valueCount == 0) { statistics._minValue = _grid[i]; }
+            if (_grid[i] > statistics._maxValue || statistics._valueCount == 0) { statistics._maxValue = _grid[i]; }
             _sum += _grid[i];
-            count++;
+            statistics._valueCount++;
         }
     }
-    Statistics statistics = Statistics (_min, _max, _sum, count, _renderTime, _size * _size * 6);
-    return statistics;
+    statistics._meanValue = _sum / statistics._valueCount;
+    statistics._range = statistics._maxValue - statistics._minValue;
+
+    // hysography buckets
+    for (int i = 0; i < 1000; i++) {
+        statistics._buckets [i] = 0;
+    }
+
+    for (int i = 0; i < _size * _size * 6; i++) {
+        if (! std::isnan (_grid [i])) {
+            double normalised = (_grid [i] - statistics._minValue) / statistics._range;
+            int bucket = (int) (normalised * 1000);
+            if (bucket < 0 || bucket > 999) {
+                std::cout << "Tried to access bucket " << bucket << "\n";
+            } else {
+                statistics._buckets[bucket]++;
+            }
+        }
+    }
 }
 
 GLfloat *CubicSphere::data() {
@@ -233,32 +253,44 @@ void CubicSphere::exportHeightmaps (const QString &filename) {
     }
 }
 
-int CubicSphere::adjacentFace (const int& face, const int& direction) {
 
+void CubicSphere::adjacent (const struct CubeCoordinates& fuv, struct CubeCoordinates* m) {
+
+    m [0] = CubeCoordinates (fuv.face, fuv.u + 1, fuv.v);
+    m [1] = CubeCoordinates (fuv.face, fuv.u - 1, fuv.v);
+    m [2] = CubeCoordinates (fuv.face, fuv.u, fuv.v + 1);
+    m [3] = CubeCoordinates (fuv.face, fuv.u, fuv.v - 1);
+
+    if (m [0].u < 0) {
+        m [0].u = 0;
+        m [0].face = ADJACENT [fuv.face] [0];
+    }
+    if (m [1].u > _size - 1) {
+        m [1].u = _size - 1;
+        m [0].face = ADJACENT [fuv.face] [1];
+    }
+    if (m [2].v < 0) {
+        m [2].v = 0;
+        m [2].face = ADJACENT [fuv.face] [2];
+    }
+    if (m [3].v > _size - 1) {
+        m [3].v = _size - 1;
+        m [3].face = ADJACENT [fuv.face] [3];
+    }
 }
 
-CubeCoordinates CubicSphere::traverse (const CubeCoordinates& cube, const int& up, const int& right) {
+void CubicSphere::surrounding (const CubeCoordinates& fuv, CubeCoordinates* k) {
+    CubeCoordinates adj [4];
+    adjacent (fuv, adj);
 
-    int f = cube.face;
-    int x = cube.u + up;
-
-    if (x < 0) {
-
-    }
-    if (x > _size) {
-
-    };
-
-    int y = cube.v + right;
-
-    if (y < 0) {
-
-    }
-    if (x > _size) {
-
-    }
-
-    return CubeCoordinates (f, x, y);
+    k[0] = CubeCoordinates (adj [1].face == fuv.face ? (adj [3].face == fuv.face ? fuv.face : adj [3].face) : adj [1].face, adj [1].u, adj [3].v);
+    k[1] = CubeCoordinates (adj [1].face, adj [1].u, fuv.v);
+    k[2] = CubeCoordinates (adj [1].face == fuv.face ? (adj [2].face == fuv.face ? fuv.face : adj [2].face) : adj [1].face, adj [1].u, adj [2].v);
+    k[3] = CubeCoordinates (adj [3].face, fuv.u, adj [3].v);
+    k[4] = fuv;
+    k[5] = CubeCoordinates (adj [2].face, fuv.u, adj [2].v);
+    k[6] = CubeCoordinates (adj [0].face == fuv.face ? (adj [3].face == fuv.face ? fuv.face : adj [3].face) : adj [0].face, adj [0].u, adj [3].v);
+    k[7] = CubeCoordinates (adj[0].face, adj[0].u, fuv.v);
+    k[8] = CubeCoordinates (adj [0].face == fuv.face ? (adj [2].face == fuv.face ? fuv.face : adj [2].face) : adj [0].face, adj [0].u, adj [2].v);
 
 }
-

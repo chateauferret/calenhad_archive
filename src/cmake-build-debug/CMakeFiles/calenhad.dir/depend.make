@@ -7,7 +7,10 @@ CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/SplashDialog.
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../../src/matrices.h
@@ -22,11 +25,10 @@ CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../grid/CubicSphere.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../CalenhadServices.cpp
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../CalenhadServices.h
-CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../controls/globe/StatisticsService.h
+CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../exprtk/Calculator.h
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/CalenhadServices.cpp.o: ../graph/ComputeService.h
@@ -266,7 +268,10 @@ CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../../src/matrices.h
@@ -284,7 +289,6 @@ CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../nodeedit/CalenhadView.h
 CMakeFiles/calenhad.dir/CalenhadUi.cpp.o: ../pipeline/ModuleFactory.h
@@ -843,7 +847,10 @@ CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/Sp
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../../src/matrices.h
@@ -859,7 +866,6 @@ CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../grid/CubicSphere.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../module/ParamValidator.h
@@ -868,6 +874,7 @@ CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../preferences/Prefer
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../actions/ChangeModuleCommand.cpp
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../actions/ChangeModuleCommand.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: ../module/Module.h
+CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -902,6 +909,7 @@ CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-l
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/actions/ChangeModuleCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -1094,7 +1102,10 @@ CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/SplashDial
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../../src/grid/CubicSphere.h
@@ -1110,11 +1121,11 @@ CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../actions/GridCommand.cpp
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../actions/GridCommand.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../nodeedit/CalenhadView.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -1148,6 +1159,7 @@ CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/actions/GridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -1345,7 +1357,10 @@ CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/Spla
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../../src/grid/CubicSphere.h
@@ -1361,11 +1376,11 @@ CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../actions/SnapToGridCommand.cpp
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../actions/SnapToGridCommand.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../nodeedit/CalenhadView.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -1399,6 +1414,7 @@ CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-lin
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/actions/SnapToGridCommand.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -1595,7 +1611,10 @@ CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/SplashDialo
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../../src/matrices.h
@@ -1608,7 +1627,6 @@ CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/actions/XmlCommand.cpp.o: ../CalenhadServices.h
@@ -2286,7 +2304,10 @@ CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/contr
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/globe/CalenhadNavigator.h
+CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/legend/LegendEditor.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/legend/LegendEditorScale.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/controls/legend/LegendEditorSlider.h
@@ -2307,7 +2328,6 @@ CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/legen
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/legend/LegendWidget.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/legend/QColorButton.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/mapping/Statistics.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/matrices.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/messages/QNotification.h
 CMakeFiles/calenhad.dir/calenhad_autogen/mocs_compilation.cpp.o: ../../src/messages/QNotificationHost.h
@@ -2945,7 +2965,10 @@ CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../../src/grid/CubicSphere.h
@@ -2961,11 +2984,11 @@ CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../exprtk/exprtk.hp
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../controls/CalenhadLegendDialog.cpp
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../controls/CalenhadLegendDialog.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../legend/LegendManager.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: ../legend/LegendService.h
+CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -2999,6 +3022,7 @@ CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/CalenhadLegendDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -3772,7 +3796,10 @@ CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/SplashDial
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../../src/grid/CubicSphere.h
@@ -3786,7 +3813,6 @@ CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/controls/ModuleTree.cpp.o: ../controls/ModuleTree.cpp
@@ -4580,7 +4606,10 @@ CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/SplashDi
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../../src/grid/CubicSphere.h
@@ -4596,13 +4625,13 @@ CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../controls/FlowLayout.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../controls/QIconPalette.cpp
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../controls/QIconPalette.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../pipeline/ModuleFactory.h
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/QIconPalette.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent
@@ -5223,7 +5252,10 @@ CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/SplashDi
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../../src/grid/CubicSphere.h
@@ -5239,11 +5271,11 @@ CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../nodeedit/Calenhad.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../controls/SplashDialog.cpp
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: ../controls/SplashDialog.h
+CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -5278,6 +5310,7 @@ CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-g
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/SplashDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -5618,7 +5651,10 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../../src/matrices.h
@@ -5635,7 +5671,6 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../grid/Cu
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../module/AltitudeMap.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../module/Node.h
@@ -5647,6 +5682,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../control
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../controls/altitudemap/AltitudeMapPlot.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../controls/altitudemap/AltitudeMapping.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: ../controls/altitudemap/AltitudeMappingDialog.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -6063,7 +6099,10 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/co
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../../src/grid/CubicSphere.h
@@ -6077,7 +6116,6 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../exprtk/ex
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../module/AltitudeMap.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../module/Module.h
@@ -6092,6 +6130,7 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../controls/
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../controls/altitudemap/AltitudeMappingDialog.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../controls/altitudemap/TerraceMapFitter.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent
@@ -6438,7 +6477,10 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/co
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../../src/grid/CubicSphere.h
@@ -6455,10 +6497,10 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../exprtk/ex
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../controls/altitudemap/AltitudeMapping.cpp
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: ../controls/altitudemap/AltitudeMapping.h
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -7113,6 +7155,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../sr
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/grid/CubicSphere.h
@@ -7129,13 +7172,13 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../exprt
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../mapping/projection/ProjectionService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/CalenhadGlobeConfigDialog.cpp
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/CalenhadGlobeConfigDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/GlobeScaleWidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../controls/globe/HypsographyWidget.h
@@ -7146,6 +7189,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../legen
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../mapping/Graticule.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../mapping/projection/Projection.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -7181,6 +7225,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/inc
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -7380,6 +7425,9 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../../src/grid/CubicSphere.h
@@ -7395,7 +7443,6 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../exprtk
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../controls/globe/CalenhadGlobeContextMenu.cpp
@@ -7405,6 +7452,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../contro
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../mapping/projection/Projection.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../mapping/projection/ProjectionService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -7440,6 +7488,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/incl
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -7631,6 +7680,9 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/Cale
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../../src/matrices.h
@@ -7641,7 +7693,6 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../exprtk/expr
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../controls/FlowLayout.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../controls/globe/CalenhadGlobeConstants.h
@@ -7656,6 +7707,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../module/Node
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../nodeedit/CalenhadToolBar.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -7690,6 +7742,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -7885,6 +7938,9 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/Cale
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../../src/matrices.h
@@ -7900,7 +7956,6 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../grid/CubicS
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: ../module/ParamValidator.h
@@ -8456,6 +8511,9 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: /usr/include/x
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxmlversion.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtXml/qxml.h
 
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../../src/matrices.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../controls/globe/CalenhadGlobeConstants.h
@@ -8463,9 +8521,9 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../controls/glob
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../controls/globe/CalenhadNavigator.cpp
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: ../controls/globe/CalenhadNavigator.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QPair
@@ -8473,6 +8531,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QString
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QVector
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h
@@ -8491,6 +8550,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h
@@ -8524,6 +8584,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qrect.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qregexp.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qregularexpression.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qscopedpointer.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h
@@ -8602,18 +8663,33 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qtguiglobal.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qtransform.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qvalidator.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector3d.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector4d.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs_win.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QComboBox
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QOpenGLWidget
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QPushButton
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractitemdelegate.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractslider.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractspinbox.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qcombobox.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qframe.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qopenglwidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qpushbutton.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qrubberband.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsizepolicy.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qslider.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstyle.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstyleoption.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabbar.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabwidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadNavigator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
@@ -8626,6 +8702,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/Calen
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/matrices.h
@@ -8640,7 +8717,6 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../grid/CubicSp
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../module/ParamValidator.h
@@ -8648,11 +8724,11 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../preferences/
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/CalenhadStatsPanel.cpp
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/GlobeScaleWidget.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/HypsographyWidget.h
-CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../controls/globe/StatisticsService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../preferences/PreferencesService.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
@@ -8880,6 +8956,9 @@ CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/control
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
+CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../../src/matrices.h
@@ -8894,13 +8973,13 @@ CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../exprtk/exprtk.
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../controls/globe/GlobeScaleWidget.cpp
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../controls/globe/GlobeScaleWidget.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../grid/CubicSphere.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -8934,6 +9013,7 @@ CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/globe/GlobeScaleWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -9124,6 +9204,7 @@ CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/Serial
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/graph/ComputeService.h
@@ -9143,12 +9224,13 @@ CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../grid/CubicSph
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../controls/globe/CalenhadGlobeConfigDialog.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../controls/globe/CalenhadGlobeConstants.h
+CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../controls/globe/HypsographyWidget.cpp
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../geoutils.h
+CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -9182,6 +9264,7 @@ CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -9366,60 +9449,16 @@ CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxml-config.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxmlglobal.h
 
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: ../controls/globe/StatisticsService.cpp
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: ../controls/globe/StatisticsService.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_bootstrap.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_msvc.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasicatomic.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearraylist.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcompilerdetection.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig-bootstrapped.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qhashfunctions.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qiterator.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qmutex.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qpair.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qprocessordetection.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qregexp.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringalgorithms.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringbuilder.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringliteral.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringmatcher.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringview.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h
-CMakeFiles/calenhad.dir/controls/globe/StatisticsService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h
-
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/CalenhadServices.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../../src/grid/CubicSphere.h
@@ -9436,7 +9475,6 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../controls/legend/LegendEditor.cpp
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../controls/legend/LegendEditor.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../controls/legend/LegendEditorScale.h
@@ -9446,6 +9484,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../controls/legend/L
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../controls/legend/LegendPreview.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -9481,6 +9520,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -9808,7 +9848,10 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/cont
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../../src/grid/CubicSphere.h
@@ -9825,10 +9868,10 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../exprtk/expr
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../controls/legend/LegendEditorSlider.cpp
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: ../controls/legend/LegendEditorSlider.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -9864,6 +9907,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -10195,7 +10239,10 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/contr
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../../src/grid/CubicSphere.h
@@ -10213,11 +10260,11 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../legend/Legen
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../legend/QColorButton.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../controls/legend/LegendEntryDialog.cpp
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../controls/legend/LegendEntryDialog.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: ../exprtk/ExpressionWidget.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -10253,6 +10300,7 @@ CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x8
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/controls/legend/LegendEntryDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -10583,7 +10631,10 @@ CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/SplashDialog
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../../src/grid/CubicSphere.h
@@ -10598,13 +10649,13 @@ CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../exprtk/ExpressionWidget.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../exprtk/Calculator.cpp
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../exprtk/Calculator.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: ../preferences/PreferencesService.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -10640,6 +10691,7 @@ CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/q
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/exprtk/Calculator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -10829,7 +10881,10 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/SplashDi
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../../src/grid/CubicSphere.h
@@ -10844,7 +10899,6 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../exprtk/ExpressionWidget.
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../controls/TextEdit.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../exprtk/Calculator.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../exprtk/ExpressionEdit.cpp
@@ -10852,6 +10906,7 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../exprtk/ExpressionEdit.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QAbstractItemModel
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -10888,6 +10943,7 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-g
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionEdit.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -11080,7 +11136,10 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/Splash
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../../src/grid/CubicSphere.h
@@ -11095,7 +11154,6 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../exprtk/ExpressionWidge
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../controls/TextEdit.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../exprtk/Calculator.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../exprtk/ExpressionEdit.h
@@ -11104,6 +11162,7 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../exprtk/ExpressionWidge
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent
@@ -11141,6 +11200,7 @@ CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/exprtk/ExpressionWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -11335,7 +11395,10 @@ CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/SplashD
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../../src/grid/CubicSphere.h
@@ -11350,7 +11413,6 @@ CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../exprtk/ExpressionWidget
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../exprtk/Calculator.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../exprtk/VariablesDialog.cpp
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../exprtk/VariablesDialog.h
@@ -11358,6 +11420,7 @@ CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: ../preferences/PreferencesService.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -11393,6 +11456,7 @@ CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/exprtk/VariablesDialog.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -11919,7 +11983,10 @@ CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/SplashDia
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../../src/grid/CubicSphere.h
@@ -11938,7 +12005,6 @@ CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../graph/ComputeService.cpp
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../graph/ComputeService.h
@@ -11946,6 +12012,7 @@ CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../graph/graph.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: ../nodeedit/Port.h
+CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -11979,6 +12046,7 @@ CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gn
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -12172,7 +12240,10 @@ CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../../src/grid/CubicSphere.h
@@ -12192,7 +12263,6 @@ CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../module/AltitudeMap.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../module/Node.h
@@ -12212,6 +12282,7 @@ CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../mapping/Curve.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: ../pipeline/ModuleFactory.h
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/graph/graph.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/graph/graph.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -12558,11 +12629,13 @@ CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/SplashDialog.
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/grid/CubicSphere.h
-CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/mapping/Statistics.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/matrices.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/module/Module.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../../src/module/Node.h
@@ -12575,11 +12648,12 @@ CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../CalenhadServices.h
+CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../grid/CubicSphere.cpp
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: ../grid/CubicSphere.h
+CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -12613,6 +12687,7 @@ CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -12802,7 +12877,10 @@ CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../../src/matrices.h
@@ -12815,7 +12893,6 @@ CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../grid/CubicSphere.h
@@ -12825,6 +12902,7 @@ CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -12858,6 +12936,7 @@ CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/grid/icosphere.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -13047,7 +13126,10 @@ CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../../src/matrices.h
@@ -13065,7 +13147,6 @@ CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../grid/CubicSphere.h
@@ -13074,6 +13155,7 @@ CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../legend/LegendService.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: ../legend/LegendWidget.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -13109,6 +13191,7 @@ CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/Q
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/legend/Legend.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -13305,7 +13388,10 @@ CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/SplashDia
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../../src/grid/CubicSphere.h
@@ -13321,11 +13407,11 @@ CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../legend/LegendChooser.cpp
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../legend/LegendChooser.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: ../legend/LegendService.h
+CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -13359,6 +13445,7 @@ CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gn
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/legend/LegendChooser.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -13549,7 +13636,10 @@ CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/SplashDialo
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../../src/grid/CubicSphere.h
@@ -13566,10 +13656,10 @@ CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../legend/LegendEntry.cpp
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -13605,6 +13695,7 @@ CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/legend/LegendEntry.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -13793,7 +13884,10 @@ CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../../src/grid/CubicSphere.h
@@ -13811,7 +13905,6 @@ CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/LegendChooser.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/LegendManager.cpp
@@ -13819,6 +13912,7 @@ CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/LegendManager.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/LegendService.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../legend/LegendWidget.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: ../messages/QNotificationHost.h
+CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -13852,6 +13946,7 @@ CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gn
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/legend/LegendManager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -14046,7 +14141,10 @@ CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/SplashDial
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../../src/grid/CubicSphere.h
@@ -14062,12 +14160,12 @@ CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../legend/LegendRoster.cpp
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../legend/LegendRoster.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../legend/LegendService.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: ../messages/QNotificationHost.h
+CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -14102,6 +14200,7 @@ CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/legend/LegendRoster.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -14294,7 +14393,10 @@ CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/SplashDial
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../../src/grid/CubicSphere.h
@@ -14310,7 +14412,6 @@ CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../controls/legend/LegendEditor.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../controls/legend/LegendEntryDialog.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../legend/Legend.h
@@ -14318,6 +14419,7 @@ CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../legend/LegendService.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../legend/LegendWidget.cpp
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../legend/LegendWidget.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: ../messages/QNotificationHost.h
+CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -14351,6 +14453,7 @@ CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/legend/LegendWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -14659,7 +14762,10 @@ CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/main.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../../src/matrices.h
@@ -14672,7 +14778,6 @@ CMakeFiles/calenhad.dir/main.cpp.o: ../exprtk/ExpressionWidget.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/main.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../module/AltitudeMap.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/main.cpp.o: ../module/ParamValidator.h
@@ -15231,7 +15336,10 @@ CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/Spla
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../../src/grid/CubicSphere.h
@@ -15255,7 +15363,6 @@ CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../legend/LegendService
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../mapping/CalenhadMapWidget.cpp
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../mapping/CalenhadMapWidget.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../mapping/Graticule.h
-CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../mapping/projection/Projection.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../mapping/projection/ProjectionService.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../messages/QNotificationHost.h
@@ -15265,6 +15372,7 @@ CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../module/ParamValidato
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../preferences/PreferencesService.h
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: ../preferences/preferences.h
+CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/mapping/CalenhadMapWidget.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent
@@ -15838,7 +15946,10 @@ CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../../src/grid/CubicSphere.h
@@ -15855,12 +15966,12 @@ CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../controls/altitudemap/AltitudeMapping.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../mapping/CubicSpline.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../mapping/Curve.cpp
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: ../mapping/Curve.h
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/mapping/Curve.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -16200,7 +16311,10 @@ CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/SplashDialog
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../../src/grid/CubicSphere.h
@@ -16219,8 +16333,8 @@ CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../mapping/CalenhadMapWidget.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../mapping/CalenhadMapWidget.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../mapping/Graticule.cpp
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../mapping/Graticule.h
-CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -16254,6 +16368,7 @@ CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/q
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -16441,9 +16556,6 @@ CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/q
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtXml/qdom.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxml-config.h
 CMakeFiles/calenhad.dir/mapping/Graticule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtXml/qtxmlglobal.h
-
-CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o: ../mapping/Statistics.cpp
-CMakeFiles/calenhad.dir/mapping/Statistics.cpp.o: ../mapping/Statistics.h
 
 CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.o: ../../src/Interpolation.h
 CMakeFiles/calenhad.dir/mapping/TerraceCurve.cpp.o: ../controls/altitudemap/AltitudeMapping.h
@@ -17004,7 +17116,10 @@ CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/Spl
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../../src/grid/CubicSphere.h
@@ -17020,12 +17135,12 @@ CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../messages/QNotification.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../messages/QNotificationHost.cpp
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../messages/QProgressNotification.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -17059,6 +17174,7 @@ CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-li
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/messages/QNotificationHost.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -17403,7 +17519,10 @@ CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/SplashDialo
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../../src/grid/CubicSphere.h
@@ -17420,7 +17539,6 @@ CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../mapping/CalenhadMapWidget.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../mapping/CubicSpline.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../mapping/Curve.h
-CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../mapping/TerraceCurve.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/module/AltitudeMap.cpp.o: ../nodeedit/Port.h
@@ -17977,7 +18095,10 @@ CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../../src/matrices.h
@@ -17990,7 +18111,6 @@ CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../grid/CubicSphere.h
@@ -18003,6 +18123,7 @@ CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../module/StructuredGrid.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../nodeedit/Port.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -18036,6 +18157,7 @@ CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/Qt
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/module/Cache.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -18229,7 +18351,10 @@ CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/Splas
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../../src/grid/CubicSphere.h
@@ -18244,12 +18369,12 @@ CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../exprtk/ExpressionWidg
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../exprtk/Calculator.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../module/ConvolutionKernel.cpp
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: ../module/ConvolutionKernel.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -18286,6 +18411,7 @@ CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linu
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -18475,7 +18601,10 @@ CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../../src/matrices.h
@@ -18488,7 +18617,6 @@ CMakeFiles/calenhad.dir/module/Map.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/Map.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../grid/CubicSphere.h
@@ -18502,6 +18630,7 @@ CMakeFiles/calenhad.dir/module/Map.cpp.o: ../module/StructuredGrid.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../nodeedit/Port.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -18535,6 +18664,7 @@ CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCo
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/module/Map.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -18728,7 +18858,10 @@ CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/grid/CubicSphere.h
@@ -18742,7 +18875,6 @@ CMakeFiles/calenhad.dir/module/Module.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/Module.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../nodeedit/NodeBlock.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../nodeedit/Port.h
@@ -19288,7 +19420,10 @@ CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../../src/grid/CubicSphere.h
@@ -19302,7 +19437,6 @@ CMakeFiles/calenhad.dir/module/Node.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/Node.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/module/Node.cpp.o: ../nodeedit/NodeBlock.h
@@ -19854,7 +19988,10 @@ CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/SplashDialog.
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../../src/grid/CubicSphere.h
@@ -19868,7 +20005,6 @@ CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/module/NodeGroup.cpp.o: ../module/Node.h
@@ -20404,7 +20540,10 @@ CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/SplashDialog.
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../../src/matrices.h
@@ -20417,7 +20556,6 @@ CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../graph/ComputeService.h
@@ -20432,6 +20570,7 @@ CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../module/StructuredGrid.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../nodeedit/Port.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -20465,6 +20604,7 @@ CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/module/Procedure.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -20658,7 +20798,10 @@ CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/SplashDial
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../../src/matrices.h
@@ -20672,7 +20815,6 @@ CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../geoutils.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../grid/CubicSphere.h
@@ -20686,6 +20828,7 @@ CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../module/RasterModule.cpp
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../module/RasterModule.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../module/StructuredGrid.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -20720,6 +20863,7 @@ CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreapplication.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/module/RasterModule.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -20924,7 +21068,10 @@ CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/SplashDi
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../../src/grid/CubicSphere.h
@@ -20938,7 +21085,6 @@ CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../controls/QAngleControl.h
@@ -20950,6 +21096,7 @@ CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../module/RasterModule.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../module/StructuredGrid.cpp
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../module/StructuredGrid.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -20984,6 +21131,7 @@ CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-g
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -21182,6 +21330,9 @@ CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/CalenhadServices.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
+CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../../src/grid/CubicSphere.h
@@ -21195,7 +21346,6 @@ CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../exprtk/ExpressionWidget.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o: ../pipeline/CalenhadModel.h
@@ -21765,7 +21915,10 @@ CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/Sp
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../../src/grid/CubicSphere.h
@@ -21784,7 +21937,6 @@ CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o: ../module/ParamValidator.h
@@ -22454,7 +22606,10 @@ CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/SplashDi
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../../src/grid/CubicSphere.h
@@ -22468,7 +22623,6 @@ CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../CalenhadServices.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/nodeedit/CalenhadView.cpp.o: ../module/Module.h
@@ -23011,7 +23165,10 @@ CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/SplashDial
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../../src/grid/CubicSphere.h
@@ -23026,7 +23183,6 @@ CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../module/ParamValidator.h
@@ -23034,6 +23190,7 @@ CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../preferences/PreferencesSer
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../nodeedit/Connection.cpp
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: ../nodeedit/Port.h
+CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -23067,6 +23224,7 @@ CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/nodeedit/Connection.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -23264,7 +23422,10 @@ CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/SplashD
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../../src/grid/CubicSphere.h
@@ -23280,12 +23441,12 @@ CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../nodeedit/EditableLabel.cpp
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../nodeedit/EditableLabel.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../nodeedit/NodeBlock.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../nodeedit/NodeNameValidator.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -23320,6 +23481,7 @@ CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/nodeedit/EditableLabel.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -23518,7 +23680,10 @@ CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/SplashDialo
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../../src/matrices.h
@@ -23533,7 +23698,6 @@ CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../grid/CubicSphere.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/nodeedit/NodeBlock.cpp.o: ../module/ParamValidator.h
@@ -24088,7 +24252,10 @@ CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/Spl
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../../src/grid/CubicSphere.h
@@ -24103,7 +24270,6 @@ CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/nodeedit/NodeNameValidator.cpp.o: ../messages/QNotificationHost.h
@@ -24645,7 +24811,10 @@ CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../../src/grid/CubicSphere.h
@@ -24660,7 +24829,6 @@ CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/nodeedit/Port.cpp.o: ../module/ParamValidator.h
@@ -25213,7 +25381,10 @@ CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/Spl
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../../src/grid/CubicSphere.h
@@ -25229,7 +25400,6 @@ CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../module/ParamValidator.h
@@ -25239,6 +25409,7 @@ CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../nodeedit/PortNameVa
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../nodeedit/PortNameValidator.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: ../preferences/PreferencesService.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
+CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFile
@@ -25274,6 +25445,7 @@ CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-li
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
 CMakeFiles/calenhad.dir/nodeedit/PortNameValidator.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qdiriterator.h
@@ -25465,7 +25637,10 @@ CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/contro
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../../src/matrices.h
@@ -25481,7 +25656,6 @@ CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../grid/CubicSph
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../messages/QNotificationHost.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/nodeedit/ProjectPropertiesDialog.cpp.o: ../module/Node.h
@@ -26019,7 +26193,10 @@ CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/SplashD
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../../src/grid/CubicSphere.h
@@ -26037,7 +26214,6 @@ CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../grid/icosphere.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../module/Node.h
 CMakeFiles/calenhad.dir/pipeline/CalenhadModel.cpp.o: ../module/ParamValidator.h
@@ -26593,7 +26769,10 @@ CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/SplashD
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
+CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
+CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/controls/globe/HypsographyWidget.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/graph/ComputeService.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/matrices.h
@@ -26607,7 +26786,6 @@ CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../mapping/CalenhadMapWidget.h
-CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../mapping/Statistics.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../module/AltitudeMap.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../module/Module.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../module/Node.h
