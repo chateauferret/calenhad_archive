@@ -51,18 +51,13 @@ void CalenhadStatsPanel::refresh() {
     _hypsography -> refresh();
      CalenhadStatistics worldStats = _hypsography -> statistics();
     _renderSizeLabel -> setText ("");
-    _renderSizeLabel -> setEnabled (false);
-    _renderTimeLabel -> setText ("");
-    _renderTimeLabel -> setEnabled (false);
     _worldExtremesLabel -> setText ("");
-    _worldExtremesLabel -> setEnabled (false);
     _worldMeanLabel -> setText ("");
     _worldExtremesLabel -> setText (QString::number (worldStats._minValue) + " to " + QString::number (worldStats._maxValue));
     _worldMeanLabel -> setText (QString::number (worldStats._meanValue));
     _renderSizeLabel -> setEnabled (true);
     _renderSizeLabel -> setText (QString::number (worldStats._valueCount) + " values");
-    if (worldStats._renderTime > 0) {
-        _renderTimeLabel -> setEnabled (true);
-        _renderTimeLabel -> setText (QString::number (worldStats._renderTime) + " ms");
-    }
+    _renderTimeLabel -> setEnabled (true);
+    _renderTimeLabel -> setText (QString::number (worldStats._computeTime) + " ms");
+
 }

@@ -635,7 +635,7 @@ void CalenhadMapWidget::compute () {
     //std::cout << "Image size " << width () << " x " << height () << "\n\n";
     clock_t end = clock ();
     _renderTime = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    //std::cout << "Render finished in " << _renderTime << " milliseconds\n\n";
+    //std::cout << "Render finished in " << _computeTime << " milliseconds\n\n";
     glDeleteBuffers (1, &inBuffer);
     glDeleteBuffers (1, &colBuffer);
     emit rendered();

@@ -184,7 +184,7 @@ void CalenhadView::modelChanged() {
 
     // Widget viewport recangle
     QRectF rectInScene (mapToScene (-20, -20), mapToScene (rect().bottomRight() + QPoint(20, 20)));
-
+    QPointF centre = sceneRect().center();
     // Copy the new size from the old one
     QPointF newTopLeft (sceneRect().topLeft());
     QPointF newBottomRight (sceneRect().bottomRight());
@@ -211,4 +211,5 @@ void CalenhadView::modelChanged() {
 
     // Set new scene size
     setSceneRect (QRectF(newTopLeft, newBottomRight));
+    centerOn (centre);
 }

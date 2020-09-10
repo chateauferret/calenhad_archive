@@ -66,9 +66,11 @@ namespace calenhad {
 
             void fromRaster (QImage* image);
 
+            void setComputeTime (double d);
+
         protected:
             float* _grid;
-
+            double _computeTime;
             const double HALF_ROOT_2 = 0.70710676908493042;
 
             void toCartesian (const mapping::CubeCoordinates& fuv, geoutils::Cartesian& xyz) const;
@@ -77,7 +79,7 @@ namespace calenhad {
             int _renderTime;
 
             void initialise();
-
+            double computeTime() const;
 
             void adjacent (const mapping::CubeCoordinates& fuv, mapping::CubeCoordinates* m);
 

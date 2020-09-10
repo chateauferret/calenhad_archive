@@ -13,7 +13,7 @@ using namespace calenhad::grid;
 using namespace calenhad::mapping;
 using namespace calenhad::controls::globe;
 
-CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr) {
+CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0) {
     _size = std::pow (2, depth);
     initialise();
 }
@@ -155,12 +155,13 @@ float CubicSphere::valueAt (const CubeCoordinates& fuv) {
 }
 
 void CubicSphere::statistics (CalenhadStatistics& statistics) const {
+    clock_t start = clock ();
     double _sum = 0;
 
     statistics._minValue = _grid [0];
     statistics._maxValue = _grid [0];
     statistics._valueCount = 0;
-    statistics._renderTime = 0.0;
+    statistics._computeTime = (int) _computeTime;
     for (int i = 0; i < _size * _size * 6; i++) {
         if (! std::isnan (_grid [i])) {
             if (_grid[i] < statistics._minValue || statistics._valueCount == 0) { statistics._minValue = _grid[i]; }
@@ -180,7 +181,7 @@ void CubicSphere::statistics (CalenhadStatistics& statistics) const {
     for (int i = 0; i < _size * _size * 6; i++) {
         if (! std::isnan (_grid [i])) {
             double normalised = (_grid [i] - statistics._minValue) / statistics._range;
-            int bucket = (int) (normalised * 1000);
+            int bucket = (int) (normalised * 999);
             if (bucket < 0 || bucket > 999) {
                 std::cout << "Tried to access bucket " << bucket << "\n";
             } else {
@@ -188,6 +189,10 @@ void CubicSphere::statistics (CalenhadStatistics& statistics) const {
             }
         }
     }
+    clock_t end = clock ();
+    int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+    std::cout << " ... statistics computed in " << time << " milliseconds\n\n";
+
 }
 
 GLfloat *CubicSphere::data() {
@@ -293,4 +298,12 @@ void CubicSphere::surrounding (const CubeCoordinates& fuv, CubeCoordinates* k) {
     k[7] = CubeCoordinates (adj[0].face, adj[0].u, fuv.v);
     k[8] = CubeCoordinates (adj [0].face == fuv.face ? (adj [2].face == fuv.face ? fuv.face : adj [2].face) : adj [0].face, adj [0].u, adj [2].v);
 
+}
+
+double CubicSphere::computeTime() const {
+    return _computeTime;
+}
+
+void CubicSphere::setComputeTime (double time) {
+    _computeTime = time;
 }

@@ -453,7 +453,7 @@ Node* CalenhadModel::addNode (Node* node, const QPointF& initPos, NodeGroup* gro
     node -> setGroup (group);
     QPointF point = initPos;
     snapToGrid (point);
-    handle -> setPos (point);
+    handle ->  setPos (point);
     // assign the node's group, if any
     //node -> assignGroup();
     return node;

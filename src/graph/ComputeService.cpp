@@ -77,6 +77,7 @@ ComputeService::~ComputeService () {
 }
 
 void ComputeService::compute (Module *module, CubicSphere *buffer) {
+    clock_t start = clock ();
     Graph graph (module);
     QString newCode = graph.glsl();
     _context.makeCurrent( &_surface);
@@ -84,7 +85,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
     delete _computeProgram;
     _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
     _computeProgram = new QOpenGLShaderProgram();
-    clock_t start = clock ();
+
 
     // create and allocate a buffer for any input rasters
 
@@ -110,6 +111,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
         clock_t end = clock ();
         int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
         std::cout << " ... finished in " << time << " milliseconds\n\n";
+        buffer -> setComputeTime (time);
     } else {
         CalenhadServices::messages() -> message ("No code for compute shader",  code);
     }
@@ -147,8 +149,8 @@ void ComputeService::process (Procedure* module, CubicSphere *buffer) {
             }
         }
         clock_t end = clock ();
-        int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-        std::cout << " ... finished in " << time << " milliseconds\n\n";
+        double time = (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+        buffer -> setComputeTime (time);
     } else {
         CalenhadServices::messages() -> message ("No code for compute shader",  code);
     }
