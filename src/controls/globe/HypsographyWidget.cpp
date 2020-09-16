@@ -46,9 +46,9 @@ void HypsographyWidget::refresh() {
 
     CubicSphere* buffer = _globe -> buffer();
     unsigned _buckets [1000];
+    
     if (! buffer) { return; }
-    buffer -> statistics (_statistics);
-
+    _statistics = CalenhadServices::compute() -> statistics();
 
     // our buckets need to be cumulative
     _buckets [0] = _statistics._buckets [0];

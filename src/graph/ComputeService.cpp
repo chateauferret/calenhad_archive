@@ -11,6 +11,8 @@
 #include "../messages/QNotificationHost.h"
 #include <QImage>
 #include <src/module/Procedure.h>
+#include <thread>
+#include <future>
 /*
 
 calenhad::graph::ComputeService::ComputeS ervice () {
@@ -30,6 +32,7 @@ using namespace calenhad::graph;
 using namespace calenhad::module;
 using namespace calenhad::nodeedit;
 using namespace calenhad::grid;
+using namespace calenhad::controls::globe;
 
 
 ComputeService::ComputeService () :
@@ -45,12 +48,19 @@ ComputeService::ComputeService () :
     csFile.open (QIODevice::ReadOnly);
     QTextStream csTextStream (&csFile);
     _computeTemplate = csTextStream.readAll();
+    csFile.close();
 
     QFile psFile (":/shaders/process.glsl");
-    csFile.open (QIODevice::ReadOnly);
+    psFile.open (QIODevice::ReadOnly);
     QTextStream psTextStream (&psFile);
     _processTemplate = csTextStream.readAll();
+    psFile.close();
 
+    QFile hsFile (":/shaders/histogram.glsl");
+    hsFile.open (QIODevice::ReadOnly);
+    QTextStream hsTextStream (&hsFile);
+    _histogramCode = hsTextStream.readAll();
+    hsFile.close();
 
     QSurfaceFormat format;
     format.setMajorVersion(4);
@@ -108,10 +118,12 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
                 CalenhadServices::messages() -> message ("Compute shader would not compile", code);
             }
         }
+
         clock_t end = clock ();
         int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
         std::cout << " ... finished in " << time << " milliseconds\n\n";
         buffer -> setComputeTime (time);
+        computeStatistics (buffer);
     } else {
         CalenhadServices::messages() -> message ("No code for compute shader",  code);
     }
@@ -145,14 +157,15 @@ void ComputeService::process (Procedure* module, CubicSphere *buffer) {
                 _computeProgram -> bind();
                 process (buffer -> data(), module);
             } else {
-                CalenhadServices::messages() -> message ("Compute shader would not compile", code);
+                CalenhadServices::messages() -> message ("compute(): Compute shader would not compile", code);
             }
         }
         clock_t end = clock ();
         double time = (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
         buffer -> setComputeTime (time);
+        _statistics._computeTime = (int) time;
     } else {
-        CalenhadServices::messages() -> message ("No code for compute shader",  code);
+        CalenhadServices::messages() -> message ("compute(): No code for compute shader",  code);
     }
 }
 
@@ -302,4 +315,51 @@ void ComputeService::extractRasters (const Graph& graph, const int& xIndex, cons
     }
 
 }
+
+
+void ComputeService::computeStatistics (grid::CubicSphere* buffer) {
+    clock_t start = clock ();
+    _tileSize = buffer->size () / _tiles;
+    _statistics._maxValue = 0.0, _statistics._maxValue = 0.0;
+    _statistics._valueCount = 0;
+    float sum = 0.0;
+    int sampleEvery = 8;
+    for (int x = 0; x < buffer->size (); x += sampleEvery) {
+        for (int y = 0; y < buffer->size (); y += sampleEvery) {
+            for (int z = 0; z < 6; z++) {
+                int i = z * buffer -> size() * buffer -> size() + y * buffer -> size() + x;
+                float v = (float) buffer->data () [i];
+                if (v < _statistics._minValue || x == 0) { _statistics._minValue = v; }
+                if (v > _statistics._maxValue || x == 0) { _statistics._maxValue = v; }
+                sum += v;
+                _statistics._valueCount++;
+            }
+        }
+    }
+
+    _statistics._meanValue = sum / (float) _statistics._valueCount;
+    _statistics._range = _statistics._maxValue - _statistics._minValue;
+    for (int i = 0; i < 1000; i++) { _statistics._buckets [i] = 0; }
+    for (int x = 0; x < buffer->size (); x += sampleEvery) {
+        for (int y = 0; y < buffer->size (); y += sampleEvery) {
+            for (int z = 0; z < 6; z++) {
+                int i = z * buffer -> size() * buffer -> size() + y * buffer -> size() + x;
+                float v = (float) buffer->data () [i];
+                float normalised = (v - _statistics._minValue) / (_statistics._range);
+                int bucket = int (normalised * 999);
+                _statistics._buckets [bucket]++;
+            }
+        }
+    }
+
+
+    clock_t end = clock ();
+    int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+    std::cout << " statistics fetched in " << time << " milliseconds\n\n";
+}
+
+CalenhadStatistics ComputeService::statistics () {
+    return _statistics;
+}
+
 

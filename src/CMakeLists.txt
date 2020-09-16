@@ -4,12 +4,14 @@ set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
 include (CMakeFindDependencyMacro)
+SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -pthread")
 
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 project (calenhad LANGUAGES CXX)
 message (STATUS ("CMake prefix ") ${CMAKE_PREFIX_PATH})
 
+find_package (Threads REQUIRED)
 find_package (Qt5 5.12 REQUIRED COMPONENTS Core Widgets Gui Xml OpenGL)
 find_package (Qwt REQUIRED)
 find_package (GeographicLib 1.34 REQUIRED)
@@ -97,6 +99,7 @@ target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::Op
         ${PROJ4_LIBRARY}
         ${QWT_LIBRARY}
         ${GMIC_LIBRARY}
+        ${CMAKE_THREAD_LIBS_INIT}
         ${OPENGL_LIBRARIES})
 
 

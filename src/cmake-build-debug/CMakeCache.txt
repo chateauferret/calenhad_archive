@@ -391,6 +391,10 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
+//Test CMAKE_HAVE_LIBC_PTHREAD
+CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
+//Have include pthread.h
+CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/home/ferret/CLionProjects/calenhad/src
@@ -462,6 +466,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_GeographicLib:INTERNAL=[/usr/lib/x86_64-linux-gnu/l
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/usr/lib/x86_64-linux-gnu/libOpenGL.so][/usr/lib/x86_64-linux-gnu/libGLX.so][/usr/include][c ][v()]
 //Details about finding Qwt
 FIND_PACKAGE_MESSAGE_DETAILS_Qwt:INTERNAL=[/usr/lib/libqwt-qt5.so][/usr/include/qwt][TRUE][v()]
+//Details about finding Threads
+FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GMIC_INCLUDE_DIR
 GMIC_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: GMIC_LIBRARY

@@ -49,9 +49,10 @@ namespace calenhad {
             long count() const;
 
             float* grid ();
-            void statistics (controls::globe::CalenhadStatistics& statistics) const;
+            calenhad::controls::globe::CalenhadStatistics statistics (controls::globe::CalenhadStatistics& statistics) const;
             float valueAt (const geoutils::Geolocation&);
             int size () const;
+            int depth () const;
             void heightmap (const int& face, QImage* image);
             void exportHeightmaps (const QString& filename);
             GLfloat* data();
@@ -75,7 +76,7 @@ namespace calenhad {
 
             void toCartesian (const mapping::CubeCoordinates& fuv, geoutils::Cartesian& xyz) const;
 
-            int _size;
+            int _size, _depth;
             int _renderTime;
 
             void initialise();

@@ -17,7 +17,7 @@ CMake Warning (dev) at /usr/bin/clion-2020.1.1/bin/cmake/linux/share/cmake-3.17/
   OpenGL_GL_PREFERENCE has not been set to "GLVND" or "LEGACY", so for
   compatibility with CMake 3.10 and below the legacy GL library will be used.
 Call Stack (most recent call first):
-  CMakeLists.txt:16 (find_package)
+  CMakeLists.txt:18 (find_package)
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 CMake Warning at modules/LibFindMacros.cmake:206 (message):
@@ -26,7 +26,7 @@ CMake Warning at modules/LibFindMacros.cmake:206 (message):
   requirements to get rid of this warning.
 Call Stack (most recent call first):
   modules/FindGMIC.cmake:54 (libfind_process)
-  CMakeLists.txt:17 (find_package)
+  CMakeLists.txt:19 (find_package)
 
 
 -- Found GMIC 

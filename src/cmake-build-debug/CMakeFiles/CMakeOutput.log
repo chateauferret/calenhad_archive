@@ -480,3 +480,51 @@ Source file was:
   #endif
   int main() { return 0; }
   
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_cb506/fast && /usr/bin/make  -f CMakeFiles/cmTC_cb506.dir/build.make CMakeFiles/cmTC_cb506.dir/build
+make[1]: Entering directory '/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_cb506.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -std=c++17 -pthread    -o CMakeFiles/cmTC_cb506.dir/CheckIncludeFile.cxx.o -c /home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+Linking CXX executable cmTC_cb506
+/usr/bin/clion-2020.1.1/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb506.dir/link.txt --verbose=1
+/usr/bin/c++  -std=c++17 -pthread     CMakeFiles/cmTC_cb506.dir/CheckIncludeFile.cxx.o  -o cmTC_cb506 
+make[1]: Leaving directory '/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_96490/fast && /usr/bin/make  -f CMakeFiles/cmTC_96490.dir/build.make CMakeFiles/cmTC_96490.dir/build
+make[1]: Entering directory '/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_96490.dir/src.cxx.o
+/usr/bin/c++    -std=c++17 -pthread -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_96490.dir/src.cxx.o -c /home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_96490
+/usr/bin/clion-2020.1.1/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_96490.dir/link.txt --verbose=1
+/usr/bin/c++  -std=c++17 -pthread -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_96490.dir/src.cxx.o  -o cmTC_96490 
+make[1]: Leaving directory '/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+

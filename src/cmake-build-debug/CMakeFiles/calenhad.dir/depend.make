@@ -7155,6 +7155,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../sr
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o: ../../src/graph/ComputeService.h
@@ -8702,6 +8703,7 @@ CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/Calen
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/Serializable.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
+CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/geoutils.h
 CMakeFiles/calenhad.dir/controls/globe/CalenhadStatsPanel.cpp.o: ../../src/graph/ComputeService.h
@@ -9204,6 +9206,7 @@ CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/Serial
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/SplashDialog.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeDialog.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/CalenhadGlobeWidget.h
+CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/CalenhadStatistics.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/CalenhadStatsPanel.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/controls/globe/GlobeScaleWidget.h
 CMakeFiles/calenhad.dir/controls/globe/HypsographyWidget.cpp.o: ../../src/geoutils.h

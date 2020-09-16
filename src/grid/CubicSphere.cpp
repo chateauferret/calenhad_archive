@@ -13,7 +13,7 @@ using namespace calenhad::grid;
 using namespace calenhad::mapping;
 using namespace calenhad::controls::globe;
 
-CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0) {
+CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0), _depth (depth) {
     _size = std::pow (2, depth);
     initialise();
 }
@@ -154,45 +154,8 @@ float CubicSphere::valueAt (const CubeCoordinates& fuv) {
     return 0.0f;
 }
 
-void CubicSphere::statistics (CalenhadStatistics& statistics) const {
-    clock_t start = clock ();
-    double _sum = 0;
-
-    statistics._minValue = _grid [0];
-    statistics._maxValue = _grid [0];
-    statistics._valueCount = 0;
-    statistics._computeTime = (int) _computeTime;
-    for (int i = 0; i < _size * _size * 6; i++) {
-        if (! std::isnan (_grid [i])) {
-            if (_grid[i] < statistics._minValue || statistics._valueCount == 0) { statistics._minValue = _grid[i]; }
-            if (_grid[i] > statistics._maxValue || statistics._valueCount == 0) { statistics._maxValue = _grid[i]; }
-            _sum += _grid[i];
-            statistics._valueCount++;
-        }
-    }
-    statistics._meanValue = _sum / statistics._valueCount;
-    statistics._range = statistics._maxValue - statistics._minValue;
-
-    // hysography buckets
-    for (int i = 0; i < 1000; i++) {
-        statistics._buckets [i] = 0;
-    }
-
-    for (int i = 0; i < _size * _size * 6; i++) {
-        if (! std::isnan (_grid [i])) {
-            double normalised = (_grid [i] - statistics._minValue) / statistics._range;
-            int bucket = (int) (normalised * 999);
-            if (bucket < 0 || bucket > 999) {
-                std::cout << "Tried to access bucket " << bucket << "\n";
-            } else {
-                statistics._buckets[bucket]++;
-            }
-        }
-    }
-    clock_t end = clock ();
-    int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-    std::cout << " ... statistics computed in " << time << " milliseconds\n\n";
-
+CalenhadStatistics CubicSphere::statistics (CalenhadStatistics& statistics) const {
+    return CalenhadServices::compute() -> statistics();
 }
 
 GLfloat *CubicSphere::data() {

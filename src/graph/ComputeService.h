@@ -17,6 +17,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QtGui/QOffscreenSurface>
+#include <src/controls/globe/CalenhadStatistics.h>
 
 
 //#include "../compute/compute.h"
@@ -30,7 +31,6 @@ namespace calenhad {
         class Cache;
         class Procedure;
     }
-
     namespace grid {
         class CubicSphere;
     }
@@ -45,6 +45,8 @@ namespace calenhad {
 
             void process (module::Procedure* module, grid::CubicSphere* buffer);
 
+            controls::globe::CalenhadStatistics statistics ();
+
         private:
             QString _computeTemplate, _processTemplate;
             QOffscreenSurface _surface;
@@ -54,9 +56,9 @@ namespace calenhad {
             QOpenGLShader* _computeShader;
             QOpenGLShaderProgram* _computeProgram;
             QOpenGLFunctions_4_3_Core* f;
-            GLuint _heightMap;
+            GLuint _heightMap, _reduction, _buckets;
             void execute(GLfloat *buffer, const calenhad::graph::Graph& graph);
-
+            calenhad::controls::globe::CalenhadStatistics _statistics;
             QString code;
             //QOpenGLTexture* _rasterTexture;
             GLuint _rasterBuffer;
@@ -73,6 +75,10 @@ namespace calenhad {
             uint setupGrid ();
 
             void downloadBuffer (GLfloat* buffer, const int& size);
+
+            void computeStatistics (grid::CubicSphere* buffer);
+
+            QString _histogramCode;
         };
     }
 }
