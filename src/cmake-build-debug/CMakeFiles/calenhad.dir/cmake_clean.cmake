@@ -80,6 +80,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/calenhad.dir/module/Procedure.cpp.o"
   "CMakeFiles/calenhad.dir/module/RasterModule.cpp.o"
   "CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o"
+  "CMakeFiles/calenhad.dir/module/algorithm/Normalise.cpp.o"
   "CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o"
   "CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o"
   "CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.o"

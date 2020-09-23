@@ -2324,6 +2324,33 @@ module/StructuredGrid.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.s
 .PHONY : module/StructuredGrid.cpp.s
 
+module/algorithm/Normalise.o: module/algorithm/Normalise.cpp.o
+
+.PHONY : module/algorithm/Normalise.o
+
+# target to build an object file
+module/algorithm/Normalise.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/algorithm/Normalise.cpp.o
+.PHONY : module/algorithm/Normalise.cpp.o
+
+module/algorithm/Normalise.i: module/algorithm/Normalise.cpp.i
+
+.PHONY : module/algorithm/Normalise.i
+
+# target to preprocess a source file
+module/algorithm/Normalise.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/algorithm/Normalise.cpp.i
+.PHONY : module/algorithm/Normalise.cpp.i
+
+module/algorithm/Normalise.s: module/algorithm/Normalise.cpp.s
+
+.PHONY : module/algorithm/Normalise.s
+
+# target to generate assembly for a file
+module/algorithm/Normalise.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/algorithm/Normalise.cpp.s
+.PHONY : module/algorithm/Normalise.cpp.s
+
 nodeedit/Calenhad.o: nodeedit/Calenhad.cpp.o
 
 .PHONY : nodeedit/Calenhad.o
@@ -2978,6 +3005,9 @@ help:
 	@echo "... module/StructuredGrid.o"
 	@echo "... module/StructuredGrid.i"
 	@echo "... module/StructuredGrid.s"
+	@echo "... module/algorithm/Normalise.o"
+	@echo "... module/algorithm/Normalise.i"
+	@echo "... module/algorithm/Normalise.s"
 	@echo "... nodeedit/Calenhad.o"
 	@echo "... nodeedit/Calenhad.i"
 	@echo "... nodeedit/Calenhad.s"

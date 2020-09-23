@@ -20,6 +20,9 @@
 namespace calenhad {
     namespace module {
         class Node;
+        namespace algorithm {
+            class Algorithm;
+        }
     }
 
     namespace pipeline {
@@ -68,6 +71,9 @@ namespace calenhad {
             QString getIconFile (const QString &icon);
 
 
+            QMap<QString, calenhad::module::algorithm::Algorithm*> _algorithms;
+
+            module::algorithm::Algorithm* algorithm (const QString& algorithmType);
         };
     }
 }

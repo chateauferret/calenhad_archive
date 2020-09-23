@@ -1,5 +1,7 @@
+ include (${CMAKE_CURRENT_LIST_DIR}/algorithm/CMakeLists.txt)
 
-SET(QMODULE_SOURCE_FILES
+ SET(QMODULE_SOURCE_FILES
+        ${ALGORITHM_SOURCE_FILES}
         ${CMAKE_CURRENT_LIST_DIR}/Node.h
         ${CMAKE_CURRENT_LIST_DIR}/Node.cpp
         ${CMAKE_CURRENT_LIST_DIR}/Module.cpp

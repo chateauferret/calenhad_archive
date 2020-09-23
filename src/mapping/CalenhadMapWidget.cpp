@@ -59,7 +59,7 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
                                                                                  _renderProgram (nullptr),
                                                                                  _indexBuffer (nullptr),
                                                                                  _colorMapBuffer (nullptr),
-                                                                                 _buffer (nullptr),
+                                                                                 _buffer (new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize)),
                                                                                  _projection (CalenhadServices::projections() -> fetch (mode == RenderMode::RenderModeGlobe ? "Orthographic" : "Equirectangular")),
                                                                                  _scale (1.0),
                                                                                  _shader (""),
@@ -120,8 +120,11 @@ CalenhadMapWidget::~CalenhadMapWidget() {
 
     delete _graticule;
     delete _geodesic;
-    if (_buffer) free (_buffer);
 
+    if (_buffer) {
+        delete (_buffer);
+        _buffer = nullptr;
+    }
 }
 
 
@@ -644,17 +647,16 @@ void CalenhadMapWidget::compute () {
 }
 
 void CalenhadMapWidget::render() {
-    if (_source && _source -> isComplete ()) {
+    if (_source) {
+        std::cout << "CalnehadMapWidget :: Render module " << _source -> name().toStdString() << "\n";
         if (! _source -> name().isNull()) {
-            ComputeService* c = CalenhadServices::compute();
-            _size = std::pow (2, CalenhadServices::preferences() -> calenhad_compute_gridsize);
-           delete _buffer;
-           _buffer = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
-           c -> compute (_source, _buffer);
-           emit computed();
+           _source->fetch (_buffer);
         }
 
-        redraw();
+        if (_buffer) {
+            emit computed ();
+            redraw ();
+        }
     }
 }
 
@@ -677,6 +679,8 @@ Module* CalenhadMapWidget::source() {
 }
 
 void CalenhadMapWidget::setSource (Module* qm) {
+
+    std::cout << "CalenhadMapWidget :: setSource - " << (qm ? qm -> name().toStdString() : "NULL") << "\n";
     if (_source) {
         disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
     }

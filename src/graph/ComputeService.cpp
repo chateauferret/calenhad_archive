@@ -13,6 +13,7 @@
 #include <src/module/Procedure.h>
 #include <thread>
 #include <future>
+#include <QtWidgets/QProgressDialog>
 /*
 
 calenhad::graph::ComputeService::ComputeS ervice () {
@@ -49,7 +50,7 @@ ComputeService::ComputeService () :
     QTextStream csTextStream (&csFile);
     _computeTemplate = csTextStream.readAll();
     csFile.close();
-
+/*
     QFile psFile (":/shaders/process.glsl");
     psFile.open (QIODevice::ReadOnly);
     QTextStream psTextStream (&psFile);
@@ -61,7 +62,7 @@ ComputeService::ComputeService () :
     QTextStream hsTextStream (&hsFile);
     _histogramCode = hsTextStream.readAll();
     hsFile.close();
-
+*/
     QSurfaceFormat format;
     format.setMajorVersion(4);
     format.setMinorVersion(3);
@@ -87,6 +88,8 @@ ComputeService::~ComputeService () {
 }
 
 void ComputeService::compute (Module *module, CubicSphere *buffer) {
+    std::cout << "ComputeService::compute - Module " << module -> name().toStdString() << " - buffer " << buffer << "\n";
+
     clock_t start = clock ();
     Graph graph (module);
     QString newCode = graph.glsl();
@@ -101,12 +104,12 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 
     if (newCode != QString::null) {
     //if (_forceRender || code != newCode)) {
+
         _forceRender = false;
         code = newCode;
         QString ct = _computeTemplate;
         ct.detach();                 // deep copy, otherwise we overwrite the placeholder
         QString sourceCode = ct.replace("// inserted code //", code);
-        std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
         if (_computeShader) {
             _computeProgram -> removeAllShaders();
             if (_computeShader -> compileSourceCode (sourceCode)) {
@@ -118,12 +121,13 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
                 CalenhadServices::messages() -> message ("Compute shader would not compile", code);
             }
         }
-
+        computeStatistics (buffer);
         clock_t end = clock ();
         int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
         std::cout << " ... finished in " << time << " milliseconds\n\n";
         buffer -> setComputeTime (time);
-        computeStatistics (buffer);
+        _statistics._computeTime = (int) time;
+
     } else {
         CalenhadServices::messages() -> message ("No code for compute shader",  code);
     }
@@ -195,6 +199,16 @@ void ComputeService::process (GLfloat* buffer,  Procedure* module) {
 void ComputeService::execute (GLfloat* buffer, const Graph& graph) {
     uint size = setupGrid();
     _tileSize = size / _tiles;
+    QProgressDialog progress ("Computing module " + graph.module() -> name(), "Abandon", 0, _tiles * _tiles, nullptr);
+    progress.setWindowModality(Qt::WindowModal);
+
+    for (int i = 0; i < graph.rasterCount(); i++) {
+        CubicSphere* cs = new CubicSphere (CalenhadServices::preferences()->calenhad_compute_gridsize);
+        graph.cube (i, cs);
+        _cubes.push_back (cs);
+    }
+
+
     for (int i = 0; i < _tiles; i++) {
         for (int j = 0; j < _tiles; j++) {
 
@@ -211,10 +225,15 @@ void ComputeService::execute (GLfloat* buffer, const Graph& graph) {
             uint xp = _tileSize / 32; // the grid size divided by the number of local invocations defined in the shader which is 32 x 32 x 1
             f -> glDispatchCompute (xp, xp, 6);
             f -> glDeleteBuffers (1, &_rasterBuffer);
+            progress.setValue (i * _tiles + j);
+            if (progress.wasCanceled()) { break; }
         }
+        if (progress.wasCanceled()) { break; }
     }
 
     downloadBuffer (buffer, size);
+    for (CubicSphere* cs : _cubes) { delete cs; }
+    _cubes.clear();
 }
 
 
@@ -224,7 +243,7 @@ void ComputeService::downloadBuffer (GLfloat* buffer, const int& size) {
     f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 5, _heightMap);
     ulong bytes = 6 * size * size * sizeof (GLfloat);
     GLfloat *ptr = (GLfloat*) f -> glMapBufferRange (GL_SHADER_STORAGE_BUFFER, 0, bytes, GL_MAP_READ_BIT);
-    memcpy (buffer, ptr, bytes);
+    //memcpy (buffer, ptr, bytes);
     f -> glUnmapBuffer (GL_SHADER_STORAGE_BUFFER);
     f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
@@ -275,22 +294,16 @@ void ComputeService::extractRasters (const Graph& graph, const int& xIndex, cons
     if (graph.rasterCount() > 0) {
 
         // work out the size of the buffer we need for all rasters and convolutions
-        ulong bytes = 0;
-        for (int i = 0; i < graph.rasterCount(); i++) {
-            CubicSphere* cube = dynamic_cast<CubicSphere*> (graph.cube (i));
-            if (cube) {
-                int r = _tile -> size();
-                bytes += r * r * 6 * sizeof (GLfloat);
-            }
-        }
+        long r = std::pow (2, CalenhadServices::preferences() -> calenhad_compute_gridsize);
+        ulong bytes = r * r * 6 * sizeof (GLfloat) * graph.rasterCount();
+
 
         // unpack the raster data from the raster / convolution modules
         ulong bufferIndex = 0;
         float* rasterBuffer = (float*) malloc (bytes);
-        for (int i = 0; i < graph.rasterCount(); i++) {
 
-            CubicSphere* cube = graph.cube (i);
-            _tile -> makeTile (xIndex, yIndex, cube);
+        for (int i = 0; i < graph.rasterCount(); i++) {
+            _tile -> makeTile (xIndex, yIndex, _cubes.at (i) );
             if (_tile) {
                 int s = _tile -> size();
                 for (int face = 0; face < 6; face++) {

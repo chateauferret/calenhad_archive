@@ -18,11 +18,11 @@ namespace calenhad {
             explicit StructuredGrid (const QString& type);
             ~StructuredGrid() override;
             bool isComplete() override;
+            bool isComputed() override;
             QString glsl() override;
 
             int rasterSize();
             grid::CubicSphere *buffer() const;
-
 
         protected slots:
 

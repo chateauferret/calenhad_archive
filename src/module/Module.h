@@ -37,6 +37,7 @@ namespace calenhad {
         class Module : public Node {
         Q_OBJECT
 
+
             Q_ENUMS (ModuleType)
 
         public:
@@ -45,6 +46,7 @@ namespace calenhad {
             QString label();
             QString description();
             virtual QString glsl();
+            virtual void fetch (calenhad::grid::CubicSphere* buffer);
 
             void setModel (calenhad::pipeline::CalenhadModel* model) override;
             void addInputPort (const unsigned int& index, const int& portType, const QString& name, const QString& label, const double& defaultValue = 0.0, const bool& required = false);
@@ -56,7 +58,7 @@ namespace calenhad {
             calenhad::nodeedit::Port* output();
             void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
             QVector<nodeedit::Port*> ports ();
-
+            virtual bool isComputed();
 
         public slots:
             void parameterChanged() override;
@@ -76,6 +78,7 @@ namespace calenhad {
             bool _valid;
 
 
+            void copy (grid::CubicSphere* buffer);
         };
     }
 }

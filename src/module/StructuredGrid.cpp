@@ -56,3 +56,7 @@ int StructuredGrid::rasterSize() {
     return _buffer -> size();
 }
 
+bool StructuredGrid::isComputed () {
+    return Module::isComputed();
+}
+

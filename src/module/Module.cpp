@@ -165,6 +165,11 @@ QString Module::glsl () {
     return code;
 }
 
+void Module::fetch (CubicSphere* buffer) {
+    std::cout << "Module :: fetch - " << name().toStdString() << " - " << buffer << "\n";
+    CalenhadServices::compute() -> compute (this, buffer);
+}
+
 QMap<unsigned, Port*> Module::inputs() {
     return _inputs;
 }
@@ -212,6 +217,10 @@ void Module::connectMenu (QMenu* menu, Port* p) {
 
 Port* Module::output () {
     return _output;
+}
+
+bool Module::isComputed () {
+    return isComplete();
 }
 
 

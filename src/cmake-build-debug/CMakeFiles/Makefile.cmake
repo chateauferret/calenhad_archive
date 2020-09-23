@@ -24,6 +24,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "../mapping/projection/CMakeLists.txt"
   "../messages/CMakeLists.txt"
   "../module/CMakeLists.txt"
+  "../module/algorithm/CMakeLists.txt"
   "../modules/CMakeFindDependencyMacro.cmake"
   "../modules/CheckCXXSourceCompiles.cmake"
   "../modules/FindGMIC.cmake"

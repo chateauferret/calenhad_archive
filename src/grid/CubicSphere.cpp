@@ -18,6 +18,25 @@ CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr)
     initialise();
 }
 
+// copy constructor
+CubicSphere::CubicSphere (CubicSphere* other) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0), _depth (other -> _depth) {
+    _size = other->size();
+    _grid = (float*) malloc (6 * _size * _size * sizeof (float));
+    for (int i = 0; i < count (); i++) {
+        _grid[i] = other -> _grid[i];
+    }
+}
+
+
+void CubicSphere::copy (CubicSphere* other) {
+    if (_size == other -> size()) {
+        for (int i = 0; i < count (); i++) {
+            _grid [i] = other -> _grid [i];
+        }
+    }
+}
+
+
 void CubicSphere::makeTile (const int& x, const int& y, CubicSphere* source) {
     int xOffset = y * _size;
     int stride = source -> size();
@@ -48,7 +67,10 @@ void CubicSphere::initialise() {
 }
 
 CubicSphere::~CubicSphere() {
-    free (_grid);
+    if (_grid) {
+        free (_grid);
+        _grid = nullptr;
+    }
 }
 
 long CubicSphere::count() const {

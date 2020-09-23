@@ -55,8 +55,9 @@ Graph::Graph (calenhad::module::Module* module) :
 
 
 Graph::~Graph () {
-    if (_colorMapBuffer) { delete (_colorMapBuffer); }
+    delete (_colorMapBuffer);
     delete _parser;
+
 }
 
 QString Graph::glsl() {
@@ -67,7 +68,7 @@ QString Graph::glsl() {
         _code.append ("    return _" + _nodeName + " (pos, cartesian, geolocation);\n");
         _code.append ("}\n");
     }
-    std::cout << _code.toStdString () << "\n\n";
+    //std::cout << _code.toStdString () << "\n\n";
     return _code;
 }
 
@@ -122,9 +123,9 @@ QString Graph::glsl (Module* module) {
                     _code.append ("; }\n");
                 }
 
-                Cache* cm = dynamic_cast<Cache*> (qm);
-                if (cm) {
-                    _rasters.append (cm);
+                Cache* cache = dynamic_cast<Cache*> (qm);
+                if (cache) {
+                    _rasters.append (qm);
                     _code.replace ("%gridIndex", QString::number (_index));
                     _index += CalenhadServices::preferences() -> calenhad_compute_gridsize;
                     _code.append ("; }\n");
@@ -141,16 +142,13 @@ int Graph::rasterCount() const {
     return _rasters.size();
 }
 
-CubicSphere* Graph::cube (const int& index) const {
-    RasterModule* rm = dynamic_cast<RasterModule*> (_rasters [index]);
-    if (rm) {
-        return rm -> raster();
-    }
+void Graph::cube (const int& index, CubicSphere* cube) const {
+    std::cout << "Extracting " << _rasters [index] -> name().toStdString() << "\n"
+;    _rasters [index] -> fetch (cube);
+}
 
-    StructuredGrid* cm = dynamic_cast<StructuredGrid*> (_rasters [index]);
-    if (cm) {
-        return cm -> buffer();
-    } else return nullptr;
+Module* Graph::module () const {
+    return _module;
 }
 
 

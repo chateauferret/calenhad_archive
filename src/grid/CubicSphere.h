@@ -39,7 +39,9 @@ namespace calenhad {
         class CubicSphere {
 
         public:
-            // Neighbouring panels for each panel, in the order +x, -x, +y, -y
+            CubicSphere (CubicSphere* other);
+
+// Neighbouring panels for each panel, in the order +x, -x, +y, -y
             const int ADJACENT [6] [4] = { { 4, 5, 2, 3 }, { 4, 5, 2, 3, }, { 4, 5, 0, 1 }, { 4, 5, 0, 1 }, { 2, 3, 0, 1 }, { 2, 3, 0, 1 } };
 
 
@@ -52,7 +54,7 @@ namespace calenhad {
             calenhad::controls::globe::CalenhadStatistics statistics (controls::globe::CalenhadStatistics& statistics) const;
             float valueAt (const geoutils::Geolocation&);
             int size () const;
-            int depth () const;
+
             void heightmap (const int& face, QImage* image);
             void exportHeightmaps (const QString& filename);
             GLfloat* data();
@@ -61,13 +63,15 @@ namespace calenhad {
 
             void makeTile (const int& x, const int& y, CubicSphere* source);
 
-            float valueAt(const mapping::CubeCoordinates &fuv);
+            float valueAt (const mapping::CubeCoordinates &fuv);
 
             void toGeolocation (const mapping::CubeCoordinates& fuv, geoutils::Geolocation& g) const;
 
             void fromRaster (QImage* image);
 
             void setComputeTime (double d);
+
+            void copy (CubicSphere* other);
 
         protected:
             float* _grid;

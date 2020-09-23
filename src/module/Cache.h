@@ -6,15 +6,25 @@
 #define MESSAGES_CACHE_H
 
 #include "StructuredGrid.h"
+#include "src/module/algorithm/Algorithm.h"
 
 namespace calenhad {
     namespace module {
         class Cache : public StructuredGrid {
         public:
             explicit Cache (const QString& nodeType);
-            virtual ~Cache();
-            void invalidate();
+            ~Cache() override;
+            void invalidate() override;
             virtual void refresh();
+            bool isComputed() override;
+
+            void setAlgorithm (calenhad::module::algorithm::Algorithm* algorithm);
+
+            void fetch (grid::CubicSphere* buffer) override;
+
+        protected:
+            calenhad::module::algorithm::Algorithm* _algorithm;
+            bool _computed;
 
         };
     }

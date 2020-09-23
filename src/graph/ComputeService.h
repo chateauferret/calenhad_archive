@@ -46,6 +46,7 @@ namespace calenhad {
             void process (module::Procedure* module, grid::CubicSphere* buffer);
 
             controls::globe::CalenhadStatistics statistics ();
+            void computeStatistics (grid::CubicSphere* buffer);
 
         private:
             QString _computeTemplate, _processTemplate;
@@ -76,9 +77,9 @@ namespace calenhad {
 
             void downloadBuffer (GLfloat* buffer, const int& size);
 
-            void computeStatistics (grid::CubicSphere* buffer);
 
             QString _histogramCode;
+            std::vector<calenhad::grid::CubicSphere*> _cubes;
         };
     }
 }

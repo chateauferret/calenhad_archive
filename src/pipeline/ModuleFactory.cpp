@@ -12,15 +12,18 @@
 #include <QList>
 #include <module/StructuredGrid.h>
 #include <nodeedit/Port.h>
+#include <src/module/algorithm/Normalise.h>
 #include "../module/RasterModule.h"
 #include "../module/Cache.h"
 #include "../module/Map.h"
 #include "../noiseconstants.h"
 #include "../nodeedit/NodeBlock.h"
+#include "../module/algorithm/Algorithm.h"
 
 using namespace calenhad;
 using namespace calenhad::pipeline;
 using namespace calenhad::module;
+using namespace calenhad::module::algorithm;
 using namespace calenhad::expressions;
 using namespace calenhad::nodeedit;
 
@@ -112,6 +115,19 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_cache) { Cache* cm = new Cache (type); qm = cm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_map) { Map* mm = new Map(); qm = mm; n = qm; }
+
+        if (role == "algorithm") {
+            Cache* c = new Cache (type); qm = c; n = qm;
+            QString algorithmName = element.attribute ("algorithm");
+            if (algorithmName != QString::null) {
+                Algorithm* a = algorithm (algorithmName);
+                if (!a) {
+                    std::cout << "No algorithm '" << algorithmName.toStdString() << "' available for module " << type.toStdString() << "\n";
+                }
+            } else {
+                std::cout << "No algorithm specified for module " << type.toStdString() << "\n";
+            }
+        }
 
         if (! n) {
             qm = new Module (type, nullptr);
@@ -226,8 +242,21 @@ ParamValidator* ModuleFactory::validator (const QString& validatorType) {
     if (validatorType == "AcceptRange") { return new AcceptRange (-1.0, 1.0); }
     if (validatorType == "AcceptInteger") { return new AcceptInteger(); }
     if (validatorType == "PreferInteger") { return new PreferInteger(); }
-    return new AcceptAnyRubbish();
+    else return new AcceptAnyRubbish();
 }
+
+
+Algorithm* ModuleFactory::algorithm (const QString& algorithmType) {
+    if (algorithmType == "normalise") { return new Normalise(); }
+//    if (algorithmType == "") { return new (); }
+//    if (algorithmType == "") { return new (); }
+//    if (algorithmType == "") { return new  (); }
+//  if (algorithmType == "") { return new ; }
+//    if (algorithmType == "") { return new (); }
+//    if (algorithmType == "") { return new (); }
+    else return nullptr;
+}
+
 
 Node* ModuleFactory::createModule (const QString& name, const QString& type, CalenhadModel* model) {
     Node* n = inflateModule (type, model);
