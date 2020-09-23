@@ -569,7 +569,7 @@ void CalenhadMapWidget::compute () {
     //GLuint icosphereBuffer = 4;
     //GLuint gridBuffer = 5;
 
-    clock_t tileStart = clock ();
+    clock_t tileStart = clock();
     start = tileStart;
     GLuint inBuffer = 0;
     GLuint colBuffer = 0;
@@ -578,10 +578,10 @@ void CalenhadMapWidget::compute () {
     _colorMapBuffer = (GLfloat *) _legend -> colorMapBuffer();
     glGenBuffers (1, &colBuffer);
     if (_colorMapBuffer) {
-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, colBuffer);
-        glBufferData(GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 6, colBuffer);
-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, 6); // unbind
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, colBuffer);
+        glBufferData (GL_SHADER_STORAGE_BUFFER, colorMapBytes, _colorMapBuffer, GL_DYNAMIC_COPY);
+        glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 6, colBuffer);
+        glBindBuffer (GL_SHADER_STORAGE_BUFFER, 6); // unbind
     }
 
     // checksum for debugging
@@ -650,7 +650,11 @@ void CalenhadMapWidget::render() {
     if (_source) {
         std::cout << "CalnehadMapWidget :: Render module " << _source -> name().toStdString() << "\n";
         if (! _source -> name().isNull()) {
-           _source->fetch (_buffer);
+            if (_mode == RenderModeGlobe) {
+                _source -> fetch (_buffer);
+            } else {
+                _buffer = _mainMap -> buffer();
+            }
         }
 
         if (_buffer) {
