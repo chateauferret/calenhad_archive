@@ -34,7 +34,7 @@ void calenhad::module::Procedure::refresh () {
         }
 
         // compute the output buffer
-        c -> process (this, _buffer);
+        // c -> process (this, _buffer);
 
     }
 }

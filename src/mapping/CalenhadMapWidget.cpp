@@ -121,7 +121,8 @@ CalenhadMapWidget::~CalenhadMapWidget() {
     delete _graticule;
     delete _geodesic;
 
-    if (_buffer) {
+    // overview shares the buffer pointer with the main map so if this is an overview let the main map delete this pointer
+    if (_mode == RenderModeGlobe) {
         delete (_buffer);
         _buffer = nullptr;
     }
@@ -648,7 +649,7 @@ void CalenhadMapWidget::compute () {
 
 void CalenhadMapWidget::render() {
     if (_source) {
-        std::cout << "CalnehadMapWidget :: Render module " << _source -> name().toStdString() << "\n";
+        std::cout << "CalnehadMapWidget :: render module " << _source -> name().toStdString() << "\n";
         if (! _source -> name().isNull()) {
             if (_mode == RenderModeGlobe) {
                 _source -> fetch (_buffer);
@@ -683,17 +684,15 @@ Module* CalenhadMapWidget::source() {
 }
 
 void CalenhadMapWidget::setSource (Module* qm) {
-
-    std::cout << "CalenhadMapWidget :: setSource - " << (qm ? qm -> name().toStdString() : "NULL") << "\n";
-    if (_source) {
-        disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
-    }
-    _source = qm;
-    if (_source) {
+    if (qm && _source != qm) {
+        std::cout << "CalenhadMapWidget :: setSource - " << (qm -> name().toStdString()) << "\n";
+        if (_source) {
+            disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+        }
+        _source = qm;
         render();
         connect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
     }
-    update();
 }
 
 Legend* CalenhadMapWidget::legend () {

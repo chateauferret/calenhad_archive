@@ -88,6 +88,9 @@ ComputeService::~ComputeService () {
 }
 
 void ComputeService::compute (Module *module, CubicSphere *buffer) {
+
+    prepareRasters (module);
+
     std::cout << "ComputeService::compute - Module " << module -> name().toStdString() << " - buffer " << buffer << "\n";
 
     clock_t start = clock ();
@@ -104,7 +107,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 
     if (newCode != QString::null) {
     //if (_forceRender || code != newCode)) {
-
+        //std::cout << newCode.toStdString() << "\n";
         _forceRender = false;
         code = newCode;
         QString ct = _computeTemplate;
@@ -134,45 +137,6 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 }
 
 
-void ComputeService::process (Procedure* module, CubicSphere *buffer) {
-    QString newCode = module -> glsl();
-    _context.makeCurrent( &_surface);
-    delete _computeShader;
-    delete _computeProgram;
-    _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
-    _computeProgram = new QOpenGLShaderProgram();
-    clock_t start = clock ();
-
-    // create and allocate a buffer for any input rasters
-
-    if (newCode != QString::null) {
-        //if (_forceRender || code != newCode)) {
-        _forceRender = false;
-        code = newCode;
-        QString ct = _processTemplate;
-        ct.detach();                 // deep copy, otherwise we overwrite the placeholder
-        QString sourceCode = ct.replace("// inserted code //", code);
-        std::cout << "Module " << module -> name().toStdString() << " : " << "\n";
-        if (_computeShader) {
-            _computeProgram -> removeAllShaders();
-            if (_computeShader -> compileSourceCode (sourceCode)) {
-                _computeProgram -> addShader (_computeShader);
-                _computeProgram -> link();
-                _computeProgram -> bind();
-                process (buffer -> data(), module);
-            } else {
-                CalenhadServices::messages() -> message ("compute(): Compute shader would not compile", code);
-            }
-        }
-        clock_t end = clock ();
-        double time = (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-        buffer -> setComputeTime (time);
-        _statistics._computeTime = (int) time;
-    } else {
-        CalenhadServices::messages() -> message ("compute(): No code for compute shader",  code);
-    }
-}
-
 uint ComputeService::setupGrid() {
     f -> glGenBuffers (1, &_heightMap);
     uint size = std::pow (2, CalenhadServices::preferences() -> calenhad_compute_gridsize);
@@ -185,15 +149,6 @@ uint ComputeService::setupGrid() {
     static GLint gridSizeLoc = f -> glGetUniformLocation (_computeProgram -> programId(), "size");
     f -> glUniform1i (gridSizeLoc, size);
     return size;
-}
-
-void ComputeService::process (GLfloat* buffer,  Procedure* module) {
-    uint size = setupGrid();
-    extractRasters (module);
-    f -> glDispatchCompute (module -> iterations() / 1024, 1, 1);
-    f -> glDeleteBuffers (1, &_rasterBuffer);
-    downloadBuffer (buffer, size);
-
 }
 
 void ComputeService::execute (GLfloat* buffer, const Graph& graph) {
@@ -248,45 +203,6 @@ void ComputeService::downloadBuffer (GLfloat* buffer, const int& size) {
     f -> glGetBufferSubData (GL_SHADER_STORAGE_BUFFER, 0, bytes, buffer);
     f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, 5);
     f -> glDeleteBuffers (1, &_heightMap);
-}
-
-void ComputeService::extractRasters (Procedure* module) {
-    int rasterCount = module -> inputs().count();
-        // upload the raster data to the GPU
-    // work out the size of the buffer we need for all rasters and convolutions
-    ulong bytes = 0;
-    for (int i = 0; i < rasterCount; i++) {
-        CubicSphere* cube = module -> inputBuffer(i);
-        if (cube) {
-            int r = _tile -> size();
-            bytes += r * r * 6 * sizeof (GLfloat);
-        }
-    }
-
-    float* rasterBuffer = (float*) malloc (bytes);
-    for (int i = 0; i < rasterCount; i++) {
-        // unpack the raster data from the input modules
-        ulong bufferIndex = 0;
-
-        CubicSphere* cube = module->inputBuffer (i);
-        int s = cube->size ();
-        for (int face = 0; face < 6; face++) {
-            for (int x = 0; x < cube -> size(); x++) {
-                for (int y = 0; y < cube -> size(); y++) {
-                    ulong index = bufferIndex + face * s * s + x * s + y;
-                    float value = cube->data() [(face * s * s) + x * s + y];
-                    rasterBuffer[index] = (GLfloat) value;
-                }
-            }
-        }
-        bufferIndex += s;
-    }
-    f -> glGenBuffers (1, &_rasterBuffer);
-    f -> glBindBuffer (GL_SHADER_STORAGE_BUFFER, _rasterBuffer);
-    f -> glBindBufferBase (GL_SHADER_STORAGE_BUFFER, 1, _rasterBuffer);
-    f -> glBufferData (GL_SHADER_STORAGE_BUFFER, bytes, rasterBuffer, GL_DYNAMIC_READ);
-    free (rasterBuffer);
-
 }
 
 void ComputeService::extractRasters (const Graph& graph, const int& xIndex, const int& yIndex) {
@@ -352,15 +268,17 @@ void ComputeService::computeStatistics (grid::CubicSphere* buffer) {
 
     _statistics._meanValue = sum / (float) _statistics._valueCount;
     _statistics._range = _statistics._maxValue - _statistics._minValue;
-    for (int i = 0; i < 1000; i++) { _statistics._buckets [i] = 0; }
-    for (int x = 0; x < buffer->size (); x += sampleEvery) {
-        for (int y = 0; y < buffer->size (); y += sampleEvery) {
-            for (int z = 0; z < 6; z++) {
-                int i = z * buffer -> size() * buffer -> size() + y * buffer -> size() + x;
-                float v = (float) buffer->data () [i];
-                float normalised = (v - _statistics._minValue) / (_statistics._range);
-                int bucket = int (normalised * 999);
-                _statistics._buckets [bucket]++;
+    if (_statistics._range != 0.0) {
+        for (int i = 0; i < 1000; i++) { _statistics._buckets[i] = 0; }
+        for (int x = 0; x < buffer->size (); x += sampleEvery) {
+            for (int y = 0; y < buffer->size (); y += sampleEvery) {
+                for (int z = 0; z < 6; z++) {
+                    int i = z * buffer->size () * buffer->size () + y * buffer->size () + x;
+                    float v = (float) buffer->data ()[i];
+                    float normalised = (v - _statistics._minValue) / (_statistics._range);
+                    int bucket = int (normalised * 999);
+                    _statistics._buckets[bucket]++;
+                }
             }
         }
     }
@@ -373,6 +291,23 @@ void ComputeService::computeStatistics (grid::CubicSphere* buffer) {
 
 CalenhadStatistics ComputeService::statistics () {
     return _statistics;
+}
+
+void ComputeService::prepareRasters (Module* module) {
+    std::cout << "Prepare rasters - " << module -> name().toStdString() << "\n";
+    for (Port* p : module -> inputs ()) {
+        if (p->hasConnection ()) {
+            Connection* c = p->connections ().first ();
+            Module* m = c->otherEnd (p)->owner ();
+            std::cout << "... found " << m -> name().toStdString() << "\n";
+            Cache* cache = dynamic_cast<Cache*> (m);
+            if (cache) {
+                std::cout << "... cache " << cache->name ().toStdString () << "\n";
+                cache -> refresh ();
+            }
+            prepareRasters (m);
+        }
+    }
 }
 
 

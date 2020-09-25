@@ -39,7 +39,7 @@ namespace calenhad {
             QString _code;
             QString _nodeName;
             float* _colorMapBuffer;
-            QList<calenhad::module::Module*> _rasters;
+            QList<calenhad::module::StructuredGrid*> _rasters;
 
             exprtk::parser<double>* _parser;
 

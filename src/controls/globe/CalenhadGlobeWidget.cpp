@@ -262,8 +262,8 @@ void CalenhadGlobeWidget::moduleSelected (const QString& name) {
 
 void CalenhadGlobeWidget::updateModules() {
         QString currentModule = _selectModuleCombo -> currentText();
+        _selectModuleCombo -> blockSignals (true);
         _selectModuleCombo -> clear();
-
         CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
         if (model) {
             for (Module* m : model -> modules()) {
@@ -271,12 +271,14 @@ void CalenhadGlobeWidget::updateModules() {
                 QIcon icon (*pixmap);
                 if (m -> isComplete()) {
                     _selectModuleCombo -> addItem (icon, m -> name());
+                    m -> invalidate();
                 } else {
                     _selectModuleCombo -> addItem (m -> name());
                 }
             }
         }
         _selectModuleCombo -> setCurrentText (currentModule);
+        _selectModuleCombo -> blockSignals (false);
 
         QString currentLegend = _selectLegendCombo -> currentText();
         _selectLegendCombo -> clear();
@@ -552,7 +554,9 @@ CalenhadToolBar* CalenhadGlobeWidget::mapWidgetsToolBar() { return _mapWidgetsTo
 
 void CalenhadGlobeWidget::setModule (calenhad::module::Module* module) {
     updateModules();
-    _selectModuleCombo -> setCurrentText (module -> name());
+    if (_selectModuleCombo -> currentText() != module -> name()) {
+        _selectModuleCombo->setCurrentText (module->name ());
+    }
 }
 
 

@@ -75,6 +75,9 @@ QString Graph::glsl() {
 QString Graph::glsl (Module* module) {
     _index = 0;
     _rasters.clear();
+
+
+
     if (module -> isComplete()) {
         QString name = module -> name ();
         if (! _code.contains ("float _" + name)) {
@@ -114,18 +117,9 @@ QString Graph::glsl (Module* module) {
                 _code += func;
                     //_code.append ("; }\n");
 
-                // if it's a raster or cache module, compile and queue the module for raster upload
-                if (type == CalenhadServices::preferences() -> calenhad_module_raster) {
-                    RasterModule* rm = (RasterModule*) qm;
-                    _rasters.append (rm);
-                    _code.replace ("%gridIndex", QString::number (_index));
-                    _index += CalenhadServices::preferences() -> calenhad_compute_gridsize;
-                    _code.append ("; }\n");
-                }
-
-                Cache* cache = dynamic_cast<Cache*> (qm);
-                if (cache) {
-                    _rasters.append (qm);
+                StructuredGrid* raster = dynamic_cast<StructuredGrid*> (qm);
+                if (raster) {
+                    _rasters.append (raster);
                     _code.replace ("%gridIndex", QString::number (_index));
                     _index += CalenhadServices::preferences() -> calenhad_compute_gridsize;
                     _code.append ("; }\n");

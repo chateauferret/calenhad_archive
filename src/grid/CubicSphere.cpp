@@ -30,9 +30,11 @@ CubicSphere::CubicSphere (CubicSphere* other) : _renderTime (0.0), _grid (nullpt
 
 void CubicSphere::copy (CubicSphere* other) {
     if (_size == other -> size()) {
-        for (int i = 0; i < count (); i++) {
-            _grid [i] = other -> _grid [i];
-        }
+    //    for (int i = 0; i < count (); i++) {
+    //        _grid [i] = other -> _grid [i];
+    //    }
+
+        memcpy (_grid, other -> _grid, count() * sizeof (GLfloat));
     }
 }
 

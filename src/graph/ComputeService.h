@@ -43,8 +43,6 @@ namespace calenhad {
             ~ComputeService();
             void compute (calenhad::module::Module* module, calenhad::grid::CubicSphere *buffer);
 
-            void process (module::Procedure* module, grid::CubicSphere* buffer);
-
             controls::globe::CalenhadStatistics statistics ();
             void computeStatistics (grid::CubicSphere* buffer);
 
@@ -67,11 +65,9 @@ namespace calenhad {
             uint _tileSize;
 
             void extractRasters (const Graph& graph, const int& xIndex, const int& yIndex);
-            void extractRasters (calenhad::module::Procedure* module);
+
             const uint _tiles;
             calenhad::grid::CubicSphere* _tile;
-
-            void process (GLfloat* buffer, calenhad::module::Procedure* module);
 
             uint setupGrid ();
 
@@ -80,6 +76,8 @@ namespace calenhad {
 
             QString _histogramCode;
             std::vector<calenhad::grid::CubicSphere*> _cubes;
+
+            void prepareRasters (module::Module* module);
         };
     }
 }
