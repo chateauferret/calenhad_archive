@@ -154,11 +154,6 @@ bool CalenhadModel::existsPath (NodeBlock* output, NodeBlock* input) {
             return true;
         }
 
-        // a module can't be part of a circuit if its output isn't connected to anythinng
-        //if (outputPort -> connections().isEmpty ()) {
-        //    return false;
-        //}
-
         // a module can't be part of a circuit if it is a generator, i.e. has no input ports
         if (inputModule -> inputs().isEmpty()) {
             return false;
@@ -359,7 +354,6 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 update();
                 return true;
             }
-            update();
             break;
         }
 

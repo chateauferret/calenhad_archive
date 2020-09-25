@@ -101,13 +101,9 @@ void CalenhadUi::makeWidgets() {
     _viewMenu -> addAction (_zoomToFitAction);
     _viewMenu -> addAction (_zoomSelectionAction);
 
-
-    _defaultContextMenu -> addMenu (_mouseModeMenu);
-    _defaultContextMenu->addAction (_undoAction);
-    _defaultContextMenu -> addAction (_redoAction);
-
     _moduleMenu = _menuBar -> addMenu ("Modules");
-    _defaultContextMenu -> addMenu (_moduleMenu);
+
+
 
     QMenu* legendsMenu = _viewMenu -> addMenu ("&Legends");
     legendsMenu -> addAction (_loadLegendsAction);
@@ -248,8 +244,10 @@ QMenu* CalenhadUi::makeContextMenu (QGraphicsItem* item) {
     _contextMenu -> addAction (_pasteAction);
     setEditActionStatus (_controller -> model());
 
-    // actions that operate on the canvas
-    _contextMenu -> addMenu (_defaultContextMenu);
+    _contextMenu -> addMenu (_mouseModeMenu);
+    _contextMenu->addAction (_undoAction);
+    _contextMenu -> addAction (_redoAction);
+    _contextMenu -> addMenu (_moduleMenu);
 
     return _contextMenu;
 }
