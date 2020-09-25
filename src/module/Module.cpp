@@ -188,22 +188,24 @@ QVector<Port*> Module::ports() {
 }
 
 void Module::connectMenu (QMenu* menu, Port* p) {
-    int portType = p -> portType ();
-
-    if (portType == Port::OutputPort) {
+    if (p -> portType() == Port::OutputPort) {
         _connectMenu -> clear();
         _connectMenu -> setTitle (name());
         for (Port* port : _ports) {
             if (port -> portType() != Port::OutputPort) {
-                QAction* action = new QAction();
-                action -> setText (port -> portName());
-                _connectMenu -> addAction (action);
-                connect (action, &QAction::triggered, this, [=] () {
-                    _model -> createConnection (p, port);
-                });
+                if (_model -> canConnect (p, port)) {
+                    QAction* action = new QAction ();
+                    action -> setText (port -> portName ());
+                    _connectMenu -> addAction (action);
+                    connect (action, &QAction::triggered, this, [=] () {
+                        _model -> createConnection (p, port);
+                    });
+                }
             }
         }
-        menu -> addMenu (_connectMenu);
+        if (! _connectMenu -> isEmpty()) {
+            menu->addMenu (_connectMenu);
+        }
     } else {
         QAction* action = new QAction();
         action -> setText (name());

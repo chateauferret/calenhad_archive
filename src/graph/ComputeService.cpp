@@ -297,12 +297,10 @@ void ComputeService::prepareRasters (Module* module) {
     std::cout << "Prepare rasters - " << module -> name().toStdString() << "\n";
     for (Port* p : module -> inputs ()) {
         if (p->hasConnection ()) {
-            Connection* c = p->connections ().first ();
-            Module* m = c->otherEnd (p)->owner ();
-            std::cout << "... found " << m -> name().toStdString() << "\n";
+            Connection* c = p->connections().first ();
+            Module* m = c -> otherEnd(p) -> owner ();
             Cache* cache = dynamic_cast<Cache*> (m);
             if (cache) {
-                std::cout << "... cache " << cache->name ().toStdString () << "\n";
                 cache -> refresh ();
             }
             prepareRasters (m);

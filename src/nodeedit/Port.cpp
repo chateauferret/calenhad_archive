@@ -255,7 +255,8 @@ QMenu* Port::connectMenu() {
     _connectMenu -> setTitle (portName() + " of " + n -> name() + " (" + n -> nodeType() + ")");
 
     // go through all the modules and add to the connect menu any that can take a connection from this port
-    for (Node* node : owner() -> model() -> nodes()) {
+    CalenhadModel* model = n -> model();
+    for (Node* node : model -> nodes()) {
         if (node != owner()) {
             Module* m = dynamic_cast<Module*> (node);
             if (m) {
