@@ -351,7 +351,6 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                             }
                         }
                     }
-                update();
                 return true;
             }
             break;

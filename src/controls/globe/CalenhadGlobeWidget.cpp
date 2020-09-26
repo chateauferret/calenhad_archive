@@ -24,8 +24,6 @@
 #include "../pipeline/ModuleFactory.h"
 
 
-void moduleSelected(const QString &name);
-
 using namespace GeographicLib;
 using namespace icosphere;
 using namespace calenhad;
@@ -236,7 +234,9 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
 
     _selectModuleCombo -> setToolTip ("Select the module providing source data for the map");
-    connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
+    //connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
+    connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentTextChanged), this, [=] () { moduleSelected (_selectModuleCombo -> currentText()); });
+
     connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
 
     _mapWidgetsToolbar -> addWidget (_selectLegendCombo);
@@ -250,10 +250,10 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
 void CalenhadGlobeWidget::moduleSelected (const QString& name) {
     Module* m = ((CalenhadGlobeDialog*) parent()) -> model() -> findModule (name);
     if (m && m -> isComplete()) {
-            _globe -> setEnabled (true);
-            _overview -> setEnabled (true);
-            _globe -> setSource (m);
-            _overview -> setSource (m);
+        _globe -> setEnabled (true);
+        _overview -> setEnabled (true);
+        _globe -> setSource (m);
+        _overview -> setSource (m);
     } else {
         _globe -> setEnabled (false);
         _overview -> setEnabled (false);
@@ -277,6 +277,7 @@ void CalenhadGlobeWidget::updateModules() {
                 }
             }
         }
+
         _selectModuleCombo -> setCurrentText (currentModule);
         _selectModuleCombo -> blockSignals (false);
 
@@ -555,8 +556,11 @@ CalenhadToolBar* CalenhadGlobeWidget::mapWidgetsToolBar() { return _mapWidgetsTo
 void CalenhadGlobeWidget::setModule (calenhad::module::Module* module) {
     updateModules();
     if (_selectModuleCombo -> currentText() != module -> name()) {
-        _selectModuleCombo->setCurrentText (module->name ());
+        _selectModuleCombo -> blockSignals (true);
+        _selectModuleCombo -> setCurrentText (module -> name ());
+        _selectModuleCombo -> blockSignals (false);
     }
+    moduleSelected (module -> name());
 }
 
 

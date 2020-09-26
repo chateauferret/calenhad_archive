@@ -58,8 +58,8 @@ void Preferences::loadSettings() {
     calenhad_module_brush_color_normal = _settings -> value ("calenhad/module/brush/color/normal", "#00C000").value<QColor>();
     calenhad_module_pen_color_selected = _settings -> value ("calenhad/module/pen/color/selected", "#007070").value<QColor>();
     calenhad_module_pen_color_normal = _settings -> value ("calenhad/module/pen/color/normal", "#00F000").value<QColor>();
-    calenhad_module_text_color_selected = _settings -> value ("calenhad/module/text/color/selected", "#000000").value<QColor>();
-    calenhad_module_text_color_normal = _settings -> value ("calenhad/module/text/color/normal", "#000000").value<QColor>();
+    calenhad_module_text_color_selected = _settings -> value ("calenhad/module/text/color/selected", "#FFFF00").value<QColor>();
+    calenhad_module_text_color_normal = _settings -> value ("calenhad/module/text/color/normal", "#FFFF00").value<QColor>();
     calenhad_module_text_color_error = _settings -> value ("calenhad/module/text/color/error", "#FF0000").value<QColor>();
     calenhad_module_duplicate_offset_x = _settings -> value ("calenhad/module/duplicate/offset/x", 64).toUInt();
     calenhad_module_duplicate_offset_y = _settings -> value ("calenhad/module/duplicate/offset/y", 64).toUInt();
