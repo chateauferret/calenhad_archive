@@ -126,7 +126,7 @@ void CalenhadView::drawBackground (QPainter *painter, const QRectF &rect) {
 
         QVector<QLineF> minorLines, majorLines;
 
-        painter->setPen (minorPen);
+        painter -> setPen (minorPen);
         int i = 0, j = 0;
         for (qreal x = minorLeft; x < r.right (); x += gridSize) {
             QLineF l (x, r.top (), x, r.bottom ());

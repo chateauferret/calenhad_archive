@@ -18,7 +18,7 @@ Normalise::~Normalise () {
 }
 
 bool Normalise::execute (calenhad::grid::CubicSphere* buffer) {
-    QProgressDialog progress ("Computing algorithm", "Abandon", 0, (int) buffer -> count(), nullptr);
+   /* QProgressDialog progress ("Computing algorithm", "Abandon", 0, (int) buffer -> count(), nullptr);
     progress.setWindowModality(Qt::WindowModal);
 
     CalenhadStatistics statistics = CalenhadServices::compute() -> statistics();
@@ -35,6 +35,9 @@ bool Normalise::execute (calenhad::grid::CubicSphere* buffer) {
             return false;
         }
     }
-    CalenhadServices::compute() -> computeStatistics (buffer);
+    CalenhadServices::compute() -> computeStatistics (buffer); */
     return true;
 }
+
+
+

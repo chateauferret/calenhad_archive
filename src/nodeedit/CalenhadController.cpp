@@ -114,13 +114,13 @@ void CalenhadController::toolSelected() {
 
 void CalenhadController::zoomIn() {
     if (_views -> at (0) -> currentZoom() < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin) {
-        doCommand (new ZoomCommand (0.1, _views->at (0)));
+        doCommand (new ZoomCommand (CalenhadServices::preferences() -> calenhad_desktop_zoom_delta, _views->at (0)));
     }
 }
 
 void CalenhadController::zoomOut() {
     if (_views->at(0)->currentZoom() > CalenhadServices::preferences()->calenhad_desktop_zoom_limit_zoomout) {
-        doCommand(new ZoomCommand(-0.1, _views->at(0)));
+        doCommand(new ZoomCommand(- CalenhadServices::preferences() -> calenhad_desktop_zoom_delta, _views->at(0)));
     }
 }
 

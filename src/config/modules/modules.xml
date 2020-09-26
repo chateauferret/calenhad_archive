@@ -22,6 +22,9 @@
         <ports>
             <input index="0" mode="value" name="Input" label="in" required="true" />
         </ports>
+        <glsl>
+            grid (%gridIndex);
+        </glsl>
     </module>
 
     <module role="generate" name="constant" label="Constant" render="false" height="0.25" width="0.75" showName="false">
@@ -35,33 +38,14 @@
         <glsl>%value</glsl>
     </module>
 
-    <module role="output" name="map" label="Map" render="false">
-        <documentation>Output detailed map of a region</documentation>
-        <ports>
-            <input index="0" mode="value" name="Input" label="in" required="true" />
-        </ports>
-        <parameters>
-            <parameter type="double" name="latitude" default="0">
-                <documentation>Latitude of the centre of the map</documentation>
-                <validator type="AcceptRange" min="-90.0" max="90.0"/>
-            </parameter>
-            <parameter type="double" name="longitude" default="0">
-                <documentation>Longitude of the centre of the map</documentation>
-                <validator type="AcceptRange" min="-180.0" max="90.0"/>
-            </parameter>
-            <parameter type="double" name="scale" default="10.0">
-                <documentation>Scale of the map</documentation>
-                <validator type="AcceptRange" min="0.5" max="100.0"/> <!-- to do - translate to comprehensible units -->
-            </parameter>
-        </parameters>
-    </module>
-
-
     <module role="algorithm" name="normalise" label="Normalise">
-        <documentation>Absolute value</documentation>
+        <documentation>Map input values to the range (-1.0, 1.0)</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
+        <glsl>
+            normalise (%gridIndex, %min, %max)
+        </glsl>
     </module>
 
 

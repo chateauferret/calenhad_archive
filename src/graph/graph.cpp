@@ -32,6 +32,7 @@ using namespace grid;
 using namespace calenhad::expressions;
 using namespace calenhad::controls::altitudemap;
 using namespace exprtk;
+using namespace calenhad::controls::globe;
 /*
 Graph::Graph (const QString& xml, const QString& nodeName) : _xml (xml), _nodeName (nodeName), _colorMapBuffer (nullptr), _parser (new parser<double>()), _rasterId = 0; {
     _doc.setContent (_xml);
@@ -121,8 +122,13 @@ QString Graph::glsl (Module* module) {
                 if (raster) {
                     _rasters.append (raster);
                     _code.replace ("%gridIndex", QString::number (_index));
+
+                    CalenhadStatistics statistics = CalenhadServices::compute() -> statistics();
+                    _code.replace ("%min", QString::number (statistics._minValue));
+                    _code.replace ("%max", QString::number (statistics._maxValue));
+
                     _index += CalenhadServices::preferences() -> calenhad_compute_gridsize;
-                    _code.append ("; }\n");
+                    _code.append ("\n");
                 }
             }
         }

@@ -19,7 +19,6 @@ namespace calenhad {
             ~StructuredGrid() override;
             bool isComplete() override;
             bool isComputed() override;
-            QString glsl() override;
 
             int rasterSize();
             grid::CubicSphere *buffer() const;

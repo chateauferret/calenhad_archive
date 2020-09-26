@@ -728,6 +728,15 @@ float grid (uint gridIndex) { //, float defaultValue) {
     return rasters [index + gridIndex];
 }
 
+float normalise (uint gridIndex, float min, float max) {
+    float newMax = 1.0;
+    float newMin = -1.0;
+    float v = grid (gridIndex);
+    v = (v - min) / (max - min);
+    return v * (newMax - newMin) + newMin;
+}
+
+
 // get a value from a cubic sphere grid given as input
 //float grid (ivec3 pos, uint gridIndex, uint gridSize) {
 //    uint i = pos.z * gridSize * gridSize + pos.x * gridSize + pos.y;

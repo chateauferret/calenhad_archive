@@ -40,6 +40,7 @@ void Preferences::loadSettings() {
     calenhad_desktop_zoom_limit_zoomout = _settings -> value ("calenhad/desktop/zoom/limit/zoomin", 0.05).toDouble (&ok);
     calenhad_desktop_zoom_default = _settings -> value ("calenhad/desktop/zoom/default", 0.5).toDouble (&ok);
     calenhad_model_extent = _settings -> value ("calenhad/model/extent", 2000.0).toDouble (&ok);
+    calenhad_desktop_zoom_delta = _settings -> value ("calenhad/desktop/zoom/delta", 0.05).toDouble (&ok);
 
     // CalenhadView grid
     calenhad_desktop_grid_major_color = _settings -> value ("calenhad/desktop/grid/major/color", "#404040").value<QColor>();
@@ -289,6 +290,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/desktop/zoomlimit/zoomin", calenhad_desktop_zoom_limit_zoomin);
     _settings -> setValue ("calenhad/desktop/zoomlimit/zoomout", calenhad_desktop_zoom_limit_zoomout);
     _settings -> setValue ("calenhad/desktop/zoom/default", calenhad_desktop_zoom_default);
+    _settings -> setValue ("calenhad/desktop/zoom/delta", calenhad_desktop_zoom_delta);
     _settings -> setValue ("calenhad/desktop/nodegroup/height/default", calenhad_desktop_nodegroup_height_default);
     _settings -> setValue ("calenhad/desktop/nodegroup/width/default", calenhad_desktop_nodegroup_width_default);
     _settings -> setValue ("calenhad/model/extent", calenhad_model_extent);

@@ -11,6 +11,8 @@ using namespace calenhad::graph;
 using namespace calenhad::grid;
 using namespace calenhad::nodeedit;
 using namespace calenhad::module::algorithm;
+using namespace calenhad::controls::globe;
+
 
 Cache::Cache (const QString &nodeType) : StructuredGrid (nodeType), _algorithm (nullptr), _computed (false)  {
 
@@ -33,27 +35,22 @@ void Cache::refresh() {
         if (isComplete()) {
             if (! inputs().isEmpty()) {
             Port* p = inputs().first ();
-                Module* source = p->connections().first ()->otherEnd (p)->owner ();
+                Module* source = p -> connections().first() -> otherEnd (p) -> owner ();
 
                 // copy data from th
                 // copy datae source module into the input buffer
                 source -> fetch (_buffer);
-
+                _computed = true;
+                CalenhadServices::compute() -> compute (this, _buffer);
                 // we can now perform serial or parallel algorithms on the buffer
                 if (_algorithm) {
                     _computed = _algorithm->execute (_buffer);
-                } else {
-                    _computed = true;         // we can now perform serial or parallel algorithms on the buffer
-                    if (_algorithm) {
-                        _computed = _algorithm->execute (_buffer);
-                    } else {
-                        _computed = true;
-                    }
                 }
             }
         }
     }
 }
+
 
 void Cache::fetch (CubicSphere* buffer) {
     std::cout << "Cache :: fetch - buffer " << buffer << "\n";
@@ -70,3 +67,5 @@ bool Cache::isComputed() {
 void Cache::setAlgorithm (Algorithm* algorithm) {
     _algorithm = algorithm;
 }
+
+

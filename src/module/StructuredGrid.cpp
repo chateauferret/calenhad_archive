@@ -48,9 +48,6 @@ void StructuredGrid::serialize (QDomElement& element) {
     Module::serialize (element);
 }
 
-QString StructuredGrid::glsl() {
-    return  "grid (%gridIndex)";
-}
 
 int StructuredGrid::rasterSize() {
     return _buffer -> size();

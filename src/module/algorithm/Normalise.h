@@ -16,6 +16,7 @@ namespace calenhad {
                 Normalise();
                 virtual ~Normalise();
                 bool execute (calenhad::grid::CubicSphere* buffer) override;
+
             };
 
         }

@@ -126,6 +126,7 @@ namespace calenhad {
             double calenhad_desktop_zoom_limit_zoomin;
             double calenhad_desktop_zoom_limit_zoomout;
             double calenhad_desktop_zoom_default;
+            double calenhad_desktop_zoom_delta;
             double calenhad_desktop_nodegroup_height_default;
             double calenhad_desktop_nodegroup_width_default;
             double calenhad_model_extent;
