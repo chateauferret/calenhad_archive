@@ -45,7 +45,9 @@ namespace calenhad {
 
 		class NodeBlock : public QObject, public QGraphicsPathItem {
 		Q_OBJECT
-		public:
+
+
+        public:
 			enum {
 				Type = QGraphicsItem::UserType + 3
 			};
@@ -69,6 +71,7 @@ namespace calenhad {
 			virtual QRectF boundingRect() const;
 
 			virtual void initialise();
+            virtual QPainterPath makePath();
 
 			calenhad::module::Node* node();
 
@@ -98,10 +101,8 @@ namespace calenhad {
 			QBrush _brush;
 			QPen _pen;
 
-			virtual QPainterPath makePath();
 
-
-			QSizeF _size;
+            QSizeF _size;
 			int _margin;
 
             const QPixmap _endorsementOrright, _endorsementGoosed;

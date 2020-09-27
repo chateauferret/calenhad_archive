@@ -267,10 +267,10 @@ void CalenhadGlobeWidget::updateModules() {
         CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
         if (model) {
             for (Module* m : model -> modules()) {
-                QPixmap *pixmap = CalenhadServices::modules() -> getIcon (m -> nodeType());
-                QIcon icon (*pixmap);
-                if (m -> isComplete()) {
-                    _selectModuleCombo -> addItem (icon, m -> name());
+                QPixmap img = CalenhadServices::modules() -> getIcon (m -> nodeType());
+
+                if ((! img.isNull()) && m -> isComplete()) {
+                    _selectModuleCombo -> addItem (img, m -> name());
                     m -> invalidate();
                 } else {
                     _selectModuleCombo -> addItem (m -> name());
@@ -514,8 +514,8 @@ QMenu* CalenhadGlobeWidget::makeGlobeContextMenu  (const QPoint& pos) {
     CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
     if (model) {
         for (Module* m : model -> modules()) {
-            QPixmap *pixmap = CalenhadServices::modules() -> getIcon (m -> nodeType());
-            QIcon icon (*pixmap);
+            QPixmap img = CalenhadServices::modules() -> getIcon (m -> nodeType());
+            QIcon icon (img);
             QAction* action = new QAction (icon, m -> name());
             action -> setCheckable (true);
             action -> setChecked (_globe -> source() == m);

@@ -5,6 +5,7 @@
 #ifndef CALENHAD_QNENODESVIEW_H
 #define CALENHAD_QNENODESVIEW_H
 #include <QGraphicsView>
+#include "Calenhad.h"
 
 namespace calenhad {
     namespace pipeline {
@@ -18,13 +19,13 @@ namespace calenhad {
 
 
         public:
-            explicit CalenhadView (QWidget* parent);
+            explicit CalenhadView (calenhad::nodeedit::Calenhad* parent);
 
             ~CalenhadView() override;
 
-            void setController (CalenhadController* controller);
-
             double currentZoom ();
+
+            void setModel (pipeline::CalenhadModel* model);
 
             void setZoom (const qreal& zoom);
             void dropEvent (QDropEvent* event) override;
@@ -36,7 +37,6 @@ namespace calenhad {
             bool gridVisible();
             void setSnapToGrid (const bool& enabled);
             bool snapToGrid();
-            void setModel (pipeline::CalenhadModel* model);
 
         public slots:
             void modelChanged();
@@ -46,13 +46,11 @@ namespace calenhad {
             void viewZoomed (double oldFactor, double newFactor);
 
         protected:
-            CalenhadController* _controller;
             int _steps = 0;
             qreal zoom = 1.0;
 
             void wheelEvent (QWheelEvent* event) override;
             void drawBackground (QPainter *painter, const QRectF &rect) override;
-
 
         };
     }

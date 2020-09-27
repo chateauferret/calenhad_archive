@@ -143,12 +143,11 @@ QIconPalette::QIconPalette (QWidget *parent) : QWidget (parent), _iconSize (Cale
     for (QString type : _types) {
         for (QWidget* panel : iconPanels) {
             QLabel* label = new QLabel();
-            QPixmap* pixmap = CalenhadServices::modules() -> getIcon (type);
+            QPixmap p = CalenhadServices::modules() -> getIcon (type);
 
             label -> setAlignment (Qt::AlignCenter);
-            if (pixmap) {
-                QPixmap p = (*pixmap).scaled(_iconSize, _iconSize);
-                label->setPixmap(p);
+            if (! p.isNull()) {
+                label -> setPixmap (p);
                 //label -> setFixedSize (_iconSize, _iconSize);
             } else {
                 label -> setText (type);

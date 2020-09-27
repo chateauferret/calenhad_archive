@@ -82,7 +82,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/ferret/CLionProjects/calenhad/src/module/Procedure.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/module/Procedure.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/module/RasterModule.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.o"
-  "/home/ferret/CLionProjects/calenhad/src/module/algorithm/Normalise.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/module/algorithm/Normalise.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/nodeedit/Calenhad.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadController.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/nodeedit/CalenhadController.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/nodeedit/CalenhadToolBar.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/nodeedit/CalenhadToolBar.cpp.o"

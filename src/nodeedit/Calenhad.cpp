@@ -68,19 +68,20 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
     _controller = new CalenhadController (this);
 
     // Nodes editor
-
-    _view = new CalenhadView (this);
+    _docs = new QMdiArea (this);
+    CalenhadView* _view = new CalenhadView (nullptr);
     _view -> setRenderHint (QPainter::Antialiasing, true);
     _view -> centerOn (0, 0);
     double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
     QRectF minRect (-extent / 2, -extent / 2, extent, extent);
     _view -> setSceneRect (minRect);
-
+    _docs -> addSubWindow (_view);
+    _controller -> addView (_view);
 
     //_scroll = new QScrollArea (this);
     //_scroll -> setWidgetResizable (true);
     //_scroll -> setWidget (_view);
-    setCentralWidget (_view);
+    setCentralWidget (_docs);
     setDockNestingEnabled (true);
 
 
@@ -111,12 +112,10 @@ void Calenhad::setModel (CalenhadModel* model) {
     _model = model;
     _controller -> setModel (_model);
     _model -> setController (_controller);
-    _view -> setController (_controller);
-    _view -> setModel (_model);
-    _controller -> addView (_view);
     connect (_model, &CalenhadModel::titleChanged, this, &Calenhad::titleChanged);
     _controller -> updateZoomActions();
     CalenhadServices::provideGlobe (new CalenhadGlobeDialog (this));
+    activeView() -> setModel (_model);
 }
 
 CalenhadModel* Calenhad::model() {
@@ -210,10 +209,10 @@ void Calenhad::newProject() {
 
 void Calenhad::closeProject() {
     if (_splash && _splash->isVisible()) { _splash -> close(); }
-    if (_view ) {
+
         if (_model) {
             if (_model -> isChanged()) {
-                if (QMessageBox::question (_view, "Save file", "Save this model before closing?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+                if (QMessageBox::question (this, "Save file", "Save this model before closing?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
                     saveFile ();
                 }
             }
@@ -221,7 +220,7 @@ void Calenhad::closeProject() {
             delete _model;
             _model = nullptr;
         }
-    }
+
     CalenhadServices::messages() -> clearAll();
     clearUndo();
 }
@@ -275,4 +274,18 @@ void Calenhad::showGlobe (Module* module) {
 void Calenhad::provideGlobe (Module* module) {
     _globe = new CalenhadGlobeDialog (this);
     CalenhadServices::provideGlobe (_globe);
+}
+
+QList<CalenhadView*> Calenhad::views() const {
+    QList<QMdiSubWindow*> docs = _docs -> subWindowList();
+    QList<CalenhadView*> views;
+    for (QMdiSubWindow* doc : docs) {
+        views.append ((CalenhadView*) doc -> widget());
+    }
+    return views;
+}
+
+CalenhadView* Calenhad::activeView() const {
+    QMdiSubWindow* doc = _docs -> activeSubWindow();
+    return (CalenhadView*) doc -> widget();
 }

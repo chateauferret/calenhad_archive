@@ -37,10 +37,10 @@ namespace calenhad {
             ~ModuleFactory () override;
             QStringList types ();
             calenhad::module::Node* createModule (const QString& name, const QString& moduleType, CalenhadModel* model);
-            QPixmap* makeIcon (const QString& type);
-            int seed ();
+            QPixmap makeIcon (const QString& type);
+            int seed () const;
             QAction *makeModuleTool(const QString &type);
-            QPixmap* getIcon (const QString& type);
+            QPixmap getIcon (const QString& type);
             module::Node* clone (module::Node* other);
             QDomElement xml (const QString& type);
             QStringList paramNames();
@@ -56,7 +56,6 @@ namespace calenhad {
 
         private:
             int _seed = 0;
-            QMap<QString, QPixmap*> _icons;
             QStringList _paramNames;
             QMap<QString, QDomElement> _types;
             void initialise();
@@ -68,12 +67,12 @@ namespace calenhad {
             QMap<QString, QSizeF> _moduleScales;
             static module::ParamValidator* validator (const QString& validatorType);
 
-            QString getIconFile (const QString &icon);
+            static QString getIconFile (const QString &icon);
 
 
             QMap<QString, calenhad::module::algorithm::Algorithm*> _algorithms;
 
-            module::algorithm::Algorithm* algorithm (const QString& algorithmType);
+            static module::algorithm::Algorithm* algorithm (const QString& algorithmType);
         };
     }
 }

@@ -54,10 +54,11 @@ namespace calenhad {
 
             calenhad::pipeline::CalenhadModel* model ();
 
-			QList<CalenhadView*>* views ();
+			QList<CalenhadView*> views ();
 
 			void addView (CalenhadView* view);
 
+            CalenhadView* activeView ();
 			void doCommand (QUndoCommand* c);
             void rememberFile(const QString &file);
 
@@ -88,12 +89,12 @@ namespace calenhad {
 		protected:
 			QUndoStack* _undoStack;
 
-			QList<CalenhadView*>* _views;
             calenhad::pipeline::CalenhadModel* _model;
             CalenhadUi* _ui;
             calenhad::controls::ModuleTree* _moduleTree;
 
             void setEditActionStatus();
+
         };
 	}
 }

@@ -15,7 +15,7 @@ using namespace calenhad::pipeline;
 using namespace calenhad::nodeedit;
 
 
-CalenhadView::CalenhadView (QWidget* parent) : QGraphicsView (parent) {
+CalenhadView::CalenhadView (Calenhad* parent) : QGraphicsView (parent) {
     setDragMode (QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode (Qt::ContainsItemShape);
     setRenderHints (QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
@@ -37,12 +37,6 @@ void CalenhadView::setZoom (const qreal& z) {
 
 double CalenhadView::currentZoom() {
     return zoom;
-}
-
-void CalenhadView::setController (CalenhadController* controller) {
-    if (! _controller) {
-        _controller = controller;
-    }
 }
 
 void CalenhadView::dragEnterEvent (QDragEnterEvent *event) {
@@ -169,6 +163,7 @@ void CalenhadView::setSnapToGrid (const bool& enabled) {
 bool CalenhadView::snapToGrid() {
     return CalenhadServices::preferences() -> calenhad_desktop_grid_snap;
 }
+
 
 void CalenhadView::setModel (CalenhadModel* model) {
     setScene (model);

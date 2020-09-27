@@ -33,11 +33,11 @@ ModuleFactory::ModuleFactory() {
 
 
 ModuleFactory:: ~ModuleFactory() {
-    for (QPixmap* icon : _icons) { delete icon; }
+
 }
 
-QPixmap* ModuleFactory::getIcon (const QString& type) {
-   return _icons.value (type);
+QPixmap ModuleFactory::getIcon (const QString& type) {
+   return makeIcon (type);
 }
 
 void ModuleFactory::initialise() {
@@ -75,12 +75,6 @@ void ModuleFactory::initialise() {
             QDomElement descriptionElement = element.firstChildElement ("documentation");
             QString description = descriptionElement.text ();
             _moduleDescriptions.insert (key, description);
-            QString icon = element.attribute ("role");
-            //QString iconFile = getIconFile (icon);
-            QPixmap* pixmap = makeIcon (key);
-            if (pixmap) {
-                _icons.insert(key, pixmap);
-            }
         }
 
 
@@ -247,14 +241,15 @@ ParamValidator* ModuleFactory::validator (const QString& validatorType) {
 
 
 Algorithm* ModuleFactory::algorithm (const QString& algorithmType) {
-    if (algorithmType == "normalise") { return new Normalise(); }
+//    if (algorithmType == "normalise") { return new Normalise(); }
 //    if (algorithmType == "") { return new (); }
 //    if (algorithmType == "") { return new (); }
 //    if (algorithmType == "") { return new  (); }
 //  if (algorithmType == "") { return new ; }
 //    if (algorithmType == "") { return new (); }
 //    if (algorithmType == "") { return new (); }
-    else return nullptr;
+//    else
+    return nullptr;
 }
 
 
@@ -272,7 +267,7 @@ Node* ModuleFactory::clone (Node* other) {
     return n;
 }
 
-int ModuleFactory::seed () {
+int ModuleFactory::seed () const {
     return _seed;
 }
 
@@ -314,7 +309,7 @@ QStringList ModuleFactory::types () {
     return list;
 }
 
-QPixmap* ModuleFactory::makeIcon (const QString& type) {
+QPixmap ModuleFactory::makeIcon (const QString& type) {
     if (type != QString()) {
         Module *module = (Module *) createModule(QString(), type, nullptr);
         if (module) {
@@ -323,20 +318,22 @@ QPixmap* ModuleFactory::makeIcon (const QString& type) {
             for (Port *port : module -> ports()) {
                 block -> addPort (port);
             }
-            QPointF point(0.0, 0.0);
-            block -> setPos(point);
-            QRectF r = block -> boundingRect();
-            QPixmap *pixmap = new QPixmap (CalenhadServices::preferences() -> calenhad_handle_module_width, CalenhadServices::preferences() -> calenhad_handle_module_height);
-            pixmap -> fill (Qt::transparent);
-            QPainter painter (pixmap);
-
-            painter.setRenderHint (QPainter::Antialiasing);
+            QSize r = block -> boundingRect().size().toSize();
+            QPixmap img (32, 32);
+            img.fill (Qt::transparent);
+            QPainter painter (&img);
+            //painter.setRenderHint (QPainter::Antialiasing);
+            //painter.translate (-1 * (block -> boundingRect ().topLeft ()));
             QStyleOptionGraphicsItem opt;
-            block -> paint (&painter, &opt, nullptr);
 
+            QBrush _brush = QBrush (CalenhadServices::preferences() -> calenhad_module_brush_color_normal);
+            painter.setBrush (_brush);
+            QPen _pen = QPen (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
+            painter.setPen (_pen);
+            painter.drawRect (10, 10, r.width() - 20, r.height() - 20);
             delete module;
             delete handle;
-            return pixmap;
-        } else return nullptr;
-    } else return nullptr;
+            return img;
+        } else return QPixmap();
+    } else return QPixmap();
 }

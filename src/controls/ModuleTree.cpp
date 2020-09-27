@@ -81,9 +81,11 @@ void ModuleTree::buildTree() {
             NodeGroup* g =  m -> group();
             QTreeWidgetItem* item;
             item = new QTreeWidgetItem (_tree);
-            QPixmap* pixmap = CalenhadServices::modules() -> getIcon (m -> nodeType());
-            QIcon icon (*pixmap);
-            item -> setIcon (0, icon);
+            QPixmap img = CalenhadServices::modules() -> getIcon (m -> nodeType());
+            if (! img.isNull()) {
+                QIcon icon (img);
+                item->setIcon (0, icon);
+            }
             item -> setText (0, m -> name());
             item -> setToolTip (0, m -> description());
             _modules.insert (item, m);

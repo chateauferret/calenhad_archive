@@ -55,7 +55,6 @@ using namespace calenhad::controls;
 
 CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent),
     _ui (new CalenhadUi (this)),
-    _views (new QList<CalenhadView*>()),
     _undoStack (new QUndoStack()),
     _model (nullptr),
     _moduleTree (nullptr) {
@@ -66,16 +65,15 @@ CalenhadController::CalenhadController (Calenhad* parent) : QObject (parent),
 
 
 void CalenhadController::addView (CalenhadView* view) {
-    _views -> append (view);
     _ui -> connectView (view);
 }
 
-QList<CalenhadView*>* CalenhadController::views() {
-    return _views;
+QList<CalenhadView*> CalenhadController::views() {
+    return ((Calenhad*) parent()) -> views();
 }
 
 CalenhadController::~CalenhadController() {
-    delete _views;
+
 }
 
 void CalenhadController::setModel (CalenhadModel* model) {
@@ -99,59 +97,59 @@ void CalenhadController::toolSelected() {
             // activated
             _model -> setActiveTool(tool);
             for (QGraphicsView *view : _model -> views()) {
-                QPixmap *pixmap = CalenhadServices::modules() -> getIcon (tool -> data().toString());
-                QCursor cursor = QCursor (*pixmap);
+                QPixmap img = CalenhadServices::modules() -> getIcon (tool -> data().toString());
+                QCursor cursor = QCursor (img);
                 view -> viewport() -> setCursor (cursor);
             }
         } else {
             _model -> setActiveTool(nullptr);
             for (QGraphicsView *view : _model->views()) {
-               view -> setDragMode (QGraphicsView::RubberBandDrag);
+               view -> setCursor (Qt::ArrowCursor);
             }
         }
     }
 }
 
+CalenhadView* CalenhadController::activeView() {
+    return ((Calenhad*) parent()) -> activeView();
+}
+
 void CalenhadController::zoomIn() {
-    if (_views -> at (0) -> currentZoom() < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin) {
-        doCommand (new ZoomCommand (CalenhadServices::preferences() -> calenhad_desktop_zoom_delta, _views->at (0)));
+    if (activeView() -> currentZoom() < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin) {
+        doCommand (new ZoomCommand (CalenhadServices::preferences() -> calenhad_desktop_zoom_delta, activeView()));
     }
 }
 
 void CalenhadController::zoomOut() {
-    if (_views->at(0)->currentZoom() > CalenhadServices::preferences()->calenhad_desktop_zoom_limit_zoomout) {
-        doCommand(new ZoomCommand(- CalenhadServices::preferences() -> calenhad_desktop_zoom_delta, _views->at(0)));
+    if (activeView() -> currentZoom() > CalenhadServices::preferences()->calenhad_desktop_zoom_limit_zoomout) {
+        doCommand(new ZoomCommand(- CalenhadServices::preferences() -> calenhad_desktop_zoom_delta, activeView()));
     }
 }
 
 void CalenhadController::zoomToFit() {
-    doCommand (new ZoomToFitCommand ( _views -> at (0)));
+    doCommand (new ZoomToFitCommand (activeView()));
 }
 
 void CalenhadController::zoomToSelection() {
-    doCommand (new ZoomToSelectionCommand ( _views -> at (0)));
+    doCommand (new ZoomToSelectionCommand (activeView()));
 }
 
 void CalenhadController::toggleGrid() {
-    doCommand (new GridCommand (_views -> at (0)));
+    doCommand (new GridCommand (activeView()));
     _ui -> updateZoomActions();
 }
 
 void CalenhadController::snapToGrid() {
-    doCommand (new SnapToGridCommand (_views -> at (0)));
+    doCommand (new SnapToGridCommand (activeView()));
 }
 
 void CalenhadController::moduleTree() {
     if (!_moduleTree) {
         _moduleTree = new ModuleTree (_model);
-
-        // keep the action's state consistent if we open or close the tree by other means
-        connect (_moduleTree, &ModuleTree::treeShown, this, [=] () {  ((QAction*) sender()) -> setChecked (true); });
-        connect (_moduleTree, &ModuleTree::treeHidden, this, [=] () {  ((QAction*) sender()) -> setChecked (false); });
     }
-    _moduleTree -> setVisible (!_moduleTree->isVisible ());
 }
 
+        // keep the action's state co
 void CalenhadController::paste() {
     QClipboard* clipboard = QGuiApplication::clipboard ();
     QString xml = clipboard -> text();

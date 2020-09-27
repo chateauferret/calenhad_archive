@@ -44,7 +44,8 @@ namespace calenhad {
 		Q_OBJECT
 
 
-		public:
+
+        public:
 
             enum PortHighlight {
                 NONE, CAN_CONNECT, CONNECTED
@@ -77,6 +78,7 @@ namespace calenhad {
 			bool hasConnection ();
 
 			int type () const { return Type; }
+            void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 			NodeBlock* block () const;
 
@@ -136,9 +138,6 @@ namespace calenhad {
 
             QMenu* _connectMenu;
 
-
-
-            void paint (QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
         };
 	}

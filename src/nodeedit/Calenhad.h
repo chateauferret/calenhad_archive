@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../messages/QNotificationHost.h"
 #include <QScrollArea>
 #include <src/controls/globe/CalenhadGlobeDialog.h>
+#include <QtWidgets/QMdiArea>
 
 namespace calenhad {
     namespace controls {
@@ -74,13 +75,16 @@ namespace calenhad {
         class Calenhad : public calenhad::notification::QNotificationHost {
         Q_OBJECT
 
+
         public:
             explicit Calenhad (QWidget* parent = 0);
-
+            QMdiArea* _docs;
             ~Calenhad () override;
 
             void setModel (calenhad::pipeline::CalenhadModel* model);
 
+            QList<CalenhadView*> views() const;
+            CalenhadView* activeView() const;
             calenhad::pipeline::CalenhadModel* model ();
 
             void addToolbar (QToolBar* toolbar, calenhad::module::Module* m);
@@ -106,7 +110,6 @@ namespace calenhad {
 
         private:
             CalenhadController* _controller;
-            CalenhadView* _view;
             calenhad::pipeline::CalenhadModel* _model;
             calenhad::expressions::VariablesDialog* _variablesDialog{};
             QString _lastFile;
@@ -141,6 +144,7 @@ namespace calenhad {
             void showGlobe (calenhad::module::Module* module);
 
             void provideGlobe (calenhad::module::Module* module);
+
         };
     }
 }
