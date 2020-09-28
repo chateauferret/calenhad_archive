@@ -69,15 +69,7 @@ Calenhad::Calenhad (QWidget* parent) : QNotificationHost (parent),
 
     // Nodes editor
     _docs = new QMdiArea (this);
-    CalenhadView* _view = new CalenhadView (nullptr);
-    _view -> setRenderHint (QPainter::Antialiasing, true);
-    _view -> centerOn (0, 0);
-    double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
-    QRectF minRect (-extent / 2, -extent / 2, extent, extent);
-    _view -> setSceneRect (minRect);
-    _docs -> addSubWindow (_view);
-    _controller -> addView (_view);
-
+    addView (_model, "View 1");
     //_scroll = new QScrollArea (this);
     //_scroll -> setWidgetResizable (true);
     //_scroll -> setWidget (_view);
@@ -288,4 +280,47 @@ QList<CalenhadView*> Calenhad::views() const {
 CalenhadView* Calenhad::activeView() const {
     QMdiSubWindow* doc = _docs -> activeSubWindow();
     return (CalenhadView*) doc -> widget();
+}
+
+void Calenhad::addView (CalenhadModel* model, const QString& title) {
+    CalenhadView* _view = new CalenhadView (nullptr);
+    _view -> setModel (model);
+    _view -> setRenderHint (QPainter::Antialiasing, true);
+    _view -> centerOn (0, 0);
+    double extent = CalenhadServices::preferences() -> calenhad_model_extent / 2;
+    QRectF minRect (-extent / 2, -extent / 2, extent, extent);
+    _view -> setSceneRect (minRect);
+    QMdiSubWindow* w = _docs -> addSubWindow (_view);
+    w -> setWindowTitle (title);
+    w -> setAttribute (Qt::WA_DeleteOnClose);
+    _docs -> setActiveSubWindow (w);
+    _controller -> addView (_view);
+    w -> show();
+}
+
+void Calenhad::closeActiveView() const {
+    CalenhadView* view = (CalenhadView*) _docs -> activeSubWindow() -> widget();
+    _docs -> activateNextSubWindow();
+    QMdiSubWindow* w = _docs -> activeSubWindow();
+    _docs -> removeSubWindow (w);
+    delete view;
+}
+
+void Calenhad::tileViews() const {
+    _docs -> tileSubWindows();
+}
+
+void Calenhad::cascadeViews () const {
+    _docs -> cascadeSubWindows();
+}
+
+void Calenhad::makeWindowSwitchMenu (QMenu* menu) {
+    menu -> clear();
+    for (QMdiSubWindow* w : _docs -> subWindowList()) {
+        QAction* a = new QAction (w -> windowTitle());
+        a -> setCheckable (true);
+        a -> setChecked (w -> isActiveWindow());
+        connect (a, &QAction::toggled, this, [=] { _docs -> setActiveSubWindow (w); });
+        menu -> addAction (a);
+    }
 }

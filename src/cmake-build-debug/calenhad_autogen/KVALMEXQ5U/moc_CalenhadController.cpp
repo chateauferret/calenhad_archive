@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_calenhad__nodeedit__CalenhadController_t {
-    QByteArrayData data[19];
-    char stringdata0[202];
+    QByteArrayData data[23];
+    char stringdata0[251];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,7 +49,11 @@ QT_MOC_LITERAL(14, 174, 4), // "kill"
 QT_MOC_LITERAL(15, 179, 4), // "yank"
 QT_MOC_LITERAL(16, 184, 4), // "undo"
 QT_MOC_LITERAL(17, 189, 4), // "redo"
-QT_MOC_LITERAL(18, 194, 7) // "showXml"
+QT_MOC_LITERAL(18, 194, 7), // "showXml"
+QT_MOC_LITERAL(19, 202, 9), // "newWindow"
+QT_MOC_LITERAL(20, 212, 11), // "closeWindow"
+QT_MOC_LITERAL(21, 224, 11), // "tileWindows"
+QT_MOC_LITERAL(22, 236, 14) // "cascadeWindows"
 
     },
     "calenhad::nodeedit::CalenhadController\0"
@@ -57,7 +61,8 @@ QT_MOC_LITERAL(18, 194, 7) // "showXml"
     "toolSelected\0zoomIn\0zoomOut\0zoomToFit\0"
     "zoomToSelection\0toggleGrid\0snapToGrid\0"
     "moduleTree\0paste\0editAction\0kill\0yank\0"
-    "undo\0redo\0showXml"
+    "undo\0redo\0showXml\0newWindow\0closeWindow\0"
+    "tileWindows\0cascadeWindows"
 };
 #undef QT_MOC_LITERAL
 
@@ -67,7 +72,7 @@ static const uint qt_meta_data_calenhad__nodeedit__CalenhadController[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      19,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -75,23 +80,27 @@ static const uint qt_meta_data_calenhad__nodeedit__CalenhadController[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   89,    2, 0x06 /* Public */,
-       3,    0,   90,    2, 0x06 /* Public */,
+       1,    0,  109,    2, 0x06 /* Public */,
+       3,    0,  110,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   91,    2, 0x0a /* Public */,
-       5,    0,   92,    2, 0x0a /* Public */,
-       6,    0,   93,    2, 0x0a /* Public */,
-       7,    0,   94,    2, 0x0a /* Public */,
-       8,    0,   95,    2, 0x0a /* Public */,
-       9,    0,   96,    2, 0x0a /* Public */,
-      10,    0,   97,    2, 0x0a /* Public */,
-      11,    0,   98,    2, 0x0a /* Public */,
-      12,    0,   99,    2, 0x0a /* Public */,
-      13,    2,  100,    2, 0x0a /* Public */,
-      16,    0,  105,    2, 0x0a /* Public */,
-      17,    0,  106,    2, 0x0a /* Public */,
-      18,    0,  107,    2, 0x0a /* Public */,
+       4,    0,  111,    2, 0x0a /* Public */,
+       5,    0,  112,    2, 0x0a /* Public */,
+       6,    0,  113,    2, 0x0a /* Public */,
+       7,    0,  114,    2, 0x0a /* Public */,
+       8,    0,  115,    2, 0x0a /* Public */,
+       9,    0,  116,    2, 0x0a /* Public */,
+      10,    0,  117,    2, 0x0a /* Public */,
+      11,    0,  118,    2, 0x0a /* Public */,
+      12,    0,  119,    2, 0x0a /* Public */,
+      13,    2,  120,    2, 0x0a /* Public */,
+      16,    0,  125,    2, 0x0a /* Public */,
+      17,    0,  126,    2, 0x0a /* Public */,
+      18,    0,  127,    2, 0x0a /* Public */,
+      19,    0,  128,    2, 0x0a /* Public */,
+      20,    0,  129,    2, 0x0a /* Public */,
+      21,    0,  130,    2, 0x0a /* Public */,
+      22,    0,  131,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -108,6 +117,10 @@ static const uint qt_meta_data_calenhad__nodeedit__CalenhadController[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Bool, QMetaType::Bool,   14,   15,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -136,6 +149,10 @@ void calenhad::nodeedit::CalenhadController::qt_static_metacall(QObject *_o, QMe
         case 12: _t->undo(); break;
         case 13: _t->redo(); break;
         case 14: _t->showXml(); break;
+        case 15: _t->newWindow(); break;
+        case 16: _t->closeWindow(); break;
+        case 17: _t->tileWindows(); break;
+        case 18: _t->cascadeWindows(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -186,13 +203,13 @@ int calenhad::nodeedit::CalenhadController::qt_metacall(QMetaObject::Call _c, in
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 19;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 19)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 15;
+        _id -= 19;
     }
     return _id;
 }

@@ -284,3 +284,21 @@ void CalenhadController::showXml() {
     _model -> showXml();
 }
 
+void CalenhadController::newWindow() {
+    ((Calenhad*) parent()) -> addView (model(), "Model");
+}
+
+void CalenhadController::closeWindow() {
+    ((Calenhad*) parent()) -> closeActiveView();
+}
+
+void CalenhadController::tileWindows() {
+    ((Calenhad*) parent()) -> tileViews();
+}
+
+void CalenhadController::cascadeWindows() {
+    ((Calenhad*) parent()) -> cascadeViews();
+}
+
+
+

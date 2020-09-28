@@ -82,6 +82,8 @@ namespace calenhad {
             ~Calenhad () override;
 
             void setModel (calenhad::pipeline::CalenhadModel* model);
+            void makeWindowSwitchMenu (QMenu* menu);
+
 
             QList<CalenhadView*> views() const;
             CalenhadView* activeView() const;
@@ -90,6 +92,12 @@ namespace calenhad {
             void addToolbar (QToolBar* toolbar, calenhad::module::Module* m);
 
             CalenhadController* controller ();
+
+            void addView (pipeline::CalenhadModel* model, const QString& title);
+
+            void closeActiveView() const;
+            void tileViews() const;
+            void cascadeViews() const;
 
             void showSplash();
         public slots:

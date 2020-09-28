@@ -76,7 +76,7 @@ void CalenhadUi::makeWidgets() {
     _fileMenu -> addAction (_xmlAction);
     _fileMenu -> addAction (_quitAction);
     _openRecentMenu = _fileMenu -> addMenu ("Open recent");
-    _openRecentMenu -> setToolTip("Open a file used recently");
+    _openRecentMenu -> setToolTip ("Open a file used recently");
     makeRecentFilesMenu();
 
     _editMenu = _menuBar -> addMenu (tr("&Edit"));
@@ -162,7 +162,16 @@ void CalenhadUi::makeWidgets() {
     _viewMenu -> addSeparator();
     _viewMenu -> addMenu (_toolbarsMenu);
 
-
+    _windowMenu = _menuBar -> addMenu ("Window");
+    _windowMenu -> addAction (_newWindowAction);
+    _windowMenu -> addAction (_closeWindowAction);
+    _windowMenu -> addAction (_tileWindowsAction);
+    _windowMenu -> addAction (_cascadeWindowsAction);
+    _windowSwitchMenu = _windowMenu -> addMenu ("Switch");
+    connect (_windowMenu, &QMenu::aboutToShow, this, [=] () {
+        Calenhad* c = (Calenhad*) _controller -> parent();
+        c -> makeWindowSwitchMenu (_windowSwitchMenu);
+    });
 }
 
 
@@ -396,13 +405,26 @@ void CalenhadUi::makeActions() {
     connect (QGuiApplication::clipboard(), &QClipboard::dataChanged, this, [=] () { setEditActionStatus (_controller -> model()); });
 
     _deleteAction = createAction (QIcon(":/appicons/controls/delete_selection.png"), tr("Delete selection"), "Delete selection");
-    _deleteAction -> setEnabled(false);
+    _deleteAction -> setEnabled (false);
+    connect (_deleteAction, &QAction::triggered, this, [=] () { _controller -> editAction (true, false); });
 
-    connect (_copyAction, &QAction::triggered, this, [=] () { _controller -> editAction (true, false); });
     // Dialogs
     QDialog* _variablesDialog = new VariablesDialog();
     _variablesAction = createAction (QIcon(":/appicons/controls/variables.png"), tr("&Variables"), "Review and edit module parameter variables", QKeySequence());
     connect (_variablesAction, &QAction::triggered, _variablesDialog, &VariablesDialog::exec);
+
+    _newWindowAction = createAction (QIcon (":/appicons/controls/window_new.png"), tr ("New window"), "Open a new window onto the model", QKeySequence());
+    connect (_newWindowAction, &QAction::triggered, _controller, &CalenhadController::newWindow);
+
+    _closeWindowAction = createAction (QIcon (":/appicons/controls/window_close.png"), tr ("Close window"), "Close the active window onto the model", QKeySequence());
+    connect (_closeWindowAction, &QAction::triggered, _controller, &CalenhadController::closeWindow);
+
+    _tileWindowsAction = createAction (QIcon (":/appicons/controls/windows_tile.png"), tr ("Tile windows"), "Arrange the open windows in tiles", QKeySequence());
+    connect (_tileWindowsAction, &QAction::triggered, _controller, &CalenhadController::tileWindows);
+
+    _cascadeWindowsAction = createAction (QIcon (":/appicons/controls/windows_cascade.png"), tr ("Tile windows"), "Arrange the open windows in a cascade", QKeySequence());
+    connect (_cascadeWindowsAction, &QAction::triggered, _controller, &CalenhadController::cascadeWindows);
+
 
 }
 

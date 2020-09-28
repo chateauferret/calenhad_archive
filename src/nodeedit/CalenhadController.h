@@ -67,6 +67,7 @@ namespace calenhad {
             bool canRedo();
 			void clearUndo ();
 
+
 		public slots:
 
 			void toolSelected();
@@ -82,6 +83,12 @@ namespace calenhad {
             void undo();
             void redo();
             void showXml();
+
+            void newWindow();
+            void closeWindow();
+            void tileWindows();
+            void cascadeWindows();
+
         signals:
             void canUndoChanged();
             void canRedoChanged();

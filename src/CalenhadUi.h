@@ -42,7 +42,7 @@ namespace calenhad {
         QToolBar * _viewToolbar, * _fileToolbar, * _modulesToolbar, * _editToolbar;
         void setActive (QWidget* widget, const bool& enabled);
         QMenuBar* _menuBar;
-        QMenu* _applicationMenu, * _mouseModeMenu, * _viewMenu, * _moduleMenu, * _editMenu, * _fileMenu, * _contextMenu;
+        QMenu* _applicationMenu, * _mouseModeMenu, * _viewMenu, * _moduleMenu, * _editMenu, * _fileMenu, * _contextMenu, * _windowMenu, _helpMenu;
         nodeedit::Calenhad* _app;
         QAction* createAction (const QIcon& icon, const QString& name, const QString& statusTip, const QKeySequence& shortcut = QKeySequence());
 
@@ -87,6 +87,11 @@ namespace calenhad {
         QAction* _gridAction = nullptr;
         QAction* _snapAction = nullptr;
         QAction *_importAction = nullptr;
+        QAction* _newWindowAction = nullptr;
+        QAction* _closeWindowAction = nullptr;
+        QAction* _tileWindowsAction = nullptr;
+        QAction* _cascadeWindowsAction = nullptr;
+        QMenu* _windowSwitchMenu = nullptr;
         QMenu *_toolbarsMenu;
     };
 
