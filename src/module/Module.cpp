@@ -153,6 +153,7 @@ QString Module::glsl () {
             Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
             QString source = other -> name();
             code.replace ("%" + index, "_" + source + " (pos, c, g)");
+            code.replace ("$" + index, "_" + source);
         }
     }
 
