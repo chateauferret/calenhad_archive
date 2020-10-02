@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classQUndoCommand.html" title=" " alt="" coords="5,143,139,170"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1actions_1_1ChangeModuleCommand.html" title=" " alt="" coords="187,5,373,47"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1actions_1_1GridCommand.html" title=" " alt="" coords="208,71,352,112"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1actions_1_1SnapToGridCommand.html" title=" " alt="" coords="199,136,361,177"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1actions_1_1XmlCommand.html" title=" " alt="" coords="208,201,352,243"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1actions_1_1ZoomCommand.html" title=" " alt="" coords="208,267,352,308"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1actions_1_1ZoomToFitCommand.html" title=" " alt="" coords="421,267,577,308"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1actions_1_1ZoomToSelectionCommand.html" title=" " alt="" coords="625,267,827,308"/>
+</map>

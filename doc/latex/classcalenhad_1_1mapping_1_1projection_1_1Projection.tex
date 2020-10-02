@@ -1,0 +1,166 @@
+\hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection}{}\doxysection{calenhad\+::mapping\+::projection\+::Projection Class Reference}
+\label{classcalenhad_1_1mapping_1_1projection_1_1Projection}\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+
+
+{\ttfamily \#include $<$Projection.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::mapping\+::projection\+::Projection\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1projection_1_1Projection__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a6ddd5453dd182188d1c96b4e5e280ec1}{Projection}} ()
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_aba1869322dac3500bbcd5c487e5a9fc4}{$\sim$\+Projection}} ()
+\item 
+virtual bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a726d78921401823804fec537dd707d33}{inverse}} (const Q\+PointF \&point, \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&loc)=0
+\item 
+virtual bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_afe3c826a67993280d615f140bac179d4}{forward}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&loc, Q\+PointF \&point)=0
+\item 
+virtual Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a7a86ef9ecb732336b1df3e66a207bbc3}{name}} ()=0
+\item 
+virtual Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_ad9fe3d188c4a27398e95d39f94dd377b}{notes}} ()=0
+\item 
+virtual Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a4e5683b8bceebb956a5319ca4f752e56}{glsl\+Inverse}} ()=0
+\item 
+virtual Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a2b8e38d5e9e7f55058f54eb0fd11cf56}{glsl\+Forward}} ()=0
+\item 
+virtual \mbox{\hyperlink{namespacecalenhad_1_1mapping_1_1projection_a241c495ea36ad353379d7760547d7067}{Projection\+Id}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_ab4d2a8077a9a370f402d11d411e18a8c}{id}} ()=0
+\item 
+virtual Q\+PointF \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a4e2bef3bb50c21bf6530bb82b3761444}{range}} ()
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a62c46e6f8ea1d6a05df6bc1260deb110}{set\+Datum}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&datum)=0
+\item 
+virtual double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection_a01d2340a169e45e58e37dc9baf6d70e9}{aspect\+Ratio}} ()=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a6ddd5453dd182188d1c96b4e5e280ec1}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a6ddd5453dd182188d1c96b4e5e280ec1}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!Projection@{Projection}}
+\index{Projection@{Projection}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{Projection()}{Projection()}}
+{\footnotesize\ttfamily calenhad\+::mapping\+::projection\+::\+Projection\+::\+Projection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_aba1869322dac3500bbcd5c487e5a9fc4}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_aba1869322dac3500bbcd5c487e5a9fc4}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!````~Projection@{$\sim$Projection}}
+\index{````~Projection@{$\sim$Projection}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{$\sim$Projection()}{~Projection()}}
+{\footnotesize\ttfamily virtual calenhad\+::mapping\+::projection\+::\+Projection\+::$\sim$\+Projection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a01d2340a169e45e58e37dc9baf6d70e9}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a01d2340a169e45e58e37dc9baf6d70e9}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!aspectRatio@{aspectRatio}}
+\index{aspectRatio@{aspectRatio}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{aspectRatio()}{aspectRatio()}}
+{\footnotesize\ttfamily virtual double calenhad\+::mapping\+::projection\+::\+Projection\+::aspect\+Ratio (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a4c8ec41b0fecae427230f257ad03e0f3}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_a66b84f0145c20763bd1dac27c14e770b}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_a83c3561f1d6e13455fb32bafe9dafb67}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_afe3c826a67993280d615f140bac179d4}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_afe3c826a67993280d615f140bac179d4}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!forward@{forward}}
+\index{forward@{forward}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily virtual bool calenhad\+::mapping\+::projection\+::\+Projection\+::forward (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{loc,  }\item[{Q\+PointF \&}]{point }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_a76384b2dce520f1ac2ec548138ff73a5}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a654014bd579b78521db149cd962f5d66}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_a6ba916909e2404284f16f7999d21ecc1}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a2b8e38d5e9e7f55058f54eb0fd11cf56}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a2b8e38d5e9e7f55058f54eb0fd11cf56}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!glslForward@{glslForward}}
+\index{glslForward@{glslForward}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{glslForward()}{glslForward()}}
+{\footnotesize\ttfamily virtual Q\+String calenhad\+::mapping\+::projection\+::\+Projection\+::glsl\+Forward (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a30b95e9412e731f0dc3bc69526e0ea10}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_a4199f879a7b9dad48eb02bdd5f117d06}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_ae793d1cf071db2085a1e17b94583ac0e}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a4e5683b8bceebb956a5319ca4f752e56}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a4e5683b8bceebb956a5319ca4f752e56}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!glslInverse@{glslInverse}}
+\index{glslInverse@{glslInverse}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{glslInverse()}{glslInverse()}}
+{\footnotesize\ttfamily virtual Q\+String calenhad\+::mapping\+::projection\+::\+Projection\+::glsl\+Inverse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_a2e13791f292d978a652cac1437afd1b0}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a3ab3f9d8bca32c50777404aa6cbdbd26}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_a2e509960d0ed66aa7555cbb801b30087}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_ab4d2a8077a9a370f402d11d411e18a8c}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_ab4d2a8077a9a370f402d11d411e18a8c}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!id@{id}}
+\index{id@{id}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{id()}{id()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{namespacecalenhad_1_1mapping_1_1projection_a241c495ea36ad353379d7760547d7067}{Projection\+Id}} calenhad\+::mapping\+::projection\+::\+Projection\+::id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_a87c8f7e4d4111c6c985b8932fc3a7eb4}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a2f8d459958bebcd2c851332a907cf5c1}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_abc623ebb2f057023c6a03d64cb30d61d}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a726d78921401823804fec537dd707d33}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a726d78921401823804fec537dd707d33}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!inverse@{inverse}}
+\index{inverse@{inverse}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{inverse()}{inverse()}}
+{\footnotesize\ttfamily virtual bool calenhad\+::mapping\+::projection\+::\+Projection\+::inverse (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{point,  }\item[{\mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{loc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_abef0e4a7c97fafcec5660e2941b699d2}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_aec3185e6055b3145c7d45da114c4339d}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_a6b3d1788dbf9a98b479a915758a21e0d}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a7a86ef9ecb732336b1df3e66a207bbc3}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a7a86ef9ecb732336b1df3e66a207bbc3}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!name@{name}}
+\index{name@{name}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}}
+{\footnotesize\ttfamily virtual Q\+String calenhad\+::mapping\+::projection\+::\+Projection\+::name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_a10e1463c61e4315ef84dde41d9faf01a}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a1555b9530de8d7dc7a3a268f8e55265b}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_a9f1898b29dfb9630449bf36c0c21946d}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_ad9fe3d188c4a27398e95d39f94dd377b}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_ad9fe3d188c4a27398e95d39f94dd377b}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!notes@{notes}}
+\index{notes@{notes}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{notes()}{notes()}}
+{\footnotesize\ttfamily virtual Q\+String calenhad\+::mapping\+::projection\+::\+Projection\+::notes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_ac07178aaa0801e6a33b7e59d9139bdcf}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a5a4f5fc349d5befbdbcf299e3728b885}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_aefea66c11d3def23c89b7d6b549e8575}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a4e2bef3bb50c21bf6530bb82b3761444}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a4e2bef3bb50c21bf6530bb82b3761444}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!range@{range}}
+\index{range@{range}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{range()}{range()}}
+{\footnotesize\ttfamily virtual Q\+PointF calenhad\+::mapping\+::projection\+::\+Projection\+::range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a082395efefac397c0ab7d9c0814c4c8b}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1projection_1_1Projection_a62c46e6f8ea1d6a05df6bc1260deb110}\label{classcalenhad_1_1mapping_1_1projection_1_1Projection_a62c46e6f8ea1d6a05df6bc1260deb110}} 
+\index{calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}!setDatum@{setDatum}}
+\index{setDatum@{setDatum}!calenhad::mapping::projection::Projection@{calenhad::mapping::projection::Projection}}
+\doxysubsubsection{\texorpdfstring{setDatum()}{setDatum()}}
+{\footnotesize\ttfamily virtual void calenhad\+::mapping\+::projection\+::\+Projection\+::set\+Datum (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{datum }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection_a469d8b5b34aef41ccafbb24512735cd9}{calenhad\+::mapping\+::projection\+::\+Mercator\+Projection}}, \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection_a5a8a4aa6ba26a19f407b56c4f2f0a977}{calenhad\+::mapping\+::projection\+::\+Orthographic\+Projection}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection_a5f23c064abdfd5b5f3c8c7086244a247}{calenhad\+::mapping\+::projection\+::\+Equirectangular\+Projection}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/projection/\mbox{\hyperlink{Projection_8h}{Projection.\+h}}\end{DoxyCompactItemize}

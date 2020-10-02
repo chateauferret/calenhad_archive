@@ -1,0 +1,18 @@
+<map id="calenhad::grid::Icosphere" name="calenhad::grid::Icosphere">
+<area shape="rect" id="node1" title=" " alt="" coords="816,440,1001,467"/>
+<area shape="rect" id="node2" title=" " alt="" coords="528,12,591,39"/>
+<area shape="rect" id="node3" title=" " alt="" coords="522,63,597,89"/>
+<area shape="rect" id="node4" title=" " alt="" coords="474,114,645,155"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,393,72,420"/>
+<area shape="rect" id="node6" href="$structcalenhad_1_1grid_1_1Vertex.html" title=" " alt="" coords="477,407,642,433"/>
+<area shape="rect" id="node9" href="$structcalenhad_1_1grid_1_1geometry_1_1Cartesian.html" title=" " alt="" coords="133,521,319,562"/>
+<area shape="rect" id="node7" title=" " alt="" coords="139,455,313,497"/>
+<area shape="rect" id="node8" title=" " alt="" coords="189,276,263,303"/>
+<area shape="rect" id="node10" title=" " alt="" coords="185,331,267,357"/>
+<area shape="rect" id="node11" title=" " alt="" coords="524,523,595,549"/>
+<area shape="rect" id="node12" title=" " alt="" coords="454,574,665,615"/>
+<area shape="rect" id="node13" title=" " alt="" coords="540,640,579,667"/>
+<area shape="rect" id="node14" title=" " alt="" coords="534,691,585,717"/>
+<area shape="rect" id="node15" title=" " alt="" coords="444,742,675,783"/>
+<area shape="rect" id="node16" title=" " alt="" coords="508,808,611,835"/>
+</map>

@@ -1,0 +1,248 @@
+\hypertarget{classcalenhad_1_1legend_1_1LegendService}{}\doxysection{calenhad\+::legend\+::Legend\+Service Class Reference}
+\label{classcalenhad_1_1legend_1_1LegendService}\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+
+
+{\ttfamily \#include $<$Legend\+Service.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::legend\+::Legend\+Service\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classcalenhad_1_1legend_1_1LegendService__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::legend\+::Legend\+Service\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classcalenhad_1_1legend_1_1LegendService__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_abc6b0507fe97510ee2c0861d8231e3d8}{commit\+Requested}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a0b51c1deb2ea76c79ff7e8c01ac40eb8}{rollback\+Requested}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a03ead8c3d029b99c88330301d11c1998}{find}} (const Q\+String \&name)=0
+\item 
+virtual bool \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_ac03dbc4f9c608bce2fe35a1aac8715fa}{exists}} (const Q\+String \&name)=0
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_ab9bad97a1703e769bb08ebcefe72a41f}{provide}} (\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$legend)=0
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a5aab76787a1e6c4c07a4dd2db4727e29}{rename}} (const Q\+String \&from, const Q\+String \&to)=0
+\item 
+virtual int \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_af2c47bb5408a2ab90383704b681089c8}{legend\+Count}} ()=0
+\item 
+virtual bool \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a7eaafa59e892ee17e922fbbcde98da37}{remove}} (const Q\+String \&name)=0
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a17bae5b49def3df0ba6a41e9bef4b691}{default\+Legend}} ()=0
+\item 
+virtual bool \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_acaaf235b6155d07bcb2f5ae8554a9999}{is\+Dirty}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a3eeab7a4a41649671876564acc864857}{set\+Dirty}} (const bool \&dirty=true)=0
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_abbef6062c53c9814c4430e7efcd75644}{commit}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_ab27eba2c88cb7baefc2e32df727d6ec5}{rollback}} ()=0
+\item 
+virtual Q\+List$<$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_ae2a140088a1ddf7ce68dd8764cce9d60}{all}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a02bf987a586729904cb0104d2a64780e}{clear}} ()=0
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService_a6a8677b793e9257effb3f7651cafeb51}{last\+Used}} ()=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_ae2a140088a1ddf7ce68dd8764cce9d60}\label{classcalenhad_1_1legend_1_1LegendService_ae2a140088a1ddf7ce68dd8764cce9d60}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!all@{all}}
+\index{all@{all}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{all()}{all()}}
+{\footnotesize\ttfamily virtual Q\+List$<$\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}}$\ast$$>$ calenhad\+::legend\+::\+Legend\+Service\+::all (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a12e39204d003d2f110bf6c1d94200f0b}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a02bf987a586729904cb0104d2a64780e}\label{classcalenhad_1_1legend_1_1LegendService_a02bf987a586729904cb0104d2a64780e}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!clear@{clear}}
+\index{clear@{clear}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily virtual void calenhad\+::legend\+::\+Legend\+Service\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a5b278b248f445379ade1e9bcca90e461}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_abbef6062c53c9814c4430e7efcd75644}\label{classcalenhad_1_1legend_1_1LegendService_abbef6062c53c9814c4430e7efcd75644}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!commit@{commit}}
+\index{commit@{commit}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{commit()}{commit()}}
+{\footnotesize\ttfamily virtual void calenhad\+::legend\+::\+Legend\+Service\+::commit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_affc391ab5d9bf5186db33f17b0d8a390}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_abc6b0507fe97510ee2c0861d8231e3d8}\label{classcalenhad_1_1legend_1_1LegendService_abc6b0507fe97510ee2c0861d8231e3d8}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!commitRequested@{commitRequested}}
+\index{commitRequested@{commitRequested}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{commitRequested}{commitRequested}}
+{\footnotesize\ttfamily void calenhad\+::legend\+::\+Legend\+Service\+::commit\+Requested (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendService_abc6b0507fe97510ee2c0861d8231e3d8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a17bae5b49def3df0ba6a41e9bef4b691}\label{classcalenhad_1_1legend_1_1LegendService_a17bae5b49def3df0ba6a41e9bef4b691}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!defaultLegend@{defaultLegend}}
+\index{defaultLegend@{defaultLegend}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{defaultLegend()}{defaultLegend()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}}$\ast$ calenhad\+::legend\+::\+Legend\+Service\+::default\+Legend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a9e65ec885d6b5ea7228d491a12a121fd}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_ac03dbc4f9c608bce2fe35a1aac8715fa}\label{classcalenhad_1_1legend_1_1LegendService_ac03dbc4f9c608bce2fe35a1aac8715fa}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!exists@{exists}}
+\index{exists@{exists}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{exists()}{exists()}}
+{\footnotesize\ttfamily virtual bool calenhad\+::legend\+::\+Legend\+Service\+::exists (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_aaa7ac1afbd20ec4193be7baad0bb4856}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a03ead8c3d029b99c88330301d11c1998}\label{classcalenhad_1_1legend_1_1LegendService_a03ead8c3d029b99c88330301d11c1998}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!find@{find}}
+\index{find@{find}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}}$\ast$ calenhad\+::legend\+::\+Legend\+Service\+::find (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_ac521bbf2b5460673ed155827ad87911f}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_acaaf235b6155d07bcb2f5ae8554a9999}\label{classcalenhad_1_1legend_1_1LegendService_acaaf235b6155d07bcb2f5ae8554a9999}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!isDirty@{isDirty}}
+\index{isDirty@{isDirty}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{isDirty()}{isDirty()}}
+{\footnotesize\ttfamily virtual bool calenhad\+::legend\+::\+Legend\+Service\+::is\+Dirty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a54966f2eedaa5eaaccca3df96aa82f74}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a6a8677b793e9257effb3f7651cafeb51}\label{classcalenhad_1_1legend_1_1LegendService_a6a8677b793e9257effb3f7651cafeb51}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!lastUsed@{lastUsed}}
+\index{lastUsed@{lastUsed}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{lastUsed()}{lastUsed()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}}$\ast$ calenhad\+::legend\+::\+Legend\+Service\+::last\+Used (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a7df9d74dc6f2e41d059079caa5bb01a5}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_af2c47bb5408a2ab90383704b681089c8}\label{classcalenhad_1_1legend_1_1LegendService_af2c47bb5408a2ab90383704b681089c8}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!legendCount@{legendCount}}
+\index{legendCount@{legendCount}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{legendCount()}{legendCount()}}
+{\footnotesize\ttfamily virtual int calenhad\+::legend\+::\+Legend\+Service\+::legend\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a51b480684e19aa5b4c7e7d492d11ce0a}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_ab9bad97a1703e769bb08ebcefe72a41f}\label{classcalenhad_1_1legend_1_1LegendService_ab9bad97a1703e769bb08ebcefe72a41f}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!provide@{provide}}
+\index{provide@{provide}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{provide()}{provide()}}
+{\footnotesize\ttfamily virtual void calenhad\+::legend\+::\+Legend\+Service\+::provide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$}]{legend }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a585639d282d617518409980f56d096bb}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a7eaafa59e892ee17e922fbbcde98da37}\label{classcalenhad_1_1legend_1_1LegendService_a7eaafa59e892ee17e922fbbcde98da37}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!remove@{remove}}
+\index{remove@{remove}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily virtual bool calenhad\+::legend\+::\+Legend\+Service\+::remove (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a01b2949ca99af5ea9a7227d959c61051}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a5aab76787a1e6c4c07a4dd2db4727e29}\label{classcalenhad_1_1legend_1_1LegendService_a5aab76787a1e6c4c07a4dd2db4727e29}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!rename@{rename}}
+\index{rename@{rename}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{rename()}{rename()}}
+{\footnotesize\ttfamily virtual void calenhad\+::legend\+::\+Legend\+Service\+::rename (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{from,  }\item[{const Q\+String \&}]{to }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a198563aac8085a6d82003504a6562048}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_ab27eba2c88cb7baefc2e32df727d6ec5}\label{classcalenhad_1_1legend_1_1LegendService_ab27eba2c88cb7baefc2e32df727d6ec5}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!rollback@{rollback}}
+\index{rollback@{rollback}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{rollback()}{rollback()}}
+{\footnotesize\ttfamily virtual void calenhad\+::legend\+::\+Legend\+Service\+::rollback (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a52d19c1286fede05d8fc66215721dfa5}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a0b51c1deb2ea76c79ff7e8c01ac40eb8}\label{classcalenhad_1_1legend_1_1LegendService_a0b51c1deb2ea76c79ff7e8c01ac40eb8}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!rollbackRequested@{rollbackRequested}}
+\index{rollbackRequested@{rollbackRequested}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{rollbackRequested}{rollbackRequested}}
+{\footnotesize\ttfamily void calenhad\+::legend\+::\+Legend\+Service\+::rollback\+Requested (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendService_a0b51c1deb2ea76c79ff7e8c01ac40eb8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendService_a3eeab7a4a41649671876564acc864857}\label{classcalenhad_1_1legend_1_1LegendService_a3eeab7a4a41649671876564acc864857}} 
+\index{calenhad::legend::LegendService@{calenhad::legend::LegendService}!setDirty@{setDirty}}
+\index{setDirty@{setDirty}!calenhad::legend::LegendService@{calenhad::legend::LegendService}}
+\doxysubsubsection{\texorpdfstring{setDirty()}{setDirty()}}
+{\footnotesize\ttfamily virtual void calenhad\+::legend\+::\+Legend\+Service\+::set\+Dirty (\begin{DoxyParamCaption}\item[{const bool \&}]{dirty = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendRoster_a83270973cb25dac5f75396a9b86e29ea}{calenhad\+::legend\+::\+Legend\+Roster}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendService_a3eeab7a4a41649671876564acc864857_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/legend/\mbox{\hyperlink{LegendService_8h}{Legend\+Service.\+h}}\end{DoxyCompactItemize}

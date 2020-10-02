@@ -1,0 +1,144 @@
+\hypertarget{classcalenhad_1_1mapping_1_1TerraceCurve}{}\doxysection{calenhad\+::mapping\+::Terrace\+Curve Class Reference}
+\label{classcalenhad_1_1mapping_1_1TerraceCurve}\index{calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}}
+
+
+{\ttfamily \#include $<$Terrace\+Curve.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::mapping\+::Terrace\+Curve\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classcalenhad_1_1mapping_1_1TerraceCurve__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::mapping\+::Terrace\+Curve\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=313pt]{classcalenhad_1_1mapping_1_1TerraceCurve__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_a8f7ff15871e911b60e948251e460e5bd}{Terrace\+Curve}} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_a6108e637964bb7259be4eb62b46fa3a0}{$\sim$\+Terrace\+Curve}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_a8b82e3da6403e8580a486f2cc75f898f}{Invert\+Terraces}} (bool invert=true)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_adfd931f18d7088d89f4107a9f39ac3ac}{Is\+Terraces\+Inverted}} () const
+\item 
+virtual float \mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_ab1b32cf24721c352a7a32efbfd9e216c}{Get\+Value}} (const float \&source\+Module\+Value) const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_a51340d52888208f0aecf6229120111a4}{m\+\_\+invert\+Terraces}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Noise module that maps the output value from a source module onto a terrace-\/forming curve.
+
+
+
+This noise module maps the output value from the source module onto a terrace-\/forming curve. The start of this curve has a slope of zero; its slope then smoothly increases. This curve also contains {\itshape control points} which resets the slope to zero at that point, producing a \char`\"{}terracing\char`\"{} effect. Refer to the following illustration\+:
+
+
+
+To add a control point to this noise module, call the \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a548f852b3868476483dbaa081550e780}{Add\+Control\+Point()}} method.
+
+An application must add a minimum of two control points to the curve. If this is not done, the \mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_ab1b32cf24721c352a7a32efbfd9e216c}{Get\+Value()}} method fails. The control points can have any value, although no two control points can have the same value. There is no limit to the number of control points that can be added to the curve.
+
+This noise module clamps the output value from the source module if that value is less than the value of the lowest control point or greater than the value of the highest control point.
+
+This noise module is often used to generate terrain features such as your stereotypical desert canyon.
+
+This noise module requires one source module. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1TerraceCurve_a8f7ff15871e911b60e948251e460e5bd}\label{classcalenhad_1_1mapping_1_1TerraceCurve_a8f7ff15871e911b60e948251e460e5bd}} 
+\index{calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}!TerraceCurve@{TerraceCurve}}
+\index{TerraceCurve@{TerraceCurve}!calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}}
+\doxysubsubsection{\texorpdfstring{TerraceCurve()}{TerraceCurve()}}
+{\footnotesize\ttfamily Terrace\+Curve\+::\+Terrace\+Curve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1TerraceCurve_a6108e637964bb7259be4eb62b46fa3a0}\label{classcalenhad_1_1mapping_1_1TerraceCurve_a6108e637964bb7259be4eb62b46fa3a0}} 
+\index{calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}!````~TerraceCurve@{$\sim$TerraceCurve}}
+\index{````~TerraceCurve@{$\sim$TerraceCurve}!calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}}
+\doxysubsubsection{\texorpdfstring{$\sim$TerraceCurve()}{~TerraceCurve()}}
+{\footnotesize\ttfamily Terrace\+Curve\+::$\sim$\+Terrace\+Curve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1TerraceCurve_ab1b32cf24721c352a7a32efbfd9e216c}\label{classcalenhad_1_1mapping_1_1TerraceCurve_ab1b32cf24721c352a7a32efbfd9e216c}} 
+\index{calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}!GetValue@{GetValue}}
+\index{GetValue@{GetValue}!calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}}
+\doxysubsubsection{\texorpdfstring{GetValue()}{GetValue()}}
+{\footnotesize\ttfamily float Terrace\+Curve\+::\+Get\+Value (\begin{DoxyParamCaption}\item[{const float \&}]{source\+Module\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a8f08fc4ab4c84e4a8f61302590f40559}{calenhad\+::mapping\+::\+Curve}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1TerraceCurve_ab1b32cf24721c352a7a32efbfd9e216c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1TerraceCurve_a8b82e3da6403e8580a486f2cc75f898f}\label{classcalenhad_1_1mapping_1_1TerraceCurve_a8b82e3da6403e8580a486f2cc75f898f}} 
+\index{calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}!InvertTerraces@{InvertTerraces}}
+\index{InvertTerraces@{InvertTerraces}!calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}}
+\doxysubsubsection{\texorpdfstring{InvertTerraces()}{InvertTerraces()}}
+{\footnotesize\ttfamily void calenhad\+::mapping\+::\+Terrace\+Curve\+::\+Invert\+Terraces (\begin{DoxyParamCaption}\item[{bool}]{invert = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1TerraceCurve_adfd931f18d7088d89f4107a9f39ac3ac}\label{classcalenhad_1_1mapping_1_1TerraceCurve_adfd931f18d7088d89f4107a9f39ac3ac}} 
+\index{calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}!IsTerracesInverted@{IsTerracesInverted}}
+\index{IsTerracesInverted@{IsTerracesInverted}!calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}}
+\doxysubsubsection{\texorpdfstring{IsTerracesInverted()}{IsTerracesInverted()}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Terrace\+Curve\+::\+Is\+Terraces\+Inverted (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Determines if the terrace-\/forming curve between the control points is inverted.
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\itshape true} if the curve between the control points is inverted.
+\item {\itshape false} if the curve between the control points is not inverted. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1TerraceCurve_a51340d52888208f0aecf6229120111a4}\label{classcalenhad_1_1mapping_1_1TerraceCurve_a51340d52888208f0aecf6229120111a4}} 
+\index{calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}!m\_invertTerraces@{m\_invertTerraces}}
+\index{m\_invertTerraces@{m\_invertTerraces}!calenhad::mapping::TerraceCurve@{calenhad::mapping::TerraceCurve}}
+\doxysubsubsection{\texorpdfstring{m\_invertTerraces}{m\_invertTerraces}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Terrace\+Curve\+::m\+\_\+invert\+Terraces}
+
+Determines if the terrace-\/forming curve between all control points is inverted. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{TerraceCurve_8h}{Terrace\+Curve.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{TerraceCurve_8cpp}{Terrace\+Curve.\+cpp}}\end{DoxyCompactItemize}

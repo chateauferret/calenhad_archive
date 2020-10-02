@@ -1,0 +1,528 @@
+\hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot}{}\doxysection{calenhad\+::controls\+::altitudemap\+::Altitude\+Map\+Plot Class Reference}
+\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot}\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+
+
+{\ttfamily \#include $<$Altitude\+Map\+Plot.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::controls\+::altitudemap\+::Altitude\+Map\+Plot\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::controls\+::altitudemap\+::Altitude\+Map\+Plot\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4ead52fa94fc41f899fb4ec7275ba867}{update\+From\+Dialog}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a9b55d921c4f2bb73cfb850813d2b8205}{plot\+Points}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a6d029d45ec2e1b8502af76f93fbe465f}{Altitude\+Map\+Plot}} (int resolution=100, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent=0)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4803da1ae7fa901a3219b35131e0fde3}{$\sim$\+Altitude\+Map\+Plot}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a28cda7a7a97acd8f06d92e4259f67cd9}{set\+Entries}} (const Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ entries)
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_afa8e939c2f53e389b2dbf20a8afa08a0}{get\+Entries}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a661358362b2b417bff8fd18b878ef4fe}{mouse\+Canvas\+Press\+Event}} (Q\+Mouse\+Event $\ast$event)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a07078e7c04881d1659257e05d123c058}{mouse\+Canvas\+Move\+Event}} (Q\+Mouse\+Event $\ast$event)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac4de6c1bbff2b1cadd8b977c09ca57a0}{mouse\+Canvas\+Release\+Event}} (Q\+Mouse\+Event $\ast$event)
+\item 
+Q\+PointF \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab1e8fb4eb5847e687bef98dbdb2fc13c}{to\+Plot\+Coordinates}} (const int \&pixelX, const int \&pixelY)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a79c5fceb80c8cc0383320384e790da9d}{set\+Curve\+Type}} (\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1altitudemap_a1ccd32ceeb6e013a43a48d807730f1cd}{Curve\+Type}} type)
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1altitudemap_a1ccd32ceeb6e013a43a48d807730f1cd}{Curve\+Type}} \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad470d7e1a8c00f68ba7b22188ea7e348}{curve\+Type}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad59f7e2163846f559a73e4b21f78f678}{none\+Selected}} = -\/1
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a18816a28837d4034a16c2bc9a7b568d8}{change\+Event}} (Q\+Event $\ast$e)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a64a367be792955461671bff4770a0ac6}{is\+On\+Canvas}} (const Q\+PointF \&point)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aebe7e76f47d2a501ca3a3d3167f2d456}{update\+Point}} (Q\+PointF \&point)
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a520b06ca37853d60ff93ae3bdfbc0415}{remap\+Terrace}} ()
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4690f095f676d0dd1477c05798fc9070}{remap\+Terrace}} (const Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ \&entries)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad9b5d9b1a478f23a72ebe34e4f1cc456}{can\+Delete\+Selected}} ()
+\item 
+Q\+Vector$<$ Q\+PointF $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af1f4a0276a7f2e6ed4829f64ac6008dd}{samples}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_adf1539e04475b29fa9c1ed8a77fbaa5b}{show\+Altitude\+Mapping}} (const Q\+Point \&pos)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Qwt\+Plot\+Curve $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab3d969594d98188347438fc3f736b477}{\+\_\+curve}}
+\item 
+\mbox{\hyperlink{classQwtCurveFitter}{Qwt\+Curve\+Fitter}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a5f306b977c414b37f0b27f6bd08368ce}{\+\_\+fitter}}
+\item 
+Qwt\+Symbol $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac19e76fe904c83451d1ab90f08ee0677}{\+\_\+symbol}}
+\item 
+Qwt\+Symbol $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a44550b4753d6a7e37ad8b2cfa3d07d04}{\+\_\+selected\+Symbol}}
+\item 
+Qwt\+Symbol $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af8ec8fa74bd3912edea184b95d2f4751}{\+\_\+fixed\+Symbol}}
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a3913b684847cdece871bbab888972331}{\+\_\+entries}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac7fe6cd85049634264f276121ede22c6}{\+\_\+index}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a6aa30e9c9beeac5f14966adcc3a5203b}{\+\_\+drag}}
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1altitudemap_a1ccd32ceeb6e013a43a48d807730f1cd}{Curve\+Type}} \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a050afc770a323068fbed10af0e71d7a4}{\+\_\+curve\+Type}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aa87c0e55fdff1fd6209b3cd8377e3f90}{\+\_\+resolution}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlotCanvas}{Altitude\+Map\+Plot\+Canvas}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a8ad2e1d695b9cb9c037ea64592949a4c}{\+\_\+canvas}}
+\item 
+Qwt\+Plot\+Panner $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab3dd12685457b36e1e0a25e099ead98b}{\+\_\+panner}}
+\item 
+Qwt\+Plot\+Magnifier $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a5dcd36a7d3ea36f331df0b6c49bd40fe}{\+\_\+zoomer}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMappingDialog}{Altitude\+Mapping\+Dialog}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a982dd539305f3a6788cee16cbdcad35a}{\+\_\+dialog}}
+\item 
+Qwt\+Plot\+Marker $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a42e3a029413e37b51a554b58406a7fe3}{\+\_\+selected\+Marker}}
+\item 
+Q\+Vector$<$ Qwt\+Plot\+Marker $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a3330563b605f5f0409412e3df1831d3f}{\+\_\+markers}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a6d029d45ec2e1b8502af76f93fbe465f}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a6d029d45ec2e1b8502af76f93fbe465f}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!AltitudeMapPlot@{AltitudeMapPlot}}
+\index{AltitudeMapPlot@{AltitudeMapPlot}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{AltitudeMapPlot()}{AltitudeMapPlot()}}
+{\footnotesize\ttfamily Altitude\+Map\+Plot\+::\+Altitude\+Map\+Plot (\begin{DoxyParamCaption}\item[{int}]{resolution = {\ttfamily 100},  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a6d029d45ec2e1b8502af76f93fbe465f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4803da1ae7fa901a3219b35131e0fde3}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4803da1ae7fa901a3219b35131e0fde3}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!````~AltitudeMapPlot@{$\sim$AltitudeMapPlot}}
+\index{````~AltitudeMapPlot@{$\sim$AltitudeMapPlot}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{$\sim$AltitudeMapPlot()}{~AltitudeMapPlot()}}
+{\footnotesize\ttfamily Altitude\+Map\+Plot\+::$\sim$\+Altitude\+Map\+Plot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad9b5d9b1a478f23a72ebe34e4f1cc456}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad9b5d9b1a478f23a72ebe34e4f1cc456}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!canDeleteSelected@{canDeleteSelected}}
+\index{canDeleteSelected@{canDeleteSelected}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{canDeleteSelected()}{canDeleteSelected()}}
+{\footnotesize\ttfamily bool Altitude\+Map\+Plot\+::can\+Delete\+Selected (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad9b5d9b1a478f23a72ebe34e4f1cc456_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a18816a28837d4034a16c2bc9a7b568d8}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a18816a28837d4034a16c2bc9a7b568d8}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!changeEvent@{changeEvent}}
+\index{changeEvent@{changeEvent}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{changeEvent()}{changeEvent()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::change\+Event (\begin{DoxyParamCaption}\item[{Q\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad470d7e1a8c00f68ba7b22188ea7e348}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad470d7e1a8c00f68ba7b22188ea7e348}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!curveType@{curveType}}
+\index{curveType@{curveType}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{curveType()}{curveType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1altitudemap_a1ccd32ceeb6e013a43a48d807730f1cd}{Curve\+Type}} Altitude\+Map\+Plot\+::curve\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_afa8e939c2f53e389b2dbf20a8afa08a0}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_afa8e939c2f53e389b2dbf20a8afa08a0}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!getEntries@{getEntries}}
+\index{getEntries@{getEntries}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{getEntries()}{getEntries()}}
+{\footnotesize\ttfamily Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ Altitude\+Map\+Plot\+::get\+Entries (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_afa8e939c2f53e389b2dbf20a8afa08a0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_afa8e939c2f53e389b2dbf20a8afa08a0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a64a367be792955461671bff4770a0ac6}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a64a367be792955461671bff4770a0ac6}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!isOnCanvas@{isOnCanvas}}
+\index{isOnCanvas@{isOnCanvas}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{isOnCanvas()}{isOnCanvas()}}
+{\footnotesize\ttfamily bool Altitude\+Map\+Plot\+::is\+On\+Canvas (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{point }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a64a367be792955461671bff4770a0ac6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a07078e7c04881d1659257e05d123c058}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a07078e7c04881d1659257e05d123c058}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!mouseCanvasMoveEvent@{mouseCanvasMoveEvent}}
+\index{mouseCanvasMoveEvent@{mouseCanvasMoveEvent}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{mouseCanvasMoveEvent()}{mouseCanvasMoveEvent()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::mouse\+Canvas\+Move\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{event }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a07078e7c04881d1659257e05d123c058_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a661358362b2b417bff8fd18b878ef4fe}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a661358362b2b417bff8fd18b878ef4fe}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!mouseCanvasPressEvent@{mouseCanvasPressEvent}}
+\index{mouseCanvasPressEvent@{mouseCanvasPressEvent}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{mouseCanvasPressEvent()}{mouseCanvasPressEvent()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::mouse\+Canvas\+Press\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{event }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a661358362b2b417bff8fd18b878ef4fe_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac4de6c1bbff2b1cadd8b977c09ca57a0}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac4de6c1bbff2b1cadd8b977c09ca57a0}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!mouseCanvasReleaseEvent@{mouseCanvasReleaseEvent}}
+\index{mouseCanvasReleaseEvent@{mouseCanvasReleaseEvent}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{mouseCanvasReleaseEvent()}{mouseCanvasReleaseEvent()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::mouse\+Canvas\+Release\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{event }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac4de6c1bbff2b1cadd8b977c09ca57a0_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a9b55d921c4f2bb73cfb850813d2b8205}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a9b55d921c4f2bb73cfb850813d2b8205}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!plotPoints@{plotPoints}}
+\index{plotPoints@{plotPoints}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{plotPoints}{plotPoints}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::plot\+Points (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a9b55d921c4f2bb73cfb850813d2b8205_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a9b55d921c4f2bb73cfb850813d2b8205_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a520b06ca37853d60ff93ae3bdfbc0415}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a520b06ca37853d60ff93ae3bdfbc0415}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!remapTerrace@{remapTerrace}}
+\index{remapTerrace@{remapTerrace}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{remapTerrace()}{remapTerrace()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ Altitude\+Map\+Plot\+::remap\+Terrace (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a520b06ca37853d60ff93ae3bdfbc0415_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4690f095f676d0dd1477c05798fc9070}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4690f095f676d0dd1477c05798fc9070}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!remapTerrace@{remapTerrace}}
+\index{remapTerrace@{remapTerrace}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{remapTerrace()}{remapTerrace()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ Altitude\+Map\+Plot\+::remap\+Terrace (\begin{DoxyParamCaption}\item[{const Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$ \&}]{entries }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af1f4a0276a7f2e6ed4829f64ac6008dd}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af1f4a0276a7f2e6ed4829f64ac6008dd}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!samples@{samples}}
+\index{samples@{samples}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{samples()}{samples()}}
+{\footnotesize\ttfamily Q\+Vector$<$ Q\+PointF $>$ Altitude\+Map\+Plot\+::samples (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af1f4a0276a7f2e6ed4829f64ac6008dd_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af1f4a0276a7f2e6ed4829f64ac6008dd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a79c5fceb80c8cc0383320384e790da9d}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a79c5fceb80c8cc0383320384e790da9d}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!setCurveType@{setCurveType}}
+\index{setCurveType@{setCurveType}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{setCurveType()}{setCurveType()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::set\+Curve\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1altitudemap_a1ccd32ceeb6e013a43a48d807730f1cd}{Curve\+Type}}}]{type }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a79c5fceb80c8cc0383320384e790da9d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a28cda7a7a97acd8f06d92e4259f67cd9}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a28cda7a7a97acd8f06d92e4259f67cd9}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!setEntries@{setEntries}}
+\index{setEntries@{setEntries}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{setEntries()}{setEntries()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::set\+Entries (\begin{DoxyParamCaption}\item[{const Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}} $>$}]{entries }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a28cda7a7a97acd8f06d92e4259f67cd9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_adf1539e04475b29fa9c1ed8a77fbaa5b}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_adf1539e04475b29fa9c1ed8a77fbaa5b}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!showAltitudeMapping@{showAltitudeMapping}}
+\index{showAltitudeMapping@{showAltitudeMapping}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{showAltitudeMapping()}{showAltitudeMapping()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::show\+Altitude\+Mapping (\begin{DoxyParamCaption}\item[{const Q\+Point \&}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_adf1539e04475b29fa9c1ed8a77fbaa5b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_adf1539e04475b29fa9c1ed8a77fbaa5b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab1e8fb4eb5847e687bef98dbdb2fc13c}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab1e8fb4eb5847e687bef98dbdb2fc13c}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!toPlotCoordinates@{toPlotCoordinates}}
+\index{toPlotCoordinates@{toPlotCoordinates}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{toPlotCoordinates()}{toPlotCoordinates()}}
+{\footnotesize\ttfamily Q\+PointF Altitude\+Map\+Plot\+::to\+Plot\+Coordinates (\begin{DoxyParamCaption}\item[{const int \&}]{pixelX,  }\item[{const int \&}]{pixelY }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab1e8fb4eb5847e687bef98dbdb2fc13c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4ead52fa94fc41f899fb4ec7275ba867}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4ead52fa94fc41f899fb4ec7275ba867}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!updateFromDialog@{updateFromDialog}}
+\index{updateFromDialog@{updateFromDialog}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{updateFromDialog}{updateFromDialog}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::update\+From\+Dialog (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4ead52fa94fc41f899fb4ec7275ba867_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a4ead52fa94fc41f899fb4ec7275ba867_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aebe7e76f47d2a501ca3a3d3167f2d456}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aebe7e76f47d2a501ca3a3d3167f2d456}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!updatePoint@{updatePoint}}
+\index{updatePoint@{updatePoint}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{updatePoint()}{updatePoint()}}
+{\footnotesize\ttfamily void Altitude\+Map\+Plot\+::update\+Point (\begin{DoxyParamCaption}\item[{Q\+PointF \&}]{point }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aebe7e76f47d2a501ca3a3d3167f2d456_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aebe7e76f47d2a501ca3a3d3167f2d456_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a8ad2e1d695b9cb9c037ea64592949a4c}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a8ad2e1d695b9cb9c037ea64592949a4c}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_canvas@{\_canvas}}
+\index{\_canvas@{\_canvas}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_canvas}{\_canvas}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlotCanvas}{Altitude\+Map\+Plot\+Canvas}}$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+canvas\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab3d969594d98188347438fc3f736b477}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab3d969594d98188347438fc3f736b477}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_curve@{\_curve}}
+\index{\_curve@{\_curve}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_curve}{\_curve}}
+{\footnotesize\ttfamily Qwt\+Plot\+Curve$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+curve\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a050afc770a323068fbed10af0e71d7a4}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a050afc770a323068fbed10af0e71d7a4}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_curveType@{\_curveType}}
+\index{\_curveType@{\_curveType}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_curveType}{\_curveType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1altitudemap_a1ccd32ceeb6e013a43a48d807730f1cd}{Curve\+Type}} calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+curve\+Type\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a982dd539305f3a6788cee16cbdcad35a}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a982dd539305f3a6788cee16cbdcad35a}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_dialog@{\_dialog}}
+\index{\_dialog@{\_dialog}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_dialog}{\_dialog}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMappingDialog}{Altitude\+Mapping\+Dialog}}$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+dialog\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a6aa30e9c9beeac5f14966adcc3a5203b}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a6aa30e9c9beeac5f14966adcc3a5203b}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_drag@{\_drag}}
+\index{\_drag@{\_drag}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_drag}{\_drag}}
+{\footnotesize\ttfamily bool calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+drag\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a3913b684847cdece871bbab888972331}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a3913b684847cdece871bbab888972331}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_entries@{\_entries}}
+\index{\_entries@{\_entries}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_entries}{\_entries}}
+{\footnotesize\ttfamily Q\+Vector$<$\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{Altitude\+Mapping}}$>$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+entries\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a5f306b977c414b37f0b27f6bd08368ce}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a5f306b977c414b37f0b27f6bd08368ce}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_fitter@{\_fitter}}
+\index{\_fitter@{\_fitter}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_fitter}{\_fitter}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQwtCurveFitter}{Qwt\+Curve\+Fitter}}$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+fitter\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af8ec8fa74bd3912edea184b95d2f4751}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_af8ec8fa74bd3912edea184b95d2f4751}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_fixedSymbol@{\_fixedSymbol}}
+\index{\_fixedSymbol@{\_fixedSymbol}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_fixedSymbol}{\_fixedSymbol}}
+{\footnotesize\ttfamily Qwt\+Symbol $\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+fixed\+Symbol\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac7fe6cd85049634264f276121ede22c6}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac7fe6cd85049634264f276121ede22c6}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_index@{\_index}}
+\index{\_index@{\_index}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_index}{\_index}}
+{\footnotesize\ttfamily int calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+index\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a3330563b605f5f0409412e3df1831d3f}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a3330563b605f5f0409412e3df1831d3f}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_markers@{\_markers}}
+\index{\_markers@{\_markers}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_markers}{\_markers}}
+{\footnotesize\ttfamily Q\+Vector$<$Qwt\+Plot\+Marker$\ast$$>$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+markers\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab3dd12685457b36e1e0a25e099ead98b}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ab3dd12685457b36e1e0a25e099ead98b}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_panner@{\_panner}}
+\index{\_panner@{\_panner}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_panner}{\_panner}}
+{\footnotesize\ttfamily Qwt\+Plot\+Panner$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+panner\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aa87c0e55fdff1fd6209b3cd8377e3f90}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_aa87c0e55fdff1fd6209b3cd8377e3f90}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_resolution@{\_resolution}}
+\index{\_resolution@{\_resolution}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_resolution}{\_resolution}}
+{\footnotesize\ttfamily int calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+resolution\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a42e3a029413e37b51a554b58406a7fe3}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a42e3a029413e37b51a554b58406a7fe3}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_selectedMarker@{\_selectedMarker}}
+\index{\_selectedMarker@{\_selectedMarker}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_selectedMarker}{\_selectedMarker}}
+{\footnotesize\ttfamily Qwt\+Plot\+Marker$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+selected\+Marker\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a44550b4753d6a7e37ad8b2cfa3d07d04}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a44550b4753d6a7e37ad8b2cfa3d07d04}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_selectedSymbol@{\_selectedSymbol}}
+\index{\_selectedSymbol@{\_selectedSymbol}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_selectedSymbol}{\_selectedSymbol}}
+{\footnotesize\ttfamily Qwt\+Symbol $\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+selected\+Symbol\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac19e76fe904c83451d1ab90f08ee0677}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ac19e76fe904c83451d1ab90f08ee0677}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_symbol@{\_symbol}}
+\index{\_symbol@{\_symbol}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_symbol}{\_symbol}}
+{\footnotesize\ttfamily Qwt\+Symbol$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+symbol\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a5dcd36a7d3ea36f331df0b6c49bd40fe}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_a5dcd36a7d3ea36f331df0b6c49bd40fe}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!\_zoomer@{\_zoomer}}
+\index{\_zoomer@{\_zoomer}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{\_zoomer}{\_zoomer}}
+{\footnotesize\ttfamily Qwt\+Plot\+Magnifier$\ast$ calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::\+\_\+zoomer\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad59f7e2163846f559a73e4b21f78f678}\label{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapPlot_ad59f7e2163846f559a73e4b21f78f678}} 
+\index{calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}!noneSelected@{noneSelected}}
+\index{noneSelected@{noneSelected}!calenhad::controls::altitudemap::AltitudeMapPlot@{calenhad::controls::altitudemap::AltitudeMapPlot}}
+\doxysubsubsection{\texorpdfstring{noneSelected}{noneSelected}}
+{\footnotesize\ttfamily const int calenhad\+::controls\+::altitudemap\+::\+Altitude\+Map\+Plot\+::none\+Selected = -\/1}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/altitudemap/\mbox{\hyperlink{AltitudeMapPlot_8h}{Altitude\+Map\+Plot.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/altitudemap/\mbox{\hyperlink{AltitudeMapPlot_8cpp}{Altitude\+Map\+Plot.\+cpp}}\end{DoxyCompactItemize}

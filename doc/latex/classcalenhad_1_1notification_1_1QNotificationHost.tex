@@ -1,0 +1,213 @@
+\hypertarget{classcalenhad_1_1notification_1_1QNotificationHost}{}\doxysection{calenhad\+::notification\+::Q\+Notification\+Host Class Reference}
+\label{classcalenhad_1_1notification_1_1QNotificationHost}\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+
+
+{\ttfamily \#include $<$Q\+Notification\+Host.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::notification\+::Q\+Notification\+Host\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{classcalenhad_1_1notification_1_1QNotificationHost__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::notification\+::Q\+Notification\+Host\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_abe3691cf11105cc6e3e1cbfb535e9f48}{clear\+Message}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_a9d66404f318e9cf97b8e4cd6f0e74d91}{reorder}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_a0cb9235308cd9219d4b4b21f598748ae}{Q\+Notification\+Host}} (\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_aadcabf23a6c27415ebf59567903713af}{$\sim$\+Q\+Notification\+Host}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification}{Q\+Notification}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_aa3053feed3b7c5075bbb42a13aec4611}{message}} (const Q\+String \&title, const Q\+String \&message, const \mbox{\hyperlink{namespacecalenhad_1_1notification_a82d58e91d4bc0b2ce79d04d56b98cfac}{Notification\+Style}} \&style=Notification\+Style\+::\+Info\+Notification, const int \&duration=10000)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification}{Q\+Progress\+Notification}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_ad5e781eeb917a5df6afbeac324b0e45a}{progress}} (const Q\+String \&title, const Q\+String \&\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_aa3053feed3b7c5075bbb42a13aec4611}{message}}, const \mbox{\hyperlink{namespacecalenhad_1_1notification_a82d58e91d4bc0b2ce79d04d56b98cfac}{Notification\+Style}} \&style, const int \&duration=10000, const int \&to\+Do=100, const int \&delay=500)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_a14fdd2ee04636775d6ca1d0da17ca436}{clear\+All}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_a73f01c9bb4f1f474a3806d7d9d3f016c}{display}} (\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification}{Q\+Notification}} $\ast$notification)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+List$<$ \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification}{Q\+Notification}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_a9b26b3926d4b6c7a19e362c6df913d72}{\+\_\+messages}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_a40feec148f46aeae52a00365a6b02ae7}{\+\_\+width}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost_aca394c9da96c6e674af0b423a81ee2a6}{\+\_\+margin}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_a0cb9235308cd9219d4b4b21f598748ae}\label{classcalenhad_1_1notification_1_1QNotificationHost_a0cb9235308cd9219d4b4b21f598748ae}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!QNotificationHost@{QNotificationHost}}
+\index{QNotificationHost@{QNotificationHost}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{QNotificationHost()}{QNotificationHost()}}
+{\footnotesize\ttfamily Q\+Notification\+Host\+::\+Q\+Notification\+Host (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_aadcabf23a6c27415ebf59567903713af}\label{classcalenhad_1_1notification_1_1QNotificationHost_aadcabf23a6c27415ebf59567903713af}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!````~QNotificationHost@{$\sim$QNotificationHost}}
+\index{````~QNotificationHost@{$\sim$QNotificationHost}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{$\sim$QNotificationHost()}{~QNotificationHost()}}
+{\footnotesize\ttfamily Q\+Notification\+Host\+::$\sim$\+Q\+Notification\+Host (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_a14fdd2ee04636775d6ca1d0da17ca436}\label{classcalenhad_1_1notification_1_1QNotificationHost_a14fdd2ee04636775d6ca1d0da17ca436}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!clearAll@{clearAll}}
+\index{clearAll@{clearAll}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{clearAll()}{clearAll()}}
+{\footnotesize\ttfamily void Q\+Notification\+Host\+::clear\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_a14fdd2ee04636775d6ca1d0da17ca436_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_abe3691cf11105cc6e3e1cbfb535e9f48}\label{classcalenhad_1_1notification_1_1QNotificationHost_abe3691cf11105cc6e3e1cbfb535e9f48}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!clearMessage@{clearMessage}}
+\index{clearMessage@{clearMessage}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{clearMessage}{clearMessage}}
+{\footnotesize\ttfamily void Q\+Notification\+Host\+::clear\+Message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_abe3691cf11105cc6e3e1cbfb535e9f48_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_abe3691cf11105cc6e3e1cbfb535e9f48_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_a73f01c9bb4f1f474a3806d7d9d3f016c}\label{classcalenhad_1_1notification_1_1QNotificationHost_a73f01c9bb4f1f474a3806d7d9d3f016c}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!display@{display}}
+\index{display@{display}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{display()}{display()}}
+{\footnotesize\ttfamily void Q\+Notification\+Host\+::display (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification}{Q\+Notification}} $\ast$}]{notification }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_a73f01c9bb4f1f474a3806d7d9d3f016c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_a73f01c9bb4f1f474a3806d7d9d3f016c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_aa3053feed3b7c5075bbb42a13aec4611}\label{classcalenhad_1_1notification_1_1QNotificationHost_aa3053feed3b7c5075bbb42a13aec4611}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!message@{message}}
+\index{message@{message}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{message()}{message()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification}{Q\+Notification}} $\ast$ Q\+Notification\+Host\+::message (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{title,  }\item[{const Q\+String \&}]{message,  }\item[{const \mbox{\hyperlink{namespacecalenhad_1_1notification_a82d58e91d4bc0b2ce79d04d56b98cfac}{Notification\+Style}} \&}]{style = {\ttfamily NotificationStyle\+:\+:InfoNotification},  }\item[{const int \&}]{duration = {\ttfamily 10000} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_aa3053feed3b7c5075bbb42a13aec4611_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_aa3053feed3b7c5075bbb42a13aec4611_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_ad5e781eeb917a5df6afbeac324b0e45a}\label{classcalenhad_1_1notification_1_1QNotificationHost_ad5e781eeb917a5df6afbeac324b0e45a}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!progress@{progress}}
+\index{progress@{progress}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{progress()}{progress()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification}{Q\+Progress\+Notification}} $\ast$ Q\+Notification\+Host\+::progress (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{title,  }\item[{const Q\+String \&}]{message,  }\item[{const \mbox{\hyperlink{namespacecalenhad_1_1notification_a82d58e91d4bc0b2ce79d04d56b98cfac}{Notification\+Style}} \&}]{style,  }\item[{const int \&}]{duration = {\ttfamily 10000},  }\item[{const int \&}]{to\+Do = {\ttfamily 100},  }\item[{const int \&}]{delay = {\ttfamily 500} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_ad5e781eeb917a5df6afbeac324b0e45a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_a9d66404f318e9cf97b8e4cd6f0e74d91}\label{classcalenhad_1_1notification_1_1QNotificationHost_a9d66404f318e9cf97b8e4cd6f0e74d91}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!reorder@{reorder}}
+\index{reorder@{reorder}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{reorder}{reorder}}
+{\footnotesize\ttfamily void Q\+Notification\+Host\+::reorder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QNotificationHost_a9d66404f318e9cf97b8e4cd6f0e74d91_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_aca394c9da96c6e674af0b423a81ee2a6}\label{classcalenhad_1_1notification_1_1QNotificationHost_aca394c9da96c6e674af0b423a81ee2a6}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!\_margin@{\_margin}}
+\index{\_margin@{\_margin}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{\_margin}{\_margin}}
+{\footnotesize\ttfamily int calenhad\+::notification\+::\+Q\+Notification\+Host\+::\+\_\+margin\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_a9b26b3926d4b6c7a19e362c6df913d72}\label{classcalenhad_1_1notification_1_1QNotificationHost_a9b26b3926d4b6c7a19e362c6df913d72}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!\_messages@{\_messages}}
+\index{\_messages@{\_messages}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{\_messages}{\_messages}}
+{\footnotesize\ttfamily Q\+List$<$\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification}{Q\+Notification}}$\ast$$>$ calenhad\+::notification\+::\+Q\+Notification\+Host\+::\+\_\+messages\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QNotificationHost_a40feec148f46aeae52a00365a6b02ae7}\label{classcalenhad_1_1notification_1_1QNotificationHost_a40feec148f46aeae52a00365a6b02ae7}} 
+\index{calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}!\_width@{\_width}}
+\index{\_width@{\_width}!calenhad::notification::QNotificationHost@{calenhad::notification::QNotificationHost}}
+\doxysubsubsection{\texorpdfstring{\_width}{\_width}}
+{\footnotesize\ttfamily int calenhad\+::notification\+::\+Q\+Notification\+Host\+::\+\_\+width\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/messages/\mbox{\hyperlink{QNotificationHost_8h}{Q\+Notification\+Host.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/messages/\mbox{\hyperlink{QNotificationHost_8cpp}{Q\+Notification\+Host.\+cpp}}\end{DoxyCompactItemize}

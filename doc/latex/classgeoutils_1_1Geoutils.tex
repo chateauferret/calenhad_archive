@@ -1,0 +1,213 @@
+\hypertarget{classgeoutils_1_1Geoutils}{}\doxysection{geoutils\+::Geoutils Class Reference}
+\label{classgeoutils_1_1Geoutils}\index{geoutils::Geoutils@{geoutils::Geoutils}}
+
+
+{\ttfamily \#include $<$geoutils.\+h$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \mbox{\hyperlink{classgeoutils_1_1Geoutils_aa27a0a80a64be4bd6b4cd00c3fdf8bc6}{to\+Geolocation}} (const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&c)
+\item 
+static \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \mbox{\hyperlink{classgeoutils_1_1Geoutils_a20d45d11fbcc112e3dae7e8b320761e6}{to\+Cartesian}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&g)
+\item 
+static double \mbox{\hyperlink{classgeoutils_1_1Geoutils_a1f2d72d24fbc3d669bb916c3bbdd4c69}{azimuth}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&from, const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&unto)
+\item 
+static void \mbox{\hyperlink{classgeoutils_1_1Geoutils_a8fab7566661fb9cbd549d8272e595f30}{normalise}} (\mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&c)
+\item 
+static double \mbox{\hyperlink{classgeoutils_1_1Geoutils_a2a53f6686b6e76e31b63a2d08361dbab}{dist\+Squared}} (const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&a, const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&b)
+\item 
+static bool \mbox{\hyperlink{classgeoutils_1_1Geoutils_a335fc1c01f6ba1079e0af27c43f5836f}{is\+Nearer}} (const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&a, const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&b, const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&c)
+\item 
+static Q\+String \mbox{\hyperlink{classgeoutils_1_1Geoutils_ae9ba3cfe6d7b54d734d9ca1b791f11e2}{to\+Traditional}} (double ang, const unsigned \&num\+\_\+dec\+\_\+places=2)
+\item 
+static Q\+String \mbox{\hyperlink{classgeoutils_1_1Geoutils_aa03be8b83b033f1ecf7ee62651e22c5c}{geo\+Location\+String}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&loc, const \mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{Coordinates\+Format}} \&format)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Q\+String \mbox{\hyperlink{classgeoutils_1_1Geoutils_a2815b8312a3018f2cc8eb6c769c31f2d}{geo\+Location\+String\+Decimal}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&loc)
+\item 
+static Q\+String \mbox{\hyperlink{classgeoutils_1_1Geoutils_a1559f41ce2cbcaecbff91cb00450d1f7}{geo\+Location\+String\+Traditional}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&loc)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_a1f2d72d24fbc3d669bb916c3bbdd4c69}\label{classgeoutils_1_1Geoutils_a1f2d72d24fbc3d669bb916c3bbdd4c69}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!azimuth@{azimuth}}
+\index{azimuth@{azimuth}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{azimuth()}{azimuth()}}
+{\footnotesize\ttfamily double Geoutils\+::azimuth (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{from,  }\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{unto }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{classgeoutils_1_1Geoutils_a1f2d72d24fbc3d669bb916c3bbdd4c69_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_a2a53f6686b6e76e31b63a2d08361dbab}\label{classgeoutils_1_1Geoutils_a2a53f6686b6e76e31b63a2d08361dbab}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!distSquared@{distSquared}}
+\index{distSquared@{distSquared}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{distSquared()}{distSquared()}}
+{\footnotesize\ttfamily double Geoutils\+::dist\+Squared (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&}]{a,  }\item[{const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{classgeoutils_1_1Geoutils_a2a53f6686b6e76e31b63a2d08361dbab_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_aa03be8b83b033f1ecf7ee62651e22c5c}\label{classgeoutils_1_1Geoutils_aa03be8b83b033f1ecf7ee62651e22c5c}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!geoLocationString@{geoLocationString}}
+\index{geoLocationString@{geoLocationString}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{geoLocationString()}{geoLocationString()}}
+{\footnotesize\ttfamily Q\+String Geoutils\+::geo\+Location\+String (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{loc,  }\item[{const \mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{Coordinates\+Format}} \&}]{format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_aa03be8b83b033f1ecf7ee62651e22c5c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_aa03be8b83b033f1ecf7ee62651e22c5c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_a2815b8312a3018f2cc8eb6c769c31f2d}\label{classgeoutils_1_1Geoutils_a2815b8312a3018f2cc8eb6c769c31f2d}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!geoLocationStringDecimal@{geoLocationStringDecimal}}
+\index{geoLocationStringDecimal@{geoLocationStringDecimal}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{geoLocationStringDecimal()}{geoLocationStringDecimal()}}
+{\footnotesize\ttfamily Q\+String Geoutils\+::geo\+Location\+String\+Decimal (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{loc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_a2815b8312a3018f2cc8eb6c769c31f2d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_a2815b8312a3018f2cc8eb6c769c31f2d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_a1559f41ce2cbcaecbff91cb00450d1f7}\label{classgeoutils_1_1Geoutils_a1559f41ce2cbcaecbff91cb00450d1f7}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!geoLocationStringTraditional@{geoLocationStringTraditional}}
+\index{geoLocationStringTraditional@{geoLocationStringTraditional}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{geoLocationStringTraditional()}{geoLocationStringTraditional()}}
+{\footnotesize\ttfamily Q\+String Geoutils\+::geo\+Location\+String\+Traditional (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{loc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_a1559f41ce2cbcaecbff91cb00450d1f7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_a1559f41ce2cbcaecbff91cb00450d1f7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_a335fc1c01f6ba1079e0af27c43f5836f}\label{classgeoutils_1_1Geoutils_a335fc1c01f6ba1079e0af27c43f5836f}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!isNearer@{isNearer}}
+\index{isNearer@{isNearer}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{isNearer()}{isNearer()}}
+{\footnotesize\ttfamily bool Geoutils\+::is\+Nearer (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&}]{a,  }\item[{const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&}]{b,  }\item[{const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{classgeoutils_1_1Geoutils_a335fc1c01f6ba1079e0af27c43f5836f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_a8fab7566661fb9cbd549d8272e595f30}\label{classgeoutils_1_1Geoutils_a8fab7566661fb9cbd549d8272e595f30}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!normalise@{normalise}}
+\index{normalise@{normalise}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{normalise()}{normalise()}}
+{\footnotesize\ttfamily void Geoutils\+::normalise (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{classgeoutils_1_1Geoutils_a8fab7566661fb9cbd549d8272e595f30_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_a20d45d11fbcc112e3dae7e8b320761e6}\label{classgeoutils_1_1Geoutils_a20d45d11fbcc112e3dae7e8b320761e6}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!toCartesian@{toCartesian}}
+\index{toCartesian@{toCartesian}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{toCartesian()}{toCartesian()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} Geoutils\+::to\+Cartesian (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{classgeoutils_1_1Geoutils_a20d45d11fbcc112e3dae7e8b320761e6_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_a20d45d11fbcc112e3dae7e8b320761e6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_aa27a0a80a64be4bd6b4cd00c3fdf8bc6}\label{classgeoutils_1_1Geoutils_aa27a0a80a64be4bd6b4cd00c3fdf8bc6}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!toGeolocation@{toGeolocation}}
+\index{toGeolocation@{toGeolocation}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{toGeolocation()}{toGeolocation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} Geoutils\+::to\+Geolocation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{Cartesian}} \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_aa27a0a80a64be4bd6b4cd00c3fdf8bc6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geoutils_ae9ba3cfe6d7b54d734d9ca1b791f11e2}\label{classgeoutils_1_1Geoutils_ae9ba3cfe6d7b54d734d9ca1b791f11e2}} 
+\index{geoutils::Geoutils@{geoutils::Geoutils}!toTraditional@{toTraditional}}
+\index{toTraditional@{toTraditional}!geoutils::Geoutils@{geoutils::Geoutils}}
+\doxysubsubsection{\texorpdfstring{toTraditional()}{toTraditional()}}
+{\footnotesize\ttfamily Q\+String Geoutils\+::to\+Traditional (\begin{DoxyParamCaption}\item[{double}]{ang,  }\item[{const unsigned \&}]{num\+\_\+dec\+\_\+places = {\ttfamily 2} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geoutils_ae9ba3cfe6d7b54d734d9ca1b791f11e2_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{geoutils_8h}{geoutils.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{geoutils_8cpp}{geoutils.\+cpp}}\end{DoxyCompactItemize}

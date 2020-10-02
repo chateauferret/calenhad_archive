@@ -1,0 +1,146 @@
+\hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget}{}\doxysection{calenhad\+::controls\+::globe\+::Globe\+Scale\+Widget Class Reference}
+\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget}\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+
+
+{\ttfamily \#include $<$Globe\+Scale\+Widget.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::controls\+::globe\+::Globe\+Scale\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=225pt]{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::controls\+::globe\+::Globe\+Scale\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ab86fd172d5a7db240af07550cc2543b4}{Globe\+Scale\+Widget}} (\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{calenhad\+::mapping\+::\+Calenhad\+Map\+Widget}} $\ast$\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a3965f30b4d8cfb48346030c59be42fc1}{\+\_\+globe}}, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent=nullptr, const double \&radius=6440000)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a18f33c19220c47715c83d915d6a249f8}{$\sim$\+Globe\+Scale\+Widget}} () override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a3263fd513dbf3bd664e9b2c19c64e38f}{set\+Orientation}} (Qt\+::\+Orientation orientation)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a92ca2eaa745f97c4d17b8a6a27aaf01d}{paint\+Event}} (Q\+Paint\+Event $\ast$e) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Qwt\+Scale\+Draw $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_af186d2ad349fb20cb477262a8a762f40}{\+\_\+draw}}
+\item 
+Qwt\+Linear\+Scale\+Engine $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a36e6e0510f15def48a5e10c2448f66ad}{\+\_\+scale\+Engine}}
+\item 
+Qt\+::\+Orientation \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a35b64dfa0212fb22a56c5f6f12573825}{\+\_\+orientation}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{calenhad\+::mapping\+::\+Calenhad\+Map\+Widget}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a3965f30b4d8cfb48346030c59be42fc1}{\+\_\+globe}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ab71e721bdaea82420d8760cc7ba3f5e8}{\+\_\+radius}}
+\item 
+Geographic\+Lib\+::\+Geodesic $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ad8e6868e7cc2cfb0e43992b3dec05619}{\+\_\+geodesic}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a69bb4f249c88e39d876a77ef1c89b580}{\+\_\+metres\+Per\+Unit}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ab86fd172d5a7db240af07550cc2543b4}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ab86fd172d5a7db240af07550cc2543b4}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!GlobeScaleWidget@{GlobeScaleWidget}}
+\index{GlobeScaleWidget@{GlobeScaleWidget}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{GlobeScaleWidget()}{GlobeScaleWidget()}}
+{\footnotesize\ttfamily Globe\+Scale\+Widget\+::\+Globe\+Scale\+Widget (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{calenhad\+::mapping\+::\+Calenhad\+Map\+Widget}} $\ast$}]{\+\_\+globe,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent = {\ttfamily nullptr},  }\item[{const double \&}]{radius = {\ttfamily 6440000} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a18f33c19220c47715c83d915d6a249f8}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a18f33c19220c47715c83d915d6a249f8}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!````~GlobeScaleWidget@{$\sim$GlobeScaleWidget}}
+\index{````~GlobeScaleWidget@{$\sim$GlobeScaleWidget}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{$\sim$GlobeScaleWidget()}{~GlobeScaleWidget()}}
+{\footnotesize\ttfamily Globe\+Scale\+Widget\+::$\sim$\+Globe\+Scale\+Widget (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a92ca2eaa745f97c4d17b8a6a27aaf01d}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a92ca2eaa745f97c4d17b8a6a27aaf01d}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!paintEvent@{paintEvent}}
+\index{paintEvent@{paintEvent}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{paintEvent()}{paintEvent()}}
+{\footnotesize\ttfamily void Globe\+Scale\+Widget\+::paint\+Event (\begin{DoxyParamCaption}\item[{Q\+Paint\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a92ca2eaa745f97c4d17b8a6a27aaf01d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a3263fd513dbf3bd664e9b2c19c64e38f}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a3263fd513dbf3bd664e9b2c19c64e38f}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!setOrientation@{setOrientation}}
+\index{setOrientation@{setOrientation}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{setOrientation()}{setOrientation()}}
+{\footnotesize\ttfamily void Globe\+Scale\+Widget\+::set\+Orientation (\begin{DoxyParamCaption}\item[{Qt\+::\+Orientation}]{orientation }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_af186d2ad349fb20cb477262a8a762f40}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_af186d2ad349fb20cb477262a8a762f40}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!\_draw@{\_draw}}
+\index{\_draw@{\_draw}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{\_draw}{\_draw}}
+{\footnotesize\ttfamily Qwt\+Scale\+Draw$\ast$ calenhad\+::controls\+::globe\+::\+Globe\+Scale\+Widget\+::\+\_\+draw\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ad8e6868e7cc2cfb0e43992b3dec05619}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ad8e6868e7cc2cfb0e43992b3dec05619}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!\_geodesic@{\_geodesic}}
+\index{\_geodesic@{\_geodesic}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{\_geodesic}{\_geodesic}}
+{\footnotesize\ttfamily Geographic\+Lib\+::\+Geodesic$\ast$ calenhad\+::controls\+::globe\+::\+Globe\+Scale\+Widget\+::\+\_\+geodesic\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a3965f30b4d8cfb48346030c59be42fc1}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a3965f30b4d8cfb48346030c59be42fc1}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!\_globe@{\_globe}}
+\index{\_globe@{\_globe}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{\_globe}{\_globe}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{calenhad\+::mapping\+::\+Calenhad\+Map\+Widget}}$\ast$ calenhad\+::controls\+::globe\+::\+Globe\+Scale\+Widget\+::\+\_\+globe\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a69bb4f249c88e39d876a77ef1c89b580}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a69bb4f249c88e39d876a77ef1c89b580}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!\_metresPerUnit@{\_metresPerUnit}}
+\index{\_metresPerUnit@{\_metresPerUnit}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{\_metresPerUnit}{\_metresPerUnit}}
+{\footnotesize\ttfamily double calenhad\+::controls\+::globe\+::\+Globe\+Scale\+Widget\+::\+\_\+metres\+Per\+Unit\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a35b64dfa0212fb22a56c5f6f12573825}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a35b64dfa0212fb22a56c5f6f12573825}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!\_orientation@{\_orientation}}
+\index{\_orientation@{\_orientation}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{\_orientation}{\_orientation}}
+{\footnotesize\ttfamily Qt\+::\+Orientation calenhad\+::controls\+::globe\+::\+Globe\+Scale\+Widget\+::\+\_\+orientation\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ab71e721bdaea82420d8760cc7ba3f5e8}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_ab71e721bdaea82420d8760cc7ba3f5e8}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!\_radius@{\_radius}}
+\index{\_radius@{\_radius}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{\_radius}{\_radius}}
+{\footnotesize\ttfamily double calenhad\+::controls\+::globe\+::\+Globe\+Scale\+Widget\+::\+\_\+radius\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a36e6e0510f15def48a5e10c2448f66ad}\label{classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget_a36e6e0510f15def48a5e10c2448f66ad}} 
+\index{calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}!\_scaleEngine@{\_scaleEngine}}
+\index{\_scaleEngine@{\_scaleEngine}!calenhad::controls::globe::GlobeScaleWidget@{calenhad::controls::globe::GlobeScaleWidget}}
+\doxysubsubsection{\texorpdfstring{\_scaleEngine}{\_scaleEngine}}
+{\footnotesize\ttfamily Qwt\+Linear\+Scale\+Engine$\ast$ calenhad\+::controls\+::globe\+::\+Globe\+Scale\+Widget\+::\+\_\+scale\+Engine\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/globe/\mbox{\hyperlink{GlobeScaleWidget_8h}{Globe\+Scale\+Widget.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/globe/\mbox{\hyperlink{GlobeScaleWidget_8cpp}{Globe\+Scale\+Widget.\+cpp}}\end{DoxyCompactItemize}

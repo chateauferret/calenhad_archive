@@ -267,13 +267,13 @@ void CalenhadGlobeWidget::updateModules() {
         CalenhadModel* model = ((CalenhadGlobeDialog*) parent()) -> model();
         if (model) {
             for (Module* m : model -> modules()) {
-                QPixmap img = CalenhadServices::modules() -> getIcon (m -> nodeType());
+               // QPixmap img = CalenhadServices::modules() -> getIcon (m -> nodeType());
 
-                if ((! img.isNull()) && m -> isComplete()) {
-                    _selectModuleCombo -> addItem (img, m -> name());
+                if (m -> isComplete()) {
+                    _selectModuleCombo -> addItem (m -> name());
                     m -> invalidate();
                 } else {
-                    _selectModuleCombo -> addItem (m -> name());
+                //    _selectModuleCombo -> addItem (m -> name());
                 }
             }
         }

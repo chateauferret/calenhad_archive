@@ -1,0 +1,360 @@
+\hypertarget{classcalenhad_1_1graph_1_1ComputeService}{}\doxysection{calenhad\+::graph\+::Compute\+Service Class Reference}
+\label{classcalenhad_1_1graph_1_1ComputeService}\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+
+
+{\ttfamily \#include $<$Compute\+Service.\+h$>$}
+
+
+
+Collaboration diagram for calenhad\+::graph\+::Compute\+Service\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ad029b6db50aa595080e3852b42b0a3b5}{Compute\+Service}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_acd2442d03885f74796055328ab24bd36}{$\sim$\+Compute\+Service}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ab5f6692035369f63259bafe2a8d4170a}{compute}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$module, \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$buffer)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{controls\+::globe\+::\+Calenhad\+Statistics}} \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ab43dc153892fdcd2a01ee1ebc9d7ad71}{statistics}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ae6223f6a469cab4b9b54295670caf211}{compute\+Statistics}} (\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{grid\+::\+Cubic\+Sphere}} $\ast$buffer)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a9038e7fe30ef3f24020545afc231d3e3}{execute}} (G\+Lfloat $\ast$buffer, const \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph}{calenhad\+::graph\+::\+Graph}} \&graph)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a97ec1d48af381b1b7b4e8598d419cc32}{extract\+Rasters}} (const \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph}{Graph}} \&graph, const int \&x\+Index, const int \&y\+Index)
+\item 
+uint \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_af98f124cedad90f04262ad56a5e41cdf}{setup\+Grid}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a4ee5ca83c9c5ec5b3dd10527a5f19f4f}{download\+Buffer}} (G\+Lfloat $\ast$buffer, const int \&size)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a044778b9d7629ad8566b7f4b87ce789a}{prepare\+Rasters}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}} $\ast$module)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a25032b95d8f677b79c28e3cdfe2df514}{\+\_\+compute\+Template}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a7c6d9f908fcc05f3c19f79af75590be3}{\+\_\+process\+Template}}
+\item 
+Q\+Offscreen\+Surface \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a8046fa60d22bc41648c6f3705b85b983}{\+\_\+surface}}
+\item 
+Q\+Open\+G\+L\+Context \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a57db6cce49df0065a77d75ff75bb92de}{\+\_\+context}}
+\item 
+Q\+Open\+G\+L\+Shader $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_acaae568c64e29b1fb2156608dda53e12}{\+\_\+compute\+Shader}}
+\item 
+Q\+Open\+G\+L\+Shader\+Program $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a86c658687095e2cc2e35aea16b302e37}{\+\_\+compute\+Program}}
+\item 
+\mbox{\hyperlink{classQOpenGLFunctions__4__3__Core}{Q\+Open\+G\+L\+Functions\+\_\+4\+\_\+3\+\_\+\+Core}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_af04d3ef01c4fa2d122af24cd2a4951b6}{f}}
+\item 
+G\+Luint \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ad16f63bd2745010be20335ca57378083}{\+\_\+height\+Map}}
+\item 
+G\+Luint \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a564fc5b2ab84b3e4f90311c4917d2cd3}{\+\_\+reduction}}
+\item 
+G\+Luint \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_af38a8bb05f379db6fd0c77217da65424}{\+\_\+buckets}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{calenhad\+::controls\+::globe\+::\+Calenhad\+Statistics}} \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ac386e267b86a5f9c6455c1921e55bf94}{\+\_\+statistics}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a49fc55805b23f823fab3209a5169e112}{code}}
+\item 
+G\+Luint \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_afb4aee12cb80792e2a12231865018845}{\+\_\+raster\+Buffer}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ab52711ece94ebe9fbe00046faea50523}{\+\_\+force\+Render}}
+\item 
+uint \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_ab77b8eb191f619d5ae3452478c160d11}{\+\_\+tile\+Size}}
+\item 
+const uint \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a0c612541c2637cf9f270b849555f9f78}{\+\_\+tiles}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_adaddd453fb77f6f59ba0dcce04c444eb}{\+\_\+tile}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_aa7993f87832b303750f208995549ea7a}{\+\_\+histogram\+Code}}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService_a810f91fb2cd11a48fce7be1501687f8f}{\+\_\+cubes}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ad029b6db50aa595080e3852b42b0a3b5}\label{classcalenhad_1_1graph_1_1ComputeService_ad029b6db50aa595080e3852b42b0a3b5}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!ComputeService@{ComputeService}}
+\index{ComputeService@{ComputeService}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{ComputeService()}{ComputeService()}}
+{\footnotesize\ttfamily Compute\+Service\+::\+Compute\+Service (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_acd2442d03885f74796055328ab24bd36}\label{classcalenhad_1_1graph_1_1ComputeService_acd2442d03885f74796055328ab24bd36}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!````~ComputeService@{$\sim$ComputeService}}
+\index{````~ComputeService@{$\sim$ComputeService}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{$\sim$ComputeService()}{~ComputeService()}}
+{\footnotesize\ttfamily Compute\+Service\+::$\sim$\+Compute\+Service (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ab5f6692035369f63259bafe2a8d4170a}\label{classcalenhad_1_1graph_1_1ComputeService_ab5f6692035369f63259bafe2a8d4170a}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!compute@{compute}}
+\index{compute@{compute}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{compute()}{compute()}}
+{\footnotesize\ttfamily void Compute\+Service\+::compute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$}]{module,  }\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$}]{buffer }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_ab5f6692035369f63259bafe2a8d4170a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ae6223f6a469cab4b9b54295670caf211}\label{classcalenhad_1_1graph_1_1ComputeService_ae6223f6a469cab4b9b54295670caf211}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!computeStatistics@{computeStatistics}}
+\index{computeStatistics@{computeStatistics}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{computeStatistics()}{computeStatistics()}}
+{\footnotesize\ttfamily void Compute\+Service\+::compute\+Statistics (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{grid\+::\+Cubic\+Sphere}} $\ast$}]{buffer }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_ae6223f6a469cab4b9b54295670caf211_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_ae6223f6a469cab4b9b54295670caf211_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a4ee5ca83c9c5ec5b3dd10527a5f19f4f}\label{classcalenhad_1_1graph_1_1ComputeService_a4ee5ca83c9c5ec5b3dd10527a5f19f4f}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!downloadBuffer@{downloadBuffer}}
+\index{downloadBuffer@{downloadBuffer}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{downloadBuffer()}{downloadBuffer()}}
+{\footnotesize\ttfamily void Compute\+Service\+::download\+Buffer (\begin{DoxyParamCaption}\item[{G\+Lfloat $\ast$}]{buffer,  }\item[{const int \&}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_a4ee5ca83c9c5ec5b3dd10527a5f19f4f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a9038e7fe30ef3f24020545afc231d3e3}\label{classcalenhad_1_1graph_1_1ComputeService_a9038e7fe30ef3f24020545afc231d3e3}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!execute@{execute}}
+\index{execute@{execute}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{execute()}{execute()}}
+{\footnotesize\ttfamily void Compute\+Service\+::execute (\begin{DoxyParamCaption}\item[{G\+Lfloat $\ast$}]{buffer,  }\item[{const \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph}{calenhad\+::graph\+::\+Graph}} \&}]{graph }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_a9038e7fe30ef3f24020545afc231d3e3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_a9038e7fe30ef3f24020545afc231d3e3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a97ec1d48af381b1b7b4e8598d419cc32}\label{classcalenhad_1_1graph_1_1ComputeService_a97ec1d48af381b1b7b4e8598d419cc32}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!extractRasters@{extractRasters}}
+\index{extractRasters@{extractRasters}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{extractRasters()}{extractRasters()}}
+{\footnotesize\ttfamily void Compute\+Service\+::extract\+Rasters (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph}{Graph}} \&}]{graph,  }\item[{const int \&}]{x\+Index,  }\item[{const int \&}]{y\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_a97ec1d48af381b1b7b4e8598d419cc32_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_a97ec1d48af381b1b7b4e8598d419cc32_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a044778b9d7629ad8566b7f4b87ce789a}\label{classcalenhad_1_1graph_1_1ComputeService_a044778b9d7629ad8566b7f4b87ce789a}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!prepareRasters@{prepareRasters}}
+\index{prepareRasters@{prepareRasters}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{prepareRasters()}{prepareRasters()}}
+{\footnotesize\ttfamily void Compute\+Service\+::prepare\+Rasters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}} $\ast$}]{module }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_a044778b9d7629ad8566b7f4b87ce789a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_af98f124cedad90f04262ad56a5e41cdf}\label{classcalenhad_1_1graph_1_1ComputeService_af98f124cedad90f04262ad56a5e41cdf}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!setupGrid@{setupGrid}}
+\index{setupGrid@{setupGrid}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{setupGrid()}{setupGrid()}}
+{\footnotesize\ttfamily uint Compute\+Service\+::setup\+Grid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_af98f124cedad90f04262ad56a5e41cdf_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1ComputeService_af98f124cedad90f04262ad56a5e41cdf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ab43dc153892fdcd2a01ee1ebc9d7ad71}\label{classcalenhad_1_1graph_1_1ComputeService_ab43dc153892fdcd2a01ee1ebc9d7ad71}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!statistics@{statistics}}
+\index{statistics@{statistics}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{statistics()}{statistics()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{Calenhad\+Statistics}} Compute\+Service\+::statistics (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_af38a8bb05f379db6fd0c77217da65424}\label{classcalenhad_1_1graph_1_1ComputeService_af38a8bb05f379db6fd0c77217da65424}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_buckets@{\_buckets}}
+\index{\_buckets@{\_buckets}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_buckets}{\_buckets}}
+{\footnotesize\ttfamily G\+Luint calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+buckets\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a86c658687095e2cc2e35aea16b302e37}\label{classcalenhad_1_1graph_1_1ComputeService_a86c658687095e2cc2e35aea16b302e37}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_computeProgram@{\_computeProgram}}
+\index{\_computeProgram@{\_computeProgram}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_computeProgram}{\_computeProgram}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Shader\+Program$\ast$ calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+compute\+Program\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_acaae568c64e29b1fb2156608dda53e12}\label{classcalenhad_1_1graph_1_1ComputeService_acaae568c64e29b1fb2156608dda53e12}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_computeShader@{\_computeShader}}
+\index{\_computeShader@{\_computeShader}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_computeShader}{\_computeShader}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Shader$\ast$ calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+compute\+Shader\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a25032b95d8f677b79c28e3cdfe2df514}\label{classcalenhad_1_1graph_1_1ComputeService_a25032b95d8f677b79c28e3cdfe2df514}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_computeTemplate@{\_computeTemplate}}
+\index{\_computeTemplate@{\_computeTemplate}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_computeTemplate}{\_computeTemplate}}
+{\footnotesize\ttfamily Q\+String calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+compute\+Template\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a57db6cce49df0065a77d75ff75bb92de}\label{classcalenhad_1_1graph_1_1ComputeService_a57db6cce49df0065a77d75ff75bb92de}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_context@{\_context}}
+\index{\_context@{\_context}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_context}{\_context}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Context calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+context\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a810f91fb2cd11a48fce7be1501687f8f}\label{classcalenhad_1_1graph_1_1ComputeService_a810f91fb2cd11a48fce7be1501687f8f}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_cubes@{\_cubes}}
+\index{\_cubes@{\_cubes}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_cubes}{\_cubes}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}}$\ast$$>$ calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+cubes\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ab52711ece94ebe9fbe00046faea50523}\label{classcalenhad_1_1graph_1_1ComputeService_ab52711ece94ebe9fbe00046faea50523}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_forceRender@{\_forceRender}}
+\index{\_forceRender@{\_forceRender}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_forceRender}{\_forceRender}}
+{\footnotesize\ttfamily bool calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+force\+Render\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ad16f63bd2745010be20335ca57378083}\label{classcalenhad_1_1graph_1_1ComputeService_ad16f63bd2745010be20335ca57378083}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_heightMap@{\_heightMap}}
+\index{\_heightMap@{\_heightMap}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_heightMap}{\_heightMap}}
+{\footnotesize\ttfamily G\+Luint calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+height\+Map\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_aa7993f87832b303750f208995549ea7a}\label{classcalenhad_1_1graph_1_1ComputeService_aa7993f87832b303750f208995549ea7a}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_histogramCode@{\_histogramCode}}
+\index{\_histogramCode@{\_histogramCode}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_histogramCode}{\_histogramCode}}
+{\footnotesize\ttfamily Q\+String calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+histogram\+Code\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a7c6d9f908fcc05f3c19f79af75590be3}\label{classcalenhad_1_1graph_1_1ComputeService_a7c6d9f908fcc05f3c19f79af75590be3}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_processTemplate@{\_processTemplate}}
+\index{\_processTemplate@{\_processTemplate}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_processTemplate}{\_processTemplate}}
+{\footnotesize\ttfamily Q\+String calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+process\+Template\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_afb4aee12cb80792e2a12231865018845}\label{classcalenhad_1_1graph_1_1ComputeService_afb4aee12cb80792e2a12231865018845}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_rasterBuffer@{\_rasterBuffer}}
+\index{\_rasterBuffer@{\_rasterBuffer}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_rasterBuffer}{\_rasterBuffer}}
+{\footnotesize\ttfamily G\+Luint calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+raster\+Buffer\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a564fc5b2ab84b3e4f90311c4917d2cd3}\label{classcalenhad_1_1graph_1_1ComputeService_a564fc5b2ab84b3e4f90311c4917d2cd3}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_reduction@{\_reduction}}
+\index{\_reduction@{\_reduction}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_reduction}{\_reduction}}
+{\footnotesize\ttfamily G\+Luint calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+reduction\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ac386e267b86a5f9c6455c1921e55bf94}\label{classcalenhad_1_1graph_1_1ComputeService_ac386e267b86a5f9c6455c1921e55bf94}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_statistics@{\_statistics}}
+\index{\_statistics@{\_statistics}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_statistics}{\_statistics}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{calenhad\+::controls\+::globe\+::\+Calenhad\+Statistics}} calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+statistics\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a8046fa60d22bc41648c6f3705b85b983}\label{classcalenhad_1_1graph_1_1ComputeService_a8046fa60d22bc41648c6f3705b85b983}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_surface@{\_surface}}
+\index{\_surface@{\_surface}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_surface}{\_surface}}
+{\footnotesize\ttfamily Q\+Offscreen\+Surface calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+surface\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_adaddd453fb77f6f59ba0dcce04c444eb}\label{classcalenhad_1_1graph_1_1ComputeService_adaddd453fb77f6f59ba0dcce04c444eb}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_tile@{\_tile}}
+\index{\_tile@{\_tile}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_tile}{\_tile}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}}$\ast$ calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+tile\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a0c612541c2637cf9f270b849555f9f78}\label{classcalenhad_1_1graph_1_1ComputeService_a0c612541c2637cf9f270b849555f9f78}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_tiles@{\_tiles}}
+\index{\_tiles@{\_tiles}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_tiles}{\_tiles}}
+{\footnotesize\ttfamily const uint calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+tiles\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_ab77b8eb191f619d5ae3452478c160d11}\label{classcalenhad_1_1graph_1_1ComputeService_ab77b8eb191f619d5ae3452478c160d11}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!\_tileSize@{\_tileSize}}
+\index{\_tileSize@{\_tileSize}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{\_tileSize}{\_tileSize}}
+{\footnotesize\ttfamily uint calenhad\+::graph\+::\+Compute\+Service\+::\+\_\+tile\+Size\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_a49fc55805b23f823fab3209a5169e112}\label{classcalenhad_1_1graph_1_1ComputeService_a49fc55805b23f823fab3209a5169e112}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!code@{code}}
+\index{code@{code}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{code}{code}}
+{\footnotesize\ttfamily Q\+String calenhad\+::graph\+::\+Compute\+Service\+::code\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1ComputeService_af04d3ef01c4fa2d122af24cd2a4951b6}\label{classcalenhad_1_1graph_1_1ComputeService_af04d3ef01c4fa2d122af24cd2a4951b6}} 
+\index{calenhad::graph::ComputeService@{calenhad::graph::ComputeService}!f@{f}}
+\index{f@{f}!calenhad::graph::ComputeService@{calenhad::graph::ComputeService}}
+\doxysubsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQOpenGLFunctions__4__3__Core}{Q\+Open\+G\+L\+Functions\+\_\+4\+\_\+3\+\_\+\+Core}}$\ast$ calenhad\+::graph\+::\+Compute\+Service\+::f\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/graph/\mbox{\hyperlink{ComputeService_8h}{Compute\+Service.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/graph/\mbox{\hyperlink{ComputeService_8cpp}{Compute\+Service.\+cpp}}\end{DoxyCompactItemize}

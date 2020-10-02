@@ -1,0 +1,12 @@
+<map id="geoutils::Geolocation::setLongitude" name="geoutils::Geolocation::setLongitude">
+<area shape="rect" id="node1" title=" " alt="" coords="297,312,457,353"/>
+<area shape="rect" id="node2" href="$classgeoutils_1_1Geolocation.html#a108bd31ae5b92b33977cc8e35e87ca3c" title=" " alt="" coords="47,5,207,47"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection.html#a6b3d1788dbf9a98b479a915758a21e0d" title=" " alt="" coords="29,71,226,127"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection.html#abef0e4a7c97fafcec5660e2941b699d2" title=" " alt="" coords="18,151,237,207"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection.html#aec3185e6055b3145c7d45da114c4339d" title=" " alt="" coords="5,231,249,287"/>
+<area shape="rect" id="node6" href="$classgeoutils_1_1Geolocation.html#afb983c165cd6f9cdfb3297a1fd52b56f" title=" " alt="" coords="47,312,207,353"/>
+<area shape="rect" id="node7" href="$classgeoutils_1_1Geolocation.html#af41e77c409c03254219a5a2bc6f786cc" title=" " alt="" coords="47,377,207,419"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection.html#a5f23c064abdfd5b5f3c8c7086244a247" title=" " alt="" coords="29,443,226,499"/>
+<area shape="rect" id="node9" href="$classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection.html#a5a8a4aa6ba26a19f407b56c4f2f0a977" title=" " alt="" coords="5,523,249,579"/>
+<area shape="rect" id="node10" href="$classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection.html#a469d8b5b34aef41ccafbb24512735cd9" title=" " alt="" coords="18,603,237,659"/>
+</map>

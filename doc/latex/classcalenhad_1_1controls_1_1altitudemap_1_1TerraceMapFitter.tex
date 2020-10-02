@@ -1,0 +1,210 @@
+\hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter}{}\doxysection{calenhad\+::controls\+::altitudemap\+::Terrace\+Map\+Fitter Class Reference}
+\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter}\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+
+
+{\ttfamily \#include $<$Terrace\+Map\+Fitter.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::controls\+::altitudemap\+::Terrace\+Map\+Fitter\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::controls\+::altitudemap\+::Terrace\+Map\+Fitter\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_aebf1d7486f7366943d4911fda70187be}{Terrace\+Map\+Fitter}} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_ab1c2fe91658bf05517f2afe740c065ef}{$\sim$\+Terrace\+Map\+Fitter}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+Q\+PolygonF \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_afb976c1080a4066973f65c5709e2a911}{fit\+Curve}} (const Q\+PolygonF \&points) const override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a4c8cfed6bba9a0045a29b6479601e930}{set\+Resolution}} (const int \&\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a8c14fd492ae280b45e43d3bbe841ca13}{resolution}})
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a8c14fd492ae280b45e43d3bbe841ca13}{resolution}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a7493550d94bc3fb9ff506633692f15c0}{set\+Inverted}} (const bool \&inverted)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a4691d18db310105e8d2da5d19c34165f}{is\+Inverted}} () const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a1d4e51a8c85229b7c05e84af36f4e550}{attach\+Plot}} (\mbox{\hyperlink{classQwtPlot}{Qwt\+Plot}} $\ast$plot)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a91318c74b29184a036dea91e7956dea3}{getY}} (const double \&x, const Q\+PolygonF \&points) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a0fba601f216a52e5fbbd56df1f706886}{\+\_\+resolution}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a9e0f8b243dfd9404b0603e4b56fe91e9}{\+\_\+inverted}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a894e077d0906db69e74b332d9a62904b}{\+\_\+min}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a28c30a72580f7c54de7ebacacd3a8029}{\+\_\+max}}
+\item 
+\mbox{\hyperlink{classQwtPlot}{Qwt\+Plot}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a0c1b87663c002c92b83a9463b54fb697}{\+\_\+plot}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_aebf1d7486f7366943d4911fda70187be}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_aebf1d7486f7366943d4911fda70187be}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!TerraceMapFitter@{TerraceMapFitter}}
+\index{TerraceMapFitter@{TerraceMapFitter}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{TerraceMapFitter()}{TerraceMapFitter()}}
+{\footnotesize\ttfamily Terrace\+Map\+Fitter\+::\+Terrace\+Map\+Fitter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_ab1c2fe91658bf05517f2afe740c065ef}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_ab1c2fe91658bf05517f2afe740c065ef}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!````~TerraceMapFitter@{$\sim$TerraceMapFitter}}
+\index{````~TerraceMapFitter@{$\sim$TerraceMapFitter}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{$\sim$TerraceMapFitter()}{~TerraceMapFitter()}}
+{\footnotesize\ttfamily Terrace\+Map\+Fitter\+::$\sim$\+Terrace\+Map\+Fitter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a1d4e51a8c85229b7c05e84af36f4e550}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a1d4e51a8c85229b7c05e84af36f4e550}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!attachPlot@{attachPlot}}
+\index{attachPlot@{attachPlot}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{attachPlot()}{attachPlot()}}
+{\footnotesize\ttfamily void Terrace\+Map\+Fitter\+::attach\+Plot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classQwtPlot}{Qwt\+Plot}} $\ast$}]{plot }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_afb976c1080a4066973f65c5709e2a911}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_afb976c1080a4066973f65c5709e2a911}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!fitCurve@{fitCurve}}
+\index{fitCurve@{fitCurve}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{fitCurve()}{fitCurve()}}
+{\footnotesize\ttfamily Q\+PolygonF Terrace\+Map\+Fitter\+::fit\+Curve (\begin{DoxyParamCaption}\item[{const Q\+PolygonF \&}]{points }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_afb976c1080a4066973f65c5709e2a911_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a91318c74b29184a036dea91e7956dea3}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a91318c74b29184a036dea91e7956dea3}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!getY@{getY}}
+\index{getY@{getY}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{getY()}{getY()}}
+{\footnotesize\ttfamily double Terrace\+Map\+Fitter\+::getY (\begin{DoxyParamCaption}\item[{const double \&}]{x,  }\item[{const Q\+PolygonF \&}]{points }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a91318c74b29184a036dea91e7956dea3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a91318c74b29184a036dea91e7956dea3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a4691d18db310105e8d2da5d19c34165f}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a4691d18db310105e8d2da5d19c34165f}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!isInverted@{isInverted}}
+\index{isInverted@{isInverted}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{isInverted()}{isInverted()}}
+{\footnotesize\ttfamily bool Terrace\+Map\+Fitter\+::is\+Inverted (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a8c14fd492ae280b45e43d3bbe841ca13}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a8c14fd492ae280b45e43d3bbe841ca13}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!resolution@{resolution}}
+\index{resolution@{resolution}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{resolution()}{resolution()}}
+{\footnotesize\ttfamily int Terrace\+Map\+Fitter\+::resolution (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a8c14fd492ae280b45e43d3bbe841ca13_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a7493550d94bc3fb9ff506633692f15c0}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a7493550d94bc3fb9ff506633692f15c0}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!setInverted@{setInverted}}
+\index{setInverted@{setInverted}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{setInverted()}{setInverted()}}
+{\footnotesize\ttfamily void Terrace\+Map\+Fitter\+::set\+Inverted (\begin{DoxyParamCaption}\item[{const bool \&}]{inverted }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a4c8cfed6bba9a0045a29b6479601e930}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a4c8cfed6bba9a0045a29b6479601e930}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!setResolution@{setResolution}}
+\index{setResolution@{setResolution}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{setResolution()}{setResolution()}}
+{\footnotesize\ttfamily void Terrace\+Map\+Fitter\+::set\+Resolution (\begin{DoxyParamCaption}\item[{const int \&}]{resolution }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a4c8cfed6bba9a0045a29b6479601e930_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a9e0f8b243dfd9404b0603e4b56fe91e9}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a9e0f8b243dfd9404b0603e4b56fe91e9}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!\_inverted@{\_inverted}}
+\index{\_inverted@{\_inverted}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{\_inverted}{\_inverted}}
+{\footnotesize\ttfamily bool calenhad\+::controls\+::altitudemap\+::\+Terrace\+Map\+Fitter\+::\+\_\+inverted\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a28c30a72580f7c54de7ebacacd3a8029}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a28c30a72580f7c54de7ebacacd3a8029}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!\_max@{\_max}}
+\index{\_max@{\_max}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{\_max}{\_max}}
+{\footnotesize\ttfamily double calenhad\+::controls\+::altitudemap\+::\+Terrace\+Map\+Fitter\+::\+\_\+max\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a894e077d0906db69e74b332d9a62904b}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a894e077d0906db69e74b332d9a62904b}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!\_min@{\_min}}
+\index{\_min@{\_min}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{\_min}{\_min}}
+{\footnotesize\ttfamily double calenhad\+::controls\+::altitudemap\+::\+Terrace\+Map\+Fitter\+::\+\_\+min\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a0c1b87663c002c92b83a9463b54fb697}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a0c1b87663c002c92b83a9463b54fb697}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!\_plot@{\_plot}}
+\index{\_plot@{\_plot}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{\_plot}{\_plot}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQwtPlot}{Qwt\+Plot}}$\ast$ calenhad\+::controls\+::altitudemap\+::\+Terrace\+Map\+Fitter\+::\+\_\+plot\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a0fba601f216a52e5fbbd56df1f706886}\label{classcalenhad_1_1controls_1_1altitudemap_1_1TerraceMapFitter_a0fba601f216a52e5fbbd56df1f706886}} 
+\index{calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}!\_resolution@{\_resolution}}
+\index{\_resolution@{\_resolution}!calenhad::controls::altitudemap::TerraceMapFitter@{calenhad::controls::altitudemap::TerraceMapFitter}}
+\doxysubsubsection{\texorpdfstring{\_resolution}{\_resolution}}
+{\footnotesize\ttfamily int calenhad\+::controls\+::altitudemap\+::\+Terrace\+Map\+Fitter\+::\+\_\+resolution\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/altitudemap/\mbox{\hyperlink{TerraceMapFitter_8h}{Terrace\+Map\+Fitter.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/altitudemap/\mbox{\hyperlink{TerraceMapFitter_8cpp}{Terrace\+Map\+Fitter.\+cpp}}\end{DoxyCompactItemize}

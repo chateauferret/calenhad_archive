@@ -1,0 +1,457 @@
+\hypertarget{classcalenhad_1_1grid_1_1Icosphere}{}\doxysection{calenhad\+::grid\+::Icosphere Class Reference}
+\label{classcalenhad_1_1grid_1_1Icosphere}\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+
+
+{\ttfamily \#include $<$icosphere.\+h$>$}
+
+
+
+Collaboration diagram for calenhad\+::grid\+::Icosphere\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1Icosphere__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ad614d73e0585776cbeb84c1475ad79ab}{Icosphere}} (const unsigned int \&depth)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ac9473c8c8d6085b6370d95772b898a45}{$\sim$\+Icosphere}} ()
+\item 
+unsigned long \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ac5f8deb9e4218542ac5f92981f60d844}{vertex\+Count}} ()
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_af26c1787915a2d1a0e15e47e6e009c26}{operator\mbox{[}$\,$\mbox{]}}} (const uint32\+\_\+t \&id)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_af3d337bf77aa8d4407dc22085e8afef1}{visit}} (\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$vertex)
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a60a90bdd9b7d7609e17d0894f9acefc0}{walk\+Towards}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&target, const unsigned int \&depth=0)
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a17ce43b40a3c33ab4e2f4a1ab078f7ed}{walk\+Towards}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&target, const unsigned int \&depth) const
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a1f7ec441b92660f385b19ea5e9094409}{nearest}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&target, const unsigned int \&depth=0)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a6580417cd38edabd8d68079fb1c10be4}{to\+Geolocation}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&\mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a3c376c0e7546953b8e44d569c6986202}{c}}, \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&g)
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a883f4fd20fcad4605a13bb5be310a8ec}{to\+Cartesian}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&g, \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&\mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a3c376c0e7546953b8e44d569c6986202}{c}})
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ae5bce400e459cbc60147bfd713ff2c88}{divide\+Triangle}} (\mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$t)
+\item 
+std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$ $>$\+::iterator, std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$ $>$\+::iterator $>$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_abbbd9e0c546a91e6797383d56a851390}{triangles}} (const unsigned \&\mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_aa2cc31a60bb8e849bbffbe9476aedb84}{level}})
+\item 
+std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ $>$\+::iterator, std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ $>$\+::iterator $>$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a01c9b4d18029232e0c8b725dceee9649}{vertices}} ()
+\item 
+float $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ad98b3eca09feab4e1bc7500ff442055f}{vertex\+Buffer}} ()
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_aa37d9f867eccdcd7affb802c14a60a52}{get\+Datum}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&g, const std\+::string \&key)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a0f896e3454c376b8cc8d7fefc40ed28c}{make\+Raster}} (Q\+Image $\ast$image)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a1c4af6f7c79c6695a41e10c9d3149cb5}{dist\+Squared}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&a, const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&b)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr double \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ab7341085b02aed9721fc84be9ded10b7}{X}} = 0.\+525731112119133606
+\item 
+static constexpr double \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a1a3e243d8755b641f577a118b50e0e1d}{Z}} = 0.\+850650808352039932
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a99497d5f1f70be61ebe8ed62b8142f92}{subdivide}} (const unsigned int \&depth)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a1dc60b64e4d6c0907dacef0b5226eb69}{make\+Triangle}} (\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$a, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$b, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$\mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a3c376c0e7546953b8e44d569c6986202}{c}}, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$parent)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a14a92f4a17150e2a54efad1d102040ea}{make\+Neighbours}} (\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$p, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$q)
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_aaae13c133ed4e07ef381c24280f8f2d7}{add\+Vertex}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&cartesian, const unsigned int \&depth)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a313c75ff16b8d8de38771f54c113e37e}{mid}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&c1, const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&c2, \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&\mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a3c376c0e7546953b8e44d569c6986202}{c}})
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a650de2720890242d95bc0b29dcf58dc0}{set\+Datum}} (const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&g, const std\+::string \&key, float datum)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static uint64\+\_\+t \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_afeabe593fa5f3702f9daa7c204590b0c}{make\+Key}} (const uint32\+\_\+t \&v1, const uint32\+\_\+t \&v2)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_aa96f19b42f8372ae5a120801e6606302}{\+\_\+depth}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a2b5ef1a1258e7a90e416900f72b212b3}{\+\_\+count}}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ad022e2cdd6626a42e07f65e18ca7d198}{\+\_\+vertices}}
+\item 
+std\+::vector$<$ std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$ $>$ $>$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a061787f4f0294cb480bb97e70fd72b87}{\+\_\+triangles}}
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_ae98438150d55c467f83639fd7f480f7a}{\+\_\+last\+Visited}}
+\item 
+Geographic\+Lib\+::\+Geocentric $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a5917ee95f4906afc0f78923341c8a6ce}{\+\_\+gc}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a6563575dca0dbec87d3342ae751c948d}{k}} \{\}
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_af6e8548b13745de09d6b031701002f45}{e1}} \{\}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a46f8b5394edb04dcf4ae9b970930d187}{edge\+Key}} \{\}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a1d4d39dc51af3c464809da676686b6c8}{\+\_\+initial}}
+\item 
+std\+::unordered\+\_\+map$<$ uint64\+\_\+t, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a95fab6e656ec4a695405963f8da78b55}{edge\+Map}}
+\item 
+std\+::unordered\+\_\+map$<$ uint64\+\_\+t, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ $>$\+::iterator \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_afff1084836960559381b123146cb93e1}{it}}
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a675855b81735445ea80a92cb69674b11}{ids0}} \mbox{[}3\mbox{]} \{\}
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_aca207ea65a7b530f81f3531f3cc206fc}{ids1}} \mbox{[}3\mbox{]} \{\}
+\item 
+\mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a3c376c0e7546953b8e44d569c6986202}{c}} \{\}
+\item 
+unsigned \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a2a90ee6bee62cff8f7fffbdfc5148ec1}{\+\_\+level}} \{\}
+\item 
+float $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a3c2e51bf842839c5151cb7fced63bcb4}{\+\_\+vertex\+Buffer}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a15e0ec8fa88a32ed69819458b10d1f24}{mag}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_a3832bb583e0b418890f62514f91b152d}{\+\_\+c1}} \{\}
+\item 
+unsigned int \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere_aa2cc31a60bb8e849bbffbe9476aedb84}{level}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ad614d73e0585776cbeb84c1475ad79ab}\label{classcalenhad_1_1grid_1_1Icosphere_ad614d73e0585776cbeb84c1475ad79ab}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!Icosphere@{Icosphere}}
+\index{Icosphere@{Icosphere}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{Icosphere()}{Icosphere()}}
+{\footnotesize\ttfamily Icosphere\+::\+Icosphere (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{depth }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1Icosphere_ad614d73e0585776cbeb84c1475ad79ab_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ac9473c8c8d6085b6370d95772b898a45}\label{classcalenhad_1_1grid_1_1Icosphere_ac9473c8c8d6085b6370d95772b898a45}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!````~Icosphere@{$\sim$Icosphere}}
+\index{````~Icosphere@{$\sim$Icosphere}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{$\sim$Icosphere()}{~Icosphere()}}
+{\footnotesize\ttfamily Icosphere\+::$\sim$\+Icosphere (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_aaae13c133ed4e07ef381c24280f8f2d7}\label{classcalenhad_1_1grid_1_1Icosphere_aaae13c133ed4e07ef381c24280f8f2d7}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{addVertex()}{addVertex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ Icosphere\+::add\+Vertex (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{cartesian,  }\item[{const unsigned int \&}]{depth }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1Icosphere_aaae13c133ed4e07ef381c24280f8f2d7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a1c4af6f7c79c6695a41e10c9d3149cb5}\label{classcalenhad_1_1grid_1_1Icosphere_a1c4af6f7c79c6695a41e10c9d3149cb5}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!distSquared@{distSquared}}
+\index{distSquared@{distSquared}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{distSquared()}{distSquared()}}
+{\footnotesize\ttfamily double Icosphere\+::dist\+Squared (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{a,  }\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ae5bce400e459cbc60147bfd713ff2c88}\label{classcalenhad_1_1grid_1_1Icosphere_ae5bce400e459cbc60147bfd713ff2c88}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!divideTriangle@{divideTriangle}}
+\index{divideTriangle@{divideTriangle}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{divideTriangle()}{divideTriangle()}}
+{\footnotesize\ttfamily void Icosphere\+::divide\+Triangle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_aa37d9f867eccdcd7affb802c14a60a52}\label{classcalenhad_1_1grid_1_1Icosphere_aa37d9f867eccdcd7affb802c14a60a52}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!getDatum@{getDatum}}
+\index{getDatum@{getDatum}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{getDatum()}{getDatum()}}
+{\footnotesize\ttfamily int Icosphere\+::get\+Datum (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&}]{g,  }\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_afeabe593fa5f3702f9daa7c204590b0c}\label{classcalenhad_1_1grid_1_1Icosphere_afeabe593fa5f3702f9daa7c204590b0c}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!makeKey@{makeKey}}
+\index{makeKey@{makeKey}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{makeKey()}{makeKey()}}
+{\footnotesize\ttfamily uint64\+\_\+t Icosphere\+::make\+Key (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t \&}]{v1,  }\item[{const uint32\+\_\+t \&}]{v2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a14a92f4a17150e2a54efad1d102040ea}\label{classcalenhad_1_1grid_1_1Icosphere_a14a92f4a17150e2a54efad1d102040ea}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!makeNeighbours@{makeNeighbours}}
+\index{makeNeighbours@{makeNeighbours}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{makeNeighbours()}{makeNeighbours()}}
+{\footnotesize\ttfamily void Icosphere\+::make\+Neighbours (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$}]{p,  }\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1Icosphere_a14a92f4a17150e2a54efad1d102040ea_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a0f896e3454c376b8cc8d7fefc40ed28c}\label{classcalenhad_1_1grid_1_1Icosphere_a0f896e3454c376b8cc8d7fefc40ed28c}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!makeRaster@{makeRaster}}
+\index{makeRaster@{makeRaster}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{makeRaster()}{makeRaster()}}
+{\footnotesize\ttfamily bool Icosphere\+::make\+Raster (\begin{DoxyParamCaption}\item[{Q\+Image $\ast$}]{image }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a1dc60b64e4d6c0907dacef0b5226eb69}\label{classcalenhad_1_1grid_1_1Icosphere_a1dc60b64e4d6c0907dacef0b5226eb69}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!makeTriangle@{makeTriangle}}
+\index{makeTriangle@{makeTriangle}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{makeTriangle()}{makeTriangle()}}
+{\footnotesize\ttfamily void Icosphere\+::make\+Triangle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$}]{a,  }\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$}]{b,  }\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$}]{c,  }\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$}]{parent }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a313c75ff16b8d8de38771f54c113e37e}\label{classcalenhad_1_1grid_1_1Icosphere_a313c75ff16b8d8de38771f54c113e37e}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!mid@{mid}}
+\index{mid@{mid}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{mid()}{mid()}}
+{\footnotesize\ttfamily void Icosphere\+::mid (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{c1,  }\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{c2,  }\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a1f7ec441b92660f385b19ea5e9094409}\label{classcalenhad_1_1grid_1_1Icosphere_a1f7ec441b92660f385b19ea5e9094409}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!nearest@{nearest}}
+\index{nearest@{nearest}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{nearest()}{nearest()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ Icosphere\+::nearest (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&}]{target,  }\item[{const unsigned int \&}]{depth = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_af26c1787915a2d1a0e15e47e6e009c26}\label{classcalenhad_1_1grid_1_1Icosphere_af26c1787915a2d1a0e15e47e6e009c26}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ Icosphere\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t \&}]{id }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a650de2720890242d95bc0b29dcf58dc0}\label{classcalenhad_1_1grid_1_1Icosphere_a650de2720890242d95bc0b29dcf58dc0}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!setDatum@{setDatum}}
+\index{setDatum@{setDatum}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{setDatum()}{setDatum()}}
+{\footnotesize\ttfamily void Icosphere\+::set\+Datum (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&}]{g,  }\item[{const std\+::string \&}]{key,  }\item[{float}]{datum }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a99497d5f1f70be61ebe8ed62b8142f92}\label{classcalenhad_1_1grid_1_1Icosphere_a99497d5f1f70be61ebe8ed62b8142f92}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!subdivide@{subdivide}}
+\index{subdivide@{subdivide}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{subdivide()}{subdivide()}}
+{\footnotesize\ttfamily void Icosphere\+::subdivide (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{depth }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1Icosphere_a99497d5f1f70be61ebe8ed62b8142f92_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a883f4fd20fcad4605a13bb5be310a8ec}\label{classcalenhad_1_1grid_1_1Icosphere_a883f4fd20fcad4605a13bb5be310a8ec}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!toCartesian@{toCartesian}}
+\index{toCartesian@{toCartesian}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{toCartesian()}{toCartesian()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{Cartesian}} Icosphere\+::to\+Cartesian (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&}]{g,  }\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{c }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a6580417cd38edabd8d68079fb1c10be4}\label{classcalenhad_1_1grid_1_1Icosphere_a6580417cd38edabd8d68079fb1c10be4}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!toGeolocation@{toGeolocation}}
+\index{toGeolocation@{toGeolocation}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{toGeolocation()}{toGeolocation()}}
+{\footnotesize\ttfamily void Icosphere\+::to\+Geolocation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{c,  }\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&}]{g }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_abbbd9e0c546a91e6797383d56a851390}\label{classcalenhad_1_1grid_1_1Icosphere_abbbd9e0c546a91e6797383d56a851390}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!triangles@{triangles}}
+\index{triangles@{triangles}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{triangles()}{triangles()}}
+{\footnotesize\ttfamily std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$ $>$\+::iterator, std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}} $\ast$ $>$\+::iterator $>$ Icosphere\+::triangles (\begin{DoxyParamCaption}\item[{const unsigned \&}]{level }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ad98b3eca09feab4e1bc7500ff442055f}\label{classcalenhad_1_1grid_1_1Icosphere_ad98b3eca09feab4e1bc7500ff442055f}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!vertexBuffer@{vertexBuffer}}
+\index{vertexBuffer@{vertexBuffer}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{vertexBuffer()}{vertexBuffer()}}
+{\footnotesize\ttfamily float $\ast$ Icosphere\+::vertex\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ac5f8deb9e4218542ac5f92981f60d844}\label{classcalenhad_1_1grid_1_1Icosphere_ac5f8deb9e4218542ac5f92981f60d844}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!vertexCount@{vertexCount}}
+\index{vertexCount@{vertexCount}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{vertexCount()}{vertexCount()}}
+{\footnotesize\ttfamily unsigned long Icosphere\+::vertex\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a01c9b4d18029232e0c8b725dceee9649}\label{classcalenhad_1_1grid_1_1Icosphere_a01c9b4d18029232e0c8b725dceee9649}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!vertices@{vertices}}
+\index{vertices@{vertices}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{vertices()}{vertices()}}
+{\footnotesize\ttfamily std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ $>$\+::iterator, std\+::vector$<$ \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ $>$\+::iterator $>$ Icosphere\+::vertices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1Icosphere_a01c9b4d18029232e0c8b725dceee9649_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_af3d337bf77aa8d4407dc22085e8afef1}\label{classcalenhad_1_1grid_1_1Icosphere_af3d337bf77aa8d4407dc22085e8afef1}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!visit@{visit}}
+\index{visit@{visit}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{visit()}{visit()}}
+{\footnotesize\ttfamily void Icosphere\+::visit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$}]{vertex }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a17ce43b40a3c33ab4e2f4a1ab078f7ed}\label{classcalenhad_1_1grid_1_1Icosphere_a17ce43b40a3c33ab4e2f4a1ab078f7ed}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!walkTowards@{walkTowards}}
+\index{walkTowards@{walkTowards}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{walkTowards()}{walkTowards()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ Icosphere\+::walk\+Towards (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} \&}]{target,  }\item[{const unsigned int \&}]{depth }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a60a90bdd9b7d7609e17d0894f9acefc0}\label{classcalenhad_1_1grid_1_1Icosphere_a60a90bdd9b7d7609e17d0894f9acefc0}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!walkTowards@{walkTowards}}
+\index{walkTowards@{walkTowards}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{walkTowards()}{walkTowards()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}} $\ast$ Icosphere\+::walk\+Towards (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1LatLon}{geometry\+::\+Lat\+Lon}} \&}]{target,  }\item[{const unsigned int \&}]{depth = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a3832bb583e0b418890f62514f91b152d}\label{classcalenhad_1_1grid_1_1Icosphere_a3832bb583e0b418890f62514f91b152d}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_c1@{\_c1}}
+\index{\_c1@{\_c1}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_c1}{\_c1}}
+{\footnotesize\ttfamily int calenhad\+::grid\+::\+Icosphere\+::\+\_\+c1 \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a2b5ef1a1258e7a90e416900f72b212b3}\label{classcalenhad_1_1grid_1_1Icosphere_a2b5ef1a1258e7a90e416900f72b212b3}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_count@{\_count}}
+\index{\_count@{\_count}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_count}{\_count}}
+{\footnotesize\ttfamily uint32\+\_\+t calenhad\+::grid\+::\+Icosphere\+::\+\_\+count\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_aa96f19b42f8372ae5a120801e6606302}\label{classcalenhad_1_1grid_1_1Icosphere_aa96f19b42f8372ae5a120801e6606302}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_depth@{\_depth}}
+\index{\_depth@{\_depth}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_depth}{\_depth}}
+{\footnotesize\ttfamily unsigned calenhad\+::grid\+::\+Icosphere\+::\+\_\+depth\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a5917ee95f4906afc0f78923341c8a6ce}\label{classcalenhad_1_1grid_1_1Icosphere_a5917ee95f4906afc0f78923341c8a6ce}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_gc@{\_gc}}
+\index{\_gc@{\_gc}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_gc}{\_gc}}
+{\footnotesize\ttfamily Geographic\+Lib\+::\+Geocentric$\ast$ calenhad\+::grid\+::\+Icosphere\+::\+\_\+gc\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a1d4d39dc51af3c464809da676686b6c8}\label{classcalenhad_1_1grid_1_1Icosphere_a1d4d39dc51af3c464809da676686b6c8}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_initial@{\_initial}}
+\index{\_initial@{\_initial}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_initial}{\_initial}}
+{\footnotesize\ttfamily bool calenhad\+::grid\+::\+Icosphere\+::\+\_\+initial\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ae98438150d55c467f83639fd7f480f7a}\label{classcalenhad_1_1grid_1_1Icosphere_ae98438150d55c467f83639fd7f480f7a}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_lastVisited@{\_lastVisited}}
+\index{\_lastVisited@{\_lastVisited}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_lastVisited}{\_lastVisited}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}}$\ast$ calenhad\+::grid\+::\+Icosphere\+::\+\_\+last\+Visited\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a2a90ee6bee62cff8f7fffbdfc5148ec1}\label{classcalenhad_1_1grid_1_1Icosphere_a2a90ee6bee62cff8f7fffbdfc5148ec1}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_level@{\_level}}
+\index{\_level@{\_level}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_level}{\_level}}
+{\footnotesize\ttfamily unsigned calenhad\+::grid\+::\+Icosphere\+::\+\_\+level \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a061787f4f0294cb480bb97e70fd72b87}\label{classcalenhad_1_1grid_1_1Icosphere_a061787f4f0294cb480bb97e70fd72b87}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_triangles@{\_triangles}}
+\index{\_triangles@{\_triangles}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_triangles}{\_triangles}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$\mbox{\hyperlink{structcalenhad_1_1grid_1_1Triangle}{Triangle}}$\ast$$>$ $>$ calenhad\+::grid\+::\+Icosphere\+::\+\_\+triangles\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a3c2e51bf842839c5151cb7fced63bcb4}\label{classcalenhad_1_1grid_1_1Icosphere_a3c2e51bf842839c5151cb7fced63bcb4}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_vertexBuffer@{\_vertexBuffer}}
+\index{\_vertexBuffer@{\_vertexBuffer}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_vertexBuffer}{\_vertexBuffer}}
+{\footnotesize\ttfamily float$\ast$ calenhad\+::grid\+::\+Icosphere\+::\+\_\+vertex\+Buffer\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ad022e2cdd6626a42e07f65e18ca7d198}\label{classcalenhad_1_1grid_1_1Icosphere_ad022e2cdd6626a42e07f65e18ca7d198}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!\_vertices@{\_vertices}}
+\index{\_vertices@{\_vertices}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{\_vertices}{\_vertices}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}}$\ast$$>$ calenhad\+::grid\+::\+Icosphere\+::\+\_\+vertices\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a3c376c0e7546953b8e44d569c6986202}\label{classcalenhad_1_1grid_1_1Icosphere_a3c376c0e7546953b8e44d569c6986202}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!c@{c}}
+\index{c@{c}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{c}{c}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1geometry_1_1Cartesian}{geometry\+::\+Cartesian}} calenhad\+::grid\+::\+Icosphere\+::c \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_af6e8548b13745de09d6b031701002f45}\label{classcalenhad_1_1grid_1_1Icosphere_af6e8548b13745de09d6b031701002f45}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!e1@{e1}}
+\index{e1@{e1}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{e1}{e1}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}}$\ast$ calenhad\+::grid\+::\+Icosphere\+::e1 \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a46f8b5394edb04dcf4ae9b970930d187}\label{classcalenhad_1_1grid_1_1Icosphere_a46f8b5394edb04dcf4ae9b970930d187}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!edgeKey@{edgeKey}}
+\index{edgeKey@{edgeKey}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{edgeKey}{edgeKey}}
+{\footnotesize\ttfamily uint64\+\_\+t calenhad\+::grid\+::\+Icosphere\+::edge\+Key \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a95fab6e656ec4a695405963f8da78b55}\label{classcalenhad_1_1grid_1_1Icosphere_a95fab6e656ec4a695405963f8da78b55}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!edgeMap@{edgeMap}}
+\index{edgeMap@{edgeMap}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{edgeMap}{edgeMap}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$uint64\+\_\+t, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}}$\ast$$>$ calenhad\+::grid\+::\+Icosphere\+::edge\+Map\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a675855b81735445ea80a92cb69674b11}\label{classcalenhad_1_1grid_1_1Icosphere_a675855b81735445ea80a92cb69674b11}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!ids0@{ids0}}
+\index{ids0@{ids0}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{ids0}{ids0}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}}$\ast$ calenhad\+::grid\+::\+Icosphere\+::ids0\mbox{[}3\mbox{]} \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_aca207ea65a7b530f81f3531f3cc206fc}\label{classcalenhad_1_1grid_1_1Icosphere_aca207ea65a7b530f81f3531f3cc206fc}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!ids1@{ids1}}
+\index{ids1@{ids1}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{ids1}{ids1}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}}$\ast$ calenhad\+::grid\+::\+Icosphere\+::ids1\mbox{[}3\mbox{]} \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_afff1084836960559381b123146cb93e1}\label{classcalenhad_1_1grid_1_1Icosphere_afff1084836960559381b123146cb93e1}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!it@{it}}
+\index{it@{it}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{it}{it}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$uint64\+\_\+t, \mbox{\hyperlink{structcalenhad_1_1grid_1_1Vertex}{Vertex}}$\ast$$>$\+::iterator calenhad\+::grid\+::\+Icosphere\+::it\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a6563575dca0dbec87d3342ae751c948d}\label{classcalenhad_1_1grid_1_1Icosphere_a6563575dca0dbec87d3342ae751c948d}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!k@{k}}
+\index{k@{k}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{k}{k}}
+{\footnotesize\ttfamily uint32\+\_\+t calenhad\+::grid\+::\+Icosphere\+::k \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_aa2cc31a60bb8e849bbffbe9476aedb84}\label{classcalenhad_1_1grid_1_1Icosphere_aa2cc31a60bb8e849bbffbe9476aedb84}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!level@{level}}
+\index{level@{level}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily unsigned int calenhad\+::grid\+::\+Icosphere\+::level\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a15e0ec8fa88a32ed69819458b10d1f24}\label{classcalenhad_1_1grid_1_1Icosphere_a15e0ec8fa88a32ed69819458b10d1f24}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!mag@{mag}}
+\index{mag@{mag}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{mag}{mag}}
+{\footnotesize\ttfamily double calenhad\+::grid\+::\+Icosphere\+::mag\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_ab7341085b02aed9721fc84be9ded10b7}\label{classcalenhad_1_1grid_1_1Icosphere_ab7341085b02aed9721fc84be9ded10b7}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!X@{X}}
+\index{X@{X}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{X}{X}}
+{\footnotesize\ttfamily constexpr double calenhad\+::grid\+::\+Icosphere\+::X = 0.\+525731112119133606\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1Icosphere_a1a3e243d8755b641f577a118b50e0e1d}\label{classcalenhad_1_1grid_1_1Icosphere_a1a3e243d8755b641f577a118b50e0e1d}} 
+\index{calenhad::grid::Icosphere@{calenhad::grid::Icosphere}!Z@{Z}}
+\index{Z@{Z}!calenhad::grid::Icosphere@{calenhad::grid::Icosphere}}
+\doxysubsubsection{\texorpdfstring{Z}{Z}}
+{\footnotesize\ttfamily constexpr double calenhad\+::grid\+::\+Icosphere\+::Z = 0.\+850650808352039932\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/grid/\mbox{\hyperlink{icosphere_8h}{icosphere.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/grid/\mbox{\hyperlink{icosphere_8cpp}{icosphere.\+cpp}}\end{DoxyCompactItemize}

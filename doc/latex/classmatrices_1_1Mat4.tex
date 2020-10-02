@@ -1,0 +1,360 @@
+\hypertarget{classmatrices_1_1Mat4}{}\doxysection{matrices\+::Mat4 Class Reference}
+\label{classmatrices_1_1Mat4}\index{matrices::Mat4@{matrices::Mat4}}
+
+
+{\ttfamily \#include $<$matrices.\+h$>$}
+
+
+
+Collaboration diagram for matrices\+::Mat4\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classmatrices_1_1Mat4__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4_a53cb3c6c2a0b594345f0107b6c1fcc37}{Mat4}} ()
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4_aaad002d83a0c2ffbe5b7e33682baa398}{Mat4}} (\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} a, \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} b, \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} c, \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} d)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4_a3de122fcc20cfe8b0d2ff590acc356b7}{Mat4}} (\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} vectors\mbox{[}4\mbox{]})
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4_a72fac55214c733b56248d2b321aaf69b}{$\sim$\+Mat4}} ()
+\item 
+void \mbox{\hyperlink{classmatrices_1_1Mat4_abb3801fdfe94efd7b1cb27f816859aa4}{set\+Value}} (int i, int j, double \mbox{\hyperlink{classmatrices_1_1Mat4_a73256e95da38cab97b1a7243d8644e28}{value}})
+\item 
+double \mbox{\hyperlink{classmatrices_1_1Mat4_a73256e95da38cab97b1a7243d8644e28}{value}} (int i, int j)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} \mbox{\hyperlink{classmatrices_1_1Mat4_a21d5c4880b2da7461ad9277b8ebdd3ec}{operator$\ast$}} (\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} other)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} \mbox{\hyperlink{classmatrices_1_1Mat4_aff23f1dff9fe2ffb41a9d1af08e38668}{operator$\ast$}} (\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} v)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} \mbox{\hyperlink{classmatrices_1_1Mat4_a328340826782a17de71fff7261e7158b}{operator$\ast$}} (double k)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} \mbox{\hyperlink{classmatrices_1_1Mat4_ae1bcfdd7e21db9f80c508e6df0a3dc25}{operator+}} (\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} other)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} \& \mbox{\hyperlink{classmatrices_1_1Mat4_a5ef7b649585a7d772b8a3c9e8a7c134d}{operator\mbox{[}$\,$\mbox{]}}} (int i)
+\item 
+bool \mbox{\hyperlink{classmatrices_1_1Mat4_a7429245c4ba543176079ffbd81c4f6ea}{operator==}} (\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} other)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} \mbox{\hyperlink{classmatrices_1_1Mat4_aa686e4782405952c71576edac9d3dcbc}{transpose}} ()
+\item 
+\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} \mbox{\hyperlink{classmatrices_1_1Mat4_a0a38293c614405e4763d4e97ed07bbfd}{column}} (int i)
+\item 
+\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} \mbox{\hyperlink{classmatrices_1_1Mat4_ac9e83d46cee6307d0fd2a1d0b8a35ea6}{row}} (int i)
+\item 
+void \mbox{\hyperlink{classmatrices_1_1Mat4_a1a53448e776396f0242574d83103956a}{debug}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} \mbox{\hyperlink{classmatrices_1_1Mat4_a1d72b847073d370a37da13b94eac93eb}{translation\+Matrix}} (const double \&x, const double \&y, const double \&z)
+\item 
+static \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} \mbox{\hyperlink{classmatrices_1_1Mat4_a178e01c90b14a1b05085eaae7fda8304}{scaling\+Matrix}} (const double \&x, const double \&y, const double \&z)
+\item 
+static \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} \mbox{\hyperlink{classmatrices_1_1Mat4_aaa3319f39c8ef22ccb3eed3bf7c089e2}{null\+Matrix}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} \mbox{\hyperlink{classmatrices_1_1Mat4_ab69a96677211b8e9ff443a4e2a5d31b2}{\+\_\+vectors}} \mbox{[}4\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a53cb3c6c2a0b594345f0107b6c1fcc37}\label{classmatrices_1_1Mat4_a53cb3c6c2a0b594345f0107b6c1fcc37}} 
+\index{matrices::Mat4@{matrices::Mat4}!Mat4@{Mat4}}
+\index{Mat4@{Mat4}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{Mat4()}{Mat4()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Mat4\+::\+Mat4 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a53cb3c6c2a0b594345f0107b6c1fcc37_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_aaad002d83a0c2ffbe5b7e33682baa398}\label{classmatrices_1_1Mat4_aaad002d83a0c2ffbe5b7e33682baa398}} 
+\index{matrices::Mat4@{matrices::Mat4}!Mat4@{Mat4}}
+\index{Mat4@{Mat4}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{Mat4()}{Mat4()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Mat4\+::\+Mat4 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}}}]{a,  }\item[{\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}}}]{b,  }\item[{\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}}}]{c,  }\item[{\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}}}]{d }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a3de122fcc20cfe8b0d2ff590acc356b7}\label{classmatrices_1_1Mat4_a3de122fcc20cfe8b0d2ff590acc356b7}} 
+\index{matrices::Mat4@{matrices::Mat4}!Mat4@{Mat4}}
+\index{Mat4@{Mat4}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{Mat4()}{Mat4()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Mat4\+::\+Mat4 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}}}]{vectors\mbox{[}4\mbox{]} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a72fac55214c733b56248d2b321aaf69b}\label{classmatrices_1_1Mat4_a72fac55214c733b56248d2b321aaf69b}} 
+\index{matrices::Mat4@{matrices::Mat4}!````~Mat4@{$\sim$Mat4}}
+\index{````~Mat4@{$\sim$Mat4}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{$\sim$Mat4()}{~Mat4()}}
+{\footnotesize\ttfamily Mat4\+::$\sim$\+Mat4 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a0a38293c614405e4763d4e97ed07bbfd}\label{classmatrices_1_1Mat4_a0a38293c614405e4763d4e97ed07bbfd}} 
+\index{matrices::Mat4@{matrices::Mat4}!column@{column}}
+\index{column@{column}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{column()}{column()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} Mat4\+::column (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a0a38293c614405e4763d4e97ed07bbfd_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a0a38293c614405e4763d4e97ed07bbfd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a1a53448e776396f0242574d83103956a}\label{classmatrices_1_1Mat4_a1a53448e776396f0242574d83103956a}} 
+\index{matrices::Mat4@{matrices::Mat4}!debug@{debug}}
+\index{debug@{debug}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{debug()}{debug()}}
+{\footnotesize\ttfamily void Mat4\+::debug (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a1a53448e776396f0242574d83103956a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_aaa3319f39c8ef22ccb3eed3bf7c089e2}\label{classmatrices_1_1Mat4_aaa3319f39c8ef22ccb3eed3bf7c089e2}} 
+\index{matrices::Mat4@{matrices::Mat4}!nullMatrix@{nullMatrix}}
+\index{nullMatrix@{nullMatrix}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{nullMatrix()}{nullMatrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} Mat4\+::null\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_aaa3319f39c8ef22ccb3eed3bf7c089e2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_aaa3319f39c8ef22ccb3eed3bf7c089e2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a328340826782a17de71fff7261e7158b}\label{classmatrices_1_1Mat4_a328340826782a17de71fff7261e7158b}} 
+\index{matrices::Mat4@{matrices::Mat4}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} Mat4\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{double}]{k }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a328340826782a17de71fff7261e7158b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a21d5c4880b2da7461ad9277b8ebdd3ec}\label{classmatrices_1_1Mat4_a21d5c4880b2da7461ad9277b8ebdd3ec}} 
+\index{matrices::Mat4@{matrices::Mat4}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} Mat4\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}}}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a21d5c4880b2da7461ad9277b8ebdd3ec_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_aff23f1dff9fe2ffb41a9d1af08e38668}\label{classmatrices_1_1Mat4_aff23f1dff9fe2ffb41a9d1af08e38668}} 
+\index{matrices::Mat4@{matrices::Mat4}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} Mat4\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}}}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_aff23f1dff9fe2ffb41a9d1af08e38668_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_ae1bcfdd7e21db9f80c508e6df0a3dc25}\label{classmatrices_1_1Mat4_ae1bcfdd7e21db9f80c508e6df0a3dc25}} 
+\index{matrices::Mat4@{matrices::Mat4}!operator+@{operator+}}
+\index{operator+@{operator+}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} Mat4\+::operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}}}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_ae1bcfdd7e21db9f80c508e6df0a3dc25_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a7429245c4ba543176079ffbd81c4f6ea}\label{classmatrices_1_1Mat4_a7429245c4ba543176079ffbd81c4f6ea}} 
+\index{matrices::Mat4@{matrices::Mat4}!operator==@{operator==}}
+\index{operator==@{operator==}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Mat4\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}}}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a7429245c4ba543176079ffbd81c4f6ea_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a5ef7b649585a7d772b8a3c9e8a7c134d}\label{classmatrices_1_1Mat4_a5ef7b649585a7d772b8a3c9e8a7c134d}} 
+\index{matrices::Mat4@{matrices::Mat4}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} \& Mat4\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classmatrices_1_1Mat4_ac9e83d46cee6307d0fd2a1d0b8a35ea6}\label{classmatrices_1_1Mat4_ac9e83d46cee6307d0fd2a1d0b8a35ea6}} 
+\index{matrices::Mat4@{matrices::Mat4}!row@{row}}
+\index{row@{row}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{row()}{row()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} Mat4\+::row (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_ac9e83d46cee6307d0fd2a1d0b8a35ea6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a178e01c90b14a1b05085eaae7fda8304}\label{classmatrices_1_1Mat4_a178e01c90b14a1b05085eaae7fda8304}} 
+\index{matrices::Mat4@{matrices::Mat4}!scalingMatrix@{scalingMatrix}}
+\index{scalingMatrix@{scalingMatrix}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{scalingMatrix()}{scalingMatrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} Mat4\+::scaling\+Matrix (\begin{DoxyParamCaption}\item[{const double \&}]{x,  }\item[{const double \&}]{y,  }\item[{const double \&}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a178e01c90b14a1b05085eaae7fda8304_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_abb3801fdfe94efd7b1cb27f816859aa4}\label{classmatrices_1_1Mat4_abb3801fdfe94efd7b1cb27f816859aa4}} 
+\index{matrices::Mat4@{matrices::Mat4}!setValue@{setValue}}
+\index{setValue@{setValue}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}}
+{\footnotesize\ttfamily void Mat4\+::set\+Value (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j,  }\item[{double}]{value }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_abb3801fdfe94efd7b1cb27f816859aa4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_abb3801fdfe94efd7b1cb27f816859aa4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a1d72b847073d370a37da13b94eac93eb}\label{classmatrices_1_1Mat4_a1d72b847073d370a37da13b94eac93eb}} 
+\index{matrices::Mat4@{matrices::Mat4}!translationMatrix@{translationMatrix}}
+\index{translationMatrix@{translationMatrix}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{translationMatrix()}{translationMatrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} Mat4\+::translation\+Matrix (\begin{DoxyParamCaption}\item[{const double \&}]{x,  }\item[{const double \&}]{y,  }\item[{const double \&}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a1d72b847073d370a37da13b94eac93eb_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_aa686e4782405952c71576edac9d3dcbc}\label{classmatrices_1_1Mat4_aa686e4782405952c71576edac9d3dcbc}} 
+\index{matrices::Mat4@{matrices::Mat4}!transpose@{transpose}}
+\index{transpose@{transpose}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{transpose()}{transpose()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Mat4}{Mat4}} Mat4\+::transpose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_aa686e4782405952c71576edac9d3dcbc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_aa686e4782405952c71576edac9d3dcbc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_a73256e95da38cab97b1a7243d8644e28}\label{classmatrices_1_1Mat4_a73256e95da38cab97b1a7243d8644e28}} 
+\index{matrices::Mat4@{matrices::Mat4}!value@{value}}
+\index{value@{value}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily double Mat4\+::value (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a73256e95da38cab97b1a7243d8644e28_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classmatrices_1_1Mat4_a73256e95da38cab97b1a7243d8644e28_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classmatrices_1_1Mat4_ab69a96677211b8e9ff443a4e2a5d31b2}\label{classmatrices_1_1Mat4_ab69a96677211b8e9ff443a4e2a5d31b2}} 
+\index{matrices::Mat4@{matrices::Mat4}!\_vectors@{\_vectors}}
+\index{\_vectors@{\_vectors}!matrices::Mat4@{matrices::Mat4}}
+\doxysubsubsection{\texorpdfstring{\_vectors}{\_vectors}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmatrices_1_1Vec4}{Vec4}} matrices\+::\+Mat4\+::\+\_\+vectors\mbox{[}4\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{matrices_8h}{matrices.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{matrices_8cpp}{matrices.\+cpp}}\end{DoxyCompactItemize}

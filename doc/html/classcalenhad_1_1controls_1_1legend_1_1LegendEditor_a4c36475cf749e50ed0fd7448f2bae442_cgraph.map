@@ -1,0 +1,10 @@
+<map id="calenhad::controls::legend::LegendEditor::LegendEditor" name="calenhad::controls::legend::LegendEditor::LegendEditor">
+<area shape="rect" id="node1" title="Basic Constructor." alt="" coords="5,35,172,91"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1CalenhadServices.html#af272f915ec45df44f38e949f293c0ca1" title=" " alt="" coords="220,5,425,47"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#ad5a4e341bab06ce3df4c4a83814b0e69" title="on update the ramp because sliders are changed" alt="" coords="239,71,406,127"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#aad5f0b303e2bea7045eeda299c115516" title="return the Ramp definition" alt="" coords="688,38,855,94"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#aa90f3a5214358356c22bb73b10157572" title="get the position" alt="" coords="473,103,640,159"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a5f38d7d8653b3ca3e04a451a12f04967" title=" " alt="" coords="688,118,855,174"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#acc2deb1917a8ab071bd7d1583c751bd8" title=" " alt="" coords="903,78,1069,134"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#afab2988c8631ee867fa981168a3648f8" title=" " alt="" coords="903,158,1069,214"/>
+</map>

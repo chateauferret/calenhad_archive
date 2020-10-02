@@ -1,0 +1,320 @@
+\hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory}{}\doxysection{calenhad\+::pipeline\+::Module\+Factory Class Reference}
+\label{classcalenhad_1_1pipeline_1_1ModuleFactory}\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+
+
+{\ttfamily \#include $<$Module\+Factory.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::pipeline\+::Module\+Factory\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{classcalenhad_1_1pipeline_1_1ModuleFactory__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::pipeline\+::Module\+Factory\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1pipeline_1_1ModuleFactory__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_acbb3d3b5f51f6e361247d31da1bccb67}{seed\+Changed}} (const int \&\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_abd2ec29918015b1fd6c5b3aa29395d60}{seed}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_afa05e7042e92482f573ebb6dcdec9788}{Module\+Factory}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a139960cc148e0cca2a01fc0ad58ebe14}{$\sim$\+Module\+Factory}} () override
+\item 
+Q\+String\+List \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a1805480e537c753334ef30019fcbcc1e}{types}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{calenhad\+::module\+::\+Node}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a2e2a8ecd877329fc87105f66253b9731}{create\+Module}} (const Q\+String \&name, const Q\+String \&module\+Type, \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{Calenhad\+Model}} $\ast$model)
+\item 
+Q\+Pixmap \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a6ca13d6e0ab48f82230317cc24aa6f9b}{make\+Icon}} (const Q\+String \&type)
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_abd2ec29918015b1fd6c5b3aa29395d60}{seed}} () const
+\item 
+\mbox{\hyperlink{classQAction}{Q\+Action}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_af4c2d35325ea2ea0d11b557c0af3ffd3}{make\+Module\+Tool}} (const Q\+String \&type)
+\item 
+Q\+Pixmap \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a542069cf0329719dbccba8d9534042e4}{get\+Icon}} (const Q\+String \&type)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{module\+::\+Node}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a053ae30b2a35f6f28246ee6ae33a4607}{clone}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{module\+::\+Node}} $\ast$other)
+\item 
+Q\+Dom\+Element \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a9aab9c0fb5ad551339bb743891688c26}{xml}} (const Q\+String \&type)
+\item 
+Q\+String\+List \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_abc4291bec19a419f5cfdef5915e0d94c}{param\+Names}} ()
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a0eb26631942c0f9bcd3f88b5159b1698}{label}} (const Q\+String \&type)
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a025edf82f180db08b775a2a1e7e06a59}{description}} (const Q\+String \&type)
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a1c041d376cc360121c9f314cfc4a6549}{glsl}} (const Q\+String \&type)
+\item 
+Q\+SizeF \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_ae9801a07442c5d18462db79f164789a7}{scale}} (const Q\+String \&type)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a3834c9db3c028a3f32bd463a5f68f871}{initialise}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{module\+::\+Node}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_acdfb160d1ed1250d2340eaf01ecdac65}{inflate\+Module}} (const Q\+String \&type, \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{Calenhad\+Model}} $\ast$model)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1module_1_1ParamValidator}{module\+::\+Param\+Validator}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_abcce7a29a95850722fbf588f68bc0ffe}{validator}} (const Q\+String \&validator\+Type)
+\item 
+static Q\+String \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a765c2318710e5170b80bd6e469ac1f24}{get\+Icon\+File}} (const Q\+String \&icon)
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{module\+::algorithm\+::\+Algorithm}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_ab2005f1d026cf356c3518b51b472850d}{algorithm}} (const Q\+String \&algorithm\+Type)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a03348acb61f19b4d1673fd7234e5d77b}{\+\_\+seed}} = 0
+\item 
+Q\+String\+List \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a63a73babe4a0b4a37484b79a55041496}{\+\_\+param\+Names}}
+\item 
+Q\+Map$<$ Q\+String, Q\+Dom\+Element $>$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a81e2b837f4e7e6ef175f3ef5b302f928}{\+\_\+types}}
+\item 
+Q\+Map$<$ Q\+String, Q\+String $>$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a6643a42e4aedf247ec69bdd32d7441d7}{\+\_\+module\+Labels}}
+\item 
+Q\+Map$<$ Q\+String, Q\+String $>$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_afa2458bfb382b22f47f591d766aa8755}{\+\_\+module\+Descriptions}}
+\item 
+Q\+Map$<$ Q\+String, Q\+String $>$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_aab5ed674c6e737847fadd9acef6862e8}{\+\_\+module\+Codes}}
+\item 
+Q\+Map$<$ Q\+String, Q\+SizeF $>$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a8fb641499a38a524426a8b49f5045d0d}{\+\_\+module\+Scales}}
+\item 
+Q\+Map$<$ Q\+String, \mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{calenhad\+::module\+::algorithm\+::\+Algorithm}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory_a214bf916e3eeed597151e8a86d0651f5}{\+\_\+algorithms}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_afa05e7042e92482f573ebb6dcdec9788}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_afa05e7042e92482f573ebb6dcdec9788}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!ModuleFactory@{ModuleFactory}}
+\index{ModuleFactory@{ModuleFactory}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{ModuleFactory()}{ModuleFactory()}}
+{\footnotesize\ttfamily Module\+Factory\+::\+Module\+Factory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a139960cc148e0cca2a01fc0ad58ebe14}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a139960cc148e0cca2a01fc0ad58ebe14}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!````~ModuleFactory@{$\sim$ModuleFactory}}
+\index{````~ModuleFactory@{$\sim$ModuleFactory}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{$\sim$ModuleFactory()}{~ModuleFactory()}}
+{\footnotesize\ttfamily Module\+Factory\+::$\sim$\+Module\+Factory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_ab2005f1d026cf356c3518b51b472850d}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_ab2005f1d026cf356c3518b51b472850d}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!algorithm@{algorithm}}
+\index{algorithm@{algorithm}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{algorithm()}{algorithm()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{Algorithm}} $\ast$ Module\+Factory\+::algorithm (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{algorithm\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a053ae30b2a35f6f28246ee6ae33a4607}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a053ae30b2a35f6f28246ee6ae33a4607}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!clone@{clone}}
+\index{clone@{clone}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{Node}} $\ast$ Module\+Factory\+::clone (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{module\+::\+Node}} $\ast$}]{other }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a2e2a8ecd877329fc87105f66253b9731}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a2e2a8ecd877329fc87105f66253b9731}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!createModule@{createModule}}
+\index{createModule@{createModule}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{createModule()}{createModule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{Node}} $\ast$ Module\+Factory\+::create\+Module (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{name,  }\item[{const Q\+String \&}]{module\+Type,  }\item[{\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{Calenhad\+Model}} $\ast$}]{model }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a025edf82f180db08b775a2a1e7e06a59}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a025edf82f180db08b775a2a1e7e06a59}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!description@{description}}
+\index{description@{description}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{description()}{description()}}
+{\footnotesize\ttfamily Q\+String Module\+Factory\+::description (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a542069cf0329719dbccba8d9534042e4}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a542069cf0329719dbccba8d9534042e4}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!getIcon@{getIcon}}
+\index{getIcon@{getIcon}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{getIcon()}{getIcon()}}
+{\footnotesize\ttfamily Q\+Pixmap Module\+Factory\+::get\+Icon (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a765c2318710e5170b80bd6e469ac1f24}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a765c2318710e5170b80bd6e469ac1f24}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!getIconFile@{getIconFile}}
+\index{getIconFile@{getIconFile}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{getIconFile()}{getIconFile()}}
+{\footnotesize\ttfamily Q\+String Module\+Factory\+::get\+Icon\+File (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{icon }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1pipeline_1_1ModuleFactory_a765c2318710e5170b80bd6e469ac1f24_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a1c041d376cc360121c9f314cfc4a6549}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a1c041d376cc360121c9f314cfc4a6549}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!glsl@{glsl}}
+\index{glsl@{glsl}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{glsl()}{glsl()}}
+{\footnotesize\ttfamily Q\+String Module\+Factory\+::glsl (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_acdfb160d1ed1250d2340eaf01ecdac65}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_acdfb160d1ed1250d2340eaf01ecdac65}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!inflateModule@{inflateModule}}
+\index{inflateModule@{inflateModule}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{inflateModule()}{inflateModule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1Node}{Node}} $\ast$ Module\+Factory\+::inflate\+Module (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type,  }\item[{\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{Calenhad\+Model}} $\ast$}]{model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1pipeline_1_1ModuleFactory_acdfb160d1ed1250d2340eaf01ecdac65_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a3834c9db3c028a3f32bd463a5f68f871}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a3834c9db3c028a3f32bd463a5f68f871}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!initialise@{initialise}}
+\index{initialise@{initialise}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{initialise()}{initialise()}}
+{\footnotesize\ttfamily void Module\+Factory\+::initialise (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1pipeline_1_1ModuleFactory_a3834c9db3c028a3f32bd463a5f68f871_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a0eb26631942c0f9bcd3f88b5159b1698}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a0eb26631942c0f9bcd3f88b5159b1698}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!label@{label}}
+\index{label@{label}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{label()}{label()}}
+{\footnotesize\ttfamily Q\+String Module\+Factory\+::label (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a6ca13d6e0ab48f82230317cc24aa6f9b}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a6ca13d6e0ab48f82230317cc24aa6f9b}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!makeIcon@{makeIcon}}
+\index{makeIcon@{makeIcon}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{makeIcon()}{makeIcon()}}
+{\footnotesize\ttfamily Q\+Pixmap Module\+Factory\+::make\+Icon (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1pipeline_1_1ModuleFactory_a6ca13d6e0ab48f82230317cc24aa6f9b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_af4c2d35325ea2ea0d11b557c0af3ffd3}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_af4c2d35325ea2ea0d11b557c0af3ffd3}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!makeModuleTool@{makeModuleTool}}
+\index{makeModuleTool@{makeModuleTool}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{makeModuleTool()}{makeModuleTool()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQAction}{Q\+Action}} $\ast$ Module\+Factory\+::make\+Module\+Tool (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_abc4291bec19a419f5cfdef5915e0d94c}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_abc4291bec19a419f5cfdef5915e0d94c}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!paramNames@{paramNames}}
+\index{paramNames@{paramNames}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{paramNames()}{paramNames()}}
+{\footnotesize\ttfamily Q\+String\+List Module\+Factory\+::param\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_ae9801a07442c5d18462db79f164789a7}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_ae9801a07442c5d18462db79f164789a7}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!scale@{scale}}
+\index{scale@{scale}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{scale()}{scale()}}
+{\footnotesize\ttfamily Q\+SizeF Module\+Factory\+::scale (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_abd2ec29918015b1fd6c5b3aa29395d60}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_abd2ec29918015b1fd6c5b3aa29395d60}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!seed@{seed}}
+\index{seed@{seed}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{seed()}{seed()}}
+{\footnotesize\ttfamily int Module\+Factory\+::seed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_acbb3d3b5f51f6e361247d31da1bccb67}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_acbb3d3b5f51f6e361247d31da1bccb67}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!seedChanged@{seedChanged}}
+\index{seedChanged@{seedChanged}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{seedChanged}{seedChanged}}
+{\footnotesize\ttfamily void calenhad\+::pipeline\+::\+Module\+Factory\+::seed\+Changed (\begin{DoxyParamCaption}\item[{const int \&}]{seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a1805480e537c753334ef30019fcbcc1e}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a1805480e537c753334ef30019fcbcc1e}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!types@{types}}
+\index{types@{types}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{types()}{types()}}
+{\footnotesize\ttfamily Q\+String\+List Module\+Factory\+::types (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_abcce7a29a95850722fbf588f68bc0ffe}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_abcce7a29a95850722fbf588f68bc0ffe}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!validator@{validator}}
+\index{validator@{validator}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{validator()}{validator()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1ParamValidator}{Param\+Validator}} $\ast$ Module\+Factory\+::validator (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{validator\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a9aab9c0fb5ad551339bb743891688c26}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a9aab9c0fb5ad551339bb743891688c26}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!xml@{xml}}
+\index{xml@{xml}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{xml()}{xml()}}
+{\footnotesize\ttfamily Q\+Dom\+Element Module\+Factory\+::xml (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a214bf916e3eeed597151e8a86d0651f5}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a214bf916e3eeed597151e8a86d0651f5}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_algorithms@{\_algorithms}}
+\index{\_algorithms@{\_algorithms}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_algorithms}{\_algorithms}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+String, \mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{calenhad\+::module\+::algorithm\+::\+Algorithm}}$\ast$$>$ calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+algorithms\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_aab5ed674c6e737847fadd9acef6862e8}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_aab5ed674c6e737847fadd9acef6862e8}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_moduleCodes@{\_moduleCodes}}
+\index{\_moduleCodes@{\_moduleCodes}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_moduleCodes}{\_moduleCodes}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+String, Q\+String$>$ calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+module\+Codes\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_afa2458bfb382b22f47f591d766aa8755}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_afa2458bfb382b22f47f591d766aa8755}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_moduleDescriptions@{\_moduleDescriptions}}
+\index{\_moduleDescriptions@{\_moduleDescriptions}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_moduleDescriptions}{\_moduleDescriptions}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+String, Q\+String$>$ calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+module\+Descriptions\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a6643a42e4aedf247ec69bdd32d7441d7}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a6643a42e4aedf247ec69bdd32d7441d7}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_moduleLabels@{\_moduleLabels}}
+\index{\_moduleLabels@{\_moduleLabels}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_moduleLabels}{\_moduleLabels}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+String, Q\+String$>$ calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+module\+Labels\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a8fb641499a38a524426a8b49f5045d0d}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a8fb641499a38a524426a8b49f5045d0d}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_moduleScales@{\_moduleScales}}
+\index{\_moduleScales@{\_moduleScales}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_moduleScales}{\_moduleScales}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+String, Q\+SizeF$>$ calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+module\+Scales\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a63a73babe4a0b4a37484b79a55041496}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a63a73babe4a0b4a37484b79a55041496}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_paramNames@{\_paramNames}}
+\index{\_paramNames@{\_paramNames}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_paramNames}{\_paramNames}}
+{\footnotesize\ttfamily Q\+String\+List calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+param\+Names\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a03348acb61f19b4d1673fd7234e5d77b}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a03348acb61f19b4d1673fd7234e5d77b}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_seed@{\_seed}}
+\index{\_seed@{\_seed}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_seed}{\_seed}}
+{\footnotesize\ttfamily int calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+seed = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1pipeline_1_1ModuleFactory_a81e2b837f4e7e6ef175f3ef5b302f928}\label{classcalenhad_1_1pipeline_1_1ModuleFactory_a81e2b837f4e7e6ef175f3ef5b302f928}} 
+\index{calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}!\_types@{\_types}}
+\index{\_types@{\_types}!calenhad::pipeline::ModuleFactory@{calenhad::pipeline::ModuleFactory}}
+\doxysubsubsection{\texorpdfstring{\_types}{\_types}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+String, Q\+Dom\+Element$>$ calenhad\+::pipeline\+::\+Module\+Factory\+::\+\_\+types\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/pipeline/\mbox{\hyperlink{ModuleFactory_8h}{Module\+Factory.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/pipeline/\mbox{\hyperlink{ModuleFactory_8cpp}{Module\+Factory.\+cpp}}\end{DoxyCompactItemize}

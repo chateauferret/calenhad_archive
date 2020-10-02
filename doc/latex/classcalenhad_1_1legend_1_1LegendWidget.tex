@@ -1,0 +1,344 @@
+\hypertarget{classcalenhad_1_1legend_1_1LegendWidget}{}\doxysection{calenhad\+::legend\+::Legend\+Widget Class Reference}
+\label{classcalenhad_1_1legend_1_1LegendWidget}\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+
+
+{\ttfamily \#include $<$Legend\+Widget.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::legend\+::Legend\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classcalenhad_1_1legend_1_1LegendWidget__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::legend\+::Legend\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a66a13e27c3961d54ebdf5d84d3db49c6}{name\+Changed}} (Q\+String)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a5dd40f7b019d07ba7fa59645496a982f}{notes\+Changed}} (Q\+String)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a59093f0dcd67c50c07e6d2daf53c3bc0}{icon\+Changed}} (Q\+Icon)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a5b03e61888c775c3c8be95f048c5fca3}{legend\+Changed}} (const Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendEntry}{Legend\+Entry}} $>$ \&)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_aa19c54fbe26d2cb6963a3b3496dc77b8}{Legend\+Widget}} (\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a2675ee15bd2bb33172cafc5f994ae1d2}{legend}}, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent=0)
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_ae14d5a781d0bde7d16dec019ddfad115}{$\sim$\+Legend\+Widget}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a90ce66fa749d519334c904734642a70a}{update\+Legend}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_afec980f27cbcdbc4d4bcf1086fbab792}{show\+Event}} (Q\+Show\+Event $\ast$event) override
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendEntry}{Legend\+Entry}} $>$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_af107426574481ce42cddb68307c22c12}{entries}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a1898d48d65d24345ea7a8ce27af637f4}{focus\+Name\+Field}} ()
+\item 
+const bool \& \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a199d23fd8feadc46783434c544b57ea7}{is\+Interpolated}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a2675ee15bd2bb33172cafc5f994ae1d2}{legend}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Line\+Edit $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a24fa5fe29cd335c136582f88f1ef273b}{\+\_\+legend\+Name\+Box}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1legend_1_1LegendEditor}{calenhad\+::controls\+::legend\+::\+Legend\+Editor}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a2cbd0fdabed85cdd26f5ab7b79df5a00}{\+\_\+legend\+Editor}}
+\item 
+Q\+Check\+Box $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_af7fd051c1f843a5530f4f77ca44da6a6}{\+\_\+legend\+Interpolate\+Check}}
+\item 
+\mbox{\hyperlink{classQTextEdit}{Q\+Text\+Edit}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a65358c683e128ca21818184054c563fa}{\+\_\+legend\+Notes\+Box}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a378961c29c8100a012ea798fecb43699}{check\+Name}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_ac435102d5553ab4d26141f6283e0a21e}{update\+Name}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a67cd5ed5aa68d3ab82638e5acf717a94}{populate}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{Legend\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_a489eaf1f553ac37eaf0ef43506fc726b}{\+\_\+service}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendWidget_ab42f947e8de2617064456dced460e2ad}{\+\_\+legend}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_aa19c54fbe26d2cb6963a3b3496dc77b8}\label{classcalenhad_1_1legend_1_1LegendWidget_aa19c54fbe26d2cb6963a3b3496dc77b8}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!LegendWidget@{LegendWidget}}
+\index{LegendWidget@{LegendWidget}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{LegendWidget()}{LegendWidget()}}
+{\footnotesize\ttfamily Legend\+Widget\+::\+Legend\+Widget (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$}]{legend,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_aa19c54fbe26d2cb6963a3b3496dc77b8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_ae14d5a781d0bde7d16dec019ddfad115}\label{classcalenhad_1_1legend_1_1LegendWidget_ae14d5a781d0bde7d16dec019ddfad115}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!````~LegendWidget@{$\sim$LegendWidget}}
+\index{````~LegendWidget@{$\sim$LegendWidget}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{$\sim$LegendWidget()}{~LegendWidget()}}
+{\footnotesize\ttfamily Legend\+Widget\+::$\sim$\+Legend\+Widget (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a378961c29c8100a012ea798fecb43699}\label{classcalenhad_1_1legend_1_1LegendWidget_a378961c29c8100a012ea798fecb43699}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!checkName@{checkName}}
+\index{checkName@{checkName}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{checkName}{checkName}}
+{\footnotesize\ttfamily void Legend\+Widget\+::check\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a378961c29c8100a012ea798fecb43699_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a378961c29c8100a012ea798fecb43699_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_af107426574481ce42cddb68307c22c12}\label{classcalenhad_1_1legend_1_1LegendWidget_af107426574481ce42cddb68307c22c12}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!entries@{entries}}
+\index{entries@{entries}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{entries()}{entries()}}
+{\footnotesize\ttfamily Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendEntry}{Legend\+Entry}} $>$ Legend\+Widget\+::entries (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_af107426574481ce42cddb68307c22c12_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a1898d48d65d24345ea7a8ce27af637f4}\label{classcalenhad_1_1legend_1_1LegendWidget_a1898d48d65d24345ea7a8ce27af637f4}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!focusNameField@{focusNameField}}
+\index{focusNameField@{focusNameField}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{focusNameField()}{focusNameField()}}
+{\footnotesize\ttfamily void Legend\+Widget\+::focus\+Name\+Field (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a59093f0dcd67c50c07e6d2daf53c3bc0}\label{classcalenhad_1_1legend_1_1LegendWidget_a59093f0dcd67c50c07e6d2daf53c3bc0}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!iconChanged@{iconChanged}}
+\index{iconChanged@{iconChanged}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{iconChanged}{iconChanged}}
+{\footnotesize\ttfamily void calenhad\+::legend\+::\+Legend\+Widget\+::icon\+Changed (\begin{DoxyParamCaption}\item[{Q\+Icon}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a59093f0dcd67c50c07e6d2daf53c3bc0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a199d23fd8feadc46783434c544b57ea7}\label{classcalenhad_1_1legend_1_1LegendWidget_a199d23fd8feadc46783434c544b57ea7}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!isInterpolated@{isInterpolated}}
+\index{isInterpolated@{isInterpolated}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{isInterpolated()}{isInterpolated()}}
+{\footnotesize\ttfamily const bool \& Legend\+Widget\+::is\+Interpolated (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a2675ee15bd2bb33172cafc5f994ae1d2}\label{classcalenhad_1_1legend_1_1LegendWidget_a2675ee15bd2bb33172cafc5f994ae1d2}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!legend@{legend}}
+\index{legend@{legend}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{legend()}{legend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ Legend\+Widget\+::legend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a2675ee15bd2bb33172cafc5f994ae1d2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a5b03e61888c775c3c8be95f048c5fca3}\label{classcalenhad_1_1legend_1_1LegendWidget_a5b03e61888c775c3c8be95f048c5fca3}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!legendChanged@{legendChanged}}
+\index{legendChanged@{legendChanged}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{legendChanged}{legendChanged}}
+{\footnotesize\ttfamily void calenhad\+::legend\+::\+Legend\+Widget\+::legend\+Changed (\begin{DoxyParamCaption}\item[{const Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendEntry}{Legend\+Entry}} $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a5b03e61888c775c3c8be95f048c5fca3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a66a13e27c3961d54ebdf5d84d3db49c6}\label{classcalenhad_1_1legend_1_1LegendWidget_a66a13e27c3961d54ebdf5d84d3db49c6}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!nameChanged@{nameChanged}}
+\index{nameChanged@{nameChanged}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{nameChanged}{nameChanged}}
+{\footnotesize\ttfamily void calenhad\+::legend\+::\+Legend\+Widget\+::name\+Changed (\begin{DoxyParamCaption}\item[{Q\+String}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a66a13e27c3961d54ebdf5d84d3db49c6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a5dd40f7b019d07ba7fa59645496a982f}\label{classcalenhad_1_1legend_1_1LegendWidget_a5dd40f7b019d07ba7fa59645496a982f}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!notesChanged@{notesChanged}}
+\index{notesChanged@{notesChanged}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{notesChanged}{notesChanged}}
+{\footnotesize\ttfamily void calenhad\+::legend\+::\+Legend\+Widget\+::notes\+Changed (\begin{DoxyParamCaption}\item[{Q\+String}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a5dd40f7b019d07ba7fa59645496a982f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a67cd5ed5aa68d3ab82638e5acf717a94}\label{classcalenhad_1_1legend_1_1LegendWidget_a67cd5ed5aa68d3ab82638e5acf717a94}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!populate@{populate}}
+\index{populate@{populate}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{populate}{populate}}
+{\footnotesize\ttfamily void Legend\+Widget\+::populate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a67cd5ed5aa68d3ab82638e5acf717a94_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a67cd5ed5aa68d3ab82638e5acf717a94_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_afec980f27cbcdbc4d4bcf1086fbab792}\label{classcalenhad_1_1legend_1_1LegendWidget_afec980f27cbcdbc4d4bcf1086fbab792}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!showEvent@{showEvent}}
+\index{showEvent@{showEvent}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{showEvent()}{showEvent()}}
+{\footnotesize\ttfamily void Legend\+Widget\+::show\+Event (\begin{DoxyParamCaption}\item[{Q\+Show\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_afec980f27cbcdbc4d4bcf1086fbab792_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a90ce66fa749d519334c904734642a70a}\label{classcalenhad_1_1legend_1_1LegendWidget_a90ce66fa749d519334c904734642a70a}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!updateLegend@{updateLegend}}
+\index{updateLegend@{updateLegend}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{updateLegend()}{updateLegend()}}
+{\footnotesize\ttfamily void Legend\+Widget\+::update\+Legend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_a90ce66fa749d519334c904734642a70a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_ac435102d5553ab4d26141f6283e0a21e}\label{classcalenhad_1_1legend_1_1LegendWidget_ac435102d5553ab4d26141f6283e0a21e}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!updateName@{updateName}}
+\index{updateName@{updateName}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{updateName}{updateName}}
+{\footnotesize\ttfamily void Legend\+Widget\+::update\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_ac435102d5553ab4d26141f6283e0a21e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendWidget_ac435102d5553ab4d26141f6283e0a21e_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_ab42f947e8de2617064456dced460e2ad}\label{classcalenhad_1_1legend_1_1LegendWidget_ab42f947e8de2617064456dced460e2ad}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!\_legend@{\_legend}}
+\index{\_legend@{\_legend}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{\_legend}{\_legend}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}}$\ast$ calenhad\+::legend\+::\+Legend\+Widget\+::\+\_\+legend\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a2cbd0fdabed85cdd26f5ab7b79df5a00}\label{classcalenhad_1_1legend_1_1LegendWidget_a2cbd0fdabed85cdd26f5ab7b79df5a00}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!\_legendEditor@{\_legendEditor}}
+\index{\_legendEditor@{\_legendEditor}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{\_legendEditor}{\_legendEditor}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1legend_1_1LegendEditor}{calenhad\+::controls\+::legend\+::\+Legend\+Editor}}$\ast$ calenhad\+::legend\+::\+Legend\+Widget\+::\+\_\+legend\+Editor}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_af7fd051c1f843a5530f4f77ca44da6a6}\label{classcalenhad_1_1legend_1_1LegendWidget_af7fd051c1f843a5530f4f77ca44da6a6}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!\_legendInterpolateCheck@{\_legendInterpolateCheck}}
+\index{\_legendInterpolateCheck@{\_legendInterpolateCheck}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{\_legendInterpolateCheck}{\_legendInterpolateCheck}}
+{\footnotesize\ttfamily Q\+Check\+Box$\ast$ calenhad\+::legend\+::\+Legend\+Widget\+::\+\_\+legend\+Interpolate\+Check}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a24fa5fe29cd335c136582f88f1ef273b}\label{classcalenhad_1_1legend_1_1LegendWidget_a24fa5fe29cd335c136582f88f1ef273b}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!\_legendNameBox@{\_legendNameBox}}
+\index{\_legendNameBox@{\_legendNameBox}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{\_legendNameBox}{\_legendNameBox}}
+{\footnotesize\ttfamily Q\+Line\+Edit$\ast$ calenhad\+::legend\+::\+Legend\+Widget\+::\+\_\+legend\+Name\+Box}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a65358c683e128ca21818184054c563fa}\label{classcalenhad_1_1legend_1_1LegendWidget_a65358c683e128ca21818184054c563fa}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!\_legendNotesBox@{\_legendNotesBox}}
+\index{\_legendNotesBox@{\_legendNotesBox}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{\_legendNotesBox}{\_legendNotesBox}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQTextEdit}{Q\+Text\+Edit}}$\ast$ calenhad\+::legend\+::\+Legend\+Widget\+::\+\_\+legend\+Notes\+Box}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendWidget_a489eaf1f553ac37eaf0ef43506fc726b}\label{classcalenhad_1_1legend_1_1LegendWidget_a489eaf1f553ac37eaf0ef43506fc726b}} 
+\index{calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}!\_service@{\_service}}
+\index{\_service@{\_service}!calenhad::legend::LegendWidget@{calenhad::legend::LegendWidget}}
+\doxysubsubsection{\texorpdfstring{\_service}{\_service}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{Legend\+Service}}$\ast$ calenhad\+::legend\+::\+Legend\+Widget\+::\+\_\+service\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/legend/\mbox{\hyperlink{LegendWidget_8h}{Legend\+Widget.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/legend/\mbox{\hyperlink{LegendWidget_8cpp}{Legend\+Widget.\+cpp}}\end{DoxyCompactItemize}

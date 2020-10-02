@@ -1,0 +1,17 @@
+<map id="calenhad::controls::legend::LegendEditor::minimum" name="calenhad::controls::legend::LegendEditor::minimum">
+<area shape="rect" id="node1" title=" " alt="" coords="908,233,1075,289"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a5f38d7d8653b3ca3e04a451a12f04967" title=" " alt="" coords="693,165,860,221"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a94bd7e4cfc35960d9ff40c130f24b81e" title=" " alt="" coords="264,240,431,296"/>
+<area shape="rect" id="node13" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a7802ec8ae717ca01e9f1e87e5be95f49" title=" " alt="" coords="693,299,860,355"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#aa90f3a5214358356c22bb73b10157572" title="get the position" alt="" coords="479,161,645,217"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a599a73445790c5c21f3cd64bedcb234b" title="resize required" alt="" coords="264,80,431,136"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#ad5a4e341bab06ce3df4c4a83814b0e69" title="on update the ramp because sliders are changed" alt="" coords="264,160,431,216"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a13cbc8974ae7abe0f1b205a9f167c6ec" title=" " alt="" coords="27,5,194,61"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a4c36475cf749e50ed0fd7448f2bae442" title="Basic Constructor." alt="" coords="27,85,194,141"/>
+<area shape="rect" id="node9" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a2cb4c12caf24274a015fcb9f1245c22f" title="detect a mouse is pressed" alt="" coords="27,379,194,435"/>
+<area shape="rect" id="node10" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a8469a6f3fbb45f2ad9fab7c4d646ee3f" title=" " alt="" coords="11,166,210,207"/>
+<area shape="rect" id="node11" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#adca04d0eed2736fc078b841bdbfe668e" title=" " alt="" coords="27,232,194,288"/>
+<area shape="rect" id="node12" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#af262473eada41aff173152d49d75efc8" title=" " alt="" coords="5,313,216,354"/>
+<area shape="rect" id="node14" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a8174bbb68186d259f01deeaa33f611f3" title=" " alt="" coords="479,299,645,355"/>
+<area shape="rect" id="node15" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a4841a286d23856e4a01868fda01ce600" title="get the value of a slider" alt="" coords="479,379,645,435"/>
+</map>

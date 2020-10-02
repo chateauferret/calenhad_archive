@@ -1,0 +1,320 @@
+\hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView}{}\doxysection{calenhad\+::nodeedit\+::Calenhad\+View Class Reference}
+\label{classcalenhad_1_1nodeedit_1_1CalenhadView}\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+
+
+{\ttfamily \#include $<$Calenhad\+View.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::nodeedit\+::Calenhad\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{classcalenhad_1_1nodeedit_1_1CalenhadView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::nodeedit\+::Calenhad\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{classcalenhad_1_1nodeedit_1_1CalenhadView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a523967158a01622894cbfb0b411a5b34}{model\+Changed}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_adecb2fd87be6743e724fc44fe44790d1}{zoom\+In\+Requested}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a92a3bb323834fb681c101be12194747a}{zoom\+Out\+Requested}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a7188d785eb8d2658e5293b919599ff41}{view\+Zoomed}} (double old\+Factor, double new\+Factor)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a841f5ae7fa999cdb1e5befdf74a0c229}{Calenhad\+View}} (\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{calenhad\+::nodeedit\+::\+Calenhad}} $\ast$parent)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_ac026633099d4894ca079677ca9a80ebb}{$\sim$\+Calenhad\+View}} () override
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a599209cc2872dec5639de186f16291f1}{current\+Zoom}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a3961a0a43ed5529fcd3e0bcb806be9fd}{set\+Model}} (\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{pipeline\+::\+Calenhad\+Model}} $\ast$model)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_ad3541d883a732717583a6f38810f077a}{set\+Zoom}} (const qreal \&\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_ab4b49a7995977adb6eec46b30644aaa6}{zoom}})
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a8866c2cb5135ddcaa6e0b81c5a6df31d}{drop\+Event}} (Q\+Drop\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_ae911cc07dc412c590a473e1a5cc3bf25}{drag\+Move\+Event}} (Q\+Drag\+Move\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a7812b076487d9cafa7b46d81523cff21}{drag\+Enter\+Event}} (Q\+Drag\+Enter\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a8b86294aaf1f8066b1c8a03607a406a3}{set\+Grid\+Visible}} (const bool \&visible)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a8f057f33d746afdfa7906fd427ae9703}{grid\+Visible}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_ab43b354acf313a3e9152984337e79190}{set\+Snap\+To\+Grid}} (const bool \&enabled)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a8cd89c1542012513f82c3679138c55ca}{snap\+To\+Grid}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a3728ecd11af66dc9c38bb0857fda383e}{wheel\+Event}} (Q\+Wheel\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a34b6618e5dfc890c8e79597d9aa5bbd6}{draw\+Background}} (Q\+Painter $\ast$painter, const Q\+RectF \&rect) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_a5f42a4d66774639f1a548b44d62a6b9d}{\+\_\+steps}} = 0
+\item 
+qreal \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView_ab4b49a7995977adb6eec46b30644aaa6}{zoom}} = 1.\+0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a841f5ae7fa999cdb1e5befdf74a0c229}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a841f5ae7fa999cdb1e5befdf74a0c229}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!CalenhadView@{CalenhadView}}
+\index{CalenhadView@{CalenhadView}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{CalenhadView()}{CalenhadView()}}
+{\footnotesize\ttfamily Calenhad\+View\+::\+Calenhad\+View (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{calenhad\+::nodeedit\+::\+Calenhad}} $\ast$}]{parent }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a841f5ae7fa999cdb1e5befdf74a0c229_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_ac026633099d4894ca079677ca9a80ebb}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_ac026633099d4894ca079677ca9a80ebb}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!````~CalenhadView@{$\sim$CalenhadView}}
+\index{````~CalenhadView@{$\sim$CalenhadView}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{$\sim$CalenhadView()}{~CalenhadView()}}
+{\footnotesize\ttfamily Calenhad\+View\+::$\sim$\+Calenhad\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a599209cc2872dec5639de186f16291f1}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a599209cc2872dec5639de186f16291f1}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!currentZoom@{currentZoom}}
+\index{currentZoom@{currentZoom}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{currentZoom()}{currentZoom()}}
+{\footnotesize\ttfamily double Calenhad\+View\+::current\+Zoom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a7812b076487d9cafa7b46d81523cff21}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a7812b076487d9cafa7b46d81523cff21}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!dragEnterEvent@{dragEnterEvent}}
+\index{dragEnterEvent@{dragEnterEvent}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{dragEnterEvent()}{dragEnterEvent()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::drag\+Enter\+Event (\begin{DoxyParamCaption}\item[{Q\+Drag\+Enter\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_ae911cc07dc412c590a473e1a5cc3bf25}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_ae911cc07dc412c590a473e1a5cc3bf25}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!dragMoveEvent@{dragMoveEvent}}
+\index{dragMoveEvent@{dragMoveEvent}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{dragMoveEvent()}{dragMoveEvent()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::drag\+Move\+Event (\begin{DoxyParamCaption}\item[{Q\+Drag\+Move\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a34b6618e5dfc890c8e79597d9aa5bbd6}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a34b6618e5dfc890c8e79597d9aa5bbd6}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!drawBackground@{drawBackground}}
+\index{drawBackground@{drawBackground}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{drawBackground()}{drawBackground()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::draw\+Background (\begin{DoxyParamCaption}\item[{Q\+Painter $\ast$}]{painter,  }\item[{const Q\+RectF \&}]{rect }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a34b6618e5dfc890c8e79597d9aa5bbd6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a8866c2cb5135ddcaa6e0b81c5a6df31d}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a8866c2cb5135ddcaa6e0b81c5a6df31d}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!dropEvent@{dropEvent}}
+\index{dropEvent@{dropEvent}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{dropEvent()}{dropEvent()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::drop\+Event (\begin{DoxyParamCaption}\item[{Q\+Drop\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a8f057f33d746afdfa7906fd427ae9703}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a8f057f33d746afdfa7906fd427ae9703}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!gridVisible@{gridVisible}}
+\index{gridVisible@{gridVisible}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{gridVisible()}{gridVisible()}}
+{\footnotesize\ttfamily bool Calenhad\+View\+::grid\+Visible (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a8f057f33d746afdfa7906fd427ae9703_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a8f057f33d746afdfa7906fd427ae9703_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a523967158a01622894cbfb0b411a5b34}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a523967158a01622894cbfb0b411a5b34}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!modelChanged@{modelChanged}}
+\index{modelChanged@{modelChanged}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{modelChanged}{modelChanged}}
+{\footnotesize\ttfamily void Calenhad\+View\+::model\+Changed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a523967158a01622894cbfb0b411a5b34_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a8b86294aaf1f8066b1c8a03607a406a3}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a8b86294aaf1f8066b1c8a03607a406a3}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!setGridVisible@{setGridVisible}}
+\index{setGridVisible@{setGridVisible}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{setGridVisible()}{setGridVisible()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::set\+Grid\+Visible (\begin{DoxyParamCaption}\item[{const bool \&}]{visible }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a8b86294aaf1f8066b1c8a03607a406a3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a3961a0a43ed5529fcd3e0bcb806be9fd}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a3961a0a43ed5529fcd3e0bcb806be9fd}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!setModel@{setModel}}
+\index{setModel@{setModel}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{setModel()}{setModel()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::set\+Model (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{pipeline\+::\+Calenhad\+Model}} $\ast$}]{model }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a3961a0a43ed5529fcd3e0bcb806be9fd_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_ab43b354acf313a3e9152984337e79190}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_ab43b354acf313a3e9152984337e79190}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!setSnapToGrid@{setSnapToGrid}}
+\index{setSnapToGrid@{setSnapToGrid}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{setSnapToGrid()}{setSnapToGrid()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::set\+Snap\+To\+Grid (\begin{DoxyParamCaption}\item[{const bool \&}]{enabled }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_ab43b354acf313a3e9152984337e79190_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_ad3541d883a732717583a6f38810f077a}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_ad3541d883a732717583a6f38810f077a}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!setZoom@{setZoom}}
+\index{setZoom@{setZoom}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{setZoom()}{setZoom()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::set\+Zoom (\begin{DoxyParamCaption}\item[{const qreal \&}]{zoom }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_ad3541d883a732717583a6f38810f077a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a8cd89c1542012513f82c3679138c55ca}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a8cd89c1542012513f82c3679138c55ca}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!snapToGrid@{snapToGrid}}
+\index{snapToGrid@{snapToGrid}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{snapToGrid()}{snapToGrid()}}
+{\footnotesize\ttfamily bool Calenhad\+View\+::snap\+To\+Grid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a8cd89c1542012513f82c3679138c55ca_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a7188d785eb8d2658e5293b919599ff41}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a7188d785eb8d2658e5293b919599ff41}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!viewZoomed@{viewZoomed}}
+\index{viewZoomed@{viewZoomed}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{viewZoomed}{viewZoomed}}
+{\footnotesize\ttfamily void calenhad\+::nodeedit\+::\+Calenhad\+View\+::view\+Zoomed (\begin{DoxyParamCaption}\item[{double}]{old\+Factor,  }\item[{double}]{new\+Factor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a7188d785eb8d2658e5293b919599ff41_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a3728ecd11af66dc9c38bb0857fda383e}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a3728ecd11af66dc9c38bb0857fda383e}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!wheelEvent@{wheelEvent}}
+\index{wheelEvent@{wheelEvent}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{wheelEvent()}{wheelEvent()}}
+{\footnotesize\ttfamily void Calenhad\+View\+::wheel\+Event (\begin{DoxyParamCaption}\item[{Q\+Wheel\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_adecb2fd87be6743e724fc44fe44790d1}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_adecb2fd87be6743e724fc44fe44790d1}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!zoomInRequested@{zoomInRequested}}
+\index{zoomInRequested@{zoomInRequested}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{zoomInRequested}{zoomInRequested}}
+{\footnotesize\ttfamily void calenhad\+::nodeedit\+::\+Calenhad\+View\+::zoom\+In\+Requested (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_adecb2fd87be6743e724fc44fe44790d1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a92a3bb323834fb681c101be12194747a}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a92a3bb323834fb681c101be12194747a}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!zoomOutRequested@{zoomOutRequested}}
+\index{zoomOutRequested@{zoomOutRequested}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{zoomOutRequested}{zoomOutRequested}}
+{\footnotesize\ttfamily void calenhad\+::nodeedit\+::\+Calenhad\+View\+::zoom\+Out\+Requested (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1CalenhadView_a92a3bb323834fb681c101be12194747a_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_a5f42a4d66774639f1a548b44d62a6b9d}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_a5f42a4d66774639f1a548b44d62a6b9d}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!\_steps@{\_steps}}
+\index{\_steps@{\_steps}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{\_steps}{\_steps}}
+{\footnotesize\ttfamily int calenhad\+::nodeedit\+::\+Calenhad\+View\+::\+\_\+steps = 0\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1CalenhadView_ab4b49a7995977adb6eec46b30644aaa6}\label{classcalenhad_1_1nodeedit_1_1CalenhadView_ab4b49a7995977adb6eec46b30644aaa6}} 
+\index{calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}!zoom@{zoom}}
+\index{zoom@{zoom}!calenhad::nodeedit::CalenhadView@{calenhad::nodeedit::CalenhadView}}
+\doxysubsubsection{\texorpdfstring{zoom}{zoom}}
+{\footnotesize\ttfamily qreal calenhad\+::nodeedit\+::\+Calenhad\+View\+::zoom = 1.\+0\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/nodeedit/\mbox{\hyperlink{CalenhadView_8h}{Calenhad\+View.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/nodeedit/\mbox{\hyperlink{CalenhadView_8cpp}{Calenhad\+View.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,6 @@
+<map id="calenhad::controls::altitudemap::AltitudeMapPlotCanvas" name="calenhad::controls::altitudemap::AltitudeMapPlotCanvas">
+<area shape="rect" id="node1" title=" " alt="" coords="127,95,323,151"/>
+<area shape="rect" id="node2" href="$classQwtPlotCanvas.html" title=" " alt="" coords="5,5,127,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="151,5,298,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="323,5,452,32"/>
+</map>

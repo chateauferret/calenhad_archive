@@ -1,0 +1,198 @@
+\hypertarget{classcalenhad_1_1notification_1_1QProgressNotification}{}\doxysection{calenhad\+::notification\+::Q\+Progress\+Notification Class Reference}
+\label{classcalenhad_1_1notification_1_1QProgressNotification}\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+
+
+{\ttfamily \#include $<$Q\+Progress\+Notification.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::notification\+::Q\+Progress\+Notification\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=209pt]{classcalenhad_1_1notification_1_1QProgressNotification__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::notification\+::Q\+Progress\+Notification\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QProgressNotification__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a1d58840daec6695ff28762a27a50a102}{set\+Message}} (const Q\+String \&message)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a46189bef055d0293b491b3af6daeb1b7}{set\+To\+Do}} (const int \&to\+Do)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a503678b10fa93e24782da8166a5d426e}{set\+Progress}} (const int \&progress)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a60691beb7309645572df9d7330025d6a}{kill}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a8086d016e1e3d289103fb8a6b45b61a4}{set\+Complete}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_af29191afc882ac93bcb85fd9724cebb8}{complete}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a80969dcdd8536f6793d58584b55beeac}{cancel}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a6deb5b9f78d173edbf270fe12f44398f}{Q\+Progress\+Notification}} (const Q\+String \&title, const Q\+String \&message, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent)
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a4107cf4eeddb6b4dd14a0999e2ff760d}{$\sim$\+Q\+Progress\+Notification}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a0c306d88015dc15b3e608a89086da51e}{show\+Event}} (Q\+Show\+Event $\ast$e) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_adaafbbace3a483b32e17873f41d867a4}{mouse\+Press\+Event}} (Q\+Mouse\+Event $\ast$e) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Progress\+Bar $\ast$ \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_ac1035098bc3c82399483d370160d2144}{\+\_\+progress\+Bar}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_a07183f3821a7297c58ef8a8ecc395472}{\+\_\+progress}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1notification_1_1QProgressNotification_aae68ad6289a3bf5e143c9d839243c4de}{\+\_\+to\+Do}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a6deb5b9f78d173edbf270fe12f44398f}\label{classcalenhad_1_1notification_1_1QProgressNotification_a6deb5b9f78d173edbf270fe12f44398f}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!QProgressNotification@{QProgressNotification}}
+\index{QProgressNotification@{QProgressNotification}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{QProgressNotification()}{QProgressNotification()}}
+{\footnotesize\ttfamily Q\+Progress\+Notification\+::\+Q\+Progress\+Notification (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{title,  }\item[{const Q\+String \&}]{message,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a4107cf4eeddb6b4dd14a0999e2ff760d}\label{classcalenhad_1_1notification_1_1QProgressNotification_a4107cf4eeddb6b4dd14a0999e2ff760d}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!````~QProgressNotification@{$\sim$QProgressNotification}}
+\index{````~QProgressNotification@{$\sim$QProgressNotification}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{$\sim$QProgressNotification()}{~QProgressNotification()}}
+{\footnotesize\ttfamily Q\+Progress\+Notification\+::$\sim$\+Q\+Progress\+Notification (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a80969dcdd8536f6793d58584b55beeac}\label{classcalenhad_1_1notification_1_1QProgressNotification_a80969dcdd8536f6793d58584b55beeac}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!cancel@{cancel}}
+\index{cancel@{cancel}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{cancel}{cancel}}
+{\footnotesize\ttfamily void calenhad\+::notification\+::\+Q\+Progress\+Notification\+::cancel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_af29191afc882ac93bcb85fd9724cebb8}\label{classcalenhad_1_1notification_1_1QProgressNotification_af29191afc882ac93bcb85fd9724cebb8}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!complete@{complete}}
+\index{complete@{complete}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{complete}{complete}}
+{\footnotesize\ttfamily void calenhad\+::notification\+::\+Q\+Progress\+Notification\+::complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QProgressNotification_af29191afc882ac93bcb85fd9724cebb8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a60691beb7309645572df9d7330025d6a}\label{classcalenhad_1_1notification_1_1QProgressNotification_a60691beb7309645572df9d7330025d6a}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!kill@{kill}}
+\index{kill@{kill}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{kill}{kill}}
+{\footnotesize\ttfamily void Q\+Progress\+Notification\+::kill (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QProgressNotification_a60691beb7309645572df9d7330025d6a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_adaafbbace3a483b32e17873f41d867a4}\label{classcalenhad_1_1notification_1_1QProgressNotification_adaafbbace3a483b32e17873f41d867a4}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!mousePressEvent@{mousePressEvent}}
+\index{mousePressEvent@{mousePressEvent}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{mousePressEvent()}{mousePressEvent()}}
+{\footnotesize\ttfamily void Q\+Progress\+Notification\+::mouse\+Press\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification_acd66399e9990295e39916291d30e88d4}{calenhad\+::notification\+::\+Q\+Notification}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1notification_1_1QProgressNotification_adaafbbace3a483b32e17873f41d867a4_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a8086d016e1e3d289103fb8a6b45b61a4}\label{classcalenhad_1_1notification_1_1QProgressNotification_a8086d016e1e3d289103fb8a6b45b61a4}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!setComplete@{setComplete}}
+\index{setComplete@{setComplete}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{setComplete}{setComplete}}
+{\footnotesize\ttfamily void Q\+Progress\+Notification\+::set\+Complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a1d58840daec6695ff28762a27a50a102}\label{classcalenhad_1_1notification_1_1QProgressNotification_a1d58840daec6695ff28762a27a50a102}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!setMessage@{setMessage}}
+\index{setMessage@{setMessage}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{setMessage}{setMessage}}
+{\footnotesize\ttfamily void Q\+Progress\+Notification\+::set\+Message (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a503678b10fa93e24782da8166a5d426e}\label{classcalenhad_1_1notification_1_1QProgressNotification_a503678b10fa93e24782da8166a5d426e}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!setProgress@{setProgress}}
+\index{setProgress@{setProgress}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{setProgress}{setProgress}}
+{\footnotesize\ttfamily void Q\+Progress\+Notification\+::set\+Progress (\begin{DoxyParamCaption}\item[{const int \&}]{progress }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a46189bef055d0293b491b3af6daeb1b7}\label{classcalenhad_1_1notification_1_1QProgressNotification_a46189bef055d0293b491b3af6daeb1b7}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!setToDo@{setToDo}}
+\index{setToDo@{setToDo}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{setToDo}{setToDo}}
+{\footnotesize\ttfamily void Q\+Progress\+Notification\+::set\+To\+Do (\begin{DoxyParamCaption}\item[{const int \&}]{to\+Do }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a0c306d88015dc15b3e608a89086da51e}\label{classcalenhad_1_1notification_1_1QProgressNotification_a0c306d88015dc15b3e608a89086da51e}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!showEvent@{showEvent}}
+\index{showEvent@{showEvent}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{showEvent()}{showEvent()}}
+{\footnotesize\ttfamily void Q\+Progress\+Notification\+::show\+Event (\begin{DoxyParamCaption}\item[{Q\+Show\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotification_a4f2c711dfe244f28424bd9a08951a2e9}{calenhad\+::notification\+::\+Q\+Notification}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_a07183f3821a7297c58ef8a8ecc395472}\label{classcalenhad_1_1notification_1_1QProgressNotification_a07183f3821a7297c58ef8a8ecc395472}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!\_progress@{\_progress}}
+\index{\_progress@{\_progress}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{\_progress}{\_progress}}
+{\footnotesize\ttfamily double calenhad\+::notification\+::\+Q\+Progress\+Notification\+::\+\_\+progress\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_ac1035098bc3c82399483d370160d2144}\label{classcalenhad_1_1notification_1_1QProgressNotification_ac1035098bc3c82399483d370160d2144}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!\_progressBar@{\_progressBar}}
+\index{\_progressBar@{\_progressBar}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{\_progressBar}{\_progressBar}}
+{\footnotesize\ttfamily Q\+Progress\+Bar$\ast$ calenhad\+::notification\+::\+Q\+Progress\+Notification\+::\+\_\+progress\+Bar\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1notification_1_1QProgressNotification_aae68ad6289a3bf5e143c9d839243c4de}\label{classcalenhad_1_1notification_1_1QProgressNotification_aae68ad6289a3bf5e143c9d839243c4de}} 
+\index{calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}!\_toDo@{\_toDo}}
+\index{\_toDo@{\_toDo}!calenhad::notification::QProgressNotification@{calenhad::notification::QProgressNotification}}
+\doxysubsubsection{\texorpdfstring{\_toDo}{\_toDo}}
+{\footnotesize\ttfamily double calenhad\+::notification\+::\+Q\+Progress\+Notification\+::\+\_\+to\+Do\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/messages/\mbox{\hyperlink{QProgressNotification_8h}{Q\+Progress\+Notification.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/messages/\mbox{\hyperlink{QProgressNotification_8cpp}{Q\+Progress\+Notification.\+cpp}}\end{DoxyCompactItemize}

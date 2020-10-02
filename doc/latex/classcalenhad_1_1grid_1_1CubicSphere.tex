@@ -1,0 +1,451 @@
+\hypertarget{classcalenhad_1_1grid_1_1CubicSphere}{}\doxysection{calenhad\+::grid\+::Cubic\+Sphere Class Reference}
+\label{classcalenhad_1_1grid_1_1CubicSphere}\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+
+
+{\ttfamily \#include $<$Cubic\+Sphere.\+h$>$}
+
+
+
+Collaboration diagram for calenhad\+::grid\+::Cubic\+Sphere\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{classcalenhad_1_1grid_1_1CubicSphere__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a8697679e76382d16b310256c708a898f}{Cubic\+Sphere}} (\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$other)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a3135c67933ab3b7a3efbd37351c75c0e}{Cubic\+Sphere}} (const int \&depth)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a419fa10631e490c571f6d71789fff010}{$\sim$\+Cubic\+Sphere}} ()
+\item 
+long \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_af4b67c523347b67b7d5bc5db721b9b5a}{count}} () const
+\item 
+float $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a96592db53c49f264970fd97b3d190602}{grid}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{calenhad\+::controls\+::globe\+::\+Calenhad\+Statistics}} \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a7a5c624729eeca1f8231dfac5c912348}{statistics}} (\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{controls\+::globe\+::\+Calenhad\+Statistics}} \&statistics) const
+\item 
+float \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a418462c306617461d2161eb511cf740d}{value\+At}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&)
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a8ade40a15209d299595120926ae9619e}{size}} () const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a1cba11d21838ae972497a73f63b3dd65}{heightmap}} (const int \&face, Q\+Image $\ast$image)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a7ec6d5adc45d6978bea8ce3eb5fcaf64}{export\+Heightmaps}} (const Q\+String \&filename)
+\item 
+G\+Lfloat $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a355a637f04aec205b1e1f47117f6db12}{data}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a6053555a642f8d8dca2558602ebfdfa7}{to\+Cube\+Coordinates}} (\mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&fuv, const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{geoutils\+::\+Cartesian}} \&xyz) const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a21c9058022ef08fc892db661640ba21e}{make\+Tile}} (const int \&x, const int \&y, \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$source)
+\item 
+float \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_aa18f3c6ceb2f792b953daf428637302e}{value\+At}} (const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&fuv)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a528412267d8907ff34eb87f3210fd2db}{to\+Geolocation}} (const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&fuv, \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&g) const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a9e899c12f05f30bcf086ad9c0dc72751}{from\+Raster}} (Q\+Image $\ast$image)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a615c9edd17041dcdef749711d937c36e}{set\+Compute\+Time}} (double d)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a763444617cce3757ccc5140de0ad921d}{copy}} (\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$other)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_aee557d6bd4b6c22e78d965025cef9df1}{A\+D\+J\+A\+C\+E\+NT}} \mbox{[}6\mbox{]}\mbox{[}4\mbox{]} = \{ \{ 4, 5, 2, 3 \}, \{ 4, 5, 2, 3, \}, \{ 4, 5, 0, 1 \}, \{ 4, 5, 0, 1 \}, \{ 2, 3, 0, 1 \}, \{ 2, 3, 0, 1 \} \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a55b1a515de46b1c59106e624f9f1181a}{to\+Cartesian}} (const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&fuv, \mbox{\hyperlink{classgeoutils_1_1Cartesian}{geoutils\+::\+Cartesian}} \&xyz) const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a54051ac149b87e43f3b649b8c950bde0}{initialise}} ()
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a554fecaa3546ea5a63230afff395503f}{compute\+Time}} () const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_ad2c8a6ba6883a6fe66b5da9607cd78f3}{adjacent}} (const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&fuv, \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} $\ast$m)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a7ee051a63ee4d2b6758cb67dfc4307cd}{surrounding}} (const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&fuv, \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} $\ast$k)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float $\ast$ \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_adacfc966eda743004e2e8a43f3fc00a8}{\+\_\+grid}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a77c3b88b241c22aee64dfe312eaf96a1}{\+\_\+compute\+Time}}
+\item 
+const double \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a3c857153b2deb6f095cc2eb69beef137}{H\+A\+L\+F\+\_\+\+R\+O\+O\+T\+\_\+2}} = 0.\+70710676908493042
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_ac54351becf77863c629f59588ce9e2c5}{\+\_\+size}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a1b23ffcd924a5bf82962be4dd692b13d}{\+\_\+depth}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere_a366204b235f711de497fe5d1c61f1f65}{\+\_\+render\+Time}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a8697679e76382d16b310256c708a898f}\label{classcalenhad_1_1grid_1_1CubicSphere_a8697679e76382d16b310256c708a898f}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!CubicSphere@{CubicSphere}}
+\index{CubicSphere@{CubicSphere}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{CubicSphere()}{CubicSphere()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Cubic\+Sphere\+::\+Cubic\+Sphere (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a8697679e76382d16b310256c708a898f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a3135c67933ab3b7a3efbd37351c75c0e}\label{classcalenhad_1_1grid_1_1CubicSphere_a3135c67933ab3b7a3efbd37351c75c0e}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!CubicSphere@{CubicSphere}}
+\index{CubicSphere@{CubicSphere}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{CubicSphere()}{CubicSphere()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Cubic\+Sphere\+::\+Cubic\+Sphere (\begin{DoxyParamCaption}\item[{const int \&}]{depth }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a3135c67933ab3b7a3efbd37351c75c0e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a419fa10631e490c571f6d71789fff010}\label{classcalenhad_1_1grid_1_1CubicSphere_a419fa10631e490c571f6d71789fff010}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!````~CubicSphere@{$\sim$CubicSphere}}
+\index{````~CubicSphere@{$\sim$CubicSphere}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{$\sim$CubicSphere()}{~CubicSphere()}}
+{\footnotesize\ttfamily Cubic\+Sphere\+::$\sim$\+Cubic\+Sphere (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_ad2c8a6ba6883a6fe66b5da9607cd78f3}\label{classcalenhad_1_1grid_1_1CubicSphere_ad2c8a6ba6883a6fe66b5da9607cd78f3}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!adjacent@{adjacent}}
+\index{adjacent@{adjacent}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{adjacent()}{adjacent()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::adjacent (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&}]{fuv,  }\item[{\mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} $\ast$}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_ad2c8a6ba6883a6fe66b5da9607cd78f3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a554fecaa3546ea5a63230afff395503f}\label{classcalenhad_1_1grid_1_1CubicSphere_a554fecaa3546ea5a63230afff395503f}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!computeTime@{computeTime}}
+\index{computeTime@{computeTime}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{computeTime()}{computeTime()}}
+{\footnotesize\ttfamily double Cubic\+Sphere\+::compute\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a763444617cce3757ccc5140de0ad921d}\label{classcalenhad_1_1grid_1_1CubicSphere_a763444617cce3757ccc5140de0ad921d}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!copy@{copy}}
+\index{copy@{copy}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a763444617cce3757ccc5140de0ad921d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_af4b67c523347b67b7d5bc5db721b9b5a}\label{classcalenhad_1_1grid_1_1CubicSphere_af4b67c523347b67b7d5bc5db721b9b5a}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!count@{count}}
+\index{count@{count}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}}
+{\footnotesize\ttfamily long Cubic\+Sphere\+::count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_af4b67c523347b67b7d5bc5db721b9b5a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a355a637f04aec205b1e1f47117f6db12}\label{classcalenhad_1_1grid_1_1CubicSphere_a355a637f04aec205b1e1f47117f6db12}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!data@{data}}
+\index{data@{data}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily G\+Lfloat $\ast$ Cubic\+Sphere\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a355a637f04aec205b1e1f47117f6db12_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a7ec6d5adc45d6978bea8ce3eb5fcaf64}\label{classcalenhad_1_1grid_1_1CubicSphere_a7ec6d5adc45d6978bea8ce3eb5fcaf64}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!exportHeightmaps@{exportHeightmaps}}
+\index{exportHeightmaps@{exportHeightmaps}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{exportHeightmaps()}{exportHeightmaps()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::export\+Heightmaps (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{filename }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a7ec6d5adc45d6978bea8ce3eb5fcaf64_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a9e899c12f05f30bcf086ad9c0dc72751}\label{classcalenhad_1_1grid_1_1CubicSphere_a9e899c12f05f30bcf086ad9c0dc72751}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!fromRaster@{fromRaster}}
+\index{fromRaster@{fromRaster}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{fromRaster()}{fromRaster()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::from\+Raster (\begin{DoxyParamCaption}\item[{Q\+Image $\ast$}]{image }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a9e899c12f05f30bcf086ad9c0dc72751_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a96592db53c49f264970fd97b3d190602}\label{classcalenhad_1_1grid_1_1CubicSphere_a96592db53c49f264970fd97b3d190602}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!grid@{grid}}
+\index{grid@{grid}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{grid()}{grid()}}
+{\footnotesize\ttfamily float $\ast$ Cubic\+Sphere\+::grid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a1cba11d21838ae972497a73f63b3dd65}\label{classcalenhad_1_1grid_1_1CubicSphere_a1cba11d21838ae972497a73f63b3dd65}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!heightmap@{heightmap}}
+\index{heightmap@{heightmap}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{heightmap()}{heightmap()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::heightmap (\begin{DoxyParamCaption}\item[{const int \&}]{face,  }\item[{Q\+Image $\ast$}]{image }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a1cba11d21838ae972497a73f63b3dd65_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a1cba11d21838ae972497a73f63b3dd65_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a54051ac149b87e43f3b649b8c950bde0}\label{classcalenhad_1_1grid_1_1CubicSphere_a54051ac149b87e43f3b649b8c950bde0}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!initialise@{initialise}}
+\index{initialise@{initialise}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{initialise()}{initialise()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::initialise (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a54051ac149b87e43f3b649b8c950bde0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a21c9058022ef08fc892db661640ba21e}\label{classcalenhad_1_1grid_1_1CubicSphere_a21c9058022ef08fc892db661640ba21e}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!makeTile@{makeTile}}
+\index{makeTile@{makeTile}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{makeTile()}{makeTile()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::make\+Tile (\begin{DoxyParamCaption}\item[{const int \&}]{x,  }\item[{const int \&}]{y,  }\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$}]{source }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a21c9058022ef08fc892db661640ba21e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a615c9edd17041dcdef749711d937c36e}\label{classcalenhad_1_1grid_1_1CubicSphere_a615c9edd17041dcdef749711d937c36e}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!setComputeTime@{setComputeTime}}
+\index{setComputeTime@{setComputeTime}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{setComputeTime()}{setComputeTime()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::set\+Compute\+Time (\begin{DoxyParamCaption}\item[{double}]{d }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a8ade40a15209d299595120926ae9619e}\label{classcalenhad_1_1grid_1_1CubicSphere_a8ade40a15209d299595120926ae9619e}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!size@{size}}
+\index{size@{size}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily int Cubic\+Sphere\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a8ade40a15209d299595120926ae9619e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a7a5c624729eeca1f8231dfac5c912348}\label{classcalenhad_1_1grid_1_1CubicSphere_a7a5c624729eeca1f8231dfac5c912348}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!statistics@{statistics}}
+\index{statistics@{statistics}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{statistics()}{statistics()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{Calenhad\+Statistics}} Cubic\+Sphere\+::statistics (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatistics}{controls\+::globe\+::\+Calenhad\+Statistics}} \&}]{statistics }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a7a5c624729eeca1f8231dfac5c912348_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a7ee051a63ee4d2b6758cb67dfc4307cd}\label{classcalenhad_1_1grid_1_1CubicSphere_a7ee051a63ee4d2b6758cb67dfc4307cd}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!surrounding@{surrounding}}
+\index{surrounding@{surrounding}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{surrounding()}{surrounding()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::surrounding (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&}]{fuv,  }\item[{\mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} $\ast$}]{k }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a7ee051a63ee4d2b6758cb67dfc4307cd_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a55b1a515de46b1c59106e624f9f1181a}\label{classcalenhad_1_1grid_1_1CubicSphere_a55b1a515de46b1c59106e624f9f1181a}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!toCartesian@{toCartesian}}
+\index{toCartesian@{toCartesian}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{toCartesian()}{toCartesian()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::to\+Cartesian (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&}]{fuv,  }\item[{\mbox{\hyperlink{classgeoutils_1_1Cartesian}{geoutils\+::\+Cartesian}} \&}]{xyz }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a55b1a515de46b1c59106e624f9f1181a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a6053555a642f8d8dca2558602ebfdfa7}\label{classcalenhad_1_1grid_1_1CubicSphere_a6053555a642f8d8dca2558602ebfdfa7}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!toCubeCoordinates@{toCubeCoordinates}}
+\index{toCubeCoordinates@{toCubeCoordinates}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{toCubeCoordinates()}{toCubeCoordinates()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::to\+Cube\+Coordinates (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&}]{fuv,  }\item[{const \mbox{\hyperlink{classgeoutils_1_1Cartesian}{geoutils\+::\+Cartesian}} \&}]{xyz }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a6053555a642f8d8dca2558602ebfdfa7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a528412267d8907ff34eb87f3210fd2db}\label{classcalenhad_1_1grid_1_1CubicSphere_a528412267d8907ff34eb87f3210fd2db}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!toGeolocation@{toGeolocation}}
+\index{toGeolocation@{toGeolocation}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{toGeolocation()}{toGeolocation()}}
+{\footnotesize\ttfamily void Cubic\+Sphere\+::to\+Geolocation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&}]{fuv,  }\item[{\mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{g }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a528412267d8907ff34eb87f3210fd2db_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a528412267d8907ff34eb87f3210fd2db_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a418462c306617461d2161eb511cf740d}\label{classcalenhad_1_1grid_1_1CubicSphere_a418462c306617461d2161eb511cf740d}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!valueAt@{valueAt}}
+\index{valueAt@{valueAt}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{valueAt()}{valueAt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily float Cubic\+Sphere\+::value\+At (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{g }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a418462c306617461d2161eb511cf740d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1grid_1_1CubicSphere_a418462c306617461d2161eb511cf740d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_aa18f3c6ceb2f792b953daf428637302e}\label{classcalenhad_1_1grid_1_1CubicSphere_aa18f3c6ceb2f792b953daf428637302e}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!valueAt@{valueAt}}
+\index{valueAt@{valueAt}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{valueAt()}{valueAt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily float Cubic\+Sphere\+::value\+At (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structcalenhad_1_1mapping_1_1CubeCoordinates}{mapping\+::\+Cube\+Coordinates}} \&}]{fuv }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a77c3b88b241c22aee64dfe312eaf96a1}\label{classcalenhad_1_1grid_1_1CubicSphere_a77c3b88b241c22aee64dfe312eaf96a1}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!\_computeTime@{\_computeTime}}
+\index{\_computeTime@{\_computeTime}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{\_computeTime}{\_computeTime}}
+{\footnotesize\ttfamily double calenhad\+::grid\+::\+Cubic\+Sphere\+::\+\_\+compute\+Time\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a1b23ffcd924a5bf82962be4dd692b13d}\label{classcalenhad_1_1grid_1_1CubicSphere_a1b23ffcd924a5bf82962be4dd692b13d}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!\_depth@{\_depth}}
+\index{\_depth@{\_depth}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{\_depth}{\_depth}}
+{\footnotesize\ttfamily int calenhad\+::grid\+::\+Cubic\+Sphere\+::\+\_\+depth\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_adacfc966eda743004e2e8a43f3fc00a8}\label{classcalenhad_1_1grid_1_1CubicSphere_adacfc966eda743004e2e8a43f3fc00a8}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!\_grid@{\_grid}}
+\index{\_grid@{\_grid}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{\_grid}{\_grid}}
+{\footnotesize\ttfamily float$\ast$ calenhad\+::grid\+::\+Cubic\+Sphere\+::\+\_\+grid\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a366204b235f711de497fe5d1c61f1f65}\label{classcalenhad_1_1grid_1_1CubicSphere_a366204b235f711de497fe5d1c61f1f65}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!\_renderTime@{\_renderTime}}
+\index{\_renderTime@{\_renderTime}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{\_renderTime}{\_renderTime}}
+{\footnotesize\ttfamily int calenhad\+::grid\+::\+Cubic\+Sphere\+::\+\_\+render\+Time\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_ac54351becf77863c629f59588ce9e2c5}\label{classcalenhad_1_1grid_1_1CubicSphere_ac54351becf77863c629f59588ce9e2c5}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!\_size@{\_size}}
+\index{\_size@{\_size}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{\_size}{\_size}}
+{\footnotesize\ttfamily int calenhad\+::grid\+::\+Cubic\+Sphere\+::\+\_\+size\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_aee557d6bd4b6c22e78d965025cef9df1}\label{classcalenhad_1_1grid_1_1CubicSphere_aee557d6bd4b6c22e78d965025cef9df1}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!ADJACENT@{ADJACENT}}
+\index{ADJACENT@{ADJACENT}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{ADJACENT}{ADJACENT}}
+{\footnotesize\ttfamily const int calenhad\+::grid\+::\+Cubic\+Sphere\+::\+A\+D\+J\+A\+C\+E\+NT\mbox{[}6\mbox{]}\mbox{[}4\mbox{]} = \{ \{ 4, 5, 2, 3 \}, \{ 4, 5, 2, 3, \}, \{ 4, 5, 0, 1 \}, \{ 4, 5, 0, 1 \}, \{ 2, 3, 0, 1 \}, \{ 2, 3, 0, 1 \} \}}
+
+\mbox{\Hypertarget{classcalenhad_1_1grid_1_1CubicSphere_a3c857153b2deb6f095cc2eb69beef137}\label{classcalenhad_1_1grid_1_1CubicSphere_a3c857153b2deb6f095cc2eb69beef137}} 
+\index{calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}!HALF\_ROOT\_2@{HALF\_ROOT\_2}}
+\index{HALF\_ROOT\_2@{HALF\_ROOT\_2}!calenhad::grid::CubicSphere@{calenhad::grid::CubicSphere}}
+\doxysubsubsection{\texorpdfstring{HALF\_ROOT\_2}{HALF\_ROOT\_2}}
+{\footnotesize\ttfamily const double calenhad\+::grid\+::\+Cubic\+Sphere\+::\+H\+A\+L\+F\+\_\+\+R\+O\+O\+T\+\_\+2 = 0.\+70710676908493042\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/grid/\mbox{\hyperlink{CubicSphere_8h}{Cubic\+Sphere.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/grid/\mbox{\hyperlink{CubicSphere_8cpp}{Cubic\+Sphere.\+cpp}}\end{DoxyCompactItemize}

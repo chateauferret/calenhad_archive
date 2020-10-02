@@ -1,0 +1,4 @@
+<map id="calenhad::controls::altitudemap::TerraceMapFitter" name="calenhad::controls::altitudemap::TerraceMapFitter">
+<area shape="rect" id="node1" title=" " alt="" coords="5,80,231,121"/>
+<area shape="rect" id="node2" href="$classQwtCurveFitter.html" title=" " alt="" coords="59,5,177,32"/>
+</map>

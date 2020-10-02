@@ -1,0 +1,28 @@
+<map id="geoutils::Geolocation::latitude" name="geoutils::Geolocation::latitude">
+<area shape="rect" id="node1" title=" " alt="" coords="1133,572,1293,613"/>
+<area shape="rect" id="node2" href="$classgeoutils_1_1Geoutils.html#a1f2d72d24fbc3d669bb916c3bbdd4c69" title=" " alt="" coords="895,5,1031,47"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1mapping_1_1CalenhadMapWidget.html#a2ce26e6750c914d5ec5d833120c0614c" title=" " alt="" coords="852,71,1075,112"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection.html#a6ba916909e2404284f16f7999d21ecc1" title=" " alt="" coords="865,137,1062,193"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection.html#a654014bd579b78521db149cd962f5d66" title=" " alt="" coords="549,571,793,627"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection.html#a76384b2dce520f1ac2ec548138ff73a5" title=" " alt="" coords="854,283,1073,339"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1grid_1_1CubicSphere.html#a9e899c12f05f30bcf086ad9c0dc72751" title=" " alt="" coords="862,364,1065,405"/>
+<area shape="rect" id="node9" href="$classgeoutils_1_1Geoutils.html#a2815b8312a3018f2cc8eb6c769c31f2d" title=" " alt="" coords="863,217,1064,259"/>
+<area shape="rect" id="node12" href="$classcalenhad_1_1mapping_1_1CalenhadMapWidget.html#a8a04462a53eaaf7d5531625fed59f59f" title=" " alt="" coords="256,481,501,537"/>
+<area shape="rect" id="node13" href="$classgeoutils_1_1Geoutils.html#a1559f41ce2cbcaecbff91cb00450d1f7" title=" " alt="" coords="855,429,1071,471"/>
+<area shape="rect" id="node14" href="$classcalenhad_1_1mapping_1_1projection_1_1EquirectangularProjection.html#a6b3d1788dbf9a98b479a915758a21e0d" title=" " alt="" coords="865,597,1062,653"/>
+<area shape="rect" id="node15" href="$classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection.html#aec3185e6055b3145c7d45da114c4339d" title=" " alt="" coords="549,742,793,798"/>
+<area shape="rect" id="node16" href="$classcalenhad_1_1mapping_1_1projection_1_1MercatorProjection.html#abef0e4a7c97fafcec5660e2941b699d2" title=" " alt="" coords="854,757,1073,813"/>
+<area shape="rect" id="node17" href="$classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection.html#a9aff1c79a786c27f486991e71fe70e14" title=" " alt="" coords="841,677,1085,733"/>
+<area shape="rect" id="node18" href="$classcalenhad_1_1mapping_1_1Graticule.html#af8a592e9991a2eef4c6123bf0d4dd141" title=" " alt="" coords="871,888,1055,929"/>
+<area shape="rect" id="node20" href="$classcalenhad_1_1mapping_1_1CalenhadMapWidget.html#a536adc4e7aa11c90192b80a54fcbfbd3" title=" " alt="" coords="852,953,1075,995"/>
+<area shape="rect" id="node21" href="$classcalenhad_1_1controls_1_1globe_1_1GlobeScaleWidget.html#a92ca2eaa745f97c4d17b8a6a27aaf01d" title=" " alt="" coords="867,1019,1060,1075"/>
+<area shape="rect" id="node22" href="$classcalenhad_1_1mapping_1_1projection_1_1OrthographicProjection.html#a5a8a4aa6ba26a19f407b56c4f2f0a977" title=" " alt="" coords="841,1099,1085,1155"/>
+<area shape="rect" id="node23" href="$classgeoutils_1_1Geoutils.html#a20d45d11fbcc112e3dae7e8b320761e6" title=" " alt="" coords="895,1180,1031,1221"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1mapping_1_1CalenhadMapWidget.html#a8922767978742fa348eaf1de1f17db41" title=" " alt="" coords="564,71,779,112"/>
+<area shape="rect" id="node10" href="$classgeoutils_1_1Geoutils.html#aa03be8b83b033f1ecf7ee62651e22c5c" title=" " alt="" coords="598,419,745,460"/>
+<area shape="rect" id="node11" href="$classcalenhad_1_1controls_1_1globe_1_1CalenhadNavigator.html#af507463311062bb8437bee5fc54210f8" title=" " alt="" coords="279,401,478,457"/>
+<area shape="rect" id="node19" href="$classcalenhad_1_1mapping_1_1Graticule.html#a64ea03bf1f5c279a7b5dc2f19b0b6e3a" title=" " alt="" coords="581,888,761,929"/>
+<area shape="rect" id="node24" href="$classcalenhad_1_1grid_1_1CubicSphere.html#a418462c306617461d2161eb511cf740d" title=" " alt="" coords="570,1180,773,1221"/>
+<area shape="rect" id="node25" href="$classcalenhad_1_1grid_1_1CubicSphere.html#a1cba11d21838ae972497a73f63b3dd65" title=" " alt="" coords="277,1180,480,1221"/>
+<area shape="rect" id="node26" href="$classcalenhad_1_1grid_1_1CubicSphere.html#a7ec6d5adc45d6978bea8ce3eb5fcaf64" title=" " alt="" coords="5,1180,208,1221"/>
+</map>

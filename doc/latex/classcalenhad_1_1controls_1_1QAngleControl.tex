@@ -1,0 +1,419 @@
+\hypertarget{classcalenhad_1_1controls_1_1QAngleControl}{}\doxysection{calenhad\+::controls\+::Q\+Angle\+Control Class Reference}
+\label{classcalenhad_1_1controls_1_1QAngleControl}\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+
+
+{\ttfamily \#include $<$Q\+Angle\+Control.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::controls\+::Q\+Angle\+Control\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{classcalenhad_1_1controls_1_1QAngleControl__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::controls\+::Q\+Angle\+Control\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a9a3f794f94a38a4396d4f71dd43b1874}{toggle\+Format}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ab6a7ff36d093267c62b8a45eea7bb2dd}{value\+Changed}} (const double \&\mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ac1777007fcedef0c55b8cb6eff82184e}{value}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a2228b4ac9eadc77a625c110790dd0a29}{Q\+Angle\+Control}} (const Q\+String \&caption, const \mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790}{geoutils\+::\+Angle\+Type}} \&type, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent=0)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a6e6229b7ee79d83c0bf517baf583c145}{$\sim$\+Q\+Angle\+Control}} () override
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ac1777007fcedef0c55b8cb6eff82184e}{value}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a752a6ecae6b696c9469e8816d159d385}{set\+Value}} (const double \&\mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ac1777007fcedef0c55b8cb6eff82184e}{value}})
+\item 
+\mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790}{geoutils\+::\+Angle\+Type}} \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_adcd3bacec2f2993f2ad8ca667787110b}{angle\+Type}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a3e81557fb8dbdedf19ca04bed696db4d}{refresh}} ()
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a256923f014a253abd9c7c1e4b4e9a953}{is\+Valid}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a73c14a044198da3351de655913b548ae}{decimal\+Updated}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ab15059da64205a2ff954fa721e25e550}{trad\+Updated}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a9843ad3cdb2490a3239850af52bcd058}{validate}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_afe15b41a7110a21151ab4f1bee421dfe}{trim\+Box}} (\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$w)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_acbbd40a0332753f2e6f1857fb47eee9e}{set\+Validator}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1AcceptAngle}{calenhad\+::module\+::\+Accept\+Angle}} $\ast$validator)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Line\+Edit $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a522b1180adb855931904c2e7c7270324}{\+\_\+decimal\+Degrees\+Text}}
+\item 
+Q\+Line\+Edit $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a4866e90b5cd73e6e7cd871bd3201fb9a}{\+\_\+trad\+Degrees\+Text}}
+\item 
+Q\+Stacked\+Layout $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_afa3fe2a169f8cd25351eec83b2db939b}{\+\_\+stack}}
+\item 
+Q\+H\+Box\+Layout $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a80045317b39758645ee49e01d067967e}{\+\_\+layout}}
+\item 
+\mbox{\hyperlink{classQPushButton}{Q\+Push\+Button}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a44c14e5ad2ad0d3b4de601700325e710}{\+\_\+format\+Button}}
+\item 
+Q\+H\+Box\+Layout $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a0275d5a3b201ee5c5b256ed51ae6a86d}{\+\_\+trad\+Layout}}
+\item 
+Q\+H\+Box\+Layout $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_adf91f91870b679fc2114eac2fcce6ee1}{\+\_\+decimal\+Layout}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ab6550a755f8eccb802e93fd96e96258e}{\+\_\+value}} \{\}
+\item 
+\mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790}{geoutils\+::\+Angle\+Type}} \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ad2aba16b5b84df7c389ad661c97e87ca}{\+\_\+type}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1AcceptAngle}{module\+::\+Accept\+Angle}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_afe2c7078a31832804f572cd5422eaa31}{\+\_\+validator}}
+\item 
+Q\+Label $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a23449a3f4910c67072871ee3daa72617}{\+\_\+status\+Label}}
+\item 
+Q\+Pixmap \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_ae220d35ae942d32046f777bb116af90b}{\+\_\+status\+Orright}}
+\item 
+Q\+Pixmap \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a68ecf13b4220a8697c42479649ffc8a5}{\+\_\+status\+Goosed}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1controls_1_1QAngleControl_a258ce3288b811b1368458167f200aebb}{\+\_\+is\+Valid}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a2228b4ac9eadc77a625c110790dd0a29}\label{classcalenhad_1_1controls_1_1QAngleControl_a2228b4ac9eadc77a625c110790dd0a29}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!QAngleControl@{QAngleControl}}
+\index{QAngleControl@{QAngleControl}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{QAngleControl()}{QAngleControl()}}
+{\footnotesize\ttfamily Q\+Angle\+Control\+::\+Q\+Angle\+Control (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{caption,  }\item[{const \mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790}{geoutils\+::\+Angle\+Type}} \&}]{type,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a2228b4ac9eadc77a625c110790dd0a29_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a6e6229b7ee79d83c0bf517baf583c145}\label{classcalenhad_1_1controls_1_1QAngleControl_a6e6229b7ee79d83c0bf517baf583c145}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!````~QAngleControl@{$\sim$QAngleControl}}
+\index{````~QAngleControl@{$\sim$QAngleControl}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{$\sim$QAngleControl()}{~QAngleControl()}}
+{\footnotesize\ttfamily Q\+Angle\+Control\+::$\sim$\+Q\+Angle\+Control (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_adcd3bacec2f2993f2ad8ca667787110b}\label{classcalenhad_1_1controls_1_1QAngleControl_adcd3bacec2f2993f2ad8ca667787110b}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!angleType@{angleType}}
+\index{angleType@{angleType}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{angleType()}{angleType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790}{Angle\+Type}} Q\+Angle\+Control\+::angle\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a73c14a044198da3351de655913b548ae}\label{classcalenhad_1_1controls_1_1QAngleControl_a73c14a044198da3351de655913b548ae}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!decimalUpdated@{decimalUpdated}}
+\index{decimalUpdated@{decimalUpdated}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{decimalUpdated}{decimalUpdated}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::decimal\+Updated (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a73c14a044198da3351de655913b548ae_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a73c14a044198da3351de655913b548ae_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a256923f014a253abd9c7c1e4b4e9a953}\label{classcalenhad_1_1controls_1_1QAngleControl_a256923f014a253abd9c7c1e4b4e9a953}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!isValid@{isValid}}
+\index{isValid@{isValid}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{isValid()}{isValid()}}
+{\footnotesize\ttfamily bool Q\+Angle\+Control\+::is\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a3e81557fb8dbdedf19ca04bed696db4d}\label{classcalenhad_1_1controls_1_1QAngleControl_a3e81557fb8dbdedf19ca04bed696db4d}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!refresh@{refresh}}
+\index{refresh@{refresh}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{refresh()}{refresh()}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::refresh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a3e81557fb8dbdedf19ca04bed696db4d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a3e81557fb8dbdedf19ca04bed696db4d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_acbbd40a0332753f2e6f1857fb47eee9e}\label{classcalenhad_1_1controls_1_1QAngleControl_acbbd40a0332753f2e6f1857fb47eee9e}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!setValidator@{setValidator}}
+\index{setValidator@{setValidator}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{setValidator()}{setValidator()}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::set\+Validator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1AcceptAngle}{calenhad\+::module\+::\+Accept\+Angle}} $\ast$}]{validator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_acbbd40a0332753f2e6f1857fb47eee9e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a752a6ecae6b696c9469e8816d159d385}\label{classcalenhad_1_1controls_1_1QAngleControl_a752a6ecae6b696c9469e8816d159d385}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!setValue@{setValue}}
+\index{setValue@{setValue}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::set\+Value (\begin{DoxyParamCaption}\item[{const double \&}]{value }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a752a6ecae6b696c9469e8816d159d385_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a752a6ecae6b696c9469e8816d159d385_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a9a3f794f94a38a4396d4f71dd43b1874}\label{classcalenhad_1_1controls_1_1QAngleControl_a9a3f794f94a38a4396d4f71dd43b1874}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!toggleFormat@{toggleFormat}}
+\index{toggleFormat@{toggleFormat}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{toggleFormat}{toggleFormat}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::toggle\+Format (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a9a3f794f94a38a4396d4f71dd43b1874_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a9a3f794f94a38a4396d4f71dd43b1874_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_ab15059da64205a2ff954fa721e25e550}\label{classcalenhad_1_1controls_1_1QAngleControl_ab15059da64205a2ff954fa721e25e550}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!tradUpdated@{tradUpdated}}
+\index{tradUpdated@{tradUpdated}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{tradUpdated}{tradUpdated}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::trad\+Updated (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_ab15059da64205a2ff954fa721e25e550_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_ab15059da64205a2ff954fa721e25e550_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_afe15b41a7110a21151ab4f1bee421dfe}\label{classcalenhad_1_1controls_1_1QAngleControl_afe15b41a7110a21151ab4f1bee421dfe}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!trimBox@{trimBox}}
+\index{trimBox@{trimBox}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{trimBox()}{trimBox()}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::trim\+Box (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_afe15b41a7110a21151ab4f1bee421dfe_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a9843ad3cdb2490a3239850af52bcd058}\label{classcalenhad_1_1controls_1_1QAngleControl_a9843ad3cdb2490a3239850af52bcd058}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!validate@{validate}}
+\index{validate@{validate}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{validate}{validate}}
+{\footnotesize\ttfamily void Q\+Angle\+Control\+::validate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a9843ad3cdb2490a3239850af52bcd058_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_a9843ad3cdb2490a3239850af52bcd058_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_ac1777007fcedef0c55b8cb6eff82184e}\label{classcalenhad_1_1controls_1_1QAngleControl_ac1777007fcedef0c55b8cb6eff82184e}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!value@{value}}
+\index{value@{value}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily double Q\+Angle\+Control\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_ac1777007fcedef0c55b8cb6eff82184e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_ab6a7ff36d093267c62b8a45eea7bb2dd}\label{classcalenhad_1_1controls_1_1QAngleControl_ab6a7ff36d093267c62b8a45eea7bb2dd}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!valueChanged@{valueChanged}}
+\index{valueChanged@{valueChanged}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{valueChanged}{valueChanged}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Q\+Angle\+Control\+::value\+Changed (\begin{DoxyParamCaption}\item[{const double \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1QAngleControl_ab6a7ff36d093267c62b8a45eea7bb2dd_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a522b1180adb855931904c2e7c7270324}\label{classcalenhad_1_1controls_1_1QAngleControl_a522b1180adb855931904c2e7c7270324}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_decimalDegreesText@{\_decimalDegreesText}}
+\index{\_decimalDegreesText@{\_decimalDegreesText}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_decimalDegreesText}{\_decimalDegreesText}}
+{\footnotesize\ttfamily Q\+Line\+Edit$\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+decimal\+Degrees\+Text\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_adf91f91870b679fc2114eac2fcce6ee1}\label{classcalenhad_1_1controls_1_1QAngleControl_adf91f91870b679fc2114eac2fcce6ee1}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_decimalLayout@{\_decimalLayout}}
+\index{\_decimalLayout@{\_decimalLayout}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_decimalLayout}{\_decimalLayout}}
+{\footnotesize\ttfamily Q\+H\+Box\+Layout $\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+decimal\+Layout\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a44c14e5ad2ad0d3b4de601700325e710}\label{classcalenhad_1_1controls_1_1QAngleControl_a44c14e5ad2ad0d3b4de601700325e710}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_formatButton@{\_formatButton}}
+\index{\_formatButton@{\_formatButton}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_formatButton}{\_formatButton}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQPushButton}{Q\+Push\+Button}}$\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+format\+Button\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a258ce3288b811b1368458167f200aebb}\label{classcalenhad_1_1controls_1_1QAngleControl_a258ce3288b811b1368458167f200aebb}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_isValid@{\_isValid}}
+\index{\_isValid@{\_isValid}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_isValid}{\_isValid}}
+{\footnotesize\ttfamily bool calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+is\+Valid\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a80045317b39758645ee49e01d067967e}\label{classcalenhad_1_1controls_1_1QAngleControl_a80045317b39758645ee49e01d067967e}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_layout@{\_layout}}
+\index{\_layout@{\_layout}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_layout}{\_layout}}
+{\footnotesize\ttfamily Q\+H\+Box\+Layout$\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+layout\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_afa3fe2a169f8cd25351eec83b2db939b}\label{classcalenhad_1_1controls_1_1QAngleControl_afa3fe2a169f8cd25351eec83b2db939b}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_stack@{\_stack}}
+\index{\_stack@{\_stack}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_stack}{\_stack}}
+{\footnotesize\ttfamily Q\+Stacked\+Layout$\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+stack\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a68ecf13b4220a8697c42479649ffc8a5}\label{classcalenhad_1_1controls_1_1QAngleControl_a68ecf13b4220a8697c42479649ffc8a5}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_statusGoosed@{\_statusGoosed}}
+\index{\_statusGoosed@{\_statusGoosed}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_statusGoosed}{\_statusGoosed}}
+{\footnotesize\ttfamily Q\+Pixmap calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+status\+Goosed\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a23449a3f4910c67072871ee3daa72617}\label{classcalenhad_1_1controls_1_1QAngleControl_a23449a3f4910c67072871ee3daa72617}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_statusLabel@{\_statusLabel}}
+\index{\_statusLabel@{\_statusLabel}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_statusLabel}{\_statusLabel}}
+{\footnotesize\ttfamily Q\+Label$\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+status\+Label\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_ae220d35ae942d32046f777bb116af90b}\label{classcalenhad_1_1controls_1_1QAngleControl_ae220d35ae942d32046f777bb116af90b}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_statusOrright@{\_statusOrright}}
+\index{\_statusOrright@{\_statusOrright}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_statusOrright}{\_statusOrright}}
+{\footnotesize\ttfamily Q\+Pixmap calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+status\+Orright\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a4866e90b5cd73e6e7cd871bd3201fb9a}\label{classcalenhad_1_1controls_1_1QAngleControl_a4866e90b5cd73e6e7cd871bd3201fb9a}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_tradDegreesText@{\_tradDegreesText}}
+\index{\_tradDegreesText@{\_tradDegreesText}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_tradDegreesText}{\_tradDegreesText}}
+{\footnotesize\ttfamily Q\+Line\+Edit $\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+trad\+Degrees\+Text\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_a0275d5a3b201ee5c5b256ed51ae6a86d}\label{classcalenhad_1_1controls_1_1QAngleControl_a0275d5a3b201ee5c5b256ed51ae6a86d}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_tradLayout@{\_tradLayout}}
+\index{\_tradLayout@{\_tradLayout}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_tradLayout}{\_tradLayout}}
+{\footnotesize\ttfamily Q\+H\+Box\+Layout$\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+trad\+Layout\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_ad2aba16b5b84df7c389ad661c97e87ca}\label{classcalenhad_1_1controls_1_1QAngleControl_ad2aba16b5b84df7c389ad661c97e87ca}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_type@{\_type}}
+\index{\_type@{\_type}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_type}{\_type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790}{geoutils\+::\+Angle\+Type}} calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+type\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_afe2c7078a31832804f572cd5422eaa31}\label{classcalenhad_1_1controls_1_1QAngleControl_afe2c7078a31832804f572cd5422eaa31}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_validator@{\_validator}}
+\index{\_validator@{\_validator}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_validator}{\_validator}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1AcceptAngle}{module\+::\+Accept\+Angle}}$\ast$ calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+validator\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1QAngleControl_ab6550a755f8eccb802e93fd96e96258e}\label{classcalenhad_1_1controls_1_1QAngleControl_ab6550a755f8eccb802e93fd96e96258e}} 
+\index{calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}!\_value@{\_value}}
+\index{\_value@{\_value}!calenhad::controls::QAngleControl@{calenhad::controls::QAngleControl}}
+\doxysubsubsection{\texorpdfstring{\_value}{\_value}}
+{\footnotesize\ttfamily double calenhad\+::controls\+::\+Q\+Angle\+Control\+::\+\_\+value \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/\mbox{\hyperlink{QAngleControl_8h}{Q\+Angle\+Control.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/\mbox{\hyperlink{QAngleControl_8cpp}{Q\+Angle\+Control.\+cpp}}\end{DoxyCompactItemize}

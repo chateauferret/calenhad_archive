@@ -1,0 +1,12 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classcalenhad_1_1module_1_1ParamValidator.html" title=" " alt="" coords="5,242,252,269"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1module_1_1AcceptAngleDegrees.html" title=" " alt="" coords="300,5,491,47"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1module_1_1AcceptAnyRubbish.html" title=" " alt="" coords="300,71,491,112"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1module_1_1AcceptInteger.html" title=" " alt="" coords="300,136,491,177"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1module_1_1AcceptNoiseValue.html" title=" " alt="" coords="300,201,491,243"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1module_1_1AcceptPositive.html" title=" " alt="" coords="300,267,491,308"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1module_1_1AcceptRange.html" title=" " alt="" coords="300,332,491,373"/>
+<area shape="rect" id="node9" href="$classcalenhad_1_1module_1_1PreferInteger.html" title=" " alt="" coords="303,397,488,439"/>
+<area shape="rect" id="node10" href="$classcalenhad_1_1module_1_1PreferNoiseValue.html" title=" " alt="" coords="303,463,488,504"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1module_1_1AcceptAngle.html" title=" " alt="" coords="539,332,729,373"/>
+</map>

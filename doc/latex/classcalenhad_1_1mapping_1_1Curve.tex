@@ -1,0 +1,180 @@
+\hypertarget{classcalenhad_1_1mapping_1_1Curve}{}\doxysection{calenhad\+::mapping\+::Curve Class Reference}
+\label{classcalenhad_1_1mapping_1_1Curve}\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+
+
+{\ttfamily \#include $<$Curve.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::mapping\+::Curve\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{classcalenhad_1_1mapping_1_1Curve__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::mapping\+::Curve\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{classcalenhad_1_1mapping_1_1Curve__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_acf7a848ad3b0e6a7931bf962941594bc}{Curve}} ()
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a7ce6ff79064e9795241423ed47166539}{$\sim$\+Curve}} ()
+\item 
+virtual float \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a8f08fc4ab4c84e4a8f61302590f40559}{Get\+Value}} (const float \&source\+Module\+Value) const =0
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_ad24ca1c19ecb8f45fc9b28f30d9a74a0}{Get\+Values}} (float $\ast$outputs, int size, double \&from, double \&to) const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a2c43aa0a6bcdae348c72ff0dcd293367}{add\+Mapping}} (Q\+String input\+Value, Q\+String output\+Value)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a0fbef2684491c63255172bcff48857be}{add\+Mapping}} (\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{controls\+::altitudemap\+::\+Altitude\+Mapping}} mapping)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a548f852b3868476483dbaa081550e780}{Add\+Control\+Point}} (Q\+String value)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_aff1d9117daeadabe197d36bc3434642d}{clear}} ()
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{controls\+::altitudemap\+::\+Altitude\+Mapping}} $>$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_aa16ed813748b94e55c4b5ab3f06e4b80}{mappings}} () const
+\item 
+const int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a2a496f7e1d2d90e124787a7833381afe}{count}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{controls\+::altitudemap\+::\+Altitude\+Mapping}} $>$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Curve_a79cf9d09653893500a02a40f233403a7}{\+\_\+mappings}}
+\begin{DoxyCompactList}\small\item\em Array that stores the control points. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_acf7a848ad3b0e6a7931bf962941594bc}\label{classcalenhad_1_1mapping_1_1Curve_acf7a848ad3b0e6a7931bf962941594bc}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!Curve@{Curve}}
+\index{Curve@{Curve}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{Curve()}{Curve()}}
+{\footnotesize\ttfamily Curve\+::\+Curve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_a7ce6ff79064e9795241423ed47166539}\label{classcalenhad_1_1mapping_1_1Curve_a7ce6ff79064e9795241423ed47166539}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!````~Curve@{$\sim$Curve}}
+\index{````~Curve@{$\sim$Curve}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{$\sim$Curve()}{~Curve()}}
+{\footnotesize\ttfamily Curve\+::$\sim$\+Curve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_a548f852b3868476483dbaa081550e780}\label{classcalenhad_1_1mapping_1_1Curve_a548f852b3868476483dbaa081550e780}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!AddControlPoint@{AddControlPoint}}
+\index{AddControlPoint@{AddControlPoint}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{AddControlPoint()}{AddControlPoint()}}
+{\footnotesize\ttfamily void Curve\+::\+Add\+Control\+Point (\begin{DoxyParamCaption}\item[{Q\+String}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_a0fbef2684491c63255172bcff48857be}\label{classcalenhad_1_1mapping_1_1Curve_a0fbef2684491c63255172bcff48857be}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!addMapping@{addMapping}}
+\index{addMapping@{addMapping}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{addMapping()}{addMapping()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Curve\+::add\+Mapping (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{controls\+::altitudemap\+::\+Altitude\+Mapping}}}]{mapping }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_a2c43aa0a6bcdae348c72ff0dcd293367}\label{classcalenhad_1_1mapping_1_1Curve_a2c43aa0a6bcdae348c72ff0dcd293367}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!addMapping@{addMapping}}
+\index{addMapping@{addMapping}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{addMapping()}{addMapping()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Curve\+::add\+Mapping (\begin{DoxyParamCaption}\item[{Q\+String}]{input\+Value,  }\item[{Q\+String}]{output\+Value }\end{DoxyParamCaption})}
+
+Adds a control point to the curve.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Value} & The input value stored in the control point. \\
+\hline
+{\em output\+Value} & The output value stored in the control point.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+No two control points have the same input value.
+\end{DoxyPrecond}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em noise\+::\+Exception\+Invalid\+Param} & An invalid parameter was specified; see the preconditions for more information.\\
+\hline
+\end{DoxyExceptions}
+It does not matter which order these points are added. \mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_aff1d9117daeadabe197d36bc3434642d}\label{classcalenhad_1_1mapping_1_1Curve_aff1d9117daeadabe197d36bc3434642d}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!clear@{clear}}
+\index{clear@{clear}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Curve\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Deletes all the control points on the curve.
+
+\begin{DoxyPostcond}{Postcondition}
+All points on the curve are deleted. 
+\end{DoxyPostcond}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_a2a496f7e1d2d90e124787a7833381afe}\label{classcalenhad_1_1mapping_1_1Curve_a2a496f7e1d2d90e124787a7833381afe}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!count@{count}}
+\index{count@{count}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}}
+{\footnotesize\ttfamily const int calenhad\+::mapping\+::\+Curve\+::count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Curve_a2a496f7e1d2d90e124787a7833381afe_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_a8f08fc4ab4c84e4a8f61302590f40559}\label{classcalenhad_1_1mapping_1_1Curve_a8f08fc4ab4c84e4a8f61302590f40559}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!GetValue@{GetValue}}
+\index{GetValue@{GetValue}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{GetValue()}{GetValue()}}
+{\footnotesize\ttfamily virtual float calenhad\+::mapping\+::\+Curve\+::\+Get\+Value (\begin{DoxyParamCaption}\item[{const float \&}]{source\+Module\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classcalenhad_1_1mapping_1_1TerraceCurve_ab1b32cf24721c352a7a32efbfd9e216c}{calenhad\+::mapping\+::\+Terrace\+Curve}}, and \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CubicSpline_acf3ab849b29f61df4c8b13a562009f5c}{calenhad\+::mapping\+::\+Cubic\+Spline}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_ad24ca1c19ecb8f45fc9b28f30d9a74a0}\label{classcalenhad_1_1mapping_1_1Curve_ad24ca1c19ecb8f45fc9b28f30d9a74a0}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!GetValues@{GetValues}}
+\index{GetValues@{GetValues}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{GetValues()}{GetValues()}}
+{\footnotesize\ttfamily void Curve\+::\+Get\+Values (\begin{DoxyParamCaption}\item[{float $\ast$}]{outputs,  }\item[{int}]{size,  }\item[{double \&}]{from,  }\item[{double \&}]{to }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_aa16ed813748b94e55c4b5ab3f06e4b80}\label{classcalenhad_1_1mapping_1_1Curve_aa16ed813748b94e55c4b5ab3f06e4b80}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!mappings@{mappings}}
+\index{mappings@{mappings}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{mappings()}{mappings()}}
+{\footnotesize\ttfamily Q\+Vector$<$\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{controls\+::altitudemap\+::\+Altitude\+Mapping}}$>$ calenhad\+::mapping\+::\+Curve\+::mappings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns a pointer to the array of control points on the curve.
+
+\begin{DoxyReturn}{Returns}
+A pointer to the array of control points.
+\end{DoxyReturn}
+Before calling this method, call Get\+Control\+Point\+Count() to determine the number of control points in this array.
+
+It is recommended that an application does not store this pointer for later use since the pointer to the array may change if the application calls another method of this object. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Curve_a79cf9d09653893500a02a40f233403a7}\label{classcalenhad_1_1mapping_1_1Curve_a79cf9d09653893500a02a40f233403a7}} 
+\index{calenhad::mapping::Curve@{calenhad::mapping::Curve}!\_mappings@{\_mappings}}
+\index{\_mappings@{\_mappings}!calenhad::mapping::Curve@{calenhad::mapping::Curve}}
+\doxysubsubsection{\texorpdfstring{\_mappings}{\_mappings}}
+{\footnotesize\ttfamily Q\+Vector$<$\mbox{\hyperlink{classcalenhad_1_1controls_1_1altitudemap_1_1AltitudeMapping}{controls\+::altitudemap\+::\+Altitude\+Mapping}}$>$ calenhad\+::mapping\+::\+Curve\+::\+\_\+mappings\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Array that stores the control points. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{Curve_8h}{Curve.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{Curve_8cpp}{Curve.\+cpp}}\end{DoxyCompactItemize}

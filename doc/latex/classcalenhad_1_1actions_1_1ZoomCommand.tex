@@ -1,0 +1,107 @@
+\hypertarget{classcalenhad_1_1actions_1_1ZoomCommand}{}\doxysection{calenhad\+::actions\+::Zoom\+Command Class Reference}
+\label{classcalenhad_1_1actions_1_1ZoomCommand}\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+
+
+{\ttfamily \#include $<$Zoom\+Command.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::actions\+::Zoom\+Command\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{classcalenhad_1_1actions_1_1ZoomCommand__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::actions\+::Zoom\+Command\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1actions_1_1ZoomCommand__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomCommand_a55628e756f55baaea8eb7e20c7f35682}{Zoom\+Command}} (double delta, \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView}{calenhad\+::nodeedit\+::\+Calenhad\+View}} $\ast$view)
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomCommand_a48faab5b0886836452e663cca674f42c}{$\sim$\+Zoom\+Command}} ()
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomCommand_a689a9531bc7eb88169a1d6ed9e207a90}{undo}} () override
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomCommand_a0a6de02c8f91273dba548ff5ca14aa84}{redo}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomCommand_a537a244bd293eb8969030b9df9af2871}{\+\_\+delta}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomCommand_ac79021c94bbc7ce27cc479e5906772bb}{\+\_\+previous\+Zoom}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView}{calenhad\+::nodeedit\+::\+Calenhad\+View}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomCommand_af64dc9619722ba30c212300a258a08e8}{\+\_\+view}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1actions_1_1ZoomCommand_a55628e756f55baaea8eb7e20c7f35682}\label{classcalenhad_1_1actions_1_1ZoomCommand_a55628e756f55baaea8eb7e20c7f35682}} 
+\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}!ZoomCommand@{ZoomCommand}}
+\index{ZoomCommand@{ZoomCommand}!calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+\doxysubsubsection{\texorpdfstring{ZoomCommand()}{ZoomCommand()}}
+{\footnotesize\ttfamily Zoom\+Command\+::\+Zoom\+Command (\begin{DoxyParamCaption}\item[{double}]{delta,  }\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView}{calenhad\+::nodeedit\+::\+Calenhad\+View}} $\ast$}]{view }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1actions_1_1ZoomCommand_a48faab5b0886836452e663cca674f42c}\label{classcalenhad_1_1actions_1_1ZoomCommand_a48faab5b0886836452e663cca674f42c}} 
+\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}!````~ZoomCommand@{$\sim$ZoomCommand}}
+\index{````~ZoomCommand@{$\sim$ZoomCommand}!calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+\doxysubsubsection{\texorpdfstring{$\sim$ZoomCommand()}{~ZoomCommand()}}
+{\footnotesize\ttfamily Zoom\+Command\+::$\sim$\+Zoom\+Command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1actions_1_1ZoomCommand_a0a6de02c8f91273dba548ff5ca14aa84}\label{classcalenhad_1_1actions_1_1ZoomCommand_a0a6de02c8f91273dba548ff5ca14aa84}} 
+\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}!redo@{redo}}
+\index{redo@{redo}!calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+\doxysubsubsection{\texorpdfstring{redo()}{redo()}}
+{\footnotesize\ttfamily void Zoom\+Command\+::redo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomToSelectionCommand_ada0cdbf4d5055c3596f23221f86c3f3b}{calenhad\+::actions\+::\+Zoom\+To\+Selection\+Command}}, and \mbox{\hyperlink{classcalenhad_1_1actions_1_1ZoomToFitCommand_ab0decdf84f4e187a98b842badc3e18e0}{calenhad\+::actions\+::\+Zoom\+To\+Fit\+Command}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1actions_1_1ZoomCommand_a689a9531bc7eb88169a1d6ed9e207a90}\label{classcalenhad_1_1actions_1_1ZoomCommand_a689a9531bc7eb88169a1d6ed9e207a90}} 
+\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}!undo@{undo}}
+\index{undo@{undo}!calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+\doxysubsubsection{\texorpdfstring{undo()}{undo()}}
+{\footnotesize\ttfamily void Zoom\+Command\+::undo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1actions_1_1ZoomCommand_a537a244bd293eb8969030b9df9af2871}\label{classcalenhad_1_1actions_1_1ZoomCommand_a537a244bd293eb8969030b9df9af2871}} 
+\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}!\_delta@{\_delta}}
+\index{\_delta@{\_delta}!calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+\doxysubsubsection{\texorpdfstring{\_delta}{\_delta}}
+{\footnotesize\ttfamily double calenhad\+::actions\+::\+Zoom\+Command\+::\+\_\+delta\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1actions_1_1ZoomCommand_ac79021c94bbc7ce27cc479e5906772bb}\label{classcalenhad_1_1actions_1_1ZoomCommand_ac79021c94bbc7ce27cc479e5906772bb}} 
+\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}!\_previousZoom@{\_previousZoom}}
+\index{\_previousZoom@{\_previousZoom}!calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+\doxysubsubsection{\texorpdfstring{\_previousZoom}{\_previousZoom}}
+{\footnotesize\ttfamily double calenhad\+::actions\+::\+Zoom\+Command\+::\+\_\+previous\+Zoom\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1actions_1_1ZoomCommand_af64dc9619722ba30c212300a258a08e8}\label{classcalenhad_1_1actions_1_1ZoomCommand_af64dc9619722ba30c212300a258a08e8}} 
+\index{calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}!\_view@{\_view}}
+\index{\_view@{\_view}!calenhad::actions::ZoomCommand@{calenhad::actions::ZoomCommand}}
+\doxysubsubsection{\texorpdfstring{\_view}{\_view}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1CalenhadView}{calenhad\+::nodeedit\+::\+Calenhad\+View}}$\ast$ calenhad\+::actions\+::\+Zoom\+Command\+::\+\_\+view\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/actions/\mbox{\hyperlink{ZoomCommand_8h}{Zoom\+Command.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/actions/\mbox{\hyperlink{ZoomCommand_8cpp}{Zoom\+Command.\+cpp}}\end{DoxyCompactItemize}

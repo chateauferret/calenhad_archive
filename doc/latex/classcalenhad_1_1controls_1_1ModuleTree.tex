@@ -1,0 +1,272 @@
+\hypertarget{classcalenhad_1_1controls_1_1ModuleTree}{}\doxysection{calenhad\+::controls\+::Module\+Tree Class Reference}
+\label{classcalenhad_1_1controls_1_1ModuleTree}\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+
+
+{\ttfamily \#include $<$Module\+Tree.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::controls\+::Module\+Tree\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{classcalenhad_1_1controls_1_1ModuleTree__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::controls\+::Module\+Tree\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a6d885a7071ce4d266294ca9c91e0790e}{build\+Tree}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_aedd107659ad7f1b4586610f2d59cc5d4}{select\+Item}} (Q\+Tree\+Widget\+Item $\ast$item)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a92127eef97ff16154d7d013080ce02a4}{show\+Menu}} (const Q\+Point \&pos)
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a1567d7a98d5921c98c57073b602ceb0e}{tree\+Shown}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a2cf11a81e5c0abfcdcf33f61973358fa}{tree\+Hidden}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a11dfd527785f427c316926342880804e}{Module\+Tree}} (\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{calenhad\+::pipeline\+::\+Calenhad\+Model}} $\ast$model)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a89bad4e73436f4efde1434f6c7307a2c}{$\sim$\+Module\+Tree}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Tree\+Widget\+Item $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_aa01e5bcd8121c77741aa55c5abae3efd}{find\+Tree\+Item}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1NodeGroup}{calenhad\+::module\+::\+Node\+Group}} $\ast$g)
+\item 
+Q\+Tree\+Widget\+Item $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_aceb7666801d8c27c207cfc6cddbea25d}{find\+Tree\+Item}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$m)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_af4e6cc17e4a5984646acafac485d9ad7}{show\+Event}} (Q\+Show\+Event $\ast$e) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a2c8f4a0dc0296f55e07c8a9982c80fb5}{hide\+Event}} (Q\+Hide\+Event $\ast$e) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{pipeline\+::\+Calenhad\+Model}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a31ceff222aebf12c7456c5cc39493d3b}{\+\_\+model}}
+\item 
+Q\+Tree\+Widget $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_ad716967bdb5a73ac06619165ee4ab08e}{\+\_\+tree}}
+\item 
+Q\+Icon $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a31376d639ea95392724ff776874ac231}{\+\_\+group\+Icon}}
+\item 
+Q\+Menu $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_ae3033d123699293b2a1be9adbcb1fe95}{\+\_\+menu}}
+\item 
+Q\+Map$<$ Q\+Tree\+Widget\+Item $\ast$, \mbox{\hyperlink{classcalenhad_1_1module_1_1NodeGroup}{calenhad\+::module\+::\+Node\+Group}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_aa8b5c75d97491c89bde8a2876d46326c}{\+\_\+groups}}
+\item 
+Q\+Map$<$ Q\+Tree\+Widget\+Item $\ast$, \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1ModuleTree_a330fe22eda3bf3abeeb93b44111dbf0a}{\+\_\+modules}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a11dfd527785f427c316926342880804e}\label{classcalenhad_1_1controls_1_1ModuleTree_a11dfd527785f427c316926342880804e}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!ModuleTree@{ModuleTree}}
+\index{ModuleTree@{ModuleTree}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{ModuleTree()}{ModuleTree()}}
+{\footnotesize\ttfamily calenhad\+::controls\+::\+Module\+Tree\+::\+Module\+Tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{calenhad\+::pipeline\+::\+Calenhad\+Model}} $\ast$}]{model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a11dfd527785f427c316926342880804e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a89bad4e73436f4efde1434f6c7307a2c}\label{classcalenhad_1_1controls_1_1ModuleTree_a89bad4e73436f4efde1434f6c7307a2c}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!````~ModuleTree@{$\sim$ModuleTree}}
+\index{````~ModuleTree@{$\sim$ModuleTree}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{$\sim$ModuleTree()}{~ModuleTree()}}
+{\footnotesize\ttfamily Module\+Tree\+::$\sim$\+Module\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a6d885a7071ce4d266294ca9c91e0790e}\label{classcalenhad_1_1controls_1_1ModuleTree_a6d885a7071ce4d266294ca9c91e0790e}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!buildTree@{buildTree}}
+\index{buildTree@{buildTree}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{buildTree}{buildTree}}
+{\footnotesize\ttfamily void Module\+Tree\+::build\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a6d885a7071ce4d266294ca9c91e0790e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a6d885a7071ce4d266294ca9c91e0790e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_aceb7666801d8c27c207cfc6cddbea25d}\label{classcalenhad_1_1controls_1_1ModuleTree_aceb7666801d8c27c207cfc6cddbea25d}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!findTreeItem@{findTreeItem}}
+\index{findTreeItem@{findTreeItem}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{findTreeItem()}{findTreeItem()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Q\+Tree\+Widget\+Item $\ast$ Module\+Tree\+::find\+Tree\+Item (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_aa01e5bcd8121c77741aa55c5abae3efd}\label{classcalenhad_1_1controls_1_1ModuleTree_aa01e5bcd8121c77741aa55c5abae3efd}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!findTreeItem@{findTreeItem}}
+\index{findTreeItem@{findTreeItem}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{findTreeItem()}{findTreeItem()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Q\+Tree\+Widget\+Item $\ast$ Module\+Tree\+::find\+Tree\+Item (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1NodeGroup}{calenhad\+::module\+::\+Node\+Group}} $\ast$}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a2c8f4a0dc0296f55e07c8a9982c80fb5}\label{classcalenhad_1_1controls_1_1ModuleTree_a2c8f4a0dc0296f55e07c8a9982c80fb5}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!hideEvent@{hideEvent}}
+\index{hideEvent@{hideEvent}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{hideEvent()}{hideEvent()}}
+{\footnotesize\ttfamily void Module\+Tree\+::hide\+Event (\begin{DoxyParamCaption}\item[{Q\+Hide\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a2c8f4a0dc0296f55e07c8a9982c80fb5_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_aedd107659ad7f1b4586610f2d59cc5d4}\label{classcalenhad_1_1controls_1_1ModuleTree_aedd107659ad7f1b4586610f2d59cc5d4}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!selectItem@{selectItem}}
+\index{selectItem@{selectItem}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{selectItem}{selectItem}}
+{\footnotesize\ttfamily void Module\+Tree\+::select\+Item (\begin{DoxyParamCaption}\item[{Q\+Tree\+Widget\+Item $\ast$}]{item }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_aedd107659ad7f1b4586610f2d59cc5d4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_af4e6cc17e4a5984646acafac485d9ad7}\label{classcalenhad_1_1controls_1_1ModuleTree_af4e6cc17e4a5984646acafac485d9ad7}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!showEvent@{showEvent}}
+\index{showEvent@{showEvent}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{showEvent()}{showEvent()}}
+{\footnotesize\ttfamily void Module\+Tree\+::show\+Event (\begin{DoxyParamCaption}\item[{Q\+Show\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_af4e6cc17e4a5984646acafac485d9ad7_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a92127eef97ff16154d7d013080ce02a4}\label{classcalenhad_1_1controls_1_1ModuleTree_a92127eef97ff16154d7d013080ce02a4}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!showMenu@{showMenu}}
+\index{showMenu@{showMenu}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{showMenu}{showMenu}}
+{\footnotesize\ttfamily void Module\+Tree\+::show\+Menu (\begin{DoxyParamCaption}\item[{const Q\+Point \&}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a92127eef97ff16154d7d013080ce02a4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a92127eef97ff16154d7d013080ce02a4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a2cf11a81e5c0abfcdcf33f61973358fa}\label{classcalenhad_1_1controls_1_1ModuleTree_a2cf11a81e5c0abfcdcf33f61973358fa}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!treeHidden@{treeHidden}}
+\index{treeHidden@{treeHidden}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{treeHidden}{treeHidden}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Module\+Tree\+::tree\+Hidden (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a2cf11a81e5c0abfcdcf33f61973358fa_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a1567d7a98d5921c98c57073b602ceb0e}\label{classcalenhad_1_1controls_1_1ModuleTree_a1567d7a98d5921c98c57073b602ceb0e}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!treeShown@{treeShown}}
+\index{treeShown@{treeShown}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{treeShown}{treeShown}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Module\+Tree\+::tree\+Shown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1ModuleTree_a1567d7a98d5921c98c57073b602ceb0e_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a31376d639ea95392724ff776874ac231}\label{classcalenhad_1_1controls_1_1ModuleTree_a31376d639ea95392724ff776874ac231}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!\_groupIcon@{\_groupIcon}}
+\index{\_groupIcon@{\_groupIcon}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{\_groupIcon}{\_groupIcon}}
+{\footnotesize\ttfamily Q\+Icon$\ast$ calenhad\+::controls\+::\+Module\+Tree\+::\+\_\+group\+Icon\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_aa8b5c75d97491c89bde8a2876d46326c}\label{classcalenhad_1_1controls_1_1ModuleTree_aa8b5c75d97491c89bde8a2876d46326c}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!\_groups@{\_groups}}
+\index{\_groups@{\_groups}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{\_groups}{\_groups}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+Tree\+Widget\+Item$\ast$, \mbox{\hyperlink{classcalenhad_1_1module_1_1NodeGroup}{calenhad\+::module\+::\+Node\+Group}}$\ast$$>$ calenhad\+::controls\+::\+Module\+Tree\+::\+\_\+groups\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_ae3033d123699293b2a1be9adbcb1fe95}\label{classcalenhad_1_1controls_1_1ModuleTree_ae3033d123699293b2a1be9adbcb1fe95}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!\_menu@{\_menu}}
+\index{\_menu@{\_menu}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{\_menu}{\_menu}}
+{\footnotesize\ttfamily Q\+Menu$\ast$ calenhad\+::controls\+::\+Module\+Tree\+::\+\_\+menu\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a31ceff222aebf12c7456c5cc39493d3b}\label{classcalenhad_1_1controls_1_1ModuleTree_a31ceff222aebf12c7456c5cc39493d3b}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!\_model@{\_model}}
+\index{\_model@{\_model}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{\_model}{\_model}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{pipeline\+::\+Calenhad\+Model}}$\ast$ calenhad\+::controls\+::\+Module\+Tree\+::\+\_\+model\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_a330fe22eda3bf3abeeb93b44111dbf0a}\label{classcalenhad_1_1controls_1_1ModuleTree_a330fe22eda3bf3abeeb93b44111dbf0a}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!\_modules@{\_modules}}
+\index{\_modules@{\_modules}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{\_modules}{\_modules}}
+{\footnotesize\ttfamily Q\+Map$<$Q\+Tree\+Widget\+Item$\ast$, \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}}$\ast$$>$ calenhad\+::controls\+::\+Module\+Tree\+::\+\_\+modules\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1ModuleTree_ad716967bdb5a73ac06619165ee4ab08e}\label{classcalenhad_1_1controls_1_1ModuleTree_ad716967bdb5a73ac06619165ee4ab08e}} 
+\index{calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}!\_tree@{\_tree}}
+\index{\_tree@{\_tree}!calenhad::controls::ModuleTree@{calenhad::controls::ModuleTree}}
+\doxysubsubsection{\texorpdfstring{\_tree}{\_tree}}
+{\footnotesize\ttfamily Q\+Tree\+Widget$\ast$ calenhad\+::controls\+::\+Module\+Tree\+::\+\_\+tree\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/\mbox{\hyperlink{ModuleTree_8h}{Module\+Tree.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/\mbox{\hyperlink{ModuleTree_8cpp}{Module\+Tree.\+cpp}}\end{DoxyCompactItemize}

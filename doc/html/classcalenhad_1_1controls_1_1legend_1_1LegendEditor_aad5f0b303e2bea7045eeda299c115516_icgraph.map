@@ -1,0 +1,14 @@
+<map id="calenhad::controls::legend::LegendEditor::legend" name="calenhad::controls::legend::LegendEditor::legend">
+<area shape="rect" id="node1" title="return the Ramp definition" alt="" coords="693,111,860,167"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a13cbc8974ae7abe0f1b205a9f167c6ec" title=" " alt="" coords="27,5,194,61"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a41cbd57b697313df367391efb5dc1d62" title="set the index and color of a slider" alt="" coords="479,71,645,127"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#aa90f3a5214358356c22bb73b10157572" title="get the position" alt="" coords="479,151,645,207"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#ad5a4e341bab06ce3df4c4a83814b0e69" title="on update the ramp because sliders are changed" alt="" coords="264,231,431,287"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a599a73445790c5c21f3cd64bedcb234b" title="resize required" alt="" coords="264,71,431,127"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a94bd7e4cfc35960d9ff40c130f24b81e" title=" " alt="" coords="264,151,431,207"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a4c36475cf749e50ed0fd7448f2bae442" title="Basic Constructor." alt="" coords="27,85,194,141"/>
+<area shape="rect" id="node9" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a2cb4c12caf24274a015fcb9f1245c22f" title="detect a mouse is pressed" alt="" coords="27,165,194,221"/>
+<area shape="rect" id="node10" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a8469a6f3fbb45f2ad9fab7c4d646ee3f" title=" " alt="" coords="11,246,210,287"/>
+<area shape="rect" id="node11" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#adca04d0eed2736fc078b841bdbfe668e" title=" " alt="" coords="27,312,194,368"/>
+<area shape="rect" id="node12" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#af262473eada41aff173152d49d75efc8" title=" " alt="" coords="5,393,216,434"/>
+</map>

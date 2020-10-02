@@ -1,0 +1,642 @@
+\hypertarget{classcalenhad_1_1mapping_1_1Graticule}{}\doxysection{calenhad\+::mapping\+::Graticule Class Reference}
+\label{classcalenhad_1_1mapping_1_1Graticule}\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+
+
+{\ttfamily \#include $<$Graticule.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::mapping\+::Graticule\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classcalenhad_1_1mapping_1_1Graticule__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::mapping\+::Graticule\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a81936ea12765ff53cd5ea7a62d43936e}{Graticule}} (\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}} $\ast$globe)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a9b99a344a27dce413191c4699d8794ce}{$\sim$\+Graticule}} () override
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a43c8e21b3a0bf3cfb1c45d445c686b43}{pitch}} (const int \&i)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a64ea03bf1f5c279a7b5dc2f19b0b6e3a}{draw\+Graticule}} (Q\+Painter \&p)
+\item 
+Q\+Pen \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a0ccf75f7b4cd585bc38ea393bed1fd5f}{major\+Pen}} ()
+\item 
+Q\+Pen \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ab427a0d099c7cf88bf7170fb8145a759}{minor\+Pen}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_aaf4e90d8b6b70144b33348f5b067da2a}{set\+Pens}} (Q\+Pen \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a0ccf75f7b4cd585bc38ea393bed1fd5f}{major\+Pen}}, Q\+Pen \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ab427a0d099c7cf88bf7170fb8145a759}{minor\+Pen}})
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a06e443224602c2f35612af53664c9eb6}{set\+Density}} (const int \&\mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a6537876108bf50b4fcaadbc6d12cafe9}{density}})
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ae8f1fd549450ab448410d4e51eda2d8a}{visible}} () const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_aa60956c0c2073bdbfa9ccca62dc28f54}{set\+Visible}} (bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ae8f1fd549450ab448410d4e51eda2d8a}{visible}}) override
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a6537876108bf50b4fcaadbc6d12cafe9}{density}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_aa03502fd1421e5676f38b4277d00cfcb}{get\+Intersections}} (const Q\+Pair$<$ double, double $>$ \&g, const double \&interval)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a70842fecacc9e3716002f9e76c413363}{draw\+Latitude\+Intersection}} (Q\+Painter \&p, const Q\+Pair$<$ double, double $>$ \&g, const int \&level)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a2f34097815ec57657e9aed7800c028aa}{draw\+Longitude\+Intersection}} (Q\+Painter \&p, const Q\+Pair$<$ double, double $>$ \&g, const int \&level)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_af8a592e9991a2eef4c6123bf0d4dd141}{make\+Graticule}} (Q\+Painter \&p, const int \&level)
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a8c8d39a7e36d31a26804209d3aa5f84e}{subdivisions}} (const int \&i)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a5794a7125fc40a92fdbf51a3af4b8d30}{draw\+Latitude}} (Q\+Painter \&p, const double \&lat, const int \&level)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a42c613b8ec3bac642e3c06e85ae34415}{draw\+Longitude}} (Q\+Painter \&p, const double \&lon, const int \&level)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_af1151b57c75a64d93f0683e7f006faa5}{place\+Latitude\+Label}} (Q\+Painter \&p, const double \&lat)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ac3bc7f4488013ea3f4aafa78a86ae03e}{place\+Longitude\+Label}} (Q\+Painter \&p, const double \&lon)
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a2e531203f8342011fa996430d78a5241}{longitude\+Label}} (const double \&lon, const bool \&major=true)
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a6ae9b62d7d6b0df02ad27baca94d3352}{latitude\+Label}} (const double \&lat, const bool \&major=true)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a97f1530cd8d4f8946cbf43ce44eff442}{draw\+Label}} (Q\+Painter \&p, Q\+PointF point, const Q\+String \&text)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ab55589ae272bd1c326cf27ed315ed40f}{draw\+Latitude\+Label}} (Q\+Painter \&p, Q\+PointF point, const Q\+String \&text)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a34c8d5e0b8876745c1b4896dffb8aba1}{draw\+Longitude\+Label}} (Q\+Painter \&p, Q\+PointF point, const Q\+String \&text)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ac9fe7214d714967d3823c540a4412048}{\+\_\+visible}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a830ecd9e1cc784e8e070bec564701fed}{\+\_\+density}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ac3cd0d10fcf7bef1dfd84bb7955a2c04}{\+\_\+globe}}
+\item 
+Q\+Pen \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a82fd2fd756b32cd8dfda8f1fb13aab6a}{\+\_\+major\+Pen}}
+\item 
+Q\+Pen \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ac2737eeb823cdf5dbc18f0756314263d}{\+\_\+minor\+Pen}}
+\item 
+Q\+LineF \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a02039ae0499ad2132ff9950ce0deac1b}{\+\_\+bottom}}
+\item 
+Q\+LineF \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ac6202095d98ed89a3c3c065d03a82649}{\+\_\+left}}
+\item 
+Q\+LineF \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a8902c43a0cf8bfd2454e2777eb48114d}{\+\_\+inset\+Top}}
+\item 
+Q\+LineF \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a6344e12e71586e59390568feb13c60e1}{\+\_\+inset\+Right}}
+\item 
+Q\+Set$<$ Q\+Pair$<$ double, double $>$ $>$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ac6397e6eb4f9e30a112d51f6b59e3363}{\+\_\+intersections}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a0407b82e85f3fdb1157224b906d56eb7}{\+\_\+central\+Lat}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a15a2051e14d06eed4062fa406c768e83}{\+\_\+central\+Lon}}
+\item 
+Q\+List$<$ double $>$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_ae1df96902e45a8c43544565a720c87a0}{\+\_\+latitudes\+Labelled}}
+\item 
+Q\+List$<$ double $>$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule_a48e785b7b6c4e0b37096cc550278ffa8}{\+\_\+longitudes\+Labelled}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a81936ea12765ff53cd5ea7a62d43936e}\label{classcalenhad_1_1mapping_1_1Graticule_a81936ea12765ff53cd5ea7a62d43936e}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!Graticule@{Graticule}}
+\index{Graticule@{Graticule}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{Graticule()}{Graticule()}}
+{\footnotesize\ttfamily Graticule\+::\+Graticule (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}} $\ast$}]{globe }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a81936ea12765ff53cd5ea7a62d43936e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a9b99a344a27dce413191c4699d8794ce}\label{classcalenhad_1_1mapping_1_1Graticule_a9b99a344a27dce413191c4699d8794ce}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!````~Graticule@{$\sim$Graticule}}
+\index{````~Graticule@{$\sim$Graticule}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{$\sim$Graticule()}{~Graticule()}}
+{\footnotesize\ttfamily Graticule\+::$\sim$\+Graticule (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a6537876108bf50b4fcaadbc6d12cafe9}\label{classcalenhad_1_1mapping_1_1Graticule_a6537876108bf50b4fcaadbc6d12cafe9}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!density@{density}}
+\index{density@{density}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{density()}{density()}}
+{\footnotesize\ttfamily int Graticule\+::density (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a6537876108bf50b4fcaadbc6d12cafe9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a64ea03bf1f5c279a7b5dc2f19b0b6e3a}\label{classcalenhad_1_1mapping_1_1Graticule_a64ea03bf1f5c279a7b5dc2f19b0b6e3a}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawGraticule@{drawGraticule}}
+\index{drawGraticule@{drawGraticule}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawGraticule()}{drawGraticule()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Graticule (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a64ea03bf1f5c279a7b5dc2f19b0b6e3a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a97f1530cd8d4f8946cbf43ce44eff442}\label{classcalenhad_1_1mapping_1_1Graticule_a97f1530cd8d4f8946cbf43ce44eff442}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawLabel@{drawLabel}}
+\index{drawLabel@{drawLabel}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawLabel()}{drawLabel()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Label (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{Q\+PointF}]{point,  }\item[{const Q\+String \&}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a97f1530cd8d4f8946cbf43ce44eff442_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a5794a7125fc40a92fdbf51a3af4b8d30}\label{classcalenhad_1_1mapping_1_1Graticule_a5794a7125fc40a92fdbf51a3af4b8d30}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawLatitude@{drawLatitude}}
+\index{drawLatitude@{drawLatitude}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawLatitude()}{drawLatitude()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Latitude (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{const double \&}]{lat,  }\item[{const int \&}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a5794a7125fc40a92fdbf51a3af4b8d30_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a5794a7125fc40a92fdbf51a3af4b8d30_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a70842fecacc9e3716002f9e76c413363}\label{classcalenhad_1_1mapping_1_1Graticule_a70842fecacc9e3716002f9e76c413363}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawLatitudeIntersection@{drawLatitudeIntersection}}
+\index{drawLatitudeIntersection@{drawLatitudeIntersection}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawLatitudeIntersection()}{drawLatitudeIntersection()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Latitude\+Intersection (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{const Q\+Pair$<$ double, double $>$ \&}]{g,  }\item[{const int \&}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a70842fecacc9e3716002f9e76c413363_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a70842fecacc9e3716002f9e76c413363_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ab55589ae272bd1c326cf27ed315ed40f}\label{classcalenhad_1_1mapping_1_1Graticule_ab55589ae272bd1c326cf27ed315ed40f}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawLatitudeLabel@{drawLatitudeLabel}}
+\index{drawLatitudeLabel@{drawLatitudeLabel}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawLatitudeLabel()}{drawLatitudeLabel()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Latitude\+Label (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{Q\+PointF}]{point,  }\item[{const Q\+String \&}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_ab55589ae272bd1c326cf27ed315ed40f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_ab55589ae272bd1c326cf27ed315ed40f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a42c613b8ec3bac642e3c06e85ae34415}\label{classcalenhad_1_1mapping_1_1Graticule_a42c613b8ec3bac642e3c06e85ae34415}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawLongitude@{drawLongitude}}
+\index{drawLongitude@{drawLongitude}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawLongitude()}{drawLongitude()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Longitude (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{const double \&}]{lon,  }\item[{const int \&}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a42c613b8ec3bac642e3c06e85ae34415_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a42c613b8ec3bac642e3c06e85ae34415_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a2f34097815ec57657e9aed7800c028aa}\label{classcalenhad_1_1mapping_1_1Graticule_a2f34097815ec57657e9aed7800c028aa}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawLongitudeIntersection@{drawLongitudeIntersection}}
+\index{drawLongitudeIntersection@{drawLongitudeIntersection}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawLongitudeIntersection()}{drawLongitudeIntersection()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Longitude\+Intersection (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{const Q\+Pair$<$ double, double $>$ \&}]{g,  }\item[{const int \&}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a2f34097815ec57657e9aed7800c028aa_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a2f34097815ec57657e9aed7800c028aa_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a34c8d5e0b8876745c1b4896dffb8aba1}\label{classcalenhad_1_1mapping_1_1Graticule_a34c8d5e0b8876745c1b4896dffb8aba1}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!drawLongitudeLabel@{drawLongitudeLabel}}
+\index{drawLongitudeLabel@{drawLongitudeLabel}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{drawLongitudeLabel()}{drawLongitudeLabel()}}
+{\footnotesize\ttfamily void Graticule\+::draw\+Longitude\+Label (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{Q\+PointF}]{point,  }\item[{const Q\+String \&}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a34c8d5e0b8876745c1b4896dffb8aba1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a34c8d5e0b8876745c1b4896dffb8aba1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_aa03502fd1421e5676f38b4277d00cfcb}\label{classcalenhad_1_1mapping_1_1Graticule_aa03502fd1421e5676f38b4277d00cfcb}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!getIntersections@{getIntersections}}
+\index{getIntersections@{getIntersections}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{getIntersections()}{getIntersections()}}
+{\footnotesize\ttfamily void Graticule\+::get\+Intersections (\begin{DoxyParamCaption}\item[{const Q\+Pair$<$ double, double $>$ \&}]{g,  }\item[{const double \&}]{interval }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_aa03502fd1421e5676f38b4277d00cfcb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a6ae9b62d7d6b0df02ad27baca94d3352}\label{classcalenhad_1_1mapping_1_1Graticule_a6ae9b62d7d6b0df02ad27baca94d3352}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!latitudeLabel@{latitudeLabel}}
+\index{latitudeLabel@{latitudeLabel}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{latitudeLabel()}{latitudeLabel()}}
+{\footnotesize\ttfamily Q\+String Graticule\+::latitude\+Label (\begin{DoxyParamCaption}\item[{const double \&}]{lat,  }\item[{const bool \&}]{major = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{classcalenhad_1_1mapping_1_1Graticule_a6ae9b62d7d6b0df02ad27baca94d3352_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a6ae9b62d7d6b0df02ad27baca94d3352_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a2e531203f8342011fa996430d78a5241}\label{classcalenhad_1_1mapping_1_1Graticule_a2e531203f8342011fa996430d78a5241}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!longitudeLabel@{longitudeLabel}}
+\index{longitudeLabel@{longitudeLabel}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{longitudeLabel()}{longitudeLabel()}}
+{\footnotesize\ttfamily Q\+String Graticule\+::longitude\+Label (\begin{DoxyParamCaption}\item[{const double \&}]{lon,  }\item[{const bool \&}]{major = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a2e531203f8342011fa996430d78a5241_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a2e531203f8342011fa996430d78a5241_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a0ccf75f7b4cd585bc38ea393bed1fd5f}\label{classcalenhad_1_1mapping_1_1Graticule_a0ccf75f7b4cd585bc38ea393bed1fd5f}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!majorPen@{majorPen}}
+\index{majorPen@{majorPen}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{majorPen()}{majorPen()}}
+{\footnotesize\ttfamily Q\+Pen Graticule\+::major\+Pen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{classcalenhad_1_1mapping_1_1Graticule_a0ccf75f7b4cd585bc38ea393bed1fd5f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_af8a592e9991a2eef4c6123bf0d4dd141}\label{classcalenhad_1_1mapping_1_1Graticule_af8a592e9991a2eef4c6123bf0d4dd141}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!makeGraticule@{makeGraticule}}
+\index{makeGraticule@{makeGraticule}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{makeGraticule()}{makeGraticule()}}
+{\footnotesize\ttfamily void Graticule\+::make\+Graticule (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{const int \&}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_af8a592e9991a2eef4c6123bf0d4dd141_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_af8a592e9991a2eef4c6123bf0d4dd141_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ab427a0d099c7cf88bf7170fb8145a759}\label{classcalenhad_1_1mapping_1_1Graticule_ab427a0d099c7cf88bf7170fb8145a759}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!minorPen@{minorPen}}
+\index{minorPen@{minorPen}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{minorPen()}{minorPen()}}
+{\footnotesize\ttfamily Q\+Pen Graticule\+::minor\+Pen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{classcalenhad_1_1mapping_1_1Graticule_ab427a0d099c7cf88bf7170fb8145a759_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a43c8e21b3a0bf3cfb1c45d445c686b43}\label{classcalenhad_1_1mapping_1_1Graticule_a43c8e21b3a0bf3cfb1c45d445c686b43}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!pitch@{pitch}}
+\index{pitch@{pitch}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{pitch()}{pitch()}}
+{\footnotesize\ttfamily double Graticule\+::pitch (\begin{DoxyParamCaption}\item[{const int \&}]{i }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a43c8e21b3a0bf3cfb1c45d445c686b43_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_af1151b57c75a64d93f0683e7f006faa5}\label{classcalenhad_1_1mapping_1_1Graticule_af1151b57c75a64d93f0683e7f006faa5}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!placeLatitudeLabel@{placeLatitudeLabel}}
+\index{placeLatitudeLabel@{placeLatitudeLabel}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{placeLatitudeLabel()}{placeLatitudeLabel()}}
+{\footnotesize\ttfamily void Graticule\+::place\+Latitude\+Label (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{const double \&}]{lat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_af1151b57c75a64d93f0683e7f006faa5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_af1151b57c75a64d93f0683e7f006faa5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ac3bc7f4488013ea3f4aafa78a86ae03e}\label{classcalenhad_1_1mapping_1_1Graticule_ac3bc7f4488013ea3f4aafa78a86ae03e}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!placeLongitudeLabel@{placeLongitudeLabel}}
+\index{placeLongitudeLabel@{placeLongitudeLabel}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{placeLongitudeLabel()}{placeLongitudeLabel()}}
+{\footnotesize\ttfamily void Graticule\+::place\+Longitude\+Label (\begin{DoxyParamCaption}\item[{Q\+Painter \&}]{p,  }\item[{const double \&}]{lon }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_ac3bc7f4488013ea3f4aafa78a86ae03e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_ac3bc7f4488013ea3f4aafa78a86ae03e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a06e443224602c2f35612af53664c9eb6}\label{classcalenhad_1_1mapping_1_1Graticule_a06e443224602c2f35612af53664c9eb6}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!setDensity@{setDensity}}
+\index{setDensity@{setDensity}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{setDensity()}{setDensity()}}
+{\footnotesize\ttfamily void Graticule\+::set\+Density (\begin{DoxyParamCaption}\item[{const int \&}]{density }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a06e443224602c2f35612af53664c9eb6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_aaf4e90d8b6b70144b33348f5b067da2a}\label{classcalenhad_1_1mapping_1_1Graticule_aaf4e90d8b6b70144b33348f5b067da2a}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!setPens@{setPens}}
+\index{setPens@{setPens}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{setPens()}{setPens()}}
+{\footnotesize\ttfamily void Graticule\+::set\+Pens (\begin{DoxyParamCaption}\item[{Q\+Pen}]{major\+Pen,  }\item[{Q\+Pen}]{minor\+Pen }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{classcalenhad_1_1mapping_1_1Graticule_aaf4e90d8b6b70144b33348f5b067da2a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_aa60956c0c2073bdbfa9ccca62dc28f54}\label{classcalenhad_1_1mapping_1_1Graticule_aa60956c0c2073bdbfa9ccca62dc28f54}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!setVisible@{setVisible}}
+\index{setVisible@{setVisible}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{setVisible()}{setVisible()}}
+{\footnotesize\ttfamily void Graticule\+::set\+Visible (\begin{DoxyParamCaption}\item[{bool}]{visible }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{classcalenhad_1_1mapping_1_1Graticule_aa60956c0c2073bdbfa9ccca62dc28f54_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a8c8d39a7e36d31a26804209d3aa5f84e}\label{classcalenhad_1_1mapping_1_1Graticule_a8c8d39a7e36d31a26804209d3aa5f84e}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!subdivisions@{subdivisions}}
+\index{subdivisions@{subdivisions}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{subdivisions()}{subdivisions()}}
+{\footnotesize\ttfamily double Graticule\+::subdivisions (\begin{DoxyParamCaption}\item[{const int \&}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_a8c8d39a7e36d31a26804209d3aa5f84e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ae8f1fd549450ab448410d4e51eda2d8a}\label{classcalenhad_1_1mapping_1_1Graticule_ae8f1fd549450ab448410d4e51eda2d8a}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!visible@{visible}}
+\index{visible@{visible}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{visible()}{visible()}}
+{\footnotesize\ttfamily bool Graticule\+::visible (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1Graticule_ae8f1fd549450ab448410d4e51eda2d8a_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a02039ae0499ad2132ff9950ce0deac1b}\label{classcalenhad_1_1mapping_1_1Graticule_a02039ae0499ad2132ff9950ce0deac1b}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_bottom@{\_bottom}}
+\index{\_bottom@{\_bottom}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_bottom}{\_bottom}}
+{\footnotesize\ttfamily Q\+LineF calenhad\+::mapping\+::\+Graticule\+::\+\_\+bottom\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a0407b82e85f3fdb1157224b906d56eb7}\label{classcalenhad_1_1mapping_1_1Graticule_a0407b82e85f3fdb1157224b906d56eb7}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_centralLat@{\_centralLat}}
+\index{\_centralLat@{\_centralLat}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_centralLat}{\_centralLat}}
+{\footnotesize\ttfamily double calenhad\+::mapping\+::\+Graticule\+::\+\_\+central\+Lat\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a15a2051e14d06eed4062fa406c768e83}\label{classcalenhad_1_1mapping_1_1Graticule_a15a2051e14d06eed4062fa406c768e83}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_centralLon@{\_centralLon}}
+\index{\_centralLon@{\_centralLon}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_centralLon}{\_centralLon}}
+{\footnotesize\ttfamily double calenhad\+::mapping\+::\+Graticule\+::\+\_\+central\+Lon\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a830ecd9e1cc784e8e070bec564701fed}\label{classcalenhad_1_1mapping_1_1Graticule_a830ecd9e1cc784e8e070bec564701fed}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_density@{\_density}}
+\index{\_density@{\_density}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_density}{\_density}}
+{\footnotesize\ttfamily int calenhad\+::mapping\+::\+Graticule\+::\+\_\+density\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ac3cd0d10fcf7bef1dfd84bb7955a2c04}\label{classcalenhad_1_1mapping_1_1Graticule_ac3cd0d10fcf7bef1dfd84bb7955a2c04}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_globe@{\_globe}}
+\index{\_globe@{\_globe}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_globe}{\_globe}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}}$\ast$ calenhad\+::mapping\+::\+Graticule\+::\+\_\+globe\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a6344e12e71586e59390568feb13c60e1}\label{classcalenhad_1_1mapping_1_1Graticule_a6344e12e71586e59390568feb13c60e1}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_insetRight@{\_insetRight}}
+\index{\_insetRight@{\_insetRight}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_insetRight}{\_insetRight}}
+{\footnotesize\ttfamily Q\+LineF calenhad\+::mapping\+::\+Graticule\+::\+\_\+inset\+Right\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a8902c43a0cf8bfd2454e2777eb48114d}\label{classcalenhad_1_1mapping_1_1Graticule_a8902c43a0cf8bfd2454e2777eb48114d}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_insetTop@{\_insetTop}}
+\index{\_insetTop@{\_insetTop}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_insetTop}{\_insetTop}}
+{\footnotesize\ttfamily Q\+LineF calenhad\+::mapping\+::\+Graticule\+::\+\_\+inset\+Top\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ac6397e6eb4f9e30a112d51f6b59e3363}\label{classcalenhad_1_1mapping_1_1Graticule_ac6397e6eb4f9e30a112d51f6b59e3363}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_intersections@{\_intersections}}
+\index{\_intersections@{\_intersections}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_intersections}{\_intersections}}
+{\footnotesize\ttfamily Q\+Set$<$Q\+Pair$<$double, double$>$ $>$ calenhad\+::mapping\+::\+Graticule\+::\+\_\+intersections\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ae1df96902e45a8c43544565a720c87a0}\label{classcalenhad_1_1mapping_1_1Graticule_ae1df96902e45a8c43544565a720c87a0}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_latitudesLabelled@{\_latitudesLabelled}}
+\index{\_latitudesLabelled@{\_latitudesLabelled}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_latitudesLabelled}{\_latitudesLabelled}}
+{\footnotesize\ttfamily Q\+List$<$double$>$ calenhad\+::mapping\+::\+Graticule\+::\+\_\+latitudes\+Labelled\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ac6202095d98ed89a3c3c065d03a82649}\label{classcalenhad_1_1mapping_1_1Graticule_ac6202095d98ed89a3c3c065d03a82649}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_left@{\_left}}
+\index{\_left@{\_left}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_left}{\_left}}
+{\footnotesize\ttfamily Q\+LineF calenhad\+::mapping\+::\+Graticule\+::\+\_\+left\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a48e785b7b6c4e0b37096cc550278ffa8}\label{classcalenhad_1_1mapping_1_1Graticule_a48e785b7b6c4e0b37096cc550278ffa8}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_longitudesLabelled@{\_longitudesLabelled}}
+\index{\_longitudesLabelled@{\_longitudesLabelled}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_longitudesLabelled}{\_longitudesLabelled}}
+{\footnotesize\ttfamily Q\+List$<$double$>$ calenhad\+::mapping\+::\+Graticule\+::\+\_\+longitudes\+Labelled\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_a82fd2fd756b32cd8dfda8f1fb13aab6a}\label{classcalenhad_1_1mapping_1_1Graticule_a82fd2fd756b32cd8dfda8f1fb13aab6a}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_majorPen@{\_majorPen}}
+\index{\_majorPen@{\_majorPen}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_majorPen}{\_majorPen}}
+{\footnotesize\ttfamily Q\+Pen calenhad\+::mapping\+::\+Graticule\+::\+\_\+major\+Pen\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ac2737eeb823cdf5dbc18f0756314263d}\label{classcalenhad_1_1mapping_1_1Graticule_ac2737eeb823cdf5dbc18f0756314263d}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_minorPen@{\_minorPen}}
+\index{\_minorPen@{\_minorPen}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_minorPen}{\_minorPen}}
+{\footnotesize\ttfamily Q\+Pen calenhad\+::mapping\+::\+Graticule\+::\+\_\+minor\+Pen\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1Graticule_ac9fe7214d714967d3823c540a4412048}\label{classcalenhad_1_1mapping_1_1Graticule_ac9fe7214d714967d3823c540a4412048}} 
+\index{calenhad::mapping::Graticule@{calenhad::mapping::Graticule}!\_visible@{\_visible}}
+\index{\_visible@{\_visible}!calenhad::mapping::Graticule@{calenhad::mapping::Graticule}}
+\doxysubsubsection{\texorpdfstring{\_visible}{\_visible}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Graticule\+::\+\_\+visible\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{Graticule_8h}{Graticule.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{Graticule_8cpp}{Graticule.\+cpp}}\end{DoxyCompactItemize}

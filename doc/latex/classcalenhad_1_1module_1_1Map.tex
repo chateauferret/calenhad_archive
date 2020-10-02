@@ -1,0 +1,191 @@
+\hypertarget{classcalenhad_1_1module_1_1Map}{}\doxysection{calenhad\+::module\+::Map Class Reference}
+\label{classcalenhad_1_1module_1_1Map}\index{calenhad::module::Map@{calenhad::module::Map}}
+
+
+{\ttfamily \#include $<$Map.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::module\+::Map\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=287pt]{classcalenhad_1_1module_1_1Map__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::module\+::Map\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Map__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Map_adc512895ac8b011aa41bae07360307b5}{Map}} (const Q\+String \&type=\mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a6d2236982b2fa7fc8d960f9bcddd8228}{Calenhad\+Services\+::preferences}}() -\/$>$ calenhad\+\_\+module\+\_\+map)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Map_adf6b1852fdeb12f71b0e0677211c3d89}{$\sim$\+Map}} () override
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a78d4904ddb5f7e802e1d09cd6fa3e924}{is\+Complete}} () override
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_ad8f20b24245eec03d160f13ea883565f}{map\+Height}} () const
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a181a639925c22db6b2c8f0851e9519a8}{map\+Width}} () const
+\item 
+\mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_ae958292d4f3795b6652bb1b43d1bb70b}{centre}} ()
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a540ed486e2bec6624711021298e34023}{scale}} () const
+\item 
+Q\+Image $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_ae12635ef92f503d2031fe99fece22db7}{image}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a1a2ac2fd9ac28927ccb353ff98c91b62}{serialize}} (Q\+Dom\+Element \&element) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a0e74d3161915cf2c885897a96de20b00}{inflate}} (const Q\+Dom\+Element \&element) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_aeba547488265ea0a47be09ba26bc6e13}{generate}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Image $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a3c2297e981420211cc7220e23bf58e28}{\+\_\+image}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a04e0203b2b9746addbe25c2c09366a78}{\+\_\+height}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1module_1_1Map_a126959472cc3dec89ccc89f9db81518e}{\+\_\+width}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_adc512895ac8b011aa41bae07360307b5}\label{classcalenhad_1_1module_1_1Map_adc512895ac8b011aa41bae07360307b5}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!Map@{Map}}
+\index{Map@{Map}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{Map()}{Map()}}
+{\footnotesize\ttfamily Map\+::\+Map (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type = {\ttfamily \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a6d2236982b2fa7fc8d960f9bcddd8228}{Calenhad\+Services\+::preferences}}()~-\/$>$~calenhad\+\_\+module\+\_\+map} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_adf6b1852fdeb12f71b0e0677211c3d89}\label{classcalenhad_1_1module_1_1Map_adf6b1852fdeb12f71b0e0677211c3d89}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!````~Map@{$\sim$Map}}
+\index{````~Map@{$\sim$Map}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{$\sim$Map()}{~Map()}}
+{\footnotesize\ttfamily Map\+::$\sim$\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_ae958292d4f3795b6652bb1b43d1bb70b}\label{classcalenhad_1_1module_1_1Map_ae958292d4f3795b6652bb1b43d1bb70b}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!centre@{centre}}
+\index{centre@{centre}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{centre()}{centre()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} Map\+::centre (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_aeba547488265ea0a47be09ba26bc6e13}\label{classcalenhad_1_1module_1_1Map_aeba547488265ea0a47be09ba26bc6e13}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!generate@{generate}}
+\index{generate@{generate}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{generate}{generate}}
+{\footnotesize\ttfamily void Map\+::generate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_ae12635ef92f503d2031fe99fece22db7}\label{classcalenhad_1_1module_1_1Map_ae12635ef92f503d2031fe99fece22db7}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!image@{image}}
+\index{image@{image}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{image()}{image()}}
+{\footnotesize\ttfamily Q\+Image $\ast$ Map\+::image (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a0e74d3161915cf2c885897a96de20b00}\label{classcalenhad_1_1module_1_1Map_a0e74d3161915cf2c885897a96de20b00}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!inflate@{inflate}}
+\index{inflate@{inflate}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{inflate}{inflate}}
+{\footnotesize\ttfamily void Map\+::inflate (\begin{DoxyParamCaption}\item[{const Q\+Dom\+Element \&}]{element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Map_a0e74d3161915cf2c885897a96de20b00_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a78d4904ddb5f7e802e1d09cd6fa3e924}\label{classcalenhad_1_1module_1_1Map_a78d4904ddb5f7e802e1d09cd6fa3e924}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!isComplete@{isComplete}}
+\index{isComplete@{isComplete}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{isComplete()}{isComplete()}}
+{\footnotesize\ttfamily bool Map\+::is\+Complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Node_a122151e166ae52d9f8cea2d952322da5}{calenhad\+::module\+::\+Node}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Map_a78d4904ddb5f7e802e1d09cd6fa3e924_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_ad8f20b24245eec03d160f13ea883565f}\label{classcalenhad_1_1module_1_1Map_ad8f20b24245eec03d160f13ea883565f}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!mapHeight@{mapHeight}}
+\index{mapHeight@{mapHeight}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{mapHeight()}{mapHeight()}}
+{\footnotesize\ttfamily int Map\+::map\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a181a639925c22db6b2c8f0851e9519a8}\label{classcalenhad_1_1module_1_1Map_a181a639925c22db6b2c8f0851e9519a8}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!mapWidth@{mapWidth}}
+\index{mapWidth@{mapWidth}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{mapWidth()}{mapWidth()}}
+{\footnotesize\ttfamily int Map\+::map\+Width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a540ed486e2bec6624711021298e34023}\label{classcalenhad_1_1module_1_1Map_a540ed486e2bec6624711021298e34023}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!scale@{scale}}
+\index{scale@{scale}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{scale()}{scale()}}
+{\footnotesize\ttfamily double Map\+::scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a1a2ac2fd9ac28927ccb353ff98c91b62}\label{classcalenhad_1_1module_1_1Map_a1a2ac2fd9ac28927ccb353ff98c91b62}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!serialize@{serialize}}
+\index{serialize@{serialize}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{serialize}{serialize}}
+{\footnotesize\ttfamily void Map\+::serialize (\begin{DoxyParamCaption}\item[{Q\+Dom\+Element \&}]{element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Map_a1a2ac2fd9ac28927ccb353ff98c91b62_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a04e0203b2b9746addbe25c2c09366a78}\label{classcalenhad_1_1module_1_1Map_a04e0203b2b9746addbe25c2c09366a78}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!\_height@{\_height}}
+\index{\_height@{\_height}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{\_height}{\_height}}
+{\footnotesize\ttfamily int calenhad\+::module\+::\+Map\+::\+\_\+height\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a3c2297e981420211cc7220e23bf58e28}\label{classcalenhad_1_1module_1_1Map_a3c2297e981420211cc7220e23bf58e28}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!\_image@{\_image}}
+\index{\_image@{\_image}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{\_image}{\_image}}
+{\footnotesize\ttfamily Q\+Image$\ast$ calenhad\+::module\+::\+Map\+::\+\_\+image\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Map_a126959472cc3dec89ccc89f9db81518e}\label{classcalenhad_1_1module_1_1Map_a126959472cc3dec89ccc89f9db81518e}} 
+\index{calenhad::module::Map@{calenhad::module::Map}!\_width@{\_width}}
+\index{\_width@{\_width}!calenhad::module::Map@{calenhad::module::Map}}
+\doxysubsubsection{\texorpdfstring{\_width}{\_width}}
+{\footnotesize\ttfamily int calenhad\+::module\+::\+Map\+::\+\_\+width\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{Map_8h}{Map.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{Map_8cpp}{Map.\+cpp}}\end{DoxyCompactItemize}

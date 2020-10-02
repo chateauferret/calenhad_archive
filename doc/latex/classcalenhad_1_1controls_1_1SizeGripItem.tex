@@ -1,0 +1,313 @@
+\hypertarget{classcalenhad_1_1controls_1_1SizeGripItem}{}\doxysection{calenhad\+::controls\+::Size\+Grip\+Item Class Reference}
+\label{classcalenhad_1_1controls_1_1SizeGripItem}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+
+
+{\ttfamily \#include $<$Size\+Grip\+Item.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::controls\+::Size\+Grip\+Item\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{classcalenhad_1_1controls_1_1SizeGripItem__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::controls\+::Size\+Grip\+Item\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1SizeGripItem__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1HandleItem}{Handle\+Item}}
+\item 
+class \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1Resizer}{Resizer}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a904bbac5d8a75b1e4badd1ececc665ab}{Size\+Grip\+Item}} (\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1Resizer}{Resizer}} $\ast$resizer=0, \mbox{\hyperlink{classQGraphicsItem}{Q\+Graphics\+Item}} $\ast$parent=0)
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a863ece2c53bd84925298168403af9951}{$\sim$\+Size\+Grip\+Item}} ()
+\item 
+virtual Q\+RectF \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a957d1e64f88200b5fd9460b5257844ca}{bounding\+Rect}} () const
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a533a641ed7820ac81bc9f4c5fabb1a37}{paint}} (Q\+Painter $\ast$painter, const Q\+Style\+Option\+Graphics\+Item $\ast$option, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$widget=0)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_ada2dc2dd16b1c78def7dc7c946a74148}{set\+Top\+Left}} (const Q\+PointF \&pos)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_afcf4088f80506eb0cdf58b31ab29698c}{set\+Top}} (qreal y)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a4b7570cb8f6f5dac095801f8dbb6dd9f}{set\+Top\+Right}} (const Q\+PointF \&pos)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_afa36a462bce8b043bd3d7dff7064bfcb}{set\+Right}} (qreal x)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_ac8b8a8a15401e04efb9ea0ea7ffe681c}{set\+Bottom\+Right}} (const Q\+PointF \&pos)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_acb3be5fdfede8f0b6e6d01e5068c851e}{set\+Bottom}} (qreal y)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_ac316c3e42a8d7b314c9f7c26e5a37648}{set\+Bottom\+Left}} (const Q\+PointF \&pos)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_ad0b8273ed18886aa33666d23eda80702}{set\+Left}} (qreal x)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a0883725db22f8a575598b1905a39bd7d}{hover\+Enter\+Event}} (Q\+Graphics\+Scene\+Hover\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a24556c18335830d5f5e71d543787af6a}{hover\+Leave\+Event}} (Q\+Graphics\+Scene\+Hover\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a017db133060f8716cf01dae957e2a6a9}{hover\+Move\+Event}} (Q\+Graphics\+Scene\+Hover\+Event $\ast$event)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aae9bf8940eb5e1195af8fbc61ad5232e3}{Top}} = 0x1, 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aaf50c48d3c8d6ab9132940b234949a6d5}{Bottom}} = 0x2, 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aad13fe8a55576e5d27ebadfd1e239e83f}{Left}} = 0x4, 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aae3dcb64872ba933e4b8f6dd586fd5c3f}{Top\+Left}} = Top $\vert$ Left, 
+\newline
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa26981181393ac265e9ca7cff6633237d}{Bottom\+Left}} = Bottom $\vert$ Left, 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aac2bc1bce8ae4e4f2119c1926b6f1bca9}{Right}} = 0x8, 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa734b3b29957bc4041e80e6a1ee4ce3dd}{Top\+Right}} = Top $\vert$ Right, 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa211c17acf7e6fca9a2e749d746661c7f}{Bottom\+Right}} = Bottom $\vert$ Right
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_af57e202dd8db0aa53e5d4174ccbbdc90}{do\+Resize}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_ad16065f902321eef05124257834edf95}{update\+Handle\+Item\+Positions}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+List$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1HandleItem}{Handle\+Item}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a16312e5ed70919a9d7f15ef302836345}{handle\+Items\+\_\+}}
+\item 
+Q\+RectF \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_aa6d87aca144a94414c2fd83e36711982}{\+\_\+rect}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1Resizer}{Resizer}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a0b36975ad6348a01dca6440e4bd23d63}{resizer\+\_\+}}
+\item 
+Q\+Timer \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a3fcaa989ac2b35a0a0c3bfa31f0fb710}{timer}}
+\item 
+const double \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_a571a15e218c4b6f7d83c222902441461}{\+\_\+margin}} = 8.\+0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08a}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08a}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum\hspace{0.3cm}{\ttfamily [private]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Top@{Top}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!Top@{Top}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aae9bf8940eb5e1195af8fbc61ad5232e3}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aae9bf8940eb5e1195af8fbc61ad5232e3}} 
+Top&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Bottom@{Bottom}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!Bottom@{Bottom}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aaf50c48d3c8d6ab9132940b234949a6d5}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aaf50c48d3c8d6ab9132940b234949a6d5}} 
+Bottom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Left@{Left}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!Left@{Left}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aad13fe8a55576e5d27ebadfd1e239e83f}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aad13fe8a55576e5d27ebadfd1e239e83f}} 
+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TopLeft@{TopLeft}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!TopLeft@{TopLeft}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aae3dcb64872ba933e4b8f6dd586fd5c3f}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aae3dcb64872ba933e4b8f6dd586fd5c3f}} 
+Top\+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BottomLeft@{BottomLeft}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!BottomLeft@{BottomLeft}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa26981181393ac265e9ca7cff6633237d}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa26981181393ac265e9ca7cff6633237d}} 
+Bottom\+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Right@{Right}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!Right@{Right}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aac2bc1bce8ae4e4f2119c1926b6f1bca9}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aac2bc1bce8ae4e4f2119c1926b6f1bca9}} 
+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TopRight@{TopRight}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!TopRight@{TopRight}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa734b3b29957bc4041e80e6a1ee4ce3dd}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa734b3b29957bc4041e80e6a1ee4ce3dd}} 
+Top\+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BottomRight@{BottomRight}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!BottomRight@{BottomRight}}}\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa211c17acf7e6fca9a2e749d746661c7f}\label{classcalenhad_1_1controls_1_1SizeGripItem_a2964aa7c493723d6d0827a978f33f08aa211c17acf7e6fca9a2e749d746661c7f}} 
+Bottom\+Right&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a904bbac5d8a75b1e4badd1ececc665ab}\label{classcalenhad_1_1controls_1_1SizeGripItem_a904bbac5d8a75b1e4badd1ececc665ab}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!SizeGripItem@{SizeGripItem}}
+\index{SizeGripItem@{SizeGripItem}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{SizeGripItem()}{SizeGripItem()}}
+{\footnotesize\ttfamily Size\+Grip\+Item\+::\+Size\+Grip\+Item (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1Resizer}{Resizer}} $\ast$}]{resizer = {\ttfamily 0},  }\item[{\mbox{\hyperlink{classQGraphicsItem}{Q\+Graphics\+Item}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1SizeGripItem_a904bbac5d8a75b1e4badd1ececc665ab_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a863ece2c53bd84925298168403af9951}\label{classcalenhad_1_1controls_1_1SizeGripItem_a863ece2c53bd84925298168403af9951}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!````~SizeGripItem@{$\sim$SizeGripItem}}
+\index{````~SizeGripItem@{$\sim$SizeGripItem}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{$\sim$SizeGripItem()}{~SizeGripItem()}}
+{\footnotesize\ttfamily Size\+Grip\+Item\+::$\sim$\+Size\+Grip\+Item (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a957d1e64f88200b5fd9460b5257844ca}\label{classcalenhad_1_1controls_1_1SizeGripItem_a957d1e64f88200b5fd9460b5257844ca}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!boundingRect@{boundingRect}}
+\index{boundingRect@{boundingRect}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{boundingRect()}{boundingRect()}}
+{\footnotesize\ttfamily Q\+RectF Size\+Grip\+Item\+::bounding\+Rect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_af57e202dd8db0aa53e5d4174ccbbdc90}\label{classcalenhad_1_1controls_1_1SizeGripItem_af57e202dd8db0aa53e5d4174ccbbdc90}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!doResize@{doResize}}
+\index{doResize@{doResize}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{doResize()}{doResize()}}
+{\footnotesize\ttfamily void Size\+Grip\+Item\+::do\+Resize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a0883725db22f8a575598b1905a39bd7d}\label{classcalenhad_1_1controls_1_1SizeGripItem_a0883725db22f8a575598b1905a39bd7d}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!hoverEnterEvent@{hoverEnterEvent}}
+\index{hoverEnterEvent@{hoverEnterEvent}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{hoverEnterEvent()}{hoverEnterEvent()}}
+{\footnotesize\ttfamily void Size\+Grip\+Item\+::hover\+Enter\+Event (\begin{DoxyParamCaption}\item[{Q\+Graphics\+Scene\+Hover\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a24556c18335830d5f5e71d543787af6a}\label{classcalenhad_1_1controls_1_1SizeGripItem_a24556c18335830d5f5e71d543787af6a}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!hoverLeaveEvent@{hoverLeaveEvent}}
+\index{hoverLeaveEvent@{hoverLeaveEvent}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{hoverLeaveEvent()}{hoverLeaveEvent()}}
+{\footnotesize\ttfamily void Size\+Grip\+Item\+::hover\+Leave\+Event (\begin{DoxyParamCaption}\item[{Q\+Graphics\+Scene\+Hover\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a017db133060f8716cf01dae957e2a6a9}\label{classcalenhad_1_1controls_1_1SizeGripItem_a017db133060f8716cf01dae957e2a6a9}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!hoverMoveEvent@{hoverMoveEvent}}
+\index{hoverMoveEvent@{hoverMoveEvent}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{hoverMoveEvent()}{hoverMoveEvent()}}
+{\footnotesize\ttfamily void Size\+Grip\+Item\+::hover\+Move\+Event (\begin{DoxyParamCaption}\item[{Q\+Graphics\+Scene\+Hover\+Event $\ast$}]{event }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a533a641ed7820ac81bc9f4c5fabb1a37}\label{classcalenhad_1_1controls_1_1SizeGripItem_a533a641ed7820ac81bc9f4c5fabb1a37}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!paint@{paint}}
+\index{paint@{paint}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{paint()}{paint()}}
+{\footnotesize\ttfamily void Size\+Grip\+Item\+::paint (\begin{DoxyParamCaption}\item[{Q\+Painter $\ast$}]{painter,  }\item[{const Q\+Style\+Option\+Graphics\+Item $\ast$}]{option,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{widget = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_acb3be5fdfede8f0b6e6d01e5068c851e}\label{classcalenhad_1_1controls_1_1SizeGripItem_acb3be5fdfede8f0b6e6d01e5068c851e}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setBottom@{setBottom}}
+\index{setBottom@{setBottom}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setBottom()}{setBottom()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Bottom (\begin{DoxyParamCaption}\item[{qreal}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_ac316c3e42a8d7b314c9f7c26e5a37648}\label{classcalenhad_1_1controls_1_1SizeGripItem_ac316c3e42a8d7b314c9f7c26e5a37648}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setBottomLeft@{setBottomLeft}}
+\index{setBottomLeft@{setBottomLeft}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setBottomLeft()}{setBottomLeft()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Bottom\+Left (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{pos }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_ac8b8a8a15401e04efb9ea0ea7ffe681c}\label{classcalenhad_1_1controls_1_1SizeGripItem_ac8b8a8a15401e04efb9ea0ea7ffe681c}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setBottomRight@{setBottomRight}}
+\index{setBottomRight@{setBottomRight}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setBottomRight()}{setBottomRight()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Bottom\+Right (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{pos }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_ad0b8273ed18886aa33666d23eda80702}\label{classcalenhad_1_1controls_1_1SizeGripItem_ad0b8273ed18886aa33666d23eda80702}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setLeft@{setLeft}}
+\index{setLeft@{setLeft}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setLeft()}{setLeft()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Left (\begin{DoxyParamCaption}\item[{qreal}]{x }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_afa36a462bce8b043bd3d7dff7064bfcb}\label{classcalenhad_1_1controls_1_1SizeGripItem_afa36a462bce8b043bd3d7dff7064bfcb}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setRight@{setRight}}
+\index{setRight@{setRight}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setRight()}{setRight()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Right (\begin{DoxyParamCaption}\item[{qreal}]{x }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_afcf4088f80506eb0cdf58b31ab29698c}\label{classcalenhad_1_1controls_1_1SizeGripItem_afcf4088f80506eb0cdf58b31ab29698c}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setTop@{setTop}}
+\index{setTop@{setTop}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setTop()}{setTop()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Top (\begin{DoxyParamCaption}\item[{qreal}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_ada2dc2dd16b1c78def7dc7c946a74148}\label{classcalenhad_1_1controls_1_1SizeGripItem_ada2dc2dd16b1c78def7dc7c946a74148}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setTopLeft@{setTopLeft}}
+\index{setTopLeft@{setTopLeft}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setTopLeft()}{setTopLeft()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Top\+Left (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{pos }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a4b7570cb8f6f5dac095801f8dbb6dd9f}\label{classcalenhad_1_1controls_1_1SizeGripItem_a4b7570cb8f6f5dac095801f8dbb6dd9f}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!setTopRight@{setTopRight}}
+\index{setTopRight@{setTopRight}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{setTopRight()}{setTopRight()}}
+{\footnotesize\ttfamily void calenhad\+::controls\+::\+Size\+Grip\+Item\+::set\+Top\+Right (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{pos }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_ad16065f902321eef05124257834edf95}\label{classcalenhad_1_1controls_1_1SizeGripItem_ad16065f902321eef05124257834edf95}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!updateHandleItemPositions@{updateHandleItemPositions}}
+\index{updateHandleItemPositions@{updateHandleItemPositions}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{updateHandleItemPositions()}{updateHandleItemPositions()}}
+{\footnotesize\ttfamily void Size\+Grip\+Item\+::update\+Handle\+Item\+Positions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1SizeGripItem_ad16065f902321eef05124257834edf95_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1controls_1_1SizeGripItem_ad16065f902321eef05124257834edf95_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a571a15e218c4b6f7d83c222902441461}\label{classcalenhad_1_1controls_1_1SizeGripItem_a571a15e218c4b6f7d83c222902441461}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!\_margin@{\_margin}}
+\index{\_margin@{\_margin}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{\_margin}{\_margin}}
+{\footnotesize\ttfamily const double calenhad\+::controls\+::\+Size\+Grip\+Item\+::\+\_\+margin = 8.\+0\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_aa6d87aca144a94414c2fd83e36711982}\label{classcalenhad_1_1controls_1_1SizeGripItem_aa6d87aca144a94414c2fd83e36711982}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!\_rect@{\_rect}}
+\index{\_rect@{\_rect}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{\_rect}{\_rect}}
+{\footnotesize\ttfamily Q\+RectF calenhad\+::controls\+::\+Size\+Grip\+Item\+::\+\_\+rect\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a16312e5ed70919a9d7f15ef302836345}\label{classcalenhad_1_1controls_1_1SizeGripItem_a16312e5ed70919a9d7f15ef302836345}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!handleItems\_@{handleItems\_}}
+\index{handleItems\_@{handleItems\_}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{handleItems\_}{handleItems\_}}
+{\footnotesize\ttfamily Q\+List$<$\mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1HandleItem}{Handle\+Item}}$\ast$$>$ calenhad\+::controls\+::\+Size\+Grip\+Item\+::handle\+Items\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a0b36975ad6348a01dca6440e4bd23d63}\label{classcalenhad_1_1controls_1_1SizeGripItem_a0b36975ad6348a01dca6440e4bd23d63}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!resizer\_@{resizer\_}}
+\index{resizer\_@{resizer\_}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{resizer\_}{resizer\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1SizeGripItem_1_1Resizer}{Resizer}}$\ast$ calenhad\+::controls\+::\+Size\+Grip\+Item\+::resizer\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1controls_1_1SizeGripItem_a3fcaa989ac2b35a0a0c3bfa31f0fb710}\label{classcalenhad_1_1controls_1_1SizeGripItem_a3fcaa989ac2b35a0a0c3bfa31f0fb710}} 
+\index{calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}!timer@{timer}}
+\index{timer@{timer}!calenhad::controls::SizeGripItem@{calenhad::controls::SizeGripItem}}
+\doxysubsubsection{\texorpdfstring{timer}{timer}}
+{\footnotesize\ttfamily Q\+Timer calenhad\+::controls\+::\+Size\+Grip\+Item\+::timer\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/\mbox{\hyperlink{SizeGripItem_8h}{Size\+Grip\+Item.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/controls/\mbox{\hyperlink{SizeGripItem_8cpp}{Size\+Grip\+Item.\+cpp}}\end{DoxyCompactItemize}

@@ -386,10 +386,12 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (! type.isNull()) {
                     doCreateNode (me -> scenePos(), type);
                 }
-                _controller -> clearTools();
-                setActiveTool (nullptr);
-                for (QGraphicsView* view : views()) {
-                    view -> viewport() -> unsetCursor ();
+                if (! (me -> modifiers() & Qt::ShiftModifier)) {
+                    _controller -> clearTools();
+                    setActiveTool (nullptr);
+                    for (QGraphicsView* view : views()) {
+                        view -> viewport() -> setCursor (Qt::ArrowCursor);
+                    }
                 }
             }
             _wasConnectedTo = nullptr;

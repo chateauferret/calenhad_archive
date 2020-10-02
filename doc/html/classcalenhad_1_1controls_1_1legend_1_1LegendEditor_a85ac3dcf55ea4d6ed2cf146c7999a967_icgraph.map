@@ -1,0 +1,5 @@
+<map id="calenhad::controls::legend::LegendEditor::SliderSort" name="calenhad::controls::legend::LegendEditor::SliderSort">
+<area shape="rect" id="node1" title="sort the slider list" alt="" coords="257,45,424,101"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditorSliderPanel.html#a33243a7f6ecdc8474c595fea637e1f06" title="detect a mouse is moved" alt="" coords="5,5,209,61"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a2cb4c12caf24274a015fcb9f1245c22f" title="detect a mouse is pressed" alt="" coords="24,85,191,141"/>
+</map>

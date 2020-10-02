@@ -1,0 +1,530 @@
+\hypertarget{classcalenhad_1_1CalenhadServices}{}\doxysection{calenhad\+::Calenhad\+Services Class Reference}
+\label{classcalenhad_1_1CalenhadServices}\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+
+
+{\ttfamily \#include $<$Calenhad\+Services.\+h$>$}
+
+
+
+Collaboration diagram for calenhad\+::Calenhad\+Services\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classcalenhad_1_1CalenhadServices__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1preferences_1_1PreferencesService}{calenhad\+::preferences\+::\+Preferences\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a6d2236982b2fa7fc8d960f9bcddd8228}{preferences}} ()
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost}{calenhad\+::notification\+::\+Q\+Notification\+Host}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ae0be8dcee909341def11d8404371bc4d}{messages}} ()
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{calenhad\+::legend\+::\+Legend\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ad5f89f5c10bfd1f57f8bdb3143913a02}{legends}} ()
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1ProjectionService}{calenhad\+::mapping\+::projection\+::\+Projection\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a5231ac9a2418b9b68286946acbd156ea}{projections}} ()
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory}{calenhad\+::pipeline\+::\+Module\+Factory}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a8595d6c65d72f0c9d7717688823cc207}{modules}} ()
+\item 
+static calenhad\+::expressions\+::\+Calculator $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_af272f915ec45df44f38e949f293c0ca1}{calculator}} ()
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ae3954a2b16b9c9bd63bf439c2995fb67}{provide\+Preferences}} (\mbox{\hyperlink{classcalenhad_1_1preferences_1_1PreferencesService}{calenhad\+::preferences\+::\+Preferences\+Service}} $\ast$service)
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ac70e1375969f3308ffc7850fc6e6e30f}{provide\+Messages}} (\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost}{calenhad\+::notification\+::\+Q\+Notification\+Host}} $\ast$service)
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_aad82aaadf2177e8c4432ddd2e8339869}{provide\+Legends}} (\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{calenhad\+::legend\+::\+Legend\+Service}} $\ast$service)
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a7063d199ceb761cac147e89ee4e62bbf}{provide\+Projections}} (\mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1ProjectionService}{calenhad\+::mapping\+::projection\+::\+Projection\+Service}} $\ast$service)
+\item 
+static bool \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a536d6a30db7a9e39047f0227166a0581}{read\+Xml}} (const Q\+String \&fname, Q\+Dom\+Document \&doc)
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a113122f8908f7eeb51169e08011d41f9}{provide\+Calculator}} (calenhad\+::expressions\+::\+Calculator $\ast$\mbox{\hyperlink{classcalenhad_1_1CalenhadServices_af272f915ec45df44f38e949f293c0ca1}{calculator}})
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a64196e0b37372f7a9ca68f99d68e8996}{provide\+Modules}} (\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory}{pipeline\+::\+Module\+Factory}} $\ast$\mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a8595d6c65d72f0c9d7717688823cc207}{modules}})
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_af3b83cf0006e6bf74f358a5eef80eefc}{provide\+Icosphere}} (int depth)
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_acd054b191aa399c30c959aefd2d4fd6e}{provide\+Compute\+Service}} ()
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService}{graph\+::\+Compute\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a4c4a99cffc11b9b0c804e310ce0aef01}{compute}} ()
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ac7a0e6ab923f2a7a177e12ca4e0c0ec6}{provide\+Cubic\+Sphere}} (const int \&depth)
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere}{calenhad\+::grid\+::\+Icosphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_afe7634f4cef5ebab627aafedc89b3385}{icosphere}} ()
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_aa4e35d1399f554f0af3edff53ce0c22d}{cubic\+Sphere}} ()
+\item 
+static Q\+String\+List \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a13a9beb828a58a1450ba9c2cbb70d10f}{recent\+Files}} ()
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_acc8d3748aef32831887912ec0da180fa}{provide\+Globe}} ()
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a7deb8608ab68ee471d9e6171c93fbd4b}{provide\+Globe}} (\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadGlobeDialog}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Dialog}} $\ast$\mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a8a7552200f8ad2c7ccbf381bf50923c2}{globe}})
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ab9a157dae80080d8800ca1e74be38bbd}{dispose\+Globe}} ()
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadGlobeDialog}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Dialog}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a8a7552200f8ad2c7ccbf381bf50923c2}{globe}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$module=nullptr)
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadGlobeDialog}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Dialog}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ab25f63a6fa51a2c7b92ff0481be83e5d}{globe}} (\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{calenhad\+::pipeline\+::\+Calenhad\+Model}} $\ast$model=nullptr)
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{calenhad\+::nodeedit\+::\+Calenhad}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_afab497dbef67b4cb3d6203e930f9f769}{main\+Window}} ()
+\item 
+static void \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a8ed02769dd19e630ee7155ffa49f6c15}{provide\+Main\+Window}} (\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{calenhad\+::nodeedit\+::\+Calenhad}} $\ast$\mbox{\hyperlink{classcalenhad_1_1CalenhadServices_afab497dbef67b4cb3d6203e930f9f769}{main\+Window}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1preferences_1_1PreferencesService}{calenhad\+::preferences\+::\+Preferences\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a10de4f31446fcc496dd553cbdee43021}{\+\_\+preferences}}
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost}{calenhad\+::notification\+::\+Q\+Notification\+Host}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a799e1ba14db57ab6b942c44dd3cba899}{\+\_\+messages}} = nullptr
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{calenhad\+::legend\+::\+Legend\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a5077d44090af4ac93fbfade74af6ce6c}{\+\_\+legends}}
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1ProjectionService}{calenhad\+::mapping\+::projection\+::\+Projection\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a17c1329d67574a5df89f2a496df36a37}{\+\_\+projections}}
+\item 
+static calenhad\+::controls\+::globe\+::\+Statistics\+Service $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a326fb89befeb39993d4934807be7e175}{\+\_\+statistics}}
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory}{calenhad\+::pipeline\+::\+Module\+Factory}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a474d5524ee1214e2093477554e2948a2}{\+\_\+modules}}
+\item 
+static calenhad\+::expressions\+::\+Calculator $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a0903ef20f1665ce20b5cfb2fe62d9eca}{\+\_\+calculator}}
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere}{calenhad\+::grid\+::\+Icosphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ab7647a0a386ac6004d4e22d14aa248fe}{\+\_\+icosphere}} = nullptr
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a6c7682a697815a5042802cec5a961b55}{\+\_\+cubic\+Sphere}} = nullptr
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService}{calenhad\+::graph\+::\+Compute\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_ae7edc160d7cf9023c85636b75f409105}{\+\_\+compute\+Service}} = nullptr
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadGlobeDialog}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Dialog}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a03fc392f4c1d0d47a7e1b221c7eccfe0}{\+\_\+globe\+Dialog}} = nullptr
+\item 
+static \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{calenhad\+::nodeedit\+::\+Calenhad}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_aa924e12f2f93213e024688608f6c3c81}{\+\_\+main\+Window}} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_af272f915ec45df44f38e949f293c0ca1}\label{classcalenhad_1_1CalenhadServices_af272f915ec45df44f38e949f293c0ca1}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!calculator@{calculator}}
+\index{calculator@{calculator}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{calculator()}{calculator()}}
+{\footnotesize\ttfamily Calculator $\ast$ Calenhad\+Services\+::calculator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_af272f915ec45df44f38e949f293c0ca1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a4c4a99cffc11b9b0c804e310ce0aef01}\label{classcalenhad_1_1CalenhadServices_a4c4a99cffc11b9b0c804e310ce0aef01}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!compute@{compute}}
+\index{compute@{compute}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{compute()}{compute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1graph_1_1ComputeService}{Compute\+Service}} $\ast$ Calenhad\+Services\+::compute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a4c4a99cffc11b9b0c804e310ce0aef01_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_aa4e35d1399f554f0af3edff53ce0c22d}\label{classcalenhad_1_1CalenhadServices_aa4e35d1399f554f0af3edff53ce0c22d}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!cubicSphere@{cubicSphere}}
+\index{cubicSphere@{cubicSphere}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{cubicSphere()}{cubicSphere()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$ Calenhad\+Services\+::cubic\+Sphere (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ab9a157dae80080d8800ca1e74be38bbd}\label{classcalenhad_1_1CalenhadServices_ab9a157dae80080d8800ca1e74be38bbd}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!disposeGlobe@{disposeGlobe}}
+\index{disposeGlobe@{disposeGlobe}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{disposeGlobe()}{disposeGlobe()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::dispose\+Globe (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_ab9a157dae80080d8800ca1e74be38bbd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a8a7552200f8ad2c7ccbf381bf50923c2}\label{classcalenhad_1_1CalenhadServices_a8a7552200f8ad2c7ccbf381bf50923c2}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!globe@{globe}}
+\index{globe@{globe}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{globe()}{globe()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadGlobeDialog}{Calenhad\+Globe\+Dialog}} $\ast$ Calenhad\+Services\+::globe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$}]{module = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a8a7552200f8ad2c7ccbf381bf50923c2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ab25f63a6fa51a2c7b92ff0481be83e5d}\label{classcalenhad_1_1CalenhadServices_ab25f63a6fa51a2c7b92ff0481be83e5d}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!globe@{globe}}
+\index{globe@{globe}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{globe()}{globe()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadGlobeDialog}{Calenhad\+Globe\+Dialog}} $\ast$ Calenhad\+Services\+::globe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{calenhad\+::pipeline\+::\+Calenhad\+Model}} $\ast$}]{model = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_afe7634f4cef5ebab627aafedc89b3385}\label{classcalenhad_1_1CalenhadServices_afe7634f4cef5ebab627aafedc89b3385}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!icosphere@{icosphere}}
+\index{icosphere@{icosphere}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{icosphere()}{icosphere()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1grid_1_1Icosphere}{calenhad\+::grid\+::\+Icosphere}} $\ast$ Calenhad\+Services\+::icosphere (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ad5f89f5c10bfd1f57f8bdb3143913a02}\label{classcalenhad_1_1CalenhadServices_ad5f89f5c10bfd1f57f8bdb3143913a02}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!legends@{legends}}
+\index{legends@{legends}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{legends()}{legends()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{Legend\+Service}} $\ast$ Calenhad\+Services\+::legends (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_ad5f89f5c10bfd1f57f8bdb3143913a02_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_afab497dbef67b4cb3d6203e930f9f769}\label{classcalenhad_1_1CalenhadServices_afab497dbef67b4cb3d6203e930f9f769}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!mainWindow@{mainWindow}}
+\index{mainWindow@{mainWindow}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{mainWindow()}{mainWindow()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{Calenhad}} $\ast$ Calenhad\+Services\+::main\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_afab497dbef67b4cb3d6203e930f9f769_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ae0be8dcee909341def11d8404371bc4d}\label{classcalenhad_1_1CalenhadServices_ae0be8dcee909341def11d8404371bc4d}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!messages@{messages}}
+\index{messages@{messages}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{messages()}{messages()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost}{Q\+Notification\+Host}} $\ast$ Calenhad\+Services\+::messages (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_ae0be8dcee909341def11d8404371bc4d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a8595d6c65d72f0c9d7717688823cc207}\label{classcalenhad_1_1CalenhadServices_a8595d6c65d72f0c9d7717688823cc207}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!modules@{modules}}
+\index{modules@{modules}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{modules()}{modules()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory}{Module\+Factory}} $\ast$ Calenhad\+Services\+::modules (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a8595d6c65d72f0c9d7717688823cc207_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a6d2236982b2fa7fc8d960f9bcddd8228}\label{classcalenhad_1_1CalenhadServices_a6d2236982b2fa7fc8d960f9bcddd8228}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!preferences@{preferences}}
+\index{preferences@{preferences}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{preferences()}{preferences()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1preferences_1_1PreferencesService}{Preferences\+Service}} $\ast$ Calenhad\+Services\+::preferences (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a5231ac9a2418b9b68286946acbd156ea}\label{classcalenhad_1_1CalenhadServices_a5231ac9a2418b9b68286946acbd156ea}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!projections@{projections}}
+\index{projections@{projections}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{projections()}{projections()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1ProjectionService}{Projection\+Service}} $\ast$ Calenhad\+Services\+::projections (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a5231ac9a2418b9b68286946acbd156ea_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a113122f8908f7eeb51169e08011d41f9}\label{classcalenhad_1_1CalenhadServices_a113122f8908f7eeb51169e08011d41f9}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideCalculator@{provideCalculator}}
+\index{provideCalculator@{provideCalculator}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideCalculator()}{provideCalculator()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Calculator (\begin{DoxyParamCaption}\item[{calenhad\+::expressions\+::\+Calculator $\ast$}]{calculator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classcalenhad_1_1CalenhadServices_a113122f8908f7eeb51169e08011d41f9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_acd054b191aa399c30c959aefd2d4fd6e}\label{classcalenhad_1_1CalenhadServices_acd054b191aa399c30c959aefd2d4fd6e}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideComputeService@{provideComputeService}}
+\index{provideComputeService@{provideComputeService}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideComputeService()}{provideComputeService()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Compute\+Service (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classcalenhad_1_1CalenhadServices_acd054b191aa399c30c959aefd2d4fd6e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ac7a0e6ab923f2a7a177e12ca4e0c0ec6}\label{classcalenhad_1_1CalenhadServices_ac7a0e6ab923f2a7a177e12ca4e0c0ec6}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideCubicSphere@{provideCubicSphere}}
+\index{provideCubicSphere@{provideCubicSphere}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideCubicSphere()}{provideCubicSphere()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Cubic\+Sphere (\begin{DoxyParamCaption}\item[{const int \&}]{depth }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_ac7a0e6ab923f2a7a177e12ca4e0c0ec6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_acc8d3748aef32831887912ec0da180fa}\label{classcalenhad_1_1CalenhadServices_acc8d3748aef32831887912ec0da180fa}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideGlobe@{provideGlobe}}
+\index{provideGlobe@{provideGlobe}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideGlobe()}{provideGlobe()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Globe (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_acc8d3748aef32831887912ec0da180fa_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a7deb8608ab68ee471d9e6171c93fbd4b}\label{classcalenhad_1_1CalenhadServices_a7deb8608ab68ee471d9e6171c93fbd4b}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideGlobe@{provideGlobe}}
+\index{provideGlobe@{provideGlobe}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideGlobe()}{provideGlobe()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Globe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadGlobeDialog}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Dialog}} $\ast$}]{globe }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_af3b83cf0006e6bf74f358a5eef80eefc}\label{classcalenhad_1_1CalenhadServices_af3b83cf0006e6bf74f358a5eef80eefc}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideIcosphere@{provideIcosphere}}
+\index{provideIcosphere@{provideIcosphere}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideIcosphere()}{provideIcosphere()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Icosphere (\begin{DoxyParamCaption}\item[{int}]{depth }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_aad82aaadf2177e8c4432ddd2e8339869}\label{classcalenhad_1_1CalenhadServices_aad82aaadf2177e8c4432ddd2e8339869}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideLegends@{provideLegends}}
+\index{provideLegends@{provideLegends}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideLegends()}{provideLegends()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Legends (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{calenhad\+::legend\+::\+Legend\+Service}} $\ast$}]{service }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classcalenhad_1_1CalenhadServices_aad82aaadf2177e8c4432ddd2e8339869_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a8ed02769dd19e630ee7155ffa49f6c15}\label{classcalenhad_1_1CalenhadServices_a8ed02769dd19e630ee7155ffa49f6c15}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideMainWindow@{provideMainWindow}}
+\index{provideMainWindow@{provideMainWindow}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideMainWindow()}{provideMainWindow()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Main\+Window (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{calenhad\+::nodeedit\+::\+Calenhad}} $\ast$}]{main\+Window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classcalenhad_1_1CalenhadServices_a8ed02769dd19e630ee7155ffa49f6c15_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ac70e1375969f3308ffc7850fc6e6e30f}\label{classcalenhad_1_1CalenhadServices_ac70e1375969f3308ffc7850fc6e6e30f}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideMessages@{provideMessages}}
+\index{provideMessages@{provideMessages}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideMessages()}{provideMessages()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Messages (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1notification_1_1QNotificationHost}{calenhad\+::notification\+::\+Q\+Notification\+Host}} $\ast$}]{service }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_ac70e1375969f3308ffc7850fc6e6e30f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a64196e0b37372f7a9ca68f99d68e8996}\label{classcalenhad_1_1CalenhadServices_a64196e0b37372f7a9ca68f99d68e8996}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideModules@{provideModules}}
+\index{provideModules@{provideModules}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideModules()}{provideModules()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Modules (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1ModuleFactory}{pipeline\+::\+Module\+Factory}} $\ast$}]{modules }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classcalenhad_1_1CalenhadServices_a64196e0b37372f7a9ca68f99d68e8996_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ae3954a2b16b9c9bd63bf439c2995fb67}\label{classcalenhad_1_1CalenhadServices_ae3954a2b16b9c9bd63bf439c2995fb67}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!providePreferences@{providePreferences}}
+\index{providePreferences@{providePreferences}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{providePreferences()}{providePreferences()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Preferences (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1preferences_1_1PreferencesService}{calenhad\+::preferences\+::\+Preferences\+Service}} $\ast$}]{service }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classcalenhad_1_1CalenhadServices_ae3954a2b16b9c9bd63bf439c2995fb67_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a7063d199ceb761cac147e89ee4e62bbf}\label{classcalenhad_1_1CalenhadServices_a7063d199ceb761cac147e89ee4e62bbf}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!provideProjections@{provideProjections}}
+\index{provideProjections@{provideProjections}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{provideProjections()}{provideProjections()}}
+{\footnotesize\ttfamily void Calenhad\+Services\+::provide\+Projections (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1ProjectionService}{calenhad\+::mapping\+::projection\+::\+Projection\+Service}} $\ast$}]{service }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{classcalenhad_1_1CalenhadServices_a7063d199ceb761cac147e89ee4e62bbf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a536d6a30db7a9e39047f0227166a0581}\label{classcalenhad_1_1CalenhadServices_a536d6a30db7a9e39047f0227166a0581}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!readXml@{readXml}}
+\index{readXml@{readXml}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{readXml()}{readXml()}}
+{\footnotesize\ttfamily bool Calenhad\+Services\+::read\+Xml (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{fname,  }\item[{Q\+Dom\+Document \&}]{doc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a536d6a30db7a9e39047f0227166a0581_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a536d6a30db7a9e39047f0227166a0581_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a13a9beb828a58a1450ba9c2cbb70d10f}\label{classcalenhad_1_1CalenhadServices_a13a9beb828a58a1450ba9c2cbb70d10f}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!recentFiles@{recentFiles}}
+\index{recentFiles@{recentFiles}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{recentFiles()}{recentFiles()}}
+{\footnotesize\ttfamily Q\+String\+List Calenhad\+Services\+::recent\+Files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a13a9beb828a58a1450ba9c2cbb70d10f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1CalenhadServices_a13a9beb828a58a1450ba9c2cbb70d10f_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a0903ef20f1665ce20b5cfb2fe62d9eca}\label{classcalenhad_1_1CalenhadServices_a0903ef20f1665ce20b5cfb2fe62d9eca}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_calculator@{\_calculator}}
+\index{\_calculator@{\_calculator}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_calculator}{\_calculator}}
+{\footnotesize\ttfamily Calculator $\ast$ Calenhad\+Services\+::\+\_\+calculator\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ae7edc160d7cf9023c85636b75f409105}\label{classcalenhad_1_1CalenhadServices_ae7edc160d7cf9023c85636b75f409105}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_computeService@{\_computeService}}
+\index{\_computeService@{\_computeService}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_computeService}{\_computeService}}
+{\footnotesize\ttfamily Compute\+Service $\ast$ Calenhad\+Services\+::\+\_\+compute\+Service = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a6c7682a697815a5042802cec5a961b55}\label{classcalenhad_1_1CalenhadServices_a6c7682a697815a5042802cec5a961b55}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_cubicSphere@{\_cubicSphere}}
+\index{\_cubicSphere@{\_cubicSphere}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_cubicSphere}{\_cubicSphere}}
+{\footnotesize\ttfamily Cubic\+Sphere $\ast$ Calenhad\+Services\+::\+\_\+cubic\+Sphere = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a03fc392f4c1d0d47a7e1b221c7eccfe0}\label{classcalenhad_1_1CalenhadServices_a03fc392f4c1d0d47a7e1b221c7eccfe0}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_globeDialog@{\_globeDialog}}
+\index{\_globeDialog@{\_globeDialog}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_globeDialog}{\_globeDialog}}
+{\footnotesize\ttfamily Calenhad\+Globe\+Dialog $\ast$ Calenhad\+Services\+::\+\_\+globe\+Dialog = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_ab7647a0a386ac6004d4e22d14aa248fe}\label{classcalenhad_1_1CalenhadServices_ab7647a0a386ac6004d4e22d14aa248fe}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_icosphere@{\_icosphere}}
+\index{\_icosphere@{\_icosphere}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_icosphere}{\_icosphere}}
+{\footnotesize\ttfamily Icosphere $\ast$ Calenhad\+Services\+::\+\_\+icosphere = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a5077d44090af4ac93fbfade74af6ce6c}\label{classcalenhad_1_1CalenhadServices_a5077d44090af4ac93fbfade74af6ce6c}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_legends@{\_legends}}
+\index{\_legends@{\_legends}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_legends}{\_legends}}
+{\footnotesize\ttfamily Legend\+Service $\ast$ Calenhad\+Services\+::\+\_\+legends\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_aa924e12f2f93213e024688608f6c3c81}\label{classcalenhad_1_1CalenhadServices_aa924e12f2f93213e024688608f6c3c81}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_mainWindow@{\_mainWindow}}
+\index{\_mainWindow@{\_mainWindow}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_mainWindow}{\_mainWindow}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Calenhad}{calenhad\+::nodeedit\+::\+Calenhad}} $\ast$ Calenhad\+Services\+::\+\_\+main\+Window = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a799e1ba14db57ab6b942c44dd3cba899}\label{classcalenhad_1_1CalenhadServices_a799e1ba14db57ab6b942c44dd3cba899}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_messages@{\_messages}}
+\index{\_messages@{\_messages}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_messages}{\_messages}}
+{\footnotesize\ttfamily Q\+Notification\+Host $\ast$ Calenhad\+Services\+::\+\_\+messages = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a474d5524ee1214e2093477554e2948a2}\label{classcalenhad_1_1CalenhadServices_a474d5524ee1214e2093477554e2948a2}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_modules@{\_modules}}
+\index{\_modules@{\_modules}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_modules}{\_modules}}
+{\footnotesize\ttfamily Module\+Factory $\ast$ Calenhad\+Services\+::\+\_\+modules\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a10de4f31446fcc496dd553cbdee43021}\label{classcalenhad_1_1CalenhadServices_a10de4f31446fcc496dd553cbdee43021}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_preferences@{\_preferences}}
+\index{\_preferences@{\_preferences}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_preferences}{\_preferences}}
+{\footnotesize\ttfamily Preferences\+Service $\ast$ Calenhad\+Services\+::\+\_\+preferences\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a17c1329d67574a5df89f2a496df36a37}\label{classcalenhad_1_1CalenhadServices_a17c1329d67574a5df89f2a496df36a37}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_projections@{\_projections}}
+\index{\_projections@{\_projections}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_projections}{\_projections}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1ProjectionService}{Projection\+Service}} $\ast$ Calenhad\+Services\+::\+\_\+projections\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1CalenhadServices_a326fb89befeb39993d4934807be7e175}\label{classcalenhad_1_1CalenhadServices_a326fb89befeb39993d4934807be7e175}} 
+\index{calenhad::CalenhadServices@{calenhad::CalenhadServices}!\_statistics@{\_statistics}}
+\index{\_statistics@{\_statistics}!calenhad::CalenhadServices@{calenhad::CalenhadServices}}
+\doxysubsubsection{\texorpdfstring{\_statistics}{\_statistics}}
+{\footnotesize\ttfamily calenhad\+::controls\+::globe\+::\+Statistics\+Service$\ast$ calenhad\+::\+Calenhad\+Services\+::\+\_\+statistics\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{CalenhadServices_8h}{Calenhad\+Services.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{CalenhadServices_8cpp}{Calenhad\+Services.\+cpp}}\end{DoxyCompactItemize}

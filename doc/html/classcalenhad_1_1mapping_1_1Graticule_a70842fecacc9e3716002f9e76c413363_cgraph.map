@@ -1,0 +1,13 @@
+<map id="calenhad::mapping::Graticule::drawLatitudeIntersection" name="calenhad::mapping::Graticule::drawLatitudeIntersection">
+<area shape="rect" id="node1" title=" " alt="" coords="5,169,256,211"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1mapping_1_1Graticule.html#a34c8d5e0b8876745c1b4896dffb8aba1" title=" " alt="" coords="337,5,557,47"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1mapping_1_1Graticule.html#a2e531203f8342011fa996430d78a5241" title=" " alt="" coords="355,71,540,112"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1mapping_1_1Graticule.html#a43c8e21b3a0bf3cfb1c45d445c686b43" title=" " alt="" coords="370,136,525,177"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1mapping_1_1CalenhadMapWidget.html#a62cc04853fada37cc0dbe74e08748cf9" title=" " alt="" coords="304,201,591,243"/>
+<area shape="rect" id="node10" href="$classcalenhad_1_1mapping_1_1Graticule.html#a8c8d39a7e36d31a26804209d3aa5f84e" title=" " alt="" coords="362,267,533,308"/>
+<area shape="rect" id="node11" href="$classcalenhad_1_1mapping_1_1Graticule.html#ae8f1fd549450ab448410d4e51eda2d8a" title=" " alt="" coords="370,332,525,373"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1mapping_1_1Graticule.html#a97f1530cd8d4f8946cbf43ce44eff442" title=" " alt="" coords="676,5,832,47"/>
+<area shape="rect" id="node5" href="$classgeoutils_1_1Geoutils.html#ae9ba3cfe6d7b54d734d9ca1b791f11e2" title=" " alt="" coords="686,71,822,112"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1mapping_1_1CalenhadMapWidget.html#a5624e16cfd39fcb09c656ca1760f3075" title=" " alt="" coords="639,168,869,209"/>
+<area shape="rect" id="node9" href="$classcalenhad_1_1CalenhadServices.html#a5231ac9a2418b9b68286946acbd156ea" title=" " alt="" coords="651,233,857,275"/>
+</map>

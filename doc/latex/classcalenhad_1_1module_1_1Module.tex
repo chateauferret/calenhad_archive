@@ -1,0 +1,462 @@
+\hypertarget{classcalenhad_1_1module_1_1Module}{}\doxysection{calenhad\+::module\+::Module Class Reference}
+\label{classcalenhad_1_1module_1_1Module}\index{calenhad::module::Module@{calenhad::module::Module}}
+
+
+{\ttfamily \#include $<$Module.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::module\+::Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::module\+::Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a0c9008e3ffa84d130dec325a503c2129}{parameter\+Changed}} () override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_afca7d9ba01b1797f8eac0c1e9be04f67}{invalidate}} () override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a2a096add9581d3b4e6de473b78f02557}{show\+Globe}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a93ee9a7656b6b431bf9b7054c8b37120}{Module}} (const Q\+String \&\mbox{\hyperlink{classcalenhad_1_1module_1_1Node_a4a4820e525db3a08dcbf0ec339c22285}{node\+Type}}, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent=nullptr)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Module_aa95895437520ef3b52aff3531bc74cbd}{$\sim$\+Module}} () override
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_ae03996d13028236e24d49ac4da679072}{label}} ()
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a16c31fe449af0b1d9406f136d52c337a}{description}} ()
+\item 
+virtual Q\+String \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a745db20f7cf07dc60ce801065afe8e2b}{glsl}} ()
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_ab8a73210d158a4b005f97cba92096ba9}{fetch}} (\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$buffer)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a8fce5836427738688e3c244d657e996d}{set\+Model}} (\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{calenhad\+::pipeline\+::\+Calenhad\+Model}} $\ast$\mbox{\hyperlink{classcalenhad_1_1module_1_1Node_ad727860657129ea85146589117fed4a8}{model}}) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a9d94fe78eaf612a08554150ffe76a7f5}{add\+Input\+Port}} (const unsigned int \&index, const int \&port\+Type, const Q\+String \&\mbox{\hyperlink{classcalenhad_1_1module_1_1Node_ad864ab24f394b18f2ed1fdb56b3340eb}{name}}, const Q\+String \&\mbox{\hyperlink{classcalenhad_1_1module_1_1Module_ae03996d13028236e24d49ac4da679072}{label}}, const double \&default\+Value=0.\+0, const bool \&required=false)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a70c04a13680cb4caeb1657ecd0e10ec9}{is\+Complete}} () override
+\item 
+Q\+Map$<$ unsigned, \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a4bea0dd585eb40ed0d92d2dd7e1bbd2a}{inputs}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a89091202586fce1f7780ff6e80e37215}{connect\+Menu}} (Q\+Menu $\ast$menu, \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$port)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a1c5328476a1267fe6778a81f2891951f}{output}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a6b35bfe6502d5ff9e11266ed80f69cc8}{add\+Port}} (\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$port, const unsigned \&index=0)
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{nodeedit\+::\+Port}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_afcadee7c041bbcf4bf1d2df7e16d9fd8}{ports}} ()
+\item 
+virtual bool \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a930549cbd9f76c71617103650011200c}{is\+Computed}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Set$<$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{Module}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_ad9d758de1f0e1c3c8660a0e99662ecb9}{dependants}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a5a3751a02f015a3fef09ebe712a391a2}{copy}} (\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{grid\+::\+Cubic\+Sphere}} $\ast$buffer)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Menu $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a0c8a8010557af9e460471c0254a5096d}{\+\_\+connect\+Menu}}
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a9972238e3664d2aa86207e6471e80375}{\+\_\+ports}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a3e8103da5aaa71f2f9c1a9d2442d6af7}{\+\_\+output}}
+\item 
+Q\+Map$<$ unsigned, \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a05ccd0e5ab5dd07ea3a35618e0dcec1a}{\+\_\+inputs}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_ab9da166549b33ff0859a27cfad94f210}{\+\_\+shown\+Parameter}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a1d59d7f1ca11140dc0552a6b85f476a2}{\+\_\+valid}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a93ee9a7656b6b431bf9b7054c8b37120}\label{classcalenhad_1_1module_1_1Module_a93ee9a7656b6b431bf9b7054c8b37120}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!Module@{Module}}
+\index{Module@{Module}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{Module()}{Module()}}
+{\footnotesize\ttfamily Module\+::\+Module (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{node\+Type,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a93ee9a7656b6b431bf9b7054c8b37120_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_aa95895437520ef3b52aff3531bc74cbd}\label{classcalenhad_1_1module_1_1Module_aa95895437520ef3b52aff3531bc74cbd}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!````~Module@{$\sim$Module}}
+\index{````~Module@{$\sim$Module}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{$\sim$Module()}{~Module()}}
+{\footnotesize\ttfamily Module\+::$\sim$\+Module (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a9d94fe78eaf612a08554150ffe76a7f5}\label{classcalenhad_1_1module_1_1Module_a9d94fe78eaf612a08554150ffe76a7f5}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!addInputPort@{addInputPort}}
+\index{addInputPort@{addInputPort}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{addInputPort()}{addInputPort()}}
+{\footnotesize\ttfamily void Module\+::add\+Input\+Port (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{index,  }\item[{const int \&}]{port\+Type,  }\item[{const Q\+String \&}]{name,  }\item[{const Q\+String \&}]{label,  }\item[{const double \&}]{default\+Value = {\ttfamily 0.0},  }\item[{const bool \&}]{required = {\ttfamily false} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a9d94fe78eaf612a08554150ffe76a7f5_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a6b35bfe6502d5ff9e11266ed80f69cc8}\label{classcalenhad_1_1module_1_1Module_a6b35bfe6502d5ff9e11266ed80f69cc8}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!addPort@{addPort}}
+\index{addPort@{addPort}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{addPort()}{addPort()}}
+{\footnotesize\ttfamily void Module\+::add\+Port (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$}]{port,  }\item[{const unsigned \&}]{index = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a6b35bfe6502d5ff9e11266ed80f69cc8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a89091202586fce1f7780ff6e80e37215}\label{classcalenhad_1_1module_1_1Module_a89091202586fce1f7780ff6e80e37215}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!connectMenu@{connectMenu}}
+\index{connectMenu@{connectMenu}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{connectMenu()}{connectMenu()}}
+{\footnotesize\ttfamily void Module\+::connect\+Menu (\begin{DoxyParamCaption}\item[{Q\+Menu $\ast$}]{menu,  }\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}} $\ast$}]{port }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a89091202586fce1f7780ff6e80e37215_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a5a3751a02f015a3fef09ebe712a391a2}\label{classcalenhad_1_1module_1_1Module_a5a3751a02f015a3fef09ebe712a391a2}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!copy@{copy}}
+\index{copy@{copy}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily void calenhad\+::module\+::\+Module\+::copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{grid\+::\+Cubic\+Sphere}} $\ast$}]{buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a5a3751a02f015a3fef09ebe712a391a2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_ad9d758de1f0e1c3c8660a0e99662ecb9}\label{classcalenhad_1_1module_1_1Module_ad9d758de1f0e1c3c8660a0e99662ecb9}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!dependants@{dependants}}
+\index{dependants@{dependants}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{dependants()}{dependants()}}
+{\footnotesize\ttfamily Q\+Set$<$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{Module}} $\ast$ $>$ Module\+::dependants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_ad9d758de1f0e1c3c8660a0e99662ecb9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a16c31fe449af0b1d9406f136d52c337a}\label{classcalenhad_1_1module_1_1Module_a16c31fe449af0b1d9406f136d52c337a}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!description@{description}}
+\index{description@{description}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{description()}{description()}}
+{\footnotesize\ttfamily Q\+String Module\+::description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a16c31fe449af0b1d9406f136d52c337a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_ab8a73210d158a4b005f97cba92096ba9}\label{classcalenhad_1_1module_1_1Module_ab8a73210d158a4b005f97cba92096ba9}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!fetch@{fetch}}
+\index{fetch@{fetch}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{fetch()}{fetch()}}
+{\footnotesize\ttfamily void Module\+::fetch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$}]{buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a7aecac715c3cd6843a0c069f23071499}{calenhad\+::module\+::\+Cache}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_ab8a73210d158a4b005f97cba92096ba9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a745db20f7cf07dc60ce801065afe8e2b}\label{classcalenhad_1_1module_1_1Module_a745db20f7cf07dc60ce801065afe8e2b}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!glsl@{glsl}}
+\index{glsl@{glsl}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{glsl()}{glsl()}}
+{\footnotesize\ttfamily Q\+String Module\+::glsl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a39ce30e392eaa97a46c0c8476f346069}{calenhad\+::module\+::\+Raster\+Module}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a745db20f7cf07dc60ce801065afe8e2b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a4bea0dd585eb40ed0d92d2dd7e1bbd2a}\label{classcalenhad_1_1module_1_1Module_a4bea0dd585eb40ed0d92d2dd7e1bbd2a}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!inputs@{inputs}}
+\index{inputs@{inputs}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{inputs()}{inputs()}}
+{\footnotesize\ttfamily Q\+Map$<$ unsigned, \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ $>$ Module\+::inputs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a4bea0dd585eb40ed0d92d2dd7e1bbd2a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_afca7d9ba01b1797f8eac0c1e9be04f67}\label{classcalenhad_1_1module_1_1Module_afca7d9ba01b1797f8eac0c1e9be04f67}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!invalidate@{invalidate}}
+\index{invalidate@{invalidate}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{invalidate}{invalidate}}
+{\footnotesize\ttfamily void Module\+::invalidate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_afca7d9ba01b1797f8eac0c1e9be04f67_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_afca7d9ba01b1797f8eac0c1e9be04f67_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a70c04a13680cb4caeb1657ecd0e10ec9}\label{classcalenhad_1_1module_1_1Module_a70c04a13680cb4caeb1657ecd0e10ec9}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!isComplete@{isComplete}}
+\index{isComplete@{isComplete}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{isComplete()}{isComplete()}}
+{\footnotesize\ttfamily bool Module\+::is\+Complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Node_a122151e166ae52d9f8cea2d952322da5}{calenhad\+::module\+::\+Node}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_af1ad8c389df50c625a552342d29a745c}{calenhad\+::module\+::\+Raster\+Module}}, and \mbox{\hyperlink{classcalenhad_1_1module_1_1StructuredGrid_aa6904ed4f1f5648341e942ab2c56bb0c}{calenhad\+::module\+::\+Structured\+Grid}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a70c04a13680cb4caeb1657ecd0e10ec9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a930549cbd9f76c71617103650011200c}\label{classcalenhad_1_1module_1_1Module_a930549cbd9f76c71617103650011200c}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!isComputed@{isComputed}}
+\index{isComputed@{isComputed}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{isComputed()}{isComputed()}}
+{\footnotesize\ttfamily bool Module\+::is\+Computed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcalenhad_1_1module_1_1StructuredGrid_a2ebe4eaffa2f38eb06f42313d02f4a48}{calenhad\+::module\+::\+Structured\+Grid}}, and \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a05c448e811d685c583148f5c5a648915}{calenhad\+::module\+::\+Cache}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a930549cbd9f76c71617103650011200c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a930549cbd9f76c71617103650011200c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_ae03996d13028236e24d49ac4da679072}\label{classcalenhad_1_1module_1_1Module_ae03996d13028236e24d49ac4da679072}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!label@{label}}
+\index{label@{label}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{label()}{label()}}
+{\footnotesize\ttfamily Q\+String Module\+::label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_ae03996d13028236e24d49ac4da679072_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_ae03996d13028236e24d49ac4da679072_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a1c5328476a1267fe6778a81f2891951f}\label{classcalenhad_1_1module_1_1Module_a1c5328476a1267fe6778a81f2891951f}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!output@{output}}
+\index{output@{output}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ Module\+::output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a1c5328476a1267fe6778a81f2891951f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a0c9008e3ffa84d130dec325a503c2129}\label{classcalenhad_1_1module_1_1Module_a0c9008e3ffa84d130dec325a503c2129}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!parameterChanged@{parameterChanged}}
+\index{parameterChanged@{parameterChanged}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{parameterChanged}{parameterChanged}}
+{\footnotesize\ttfamily void Module\+::parameter\+Changed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a0c9008e3ffa84d130dec325a503c2129_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_afcadee7c041bbcf4bf1d2df7e16d9fd8}\label{classcalenhad_1_1module_1_1Module_afcadee7c041bbcf4bf1d2df7e16d9fd8}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!ports@{ports}}
+\index{ports@{ports}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{ports()}{ports()}}
+{\footnotesize\ttfamily Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ $>$ Module\+::ports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_afcadee7c041bbcf4bf1d2df7e16d9fd8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a8fce5836427738688e3c244d657e996d}\label{classcalenhad_1_1module_1_1Module_a8fce5836427738688e3c244d657e996d}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!setModel@{setModel}}
+\index{setModel@{setModel}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{setModel()}{setModel()}}
+{\footnotesize\ttfamily void Module\+::set\+Model (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{calenhad\+::pipeline\+::\+Calenhad\+Model}} $\ast$}]{model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Node_ab06ea7f3311c9f8ab8b660475105122b}{calenhad\+::module\+::\+Node}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a8fce5836427738688e3c244d657e996d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a2a096add9581d3b4e6de473b78f02557}\label{classcalenhad_1_1module_1_1Module_a2a096add9581d3b4e6de473b78f02557}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!showGlobe@{showGlobe}}
+\index{showGlobe@{showGlobe}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{showGlobe}{showGlobe}}
+{\footnotesize\ttfamily void Module\+::show\+Globe (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Module_a2a096add9581d3b4e6de473b78f02557_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a0c8a8010557af9e460471c0254a5096d}\label{classcalenhad_1_1module_1_1Module_a0c8a8010557af9e460471c0254a5096d}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!\_connectMenu@{\_connectMenu}}
+\index{\_connectMenu@{\_connectMenu}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{\_connectMenu}{\_connectMenu}}
+{\footnotesize\ttfamily Q\+Menu$\ast$ calenhad\+::module\+::\+Module\+::\+\_\+connect\+Menu\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a05ccd0e5ab5dd07ea3a35618e0dcec1a}\label{classcalenhad_1_1module_1_1Module_a05ccd0e5ab5dd07ea3a35618e0dcec1a}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!\_inputs@{\_inputs}}
+\index{\_inputs@{\_inputs}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{\_inputs}{\_inputs}}
+{\footnotesize\ttfamily Q\+Map$<$unsigned, \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}}$\ast$$>$ calenhad\+::module\+::\+Module\+::\+\_\+inputs\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a3e8103da5aaa71f2f9c1a9d2442d6af7}\label{classcalenhad_1_1module_1_1Module_a3e8103da5aaa71f2f9c1a9d2442d6af7}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!\_output@{\_output}}
+\index{\_output@{\_output}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{\_output}{\_output}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}}$\ast$ calenhad\+::module\+::\+Module\+::\+\_\+output\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a9972238e3664d2aa86207e6471e80375}\label{classcalenhad_1_1module_1_1Module_a9972238e3664d2aa86207e6471e80375}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!\_ports@{\_ports}}
+\index{\_ports@{\_ports}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{\_ports}{\_ports}}
+{\footnotesize\ttfamily Q\+Vector$<$\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{calenhad\+::nodeedit\+::\+Port}}$\ast$$>$ calenhad\+::module\+::\+Module\+::\+\_\+ports\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_ab9da166549b33ff0859a27cfad94f210}\label{classcalenhad_1_1module_1_1Module_ab9da166549b33ff0859a27cfad94f210}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!\_shownParameter@{\_shownParameter}}
+\index{\_shownParameter@{\_shownParameter}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{\_shownParameter}{\_shownParameter}}
+{\footnotesize\ttfamily Q\+String calenhad\+::module\+::\+Module\+::\+\_\+shown\+Parameter\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Module_a1d59d7f1ca11140dc0552a6b85f476a2}\label{classcalenhad_1_1module_1_1Module_a1d59d7f1ca11140dc0552a6b85f476a2}} 
+\index{calenhad::module::Module@{calenhad::module::Module}!\_valid@{\_valid}}
+\index{\_valid@{\_valid}!calenhad::module::Module@{calenhad::module::Module}}
+\doxysubsubsection{\texorpdfstring{\_valid}{\_valid}}
+{\footnotesize\ttfamily bool calenhad\+::module\+::\+Module\+::\+\_\+valid\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{Module_8h}{Module.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{Module_8cpp}{Module.\+cpp}}\end{DoxyCompactItemize}

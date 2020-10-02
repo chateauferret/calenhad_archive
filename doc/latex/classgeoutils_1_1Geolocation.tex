@@ -1,0 +1,256 @@
+\hypertarget{classgeoutils_1_1Geolocation}{}\doxysection{geoutils\+::Geolocation Class Reference}
+\label{classgeoutils_1_1Geolocation}\index{geoutils::Geolocation@{geoutils::Geolocation}}
+
+
+{\ttfamily \#include $<$geoutils.\+h$>$}
+
+
+
+Collaboration diagram for geoutils\+::Geolocation\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{classgeoutils_1_1Geolocation__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classgeoutils_1_1Geolocation_a18831f34984a08168b316a7a1ed741e1}{Geolocation}} ()
+\item 
+\mbox{\hyperlink{classgeoutils_1_1Geolocation_a108bd31ae5b92b33977cc8e35e87ca3c}{Geolocation}} (const double \&new\+Lat, const double \&new\+Lon, const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&units=Units\+::\+Radians)
+\item 
+\mbox{\hyperlink{classgeoutils_1_1Geolocation_a89fecd5a3b5720a35e3750d2546d6dd0}{Geolocation}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&other)
+\item 
+bool \mbox{\hyperlink{classgeoutils_1_1Geolocation_aa961a13b9c7f339de89d47d5e7f5abf2}{operator==}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&other) const
+\item 
+void \mbox{\hyperlink{classgeoutils_1_1Geolocation_afb983c165cd6f9cdfb3297a1fd52b56f}{operator+=}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&other)
+\item 
+void \mbox{\hyperlink{classgeoutils_1_1Geolocation_af41e77c409c03254219a5a2bc6f786cc}{operator-\/=}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&other)
+\item 
+\mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \mbox{\hyperlink{classgeoutils_1_1Geolocation_ad7f95b84b865fd867c534832f6b88c27}{operator+}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&other)
+\item 
+\mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \mbox{\hyperlink{classgeoutils_1_1Geolocation_ac234cdc1d883b2a1bc5c0c10f290915e}{operator-\/}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&other)
+\item 
+double \mbox{\hyperlink{classgeoutils_1_1Geolocation_a0a0e67f4c9fc628e45fe1028ffe6993f}{latitude}} (const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&units=Units\+::\+Radians) const
+\item 
+double \mbox{\hyperlink{classgeoutils_1_1Geolocation_a1c377ec7f23e2a97f5266b845218f782}{longitude}} (const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&units=Units\+::\+Radians) const
+\item 
+void \mbox{\hyperlink{classgeoutils_1_1Geolocation_af5af016a149f3a21350ed16fe8847f57}{set\+Latitude}} (const double \&lat, const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&units=Units\+::\+Radians)
+\item 
+void \mbox{\hyperlink{classgeoutils_1_1Geolocation_a8f0a4108199f364c803f9031384ef344}{set\+Longitude}} (const double \&lon, const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&units=Units\+::\+Radians)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classgeoutils_1_1Geolocation_a4d517768825b0b8edafb59ae4eb141aa}{conform}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classgeoutils_1_1Geolocation_a4df9af446756d0a8935bb5ca1267f896}{\+\_\+latitude}}
+\item 
+double \mbox{\hyperlink{classgeoutils_1_1Geolocation_afd66806d16a97be023ab8e5cac343a85}{\+\_\+longitude}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a18831f34984a08168b316a7a1ed741e1}\label{classgeoutils_1_1Geolocation_a18831f34984a08168b316a7a1ed741e1}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!Geolocation@{Geolocation}}
+\index{Geolocation@{Geolocation}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{Geolocation()}{Geolocation()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Geolocation\+::\+Geolocation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a108bd31ae5b92b33977cc8e35e87ca3c}\label{classgeoutils_1_1Geolocation_a108bd31ae5b92b33977cc8e35e87ca3c}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!Geolocation@{Geolocation}}
+\index{Geolocation@{Geolocation}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{Geolocation()}{Geolocation()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Geolocation\+::\+Geolocation (\begin{DoxyParamCaption}\item[{const double \&}]{new\+Lat,  }\item[{const double \&}]{new\+Lon,  }\item[{const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&}]{units = {\ttfamily Units\+:\+:Radians} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_a108bd31ae5b92b33977cc8e35e87ca3c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a89fecd5a3b5720a35e3750d2546d6dd0}\label{classgeoutils_1_1Geolocation_a89fecd5a3b5720a35e3750d2546d6dd0}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!Geolocation@{Geolocation}}
+\index{Geolocation@{Geolocation}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{Geolocation()}{Geolocation()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Geolocation\+::\+Geolocation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a4d517768825b0b8edafb59ae4eb141aa}\label{classgeoutils_1_1Geolocation_a4d517768825b0b8edafb59ae4eb141aa}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!conform@{conform}}
+\index{conform@{conform}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{conform()}{conform()}}
+{\footnotesize\ttfamily void Geolocation\+::conform (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_a4d517768825b0b8edafb59ae4eb141aa_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a0a0e67f4c9fc628e45fe1028ffe6993f}\label{classgeoutils_1_1Geolocation_a0a0e67f4c9fc628e45fe1028ffe6993f}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!latitude@{latitude}}
+\index{latitude@{latitude}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{latitude()}{latitude()}}
+{\footnotesize\ttfamily double Geolocation\+::latitude (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&}]{units = {\ttfamily Units\+:\+:Radians} }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_a0a0e67f4c9fc628e45fe1028ffe6993f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a1c377ec7f23e2a97f5266b845218f782}\label{classgeoutils_1_1Geolocation_a1c377ec7f23e2a97f5266b845218f782}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!longitude@{longitude}}
+\index{longitude@{longitude}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{longitude()}{longitude()}}
+{\footnotesize\ttfamily double Geolocation\+::longitude (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&}]{units = {\ttfamily Units\+:\+:Radians} }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_a1c377ec7f23e2a97f5266b845218f782_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_ad7f95b84b865fd867c534832f6b88c27}\label{classgeoutils_1_1Geolocation_ad7f95b84b865fd867c534832f6b88c27}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!operator+@{operator+}}
+\index{operator+@{operator+}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} Geolocation\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_ad7f95b84b865fd867c534832f6b88c27_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_afb983c165cd6f9cdfb3297a1fd52b56f}\label{classgeoutils_1_1Geolocation_afb983c165cd6f9cdfb3297a1fd52b56f}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily void Geolocation\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_afb983c165cd6f9cdfb3297a1fd52b56f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_ac234cdc1d883b2a1bc5c0c10f290915e}\label{classgeoutils_1_1Geolocation_ac234cdc1d883b2a1bc5c0c10f290915e}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} Geolocation\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_ac234cdc1d883b2a1bc5c0c10f290915e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_af41e77c409c03254219a5a2bc6f786cc}\label{classgeoutils_1_1Geolocation_af41e77c409c03254219a5a2bc6f786cc}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily void Geolocation\+::operator-\/= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{other }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_af41e77c409c03254219a5a2bc6f786cc_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_aa961a13b9c7f339de89d47d5e7f5abf2}\label{classgeoutils_1_1Geolocation_aa961a13b9c7f339de89d47d5e7f5abf2}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!operator==@{operator==}}
+\index{operator==@{operator==}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Geolocation\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \&}]{other }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_af5af016a149f3a21350ed16fe8847f57}\label{classgeoutils_1_1Geolocation_af5af016a149f3a21350ed16fe8847f57}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!setLatitude@{setLatitude}}
+\index{setLatitude@{setLatitude}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{setLatitude()}{setLatitude()}}
+{\footnotesize\ttfamily void Geolocation\+::set\+Latitude (\begin{DoxyParamCaption}\item[{const double \&}]{lat,  }\item[{const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&}]{units = {\ttfamily Units\+:\+:Radians} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_af5af016a149f3a21350ed16fe8847f57_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_af5af016a149f3a21350ed16fe8847f57_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a8f0a4108199f364c803f9031384ef344}\label{classgeoutils_1_1Geolocation_a8f0a4108199f364c803f9031384ef344}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!setLongitude@{setLongitude}}
+\index{setLongitude@{setLongitude}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{setLongitude()}{setLongitude()}}
+{\footnotesize\ttfamily void Geolocation\+::set\+Longitude (\begin{DoxyParamCaption}\item[{const double \&}]{lon,  }\item[{const \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{Units}} \&}]{units = {\ttfamily Units\+:\+:Radians} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_a8f0a4108199f364c803f9031384ef344_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classgeoutils_1_1Geolocation_a8f0a4108199f364c803f9031384ef344_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_a4df9af446756d0a8935bb5ca1267f896}\label{classgeoutils_1_1Geolocation_a4df9af446756d0a8935bb5ca1267f896}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!\_latitude@{\_latitude}}
+\index{\_latitude@{\_latitude}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{\_latitude}{\_latitude}}
+{\footnotesize\ttfamily double geoutils\+::\+Geolocation\+::\+\_\+latitude\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classgeoutils_1_1Geolocation_afd66806d16a97be023ab8e5cac343a85}\label{classgeoutils_1_1Geolocation_afd66806d16a97be023ab8e5cac343a85}} 
+\index{geoutils::Geolocation@{geoutils::Geolocation}!\_longitude@{\_longitude}}
+\index{\_longitude@{\_longitude}!geoutils::Geolocation@{geoutils::Geolocation}}
+\doxysubsubsection{\texorpdfstring{\_longitude}{\_longitude}}
+{\footnotesize\ttfamily double geoutils\+::\+Geolocation\+::\+\_\+longitude\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{geoutils_8h}{geoutils.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{geoutils_8cpp}{geoutils.\+cpp}}\end{DoxyCompactItemize}

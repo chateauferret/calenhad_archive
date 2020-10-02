@@ -1,0 +1,12 @@
+<map id="calenhad::controls::legend::LegendEditor::mousePressEvent" name="calenhad::controls::legend::LegendEditor::mousePressEvent">
+<area shape="rect" id="node1" title="detect a mouse is pressed" alt="" coords="5,85,172,141"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a85ac3dcf55ea4d6ed2cf146c7999a967" title="sort the slider list" alt="" coords="220,5,387,61"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a4841a286d23856e4a01868fda01ce600" title="get the value of a slider" alt="" coords="220,165,387,221"/>
+<area shape="rect" id="node7" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#ad5a4e341bab06ce3df4c4a83814b0e69" title="on update the ramp because sliders are changed" alt="" coords="220,85,387,141"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a7802ec8ae717ca01e9f1e87e5be95f49" title=" " alt="" coords="649,165,816,221"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#acc2deb1917a8ab071bd7d1583c751bd8" title=" " alt="" coords="864,25,1031,81"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#afab2988c8631ee867fa981168a3648f8" title=" " alt="" coords="864,125,1031,181"/>
+<area shape="rect" id="node8" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#aad5f0b303e2bea7045eeda299c115516" title="return the Ramp definition" alt="" coords="649,85,816,141"/>
+<area shape="rect" id="node9" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#aa90f3a5214358356c22bb73b10157572" title="get the position" alt="" coords="435,20,601,76"/>
+<area shape="rect" id="node10" href="$classcalenhad_1_1controls_1_1legend_1_1LegendEditor.html#a5f38d7d8653b3ca3e04a451a12f04967" title=" " alt="" coords="649,5,816,61"/>
+</map>

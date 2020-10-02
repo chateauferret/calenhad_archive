@@ -1,0 +1,214 @@
+\hypertarget{classnoise_1_1utils_1_1Interpolation}{}\doxysection{noise\+::utils\+::Interpolation Class Reference}
+\label{classnoise_1_1utils_1_1Interpolation}\index{noise::utils::Interpolation@{noise::utils::Interpolation}}
+
+
+{\ttfamily \#include $<$Interpolation.\+h$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static uint8\+\_\+t $\ast$ \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_abd4edc2c8df6add1e30624816c063a8f}{Unpack\+Little16}} (uint8\+\_\+t $\ast$bytes, uint16\+\_\+t integer)
+\item 
+static uint8\+\_\+t $\ast$ \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_a4de50ff5b0850da825daa2937acf084b}{Unpack\+Little32}} (uint8\+\_\+t $\ast$bytes, uint32\+\_\+t integer)
+\item 
+static uint8\+\_\+t $\ast$ \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_afae9ad1bc7d5ae763282b5a8ea3bf629}{Unpack\+Float}} (uint8\+\_\+t $\ast$bytes, float value)
+\item 
+static int \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_ab19ef2b05114ab279bc51838783415d8}{blend\+Channel}} (const int channel0, const int channel1, float alpha)
+\item 
+static void \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_a5db21ebafaa51aad650401d5c3dcc8b3}{linear\+Interp\+Color}} (const Q\+Color \&color0, const Q\+Color \&color1, float alpha, Q\+Color \&out)
+\item 
+static double \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_a7a059b3ec3ca741f4550f1c78e8a6c18}{cubic\+Interp}} (double n0, double n1, double n2, double n3, double a)
+\item 
+static double \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_a8e3d3a2a1d58dfe31195d6289b7576bb}{linear\+Interp}} (double n0, double n1, double a)
+\item 
+static double \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_a0db796afff92687eb6ab3d0371b09dd6}{s\+Curve3}} (double a)
+\item 
+static double \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_a3bdb8d808f9593ecf21755447f5c4f56}{s\+Curve5}} (double a)
+\item 
+static int \mbox{\hyperlink{classnoise_1_1utils_1_1Interpolation_a70a923e50d639273493c10c22e66c8af}{Clamp\+Value}} (int value, int lower\+Bound, int upper\+Bound)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_ab19ef2b05114ab279bc51838783415d8}\label{classnoise_1_1utils_1_1Interpolation_ab19ef2b05114ab279bc51838783415d8}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!blendChannel@{blendChannel}}
+\index{blendChannel@{blendChannel}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{blendChannel()}{blendChannel()}}
+{\footnotesize\ttfamily static int noise\+::utils\+::\+Interpolation\+::blend\+Channel (\begin{DoxyParamCaption}\item[{const int}]{channel0,  }\item[{const int}]{channel1,  }\item[{float}]{alpha }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classnoise_1_1utils_1_1Interpolation_ab19ef2b05114ab279bc51838783415d8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_a70a923e50d639273493c10c22e66c8af}\label{classnoise_1_1utils_1_1Interpolation_a70a923e50d639273493c10c22e66c8af}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!ClampValue@{ClampValue}}
+\index{ClampValue@{ClampValue}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{ClampValue()}{ClampValue()}}
+{\footnotesize\ttfamily static int noise\+::utils\+::\+Interpolation\+::\+Clamp\+Value (\begin{DoxyParamCaption}\item[{int}]{value,  }\item[{int}]{lower\+Bound,  }\item[{int}]{upper\+Bound }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Clamps a value onto a clamping range.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The value to clamp. \\
+\hline
+{\em lower\+Bound} & The lower bound of the clamping range. \\
+\hline
+{\em upper\+Bound} & The upper bound of the clamping range.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\itshape value} if {\itshape value} lies between {\itshape lower\+Bound} and {\itshape upper\+Bound}.
+\item {\itshape lower\+Bound} if {\itshape value} is less than {\itshape lower\+Bound}.
+\item {\itshape upper\+Bound} if {\itshape value} is greater than {\itshape upper\+Bound}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classnoise_1_1utils_1_1Interpolation_a70a923e50d639273493c10c22e66c8af_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_a7a059b3ec3ca741f4550f1c78e8a6c18}\label{classnoise_1_1utils_1_1Interpolation_a7a059b3ec3ca741f4550f1c78e8a6c18}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!cubicInterp@{cubicInterp}}
+\index{cubicInterp@{cubicInterp}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{cubicInterp()}{cubicInterp()}}
+{\footnotesize\ttfamily static double noise\+::utils\+::\+Interpolation\+::cubic\+Interp (\begin{DoxyParamCaption}\item[{double}]{n0,  }\item[{double}]{n1,  }\item[{double}]{n2,  }\item[{double}]{n3,  }\item[{double}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Performs cubic interpolation between two values bound between two other values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n0} & The value before the first value. \\
+\hline
+{\em n1} & The first value. \\
+\hline
+{\em n2} & The second value. \\
+\hline
+{\em n3} & The value after the second value. \\
+\hline
+{\em a} & The alpha value.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The interpolated value.
+\end{DoxyReturn}
+The alpha value should range from 0.\+0 to 1.\+0. If the alpha value is 0.\+0, this function returns {\itshape n1}. If the alpha value is 1.\+0, this function returns {\itshape n2}. Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classnoise_1_1utils_1_1Interpolation_a7a059b3ec3ca741f4550f1c78e8a6c18_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_a8e3d3a2a1d58dfe31195d6289b7576bb}\label{classnoise_1_1utils_1_1Interpolation_a8e3d3a2a1d58dfe31195d6289b7576bb}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!linearInterp@{linearInterp}}
+\index{linearInterp@{linearInterp}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{linearInterp()}{linearInterp()}}
+{\footnotesize\ttfamily static double noise\+::utils\+::\+Interpolation\+::linear\+Interp (\begin{DoxyParamCaption}\item[{double}]{n0,  }\item[{double}]{n1,  }\item[{double}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Performs linear interpolation between two values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n0} & The first value. \\
+\hline
+{\em n1} & The second value. \\
+\hline
+{\em a} & The alpha value.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The interpolated value.
+\end{DoxyReturn}
+The alpha value should range from 0.\+0 to 1.\+0. If the alpha value is 0.\+0, this function returns {\itshape n0}. If the alpha value is 1.\+0, this function returns {\itshape n1}. Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classnoise_1_1utils_1_1Interpolation_a8e3d3a2a1d58dfe31195d6289b7576bb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_a5db21ebafaa51aad650401d5c3dcc8b3}\label{classnoise_1_1utils_1_1Interpolation_a5db21ebafaa51aad650401d5c3dcc8b3}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!linearInterpColor@{linearInterpColor}}
+\index{linearInterpColor@{linearInterpColor}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{linearInterpColor()}{linearInterpColor()}}
+{\footnotesize\ttfamily static void noise\+::utils\+::\+Interpolation\+::linear\+Interp\+Color (\begin{DoxyParamCaption}\item[{const Q\+Color \&}]{color0,  }\item[{const Q\+Color \&}]{color1,  }\item[{float}]{alpha,  }\item[{Q\+Color \&}]{out }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classnoise_1_1utils_1_1Interpolation_a5db21ebafaa51aad650401d5c3dcc8b3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_a0db796afff92687eb6ab3d0371b09dd6}\label{classnoise_1_1utils_1_1Interpolation_a0db796afff92687eb6ab3d0371b09dd6}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!sCurve3@{sCurve3}}
+\index{sCurve3@{sCurve3}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{sCurve3()}{sCurve3()}}
+{\footnotesize\ttfamily static double noise\+::utils\+::\+Interpolation\+::s\+Curve3 (\begin{DoxyParamCaption}\item[{double}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Maps a value onto a cubic S-\/curve.
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The value to map onto a cubic S-\/curve.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mapped value.
+\end{DoxyReturn}
+{\itshape a} should range from 0.\+0 to 1.\+0.
+
+The derivative of a cubic S-\/curve is zero at {\itshape a} = 0.\+0 and {\itshape a} = 1.\+0 \mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_a3bdb8d808f9593ecf21755447f5c4f56}\label{classnoise_1_1utils_1_1Interpolation_a3bdb8d808f9593ecf21755447f5c4f56}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!sCurve5@{sCurve5}}
+\index{sCurve5@{sCurve5}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{sCurve5()}{sCurve5()}}
+{\footnotesize\ttfamily static double noise\+::utils\+::\+Interpolation\+::s\+Curve5 (\begin{DoxyParamCaption}\item[{double}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Maps a value onto a quintic S-\/curve.
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The value to map onto a quintic S-\/curve.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mapped value.
+\end{DoxyReturn}
+{\itshape a} should range from 0.\+0 to 1.\+0.
+
+The first derivative of a quintic S-\/curve is zero at {\itshape a} = 0.\+0 and {\itshape a} = 1.\+0
+
+The second derivative of a quintic S-\/curve is zero at {\itshape a} = 0.\+0 and {\itshape a} = 1.\+0 \mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_afae9ad1bc7d5ae763282b5a8ea3bf629}\label{classnoise_1_1utils_1_1Interpolation_afae9ad1bc7d5ae763282b5a8ea3bf629}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!UnpackFloat@{UnpackFloat}}
+\index{UnpackFloat@{UnpackFloat}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{UnpackFloat()}{UnpackFloat()}}
+{\footnotesize\ttfamily static uint8\+\_\+t$\ast$ noise\+::utils\+::\+Interpolation\+::\+Unpack\+Float (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{bytes,  }\item[{float}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_abd4edc2c8df6add1e30624816c063a8f}\label{classnoise_1_1utils_1_1Interpolation_abd4edc2c8df6add1e30624816c063a8f}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!UnpackLittle16@{UnpackLittle16}}
+\index{UnpackLittle16@{UnpackLittle16}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{UnpackLittle16()}{UnpackLittle16()}}
+{\footnotesize\ttfamily static uint8\+\_\+t$\ast$ noise\+::utils\+::\+Interpolation\+::\+Unpack\+Little16 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{bytes,  }\item[{uint16\+\_\+t}]{integer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+\mbox{\Hypertarget{classnoise_1_1utils_1_1Interpolation_a4de50ff5b0850da825daa2937acf084b}\label{classnoise_1_1utils_1_1Interpolation_a4de50ff5b0850da825daa2937acf084b}} 
+\index{noise::utils::Interpolation@{noise::utils::Interpolation}!UnpackLittle32@{UnpackLittle32}}
+\index{UnpackLittle32@{UnpackLittle32}!noise::utils::Interpolation@{noise::utils::Interpolation}}
+\doxysubsubsection{\texorpdfstring{UnpackLittle32()}{UnpackLittle32()}}
+{\footnotesize\ttfamily static uint8\+\_\+t$\ast$ noise\+::utils\+::\+Interpolation\+::\+Unpack\+Little32 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{bytes,  }\item[{uint32\+\_\+t}]{integer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/\mbox{\hyperlink{Interpolation_8h}{Interpolation.\+h}}\end{DoxyCompactItemize}

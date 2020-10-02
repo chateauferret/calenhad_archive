@@ -1,0 +1,176 @@
+\hypertarget{classcalenhad_1_1module_1_1Cache}{}\doxysection{calenhad\+::module\+::Cache Class Reference}
+\label{classcalenhad_1_1module_1_1Cache}\index{calenhad::module::Cache@{calenhad::module::Cache}}
+
+
+{\ttfamily \#include $<$Cache.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::module\+::Cache\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Cache__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::module\+::Cache\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Cache__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_aeb16b76f821181e4c9821472ca50ae2b}{Cache}} (const Q\+String \&\mbox{\hyperlink{classcalenhad_1_1module_1_1Node_a4a4820e525db3a08dcbf0ec339c22285}{node\+Type}})
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_adb3761ab0b7350cf2d0716eca927d347}{$\sim$\+Cache}} () override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a6690e2fc00e29196b376158be64dec95}{invalidate}} () override
+\item 
+virtual void \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a1898f7c60caf5415a61574fe0434ed7f}{refresh}} ()
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a05c448e811d685c583148f5c5a648915}{is\+Computed}} () override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_aaa0cd55e0a21649dbf0ba42b5fb1b277}{set\+Algorithm}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{calenhad\+::module\+::algorithm\+::\+Algorithm}} $\ast$algorithm)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a7aecac715c3cd6843a0c069f23071499}{fetch}} (\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{grid\+::\+Cubic\+Sphere}} $\ast$\mbox{\hyperlink{classcalenhad_1_1module_1_1StructuredGrid_a0c3fdf4013db6cb742f9baf3004a2fb6}{buffer}}) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{calenhad\+::module\+::algorithm\+::\+Algorithm}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a46aa2879f87f7522b4f4804a809e3291}{\+\_\+algorithm}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1module_1_1Cache_a0325c9ceb52c3efce2a01f4e6f5fc5e1}{\+\_\+computed}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_aeb16b76f821181e4c9821472ca50ae2b}\label{classcalenhad_1_1module_1_1Cache_aeb16b76f821181e4c9821472ca50ae2b}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!Cache@{Cache}}
+\index{Cache@{Cache}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{Cache()}{Cache()}}
+{\footnotesize\ttfamily Cache\+::\+Cache (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{node\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_adb3761ab0b7350cf2d0716eca927d347}\label{classcalenhad_1_1module_1_1Cache_adb3761ab0b7350cf2d0716eca927d347}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!````~Cache@{$\sim$Cache}}
+\index{````~Cache@{$\sim$Cache}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{$\sim$Cache()}{~Cache()}}
+{\footnotesize\ttfamily Cache\+::$\sim$\+Cache (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_a7aecac715c3cd6843a0c069f23071499}\label{classcalenhad_1_1module_1_1Cache_a7aecac715c3cd6843a0c069f23071499}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!fetch@{fetch}}
+\index{fetch@{fetch}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{fetch()}{fetch()}}
+{\footnotesize\ttfamily void Cache\+::fetch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{grid\+::\+Cubic\+Sphere}} $\ast$}]{buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_ab8a73210d158a4b005f97cba92096ba9}{calenhad\+::module\+::\+Module}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Cache_a7aecac715c3cd6843a0c069f23071499_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Cache_a7aecac715c3cd6843a0c069f23071499_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_a6690e2fc00e29196b376158be64dec95}\label{classcalenhad_1_1module_1_1Cache_a6690e2fc00e29196b376158be64dec95}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!invalidate@{invalidate}}
+\index{invalidate@{invalidate}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{invalidate()}{invalidate()}}
+{\footnotesize\ttfamily void Cache\+::invalidate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Node_a2541d5ade82320ffa75feaff8f9a1d40}{calenhad\+::module\+::\+Node}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Cache_a6690e2fc00e29196b376158be64dec95_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_a05c448e811d685c583148f5c5a648915}\label{classcalenhad_1_1module_1_1Cache_a05c448e811d685c583148f5c5a648915}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!isComputed@{isComputed}}
+\index{isComputed@{isComputed}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{isComputed()}{isComputed()}}
+{\footnotesize\ttfamily bool Cache\+::is\+Computed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a930549cbd9f76c71617103650011200c}{calenhad\+::module\+::\+Module}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_a1898f7c60caf5415a61574fe0434ed7f}\label{classcalenhad_1_1module_1_1Cache_a1898f7c60caf5415a61574fe0434ed7f}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!refresh@{refresh}}
+\index{refresh@{refresh}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{refresh()}{refresh()}}
+{\footnotesize\ttfamily void Cache\+::refresh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcalenhad_1_1module_1_1Procedure_af037ae2a2fced4c740237910de6f1e2a}{calenhad\+::module\+::\+Procedure}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Cache_a1898f7c60caf5415a61574fe0434ed7f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1Cache_a1898f7c60caf5415a61574fe0434ed7f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_aaa0cd55e0a21649dbf0ba42b5fb1b277}\label{classcalenhad_1_1module_1_1Cache_aaa0cd55e0a21649dbf0ba42b5fb1b277}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!setAlgorithm@{setAlgorithm}}
+\index{setAlgorithm@{setAlgorithm}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{setAlgorithm()}{setAlgorithm()}}
+{\footnotesize\ttfamily void Cache\+::set\+Algorithm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{calenhad\+::module\+::algorithm\+::\+Algorithm}} $\ast$}]{algorithm }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_a46aa2879f87f7522b4f4804a809e3291}\label{classcalenhad_1_1module_1_1Cache_a46aa2879f87f7522b4f4804a809e3291}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!\_algorithm@{\_algorithm}}
+\index{\_algorithm@{\_algorithm}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{\_algorithm}{\_algorithm}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1algorithm_1_1Algorithm}{calenhad\+::module\+::algorithm\+::\+Algorithm}}$\ast$ calenhad\+::module\+::\+Cache\+::\+\_\+algorithm\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1Cache_a0325c9ceb52c3efce2a01f4e6f5fc5e1}\label{classcalenhad_1_1module_1_1Cache_a0325c9ceb52c3efce2a01f4e6f5fc5e1}} 
+\index{calenhad::module::Cache@{calenhad::module::Cache}!\_computed@{\_computed}}
+\index{\_computed@{\_computed}!calenhad::module::Cache@{calenhad::module::Cache}}
+\doxysubsubsection{\texorpdfstring{\_computed}{\_computed}}
+{\footnotesize\ttfamily bool calenhad\+::module\+::\+Cache\+::\+\_\+computed\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{Cache_8h}{Cache.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{Cache_8cpp}{Cache.\+cpp}}\end{DoxyCompactItemize}

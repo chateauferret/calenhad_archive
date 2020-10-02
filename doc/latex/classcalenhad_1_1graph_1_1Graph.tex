@@ -1,0 +1,200 @@
+\hypertarget{classcalenhad_1_1graph_1_1Graph}{}\doxysection{calenhad\+::graph\+::Graph Class Reference}
+\label{classcalenhad_1_1graph_1_1Graph}\index{calenhad::graph::Graph@{calenhad::graph::Graph}}
+
+
+{\ttfamily \#include $<$graph.\+h$>$}
+
+
+
+Collaboration diagram for calenhad\+::graph\+::Graph\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1Graph__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a7834d4bd38b091de8f8da89601a88858}{Graph}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$\mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a2903029ec32d87edc418a2ac260dc3db}{module}})
+\item 
+\mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a902c5b3eacb66d60752525ab23297a95}{$\sim$\+Graph}} ()
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_aa344ed2262c176035825c2535bee8921}{glsl}} ()
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a5a0e9771f5d2f3d9e81152ca5a7c306d}{raster\+Count}} () const
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a2903029ec32d87edc418a2ac260dc3db}{module}} () const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_aa5f43e08d5f6a369822cb10d5b3d06cd}{cube}} (const int \&index, \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$cube) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a83950873a1a2a3546e01154780148fcb}{glsl}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$node)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_ade6083284befb903d6bd22a8478faaf8}{\+\_\+module}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{pipeline\+::\+Calenhad\+Model}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a650413c93ac5b7418ad3bc3b7c53d97d}{\+\_\+model}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a6b7e6e74dc0b2e1a8c376b702d78a82b}{\+\_\+code}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a8d73286628d88dec7517bf802316245e}{\+\_\+node\+Name}}
+\item 
+float $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a90f435819597b72850362dd13a8aca68}{\+\_\+color\+Map\+Buffer}}
+\item 
+Q\+List$<$ \mbox{\hyperlink{classcalenhad_1_1module_1_1StructuredGrid}{calenhad\+::module\+::\+Structured\+Grid}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_ae720dc0913f558b77e328eab14d61e62}{\+\_\+rasters}}
+\item 
+exprtk\+::parser$<$ double $>$ $\ast$ \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a340e9acca775cedbc0b8a52eaea9542e}{\+\_\+parser}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph_a717dbddbb8a69bd340726bac50ccf3b5}{\+\_\+index}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a7834d4bd38b091de8f8da89601a88858}\label{classcalenhad_1_1graph_1_1Graph_a7834d4bd38b091de8f8da89601a88858}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!Graph@{Graph}}
+\index{Graph@{Graph}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{Graph()}{Graph()}}
+{\footnotesize\ttfamily Graph\+::\+Graph (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$}]{module }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a902c5b3eacb66d60752525ab23297a95}\label{classcalenhad_1_1graph_1_1Graph_a902c5b3eacb66d60752525ab23297a95}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!````~Graph@{$\sim$Graph}}
+\index{````~Graph@{$\sim$Graph}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{$\sim$Graph()}{~Graph()}}
+{\footnotesize\ttfamily Graph\+::$\sim$\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_aa5f43e08d5f6a369822cb10d5b3d06cd}\label{classcalenhad_1_1graph_1_1Graph_aa5f43e08d5f6a369822cb10d5b3d06cd}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!cube@{cube}}
+\index{cube@{cube}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{cube()}{cube()}}
+{\footnotesize\ttfamily void Graph\+::cube (\begin{DoxyParamCaption}\item[{const int \&}]{index,  }\item[{\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$}]{cube }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1Graph_aa5f43e08d5f6a369822cb10d5b3d06cd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_aa344ed2262c176035825c2535bee8921}\label{classcalenhad_1_1graph_1_1Graph_aa344ed2262c176035825c2535bee8921}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!glsl@{glsl}}
+\index{glsl@{glsl}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{glsl()}{glsl()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Q\+String Graph\+::glsl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1Graph_aa344ed2262c176035825c2535bee8921_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a83950873a1a2a3546e01154780148fcb}\label{classcalenhad_1_1graph_1_1Graph_a83950873a1a2a3546e01154780148fcb}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!glsl@{glsl}}
+\index{glsl@{glsl}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{glsl()}{glsl()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Q\+String Graph\+::glsl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}} $\ast$}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1Graph_a83950873a1a2a3546e01154780148fcb_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a2903029ec32d87edc418a2ac260dc3db}\label{classcalenhad_1_1graph_1_1Graph_a2903029ec32d87edc418a2ac260dc3db}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!module@{module}}
+\index{module@{module}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{module()}{module()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{Module}} $\ast$ Graph\+::module (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1Graph_a2903029ec32d87edc418a2ac260dc3db_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a5a0e9771f5d2f3d9e81152ca5a7c306d}\label{classcalenhad_1_1graph_1_1Graph_a5a0e9771f5d2f3d9e81152ca5a7c306d}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!rasterCount@{rasterCount}}
+\index{rasterCount@{rasterCount}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{rasterCount()}{rasterCount()}}
+{\footnotesize\ttfamily int Graph\+::raster\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1graph_1_1Graph_a5a0e9771f5d2f3d9e81152ca5a7c306d_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a6b7e6e74dc0b2e1a8c376b702d78a82b}\label{classcalenhad_1_1graph_1_1Graph_a6b7e6e74dc0b2e1a8c376b702d78a82b}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_code@{\_code}}
+\index{\_code@{\_code}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_code}{\_code}}
+{\footnotesize\ttfamily Q\+String calenhad\+::graph\+::\+Graph\+::\+\_\+code\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a90f435819597b72850362dd13a8aca68}\label{classcalenhad_1_1graph_1_1Graph_a90f435819597b72850362dd13a8aca68}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_colorMapBuffer@{\_colorMapBuffer}}
+\index{\_colorMapBuffer@{\_colorMapBuffer}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_colorMapBuffer}{\_colorMapBuffer}}
+{\footnotesize\ttfamily float$\ast$ calenhad\+::graph\+::\+Graph\+::\+\_\+color\+Map\+Buffer\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a717dbddbb8a69bd340726bac50ccf3b5}\label{classcalenhad_1_1graph_1_1Graph_a717dbddbb8a69bd340726bac50ccf3b5}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_index@{\_index}}
+\index{\_index@{\_index}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_index}{\_index}}
+{\footnotesize\ttfamily int calenhad\+::graph\+::\+Graph\+::\+\_\+index\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a650413c93ac5b7418ad3bc3b7c53d97d}\label{classcalenhad_1_1graph_1_1Graph_a650413c93ac5b7418ad3bc3b7c53d97d}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_model@{\_model}}
+\index{\_model@{\_model}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_model}{\_model}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1pipeline_1_1CalenhadModel}{pipeline\+::\+Calenhad\+Model}}$\ast$ calenhad\+::graph\+::\+Graph\+::\+\_\+model\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_ade6083284befb903d6bd22a8478faaf8}\label{classcalenhad_1_1graph_1_1Graph_ade6083284befb903d6bd22a8478faaf8}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_module@{\_module}}
+\index{\_module@{\_module}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_module}{\_module}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{calenhad\+::module\+::\+Module}}$\ast$ calenhad\+::graph\+::\+Graph\+::\+\_\+module\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a8d73286628d88dec7517bf802316245e}\label{classcalenhad_1_1graph_1_1Graph_a8d73286628d88dec7517bf802316245e}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_nodeName@{\_nodeName}}
+\index{\_nodeName@{\_nodeName}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_nodeName}{\_nodeName}}
+{\footnotesize\ttfamily Q\+String calenhad\+::graph\+::\+Graph\+::\+\_\+node\+Name\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_a340e9acca775cedbc0b8a52eaea9542e}\label{classcalenhad_1_1graph_1_1Graph_a340e9acca775cedbc0b8a52eaea9542e}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_parser@{\_parser}}
+\index{\_parser@{\_parser}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_parser}{\_parser}}
+{\footnotesize\ttfamily exprtk\+::parser$<$double$>$$\ast$ calenhad\+::graph\+::\+Graph\+::\+\_\+parser\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1graph_1_1Graph_ae720dc0913f558b77e328eab14d61e62}\label{classcalenhad_1_1graph_1_1Graph_ae720dc0913f558b77e328eab14d61e62}} 
+\index{calenhad::graph::Graph@{calenhad::graph::Graph}!\_rasters@{\_rasters}}
+\index{\_rasters@{\_rasters}!calenhad::graph::Graph@{calenhad::graph::Graph}}
+\doxysubsubsection{\texorpdfstring{\_rasters}{\_rasters}}
+{\footnotesize\ttfamily Q\+List$<$\mbox{\hyperlink{classcalenhad_1_1module_1_1StructuredGrid}{calenhad\+::module\+::\+Structured\+Grid}}$\ast$$>$ calenhad\+::graph\+::\+Graph\+::\+\_\+rasters\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/graph/\mbox{\hyperlink{graph_8h}{graph.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/graph/\mbox{\hyperlink{graph_8cpp}{graph.\+cpp}}\end{DoxyCompactItemize}

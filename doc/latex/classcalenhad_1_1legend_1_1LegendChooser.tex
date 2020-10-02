@@ -1,0 +1,184 @@
+\hypertarget{classcalenhad_1_1legend_1_1LegendChooser}{}\doxysection{calenhad\+::legend\+::Legend\+Chooser Class Reference}
+\label{classcalenhad_1_1legend_1_1LegendChooser}\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+
+
+{\ttfamily \#include $<$Legend\+Chooser.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::legend\+::Legend\+Chooser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classcalenhad_1_1legend_1_1LegendChooser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::legend\+::Legend\+Chooser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendChooser__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_a22a71e52af8a741b25fcf054515202af}{set\+Label}} (const Q\+String \&old\+Label, const Q\+String \&new\+Label)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_a7d230c38ad537a2640e212547cad761a}{set\+Current\+Icon}} (const Q\+Icon \&icon)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_abb6fc40339ac230104d45bc41bb2c63f}{refresh}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_adefccce9852edb13984557cb3a510a37}{legend\+Selected}} (const Q\+String \&name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_a4662a81d698ec369f7c4a1da76f4e52d}{Legend\+Chooser}} (\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{Legend\+Service}} $\ast$service, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent=0)
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_ae4aa9f395def9b59c0650cd8587bbab7}{$\sim$\+Legend\+Chooser}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_a58f0b8a4a6e55e7a436f0f299f2f2d70}{show\+Event}} (Q\+Show\+Event $\ast$e)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_af3b034d4001152a8efc87969f43f37ff}{selected\+Legend}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_a6f6900bcb7962e87eab76c507f0b490d}{legend\+Chosen}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{Legend\+Service}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_a24f19b974967e2c63325953b6ba77030}{\+\_\+service}}
+\item 
+Q\+String\+List \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_ad483ae2ddca39a66de61f6b1475da294}{\+\_\+legends}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_ad5e556da213df1f38674f0509436f64e}{\+\_\+name}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendChooser_afa61c21f7b9212d982553def8248583d}{\+\_\+old\+Name}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_a4662a81d698ec369f7c4a1da76f4e52d}\label{classcalenhad_1_1legend_1_1LegendChooser_a4662a81d698ec369f7c4a1da76f4e52d}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!LegendChooser@{LegendChooser}}
+\index{LegendChooser@{LegendChooser}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{LegendChooser()}{LegendChooser()}}
+{\footnotesize\ttfamily Legend\+Chooser\+::\+Legend\+Chooser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{Legend\+Service}} $\ast$}]{service,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendChooser_a4662a81d698ec369f7c4a1da76f4e52d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_ae4aa9f395def9b59c0650cd8587bbab7}\label{classcalenhad_1_1legend_1_1LegendChooser_ae4aa9f395def9b59c0650cd8587bbab7}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!````~LegendChooser@{$\sim$LegendChooser}}
+\index{````~LegendChooser@{$\sim$LegendChooser}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{$\sim$LegendChooser()}{~LegendChooser()}}
+{\footnotesize\ttfamily Legend\+Chooser\+::$\sim$\+Legend\+Chooser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_a6f6900bcb7962e87eab76c507f0b490d}\label{classcalenhad_1_1legend_1_1LegendChooser_a6f6900bcb7962e87eab76c507f0b490d}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!legendChosen@{legendChosen}}
+\index{legendChosen@{legendChosen}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{legendChosen}{legendChosen}}
+{\footnotesize\ttfamily void Legend\+Chooser\+::legend\+Chosen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendChooser_a6f6900bcb7962e87eab76c507f0b490d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_adefccce9852edb13984557cb3a510a37}\label{classcalenhad_1_1legend_1_1LegendChooser_adefccce9852edb13984557cb3a510a37}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!legendSelected@{legendSelected}}
+\index{legendSelected@{legendSelected}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{legendSelected}{legendSelected}}
+{\footnotesize\ttfamily void calenhad\+::legend\+::\+Legend\+Chooser\+::legend\+Selected (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1legend_1_1LegendChooser_adefccce9852edb13984557cb3a510a37_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_abb6fc40339ac230104d45bc41bb2c63f}\label{classcalenhad_1_1legend_1_1LegendChooser_abb6fc40339ac230104d45bc41bb2c63f}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!refresh@{refresh}}
+\index{refresh@{refresh}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{refresh}{refresh}}
+{\footnotesize\ttfamily void Legend\+Chooser\+::refresh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_af3b034d4001152a8efc87969f43f37ff}\label{classcalenhad_1_1legend_1_1LegendChooser_af3b034d4001152a8efc87969f43f37ff}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!selectedLegend@{selectedLegend}}
+\index{selectedLegend@{selectedLegend}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{selectedLegend()}{selectedLegend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ Legend\+Chooser\+::selected\+Legend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_a7d230c38ad537a2640e212547cad761a}\label{classcalenhad_1_1legend_1_1LegendChooser_a7d230c38ad537a2640e212547cad761a}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!setCurrentIcon@{setCurrentIcon}}
+\index{setCurrentIcon@{setCurrentIcon}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{setCurrentIcon}{setCurrentIcon}}
+{\footnotesize\ttfamily void Legend\+Chooser\+::set\+Current\+Icon (\begin{DoxyParamCaption}\item[{const Q\+Icon \&}]{icon }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_a22a71e52af8a741b25fcf054515202af}\label{classcalenhad_1_1legend_1_1LegendChooser_a22a71e52af8a741b25fcf054515202af}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!setLabel@{setLabel}}
+\index{setLabel@{setLabel}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{setLabel}{setLabel}}
+{\footnotesize\ttfamily void Legend\+Chooser\+::set\+Label (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{old\+Label,  }\item[{const Q\+String \&}]{new\+Label }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_a58f0b8a4a6e55e7a436f0f299f2f2d70}\label{classcalenhad_1_1legend_1_1LegendChooser_a58f0b8a4a6e55e7a436f0f299f2f2d70}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!showEvent@{showEvent}}
+\index{showEvent@{showEvent}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{showEvent()}{showEvent()}}
+{\footnotesize\ttfamily void Legend\+Chooser\+::show\+Event (\begin{DoxyParamCaption}\item[{Q\+Show\+Event $\ast$}]{e }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_ad483ae2ddca39a66de61f6b1475da294}\label{classcalenhad_1_1legend_1_1LegendChooser_ad483ae2ddca39a66de61f6b1475da294}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!\_legends@{\_legends}}
+\index{\_legends@{\_legends}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{\_legends}{\_legends}}
+{\footnotesize\ttfamily Q\+String\+List calenhad\+::legend\+::\+Legend\+Chooser\+::\+\_\+legends\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_ad5e556da213df1f38674f0509436f64e}\label{classcalenhad_1_1legend_1_1LegendChooser_ad5e556da213df1f38674f0509436f64e}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!\_name@{\_name}}
+\index{\_name@{\_name}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{\_name}{\_name}}
+{\footnotesize\ttfamily Q\+String calenhad\+::legend\+::\+Legend\+Chooser\+::\+\_\+name\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_afa61c21f7b9212d982553def8248583d}\label{classcalenhad_1_1legend_1_1LegendChooser_afa61c21f7b9212d982553def8248583d}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!\_oldName@{\_oldName}}
+\index{\_oldName@{\_oldName}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{\_oldName}{\_oldName}}
+{\footnotesize\ttfamily Q\+String calenhad\+::legend\+::\+Legend\+Chooser\+::\+\_\+old\+Name\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1legend_1_1LegendChooser_a24f19b974967e2c63325953b6ba77030}\label{classcalenhad_1_1legend_1_1LegendChooser_a24f19b974967e2c63325953b6ba77030}} 
+\index{calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}!\_service@{\_service}}
+\index{\_service@{\_service}!calenhad::legend::LegendChooser@{calenhad::legend::LegendChooser}}
+\doxysubsubsection{\texorpdfstring{\_service}{\_service}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1LegendService}{Legend\+Service}}$\ast$ calenhad\+::legend\+::\+Legend\+Chooser\+::\+\_\+service\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/legend/\mbox{\hyperlink{LegendChooser_8h}{Legend\+Chooser.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/legend/\mbox{\hyperlink{LegendChooser_8cpp}{Legend\+Chooser.\+cpp}}\end{DoxyCompactItemize}

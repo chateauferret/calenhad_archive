@@ -1,0 +1,76 @@
+\hypertarget{geoutils_8h}{}\doxysection{/home/ferret/\+C\+Lion\+Projects/calenhad/src/geoutils.h File Reference}
+\label{geoutils_8h}\index{/home/ferret/CLionProjects/calenhad/src/geoutils.h@{/home/ferret/CLionProjects/calenhad/src/geoutils.h}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$Geographic\+Lib/\+Geocentric.\+hpp$>$}\newline
+{\ttfamily \#include $<$Qt\+Core/\+Q\+String$>$}\newline
+Include dependency graph for geoutils.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{geoutils_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{geoutils_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classgeoutils_1_1IllegalGeoCoordinatesException}{geoutils\+::\+Illegal\+Geo\+Coordinates\+Exception}}
+\item 
+class \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}}
+\item 
+class \mbox{\hyperlink{classgeoutils_1_1Cartesian}{geoutils\+::\+Cartesian}}
+\item 
+class \mbox{\hyperlink{classgeoutils_1_1Geoutils}{geoutils\+::\+Geoutils}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacegeoutils}{geoutils}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{geoutils_8h_aa1121f797750b9f74f56b152d4245ec0}{degrees\+To\+Radians}}(angle\+Degrees)~((angle\+Degrees $\ast$ M\+\_\+\+PI) / 180.\+0)
+\item 
+\#define \mbox{\hyperlink{geoutils_8h_aa101e273d8dae96156403a869e2f3b18}{radians\+To\+Degrees}}(angle\+Radians)~((angle\+Radians $\ast$ 180.\+0) / M\+\_\+\+PI)
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790}{geoutils\+::\+Angle\+Type}} \{ \mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790a06225d5a479cd9ce3992e85966f8c1c9}{geoutils\+::\+Latitude}}, 
+\mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790a8879306207876ac6f394dacfc90e1ccd}{geoutils\+::\+Longitude}}, 
+\mbox{\hyperlink{namespacegeoutils_a961b38d1b0b8d984fdc6740de9ad4790a5a08959bcf6cabfda7b5286eb2cedd12}{geoutils\+::\+Bearing}}
+ \}
+\item 
+enum \mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{geoutils\+::\+Coordinates\+Format}} \{ \mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17ab47791094753faf3a26aedc2aa6e7924}{geoutils\+::\+No\+Coordinates}}, 
+\mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17a9791bc2954d634a1584a1dbbb1ea8663}{geoutils\+::\+Decimal}}, 
+\mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17a1cecb12049a16bb882465f0f88028709}{geoutils\+::\+Traditional}}
+ \}
+\item 
+enum \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5}{geoutils\+::\+Units}} \{ \mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5aa6054f5c881d246f3ccfd0694cd02df9}{geoutils\+::\+Degrees}}, 
+\mbox{\hyperlink{namespacegeoutils_a1feed57c4a4789a7f269f9b519a20aa5a6ca988c81af70dd99bd71ac9522821f0}{geoutils\+::\+Radians}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{geoutils_8h_aa1121f797750b9f74f56b152d4245ec0}\label{geoutils_8h_aa1121f797750b9f74f56b152d4245ec0}} 
+\index{geoutils.h@{geoutils.h}!degreesToRadians@{degreesToRadians}}
+\index{degreesToRadians@{degreesToRadians}!geoutils.h@{geoutils.h}}
+\doxysubsubsection{\texorpdfstring{degreesToRadians}{degreesToRadians}}
+{\footnotesize\ttfamily \#define degrees\+To\+Radians(\begin{DoxyParamCaption}\item[{}]{angle\+Degrees }\end{DoxyParamCaption})~((angle\+Degrees $\ast$ M\+\_\+\+PI) / 180.\+0)}
+
+\mbox{\Hypertarget{geoutils_8h_aa101e273d8dae96156403a869e2f3b18}\label{geoutils_8h_aa101e273d8dae96156403a869e2f3b18}} 
+\index{geoutils.h@{geoutils.h}!radiansToDegrees@{radiansToDegrees}}
+\index{radiansToDegrees@{radiansToDegrees}!geoutils.h@{geoutils.h}}
+\doxysubsubsection{\texorpdfstring{radiansToDegrees}{radiansToDegrees}}
+{\footnotesize\ttfamily \#define radians\+To\+Degrees(\begin{DoxyParamCaption}\item[{}]{angle\+Radians }\end{DoxyParamCaption})~((angle\+Radians $\ast$ 180.\+0) / M\+\_\+\+PI)}
+

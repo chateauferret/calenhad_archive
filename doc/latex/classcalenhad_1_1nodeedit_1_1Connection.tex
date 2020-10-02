@@ -1,0 +1,280 @@
+\hypertarget{classcalenhad_1_1nodeedit_1_1Connection}{}\doxysection{calenhad\+::nodeedit\+::Connection Class Reference}
+\label{classcalenhad_1_1nodeedit_1_1Connection}\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+
+
+{\ttfamily \#include $<$Connection.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::nodeedit\+::Connection\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=191pt]{classcalenhad_1_1nodeedit_1_1Connection__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::nodeedit\+::Connection\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1Connection__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_acd67862b6305e17ab4362a7fb48beb51ad3c8783ad14c9f8f1ca7b398f6924343}{Type}} = Q\+Graphics\+Item\+::User\+Type + 2
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a86de049d1ec3c619e406d08859b5f142}{Connection}} (\mbox{\hyperlink{classQGraphicsItem}{Q\+Graphics\+Item}} $\ast$parent=0)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a2e4352edf667bea83001569e9da8a24d}{$\sim$\+Connection}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a7d03153077164440fb988df2e0f35ed1}{set\+Pos1}} (const Q\+PointF \&p)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a08b4b325c19f727e8de8c165d0293161}{set\+Pos2}} (const Q\+PointF \&p)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a5ba9b77b010db2f4090beefd9ef47a62}{set\+Port1}} (\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$p)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_aba3a5affb3ef17ba1e9b0540034228e2}{set\+Port2}} (\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$p)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_ac2700b66d81fc941b632d460bf0f49b1}{update\+Pos\+From\+Ports}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a698bd13f89851ad7f1d24340263eb97d}{update\+Path}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a9e7ff6c17a8acbe3991711face2cafdd}{port1}} () const
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_ac27a55ae24ffada49462a0f88d93bbc1}{port2}} () const
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a2d5bd8d56313b27826ca3c7e0d0c01c9}{type}} () const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_af3f2a4e6c4ecc9a47746c61e478d91e7}{serialise}} (Q\+Dom\+Element \&element)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a30bcde6f57b3ea131cd45d4cc45a5960}{inflate}} (const Q\+Dom\+Document \&doc)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_aa9aad764bb52217fac2855dcf8196bfb}{other\+End}} (\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$port)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a941730a76d7d6479b590a9b47d7489d4}{mouse\+Press\+Event}} (Q\+Graphics\+Scene\+Mouse\+Event $\ast$e) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a434834fa3a0fa8f21e5fd347b2825d3e}{can\+Drop}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a62710388e693cfb580c934286ffd5b8c}{paint}} (Q\+Painter $\ast$painter, const Q\+Style\+Option\+Graphics\+Item $\ast$option, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$widget) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+PointF \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a6f46e73a83142220f13d5d6ac0bb7757}{p1}}
+\item 
+Q\+PointF \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a2c7e67751deb3223bfc4866769673c5d}{p2}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a69bf4feb0017517694c9b25c80209659}{m\+\_\+port1}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_aaf96b4f685c8c258224ccd9084c54780}{m\+\_\+port2}}
+\item 
+Q\+Menu $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a1072a296b1b2d44bb35971c277d0c3fb}{\+\_\+connection\+Context\+Menu}}
+\item 
+\mbox{\hyperlink{classQAction}{Q\+Action}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Connection_a840bb7db5b66b32cdf3409b0e0cb3bc3}{\+\_\+delete\+Connection\+Action}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_acd67862b6305e17ab4362a7fb48beb51}\label{classcalenhad_1_1nodeedit_1_1Connection_acd67862b6305e17ab4362a7fb48beb51}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Type@{Type}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!Type@{Type}}}\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_acd67862b6305e17ab4362a7fb48beb51ad3c8783ad14c9f8f1ca7b398f6924343}\label{classcalenhad_1_1nodeedit_1_1Connection_acd67862b6305e17ab4362a7fb48beb51ad3c8783ad14c9f8f1ca7b398f6924343}} 
+Type&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a86de049d1ec3c619e406d08859b5f142}\label{classcalenhad_1_1nodeedit_1_1Connection_a86de049d1ec3c619e406d08859b5f142}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!Connection@{Connection}}
+\index{Connection@{Connection}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{Connection()}{Connection()}}
+{\footnotesize\ttfamily Connection\+::\+Connection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classQGraphicsItem}{Q\+Graphics\+Item}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a2e4352edf667bea83001569e9da8a24d}\label{classcalenhad_1_1nodeedit_1_1Connection_a2e4352edf667bea83001569e9da8a24d}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!````~Connection@{$\sim$Connection}}
+\index{````~Connection@{$\sim$Connection}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{$\sim$Connection()}{~Connection()}}
+{\footnotesize\ttfamily Connection\+::$\sim$\+Connection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a30bcde6f57b3ea131cd45d4cc45a5960}\label{classcalenhad_1_1nodeedit_1_1Connection_a30bcde6f57b3ea131cd45d4cc45a5960}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!inflate@{inflate}}
+\index{inflate@{inflate}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{inflate()}{inflate()}}
+{\footnotesize\ttfamily void Connection\+::inflate (\begin{DoxyParamCaption}\item[{const Q\+Dom\+Document \&}]{doc }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a941730a76d7d6479b590a9b47d7489d4}\label{classcalenhad_1_1nodeedit_1_1Connection_a941730a76d7d6479b590a9b47d7489d4}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!mousePressEvent@{mousePressEvent}}
+\index{mousePressEvent@{mousePressEvent}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{mousePressEvent()}{mousePressEvent()}}
+{\footnotesize\ttfamily void Connection\+::mouse\+Press\+Event (\begin{DoxyParamCaption}\item[{Q\+Graphics\+Scene\+Mouse\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_aa9aad764bb52217fac2855dcf8196bfb}\label{classcalenhad_1_1nodeedit_1_1Connection_aa9aad764bb52217fac2855dcf8196bfb}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!otherEnd@{otherEnd}}
+\index{otherEnd@{otherEnd}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{otherEnd()}{otherEnd()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ Connection\+::other\+End (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$}]{port }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a62710388e693cfb580c934286ffd5b8c}\label{classcalenhad_1_1nodeedit_1_1Connection_a62710388e693cfb580c934286ffd5b8c}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!paint@{paint}}
+\index{paint@{paint}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{paint()}{paint()}}
+{\footnotesize\ttfamily void Connection\+::paint (\begin{DoxyParamCaption}\item[{Q\+Painter $\ast$}]{painter,  }\item[{const Q\+Style\+Option\+Graphics\+Item $\ast$}]{option,  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{widget }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a9e7ff6c17a8acbe3991711face2cafdd}\label{classcalenhad_1_1nodeedit_1_1Connection_a9e7ff6c17a8acbe3991711face2cafdd}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!port1@{port1}}
+\index{port1@{port1}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{port1()}{port1()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ Connection\+::port1 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_ac27a55ae24ffada49462a0f88d93bbc1}\label{classcalenhad_1_1nodeedit_1_1Connection_ac27a55ae24ffada49462a0f88d93bbc1}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!port2@{port2}}
+\index{port2@{port2}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{port2()}{port2()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$ Connection\+::port2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_af3f2a4e6c4ecc9a47746c61e478d91e7}\label{classcalenhad_1_1nodeedit_1_1Connection_af3f2a4e6c4ecc9a47746c61e478d91e7}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!serialise@{serialise}}
+\index{serialise@{serialise}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{serialise()}{serialise()}}
+{\footnotesize\ttfamily void Connection\+::serialise (\begin{DoxyParamCaption}\item[{Q\+Dom\+Element \&}]{element }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1Connection_af3f2a4e6c4ecc9a47746c61e478d91e7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a5ba9b77b010db2f4090beefd9ef47a62}\label{classcalenhad_1_1nodeedit_1_1Connection_a5ba9b77b010db2f4090beefd9ef47a62}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!setPort1@{setPort1}}
+\index{setPort1@{setPort1}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{setPort1()}{setPort1()}}
+{\footnotesize\ttfamily void Connection\+::set\+Port1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$}]{p }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_aba3a5affb3ef17ba1e9b0540034228e2}\label{classcalenhad_1_1nodeedit_1_1Connection_aba3a5affb3ef17ba1e9b0540034228e2}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!setPort2@{setPort2}}
+\index{setPort2@{setPort2}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{setPort2()}{setPort2()}}
+{\footnotesize\ttfamily void Connection\+::set\+Port2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}} $\ast$}]{p }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1Connection_aba3a5affb3ef17ba1e9b0540034228e2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a7d03153077164440fb988df2e0f35ed1}\label{classcalenhad_1_1nodeedit_1_1Connection_a7d03153077164440fb988df2e0f35ed1}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!setPos1@{setPos1}}
+\index{setPos1@{setPos1}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{setPos1()}{setPos1()}}
+{\footnotesize\ttfamily void Connection\+::set\+Pos1 (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{p }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a08b4b325c19f727e8de8c165d0293161}\label{classcalenhad_1_1nodeedit_1_1Connection_a08b4b325c19f727e8de8c165d0293161}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!setPos2@{setPos2}}
+\index{setPos2@{setPos2}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{setPos2()}{setPos2()}}
+{\footnotesize\ttfamily void Connection\+::set\+Pos2 (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{p }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a2d5bd8d56313b27826ca3c7e0d0c01c9}\label{classcalenhad_1_1nodeedit_1_1Connection_a2d5bd8d56313b27826ca3c7e0d0c01c9}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!type@{type}}
+\index{type@{type}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{type()}{type()}}
+{\footnotesize\ttfamily int calenhad\+::nodeedit\+::\+Connection\+::type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a698bd13f89851ad7f1d24340263eb97d}\label{classcalenhad_1_1nodeedit_1_1Connection_a698bd13f89851ad7f1d24340263eb97d}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!updatePath@{updatePath}}
+\index{updatePath@{updatePath}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{updatePath()}{updatePath()}}
+{\footnotesize\ttfamily void Connection\+::update\+Path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1Connection_a698bd13f89851ad7f1d24340263eb97d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_ac2700b66d81fc941b632d460bf0f49b1}\label{classcalenhad_1_1nodeedit_1_1Connection_ac2700b66d81fc941b632d460bf0f49b1}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!updatePosFromPorts@{updatePosFromPorts}}
+\index{updatePosFromPorts@{updatePosFromPorts}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{updatePosFromPorts()}{updatePosFromPorts()}}
+{\footnotesize\ttfamily void Connection\+::update\+Pos\+From\+Ports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a1072a296b1b2d44bb35971c277d0c3fb}\label{classcalenhad_1_1nodeedit_1_1Connection_a1072a296b1b2d44bb35971c277d0c3fb}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!\_connectionContextMenu@{\_connectionContextMenu}}
+\index{\_connectionContextMenu@{\_connectionContextMenu}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{\_connectionContextMenu}{\_connectionContextMenu}}
+{\footnotesize\ttfamily Q\+Menu$\ast$ calenhad\+::nodeedit\+::\+Connection\+::\+\_\+connection\+Context\+Menu\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a840bb7db5b66b32cdf3409b0e0cb3bc3}\label{classcalenhad_1_1nodeedit_1_1Connection_a840bb7db5b66b32cdf3409b0e0cb3bc3}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!\_deleteConnectionAction@{\_deleteConnectionAction}}
+\index{\_deleteConnectionAction@{\_deleteConnectionAction}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{\_deleteConnectionAction}{\_deleteConnectionAction}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQAction}{Q\+Action}}$\ast$ calenhad\+::nodeedit\+::\+Connection\+::\+\_\+delete\+Connection\+Action\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a434834fa3a0fa8f21e5fd347b2825d3e}\label{classcalenhad_1_1nodeedit_1_1Connection_a434834fa3a0fa8f21e5fd347b2825d3e}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!canDrop@{canDrop}}
+\index{canDrop@{canDrop}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{canDrop}{canDrop}}
+{\footnotesize\ttfamily bool calenhad\+::nodeedit\+::\+Connection\+::can\+Drop}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a69bf4feb0017517694c9b25c80209659}\label{classcalenhad_1_1nodeedit_1_1Connection_a69bf4feb0017517694c9b25c80209659}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!m\_port1@{m\_port1}}
+\index{m\_port1@{m\_port1}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{m\_port1}{m\_port1}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}}$\ast$ calenhad\+::nodeedit\+::\+Connection\+::m\+\_\+port1\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_aaf96b4f685c8c258224ccd9084c54780}\label{classcalenhad_1_1nodeedit_1_1Connection_aaf96b4f685c8c258224ccd9084c54780}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!m\_port2@{m\_port2}}
+\index{m\_port2@{m\_port2}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{m\_port2}{m\_port2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1Port}{Port}}$\ast$ calenhad\+::nodeedit\+::\+Connection\+::m\+\_\+port2\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a6f46e73a83142220f13d5d6ac0bb7757}\label{classcalenhad_1_1nodeedit_1_1Connection_a6f46e73a83142220f13d5d6ac0bb7757}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!p1@{p1}}
+\index{p1@{p1}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{p1}{p1}}
+{\footnotesize\ttfamily Q\+PointF calenhad\+::nodeedit\+::\+Connection\+::p1\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1Connection_a2c7e67751deb3223bfc4866769673c5d}\label{classcalenhad_1_1nodeedit_1_1Connection_a2c7e67751deb3223bfc4866769673c5d}} 
+\index{calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}!p2@{p2}}
+\index{p2@{p2}!calenhad::nodeedit::Connection@{calenhad::nodeedit::Connection}}
+\doxysubsubsection{\texorpdfstring{p2}{p2}}
+{\footnotesize\ttfamily Q\+PointF calenhad\+::nodeedit\+::\+Connection\+::p2\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/nodeedit/\mbox{\hyperlink{Connection_8h}{Connection.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/nodeedit/\mbox{\hyperlink{Connection_8cpp}{Connection.\+cpp}}\end{DoxyCompactItemize}

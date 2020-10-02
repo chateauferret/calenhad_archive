@@ -1,0 +1,1296 @@
+\hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{}\doxysection{calenhad\+::mapping\+::Calenhad\+Map\+Widget Class Reference}
+\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget}\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+
+
+{\ttfamily \#include $<$Calenhad\+Map\+Widget.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::mapping\+::Calenhad\+Map\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::mapping\+::Calenhad\+Map\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af01154d20b044af76a7ec3abede57620}{set\+Projection}} (const Q\+String \&\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5624e16cfd39fcb09c656ca1760f3075}{projection}})
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a536adc4e7aa11c90192b80a54fcbfbd3}{navigate}} (const \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1NavigationEvent}{calenhad\+::controls\+::globe\+::\+Navigation\+Event}} \&e)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2159e67a8f3c5f70300b79ac4ea55cbf}{export\+Images}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa031b7006a9054a7f046569fe6c8b1f8}{set\+Mouse\+Double\+Click\+Mode}} (const \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a69bea52b459e3424cce38583b86a11ff}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Double\+Click\+Mode}} \&mode)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa9595ccd3dbcd019eb27bb1e0d72bb13}{set\+Mouse\+Drag\+Mode}} (const \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a1951c2a594381574f7d520ccad4373b2}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Drag\+Mode}} \&mode)
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a791f3e26e5ff864b9778642b525762de}{texture\+Height}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0283dbddba1d58dfef5e57101228b1d5}{rendered}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a63a51027ca0349da198eb692d0ae485f}{computed}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7c3543d0c92df401a93a4fffa853d92b}{zoom\+Requested}} (const double \&zoom)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aac060069b0161e1bfd7488ca71b35828}{zoom\+In\+Requested}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a174fd7675765fbcc637bcd1e743f82d1}{zoom\+Out\+Requested}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a78e7b40adaa09fe5124eadb67fa33f6f}{Calenhad\+Map\+Widget}} (const \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75}{controls\+::globe\+::\+Render\+Mode}} \&mode=\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75a25fa4f842c30b08a7c1833381cd6efba}{controls\+::globe\+::\+Render\+Mode\+Globe}}, \mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$parent=0)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2e9e01691da7526e847dc08a0416cd0a}{$\sim$\+Calenhad\+Map\+Widget}} () override
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{legend\+::\+Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1d3e1e4b358d70078382cb40dedf2d91}{legend}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_abeae8ea4e96250cb4e9be9515c09b312}{set\+Source}} (\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}} $\ast$qm)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ae02f21cf38c5e899d12ee52e2e88ecdc}{subscribe}} (\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatsPanel}{calenhad\+::controls\+::globe\+::\+Calenhad\+Stats\+Panel}} $\ast$panel)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2ce26e6750c914d5ec5d833120c0614c}{compute}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2d8d0e69105f916326b0f442b11182d3}{render}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8c208099abdb2b6c3516516b7f40dcfd}{source}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a32518611dff5a083c67ec263977487d6}{show\+Event}} (Q\+Show\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7951556a22fbad6287821f12d499c6fe}{set\+Scale}} (const double \&\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0f9a7e577ca5807c4f1cb0d2b9f18f4e}{scale}})
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0f9a7e577ca5807c4f1cb0d2b9f18f4e}{scale}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab129f6ad950d86ddb9e95fd70d5d0ec4}{rotate}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adca969bd355f8f201ee25ec9b4eff380}{rotation}})
+\item 
+const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \& \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adca969bd355f8f201ee25ec9b4eff380}{rotation}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection}{projection\+::\+Projection}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5624e16cfd39fcb09c656ca1760f3075}{projection}} ()
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7a15e2d9f1eefbff3fe2b53b5a8924ca}{buffer}} ()
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a393613b351bb4dc47ccc9c2326489ba6}{geo\+Coordinates}} (Q\+PointF pos, \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&geolocation)
+\item 
+Q\+Point \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_add9ab0f4a086408a15538a416ba7b5ac}{tex\+Coordinates}} (const Q\+PointF \&sc)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a62cc04853fada37cc0dbe74e08748cf9}{screen\+Coordinates}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&geolocation, Q\+PointF \&sc)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7c15624cb7b6aea2b68c47e18ebced6c}{set\+Coordinates\+Format}} (\mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{geoutils\+::\+Coordinates\+Format}} format)
+\item 
+\mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{geoutils\+::\+Coordinates\+Format}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a99b622d3d3830c818a9caec73cdd3673}{coordinates\+Format}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5620fdcc8b3f7fc7c0c7c07e886be655}{set\+Graticule\+Visible}} (const bool \&visible)
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule}{Graticule}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8c69a4f2f1c997616bb5de593748b112}{graticule}} ()
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af8b54dd92cca335c5aa1a4b480eec75b}{is\+Graticule\+Visible}} () const
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a74e41d6d08f88f484f55a6cc506c7c6f}{is\+In\+Viewport}} (\mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} g)
+\item 
+Q\+Size \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a224293bbf7a875cc0bb61bd93f42e6de}{height\+Map\+Size}} () const
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a94fa867b971edf846c21d73e36f2239f}{height\+Map\+Buffer}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a15e5114b9da9d54a6d16d989e6e7674c}{set\+Create\+Height\+Map}} (const bool \&create\+Height\+Map)
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a69bea52b459e3424cce38583b86a11ff}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Double\+Click\+Mode}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a9526823f33cb72c9f9eedc74abecaa32}{mouse\+Double\+Click\+Mode}} ()
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a1951c2a594381574f7d520ccad4373b2}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Drag\+Mode}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a30edb0fcc53bf421ad4750966652865c}{mouse\+Drag\+Mode}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_acb308742b576ea53f120bd981597e4de}{set\+Datum\+Format}} (\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aa0f3de3fa4ec149f4d824b78f71bfb2a}{calenhad\+::controls\+::globe\+::\+Datum\+Format}} format)
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aa0f3de3fa4ec149f4d824b78f71bfb2a}{calenhad\+::controls\+::globe\+::\+Datum\+Format}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0fc5a3c43c9d7725b8b593fe02cb8c1a}{datum\+Format}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afa10e6f66c1b5286458b32b5d1a8184c}{set\+Sensitivity}} (double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa83968a128cf5b13c15da10a45218500}{sensitivity}})
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa83968a128cf5b13c15da10a45218500}{sensitivity}} () const
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aaa246afdaea27d3b2bdfa0d8f8f8ebd2}{go\+To}} (const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&geolocation)
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75}{controls\+::globe\+::\+Render\+Mode}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adfcb01b0acf5daa033a05ada86f2357b}{render\+Mode}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a90eec5ec24f6522f09990e26935385d3}{set\+Main\+Map}} (\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}} $\ast$main\+Map)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a07b5b4f2d0b37d66901bb981ed811d75}{set\+Legend}} (\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{legend\+::\+Legend}} $\ast$\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1d3e1e4b358d70078382cb40dedf2d91}{legend}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8922767978742fa348eaf1de1f17db41}{paint\+GL}} () override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a013e3bd2581d85895fc2607feb9390ae}{resize\+GL}} (int width, int height) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5a021d0598d073914c08d08175b2ffd5}{paint\+Event}} (Q\+Paint\+Event $\ast$e) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a672f81066514ec25018571a330d8f5df}{notify\+Subscribers}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a947cc54c84e700bcce624e900fee7cc3}{mouse\+Press\+Event}} (Q\+Mouse\+Event $\ast$e) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afcabcf9a77b351995287856f58e00aea}{mouse\+Double\+Click\+Event}} (Q\+Mouse\+Event $\ast$e) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8a04462a53eaaf7d5531625fed59f59f}{mouse\+Move\+Event}} (Q\+Mouse\+Event $\ast$e) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a4d3403afa99863c54daa52300272f7ca}{mouse\+Release\+Event}} (Q\+Mouse\+Event $\ast$e) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a9f6aa2b7168bec5c6dc0c3a2a8456b09}{wheel\+Event}} (Q\+Wheel\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3042282558ea435322127f531bf20f15}{create\+Texture}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab7eb64dcedb84f71a8d8c2cd66003ac5}{redraw}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7930c07d5555ccfc77701c825ecfac53}{initialize\+GL}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac36af3ded349e7e0accce7fa4460275c}{\+\_\+rotation}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph}{calenhad\+::graph\+::\+Graph}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a68d98debb5b46fa0948298923670a9b3}{\+\_\+graph}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aed4cdc4885229e3cd52e238c3575cf8b}{\+\_\+shader}}
+\item 
+G\+Lfloat $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a39bc02861e776370bfef1038a7802948}{\+\_\+color\+Map\+Buffer}}
+\item 
+G\+Lfloat $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab362c24ec66bbde3e8fddca56b4bb2a0}{\+\_\+icosphere\+Buffer}} \{\}
+\item 
+G\+Lfloat \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1bc149216ddb3e8f484cd600615d5d84}{\+\_\+scale}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection}{calenhad\+::mapping\+::projection\+::\+Projection}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab5fff5ee4851594b3802e02fcf7de36b}{\+\_\+projection}}
+\item 
+Q\+PointF \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5daa525fe91f87ffa87ca42489595cd7}{\+\_\+translation}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule}{Graticule}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a43d55ea8cd5837a5fc6a960f20d84023}{\+\_\+graticule}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3deb8757ba62b9a426a2c3e84c44e071}{\+\_\+graticule\+Visible}}
+\item 
+\mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{geoutils\+::\+Coordinates\+Format}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a6a3a30c9ec7db5d84d1443db7608ebcb}{\+\_\+coordinates\+Format}}
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1mapping_ad9f8d0ab168ae8756355a26875a4c700}{Overview\+Preview\+Type}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3532f50f579327991155c579d9644ee2}{\+\_\+preview\+Type}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a78723f98c1f66b1e8452300dedc8a6de}{\+\_\+source}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a6587f77174d14be6c16fe1ceba9dec89}{\+\_\+zoom\+Drag}}
+\item 
+double \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1a76397c9c752aed028605147d477e35}{\+\_\+sensitivity}} = 0.\+2
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aa0f3de3fa4ec149f4d824b78f71bfb2a}{calenhad\+::controls\+::globe\+::\+Datum\+Format}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa98660e65bc65d7a28980a85802add99}{\+\_\+datum\+Format}}
+\item 
+Q\+Point \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a438106244967bade4dd74550281784e4}{\+\_\+move\+From}}
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a1951c2a594381574f7d520ccad4373b2}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Drag\+Mode}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a82438d7f4d315689c97a5496a5264f8e}{\+\_\+mouse\+Drag\+Mode}}
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a69bea52b459e3424cce38583b86a11ff}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Double\+Click\+Mode}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a89618073cadd56ea49da4f93cab1bcec}{\+\_\+mouse\+Double\+Click\+Mode}}
+\item 
+Geographic\+Lib\+::\+Geodesic $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a318de53090f08ef9e4a7247775172a0d}{\+\_\+geodesic}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adb7bda3fba87e0621d5b0c6817b86675}{\+\_\+shader\+Template}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab140da1c0ca9e96031f67c11decf36eb}{\+\_\+vertex\+Shader\+Code}}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adfcf5ec3a57b40875e47eeffc64b8e1c}{\+\_\+fragment\+Shader\+Code}}
+\item 
+Q\+Open\+G\+L\+Vertex\+Array\+Object \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa7e20830801f3dc833ca30f2f5b44f5d}{\+\_\+vao}}
+\item 
+Q\+Open\+G\+L\+Buffer $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a50a75acf2b937ebe7322457f3e89a000}{\+\_\+index\+Buffer}}
+\item 
+Q\+Open\+G\+L\+Buffer $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a584bbf436298667de99c10d89a584604}{\+\_\+vertex\+Buffer}}
+\item 
+Q\+Open\+G\+L\+Shader\+Program $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a92d132f62ec18bc5a912ab0073b11ee7}{\+\_\+compute\+Program}}
+\item 
+Q\+Open\+G\+L\+Shader\+Program $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1f3a08db9844b4f1345fdae231805412}{\+\_\+render\+Program}}
+\item 
+Q\+Open\+G\+L\+Shader $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac5738944944ceb55d0517d88fa1f7c4a}{\+\_\+compute\+Shader}}
+\item 
+Q\+Open\+G\+L\+Shader $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ae05dd0fdd078f3c04e844f3877026441}{\+\_\+fragment\+Shader}}
+\item 
+Q\+Open\+G\+L\+Shader $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_abe46d78dda88f5c6b5a9d6a1f763dd47}{\+\_\+vertex\+Shader}}
+\item 
+Q\+Open\+G\+L\+Texture $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa131030d87e5d0f9f2092ded76ce2c25}{\+\_\+globe\+Texture}}
+\item 
+Q\+Open\+G\+L\+Texture $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a480fca82a053adcdc3211acaff499dbc}{\+\_\+raster\+Texture}}
+\item 
+Q\+Open\+G\+L\+Texture $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a00a28aa5d86f4cd3c3c1d153eb1161ae}{\+\_\+inset\+Texture}} \{\}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a18674b94626f4e32767e0f6c82e3c20d}{\+\_\+buffer}}
+\item 
+const char $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a94c67082a2a8826542031d3fda72a4a9}{name}} = \char`\"{}height\+Map\+Buffer\char`\"{}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a858a6ff291124f98c2e9ec9d1b97b129}{\+\_\+code}}
+\item 
+\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75}{calenhad\+::controls\+::globe\+::\+Render\+Mode}} \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a876cf30b3b6319b52a3aeb64bb1b5889}{\+\_\+mode}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ad6a003dd711ddf373df645f359d32a40}{\+\_\+render\+Time}}
+\item 
+G\+Luint \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a58b3ab75ebab62dc5040ff61cad78174}{color\+Map}} = 1
+\item 
+G\+Lint \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af72b282fcd1fa75a0d8d58efdc90e7ed}{\+\_\+tile\+Size}}
+\item 
+G\+Luint \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1f091293b01b0f12e6c881db0b29b103}{height\+Map}} = 1
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af888c3f6fb6ed8c2e49aa40eae93cdf8}{\+\_\+y\+Tiles}} \{\}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a55966f48342fed6d30adca082301cdc9}{\+\_\+refresh\+Height\+Map}}
+\item 
+clock\+\_\+t \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af4dfc1d6d00879e6494897bf866bc9f1}{start}} \{\}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adff9cf828475bdd2aac9a285624552f3}{\+\_\+create\+Height\+Map}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac41124ab09be4d4009a6fdb35f098d28}{\+\_\+compute\+Vertices}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a41789d1f2331210c286f532d2ad416ad}{\+\_\+main\+Map}}
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5af546c340b651c804ef7fc3274e3174}{\+\_\+compute\+Cube\+Map}} \{\}
+\item 
+G\+Lfloat $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3a2a2cc6c38d66a4485be5a19668233a}{\+\_\+cube\+Map\+Buffer}} \{\}
+\item 
+G\+Lfloat $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a63170be135ade9033af770d7fd5821e5}{\+\_\+grid\+Buffer}} \{\}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{calenhad\+::legend\+::\+Legend}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3f03d1fd0b4d2773fc02b4922a13f1ed}{\+\_\+legend}}
+\item 
+int \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af17621b65c89b24068ca5cf3c776d6c7}{\+\_\+size}}
+\item 
+Q\+Vector$<$ \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatsPanel}{calenhad\+::controls\+::globe\+::\+Calenhad\+Stats\+Panel}} $\ast$ $>$ \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aebaa1d79e154955464813392a49603b3}{\+\_\+subscribers}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a78e7b40adaa09fe5124eadb67fa33f6f}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a78e7b40adaa09fe5124eadb67fa33f6f}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!CalenhadMapWidget@{CalenhadMapWidget}}
+\index{CalenhadMapWidget@{CalenhadMapWidget}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{CalenhadMapWidget()}{CalenhadMapWidget()}}
+{\footnotesize\ttfamily Calenhad\+Map\+Widget\+::\+Calenhad\+Map\+Widget (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75}{controls\+::globe\+::\+Render\+Mode}} \&}]{mode = {\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75a25fa4f842c30b08a7c1833381cd6efba}{controls\+::globe\+::\+Render\+Mode\+Globe}}},  }\item[{\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a78e7b40adaa09fe5124eadb67fa33f6f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2e9e01691da7526e847dc08a0416cd0a}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2e9e01691da7526e847dc08a0416cd0a}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!````~CalenhadMapWidget@{$\sim$CalenhadMapWidget}}
+\index{````~CalenhadMapWidget@{$\sim$CalenhadMapWidget}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{$\sim$CalenhadMapWidget()}{~CalenhadMapWidget()}}
+{\footnotesize\ttfamily Calenhad\+Map\+Widget\+::$\sim$\+Calenhad\+Map\+Widget (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7a15e2d9f1eefbff3fe2b53b5a8924ca}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7a15e2d9f1eefbff3fe2b53b5a8924ca}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!buffer@{buffer}}
+\index{buffer@{buffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{buffer()}{buffer()}}
+{\footnotesize\ttfamily Cubic\+Sphere $\ast$ Calenhad\+Map\+Widget\+::buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7a15e2d9f1eefbff3fe2b53b5a8924ca_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2ce26e6750c914d5ec5d833120c0614c}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2ce26e6750c914d5ec5d833120c0614c}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!compute@{compute}}
+\index{compute@{compute}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{compute()}{compute()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::compute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2ce26e6750c914d5ec5d833120c0614c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2ce26e6750c914d5ec5d833120c0614c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a63a51027ca0349da198eb692d0ae485f}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a63a51027ca0349da198eb692d0ae485f}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!computed@{computed}}
+\index{computed@{computed}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{computed}{computed}}
+{\footnotesize\ttfamily void calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::computed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a63a51027ca0349da198eb692d0ae485f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a99b622d3d3830c818a9caec73cdd3673}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a99b622d3d3830c818a9caec73cdd3673}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!coordinatesFormat@{coordinatesFormat}}
+\index{coordinatesFormat@{coordinatesFormat}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{coordinatesFormat()}{coordinatesFormat()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{geoutils\+::\+Coordinates\+Format}} Calenhad\+Map\+Widget\+::coordinates\+Format (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3042282558ea435322127f531bf20f15}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3042282558ea435322127f531bf20f15}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!createTexture@{createTexture}}
+\index{createTexture@{createTexture}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{createTexture()}{createTexture()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::create\+Texture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3042282558ea435322127f531bf20f15_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0fc5a3c43c9d7725b8b593fe02cb8c1a}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0fc5a3c43c9d7725b8b593fe02cb8c1a}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!datumFormat@{datumFormat}}
+\index{datumFormat@{datumFormat}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{datumFormat()}{datumFormat()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aa0f3de3fa4ec149f4d824b78f71bfb2a}{Datum\+Format}} Calenhad\+Map\+Widget\+::datum\+Format (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2159e67a8f3c5f70300b79ac4ea55cbf}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2159e67a8f3c5f70300b79ac4ea55cbf}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!exportImages@{exportImages}}
+\index{exportImages@{exportImages}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{exportImages}{exportImages}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::export\+Images (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a393613b351bb4dc47ccc9c2326489ba6}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a393613b351bb4dc47ccc9c2326489ba6}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!geoCoordinates@{geoCoordinates}}
+\index{geoCoordinates@{geoCoordinates}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{geoCoordinates()}{geoCoordinates()}}
+{\footnotesize\ttfamily bool Calenhad\+Map\+Widget\+::geo\+Coordinates (\begin{DoxyParamCaption}\item[{Q\+PointF}]{pos,  }\item[{\mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{geolocation }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a393613b351bb4dc47ccc9c2326489ba6_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a393613b351bb4dc47ccc9c2326489ba6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aaa246afdaea27d3b2bdfa0d8f8f8ebd2}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aaa246afdaea27d3b2bdfa0d8f8f8ebd2}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!goTo@{goTo}}
+\index{goTo@{goTo}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{goTo()}{goTo()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::go\+To (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{geolocation }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aaa246afdaea27d3b2bdfa0d8f8f8ebd2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aaa246afdaea27d3b2bdfa0d8f8f8ebd2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8c69a4f2f1c997616bb5de593748b112}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8c69a4f2f1c997616bb5de593748b112}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!graticule@{graticule}}
+\index{graticule@{graticule}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{graticule()}{graticule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule}{Graticule}} $\ast$ Calenhad\+Map\+Widget\+::graticule (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a94fa867b971edf846c21d73e36f2239f}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a94fa867b971edf846c21d73e36f2239f}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!heightMapBuffer@{heightMapBuffer}}
+\index{heightMapBuffer@{heightMapBuffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{heightMapBuffer()}{heightMapBuffer()}}
+{\footnotesize\ttfamily Cubic\+Sphere $\ast$ Calenhad\+Map\+Widget\+::height\+Map\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a224293bbf7a875cc0bb61bd93f42e6de}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a224293bbf7a875cc0bb61bd93f42e6de}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!heightMapSize@{heightMapSize}}
+\index{heightMapSize@{heightMapSize}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{heightMapSize()}{heightMapSize()}}
+{\footnotesize\ttfamily Q\+Size Calenhad\+Map\+Widget\+::height\+Map\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7930c07d5555ccfc77701c825ecfac53}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7930c07d5555ccfc77701c825ecfac53}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!initializeGL@{initializeGL}}
+\index{initializeGL@{initializeGL}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{initializeGL()}{initializeGL()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::initialize\+GL (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af8b54dd92cca335c5aa1a4b480eec75b}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af8b54dd92cca335c5aa1a4b480eec75b}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!isGraticuleVisible@{isGraticuleVisible}}
+\index{isGraticuleVisible@{isGraticuleVisible}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{isGraticuleVisible()}{isGraticuleVisible()}}
+{\footnotesize\ttfamily bool Calenhad\+Map\+Widget\+::is\+Graticule\+Visible (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a74e41d6d08f88f484f55a6cc506c7c6f}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a74e41d6d08f88f484f55a6cc506c7c6f}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!isInViewport@{isInViewport}}
+\index{isInViewport@{isInViewport}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{isInViewport()}{isInViewport()}}
+{\footnotesize\ttfamily bool Calenhad\+Map\+Widget\+::is\+In\+Viewport (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}}}]{g }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a74e41d6d08f88f484f55a6cc506c7c6f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a74e41d6d08f88f484f55a6cc506c7c6f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1d3e1e4b358d70078382cb40dedf2d91}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1d3e1e4b358d70078382cb40dedf2d91}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!legend@{legend}}
+\index{legend@{legend}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{legend()}{legend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{Legend}} $\ast$ Calenhad\+Map\+Widget\+::legend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1d3e1e4b358d70078382cb40dedf2d91_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afcabcf9a77b351995287856f58e00aea}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afcabcf9a77b351995287856f58e00aea}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!mouseDoubleClickEvent@{mouseDoubleClickEvent}}
+\index{mouseDoubleClickEvent@{mouseDoubleClickEvent}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{mouseDoubleClickEvent()}{mouseDoubleClickEvent()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::mouse\+Double\+Click\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afcabcf9a77b351995287856f58e00aea_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a9526823f33cb72c9f9eedc74abecaa32}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a9526823f33cb72c9f9eedc74abecaa32}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!mouseDoubleClickMode@{mouseDoubleClickMode}}
+\index{mouseDoubleClickMode@{mouseDoubleClickMode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{mouseDoubleClickMode()}{mouseDoubleClickMode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a69bea52b459e3424cce38583b86a11ff}{Calenhad\+Globe\+Double\+Click\+Mode}} Calenhad\+Map\+Widget\+::mouse\+Double\+Click\+Mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a30edb0fcc53bf421ad4750966652865c}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a30edb0fcc53bf421ad4750966652865c}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!mouseDragMode@{mouseDragMode}}
+\index{mouseDragMode@{mouseDragMode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{mouseDragMode()}{mouseDragMode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a1951c2a594381574f7d520ccad4373b2}{Calenhad\+Globe\+Drag\+Mode}} Calenhad\+Map\+Widget\+::mouse\+Drag\+Mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8a04462a53eaaf7d5531625fed59f59f}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8a04462a53eaaf7d5531625fed59f59f}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!mouseMoveEvent@{mouseMoveEvent}}
+\index{mouseMoveEvent@{mouseMoveEvent}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{mouseMoveEvent()}{mouseMoveEvent()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::mouse\+Move\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8a04462a53eaaf7d5531625fed59f59f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a947cc54c84e700bcce624e900fee7cc3}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a947cc54c84e700bcce624e900fee7cc3}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!mousePressEvent@{mousePressEvent}}
+\index{mousePressEvent@{mousePressEvent}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{mousePressEvent()}{mousePressEvent()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::mouse\+Press\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a947cc54c84e700bcce624e900fee7cc3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a4d3403afa99863c54daa52300272f7ca}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a4d3403afa99863c54daa52300272f7ca}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!mouseReleaseEvent@{mouseReleaseEvent}}
+\index{mouseReleaseEvent@{mouseReleaseEvent}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{mouseReleaseEvent()}{mouseReleaseEvent()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::mouse\+Release\+Event (\begin{DoxyParamCaption}\item[{Q\+Mouse\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a4d3403afa99863c54daa52300272f7ca_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a536adc4e7aa11c90192b80a54fcbfbd3}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a536adc4e7aa11c90192b80a54fcbfbd3}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!navigate@{navigate}}
+\index{navigate@{navigate}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{navigate}{navigate}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::navigate (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1NavigationEvent}{calenhad\+::controls\+::globe\+::\+Navigation\+Event}} \&}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a536adc4e7aa11c90192b80a54fcbfbd3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a672f81066514ec25018571a330d8f5df}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a672f81066514ec25018571a330d8f5df}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!notifySubscribers@{notifySubscribers}}
+\index{notifySubscribers@{notifySubscribers}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{notifySubscribers()}{notifySubscribers()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::notify\+Subscribers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a672f81066514ec25018571a330d8f5df_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5a021d0598d073914c08d08175b2ffd5}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5a021d0598d073914c08d08175b2ffd5}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!paintEvent@{paintEvent}}
+\index{paintEvent@{paintEvent}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{paintEvent()}{paintEvent()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::paint\+Event (\begin{DoxyParamCaption}\item[{Q\+Paint\+Event $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8922767978742fa348eaf1de1f17db41}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8922767978742fa348eaf1de1f17db41}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!paintGL@{paintGL}}
+\index{paintGL@{paintGL}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{paintGL()}{paintGL()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::paint\+GL (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8922767978742fa348eaf1de1f17db41_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5624e16cfd39fcb09c656ca1760f3075}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5624e16cfd39fcb09c656ca1760f3075}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!projection@{projection}}
+\index{projection@{projection}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{projection()}{projection()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection}{Projection}} $\ast$ Calenhad\+Map\+Widget\+::projection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5624e16cfd39fcb09c656ca1760f3075_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab7eb64dcedb84f71a8d8c2cd66003ac5}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab7eb64dcedb84f71a8d8c2cd66003ac5}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!redraw@{redraw}}
+\index{redraw@{redraw}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{redraw()}{redraw()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::redraw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab7eb64dcedb84f71a8d8c2cd66003ac5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2d8d0e69105f916326b0f442b11182d3}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2d8d0e69105f916326b0f442b11182d3}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!render@{render}}
+\index{render@{render}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2d8d0e69105f916326b0f442b11182d3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a2d8d0e69105f916326b0f442b11182d3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0283dbddba1d58dfef5e57101228b1d5}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0283dbddba1d58dfef5e57101228b1d5}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!rendered@{rendered}}
+\index{rendered@{rendered}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{rendered}{rendered}}
+{\footnotesize\ttfamily void calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::rendered (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0283dbddba1d58dfef5e57101228b1d5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adfcb01b0acf5daa033a05ada86f2357b}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adfcb01b0acf5daa033a05ada86f2357b}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!renderMode@{renderMode}}
+\index{renderMode@{renderMode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{renderMode()}{renderMode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75}{Render\+Mode}} Calenhad\+Map\+Widget\+::render\+Mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a013e3bd2581d85895fc2607feb9390ae}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a013e3bd2581d85895fc2607feb9390ae}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!resizeGL@{resizeGL}}
+\index{resizeGL@{resizeGL}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{resizeGL()}{resizeGL()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::resize\+GL (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a013e3bd2581d85895fc2607feb9390ae_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab129f6ad950d86ddb9e95fd70d5d0ec4}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab129f6ad950d86ddb9e95fd70d5d0ec4}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!rotate@{rotate}}
+\index{rotate@{rotate}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{rotate()}{rotate()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::rotate (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{rotation }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab129f6ad950d86ddb9e95fd70d5d0ec4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab129f6ad950d86ddb9e95fd70d5d0ec4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adca969bd355f8f201ee25ec9b4eff380}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adca969bd355f8f201ee25ec9b4eff380}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!rotation@{rotation}}
+\index{rotation@{rotation}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{rotation()}{rotation()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{Geolocation}} \& Calenhad\+Map\+Widget\+::rotation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adca969bd355f8f201ee25ec9b4eff380_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0f9a7e577ca5807c4f1cb0d2b9f18f4e}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0f9a7e577ca5807c4f1cb0d2b9f18f4e}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!scale@{scale}}
+\index{scale@{scale}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{scale()}{scale()}}
+{\footnotesize\ttfamily double Calenhad\+Map\+Widget\+::scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a0f9a7e577ca5807c4f1cb0d2b9f18f4e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a62cc04853fada37cc0dbe74e08748cf9}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a62cc04853fada37cc0dbe74e08748cf9}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!screenCoordinates@{screenCoordinates}}
+\index{screenCoordinates@{screenCoordinates}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{screenCoordinates()}{screenCoordinates()}}
+{\footnotesize\ttfamily bool Calenhad\+Map\+Widget\+::screen\+Coordinates (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} \&}]{geolocation,  }\item[{Q\+PointF \&}]{sc }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a62cc04853fada37cc0dbe74e08748cf9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a62cc04853fada37cc0dbe74e08748cf9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa83968a128cf5b13c15da10a45218500}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa83968a128cf5b13c15da10a45218500}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!sensitivity@{sensitivity}}
+\index{sensitivity@{sensitivity}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{sensitivity()}{sensitivity()}}
+{\footnotesize\ttfamily double Calenhad\+Map\+Widget\+::sensitivity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa83968a128cf5b13c15da10a45218500_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7c15624cb7b6aea2b68c47e18ebced6c}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7c15624cb7b6aea2b68c47e18ebced6c}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setCoordinatesFormat@{setCoordinatesFormat}}
+\index{setCoordinatesFormat@{setCoordinatesFormat}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setCoordinatesFormat()}{setCoordinatesFormat()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Coordinates\+Format (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{geoutils\+::\+Coordinates\+Format}}}]{format }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a15e5114b9da9d54a6d16d989e6e7674c}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a15e5114b9da9d54a6d16d989e6e7674c}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setCreateHeightMap@{setCreateHeightMap}}
+\index{setCreateHeightMap@{setCreateHeightMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setCreateHeightMap()}{setCreateHeightMap()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Create\+Height\+Map (\begin{DoxyParamCaption}\item[{const bool \&}]{create\+Height\+Map }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_acb308742b576ea53f120bd981597e4de}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_acb308742b576ea53f120bd981597e4de}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setDatumFormat@{setDatumFormat}}
+\index{setDatumFormat@{setDatumFormat}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setDatumFormat()}{setDatumFormat()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Datum\+Format (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aa0f3de3fa4ec149f4d824b78f71bfb2a}{calenhad\+::controls\+::globe\+::\+Datum\+Format}}}]{format }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5620fdcc8b3f7fc7c0c7c07e886be655}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5620fdcc8b3f7fc7c0c7c07e886be655}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setGraticuleVisible@{setGraticuleVisible}}
+\index{setGraticuleVisible@{setGraticuleVisible}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setGraticuleVisible()}{setGraticuleVisible()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Graticule\+Visible (\begin{DoxyParamCaption}\item[{const bool \&}]{visible }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a07b5b4f2d0b37d66901bb981ed811d75}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a07b5b4f2d0b37d66901bb981ed811d75}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setLegend@{setLegend}}
+\index{setLegend@{setLegend}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setLegend()}{setLegend()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Legend (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{legend\+::\+Legend}} $\ast$}]{legend }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a07b5b4f2d0b37d66901bb981ed811d75_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a90eec5ec24f6522f09990e26935385d3}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a90eec5ec24f6522f09990e26935385d3}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setMainMap@{setMainMap}}
+\index{setMainMap@{setMainMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setMainMap()}{setMainMap()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Main\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}} $\ast$}]{main\+Map }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa031b7006a9054a7f046569fe6c8b1f8}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa031b7006a9054a7f046569fe6c8b1f8}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setMouseDoubleClickMode@{setMouseDoubleClickMode}}
+\index{setMouseDoubleClickMode@{setMouseDoubleClickMode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setMouseDoubleClickMode}{setMouseDoubleClickMode}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Mouse\+Double\+Click\+Mode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a69bea52b459e3424cce38583b86a11ff}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Double\+Click\+Mode}} \&}]{mode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa9595ccd3dbcd019eb27bb1e0d72bb13}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa9595ccd3dbcd019eb27bb1e0d72bb13}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setMouseDragMode@{setMouseDragMode}}
+\index{setMouseDragMode@{setMouseDragMode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setMouseDragMode}{setMouseDragMode}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Mouse\+Drag\+Mode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a1951c2a594381574f7d520ccad4373b2}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Drag\+Mode}} \&}]{mode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af01154d20b044af76a7ec3abede57620}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af01154d20b044af76a7ec3abede57620}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setProjection@{setProjection}}
+\index{setProjection@{setProjection}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setProjection}{setProjection}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Projection (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{projection }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af01154d20b044af76a7ec3abede57620_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7951556a22fbad6287821f12d499c6fe}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7951556a22fbad6287821f12d499c6fe}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setScale@{setScale}}
+\index{setScale@{setScale}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setScale()}{setScale()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Scale (\begin{DoxyParamCaption}\item[{const double \&}]{scale }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7951556a22fbad6287821f12d499c6fe_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afa10e6f66c1b5286458b32b5d1a8184c}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afa10e6f66c1b5286458b32b5d1a8184c}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setSensitivity@{setSensitivity}}
+\index{setSensitivity@{setSensitivity}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setSensitivity()}{setSensitivity()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Sensitivity (\begin{DoxyParamCaption}\item[{double}]{sensitivity }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_afa10e6f66c1b5286458b32b5d1a8184c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_abeae8ea4e96250cb4e9be9515c09b312}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_abeae8ea4e96250cb4e9be9515c09b312}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!setSource@{setSource}}
+\index{setSource@{setSource}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{setSource()}{setSource()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::set\+Source (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}} $\ast$}]{qm }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_abeae8ea4e96250cb4e9be9515c09b312_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a32518611dff5a083c67ec263977487d6}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a32518611dff5a083c67ec263977487d6}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!showEvent@{showEvent}}
+\index{showEvent@{showEvent}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{showEvent()}{showEvent()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::show\+Event (\begin{DoxyParamCaption}\item[{Q\+Show\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8c208099abdb2b6c3516516b7f40dcfd}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a8c208099abdb2b6c3516516b7f40dcfd}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!source@{source}}
+\index{source@{source}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{source()}{source()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{Module}} $\ast$ Calenhad\+Map\+Widget\+::source (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ae02f21cf38c5e899d12ee52e2e88ecdc}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ae02f21cf38c5e899d12ee52e2e88ecdc}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!subscribe@{subscribe}}
+\index{subscribe@{subscribe}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{subscribe()}{subscribe()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::subscribe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatsPanel}{calenhad\+::controls\+::globe\+::\+Calenhad\+Stats\+Panel}} $\ast$}]{panel }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_add9ab0f4a086408a15538a416ba7b5ac}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_add9ab0f4a086408a15538a416ba7b5ac}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!texCoordinates@{texCoordinates}}
+\index{texCoordinates@{texCoordinates}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{texCoordinates()}{texCoordinates()}}
+{\footnotesize\ttfamily Q\+Point Calenhad\+Map\+Widget\+::tex\+Coordinates (\begin{DoxyParamCaption}\item[{const Q\+PointF \&}]{sc }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a791f3e26e5ff864b9778642b525762de}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a791f3e26e5ff864b9778642b525762de}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!textureHeight@{textureHeight}}
+\index{textureHeight@{textureHeight}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{textureHeight}{textureHeight}}
+{\footnotesize\ttfamily int Calenhad\+Map\+Widget\+::texture\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a791f3e26e5ff864b9778642b525762de_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a9f6aa2b7168bec5c6dc0c3a2a8456b09}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a9f6aa2b7168bec5c6dc0c3a2a8456b09}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!wheelEvent@{wheelEvent}}
+\index{wheelEvent@{wheelEvent}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{wheelEvent()}{wheelEvent()}}
+{\footnotesize\ttfamily void Calenhad\+Map\+Widget\+::wheel\+Event (\begin{DoxyParamCaption}\item[{Q\+Wheel\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aac060069b0161e1bfd7488ca71b35828}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aac060069b0161e1bfd7488ca71b35828}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!zoomInRequested@{zoomInRequested}}
+\index{zoomInRequested@{zoomInRequested}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{zoomInRequested}{zoomInRequested}}
+{\footnotesize\ttfamily void calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::zoom\+In\+Requested (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aac060069b0161e1bfd7488ca71b35828_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a174fd7675765fbcc637bcd1e743f82d1}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a174fd7675765fbcc637bcd1e743f82d1}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!zoomOutRequested@{zoomOutRequested}}
+\index{zoomOutRequested@{zoomOutRequested}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{zoomOutRequested}{zoomOutRequested}}
+{\footnotesize\ttfamily void calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::zoom\+Out\+Requested (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a174fd7675765fbcc637bcd1e743f82d1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7c3543d0c92df401a93a4fffa853d92b}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a7c3543d0c92df401a93a4fffa853d92b}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!zoomRequested@{zoomRequested}}
+\index{zoomRequested@{zoomRequested}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{zoomRequested}{zoomRequested}}
+{\footnotesize\ttfamily void calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::zoom\+Requested (\begin{DoxyParamCaption}\item[{const double \&}]{zoom }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a18674b94626f4e32767e0f6c82e3c20d}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a18674b94626f4e32767e0f6c82e3c20d}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_buffer@{\_buffer}}
+\index{\_buffer@{\_buffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_buffer}{\_buffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}}$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+buffer\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a858a6ff291124f98c2e9ec9d1b97b129}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a858a6ff291124f98c2e9ec9d1b97b129}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_code@{\_code}}
+\index{\_code@{\_code}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_code}{\_code}}
+{\footnotesize\ttfamily Q\+String calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+code\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a39bc02861e776370bfef1038a7802948}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a39bc02861e776370bfef1038a7802948}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_colorMapBuffer@{\_colorMapBuffer}}
+\index{\_colorMapBuffer@{\_colorMapBuffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_colorMapBuffer}{\_colorMapBuffer}}
+{\footnotesize\ttfamily G\+Lfloat$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+color\+Map\+Buffer\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5af546c340b651c804ef7fc3274e3174}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5af546c340b651c804ef7fc3274e3174}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_computeCubeMap@{\_computeCubeMap}}
+\index{\_computeCubeMap@{\_computeCubeMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_computeCubeMap}{\_computeCubeMap}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+compute\+Cube\+Map \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a92d132f62ec18bc5a912ab0073b11ee7}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a92d132f62ec18bc5a912ab0073b11ee7}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_computeProgram@{\_computeProgram}}
+\index{\_computeProgram@{\_computeProgram}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_computeProgram}{\_computeProgram}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Shader\+Program$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+compute\+Program\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac5738944944ceb55d0517d88fa1f7c4a}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac5738944944ceb55d0517d88fa1f7c4a}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_computeShader@{\_computeShader}}
+\index{\_computeShader@{\_computeShader}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_computeShader}{\_computeShader}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Shader$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+compute\+Shader\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac41124ab09be4d4009a6fdb35f098d28}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac41124ab09be4d4009a6fdb35f098d28}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_computeVertices@{\_computeVertices}}
+\index{\_computeVertices@{\_computeVertices}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_computeVertices}{\_computeVertices}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+compute\+Vertices\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a6a3a30c9ec7db5d84d1443db7608ebcb}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a6a3a30c9ec7db5d84d1443db7608ebcb}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_coordinatesFormat@{\_coordinatesFormat}}
+\index{\_coordinatesFormat@{\_coordinatesFormat}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_coordinatesFormat}{\_coordinatesFormat}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacegeoutils_aa914c49ba815a6be3ec4f79a423abb17}{geoutils\+::\+Coordinates\+Format}} calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+coordinates\+Format\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adff9cf828475bdd2aac9a285624552f3}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adff9cf828475bdd2aac9a285624552f3}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_createHeightMap@{\_createHeightMap}}
+\index{\_createHeightMap@{\_createHeightMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_createHeightMap}{\_createHeightMap}}
+{\footnotesize\ttfamily int calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+create\+Height\+Map\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3a2a2cc6c38d66a4485be5a19668233a}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3a2a2cc6c38d66a4485be5a19668233a}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_cubeMapBuffer@{\_cubeMapBuffer}}
+\index{\_cubeMapBuffer@{\_cubeMapBuffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_cubeMapBuffer}{\_cubeMapBuffer}}
+{\footnotesize\ttfamily G\+Lfloat$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+cube\+Map\+Buffer \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa98660e65bc65d7a28980a85802add99}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa98660e65bc65d7a28980a85802add99}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_datumFormat@{\_datumFormat}}
+\index{\_datumFormat@{\_datumFormat}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_datumFormat}{\_datumFormat}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aa0f3de3fa4ec149f4d824b78f71bfb2a}{calenhad\+::controls\+::globe\+::\+Datum\+Format}} calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+datum\+Format\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ae05dd0fdd078f3c04e844f3877026441}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ae05dd0fdd078f3c04e844f3877026441}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_fragmentShader@{\_fragmentShader}}
+\index{\_fragmentShader@{\_fragmentShader}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_fragmentShader}{\_fragmentShader}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Shader$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+fragment\+Shader\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adfcf5ec3a57b40875e47eeffc64b8e1c}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adfcf5ec3a57b40875e47eeffc64b8e1c}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_fragmentShaderCode@{\_fragmentShaderCode}}
+\index{\_fragmentShaderCode@{\_fragmentShaderCode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_fragmentShaderCode}{\_fragmentShaderCode}}
+{\footnotesize\ttfamily Q\+String calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+fragment\+Shader\+Code\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a318de53090f08ef9e4a7247775172a0d}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a318de53090f08ef9e4a7247775172a0d}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_geodesic@{\_geodesic}}
+\index{\_geodesic@{\_geodesic}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_geodesic}{\_geodesic}}
+{\footnotesize\ttfamily Geographic\+Lib\+::\+Geodesic$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+geodesic\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa131030d87e5d0f9f2092ded76ce2c25}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa131030d87e5d0f9f2092ded76ce2c25}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_globeTexture@{\_globeTexture}}
+\index{\_globeTexture@{\_globeTexture}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_globeTexture}{\_globeTexture}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Texture$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+globe\+Texture\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a68d98debb5b46fa0948298923670a9b3}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a68d98debb5b46fa0948298923670a9b3}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_graph@{\_graph}}
+\index{\_graph@{\_graph}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_graph}{\_graph}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1graph_1_1Graph}{calenhad\+::graph\+::\+Graph}}$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+graph\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a43d55ea8cd5837a5fc6a960f20d84023}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a43d55ea8cd5837a5fc6a960f20d84023}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_graticule@{\_graticule}}
+\index{\_graticule@{\_graticule}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_graticule}{\_graticule}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1Graticule}{Graticule}}$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+graticule\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3deb8757ba62b9a426a2c3e84c44e071}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3deb8757ba62b9a426a2c3e84c44e071}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_graticuleVisible@{\_graticuleVisible}}
+\index{\_graticuleVisible@{\_graticuleVisible}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_graticuleVisible}{\_graticuleVisible}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+graticule\+Visible\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a63170be135ade9033af770d7fd5821e5}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a63170be135ade9033af770d7fd5821e5}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_gridBuffer@{\_gridBuffer}}
+\index{\_gridBuffer@{\_gridBuffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_gridBuffer}{\_gridBuffer}}
+{\footnotesize\ttfamily G\+Lfloat$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+grid\+Buffer \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab362c24ec66bbde3e8fddca56b4bb2a0}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab362c24ec66bbde3e8fddca56b4bb2a0}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_icosphereBuffer@{\_icosphereBuffer}}
+\index{\_icosphereBuffer@{\_icosphereBuffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_icosphereBuffer}{\_icosphereBuffer}}
+{\footnotesize\ttfamily G\+Lfloat $\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+icosphere\+Buffer \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a50a75acf2b937ebe7322457f3e89a000}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a50a75acf2b937ebe7322457f3e89a000}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_indexBuffer@{\_indexBuffer}}
+\index{\_indexBuffer@{\_indexBuffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_indexBuffer}{\_indexBuffer}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Buffer$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+index\+Buffer\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a00a28aa5d86f4cd3c3c1d153eb1161ae}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a00a28aa5d86f4cd3c3c1d153eb1161ae}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_insetTexture@{\_insetTexture}}
+\index{\_insetTexture@{\_insetTexture}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_insetTexture}{\_insetTexture}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Texture $\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+inset\+Texture \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3f03d1fd0b4d2773fc02b4922a13f1ed}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3f03d1fd0b4d2773fc02b4922a13f1ed}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_legend@{\_legend}}
+\index{\_legend@{\_legend}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_legend}{\_legend}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1legend_1_1Legend}{calenhad\+::legend\+::\+Legend}}$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+legend\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a41789d1f2331210c286f532d2ad416ad}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a41789d1f2331210c286f532d2ad416ad}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_mainMap@{\_mainMap}}
+\index{\_mainMap@{\_mainMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_mainMap}{\_mainMap}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1CalenhadMapWidget}{Calenhad\+Map\+Widget}}$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+main\+Map\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a876cf30b3b6319b52a3aeb64bb1b5889}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a876cf30b3b6319b52a3aeb64bb1b5889}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_mode@{\_mode}}
+\index{\_mode@{\_mode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_mode}{\_mode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_aed4b5bbdebb3d27caa1d69a96342dc75}{calenhad\+::controls\+::globe\+::\+Render\+Mode}} calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+mode\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a89618073cadd56ea49da4f93cab1bcec}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a89618073cadd56ea49da4f93cab1bcec}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_mouseDoubleClickMode@{\_mouseDoubleClickMode}}
+\index{\_mouseDoubleClickMode@{\_mouseDoubleClickMode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_mouseDoubleClickMode}{\_mouseDoubleClickMode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a69bea52b459e3424cce38583b86a11ff}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Double\+Click\+Mode}} calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+mouse\+Double\+Click\+Mode\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a82438d7f4d315689c97a5496a5264f8e}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a82438d7f4d315689c97a5496a5264f8e}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_mouseDragMode@{\_mouseDragMode}}
+\index{\_mouseDragMode@{\_mouseDragMode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_mouseDragMode}{\_mouseDragMode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1controls_1_1globe_a1951c2a594381574f7d520ccad4373b2}{calenhad\+::controls\+::globe\+::\+Calenhad\+Globe\+Drag\+Mode}} calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+mouse\+Drag\+Mode\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a438106244967bade4dd74550281784e4}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a438106244967bade4dd74550281784e4}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_moveFrom@{\_moveFrom}}
+\index{\_moveFrom@{\_moveFrom}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_moveFrom}{\_moveFrom}}
+{\footnotesize\ttfamily Q\+Point calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+move\+From\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3532f50f579327991155c579d9644ee2}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a3532f50f579327991155c579d9644ee2}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_previewType@{\_previewType}}
+\index{\_previewType@{\_previewType}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_previewType}{\_previewType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecalenhad_1_1mapping_ad9f8d0ab168ae8756355a26875a4c700}{Overview\+Preview\+Type}} calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+preview\+Type\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab5fff5ee4851594b3802e02fcf7de36b}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab5fff5ee4851594b3802e02fcf7de36b}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_projection@{\_projection}}
+\index{\_projection@{\_projection}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_projection}{\_projection}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1mapping_1_1projection_1_1Projection}{calenhad\+::mapping\+::projection\+::\+Projection}}$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+projection\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a480fca82a053adcdc3211acaff499dbc}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a480fca82a053adcdc3211acaff499dbc}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_rasterTexture@{\_rasterTexture}}
+\index{\_rasterTexture@{\_rasterTexture}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_rasterTexture}{\_rasterTexture}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Texture $\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+raster\+Texture\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a55966f48342fed6d30adca082301cdc9}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a55966f48342fed6d30adca082301cdc9}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_refreshHeightMap@{\_refreshHeightMap}}
+\index{\_refreshHeightMap@{\_refreshHeightMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_refreshHeightMap}{\_refreshHeightMap}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+refresh\+Height\+Map\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1f3a08db9844b4f1345fdae231805412}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1f3a08db9844b4f1345fdae231805412}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_renderProgram@{\_renderProgram}}
+\index{\_renderProgram@{\_renderProgram}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_renderProgram}{\_renderProgram}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Shader\+Program$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+render\+Program\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ad6a003dd711ddf373df645f359d32a40}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ad6a003dd711ddf373df645f359d32a40}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_renderTime@{\_renderTime}}
+\index{\_renderTime@{\_renderTime}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_renderTime}{\_renderTime}}
+{\footnotesize\ttfamily int calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+render\+Time\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac36af3ded349e7e0accce7fa4460275c}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ac36af3ded349e7e0accce7fa4460275c}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_rotation@{\_rotation}}
+\index{\_rotation@{\_rotation}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_rotation}{\_rotation}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classgeoutils_1_1Geolocation}{geoutils\+::\+Geolocation}} calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+rotation\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1bc149216ddb3e8f484cd600615d5d84}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1bc149216ddb3e8f484cd600615d5d84}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_scale@{\_scale}}
+\index{\_scale@{\_scale}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_scale}{\_scale}}
+{\footnotesize\ttfamily G\+Lfloat calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+scale\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1a76397c9c752aed028605147d477e35}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1a76397c9c752aed028605147d477e35}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_sensitivity@{\_sensitivity}}
+\index{\_sensitivity@{\_sensitivity}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_sensitivity}{\_sensitivity}}
+{\footnotesize\ttfamily double calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+sensitivity = 0.\+2\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aed4cdc4885229e3cd52e238c3575cf8b}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aed4cdc4885229e3cd52e238c3575cf8b}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_shader@{\_shader}}
+\index{\_shader@{\_shader}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_shader}{\_shader}}
+{\footnotesize\ttfamily Q\+String calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+shader\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adb7bda3fba87e0621d5b0c6817b86675}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_adb7bda3fba87e0621d5b0c6817b86675}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_shaderTemplate@{\_shaderTemplate}}
+\index{\_shaderTemplate@{\_shaderTemplate}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_shaderTemplate}{\_shaderTemplate}}
+{\footnotesize\ttfamily Q\+String calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+shader\+Template\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af17621b65c89b24068ca5cf3c776d6c7}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af17621b65c89b24068ca5cf3c776d6c7}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_size@{\_size}}
+\index{\_size@{\_size}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_size}{\_size}}
+{\footnotesize\ttfamily int calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+size\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a78723f98c1f66b1e8452300dedc8a6de}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a78723f98c1f66b1e8452300dedc8a6de}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_source@{\_source}}
+\index{\_source@{\_source}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_source}{\_source}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1module_1_1Module}{module\+::\+Module}}$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+source\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aebaa1d79e154955464813392a49603b3}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aebaa1d79e154955464813392a49603b3}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_subscribers@{\_subscribers}}
+\index{\_subscribers@{\_subscribers}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_subscribers}{\_subscribers}}
+{\footnotesize\ttfamily Q\+Vector$<$\mbox{\hyperlink{classcalenhad_1_1controls_1_1globe_1_1CalenhadStatsPanel}{calenhad\+::controls\+::globe\+::\+Calenhad\+Stats\+Panel}}$\ast$$>$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+subscribers\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af72b282fcd1fa75a0d8d58efdc90e7ed}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af72b282fcd1fa75a0d8d58efdc90e7ed}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_tileSize@{\_tileSize}}
+\index{\_tileSize@{\_tileSize}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_tileSize}{\_tileSize}}
+{\footnotesize\ttfamily G\+Lint calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+tile\+Size\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5daa525fe91f87ffa87ca42489595cd7}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a5daa525fe91f87ffa87ca42489595cd7}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_translation@{\_translation}}
+\index{\_translation@{\_translation}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_translation}{\_translation}}
+{\footnotesize\ttfamily Q\+PointF calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+translation\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa7e20830801f3dc833ca30f2f5b44f5d}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_aa7e20830801f3dc833ca30f2f5b44f5d}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_vao@{\_vao}}
+\index{\_vao@{\_vao}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_vao}{\_vao}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Vertex\+Array\+Object calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+vao\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a584bbf436298667de99c10d89a584604}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a584bbf436298667de99c10d89a584604}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_vertexBuffer@{\_vertexBuffer}}
+\index{\_vertexBuffer@{\_vertexBuffer}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_vertexBuffer}{\_vertexBuffer}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Buffer $\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+vertex\+Buffer\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_abe46d78dda88f5c6b5a9d6a1f763dd47}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_abe46d78dda88f5c6b5a9d6a1f763dd47}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_vertexShader@{\_vertexShader}}
+\index{\_vertexShader@{\_vertexShader}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_vertexShader}{\_vertexShader}}
+{\footnotesize\ttfamily Q\+Open\+G\+L\+Shader$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+vertex\+Shader\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab140da1c0ca9e96031f67c11decf36eb}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_ab140da1c0ca9e96031f67c11decf36eb}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_vertexShaderCode@{\_vertexShaderCode}}
+\index{\_vertexShaderCode@{\_vertexShaderCode}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_vertexShaderCode}{\_vertexShaderCode}}
+{\footnotesize\ttfamily Q\+String calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+vertex\+Shader\+Code\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af888c3f6fb6ed8c2e49aa40eae93cdf8}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af888c3f6fb6ed8c2e49aa40eae93cdf8}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_yTiles@{\_yTiles}}
+\index{\_yTiles@{\_yTiles}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_yTiles}{\_yTiles}}
+{\footnotesize\ttfamily int calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+y\+Tiles \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a6587f77174d14be6c16fe1ceba9dec89}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a6587f77174d14be6c16fe1ceba9dec89}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!\_zoomDrag@{\_zoomDrag}}
+\index{\_zoomDrag@{\_zoomDrag}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{\_zoomDrag}{\_zoomDrag}}
+{\footnotesize\ttfamily bool calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::\+\_\+zoom\+Drag\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a58b3ab75ebab62dc5040ff61cad78174}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a58b3ab75ebab62dc5040ff61cad78174}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!colorMap@{colorMap}}
+\index{colorMap@{colorMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{colorMap}{colorMap}}
+{\footnotesize\ttfamily G\+Luint calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::color\+Map = 1\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1f091293b01b0f12e6c881db0b29b103}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a1f091293b01b0f12e6c881db0b29b103}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!heightMap@{heightMap}}
+\index{heightMap@{heightMap}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{heightMap}{heightMap}}
+{\footnotesize\ttfamily G\+Luint calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::height\+Map = 1\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a94c67082a2a8826542031d3fda72a4a9}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_a94c67082a2a8826542031d3fda72a4a9}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!name@{name}}
+\index{name@{name}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily const char$\ast$ calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::name = \char`\"{}height\+Map\+Buffer\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af4dfc1d6d00879e6494897bf866bc9f1}\label{classcalenhad_1_1mapping_1_1CalenhadMapWidget_af4dfc1d6d00879e6494897bf866bc9f1}} 
+\index{calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}!start@{start}}
+\index{start@{start}!calenhad::mapping::CalenhadMapWidget@{calenhad::mapping::CalenhadMapWidget}}
+\doxysubsubsection{\texorpdfstring{start}{start}}
+{\footnotesize\ttfamily clock\+\_\+t calenhad\+::mapping\+::\+Calenhad\+Map\+Widget\+::start \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{CalenhadMapWidget_8h}{Calenhad\+Map\+Widget.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/mapping/\mbox{\hyperlink{CalenhadMapWidget_8cpp}{Calenhad\+Map\+Widget.\+cpp}}\end{DoxyCompactItemize}

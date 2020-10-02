@@ -1,0 +1,8 @@
+<map id="calenhad::pipeline::CalenhadModel::connectPorts" name="calenhad::pipeline::CalenhadModel::connectPorts">
+<area shape="rect" id="node1" title=" " alt="" coords="5,64,228,105"/>
+<area shape="rect" id="node2" href="$classcalenhad_1_1pipeline_1_1CalenhadModel.html#adc0d4d70bb10353de403dee1f413817e" title=" " alt="" coords="276,64,491,105"/>
+<area shape="rect" id="node3" href="$classcalenhad_1_1pipeline_1_1CalenhadModel.html#aa01a6eb01ea8f16056a30d20acac1fde" title=" " alt="" coords="793,5,1011,47"/>
+<area shape="rect" id="node4" href="$classcalenhad_1_1pipeline_1_1CalenhadModel.html#af3ced4efeac230fefcb4b30abd6b241e" title=" " alt="" coords="539,64,745,105"/>
+<area shape="rect" id="node6" href="$classcalenhad_1_1CalenhadServices.html#ae0be8dcee909341def11d8404371bc4d" title=" " alt="" coords="539,129,745,171"/>
+<area shape="rect" id="node5" href="$classcalenhad_1_1nodeedit_1_1NodeBlock.html#a07850264d840fac2e6eab293adfd9476" title=" " alt="" coords="829,71,975,112"/>
+</map>

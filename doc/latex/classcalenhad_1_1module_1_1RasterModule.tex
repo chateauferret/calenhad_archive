@@ -1,0 +1,262 @@
+\hypertarget{classcalenhad_1_1module_1_1RasterModule}{}\doxysection{calenhad\+::module\+::Raster\+Module Class Reference}
+\label{classcalenhad_1_1module_1_1RasterModule}\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+
+
+{\ttfamily \#include $<$Raster\+Module.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::module\+::Raster\+Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{classcalenhad_1_1module_1_1RasterModule__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::module\+::Raster\+Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a6332de1dba3528564ee38d45b6537b49}{Raster\+Module}} (const Q\+String \&type=\mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a6d2236982b2fa7fc8d960f9bcddd8228}{Calenhad\+Services\+::preferences}}() -\/$>$ calenhad\+\_\+module\+\_\+raster)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_aa482e757a413c79a731fe1a7e1704e7f}{file\+Dialog\+Requested}} ()
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a39ce30e392eaa97a46c0c8476f346069}{glsl}} () override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_ab0bbdd76914f395a64b1a9091e4b2913}{open\+File}} (const Q\+String \&filename)
+\item 
+bool \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_af1ad8c389df50c625a552342d29a745c}{is\+Complete}} () override
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_abaf91563f76d4ba8de09982f2f7ebd7b}{raster}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a184fdec9082ffbbd577d9d88c6355b30}{inflate}} (const Q\+Dom\+Element \&element) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a8010f76b81e59562ef6b5f8bd7727320}{serialize}} (Q\+Dom\+Element \&element) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a0005db44401155eddc86196d6e89b8d0}{assimilate\+Raster}} (Q\+Image $\ast$image)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_ad9bbcb89108e26fb32577965433cdbfa}{\+\_\+filename}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a2dceebd10ce2ee8c1a4f001a8deca6ab}{\+\_\+cube}}
+\item 
+\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a284bb600b047e44fe76952df0303edb7}{\+\_\+raster\+Content}}
+\item 
+Q\+Form\+Layout $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a109136bd11903865e3fb87170943f5be}{\+\_\+raster\+Layout}} \{\}
+\item 
+Q\+Label $\ast$ \mbox{\hyperlink{classcalenhad_1_1module_1_1RasterModule_a7230bdf6488db099a1ee88bfccee92e5}{\+\_\+filename\+Label}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a6332de1dba3528564ee38d45b6537b49}\label{classcalenhad_1_1module_1_1RasterModule_a6332de1dba3528564ee38d45b6537b49}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!RasterModule@{RasterModule}}
+\index{RasterModule@{RasterModule}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{RasterModule()}{RasterModule()}}
+{\footnotesize\ttfamily Raster\+Module\+::\+Raster\+Module (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{type = {\ttfamily \mbox{\hyperlink{classcalenhad_1_1CalenhadServices_a6d2236982b2fa7fc8d960f9bcddd8228}{Calenhad\+Services\+::preferences}}()~-\/$>$~calenhad\+\_\+module\+\_\+raster} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_a6332de1dba3528564ee38d45b6537b49_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a0005db44401155eddc86196d6e89b8d0}\label{classcalenhad_1_1module_1_1RasterModule_a0005db44401155eddc86196d6e89b8d0}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!assimilateRaster@{assimilateRaster}}
+\index{assimilateRaster@{assimilateRaster}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{assimilateRaster()}{assimilateRaster()}}
+{\footnotesize\ttfamily void Raster\+Module\+::assimilate\+Raster (\begin{DoxyParamCaption}\item[{Q\+Image $\ast$}]{image }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_a0005db44401155eddc86196d6e89b8d0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_a0005db44401155eddc86196d6e89b8d0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_aa482e757a413c79a731fe1a7e1704e7f}\label{classcalenhad_1_1module_1_1RasterModule_aa482e757a413c79a731fe1a7e1704e7f}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!fileDialogRequested@{fileDialogRequested}}
+\index{fileDialogRequested@{fileDialogRequested}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{fileDialogRequested()}{fileDialogRequested()}}
+{\footnotesize\ttfamily void Raster\+Module\+::file\+Dialog\+Requested (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_aa482e757a413c79a731fe1a7e1704e7f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_aa482e757a413c79a731fe1a7e1704e7f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a39ce30e392eaa97a46c0c8476f346069}\label{classcalenhad_1_1module_1_1RasterModule_a39ce30e392eaa97a46c0c8476f346069}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!glsl@{glsl}}
+\index{glsl@{glsl}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{glsl()}{glsl()}}
+{\footnotesize\ttfamily Q\+String Raster\+Module\+::glsl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a745db20f7cf07dc60ce801065afe8e2b}{calenhad\+::module\+::\+Module}}.
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a184fdec9082ffbbd577d9d88c6355b30}\label{classcalenhad_1_1module_1_1RasterModule_a184fdec9082ffbbd577d9d88c6355b30}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!inflate@{inflate}}
+\index{inflate@{inflate}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{inflate}{inflate}}
+{\footnotesize\ttfamily void Raster\+Module\+::inflate (\begin{DoxyParamCaption}\item[{const Q\+Dom\+Element \&}]{element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_a184fdec9082ffbbd577d9d88c6355b30_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_af1ad8c389df50c625a552342d29a745c}\label{classcalenhad_1_1module_1_1RasterModule_af1ad8c389df50c625a552342d29a745c}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!isComplete@{isComplete}}
+\index{isComplete@{isComplete}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{isComplete()}{isComplete()}}
+{\footnotesize\ttfamily bool Raster\+Module\+::is\+Complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcalenhad_1_1module_1_1Module_a70c04a13680cb4caeb1657ecd0e10ec9}{calenhad\+::module\+::\+Module}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_af1ad8c389df50c625a552342d29a745c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_ab0bbdd76914f395a64b1a9091e4b2913}\label{classcalenhad_1_1module_1_1RasterModule_ab0bbdd76914f395a64b1a9091e4b2913}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!openFile@{openFile}}
+\index{openFile@{openFile}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{openFile()}{openFile()}}
+{\footnotesize\ttfamily void Raster\+Module\+::open\+File (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{filename }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_ab0bbdd76914f395a64b1a9091e4b2913_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_ab0bbdd76914f395a64b1a9091e4b2913_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_abaf91563f76d4ba8de09982f2f7ebd7b}\label{classcalenhad_1_1module_1_1RasterModule_abaf91563f76d4ba8de09982f2f7ebd7b}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!raster@{raster}}
+\index{raster@{raster}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{raster()}{raster()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{Cubic\+Sphere}} $\ast$ Raster\+Module\+::raster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_abaf91563f76d4ba8de09982f2f7ebd7b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a8010f76b81e59562ef6b5f8bd7727320}\label{classcalenhad_1_1module_1_1RasterModule_a8010f76b81e59562ef6b5f8bd7727320}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!serialize@{serialize}}
+\index{serialize@{serialize}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{serialize}{serialize}}
+{\footnotesize\ttfamily void Raster\+Module\+::serialize (\begin{DoxyParamCaption}\item[{Q\+Dom\+Element \&}]{element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1module_1_1RasterModule_a8010f76b81e59562ef6b5f8bd7727320_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a2dceebd10ce2ee8c1a4f001a8deca6ab}\label{classcalenhad_1_1module_1_1RasterModule_a2dceebd10ce2ee8c1a4f001a8deca6ab}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!\_cube@{\_cube}}
+\index{\_cube@{\_cube}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{\_cube}{\_cube}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1grid_1_1CubicSphere}{calenhad\+::grid\+::\+Cubic\+Sphere}}$\ast$ calenhad\+::module\+::\+Raster\+Module\+::\+\_\+cube\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_ad9bbcb89108e26fb32577965433cdbfa}\label{classcalenhad_1_1module_1_1RasterModule_ad9bbcb89108e26fb32577965433cdbfa}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!\_filename@{\_filename}}
+\index{\_filename@{\_filename}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{\_filename}{\_filename}}
+{\footnotesize\ttfamily Q\+String calenhad\+::module\+::\+Raster\+Module\+::\+\_\+filename\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a7230bdf6488db099a1ee88bfccee92e5}\label{classcalenhad_1_1module_1_1RasterModule_a7230bdf6488db099a1ee88bfccee92e5}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!\_filenameLabel@{\_filenameLabel}}
+\index{\_filenameLabel@{\_filenameLabel}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{\_filenameLabel}{\_filenameLabel}}
+{\footnotesize\ttfamily Q\+Label$\ast$ calenhad\+::module\+::\+Raster\+Module\+::\+\_\+filename\+Label\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a284bb600b047e44fe76952df0303edb7}\label{classcalenhad_1_1module_1_1RasterModule_a284bb600b047e44fe76952df0303edb7}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!\_rasterContent@{\_rasterContent}}
+\index{\_rasterContent@{\_rasterContent}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{\_rasterContent}{\_rasterContent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQWidget}{Q\+Widget}}$\ast$ calenhad\+::module\+::\+Raster\+Module\+::\+\_\+raster\+Content\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1module_1_1RasterModule_a109136bd11903865e3fb87170943f5be}\label{classcalenhad_1_1module_1_1RasterModule_a109136bd11903865e3fb87170943f5be}} 
+\index{calenhad::module::RasterModule@{calenhad::module::RasterModule}!\_rasterLayout@{\_rasterLayout}}
+\index{\_rasterLayout@{\_rasterLayout}!calenhad::module::RasterModule@{calenhad::module::RasterModule}}
+\doxysubsubsection{\texorpdfstring{\_rasterLayout}{\_rasterLayout}}
+{\footnotesize\ttfamily Q\+Form\+Layout$\ast$ calenhad\+::module\+::\+Raster\+Module\+::\+\_\+raster\+Layout \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{RasterModule_8h}{Raster\+Module.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/module/\mbox{\hyperlink{RasterModule_8cpp}{Raster\+Module.\+cpp}}\end{DoxyCompactItemize}

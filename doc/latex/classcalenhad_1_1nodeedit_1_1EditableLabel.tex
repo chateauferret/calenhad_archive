@@ -1,0 +1,376 @@
+\hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel}{}\doxysection{calenhad\+::nodeedit\+::Editable\+Label Class Reference}
+\label{classcalenhad_1_1nodeedit_1_1EditableLabel}\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+
+
+{\ttfamily \#include $<$Editable\+Label.\+h$>$}
+
+
+
+Inheritance diagram for calenhad\+::nodeedit\+::Editable\+Label\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{classcalenhad_1_1nodeedit_1_1EditableLabel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for calenhad\+::nodeedit\+::Editable\+Label\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a825b944d539dea1f45901b8d92bbcfb8}{show\+Message}} (const Q\+String \&message)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a2d2c32ba3822f3ac6c3c7988b3403342}{clear\+Message}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a76c7192e5f0aa7c011a391ed8497e731}{finished\+Editing}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a0d4eed6387f37dbc75d416c2ccdc1644}{editing\+State\+Changed}} (const bool \&state)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_ad8d4050f1aabd6ca2b42002a73e72917}{text\+Changed}} (const Q\+String \&text)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_abb383c7afc25f9dd8b331ce31ea7c9aa}{text\+Edited}} (const Q\+String \&text)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_af3c498918da8df414dc8233f73e27b1b}{Editable\+Label}} (\mbox{\hyperlink{classQGraphicsItem}{Q\+Graphics\+Item}} $\ast$parent=0)
+\item 
+virtual \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_af41d3d4d5dc11ca15802779f69b2510b}{$\sim$\+Editable\+Label}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a7f9d0c4a380149f688442bb2b521d601}{set\+Alignment}} (Qt\+::\+Alignment\+Flag flag)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a0660886dac00350e28aa37a0112bff1d}{set\+Validator}} (\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1NodeNameValidator}{Node\+Name\+Validator}} $\ast$v)
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a47b9922ca9842158ea59cecb98160a15}{set\+Text}} (const Q\+String \&text)
+\item 
+Q\+String \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a6a628342dd8ebfbb403bc6aae1167871}{proposed\+Text}} ()
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_acda6c82b780087b743d985a63089ca72}{mouse\+Press\+Event}} (Q\+Graphics\+Scene\+Mouse\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a0e9c2b5eccffd951c0a19c61e22f7144}{set\+Text\+Color}} (const Q\+Color \&color)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Line\+Edit $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a3d7a207afeeb75a62a5f310a31feb1a1}{text\+Edit}} ()
+\item 
+Qt\+::\+Alignment\+Flag \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a52deebc835e8f262320e19ba9be130e8}{alignment}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Graphics\+Proxy\+Widget $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a0ed11c6494893a150d491b670bd7482e}{\+\_\+proxy}}
+\item 
+\mbox{\hyperlink{classQWidget}{Q\+Widget}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_a374ce97c11fd8b147579674174ad7ecd}{\+\_\+text\+Edit}}
+\item 
+Q\+Palette $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_ab87c7884912a7fdd0c20ec38bcb7c5e6}{\+\_\+palette}}
+\item 
+\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1NodeNameValidator}{Node\+Name\+Validator}} $\ast$ \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_ae7e279a2ec25ee6ecb0e5b0a53fcd77e}{\+\_\+validator}}
+\item 
+Qt\+::\+Alignment\+Flag \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1EditableLabel_ac18c44a17b39045e335650b382d06202}{\+\_\+alignment}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_af3c498918da8df414dc8233f73e27b1b}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_af3c498918da8df414dc8233f73e27b1b}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!EditableLabel@{EditableLabel}}
+\index{EditableLabel@{EditableLabel}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{EditableLabel()}{EditableLabel()}}
+{\footnotesize\ttfamily Editable\+Label\+::\+Editable\+Label (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classQGraphicsItem}{Q\+Graphics\+Item}} $\ast$}]{parent = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_af41d3d4d5dc11ca15802779f69b2510b}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_af41d3d4d5dc11ca15802779f69b2510b}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!````~EditableLabel@{$\sim$EditableLabel}}
+\index{````~EditableLabel@{$\sim$EditableLabel}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{$\sim$EditableLabel()}{~EditableLabel()}}
+{\footnotesize\ttfamily Editable\+Label\+::$\sim$\+Editable\+Label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a52deebc835e8f262320e19ba9be130e8}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a52deebc835e8f262320e19ba9be130e8}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!alignment@{alignment}}
+\index{alignment@{alignment}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{alignment()}{alignment()}}
+{\footnotesize\ttfamily Qt\+::\+Alignment\+Flag Editable\+Label\+::alignment (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a2d2c32ba3822f3ac6c3c7988b3403342}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a2d2c32ba3822f3ac6c3c7988b3403342}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!clearMessage@{clearMessage}}
+\index{clearMessage@{clearMessage}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{clearMessage}{clearMessage}}
+{\footnotesize\ttfamily void Editable\+Label\+::clear\+Message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a2d2c32ba3822f3ac6c3c7988b3403342_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a2d2c32ba3822f3ac6c3c7988b3403342_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a0d4eed6387f37dbc75d416c2ccdc1644}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a0d4eed6387f37dbc75d416c2ccdc1644}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!editingStateChanged@{editingStateChanged}}
+\index{editingStateChanged@{editingStateChanged}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{editingStateChanged}{editingStateChanged}}
+{\footnotesize\ttfamily void calenhad\+::nodeedit\+::\+Editable\+Label\+::editing\+State\+Changed (\begin{DoxyParamCaption}\item[{const bool \&}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a0d4eed6387f37dbc75d416c2ccdc1644_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a76c7192e5f0aa7c011a391ed8497e731}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a76c7192e5f0aa7c011a391ed8497e731}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!finishedEditing@{finishedEditing}}
+\index{finishedEditing@{finishedEditing}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{finishedEditing}{finishedEditing}}
+{\footnotesize\ttfamily void Editable\+Label\+::finished\+Editing (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a76c7192e5f0aa7c011a391ed8497e731_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a76c7192e5f0aa7c011a391ed8497e731_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_acda6c82b780087b743d985a63089ca72}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_acda6c82b780087b743d985a63089ca72}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!mousePressEvent@{mousePressEvent}}
+\index{mousePressEvent@{mousePressEvent}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{mousePressEvent()}{mousePressEvent()}}
+{\footnotesize\ttfamily void Editable\+Label\+::mouse\+Press\+Event (\begin{DoxyParamCaption}\item[{Q\+Graphics\+Scene\+Mouse\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_acda6c82b780087b743d985a63089ca72_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a6a628342dd8ebfbb403bc6aae1167871}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a6a628342dd8ebfbb403bc6aae1167871}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!proposedText@{proposedText}}
+\index{proposedText@{proposedText}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{proposedText()}{proposedText()}}
+{\footnotesize\ttfamily Q\+String Editable\+Label\+::proposed\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a6a628342dd8ebfbb403bc6aae1167871_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a7f9d0c4a380149f688442bb2b521d601}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a7f9d0c4a380149f688442bb2b521d601}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!setAlignment@{setAlignment}}
+\index{setAlignment@{setAlignment}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{setAlignment()}{setAlignment()}}
+{\footnotesize\ttfamily void Editable\+Label\+::set\+Alignment (\begin{DoxyParamCaption}\item[{Qt\+::\+Alignment\+Flag}]{flag }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a7f9d0c4a380149f688442bb2b521d601_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a7f9d0c4a380149f688442bb2b521d601_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a47b9922ca9842158ea59cecb98160a15}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a47b9922ca9842158ea59cecb98160a15}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!setText@{setText}}
+\index{setText@{setText}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{setText()}{setText()}}
+{\footnotesize\ttfamily void Editable\+Label\+::set\+Text (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{text }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a47b9922ca9842158ea59cecb98160a15_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a47b9922ca9842158ea59cecb98160a15_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a0e9c2b5eccffd951c0a19c61e22f7144}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a0e9c2b5eccffd951c0a19c61e22f7144}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!setTextColor@{setTextColor}}
+\index{setTextColor@{setTextColor}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{setTextColor()}{setTextColor()}}
+{\footnotesize\ttfamily void Editable\+Label\+::set\+Text\+Color (\begin{DoxyParamCaption}\item[{const Q\+Color \&}]{color }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a0e9c2b5eccffd951c0a19c61e22f7144_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a0660886dac00350e28aa37a0112bff1d}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a0660886dac00350e28aa37a0112bff1d}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!setValidator@{setValidator}}
+\index{setValidator@{setValidator}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{setValidator()}{setValidator()}}
+{\footnotesize\ttfamily void Editable\+Label\+::set\+Validator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1NodeNameValidator}{Node\+Name\+Validator}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a0660886dac00350e28aa37a0112bff1d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a0660886dac00350e28aa37a0112bff1d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a825b944d539dea1f45901b8d92bbcfb8}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a825b944d539dea1f45901b8d92bbcfb8}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!showMessage@{showMessage}}
+\index{showMessage@{showMessage}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{showMessage}{showMessage}}
+{\footnotesize\ttfamily void Editable\+Label\+::show\+Message (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a825b944d539dea1f45901b8d92bbcfb8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a825b944d539dea1f45901b8d92bbcfb8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_ad8d4050f1aabd6ca2b42002a73e72917}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_ad8d4050f1aabd6ca2b42002a73e72917}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!textChanged@{textChanged}}
+\index{textChanged@{textChanged}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{textChanged}{textChanged}}
+{\footnotesize\ttfamily void calenhad\+::nodeedit\+::\+Editable\+Label\+::text\+Changed (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_ad8d4050f1aabd6ca2b42002a73e72917_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a3d7a207afeeb75a62a5f310a31feb1a1}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a3d7a207afeeb75a62a5f310a31feb1a1}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!textEdit@{textEdit}}
+\index{textEdit@{textEdit}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{textEdit()}{textEdit()}}
+{\footnotesize\ttfamily Q\+Line\+Edit $\ast$ Editable\+Label\+::text\+Edit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_a3d7a207afeeb75a62a5f310a31feb1a1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_abb383c7afc25f9dd8b331ce31ea7c9aa}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_abb383c7afc25f9dd8b331ce31ea7c9aa}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!textEdited@{textEdited}}
+\index{textEdited@{textEdited}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{textEdited}{textEdited}}
+{\footnotesize\ttfamily void calenhad\+::nodeedit\+::\+Editable\+Label\+::text\+Edited (\begin{DoxyParamCaption}\item[{const Q\+String \&}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcalenhad_1_1nodeedit_1_1EditableLabel_abb383c7afc25f9dd8b331ce31ea7c9aa_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_ac18c44a17b39045e335650b382d06202}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_ac18c44a17b39045e335650b382d06202}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!\_alignment@{\_alignment}}
+\index{\_alignment@{\_alignment}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{\_alignment}{\_alignment}}
+{\footnotesize\ttfamily Qt\+::\+Alignment\+Flag calenhad\+::nodeedit\+::\+Editable\+Label\+::\+\_\+alignment\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_ab87c7884912a7fdd0c20ec38bcb7c5e6}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_ab87c7884912a7fdd0c20ec38bcb7c5e6}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!\_palette@{\_palette}}
+\index{\_palette@{\_palette}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{\_palette}{\_palette}}
+{\footnotesize\ttfamily Q\+Palette$\ast$ calenhad\+::nodeedit\+::\+Editable\+Label\+::\+\_\+palette\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a0ed11c6494893a150d491b670bd7482e}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a0ed11c6494893a150d491b670bd7482e}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!\_proxy@{\_proxy}}
+\index{\_proxy@{\_proxy}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{\_proxy}{\_proxy}}
+{\footnotesize\ttfamily Q\+Graphics\+Proxy\+Widget$\ast$ calenhad\+::nodeedit\+::\+Editable\+Label\+::\+\_\+proxy\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_a374ce97c11fd8b147579674174ad7ecd}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_a374ce97c11fd8b147579674174ad7ecd}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!\_textEdit@{\_textEdit}}
+\index{\_textEdit@{\_textEdit}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{\_textEdit}{\_textEdit}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classQWidget}{Q\+Widget}}$\ast$ calenhad\+::nodeedit\+::\+Editable\+Label\+::\+\_\+text\+Edit\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classcalenhad_1_1nodeedit_1_1EditableLabel_ae7e279a2ec25ee6ecb0e5b0a53fcd77e}\label{classcalenhad_1_1nodeedit_1_1EditableLabel_ae7e279a2ec25ee6ecb0e5b0a53fcd77e}} 
+\index{calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}!\_validator@{\_validator}}
+\index{\_validator@{\_validator}!calenhad::nodeedit::EditableLabel@{calenhad::nodeedit::EditableLabel}}
+\doxysubsubsection{\texorpdfstring{\_validator}{\_validator}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcalenhad_1_1nodeedit_1_1NodeNameValidator}{Node\+Name\+Validator}}$\ast$ calenhad\+::nodeedit\+::\+Editable\+Label\+::\+\_\+validator\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/nodeedit/\mbox{\hyperlink{EditableLabel_8h}{Editable\+Label.\+h}}\item 
+/home/ferret/\+C\+Lion\+Projects/calenhad/src/nodeedit/\mbox{\hyperlink{EditableLabel_8cpp}{Editable\+Label.\+cpp}}\end{DoxyCompactItemize}
