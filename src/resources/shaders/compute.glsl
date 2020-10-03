@@ -93,6 +93,48 @@ ivec3 [3] [3] surrounding (ivec3 fuv) {
     return k;
 }
 
+vec3 extrapolate (vec3 cartesian) {
+        vec3 position = cartesian;
+        float x = position.x, y = position.y, z = position.z;
+        float fx = abs (x), fy = abs (y), fz = abs (z);
+
+        if (fy >= fx && fy >= fz) {
+            float a2 = x * x * 2.0;
+            float b2 = z * z * 2.0;
+            float inner = -a2 + b2 - 3;
+            float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
+            position.x = (x == 0.0 || x == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
+            position.z = (z == 0.0 || z == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
+            if (position.x > 1.0) { position.x = 1.0; }
+            if (position.z > 1.0) { position.z = 1.0; }
+            if (x < 0) { position.x = -position.x; }
+            if (z < 0) { position.z = -position.z; }
+        } else if (fx >= fy && fx >= fz) {
+            float a2 = y * y * 2.0;
+            float b2 = z * z * 2.0;
+            float inner = -a2 + b2 - 3;
+            float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
+            position.y = (y == 0.0 || y == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
+            position.z = (z == 0.0 || z == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
+            if (position.y > 1.0) { position.y = 1.0; }
+            if (position.z > 1.0) { position.z = 1.0; }
+            if (y < 0) { position.y = -position.y; }
+            if (z < 0) { position.z = -position.z; }
+        } else {
+            float a2 = x * x * 2.0;
+            float b2 = y * y * 2.0;
+            float inner = -a2 + b2 - 3;
+            float innersqrt = -sqrt ((inner * inner) - 12.0 * a2);
+            position.x = (x == 0.0 || x == -0.0) ? 0.0 : (sqrt (innersqrt + a2 - b2 + 3.0) * HALF_ROOT_2);
+            position.y = (y == 0.0 || y == -0.0) ? 0.0 : (sqrt (innersqrt - a2 + b2 + 3.0) * HALF_ROOT_2);
+            if (position.x > 1.0) { position.x = 1.0; }
+            if (position.y > 1.0) { position.y = 1.0; }
+            if (x < 0) { position.x = -position.x; }
+            if (y < 0) { position.y = -position.y; }
+        }
+        return position;
+
+}
 
 vec3 toCartesian (in vec2 geolocation) { // x = longitude, y = latitude
     vec3 cartesian;
@@ -417,8 +459,8 @@ vec2 cellular (vec3 P, float jitter, float seed) {
     #define Kzo 0.416666666667 // 1/2-1/6*2
 
 
-    vec3 Pi = mod(floor(P), 289.0);
-    vec3 Pf = fract(P) - 0.5;
+    vec3 Pi = mod (floor (P), 289.0);
+    vec3 Pf = fract (P) - 0.5;
 
     vec3 Pfx = Pf.x + vec3(1.0, 0.0, -1.0);
     vec3 Pfy = Pf.y + vec3(1.0, 0.0, -1.0);
@@ -555,10 +597,21 @@ vec2 cellular (vec3 P, float jitter, float seed) {
     return sqrt(d11.xy); // F1, F2
 }
 
-float voronoi (vec3 cartesian, float frequency, float displacement, float voronoiScale, int seed) {
-    vec2 c = cellular (cartesian * frequency, displacement, seed);
-    return ((((c.y - c.x) + VORONOI_BIAS) * VORONOI_SCALE) - 1.0) * voronoiScale;
+float voronoi (vec3 fuv, float frequency, float displacement, float voronoiScale, int seed) {
 
+    vec2 uv = vec2 ((float (fuv.x) / float (size)) * 2.0f - 1.0f,
+    (float (fuv.y) / float (size)  * 2.0f - 1.0f));
+
+    float x, y, z;      // cartesian coordinates on the cube
+    if (fuv.z == FACE_NORTH)  { y =  1.0; x = uv.x; z = uv.y; }
+    if (fuv.z == FACE_SOUTH)  { y = -1.0; x = uv.x; z = uv.y; }
+    if (fuv.z == FACE_EAST)   { x =  1.0; y = uv.x; z = uv.y; }
+    if (fuv.z == FACE_WEST)   { x = -1.0; y = uv.x; z = uv.y; }
+    if (fuv.z == FACE_FRONT)  { z =  1.0; x = uv.x; y = uv.y; }
+    if (fuv.z == FACE_BACK)   { z = -1.0; x = uv.x; y = uv.y; }
+
+    vec2 c = cellular (vec3 (x, y, z) * frequency, displacement, seed);
+    return ((((c.y - c.x) + VORONOI_BIAS) * VORONOI_SCALE) - 1.0) * voronoiScale;
 }
 
 float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, float persistence, int octaves, int seed) {

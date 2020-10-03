@@ -684,15 +684,7 @@ Module* CalenhadMapWidget::source() {
 }
 
 void CalenhadMapWidget::setSource (Module* qm) {
-    if (qm && _source != qm) {
-        std::cout << "CalenhadMapWidget :: setSource - " << (qm -> name().toStdString()) << "\n";
-        if (_source) {
-            disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
-        }
-        _source = qm;
-        render();
-        connect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
-    }
+    _source = qm;
 }
 
 Legend* CalenhadMapWidget::legend () {
@@ -705,7 +697,16 @@ void CalenhadMapWidget::setLegend (Legend *legend) {
 }
 
 void CalenhadMapWidget::showEvent (QShowEvent* event) {
-    update();
+    if (_source) {
+        render();
+        connect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    }
+}
+
+void CalenhadMapWidget::hideEvent (QShowEvent* event) {
+    if (_source) {
+        disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    }
 }
 
 CubicSphere* CalenhadMapWidget::buffer () {

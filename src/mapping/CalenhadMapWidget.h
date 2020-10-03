@@ -200,6 +200,8 @@ namespace calenhad {
             int _size;
 
             QVector<calenhad::controls::globe::CalenhadStatsPanel*>  _subscribers;
+
+            void hideEvent (QShowEvent* event);
         };
     }
 }

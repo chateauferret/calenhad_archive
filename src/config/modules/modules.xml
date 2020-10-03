@@ -437,7 +437,7 @@
                 <documentation>Random seed</documentation>z\a                <validator type="AcceptAny"/>
             </parameter>
         </parameters>
-        <glsl>voronoi (c, %0, %1, %scale, %seed)</glsl>
+        <glsl>voronoi (pos, %0, %1, %scale, %seed)</glsl>
 
     </module>
 

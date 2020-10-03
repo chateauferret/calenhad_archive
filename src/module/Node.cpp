@@ -117,7 +117,6 @@ Node::Node (QString  nodeType, QWidget* parent) : QWidget (parent),
 Node::~Node () {
     delete _validator;
     delete _palette;
-    CalenhadServices::provideGlobe();
 }
 
 

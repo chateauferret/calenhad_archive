@@ -470,8 +470,8 @@ void CalenhadModel::doDeleteNode (Node* node) {
         if (item -> type() == Connection::Type) {
             Module* m = dynamic_cast<Module*> (node);
             if (m) {
-                for (Port* p : m -> ports ()) {
-                    if (((Connection*) item)->port1 () == p || ((Connection*) item)->port2 () == p) {
+                for (Port* p : m -> ports()) {
+                    if (((Connection*) item) -> port1() == p || ((Connection*) item) -> port2() == p) {
                         removeItem (item);
                         delete item;
                         setChanged();
@@ -489,7 +489,10 @@ void CalenhadModel::doDeleteNode (Node* node) {
             delete item;
         }
     }
-    delete node;
+
+    CalenhadServices::globe() -> selectModule (nullptr);
+    node -> deleteLater();
+    emit modelChanged();
     update();
     setRestorePoint();
     _port = nullptr; // otherwise it keeps trying to do stuff to the deleted port
