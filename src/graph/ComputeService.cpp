@@ -91,48 +91,49 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 
     prepareRasters (module);
 
-    std::cout << "ComputeService::compute - Module " << module -> name().toStdString() << " - buffer " << buffer << "\n";
+    std::cout << "ComputeService::compute - Module " << module -> name().toStdString() << " - computed " << module -> isComputed() << "\n";
+    if (! module -> isComputed()) {
+        clock_t start = clock ();
+        Graph graph (module);
+        QString newCode = graph.glsl ();
+        _context.makeCurrent (&_surface);
+        delete _computeShader;
+        delete _computeProgram;
+        _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
+        _computeProgram = new QOpenGLShaderProgram ();
 
-    clock_t start = clock ();
-    Graph graph (module);
-    QString newCode = graph.glsl();
-    _context.makeCurrent( &_surface);
-    delete _computeShader;
-    delete _computeProgram;
-    _computeShader = new QOpenGLShader (QOpenGLShader::Compute);
-    _computeProgram = new QOpenGLShaderProgram();
 
+        // create and allocate a buffer for any input rasters
 
-    // create and allocate a buffer for any input rasters
-
-    if (newCode != QString::null) {
-    //if (_forceRender || code != newCode)) {
-        std::cout << newCode.toStdString() << "\n";
-        _forceRender = false;
-        code = newCode;
-        QString ct = _computeTemplate;
-        ct.detach();                 // deep copy, otherwise we overwrite the placeholder
-        QString sourceCode = ct.replace("// inserted code //", code);
-        if (_computeShader) {
-            _computeProgram -> removeAllShaders();
-            if (_computeShader -> compileSourceCode (sourceCode)) {
-                _computeProgram -> addShader (_computeShader);
-                _computeProgram -> link();
-                _computeProgram -> bind();
-                execute (buffer -> data(), graph);
-            } else {
-                CalenhadServices::messages() -> message ("Compute shader would not compile", code);
+        if (newCode != QString::null) {
+            //if (_forceRender || code != newCode)) {
+            //std::cout << newCode.toStdString() << "\n";
+            _forceRender = false;
+            code = newCode;
+            QString ct = _computeTemplate;
+            ct.detach ();                 // deep copy, otherwise we overwrite the placeholder
+            QString sourceCode = ct.replace ("// inserted code //", code);
+            if (_computeShader) {
+                _computeProgram->removeAllShaders ();
+                if (_computeShader->compileSourceCode (sourceCode)) {
+                    _computeProgram->addShader (_computeShader);
+                    _computeProgram->link ();
+                    _computeProgram->bind ();
+                    execute (buffer->data (), graph);
+                } else {
+                    CalenhadServices::messages ()->message ("Compute shader would not compile", code);
+                }
             }
-        }
-        computeStatistics (buffer);
-        clock_t end = clock ();
-        int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
-        std::cout << " ... finished in " << time << " milliseconds\n\n";
-        buffer -> setComputeTime (time);
-        _statistics._computeTime = (int) time;
+            computeStatistics (buffer);
+            clock_t end = clock ();
+            int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
+            std::cout << " ... finished in " << time << " milliseconds\n\n";
+            buffer->setComputeTime (time);
+            _statistics._computeTime = (int) time;
 
-    } else {
-        CalenhadServices::messages() -> message ("No code for compute shader",  code);
+        } else {
+            CalenhadServices::messages() -> message ("No code for compute shader", code);
+        }
     }
 }
 
@@ -301,7 +302,7 @@ void ComputeService::prepareRasters (Module* module) {
             Module* m = c -> otherEnd(p) -> owner ();
             Cache* cache = dynamic_cast<Cache*> (m);
             if (cache) {
-                cache -> refresh ();
+                cache -> refresh();
             }
             prepareRasters (m);
         }

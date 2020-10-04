@@ -659,8 +659,8 @@ void CalenhadMapWidget::render() {
         }
 
         if (_buffer) {
-            emit computed ();
-            redraw ();
+            emit computed();
+            redraw();
         }
     }
 }
@@ -685,13 +685,16 @@ Module* CalenhadMapWidget::source() {
 
 void CalenhadMapWidget::setSource (Module* qm) {
     _source = qm;
+    if (isVisible()) {
+        render();
+    }
 }
 
-Legend* CalenhadMapWidget::legend () {
+Legend* CalenhadMapWidget::legend() {
     return _legend;
 }
 
-void CalenhadMapWidget::setLegend (Legend *legend) {
+void CalenhadMapWidget::setLegend (Legend* legend) {
     _legend = legend;
     update();
 }
@@ -699,13 +702,13 @@ void CalenhadMapWidget::setLegend (Legend *legend) {
 void CalenhadMapWidget::showEvent (QShowEvent* event) {
     if (_source) {
         render();
-        connect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    //    connect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
     }
 }
 
 void CalenhadMapWidget::hideEvent (QShowEvent* event) {
     if (_source) {
-        disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
+    //    disconnect (_source, &Node::nodeChanged, this, &CalenhadMapWidget::render);
     }
 }
 

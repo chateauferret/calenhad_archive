@@ -178,7 +178,7 @@ void Node::invalidate() {
     if (_block) {
         _block -> update ();
     }
-    updateCache();
+
     emit nodeChanged();
 }
 
@@ -330,7 +330,7 @@ ExpressionWidget* Node::addParameter (const QString& label, const QString& name,
         connect (widget, &ExpressionWidget::errorFound, this, &Node::nodeChanged);
         connect (widget, &ExpressionWidget::expressionChanged, this, &Node::nodeChanged);
         connect (widget, &ExpressionWidget::expressionChanged, this, &Node::parameterChanged);
-        ((QFormLayout*) _panel->layout ()) -> addRow (label, widget);
+        ((QFormLayout*) _panel -> layout ()) -> addRow (label, widget);
         _parameters.insert (name, widget);
         widget->setValidator (validator);
         widget->setText (QString::number (initial));
@@ -397,10 +397,6 @@ Node* Node::clone() {
     _copy -> setName (_model -> uniqueName (_name));
 
     return _copy;
-}
-
-void Node::updateCache () {
-
 }
 
 

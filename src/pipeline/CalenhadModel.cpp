@@ -198,7 +198,7 @@ Connection* CalenhadModel::connectPorts (Port* output, Port* input) {
         c -> updatePath();
 
         // tell the target owner to declare change requiring rerender
-        output -> owner() -> invalidate();
+        //output -> owner() -> invalidate();
 
         // this propogates changes on the source owner to the target so that the target can update any visible views when its inputs change
         //connect (output -> owner(), SIGNAL (nodeChanged()), input -> owner(), SLOT (invalidate()));

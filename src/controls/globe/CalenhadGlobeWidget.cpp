@@ -231,7 +231,6 @@ CalenhadGlobeWidget::CalenhadGlobeWidget (CalenhadGlobeDialog* parent, Module* s
     });
     _selectLegendCombo -> setCurrentText (_globe -> legend() -> name());
     _selectLegendCombo -> setToolTip ("Select the legend used to colour the map");
-    connect (parent -> model(), &CalenhadModel::modelChanged, this, &CalenhadGlobeWidget::updateModules);
 
     _selectModuleCombo -> setToolTip ("Select the module providing source data for the map");
     //connect (_selectModuleCombo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), this, [=] (const QString &text) { moduleSelected (text); });
@@ -271,7 +270,7 @@ void CalenhadGlobeWidget::updateModules() {
 
                 if (m -> isComplete()) {
                     _selectModuleCombo -> addItem (m -> name());
-                    m -> invalidate();
+                    //m -> invalidate();
                 } else {
                 //    _selectModuleCombo -> addItem (m -> name());
                 }

@@ -153,10 +153,6 @@ namespace calenhad {
             QPalette* _palette;
 
 
-
-            // bool _nameVisible;
-            virtual void updateCache();
-
             QWidget* _topPanel;
             QDockWidget *_propertiesDock;
         };

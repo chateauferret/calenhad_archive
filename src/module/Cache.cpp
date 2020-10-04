@@ -25,20 +25,21 @@ Cache::~Cache() {
 void Cache::invalidate() {
     StructuredGrid::invalidate();
     if (isComplete()) {
+        std::cout << name().toStdString() << " invalidated\n";
         _computed = false;
     }
 }
 
 void Cache::refresh() {
     std::cout << "Cache :: refresh - _computed " << _computed << "\n";
-    if (!_computed) {
+    if (! _computed) {
         if (isComplete()) {
             if (! inputs().isEmpty()) {
-            Port* p = inputs().first ();
+                Port* p = inputs().first ();
                 Module* source = p -> connections().first() -> otherEnd (p) -> owner ();
 
                 // copy data from th
-                // copy datae source module into the input buffer
+                // copy data source module into the input buffer
                 source -> fetch (_buffer);
                 _computed = true;
                 CalenhadServices::compute() -> compute (this, _buffer);

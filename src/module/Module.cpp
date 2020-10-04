@@ -223,7 +223,7 @@ Port* Module::output () {
 }
 
 bool Module::isComputed () {
-    return isComplete();
+    return false;
 }
 
 
