@@ -107,7 +107,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 
         if (newCode != QString::null) {
             //if (_forceRender || code != newCode)) {
-            //std::cout << newCode.toStdString() << "\n";
+            std::cout << newCode.toStdString() << "\n";
             _forceRender = false;
             code = newCode;
             QString ct = _computeTemplate;

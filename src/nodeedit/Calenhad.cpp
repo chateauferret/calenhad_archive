@@ -107,7 +107,10 @@ void Calenhad::setModel (CalenhadModel* model) {
     connect (_model, &CalenhadModel::titleChanged, this, &Calenhad::titleChanged);
     _controller -> updateZoomActions();
     CalenhadServices::provideGlobe (new CalenhadGlobeDialog (this));
-    activeView() -> setModel (_model);
+
+    if (activeView()) {
+        activeView() -> setModel (_model);
+    }
 }
 
 CalenhadModel* Calenhad::model() {
@@ -278,11 +281,22 @@ QList<CalenhadView*> Calenhad::views() const {
 }
 
 CalenhadView* Calenhad::activeView() const {
+    if (! _docs -> activeSubWindow()) {
+        if (_docs->subWindowList ().isEmpty ()) {
+            addView (nullptr, QString ());
+        }
+        _docs -> setActiveSubWindow (_docs -> subWindowList().first());
+    }
     QMdiSubWindow* doc = _docs -> activeSubWindow();
-    return (CalenhadView*) doc -> widget();
+
+    if (doc) {
+        return (CalenhadView*) doc -> widget();
+    } else {
+        return nullptr;
+    }
 }
 
-void Calenhad::addView (CalenhadModel* model, const QString& title) {
+void Calenhad::addView (CalenhadModel* model, const QString& title) const {
     CalenhadView* _view = new CalenhadView (nullptr);
     _view -> setModel (model);
     _view -> setRenderHint (QPainter::Antialiasing, true);

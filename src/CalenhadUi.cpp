@@ -452,10 +452,16 @@ void CalenhadUi::clearTools() {
 
 void CalenhadUi::updateZoomActions() {
     if (! _controller -> views().isEmpty ()) {
-        _snapAction -> setChecked(_controller -> activeView() -> gridVisible());
-        _gridAction -> setChecked (_controller -> activeView() -> gridVisible());
-        double z = _controller -> activeView() -> currentZoom ();
-        _zoomInAction -> setEnabled (z < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin); // 4
-        _zoomOutAction -> setEnabled (z > CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomout); // 0.025);
+        CalenhadView* view = _controller -> activeView ();
+        if (view) {
+            _snapAction->setChecked (view -> gridVisible ());
+            _gridAction->setChecked (view -> gridVisible ());
+            double z = view -> currentZoom ();
+            _zoomInAction -> setEnabled (z < CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomin); // 4
+            _zoomOutAction -> setEnabled (z > CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomout); // 0.025);
+        } else {
+            _zoomInAction -> setEnabled (false);
+            _zoomOutAction -> setEnabled (false);
+        }
     }
 }

@@ -121,7 +121,7 @@ void CalenhadController::zoomIn() {
 }
 
 void CalenhadController::zoomOut() {
-    if (activeView() -> currentZoom() > CalenhadServices::preferences()->calenhad_desktop_zoom_limit_zoomout) {
+    if (activeView() -> currentZoom() > CalenhadServices::preferences() -> calenhad_desktop_zoom_limit_zoomout) {
         doCommand(new ZoomCommand(- CalenhadServices::preferences() -> calenhad_desktop_zoom_delta, activeView()));
     }
 }

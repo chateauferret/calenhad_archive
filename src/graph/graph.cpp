@@ -77,8 +77,6 @@ QString Graph::glsl (Module* module) {
     _index = 0;
     _rasters.clear();
 
-
-
     if (module -> isComplete()) {
         QString name = module -> name ();
         if (! _code.contains ("float _" + name)) {

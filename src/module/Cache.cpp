@@ -32,7 +32,7 @@ void Cache::invalidate() {
 
 void Cache::refresh() {
     std::cout << "Cache :: refresh - _computed " << _computed << "\n";
-    if (! _computed) {
+    //if (! _computed) {
         if (isComplete()) {
             if (! inputs().isEmpty()) {
                 Port* p = inputs().first ();
@@ -49,7 +49,7 @@ void Cache::refresh() {
                 }
             }
         }
-    }
+    //}
 }
 
 
