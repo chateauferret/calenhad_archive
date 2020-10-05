@@ -11,7 +11,7 @@ namespace calenhad {
     namespace module {
 
 
-        class RasterModule : public Module {
+        class RasterModule : public StructuredGrid {
 
         public:
 
@@ -24,6 +24,8 @@ namespace calenhad {
             bool isComplete() override;
             calenhad::grid::CubicSphere* raster();
 
+            void fetch (grid::CubicSphere* buffer) override ;
+
 
         protected slots:
 
@@ -34,13 +36,14 @@ namespace calenhad {
         protected:
 
             QString _filename;
-            calenhad::grid::CubicSphere* _cube;
+            calenhad::grid::CubicSphere* _buffer;
             QWidget* _rasterContent;
             QFormLayout* _rasterLayout{};
 
             QLabel* _filenameLabel;
 
             void assimilateRaster (QImage* image);
+
         };
 
     }

@@ -123,7 +123,7 @@ void NodeBlock::initialise() {
 
 QVariant NodeBlock::itemChange (GraphicsItemChange change, const QVariant &value) {
     if (node()) {
-        if (CalenhadServices::preferences()->calenhad_desktop_grid_snap && change == ItemPositionChange) {
+        if (CalenhadServices::preferences() -> calenhad_desktop_grid_snap && change == ItemPositionChange) {
             QPointF newPos = value.toPointF();
             if (QApplication::mouseButtons() == Qt::LeftButton) {
                 node()->model()->snapToGrid(newPos);

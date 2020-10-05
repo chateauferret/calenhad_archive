@@ -18,7 +18,7 @@ using namespace calenhad::grid;
 using namespace geoutils;
 using namespace calenhad::notification;
 
-RasterModule::RasterModule (const QString& type) : Module (type), _cube (nullptr),
+RasterModule::RasterModule (const QString& type) : StructuredGrid (type), _buffer (nullptr),
                                                    _filename (QString::null),
                                                    _rasterLayout (new QFormLayout()) {
     _rasterContent = new QWidget (_expander);
@@ -74,24 +74,28 @@ void RasterModule::serialize (QDomElement& element) {
 }
 
 CubicSphere* RasterModule::raster() {
-    return  _cube;
+    return  _buffer;
+}
+
+void RasterModule::fetch (CubicSphere* buffer) {
+    buffer -> copy (_buffer);
 }
 
 bool RasterModule::isComplete() {
-    if (_cube) {
-        return Module::isComplete();
+    if (_buffer) {
+        return Module::isComplete ();
     } else {
         return false;
     }
 }
 
 QString RasterModule::glsl() {
-    return  "grid (%gridIndex)";
+    return  "grid (%gridIndex); }";
 }
 
 void RasterModule::assimilateRaster (QImage* image) {
-    if (! _cube) {
-        _cube = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
+    if (! _buffer) {
+        _buffer = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
     }
-    _cube -> fromRaster (image);
+    _buffer -> fromRaster (image);
 }

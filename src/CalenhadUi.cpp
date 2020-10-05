@@ -236,6 +236,13 @@ QMenu* CalenhadUi::makeContextMenu (QGraphicsItem* item) {
             connect (globeAction, &QAction::triggered, module, &Module::showGlobe);
             globeAction -> setEnabled (module -> isComplete());
             _contextMenu -> addAction (globeAction);
+            _contextMenu -> addSeparator();
+
+            QMenu* connectOutputMenu = module -> output() -> connectMenu();
+            _contextMenu -> addMenu (connectOutputMenu);
+            if (connectOutputMenu -> isEmpty()) {
+                connectOutputMenu -> setEnabled (false);
+            }
         }
         return _contextMenu;
     }

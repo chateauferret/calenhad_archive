@@ -120,8 +120,8 @@ bool CalenhadModel::canConnect (Port* output, Port* input, const bool& verbose) 
         if (! (input -> connections().empty())) {
             if (verbose) {
                 CalenhadServices::messages() -> message ("Cannot connect", "Port is already connected", NotificationStyle::ErrorNotification);
-                return false;
             }
+            return false;
         }
 
         // if survived all that, connection is OK
@@ -371,7 +371,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
                 if (me -> button() == Qt::LeftButton) {
                     QList<QGraphicsItem*> items = QGraphicsScene::items (me -> scenePos());
                     foreach (QGraphicsItem* item, items) {
-                        if (item && item->type() == Port::Type) {
+                        if (item && item -> type() == Port::Type) {
                             Port* port1 = _conn -> port1();
                             Port* port2 = (Port*) item;
                             createConnection (port1, port2);
@@ -404,7 +404,7 @@ bool CalenhadModel::eventFilter (QObject* o, QEvent* e) {
         }
     }
 
-    return QObject::eventFilter (o, e);
+    return QGraphicsScene::eventFilter (o, e);
 }
 
 Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) {
@@ -959,12 +959,6 @@ void CalenhadModel::setRestorePoint (const QString& text) {
 
 void CalenhadModel::setChanged (const bool& changed) {
     _changed = changed;
-
-    // make sure the scene canvas entirely contains all the nodes on it - otherwise they end up half off the edge when we scroll
-    CalenhadView* view =(CalenhadView*)  views().at (0);
-    QPointF centre = view -> sceneRect().center();
-    //setSceneRect (itemsBoundingRect ());
-    view -> centerOn (centre);
     emit modelChanged();
 }
 

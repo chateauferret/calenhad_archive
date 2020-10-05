@@ -195,7 +195,7 @@ void Module::connectMenu (QMenu* menu, Port* p) {
         for (Port* port : _ports) {
             if (port -> portType() != Port::OutputPort) {
                 if (_model -> canConnect (p, port)) {
-                    QAction* action = new QAction ();
+                    QAction* action = new QAction();
                     action -> setText (port -> portName ());
                     _connectMenu -> addAction (action);
                     connect (action, &QAction::triggered, this, [=] () {
@@ -205,7 +205,7 @@ void Module::connectMenu (QMenu* menu, Port* p) {
             }
         }
         if (! _connectMenu -> isEmpty()) {
-            menu->addMenu (_connectMenu);
+            menu -> addMenu (_connectMenu);
         }
     } else {
         QAction* action = new QAction();
