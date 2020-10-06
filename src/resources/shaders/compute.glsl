@@ -23,16 +23,26 @@ const int SHIFT_NOISE_GEN = 8;
 
 // these constants are used to scale and bias the outputs of noise generators
 // so that they fall in the range -1 to 1 (roughly)
-const float SIMPLEX_BIAS = 0.57811;
-const float SIMPLEX_SCALE = 0.62083034;
-const float RIDGED_MULTI_BIAS = 0.864406;
-const float RIDGED_MULTI_SCALE = 1.091014622;
-const float VORONOI_BIAS = 0;
-const float VORONOI_SCALE = 1.757700928;
-const float PERLIN_BIAS = 0.0;
-const float PERLIN_SCALE = 1.0;
-const float BILLOW_BIAS = 0.0;
-const float BILLOW_SCALE = 1.0;
+
+// Simplex maps from -1.27996 to 1.10705
+const float SIMPLEX_MIN = -1.27996;
+const float SIMPLEX_MAX = 1.10705;
+
+// Ridged multi maps from -1.50847 to -0.125
+const float RIDGED_MULTI_MIN = -1.50847;
+const float RIDGED_MULTI_MAX = -0.125;
+
+// Voronoi is garbage on the sphere and generally goosed
+const float VORONOI_BIAS = 0.0;
+const float VORONOI_SCALE = 0.0;// 1.757700928;
+
+// Perlin maps from -1.27996 to 1.10705
+const float PERLIN_MIN = -1.27996;
+const float PERLIN_MAX = 1.10705;
+
+// Billow maps from -1.375 to 0.619704
+const float BILLOW_MIN = -1.375;
+const float BILLOW_MAX = 0.619704;
 
 
 // statistics
@@ -57,6 +67,11 @@ uniform ivec2 tileIndex;        // the x and y index of the current tiles within
 #define FACE_EAST 0
 #define FACE_WEST 1
 
+
+float fromRange (float v, float min, float max) {
+    v = (v - min) / (max - min);
+    return v * 2.0 - 1.0;
+}
 
 
 // Neighbouring panels for each panel, in the order +x, -x, +y, -y
@@ -638,11 +653,11 @@ float noise (vec3 cartesian, bool simplex, float frequency, float lacunarity, fl
 
 float perlin (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
     // rewired to use simplex noise for now as faster - maybe no need to implement perlin
-    return (noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed) + PERLIN_BIAS) * PERLIN_SCALE;
+    return fromRange (noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed), PERLIN_MIN, PERLIN_MAX);
 }
 
 float simplex (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
-    return (noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed)) * SIMPLEX_SCALE;
+    return fromRange (noise (cartesian, true, frequency, lacunarity, persistence, octaves, seed), SIMPLEX_MIN, SIMPLEX_MAX);
 }
 
 float billow (vec3 cartesian, float frequency, float lacunarity, float persistence, int octaves, int seed) {
@@ -663,7 +678,7 @@ float billow (vec3 cartesian, float frequency, float lacunarity, float persisten
         n *= lacunarity;
         curPersistence *= persistence;
     }
-    return (value + 0.5 + BILLOW_BIAS) * BILLOW_SCALE;
+    return fromRange (value + 0.5,  BILLOW_MIN, BILLOW_MAX);
 }
 
 vec3 turbulence (vec3 cartesian, float frequency,  float power, int roughness, int seed) {
@@ -733,7 +748,7 @@ float exponent, float offset, float gain, float sharpness) {
         cartesian *= lacunarity;
     }
 
-    return (((value) - 1.0 + RIDGED_MULTI_BIAS) * RIDGED_MULTI_SCALE) - 1.0;
+    return fromRange ((((value) - 1.0)) - 1.0, RIDGED_MULTI_MIN, RIDGED_MULTI_MAX);
 
 }
 
