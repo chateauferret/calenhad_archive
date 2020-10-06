@@ -363,10 +363,10 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMappingDialog.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp">
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/CubicSplineFitter.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.h">
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/CubicSplineFitter.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeConfigDialog.cpp">

@@ -136,7 +136,7 @@ void Preferences::loadSettings() {
     calenhad_toolpalette_icon_shadow = _settings -> value ("calenhad/toolpalette/icon/shadow", 2).toInt();
     calenhad_toolpalette_arrow_size = _settings -> value ("calenhad/toolpalette/arrow/size", 16).toInt();
 
-    // Altitude map control
+    // QuarticSpline map control
     calenhad_altitudemap_deletemargin = _settings -> value ("calenhad/altitudemap/deletemargin", 0.2).toUInt();
     calenhad_altitudemap_marker_normal_color = _settings -> value ("calenhad/altitudemap/marker/normal/color", "#0000FF").value<QColor>();
     calenhad_altitudemap_marker_selected_color = _settings -> value ("calenhad/altitudemap/marker/selected/color", "#FF0000").value<QColor>();

@@ -159,7 +159,7 @@ void ComputeService::execute (GLfloat* buffer, const Graph& graph) {
     progress.setWindowModality(Qt::WindowModal);
 
     for (int i = 0; i < graph.rasterCount(); i++) {
-        CubicSphere* cs = new CubicSphere (CalenhadServices::preferences()->calenhad_compute_gridsize);
+        CubicSphere* cs = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
         graph.cube (i, cs);
         _cubes.push_back (cs);
     }

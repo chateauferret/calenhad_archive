@@ -76,9 +76,7 @@ namespace calenhad {
             QString _shownParameter;
 
             bool _valid;
-
-
-            void copy (grid::CubicSphere* buffer);
+            void expandCode (QString& code);
         };
     }
 }

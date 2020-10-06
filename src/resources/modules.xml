@@ -3,8 +3,8 @@
 
     <!-- Obligatory modules - behaviour is hardcoded in Calenhad - do not change -->
 
-    <module role="modify" name="altitudemap" label="Altitude map">
-        <documentation>Altitude map</documentation>
+    <module role="modify" name="altitudemap" label="QuarticSpline map">
+        <documentation>QuarticSpline map</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>

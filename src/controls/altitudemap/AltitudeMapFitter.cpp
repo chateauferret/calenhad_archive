@@ -1,18 +1,27 @@
 //
-// Created by martin on 03/04/17.
+// Created by martin on 05/04/17.
 //
 
-#include "AltitudeMapFitter.h"
-#include "src/Interpolation.h"
+#include <iostream>
 #include <qwt/qwt_plot.h>
+#include <cmath>
+#include <src/Interpolation.h>
+#include "AltitudeMapFitter.h"
 
 using namespace calenhad::controls::altitudemap;
+
 //! Constructor
-AltitudeMapFitter::AltitudeMapFitter(): QwtSplineCurveFitter() {
+AltitudeMapFitter::AltitudeMapFitter (const bool& quartic) : QwtCurveFitter(), _quartic (quartic), _resolution (10), _inverted (true), _plot (nullptr) {
 }
 
 //! Destructor
 AltitudeMapFitter::~AltitudeMapFitter() {
+}
+
+void AltitudeMapFitter::attachPlot (QwtPlot* plot) {
+    if (! _plot) {
+        _plot = plot;
+    }
 }
 
 /*
@@ -23,14 +32,14 @@ Fit the points to the same curve as is used by the noise owner to interpolate va
 */
 QPolygonF AltitudeMapFitter::fitCurve (const QPolygonF &points) const {
 
-    QPolygonF fittedPoints (splineSize());
+    QPolygonF fittedPoints (_resolution);
 
     const double x1 = points [0].x();
     const double x2 = points [int (points.size() - 1)].x();
     const double dx = x2 - x1;
-    const double delta = dx / (splineSize() - 1);
+    const double delta = dx / (_resolution - 1);
 
-    for (int i = 0; i < splineSize(); i++) {
+    for (int i = 0; i < _resolution; i++) {
         QPointF &p = fittedPoints [i];
 
         const double v = x1 + i * delta;
@@ -57,10 +66,8 @@ double AltitudeMapFitter::getY (const double& x, const QPolygonF& points) const 
 
     // Find the four nearest control points so that we can perform cubic
     // interpolation.
-    int index0 = noise::utils::Interpolation::ClampValue (indexPos - 2, 0, points.size() - 1);
     int index1 = noise::utils::Interpolation::ClampValue (indexPos - 1, 0, points.size() - 1);
     int index2 = noise::utils::Interpolation::ClampValue (indexPos, 0, points.size() - 1);
-    int index3 = noise::utils::Interpolation::ClampValue (indexPos + 1, 0, points.size() - 1);
 
     // If some control points are missing (which occurs if the value from the
     // source owner is greater than the largest input value or less than the
@@ -75,11 +82,32 @@ double AltitudeMapFitter::getY (const double& x, const QPolygonF& points) const 
     double input1 = points.at (index2).x();
     double alpha = (x - input0) / (input1 - input0);
 
+    if (_inverted) {
+        alpha = 1.0 - alpha;
+        int temp = index1; index1 = index2; index2 = temp;
+    }
+
+    if (_quartic) {
+        alpha *= alpha;
+    }
     // Now perform the cubic interpolation given the alpha value.
-    return noise::utils::Interpolation::cubicInterp (
-            points.at (index0).y(),
+    return  noise::utils::Interpolation::linearInterp  (
             points.at (index1).y(),
             points.at (index2).y(),
-            points.at (index3).y(),
             alpha);
+}
+void AltitudeMapFitter::setResolution (const int& resolution) {
+    _resolution = resolution;
+}
+
+int AltitudeMapFitter::resolution () {
+    return _resolution;
+}
+
+void AltitudeMapFitter::setInverted (const bool& inverted) {
+    _inverted = inverted;
+}
+
+bool AltitudeMapFitter::isInverted () const {
+    return _inverted;
 }

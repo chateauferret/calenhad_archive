@@ -25,7 +25,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o"
   "CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o"
   "CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o"
-  "CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o"
+  "CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o"
   "CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o"
   "CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o"
   "CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o"

@@ -9,9 +9,9 @@
 #include <qwt/qwt_curve_fitter.h>
 #include <iostream>
 #include "AltitudeMapPlot.h"
-#include "AltitudeMapFitter.h"
+#include "CubicSplineFitter.h"
 #include "nodeedit/Calenhad.h"
-#include "TerraceMapFitter.h"
+#include "AltitudeMapFitter.h"
 #include <QMouseEvent>
 #include <src/CalenhadServices.h>
 #include "../../preferences/PreferencesService.h"
@@ -30,7 +30,7 @@ AltitudeMapPlot::AltitudeMapPlot (int resolution, QWidget *parent) : QwtPlot (pa
         _fixedSymbol (new QwtSymbol()),
         _fitter (nullptr),
         _resolution (resolution) {
-    setTitle ("Altitude map");
+    setTitle ("QuarticSpline map");
     _canvas = new AltitudeMapPlotCanvas();
     setCanvas (_canvas);
     _panner = new QwtPlotPanner (_canvas);
@@ -112,7 +112,7 @@ QVector<AltitudeMapping> AltitudeMapPlot::remapTerrace() {
 }
 
 QVector<AltitudeMapping> AltitudeMapPlot::getEntries() {
-    if (_curveType == CurveType::Altitude) {
+    if (_curveType == CurveType::QuarticSpline || _curveType == CurveType::Linear) {
         return _entries;
     } else {
         return remapTerrace();
@@ -219,10 +219,12 @@ void AltitudeMapPlot::mouseCanvasReleaseEvent (QMouseEvent* event) {
     if (canDeleteSelected()) {
         QPointF point = toPlotCoordinates (event -> x(), event -> y());
         if (!isOnCanvas (point)) {
-            _entries.remove (_index);
-            _index = noneSelected;
-            _curve -> setSamples (samples());
-            plotPoints();
+            if (_index >= 0 && _index < _entries.size()) {
+                _entries.remove (_index);
+                _index = noneSelected;
+                _curve->setSamples (samples ());
+                plotPoints ();
+            }
         }
     }
 
@@ -256,7 +258,7 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                         }
                     }
                     std::sort (tempEntries.begin(), tempEntries.end(), [] (const QPointF& a, const QPointF& b) -> bool { return a.x() < b.x(); });
-                    if (_curveType == CurveType::Altitude) {
+                    if (_curveType == CurveType::QuarticSpline || _curveType == CurveType::Linear) {
                         _curve -> setSamples (tempEntries);
                     } else {
                         QVector<QPointF> points;
@@ -311,13 +313,13 @@ void AltitudeMapPlot::updatePoint (QPointF& point) {
         // no two points are to have the same X value
         if (_index > 0) {
             if (point.x () == _entries.at (_index - 1).x ()) {
-                point.setX (_entries.at (_index - 1).x () + (2.0d / _resolution));
+                point.setX (_entries.at (_index - 1).x () + (2.0 / _resolution));
             }
         }
 
         if (_index < _entries.size () - 1) {
             if (point.x () == _entries.at (_index + 1).x ()) {
-                point.setX (_entries.at (_index + 1).x () - (2.0d / _resolution));
+                point.setX (_entries.at (_index + 1).x () - (2.0 / _resolution));
             }
         }
 
@@ -325,7 +327,7 @@ void AltitudeMapPlot::updatePoint (QPointF& point) {
         // update the point with the new position and reproduce the curve showing the change.
         _entries.replace (_index, point);
         if (isOnCanvas (point)) {
-            std::sort (_entries.begin (), _entries.end (), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x () < b.x (); });
+            std::sort (_entries.begin (), _entries.end(), [] (const AltitudeMapping& a, const AltitudeMapping& b) -> bool { return a.x () < b.x (); });
         }
         _curve->setSamples (samples ());
         plotPoints ();
@@ -340,12 +342,12 @@ QPointF AltitudeMapPlot::toPlotCoordinates (const int& pixelX, const int& pixelY
 
 void AltitudeMapPlot::setCurveType (CurveType type) {
     _curveType = type;
-    if (type == CurveType::Altitude) {
-        AltitudeMapFitter* f = new AltitudeMapFitter();
+    if (type == CurveType::QuarticSpline) {
+        CubicSplineFitter* f = new CubicSplineFitter();
         _fitter = f;
         f -> setSplineSize (_resolution);
     } else {
-        TerraceMapFitter* f = new TerraceMapFitter();
+        AltitudeMapFitter* f = new AltitudeMapFitter (type == CurveType::QuarticSpline);
         f -> attachPlot (this);
         _fitter = f;
         f -> setResolution (_resolution);

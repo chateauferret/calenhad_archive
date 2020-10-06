@@ -28,7 +28,7 @@ HypsographyWidget::HypsographyWidget (CalenhadMapWidget* globe, QWidget* parent)
     QwtPlotGrid* grid = new QwtPlotGrid();
     grid -> attach (this);
     setAxisTitle (QwtPlot::xBottom, "Frequency (cumulative)");
-    setAxisTitle (QwtPlot::yLeft, "Altitude");
+    setAxisTitle (QwtPlot::yLeft, "QuarticSpline");
 }
 
 HypsographyWidget::~HypsographyWidget() {

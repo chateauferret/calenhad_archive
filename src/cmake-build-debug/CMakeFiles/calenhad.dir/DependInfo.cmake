@@ -27,7 +27,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapPlot.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapping.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMappingDialog.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o"
-  "/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o"
+  "/home/ferret/CLionProjects/calenhad/src/controls/altitudemap/CubicSplineFitter.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeConfigDialog.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeConfigDialog.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeContextMenu.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeContextMenu.cpp.o"
   "/home/ferret/CLionProjects/calenhad/src/controls/globe/CalenhadGlobeDialog.cpp" "/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles/calenhad.dir/controls/globe/CalenhadGlobeDialog.cpp.o"

@@ -803,32 +803,32 @@ controls/altitudemap/AltitudeMappingDialog.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.s
 .PHONY : controls/altitudemap/AltitudeMappingDialog.cpp.s
 
-controls/altitudemap/TerraceMapFitter.o: controls/altitudemap/TerraceMapFitter.cpp.o
+controls/altitudemap/CubicSplineFitter.o: controls/altitudemap/CubicSplineFitter.cpp.o
 
-.PHONY : controls/altitudemap/TerraceMapFitter.o
+.PHONY : controls/altitudemap/CubicSplineFitter.o
 
 # target to build an object file
-controls/altitudemap/TerraceMapFitter.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o
-.PHONY : controls/altitudemap/TerraceMapFitter.cpp.o
+controls/altitudemap/CubicSplineFitter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o
+.PHONY : controls/altitudemap/CubicSplineFitter.cpp.o
 
-controls/altitudemap/TerraceMapFitter.i: controls/altitudemap/TerraceMapFitter.cpp.i
+controls/altitudemap/CubicSplineFitter.i: controls/altitudemap/CubicSplineFitter.cpp.i
 
-.PHONY : controls/altitudemap/TerraceMapFitter.i
+.PHONY : controls/altitudemap/CubicSplineFitter.i
 
 # target to preprocess a source file
-controls/altitudemap/TerraceMapFitter.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.i
-.PHONY : controls/altitudemap/TerraceMapFitter.cpp.i
+controls/altitudemap/CubicSplineFitter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.i
+.PHONY : controls/altitudemap/CubicSplineFitter.cpp.i
 
-controls/altitudemap/TerraceMapFitter.s: controls/altitudemap/TerraceMapFitter.cpp.s
+controls/altitudemap/CubicSplineFitter.s: controls/altitudemap/CubicSplineFitter.cpp.s
 
-.PHONY : controls/altitudemap/TerraceMapFitter.s
+.PHONY : controls/altitudemap/CubicSplineFitter.s
 
 # target to generate assembly for a file
-controls/altitudemap/TerraceMapFitter.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.s
-.PHONY : controls/altitudemap/TerraceMapFitter.cpp.s
+controls/altitudemap/CubicSplineFitter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.s
+.PHONY : controls/altitudemap/CubicSplineFitter.cpp.s
 
 controls/globe/CalenhadGlobeConfigDialog.o: controls/globe/CalenhadGlobeConfigDialog.cpp.o
 
@@ -2810,9 +2810,9 @@ help:
 	@echo "... controls/altitudemap/AltitudeMappingDialog.o"
 	@echo "... controls/altitudemap/AltitudeMappingDialog.i"
 	@echo "... controls/altitudemap/AltitudeMappingDialog.s"
-	@echo "... controls/altitudemap/TerraceMapFitter.o"
-	@echo "... controls/altitudemap/TerraceMapFitter.i"
-	@echo "... controls/altitudemap/TerraceMapFitter.s"
+	@echo "... controls/altitudemap/CubicSplineFitter.o"
+	@echo "... controls/altitudemap/CubicSplineFitter.i"
+	@echo "... controls/altitudemap/CubicSplineFitter.s"
 	@echo "... controls/globe/CalenhadGlobeConfigDialog.o"
 	@echo "... controls/globe/CalenhadGlobeConfigDialog.i"
 	@echo "... controls/globe/CalenhadGlobeConfigDialog.s"

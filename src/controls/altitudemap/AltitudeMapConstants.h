@@ -9,7 +9,7 @@ namespace calenhad {
     namespace controls {
         namespace altitudemap {
             enum CurveType {
-                Altitude = 1, Terrace = 2, InvertedTerrace = 3
+                QuarticSpline = 1, Terrace = 2, InvertedTerrace = 3, Linear = 4
             };
         }
     }

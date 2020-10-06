@@ -10,7 +10,7 @@ SET(ALTITUDEMAP_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapEditor.h
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapPlot.h
+        ${CMAKE_CURRENT_LIST_DIR}/CubicSplineFitter.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CubicSplineFitter.h
         ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapFitter.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapFitter.h
-        ${CMAKE_CURRENT_LIST_DIR}/TerraceMapFitter.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/TerraceMapFitter.h)
+        ${CMAKE_CURRENT_LIST_DIR}/AltitudeMapFitter.h)

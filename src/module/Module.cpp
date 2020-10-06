@@ -141,8 +141,12 @@ QString Module::description () {
 }
 
 QString Module::glsl () {
-    QString code = CalenhadServices::modules() -> glsl (_nodeType);
+    QString code = CalenhadServices::modules ()->glsl (_nodeType);
+    expandCode (code);
+    return code;
+}
 
+void Module::expandCode (QString& code) {
     // replace the input module markers with their names referencing their member variables in glsl
     int i = 0;
     for (Port* port : inputs ()) {
@@ -163,7 +167,6 @@ QString Module::glsl () {
             code.replace ("%" + param, QString::number (parameterValue (param)));
         }
     }
-    return code;
 }
 
 void Module::fetch (CubicSphere* buffer) {

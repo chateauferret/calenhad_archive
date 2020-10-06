@@ -709,9 +709,22 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.s: cmake_forc
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapEditor.cpp -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.s
 
+CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o: CMakeFiles/calenhad.dir/flags.make
+CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o: ../controls/altitudemap/CubicSplineFitter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/CubicSplineFitter.cpp
+
+CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/CubicSplineFitter.cpp > CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.i
+
+CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/CubicSplineFitter.cpp -o CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.s
+
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o: ../controls/altitudemap/AltitudeMapFitter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapFitter.cpp
 
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.i: cmake_force
@@ -721,19 +734,6 @@ CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.i: cmake_forc
 CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/AltitudeMapFitter.cpp -o CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.s
-
-CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o: CMakeFiles/calenhad.dir/flags.make
-CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o: ../controls/altitudemap/TerraceMapFitter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o -c /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp
-
-CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp > CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.i
-
-CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferret/CLionProjects/calenhad/src/controls/altitudemap/TerraceMapFitter.cpp -o CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.s
 
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: CMakeFiles/calenhad.dir/flags.make
 CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o: ../controls/legend/LegendEditor.cpp
@@ -1416,8 +1416,8 @@ calenhad_OBJECTS = \
 "CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o" \
 "CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o" \
 "CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o" \
+"CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o" \
 "CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o" \
-"CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o" \
 "CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o" \
 "CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o" \
 "CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.o" \
@@ -1513,8 +1513,8 @@ calenhad: CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapPlot.cpp.o
 calenhad: CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapping.cpp.o
 calenhad: CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMappingDialog.cpp.o
 calenhad: CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapEditor.cpp.o
+calenhad: CMakeFiles/calenhad.dir/controls/altitudemap/CubicSplineFitter.cpp.o
 calenhad: CMakeFiles/calenhad.dir/controls/altitudemap/AltitudeMapFitter.cpp.o
-calenhad: CMakeFiles/calenhad.dir/controls/altitudemap/TerraceMapFitter.cpp.o
 calenhad: CMakeFiles/calenhad.dir/controls/legend/LegendEditor.cpp.o
 calenhad: CMakeFiles/calenhad.dir/controls/legend/LegendEditorSlider.cpp.o
 calenhad: CMakeFiles/calenhad.dir/controls/legend/LegendPreview.cpp.o

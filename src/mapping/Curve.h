@@ -16,7 +16,7 @@ namespace calenhad {
         public:
             Curve ();
             virtual ~Curve ();
-            virtual float GetValue (const float& sourceModuleValue) const = 0;
+            virtual float GetValue (const float& sourceModuleValue) const;
             virtual void GetValues (float* outputs, int size, double& from, double& to) const;
 
 

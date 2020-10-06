@@ -41,16 +41,16 @@ void AltitudeMap::makeContentPanel() {
     connect (_editor, SIGNAL (rejected()), this, SLOT (editingFinished()));
 
     // set up the curve type roster with curve models
-    _curves.insert (CurveType::Altitude, new CubicSpline());
-
+    _curves.insert (CurveType::QuarticSpline, new CubicSpline());
     _curves.insert (CurveType::Terrace, new TerraceCurve());
+    _curves.insert (CurveType::Linear, new Curve());
     TerraceCurve* invertedTerrace = new TerraceCurve();
     invertedTerrace -> InvertTerraces (true);
     _curves.insert (CurveType::InvertedTerrace, invertedTerrace);
-    _curve = _curves.value (CurveType::Altitude);
+    _curve = _curves.value (CurveType::QuarticSpline);
 
     QPushButton* editButton = new QPushButton (this);
-    editButton->setText ("Edit mapping");
+    editButton -> setText ("Edit mapping");
     connect (editButton, SIGNAL (pressed()), this, SLOT (editAltitudeMap()));
     _contentLayout -> addRow ("", editButton);
     resetMap ();
@@ -60,11 +60,16 @@ void AltitudeMap::editAltitudeMap() {
     // preserve the existing state so that we can undo
     preserve();
 
-
-    if (dynamic_cast<TerraceCurve*> (_curve)) {
-        _editor -> setCurveType (dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted() ? CurveType::InvertedTerrace : CurveType::Terrace);
-    } else {
-        _editor -> setCurveType (CurveType::Altitude);
+    if (_curve) {
+        if (dynamic_cast<TerraceCurve*> (_curve)) {
+            _editor->setCurveType (dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted () ? CurveType::InvertedTerrace : CurveType::Terrace);
+        } else {
+            if (dynamic_cast<CubicSpline*> (_curve)) {
+                _editor -> setCurveType (CurveType::QuarticSpline);
+            } else {
+                _editor -> setCurveType (CurveType::Linear);
+            }
+        }
     }
     QVector<calenhad::controls::altitudemap::AltitudeMapping> points = entries();
     _editor -> setEntries (points);
@@ -153,6 +158,7 @@ AltitudeMap* AltitudeMap::clone () {
 void AltitudeMap::inflate (const QDomElement& element) {
     Module::inflate (element);
     QDomElement mapElement = element.firstChildElement ("map");
+    _curve = nullptr;
     if (mapElement.attribute ("function") == "terrace") {
         if (mapElement.attribute ("inverted") == "true") {
             _curve = _curves.find (CurveType::InvertedTerrace).value();
@@ -160,7 +166,11 @@ void AltitudeMap::inflate (const QDomElement& element) {
             _curve = _curves.find (CurveType::Terrace).value();
         }
     } else {
-        _curve = _curves.find (CurveType::Altitude).value();
+        if (mapElement.attribute ("function") != "linear") {
+            _curve = _curves.find (CurveType::QuarticSpline).value ();
+        } else {
+            _curve = _curves.find (CurveType::Linear).value ();
+        }
     }
     QDomNodeList entryElements = mapElement.elementsByTagName ("entry");
     clearMap ();
@@ -194,14 +204,16 @@ QString AltitudeMap::curveFunction() {
     if (dynamic_cast<TerraceCurve*> (_curve)) {
         return ("terrace");
     } else {
-        return ("spline");
+        if (dynamic_cast<CubicSpline*> (_curve)) {
+            return ("spline");
+        } else return "linear";
     }
 
 }
 
 bool AltitudeMap::isFunctionInverted() {
     if (curveFunction() == "terrace") {
-        return dynamic_cast<TerraceCurve*> (_curve)->IsTerracesInverted();
+        return dynamic_cast<TerraceCurve*> (_curve) -> IsTerracesInverted();
     } else {
         return false;
     }
@@ -218,9 +230,9 @@ void AltitudeMap::preserve () {
 
 QString AltitudeMap::glsl() {
     // input is below the bottom of the range
-    QString code = "float _" + name() + " (ivec3 pos, vec3 c, vec2 g) {\n";
+    QString code;// = "float _" + name() + " (ivec3 pos, vec3 c, vec2 g) {\n";
     code += "  float value = %0 ;\n";
-    code += "  if (value < " + QString::number (entries().first ().x ()) + ") { return " + QString::number (entries().first ().y ()) + "; }\n";
+    code += "  if (value < " + QString::number (entries().first().x()) + ") { return " + QString::number (entries().first().y()) + "; }\n";
 
     for (int j = 0; j < entries().size (); j++) {
         // Do we need to sort the entries?
@@ -228,7 +240,7 @@ QString AltitudeMap::glsl() {
 
         // compose the mapping function
         // spline function
-        if (curveFunction () == "spline") {
+        if (curveFunction() == "spline") {
             double x[4], y[4];
 
             for (int i = 0; i < 4; i++) {
@@ -249,7 +261,7 @@ QString AltitudeMap::glsl() {
         }
 
         // terrace function
-        if (curveFunction() == "terrace") {
+        if (curveFunction() == "terrace" || curveFunction() == "linear") {
             double x[2], y[2];
             for (int i = 0; i < 2; i++) {
                 int k = std::max (j + i - 1, 0);
@@ -261,7 +273,9 @@ QString AltitudeMap::glsl() {
             // Compute the alpha value used for cubic interpolation.
             mapFunction += "        float alpha = ((value - " + QString::number (x[0]) + ") / " + QString::number (x[1] - x[0]) + ");\n";
             if (isFunctionInverted ()) { mapFunction += "        alpha = 1 - alpha;\n"; }
-            mapFunction += "        alpha *= alpha;\n";
+            if (curveFunction() != "linear") {
+                mapFunction += "        alpha *= alpha;\n";
+            }
             mapFunction += "        return mix ( float(" +
                            QString::number (isFunctionInverted () ? y[1] : y[0]) + "), float (" +
                            QString::number (isFunctionInverted () ? y[0] : y[1]) + "), " +
@@ -273,5 +287,6 @@ QString AltitudeMap::glsl() {
     // input is beyond the top of the range
     code += "  if (value > " + QString::number (entries().last ().x ()) + ") { return " + QString::number (entries().last ().y ()) + "; }\n";
     code += "}\n";
+    expandCode (code);
     return code;
 }

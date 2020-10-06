@@ -25,7 +25,7 @@ namespace calenhad {
         namespace altitudemap {
 
 
-            class AltitudeMapFitter;
+            class CubicSplineFitter;
             class AltitudeMapPlotCanvas : public QwtPlotCanvas {
             public:
                 AltitudeMapPlotCanvas();

@@ -42,7 +42,7 @@ void Cache::refresh() {
                 // copy data source module into the input buffer
                 source -> fetch (_buffer);
                 _computed = true;
-                CalenhadServices::compute() -> compute (this, _buffer);
+                //CalenhadServices::compute() -> compute (this, _buffer);
                 // we can now perform serial or parallel algorithms on the buffer
                 if (_algorithm) {
                     _computed = _algorithm->execute (_buffer);

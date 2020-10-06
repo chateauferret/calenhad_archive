@@ -22,9 +22,10 @@ AltitudeMapEditor::AltitudeMapEditor (QWidget* parent) : QDialog (parent),
     connect (buttonBox, &QDialogButtonBox::accepted, this, &AltitudeMapEditor::accept);
     connect (buttonBox, &QDialogButtonBox::rejected, this, &AltitudeMapEditor::reject);
     _curveTypeCombo = new QComboBox();
-    _curveTypeOptions.insert ("Altitude curve", CurveType::Altitude);
-    _curveTypeOptions.insert ("Terrace", CurveType::Terrace);
-    _curveTypeOptions.insert ("Inverted Terrace", CurveType::InvertedTerrace);
+    _curveTypeOptions.insert ("QuarticSpline curve", CurveType::QuarticSpline);
+    _curveTypeOptions.insert ("Terrace (concave)", CurveType::Terrace);
+    _curveTypeOptions.insert ("Terrace (convex)", CurveType::InvertedTerrace);
+    _curveTypeOptions.insert ("Linear", CurveType::Linear);
     _curveTypeCombo -> addItems (_curveTypeOptions.keys());
     connect (_curveTypeCombo, SIGNAL (currentIndexChanged (int)), this, SLOT (curveTypeSelected (int)));
     layout -> addWidget (_curveTypeCombo);
@@ -66,7 +67,7 @@ void AltitudeMapEditor::setCurveType (CurveType curveType) {
     for (int i = 0; i < _curveTypeOptions.size (); i++) {
         if (curveType == _curveTypeOptions.values ().at (i)) {
             if (_curveTypeOptions.keys ().at (i) != _curveTypeCombo->currentText ()) {
-                _curveTypeCombo->setCurrentText (_curveTypeOptions.keys ().at (i));
+                _curveTypeCombo->setCurrentText (_curveTypeOptions.keys().at (i));
             }
         }
     }
