@@ -155,6 +155,7 @@ namespace calenhad {
 
             QWidget* _topPanel;
             QDockWidget *_propertiesDock;
+            QWidget* _about;
         };
 
     } // namespace module

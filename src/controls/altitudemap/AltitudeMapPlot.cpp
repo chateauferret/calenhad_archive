@@ -170,7 +170,7 @@ void AltitudeMapPlot::plotPoints() {
         _selectedMarker -> detach();
     }
 
-    // fixed markers for points that can't be draggged about
+    // fixed markers for points that can't be draggged _about
     for (QwtPlotMarker* marker : _markers) {
         _markers.remove (_markers.indexOf (marker));
         marker -> detach();
@@ -277,14 +277,14 @@ void AltitudeMapPlot::mouseCanvasMoveEvent (QMouseEvent* event) {
                     if (point.x() > xInterval.maxValue() ) { point.setX (xInterval.maxValue()); }
                     if (point.y() < yInterval.minValue() ) { point.setY (yInterval.minValue()); }
                     if (point.y() > yInterval.maxValue() ) { point.setY (yInterval.maxValue()); }
-                    // if the  control point stays on the canvas we just move it about, reordering the points if one is moved past another in the x direction
+                    // if the  control point stays on the canvas we just move it _about, reordering the points if one is moved past another in the x direction
                     updatePoint (point);
                 }
                 plotPoints();
             } else {
                 canvas() -> setCursor (Qt::ClosedHandCursor);
 
-                // if the  control point stays on the canvas we just move it about, reordering the points if one is moved past another in the x direction
+                // if the  control point stays on the canvas we just move it _about, reordering the points if one is moved past another in the x direction
                 updatePoint (point);
                 _index = _curve -> closestPoint (event -> pos(), &dist);
             }

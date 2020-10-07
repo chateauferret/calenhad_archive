@@ -58,18 +58,18 @@ Node::Node (QString  nodeType, QWidget* parent) : QWidget (parent),
     _nameEdit -> setValidator (_validator);
 
     _expander = new QToolBox();
-    QWidget* about = new QWidget (_expander);
+    _about = new QWidget (_expander);
     QVBoxLayout* layout = new QVBoxLayout();
     layout -> setSpacing (0);
     layout -> setMargin (5);
-    about -> setLayout (layout);
+    _about -> setLayout (layout);
 
     connect (_nameEdit, &QLineEdit::editingFinished, this, [=] () {
         propertyChangeRequested ("name", _nameEdit -> text());
     });
     connect (this, &Node::nameChanged, this, [=] () { _nameEdit -> setText (_name); invalidate(); });
 
-    _notesEdit = new QTextEdit (about);
+    _notesEdit = new QTextEdit (_about);
     _notesEdit -> setFixedHeight (100);
     layout -> addWidget (_notesEdit);
     layout -> addStretch (0);
@@ -83,7 +83,7 @@ Node::Node (QString  nodeType, QWidget* parent) : QWidget (parent),
         }
     });
 
-    addPanel ("About", about);
+    addPanel ("About", _about);
     QLayout* l = new QVBoxLayout();
     l -> setSpacing (0);
     l -> setMargin (5);

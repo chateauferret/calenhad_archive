@@ -161,7 +161,7 @@
                 <validator type="AcceptRange" min="-180" max="90"/>
             </parameter>
             <parameter type="double" name="theta" default="45">
-                <documentation>Angle of rotation about pole of rotation</documentation>
+                <documentation>Angle of rotation _about pole of rotation</documentation>
                 <validator type="AcceptRange" min="-180" max="180"/>
             </parameter>
         </parameters>

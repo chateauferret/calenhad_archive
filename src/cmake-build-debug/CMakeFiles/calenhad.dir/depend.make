@@ -19048,7 +19048,6 @@ CMakeFiles/calenhad.dir/module/Module.cpp.o: ../../src/preferences/PreferencesSe
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../controls/globe/CalenhadGlobeConstants.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../controls/globe/CalenhadNavigator.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../exprtk/ExpressionWidget.h
-CMakeFiles/calenhad.dir/module/Module.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../legend/Legend.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../legend/LegendEntry.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../mapping/CalenhadMapWidget.h
@@ -19056,6 +19055,8 @@ CMakeFiles/calenhad.dir/module/Module.cpp.o: ../module/ParamValidator.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../nodeedit/NodeBlock.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../nodeedit/Port.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../CalenhadServices.h
+CMakeFiles/calenhad.dir/module/Module.cpp.o: ../exprtk/Calculator.h
+CMakeFiles/calenhad.dir/module/Module.cpp.o: ../exprtk/exprtk.hpp
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../legend/LegendService.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../mapping/projection/ProjectionService.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../messages/QNotificationHost.h
@@ -19068,6 +19069,7 @@ CMakeFiles/calenhad.dir/module/Module.cpp.o: ../nodeedit/Connection.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../pipeline/CalenhadModel.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../pipeline/ModuleFactory.h
 CMakeFiles/calenhad.dir/module/Module.cpp.o: ../preferences/PreferencesService.h
+CMakeFiles/calenhad.dir/module/Module.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
 CMakeFiles/calenhad.dir/module/Module.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/calenhad.dir/module/Module.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
 CMakeFiles/calenhad.dir/module/Module.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDirIterator

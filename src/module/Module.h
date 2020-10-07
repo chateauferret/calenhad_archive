@@ -47,11 +47,12 @@ namespace calenhad {
             QString description();
             virtual QString glsl();
             virtual void fetch (calenhad::grid::CubicSphere* buffer);
-
+            virtual float min();
+            virtual float max();
             void setModel (calenhad::pipeline::CalenhadModel* model) override;
             void addInputPort (const unsigned int& index, const int& portType, const QString& name, const QString& label, const double& defaultValue = 0.0, const bool& required = false);
             bool isComplete() override;
-
+            void inflate (const QDomElement& element) override;
             QMap<unsigned, calenhad::nodeedit::Port*> inputs();
 
             void connectMenu (QMenu* menu, calenhad::nodeedit::Port* port);
@@ -59,7 +60,8 @@ namespace calenhad {
             void addPort (calenhad::nodeedit::Port* port, const unsigned& index = 0);
             QVector<nodeedit::Port*> ports ();
             virtual bool isComputed();
-
+            void setMinExpr (const QString& expr);
+            void setMaxExpr (const QString& expr);
         public slots:
             void parameterChanged() override;
             void invalidate() override;
@@ -72,11 +74,15 @@ namespace calenhad {
             QVector<calenhad::nodeedit::Port*> _ports;
             calenhad::nodeedit::Port* _output;
             QMap<unsigned, calenhad::nodeedit::Port*> _inputs;
-
+            QString _minExpr, _maxExpr;
+            float _min, _max;
             QString _shownParameter;
 
             bool _valid;
             void expandCode (QString& code);
+
+            void updateMetrics ();
+            QLabel* _minLabel, * _maxLabel;
         };
     }
 }

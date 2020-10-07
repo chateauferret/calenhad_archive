@@ -215,6 +215,18 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                 }
 
             }
+
+            QDomElement rangeElement = element.firstChildElement ("range");
+            if (rangeElement.hasAttribute ("min")) {
+                qm -> setMinExpr (rangeElement.attribute ("min"));
+            } else {
+                qm -> setMinExpr ("-1");
+            }
+            if (rangeElement.hasAttribute ("max")) {
+                qm -> setMaxExpr (rangeElement.attribute ("max"));
+            } else {
+                qm -> setMaxExpr ("1");
+            }
         }
         bool showName = true;
         //if (element.hasAttribute ("showName")) {

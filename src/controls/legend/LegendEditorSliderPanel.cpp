@@ -23,7 +23,7 @@ void LegendEditorSliderPanel::mousePressEvent (QMouseEvent* e) {
         for (int i = 0; i < _editor->_sliders.size(); i++) {
             QRect srec = _editor->_sliders[i] -> geometry ();
             if (srec.contains (e -> pos())) {
-                // only allow an entry to be dragged about if its key is a literal value, so as not to destroy expressions
+                // only allow an entry to be dragged _about if its key is a literal value, so as not to destroy expressions
                 if (! (_editor -> _legend -> entries().at (i).isComputed())) {
                     _activeSlider = i;
                     _editor -> _sliders[i] -> setCursor (Qt::ClosedHandCursor);

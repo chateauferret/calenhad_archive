@@ -15,6 +15,7 @@
         <ports>
             <input index="0" mode="defaultValue" name="Input" label="def" default="0.0" />
         </ports>
+        <range min="-1.0" max="1.0" />
     </module>
 
     <module role = "grid" name="cache" label="Cache">
@@ -36,16 +37,18 @@
             </parameter>
         </parameters>
         <glsl>%value</glsl>
+        <range min="%value" max="%value" />
     </module>
 
     <module role="algorithm" name="normalise" label="Normalise">
-        <documentation>Map input values to the range (-1.0, 1.0)</documentation>
+        <documentation>Map input values to the given range</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
         <glsl>
-            normalise (%gridIndex, %min, %max)
+            normalise (%gridIndex, %min, %max, %targetMin, %targetMax)
         </glsl>
+        <range min="%targetMin" max="%targetMax" />
     </module>
 
 
@@ -58,6 +61,7 @@
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
         <glsl>abs (%0)</glsl>
+        <range min="%0.min" max="%0.max" />
     </module>
 
     <module role="modify" name="invert" label="Invert">
@@ -66,6 +70,7 @@
             <input index="0" mode="value" name="Input" label="in" required="true"/>
         </ports>
         <glsl>- %0</glsl>
+        <range min="min (- %0.min, - %0.max)" max="max (- %0.min, - %0.max)" />
     </module>
 
     <module role="combine" name="add" label="Add">
@@ -77,6 +82,7 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="0.0" />
         </ports>
         <glsl>%0 + %1 + %2 + %3</glsl>
+        <range min="%0.min + %1.min + %2.min + %3.min" max="%0.max + %1.max + %2.max + %3.max" />
     </module>
 
     <module role="combine" name="max" label="Maximum">
@@ -88,6 +94,7 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="-1.0" />
         </ports>
         <glsl>max (%0, max (%1, max (%2, %3)))</glsl>
+        <range min = "min (%0.max, min (%1.max, min (%2,max, %3.max)))" max = "max (%0.max, max (%1.max, max (%2,max, %3.max)))" />
     </module>
 
     <module role="combine" name="min" label="Minimum">
@@ -99,6 +106,7 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
         <glsl>min (%0, min (%1, min (%2, %3)))</glsl>
+        <range min = "min (%0.min, min (%1.min, min (%2,min, %3.min)))" max = "max (%0.min, max (%1.min, max (%2,min, %3.min)))" />
     </module>
 
     <module role="combine" name="multiply" label="Multiply">
@@ -110,6 +118,7 @@
             <input index="3" mode="value" name="Input 3" label="in3" default="1.0" />
         </ports>
         <glsl>%0 * %1 * %2 * %3</glsl>
+        <range min="%0.min * %1.min * %2.min * %3.min" max="%0.max * %1.max * %2.max * %3.max" />
     </module>
 
     <module role="combine" name="power" label="Power">
@@ -119,6 +128,7 @@
             <input index="1" mode="value" name="Exponent" default="2.0" label="exp"/>
         </ports>
         <glsl>pow (%0, %1)</glsl>
+        <range min="pow (%0.min, %1.min)" max="pow (%0.max, %1.max)" />
     </module>
 
     <module role="combine" name="diff" label = "Difference">
@@ -128,6 +138,7 @@
             <input index="1" mode="value" name="Subtrahend" label="sub"/>
         </ports>
         <glsl>%0 - %1</glsl>
+        <range min="%0.min - %1.max" max="%0.max - %1.min" />
     </module>
 
     <module role="combine" name="blend" label="Blend">
@@ -138,6 +149,7 @@
             <input index="2" mode="control" name="Control" label="ctrl" required="true" />
         </ports>
         <glsl>mix (%0, %1, %2)</glsl>
+        <range min="min (%0.min, %1.min)" max="max (%0.max, %1.max)" />
     </module>
 
     <module role="transform" name="rotate" label="Rotate">
@@ -155,7 +167,7 @@
                 <validator type="AcceptRange" min="-180" max="90"/>
             </parameter>
             <parameter type="double" name="theta" default="45">
-                <documentation>Angle of rotation about pole of rotation</documentation>
+                <documentation>Angle of rotation _about pole of rotation</documentation>
                 <validator type="AcceptRange" min="-180" max="180"/>
             </parameter>
         </parameters>
@@ -166,6 +178,7 @@
             vec2 rg = toGeolocation (rc);
             return $0 (fuv, rc, rg);
         </glsl>
+        <range min="%0.min" max="%0.max" />
     </module>
 
     <module role="generate" name="distance" label="Distance">
@@ -216,6 +229,7 @@
             <input index="2" mode="control" name="maximum" default="1.0"  label="max" />
         </ports>
         <glsl>clamp (%0, %1, %2)</glsl>
+        <range min="max (%0.min, %1.min)" max="min (%0.max, %2.max)" />
     </module>
 
     <module role="generate" name="latitude" label="Latitude">
@@ -251,6 +265,7 @@
             }
             return acc / 9.0;
         </glsl>
+        <range min="%0.min" max="%0.max" />
     </module>
 
 
@@ -365,6 +380,8 @@
             <input index="2" mode="control" name="bias" default="0.0"  label="bias" />
         </ports>
         <glsl>%0 * %1 + %2</glsl>
+        <range min="min (%0.min * %1.min + %2.min, min (%0.min * %1.max + %2.min, %0.min * %1.min + %2.max))"
+               max="max (%0.max * %1.min + %2.min, max (%0.max * %1.max + %2.min, %0.max * %1.min + %2.max))" />
     </module>
 
     <module role="combine" name="select" label="Select">
@@ -377,18 +394,19 @@
         <parameters>
             <parameter type="double" name="lowerBound" default="-1.0">
                 <documentation>Lower bound of the selection range</documentation>
-                <validator type="AcceptAny"/>
+                <validator type="AcceptAny" />
             </parameter>
             <parameter type="double" name="upperBound" default="1.0">
                 <documentation>Upper bound of the selection range</documentation>
-                <validator type="AcceptAny"/>
+                <validator type="AcceptAny" />
             </parameter>
             <parameter type="double" name="falloff" default="0.1">
                 <documentation>Width of the edge falloff range</documentation>
-                <validator type="AcceptAny"/>
+                <validator type="AcceptAny" />
             </parameter>
         </parameters>
         <glsl>select (%0, %1, %2, %lowerBound, %upperBound, %falloff)</glsl>
+        <range min="min (%0.min, %1.min)" max="max (%0.max, %1.max)" />
     </module>
     <!--
     <module role="transform"  label="Turbulence">

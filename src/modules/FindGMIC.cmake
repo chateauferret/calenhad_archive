@@ -11,7 +11,7 @@ set(GMIC_VERSION_NEEDED 270)
 
 include(LibFindMacros)
 
-# Use pkg-config to get hints about paths
+# Use pkg-config to get hints _about paths
 #libfind_pkg_check_modules(GMIC_PKGCONF GMIC)
 
 # Include dir
