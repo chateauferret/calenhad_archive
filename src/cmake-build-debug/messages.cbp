@@ -717,9 +717,6 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/algorithm/Algorithm.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/algorithm/Normalise.h">
-			<Option target="calenhad"/>
-		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp">
 			<Option target="calenhad"/>
 		</Unit>

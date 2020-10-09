@@ -26970,7 +26970,6 @@ CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/grid/CubicSphere
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/matrices.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/module/Module.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/module/algorithm/Algorithm.h
-CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/module/algorithm/Normalise.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../../src/preferences/PreferencesService.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../controls/altitudemap/AltitudeMapConstants.h
 CMakeFiles/calenhad.dir/pipeline/ModuleFactory.cpp.o: ../controls/globe/CalenhadGlobeConstants.h

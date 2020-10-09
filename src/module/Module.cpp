@@ -134,35 +134,40 @@ void Module::invalidate() {
 
 void Module::updateMetrics() {
     QString minExpr = _minExpr;
-    minExpr.detach ();
+    minExpr.detach();
     QString maxExpr = _maxExpr;
-    maxExpr.detach ();
-    // replace the input module markers with their names referencing their member variables in glsl
+    maxExpr.detach();
+    // replace the input module and parameter markers with their names to replace with values
     int i = 0;
+    for (QString key : parameters()) {
+        minExpr.replace ("%" + key, QString::number (parameterValue (key)));
+        maxExpr.replace ("%" + key, QString::number (parameterValue (key)));
+        std::cout << "Parameter " << key.toStdString() << " \n";
+    }
     for (Port* port : inputs ()) {
         QString index = QString::number (i++);
         if (port->connections ().isEmpty ()) {
-            minExpr.replace ("%" + index + ".min", QString::number (parameterValue (port->portName ())));
-            minExpr.replace ("%" + index + ".max", QString::number (parameterValue (port->portName ())));
-            maxExpr.replace ("%" + index + ".min", QString::number (parameterValue (port->portName ())));
-            maxExpr.replace ("%" + index + ".max", QString::number (parameterValue (port->portName ())));
+            minExpr.replace ("%" + index + ".min", QString::number (parameterValue (port -> portName())));
+            minExpr.replace ("%" + index + ".max", QString::number (parameterValue (port -> portName())));
+            maxExpr.replace ("%" + index + ".min", QString::number (parameterValue (port -> portName())));
+            maxExpr.replace ("%" + index + ".max", QString::number (parameterValue (port -> portName())));
         } else {
             Node* other = port->connections ()[0]->otherEnd (port)->owner ();
             Module* source = dynamic_cast<Module*> (other);
-            minExpr.replace ("%" + index + ".min", QString::number (source->min ()));
-            maxExpr.replace ("%" + index + ".min", QString::number (source->min ()));
-            minExpr.replace ("%" + index + ".max", QString::number (source->max ()));
-            maxExpr.replace ("%" + index + ".max", QString::number (source->max ()));
+            minExpr.replace ("%" + index + ".min", QString::number (source -> min()));
+            maxExpr.replace ("%" + index + ".min", QString::number (source -> min()));
+            minExpr.replace ("%" + index + ".max", QString::number (source -> max()));
+            maxExpr.replace ("%" + index + ".max", QString::number (source -> max()));
 
         }
     }
     if (!_minExpr.isNull() && !_minExpr.isEmpty()) {
         _min = (float) CalenhadServices::calculator() -> compute (minExpr);
-        _minLabel->setText (QString::number (_min));
+        _minLabel -> setText (QString::number (_min));
     }
     if (!_maxExpr.isNull() && !_maxExpr.isEmpty()) {
         _max = (float) CalenhadServices::calculator() -> compute (maxExpr);
-        _maxLabel->setText (QString::number (_max));
+        _maxLabel -> setText (QString::number (_max));
     }
 }
 
@@ -202,15 +207,26 @@ QString Module::glsl () {
 }
 
 void Module::expandCode (QString& code) {
+
+    for (const QString& key : parameters()) {
+        code.replace ("%" + key, QString::number (parameterValue (key)));
+    }
     // replace the input module markers with their names referencing their member variables in glsl
     int i = 0;
     for (Port* port : inputs ()) {
         QString index = QString::number (i++);
         if (port -> connections().isEmpty ()) {
-            code.replace ("%" + index, QString::number (parameterValue (port -> portName ())));
+            code.replace ("%" + index, QString::number (parameterValue (port -> portName())));
+            code.replace (".min", "");
+            code.replace (".max", "");
         } else {
             Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
+            Module* m = dynamic_cast<Module*> (other);
             QString source = other -> name();
+            if (m) {
+                code.replace ("%" + index + ".min", QString::number (m -> min()));
+                code.replace ("%" + index + ".max", QString::number (m -> max()));
+            }
             code.replace ("%" + index, "_" + source + " (pos, c, g)");
             code.replace ("$" + index, "_" + source);
         }

@@ -121,13 +121,14 @@ QString Graph::glsl (Module* module) {
                     _rasters.append (raster);
                     _code.replace ("%gridIndex", QString::number (_index));
 
-                    CalenhadStatistics statistics = CalenhadServices::compute() -> statistics();
-                    _code.replace ("%min", QString::number (statistics._minValue));
-                    _code.replace ("%max", QString::number (statistics._maxValue));
+//                    CalenhadStatistics statistics = CalenhadServices::compute() -> statistics();
+                //    _code.replace ("%min", QString::number (statistics._minValue));
+                //    _code.replace ("%max", QString::number (statistics._maxValue));
 
                     _index += CalenhadServices::preferences() -> calenhad_compute_gridsize;
                     _code.append ("\n");
                 }
+
             }
         }
         return _code;

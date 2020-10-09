@@ -12,7 +12,6 @@
 #include <QList>
 #include <module/StructuredGrid.h>
 #include <nodeedit/Port.h>
-#include <src/module/algorithm/Normalise.h>
 #include "../module/RasterModule.h"
 #include "../module/Cache.h"
 #include "../module/Map.h"
@@ -172,7 +171,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
 
             QDomElement paramsElement = element.firstChildElement ("parameters");
             QDomNodeList paramNodesList = paramsElement.elementsByTagName ("parameter");
-            for (int i = 0; i < paramNodesList.size (); i++) {
+            for (int i = 0; i < paramNodesList.size(); i++) {
                 QDomElement paramElement = paramNodesList.at (i).toElement ();
                 QString paramName = paramElement.attribute ("name");
                 if (!_paramNames.contains (paramName)) {

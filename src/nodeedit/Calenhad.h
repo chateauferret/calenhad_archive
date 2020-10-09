@@ -93,7 +93,7 @@ namespace calenhad {
 
             CalenhadController* controller ();
 
-            void addView (pipeline::CalenhadModel* model, const QString& title);
+            void addView (pipeline::CalenhadModel* model, const QString& title) const;
 
             void closeActiveView() const;
             void tileViews() const;

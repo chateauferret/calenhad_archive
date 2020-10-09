@@ -796,11 +796,9 @@ float grid (uint gridIndex) { //, float defaultValue) {
     return rasters [index + gridIndex];
 }
 
-float normalise (uint gridIndex, float min, float max) {
-    float newMax = 1.0;
-    float newMin = -1.0;
-    float v = grid (gridIndex);
-    v = (v - min) / (max - min);
+// Maps values linearly from the range (min, max) into the range (newMin, newMax)
+float normalise (float value, float min, float max, float newMin, float newMax) {
+    float v = (value - min) / (max - min);
     return v * (newMax - newMin) + newMin;
 }
 

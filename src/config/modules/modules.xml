@@ -4,7 +4,7 @@
     <!-- Obligatory modules - behaviour is hardcoded in Calenhad - do not change -->
 
     <module role="modify" name="altitudemap" label="QuarticSpline map">
-        <documentation>QuarticSpline map</documentation>
+        <documentation>Map altitudes according to a spline, terrace or linear function</documentation>>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
@@ -40,20 +40,32 @@
         <range min="%value" max="%value" />
     </module>
 
-    <module role="algorithm" name="normalise" label="Normalise">
+    <!-- Externally programmeable modules -->
+
+
+
+    <module role="modify" name="normalise" label="Normalise">
         <documentation>Map input values to the given range</documentation>
         <ports>
             <input index="0" mode="value" name="Input" label="in"/>
         </ports>
+        <parameters>
+            <parameter type="double" name="targetMin" default="-1.0">
+                <documentation>Value in target range corresponding to the minimum input value</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+            <parameter type="double" name="targetMax" default="1.0">
+                <documentation>Value in target range corresponding to the maximum input value</documentation>
+                <validator type="AcceptAny"/>
+            </parameter>
+        </parameters>
+
         <glsl>
-            normalise (%gridIndex, %min, %max, %targetMin, %targetMax)
+            normalise (%0, %0.min, %0.max, %targetMin, %targetMax)
         </glsl>
         <range min="%targetMin" max="%targetMax" />
     </module>
 
-
-
-    <!-- Externally programmeable modules -->
 
     <module role="modify" name="abs" label="Absolute">
         <documentation>Absolute value</documentation>
