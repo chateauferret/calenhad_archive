@@ -30,7 +30,8 @@ namespace calenhad {
 
         class ModuleFactory : public QObject {
         Q_OBJECT
-        Q_ENUMS (ModuleType)
+
+            Q_ENUMS (ModuleType)
 
         public:
             ModuleFactory();
@@ -73,6 +74,8 @@ namespace calenhad {
             QMap<QString, calenhad::module::algorithm::Algorithm*> _algorithms;
 
             static module::algorithm::Algorithm* algorithm (const QString& algorithmType);
+
+            QMap<QString, QString> _roles;
         };
     }
 }

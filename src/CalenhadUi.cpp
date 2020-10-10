@@ -30,7 +30,7 @@ using namespace calenhad::controls::globe;
 CalenhadUi::CalenhadUi (CalenhadController* controller) :
     _controller (controller),
     _app ((Calenhad*) (controller -> parent())),
-    _applicationMenu (nullptr),
+    _applicationMenu (nullptr), _windowMenu (nullptr), _openRecentMenu (nullptr), _toolbarsMenu (nullptr),
     _defaultContextMenu (nullptr),
     _viewToolbar (nullptr), _modulesToolbar (nullptr), _editToolbar (nullptr), _fileToolbar (nullptr),
     _menuBar (nullptr), _mouseModeMenu (nullptr), _editMenu (nullptr), _viewMenu (nullptr), _fileMenu (nullptr), _moduleMenu (nullptr), _contextMenu (nullptr),
@@ -114,14 +114,34 @@ void CalenhadUi::makeWidgets() {
     _toolbarsMenu = new QMenu ("Toolbars");
 
     _modulesToolbar = makeToolbar ("Modules");
-    QStringList types = CalenhadServices::modules() -> types();
-    for (QString key : types) {
-        QAction* action = CalenhadServices::modules() -> makeModuleTool (key);
-        _moduleMenu -> addAction (action);
-        connect (action, &QAction::toggled, _controller, &CalenhadController::toolSelected);
-        _modulesToolbar -> addAction (action);
-        _moduleGroup -> addAction (action);
-    }
+
+        QStringList types = CalenhadServices::modules() -> types ();
+        QMap<QString, QMenu*> actions;
+        for (const QString& key : types) {
+            QDomElement element = CalenhadServices::modules() -> xml (key);
+            QString role = element.attribute ("role");
+            QAction* action = CalenhadServices::modules() -> makeModuleTool (key);
+
+            if (! actions.contains (role)) {
+                QMenu* subMenu = new QMenu (role);
+                actions.insert (role, subMenu);
+                subMenu -> addAction (action);
+                _moduleMenu -> addMenu (subMenu);
+            } else {
+                QMenu* subMenu = actions.find (role).value ();
+                subMenu -> addAction (action);
+            }
+
+            connect (action, &QAction::toggled, _controller, &CalenhadController::toolSelected);
+            _moduleGroup -> addAction (action);
+        }
+
+
+    QPushButton* moduleMenuButton = new QPushButton();
+    moduleMenuButton -> setIcon (QIcon (":/appicons/controls/modules.png"));
+    moduleMenuButton -> setToolTip ("Add a new module to the model");
+    moduleMenuButton -> setMenu (_moduleMenu);
+    _modulesToolbar -> addWidget (moduleMenuButton);
 
     _viewToolbar = makeToolbar ("View");
     _editToolbar = makeToolbar ("Edit");
@@ -133,7 +153,7 @@ void CalenhadUi::makeWidgets() {
     _fileToolbar -> addAction (_closeAction);
     _fileToolbar -> addAction (_quitAction);
     _fileToolbar -> addSeparator();
-    _fileToolbar -> addAction (_xmlAction);
+    _modulesToolbar -> addAction (_xmlAction);
     _fileToolbar -> addAction (_projectPropertiesAction);
 
     _editToolbar -> addAction (_cutAction);
@@ -151,7 +171,7 @@ void CalenhadUi::makeWidgets() {
     _editToolbar -> addAction (_panModeAction);
 
     _viewToolbar -> addAction (_gridAction);
-    _viewToolbar -> addAction(_moduleTreeAction);
+    _modulesToolbar -> addAction(_moduleTreeAction);
     _viewToolbar -> addAction(_snapAction);
     _viewToolbar -> addSeparator();
     _viewToolbar -> addAction (_zoomInAction);

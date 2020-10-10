@@ -54,6 +54,7 @@ void ModuleFactory::initialise() {
             QString type = element.attribute ("name");
             _types.insert (type, element);
 
+
             // Create code snippet to be inserted into the compute shader to realise each module's function.
             // %n - will be replaced with the module's name which will serve as the method name representing it in the generated shader code.
             // %0, %1, etc - will be replaced with calls to the module outputs serving the corresponding port as input.
@@ -348,3 +349,4 @@ QPixmap ModuleFactory::makeIcon (const QString& type) {
         } else return QPixmap();
     } else return QPixmap();
 }
+
