@@ -10,11 +10,13 @@
         </ports>
     </module>
 
-    <module role="generate" name="raster" label="Raster">
-        <documentation>Raster</documentation>
-        <ports>
-            <input index="0" mode="defaultValue" name="Input" label="def" default="0.0" />
-        </ports>
+    <module role="generate" name="raster" label="Equirectangular raster">
+        <documentation>Single raster mapped to the whole globe by equirectangular projection</documentation>
+        <range min="-1.0" max="1.0" />
+    </module>
+
+    <module role="generate" name="cuberaster" label="Raster cube map">
+        <documentation>Set of six rasters each mapped to one face of a cube projected onto the globe</documentation>
         <range min="-1.0" max="1.0" />
     </module>
 
@@ -41,7 +43,6 @@
     </module>
 
     <!-- Externally programmeable modules -->
-
 
 
     <module role="modify" name="normalise" label="Normalise">

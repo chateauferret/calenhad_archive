@@ -145,6 +145,7 @@ namespace calenhad {
             QColor calenhad_toolpalette_icon_color_shadow;
             int calenhad_compute_gridsize;
             int calenhad_compute_tilesize;
+            QString calenhad_module_cuberaster;
         };
     }
 }

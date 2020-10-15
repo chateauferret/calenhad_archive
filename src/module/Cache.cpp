@@ -10,16 +10,15 @@ using namespace calenhad::module;
 using namespace calenhad::graph;
 using namespace calenhad::grid;
 using namespace calenhad::nodeedit;
-using namespace calenhad::module::algorithm;
 using namespace calenhad::controls::globe;
 
 
-Cache::Cache (const QString &nodeType) : StructuredGrid (nodeType), _algorithm (nullptr), _computed (false)  {
+Cache::Cache (const QString &nodeType) : StructuredGrid (nodeType),  _computed (false)  {
 
 }
 
 Cache::~Cache() {
-    delete _algorithm;
+
 }
 
 void Cache::invalidate() {
@@ -44,9 +43,7 @@ void Cache::refresh() {
                 _computed = true;
                 //CalenhadServices::compute() -> compute (this, _buffer);
                 // we can now perform serial or parallel algorithms on the buffer
-                if (_algorithm) {
-                    _computed = _algorithm->execute (_buffer);
-                }
+
             }
         }
     //}
@@ -63,10 +60,6 @@ void Cache::fetch (CubicSphere* buffer) {
 
 bool Cache::isComputed() {
     return _computed;
-}
-
-void Cache::setAlgorithm (Algorithm* algorithm) {
-    _algorithm = algorithm;
 }
 
 

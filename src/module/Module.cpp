@@ -91,7 +91,7 @@ void Module::setModel (CalenhadModel* model) {
 
 bool Module::isComplete() {
         for (Port* p : _ports) {
-            if (p -> isRequired() && !p -> hasConnection ()) {
+            if (p -> isRequired() && !p -> hasConnection()) {
                 return false;
             }
         }
@@ -100,7 +100,7 @@ bool Module::isComplete() {
         QList<ExpressionWidget*> widgets = findChildren<ExpressionWidget*> ();
         if (!(widgets.isEmpty())) {
             for (ExpressionWidget* ew: widgets) {
-                if (!ew->isValid ()) {
+                if (! ew -> isValid()) {
                     for (Port* p : _ports) {
                         if (p -> portName() == ew -> objectName() && p -> portType() != Port::OutputPort) {
                             if (! (p -> hasConnection())) {
@@ -142,17 +142,16 @@ void Module::updateMetrics() {
     for (QString key : parameters()) {
         minExpr.replace ("%" + key, QString::number (parameterValue (key)));
         maxExpr.replace ("%" + key, QString::number (parameterValue (key)));
-        std::cout << "Parameter " << key.toStdString() << " \n";
     }
-    for (Port* port : inputs ()) {
+    for (Port* port : inputs()) {
         QString index = QString::number (i++);
-        if (port->connections ().isEmpty ()) {
+        if (port -> connections().isEmpty()) {
             minExpr.replace ("%" + index + ".min", QString::number (parameterValue (port -> portName())));
             minExpr.replace ("%" + index + ".max", QString::number (parameterValue (port -> portName())));
             maxExpr.replace ("%" + index + ".min", QString::number (parameterValue (port -> portName())));
             maxExpr.replace ("%" + index + ".max", QString::number (parameterValue (port -> portName())));
         } else {
-            Node* other = port->connections ()[0]->otherEnd (port)->owner ();
+            Node* other = port -> connections() [0] -> otherEnd (port) -> owner();
             Module* source = dynamic_cast<Module*> (other);
             minExpr.replace ("%" + index + ".min", QString::number (source -> min()));
             maxExpr.replace ("%" + index + ".min", QString::number (source -> min()));
@@ -177,7 +176,7 @@ QSet<Module*> Module::dependants() {
     if (! _output -> connections(). isEmpty()) {
         for (Connection* c : _output -> connections()) {
             if (c) {
-                Port* p = c->otherEnd (_output);
+                Port* p = c -> otherEnd (_output);
                 if (p) {
                     found.insert (p -> owner());
                 }
@@ -187,11 +186,11 @@ QSet<Module*> Module::dependants() {
     return found;
 }
 
-QString Module::label () {
+QString Module::label() {
     return CalenhadServices::modules() -> label (_nodeType);
 }
 
-QString Module::description () {
+QString Module::description() {
     return CalenhadServices::modules() -> description (_nodeType);
 }
 

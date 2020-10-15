@@ -1,5 +1,3 @@
- include (${CMAKE_CURRENT_LIST_DIR}/algorithm/CMakeLists.txt)
-
  SET(QMODULE_SOURCE_FILES
         ${ALGORITHM_SOURCE_FILES}
         ${CMAKE_CURRENT_LIST_DIR}/Node.h
@@ -15,6 +13,12 @@
         ${CMAKE_CURRENT_LIST_DIR}/StructuredGrid.cpp
         ${CMAKE_CURRENT_LIST_DIR}/RasterModule.h
         ${CMAKE_CURRENT_LIST_DIR}/RasterModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CubeRasterModule.h
+        ${CMAKE_CURRENT_LIST_DIR}/CubeRasterModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CubeRasterFile.h
+        ${CMAKE_CURRENT_LIST_DIR}/CubeRasterFile.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CubeRasterDialog.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CubeRasterDialog.h
         ${CMAKE_CURRENT_LIST_DIR}/Cache.h
         ${CMAKE_CURRENT_LIST_DIR}/Cache.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ConvolutionKernel.h

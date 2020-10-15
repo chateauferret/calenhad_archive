@@ -33,41 +33,42 @@ RasterModule::RasterModule (const QString& type) : StructuredGrid (type), _buffe
     selectFileButton -> setText ("Select image...");
     _rasterLayout -> addWidget (_filenameLabel);
     _rasterLayout -> addWidget (selectFileButton);
-    connect (selectFileButton, &QAbstractButton::pressed, this, &RasterModule::fileDialogRequested);
+    connect (selectFileButton, &QAbstractButton::pressed, this, [this] () { fileDialogRequested(); });
 }
 
 void RasterModule::fileDialogRequested () {
     QString dir;
     if (_filename != QString::null) {
         QDir f (_filename);
-        dir = f.dirName ();
+        dir = f.dirName();
     }
     QString filename = QFileDialog::getOpenFileName (this, "Select raster", "dir", "Image Files (*.png *.jpg *.bmp)");
     openFile (filename);
 }
 
 void RasterModule::openFile (const QString& filename) {
-    QApplication::setOverrideCursor (QCursor (Qt::WaitCursor));
-    QImage* raster = new QImage (filename);
-    _filename = filename;
-    _filenameLabel -> setToolTip (_filename);
-    QPixmap pixmap = QPixmap::fromImage (*raster).scaled (_filenameLabel -> size());
-    assimilateRaster (raster);
-    _filenameLabel -> setPixmap (pixmap);
-    invalidate();
-    QApplication::restoreOverrideCursor();
+    if (! filename.isNull() && ! filename.isEmpty()) {
+        QApplication::setOverrideCursor (QCursor (Qt::WaitCursor));
+        QImage* raster = new QImage (filename);
+        _filename = filename;
+        _filenameLabel->setToolTip (_filename);
+        QPixmap pixmap = QPixmap::fromImage (*raster).scaled (_filenameLabel -> size());
+        assimilateRaster (raster);
+        _filenameLabel -> setPixmap (pixmap);
+        invalidate();
+        QApplication::restoreOverrideCursor();
+    }
 }
 
-
 void RasterModule::inflate (const QDomElement& element) {
-    Module::inflate (element);
+    StructuredGrid::inflate (element);
     QDomElement rasterElement = element.firstChildElement ("filename");
     QString filename = rasterElement.attribute ("filename");
     openFile (filename);
 }
 
 void RasterModule::serialize (QDomElement& element) {
-    Module::serialize (element);
+    StructuredGrid::serialize (element);
     QDomElement rasterElement = _document.createElement ("filename");
     rasterElement.setAttribute ("filename", _filename);
     _element.appendChild (rasterElement);
@@ -83,7 +84,7 @@ void RasterModule::fetch (CubicSphere* buffer) {
 
 bool RasterModule::isComplete() {
     if (_buffer) {
-        return Module::isComplete ();
+        return StructuredGrid::isComplete ();
     } else {
         return false;
     }
@@ -97,5 +98,7 @@ void RasterModule::assimilateRaster (QImage* image) {
     if (! _buffer) {
         _buffer = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
     }
-    _buffer -> fromRaster (image);
+    if (image) {
+        _buffer->fromRaster (image);
+    }
 }

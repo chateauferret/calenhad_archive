@@ -73,6 +73,8 @@ namespace calenhad {
 
             void copy (CubicSphere* other);
 
+            void fromRasters (const QList<QImage*>& list);
+
         protected:
             float* _grid;
             double _computeTime;

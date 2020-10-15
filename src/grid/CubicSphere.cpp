@@ -294,3 +294,23 @@ double CubicSphere::computeTime() const {
 void CubicSphere::setComputeTime (double time) {
     _computeTime = time;
 }
+
+void CubicSphere::fromRasters (const QList<QImage*>& list) {
+    for (int i = 0; i < 6; i++) {
+        QImage* image = list.at (i);
+        for (int y = 0; y < _size; y++) {
+            for (int x = 0; x < _size; x++) {
+                int index = i * _size * _size + y * _size + x;
+                if (image && ! image -> isNull()) {
+                    double ix = ((double) x / (double) _size) * image -> width ();
+                    double iy = ((double) y / (double) _size) * image -> height ();
+                    QColor c = image -> pixel ((int) ix, (int) iy);
+                    double value = c.lightnessF() * 2.0 - 1.0;
+                    _grid [index] = (float) value;
+                } else {
+                    _grid [index] = 0.0;
+                }
+            }
+        }
+    }
+}

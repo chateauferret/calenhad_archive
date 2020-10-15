@@ -17,10 +17,11 @@ namespace calenhad {
 
             explicit RasterModule (const QString& type = CalenhadServices::preferences() -> calenhad_module_raster);
 
-            void fileDialogRequested();
+            virtual void fileDialogRequested();
 
             QString glsl() override;
-            void openFile (const QString& filename);
+
+            virtual void openFile (const QString& filename);
             bool isComplete() override;
             calenhad::grid::CubicSphere* raster();
 

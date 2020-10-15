@@ -2135,6 +2135,87 @@ module/ConvolutionKernel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/ConvolutionKernel.cpp.s
 .PHONY : module/ConvolutionKernel.cpp.s
 
+module/CubeRasterDialog.o: module/CubeRasterDialog.cpp.o
+
+.PHONY : module/CubeRasterDialog.o
+
+# target to build an object file
+module/CubeRasterDialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterDialog.cpp.o
+.PHONY : module/CubeRasterDialog.cpp.o
+
+module/CubeRasterDialog.i: module/CubeRasterDialog.cpp.i
+
+.PHONY : module/CubeRasterDialog.i
+
+# target to preprocess a source file
+module/CubeRasterDialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterDialog.cpp.i
+.PHONY : module/CubeRasterDialog.cpp.i
+
+module/CubeRasterDialog.s: module/CubeRasterDialog.cpp.s
+
+.PHONY : module/CubeRasterDialog.s
+
+# target to generate assembly for a file
+module/CubeRasterDialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterDialog.cpp.s
+.PHONY : module/CubeRasterDialog.cpp.s
+
+module/CubeRasterFile.o: module/CubeRasterFile.cpp.o
+
+.PHONY : module/CubeRasterFile.o
+
+# target to build an object file
+module/CubeRasterFile.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterFile.cpp.o
+.PHONY : module/CubeRasterFile.cpp.o
+
+module/CubeRasterFile.i: module/CubeRasterFile.cpp.i
+
+.PHONY : module/CubeRasterFile.i
+
+# target to preprocess a source file
+module/CubeRasterFile.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterFile.cpp.i
+.PHONY : module/CubeRasterFile.cpp.i
+
+module/CubeRasterFile.s: module/CubeRasterFile.cpp.s
+
+.PHONY : module/CubeRasterFile.s
+
+# target to generate assembly for a file
+module/CubeRasterFile.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterFile.cpp.s
+.PHONY : module/CubeRasterFile.cpp.s
+
+module/CubeRasterModule.o: module/CubeRasterModule.cpp.o
+
+.PHONY : module/CubeRasterModule.o
+
+# target to build an object file
+module/CubeRasterModule.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterModule.cpp.o
+.PHONY : module/CubeRasterModule.cpp.o
+
+module/CubeRasterModule.i: module/CubeRasterModule.cpp.i
+
+.PHONY : module/CubeRasterModule.i
+
+# target to preprocess a source file
+module/CubeRasterModule.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterModule.cpp.i
+.PHONY : module/CubeRasterModule.cpp.i
+
+module/CubeRasterModule.s: module/CubeRasterModule.cpp.s
+
+.PHONY : module/CubeRasterModule.s
+
+# target to generate assembly for a file
+module/CubeRasterModule.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterModule.cpp.s
+.PHONY : module/CubeRasterModule.cpp.s
+
 module/Map.o: module/Map.cpp.o
 
 .PHONY : module/Map.o
@@ -2957,6 +3038,15 @@ help:
 	@echo "... module/ConvolutionKernel.o"
 	@echo "... module/ConvolutionKernel.i"
 	@echo "... module/ConvolutionKernel.s"
+	@echo "... module/CubeRasterDialog.o"
+	@echo "... module/CubeRasterDialog.i"
+	@echo "... module/CubeRasterDialog.s"
+	@echo "... module/CubeRasterFile.o"
+	@echo "... module/CubeRasterFile.i"
+	@echo "... module/CubeRasterFile.s"
+	@echo "... module/CubeRasterModule.o"
+	@echo "... module/CubeRasterModule.i"
+	@echo "... module/CubeRasterModule.s"
 	@echo "... module/Map.o"
 	@echo "... module/Map.i"
 	@echo "... module/Map.s"

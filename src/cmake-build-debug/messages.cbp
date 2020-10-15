@@ -5,7 +5,7 @@
 		<Option title="messages"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\;CMake Files\modules\;CMake Files\messages\;CMake Files\module\;CMake Files\module\algorithm\;CMake Files\nodeedit\;CMake Files\controls\;CMake Files\controls\globe\;CMake Files\controls\altitudemap\;CMake Files\controls\legend\;CMake Files\pipeline\;CMake Files\actions\;CMake Files\mapping\;CMake Files\mapping\projection\;CMake Files\grid\;CMake Files\exprtk\;CMake Files\legend\;CMake Files\graph\;CMake Files\preferences\;CMake Files\resources\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\;CMake Files\modules\;CMake Files\messages\;CMake Files\module\;CMake Files\nodeedit\;CMake Files\controls\;CMake Files\controls\globe\;CMake Files\controls\altitudemap\;CMake Files\controls\legend\;CMake Files\pipeline\;CMake Files\actions\;CMake Files\mapping\;CMake Files\mapping\projection\;CMake Files\grid\;CMake Files\exprtk\;CMake Files\legend\;CMake Files\graph\;CMake Files\preferences\;CMake Files\resources\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
@@ -669,6 +669,24 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/ConvolutionKernel.h">
 			<Option target="calenhad"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterDialog.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterDialog.h">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterFile.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterFile.h">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterModule.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterModule.h">
+			<Option target="calenhad"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Map.cpp">
 			<Option target="calenhad"/>
 		</Unit>
@@ -712,9 +730,6 @@
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/algorithm/Algorithm.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp">
@@ -965,9 +980,6 @@
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\module\"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/algorithm/CMakeLists.txt">
-			<Option virtualFolder="CMake Files\module\algorithm\"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\nodeedit\"/>

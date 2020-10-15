@@ -12,12 +12,12 @@
 #include <QList>
 #include <module/StructuredGrid.h>
 #include <nodeedit/Port.h>
+#include <src/module/CubeRasterModule.h>
 #include "../module/RasterModule.h"
 #include "../module/Cache.h"
 #include "../module/Map.h"
 #include "../noiseconstants.h"
 #include "../nodeedit/NodeBlock.h"
-#include "../module/algorithm/Algorithm.h"
 
 using namespace calenhad;
 using namespace calenhad::pipeline;
@@ -107,6 +107,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         Module* qm = nullptr;
         if (type == CalenhadServices::preferences() -> calenhad_module_altitudemap) { AltitudeMap* am = new AltitudeMap(); qm = am; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
+        if (type == CalenhadServices::preferences() -> calenhad_module_cuberaster) { CubeRasterModule* rm = new CubeRasterModule(); qm = rm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_cache) { Cache* cm = new Cache (type); qm = cm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_map) { Map* mm = new Map(); qm = mm; n = qm; }
 
