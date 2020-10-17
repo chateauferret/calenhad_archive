@@ -26,6 +26,7 @@ void Cache::invalidate() {
     if (isComplete()) {
         std::cout << name().toStdString() << " invalidated\n";
         _computed = false;
+        refresh();
     }
 }
 
@@ -37,11 +38,10 @@ void Cache::refresh() {
                 Port* p = inputs().first ();
                 Module* source = p -> connections().first() -> otherEnd (p) -> owner ();
 
-                // copy data from th
                 // copy data source module into the input buffer
                 source -> fetch (_buffer);
                 _computed = true;
-                //CalenhadServices::compute() -> compute (this, _buffer);
+                CalenhadServices::compute() -> compute (this, _buffer);
                 // we can now perform serial or parallel algorithms on the buffer
 
             }
@@ -52,7 +52,7 @@ void Cache::refresh() {
 
 void Cache::fetch (CubicSphere* buffer) {
     std::cout << "Cache :: fetch - buffer " << buffer << "\n";
-    refresh();
+    //refresh();
     if (_computed) {
         buffer -> copy (_buffer);
     }

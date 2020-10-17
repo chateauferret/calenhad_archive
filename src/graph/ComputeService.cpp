@@ -14,20 +14,7 @@
 #include <thread>
 #include <future>
 #include <QtWidgets/QProgressDialog>
-/*
 
-calenhad::graph::ComputeService::ComputeS ervice () {
-    // read cuda code from files into memory for use at compute time
-    QDirIterator it(":/cuda");
-    while (it.hasNext()) {
-        QFile csFile (it.next ());
-        csFile.open (QIODevice::ReadOnly);
-        QTextStream csTextStream (&csFile);
-        _templates.insert (csFile.fileName(), csTextStream.readAll());
-    }
-
-}
-*/
 
 using namespace calenhad::graph;
 using namespace calenhad::module;
@@ -249,7 +236,7 @@ void ComputeService::extractRasters (const Graph& graph, const int& xIndex, cons
 
 void ComputeService::computeStatistics (grid::CubicSphere* buffer) {
     clock_t start = clock ();
-    _tileSize = buffer->size () / _tiles;
+    _tileSize = buffer -> size () / _tiles;
     _statistics._maxValue = 0.0, _statistics._maxValue = 0.0;
     _statistics._valueCount = 0;
     float sum = 0.0;
