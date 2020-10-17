@@ -40,7 +40,6 @@ ProjectionService* CalenhadServices::_projections;
 LegendService* CalenhadServices::_legends;
 ModuleFactory* CalenhadServices::_modules;
 Calculator* CalenhadServices::_calculator;
-Icosphere* CalenhadServices::_icosphere = nullptr;
 CubicSphere* CalenhadServices::_cubicSphere = nullptr;
 ComputeService* CalenhadServices::_computeService = nullptr;
 CalenhadGlobeDialog* CalenhadServices::_globeDialog = nullptr;
@@ -122,31 +121,6 @@ Calculator* CalenhadServices::calculator () {
     return _calculator;
 }
 
-void CalenhadServices::provideIcosphere (int depth) {
-    delete _icosphere;
-
-        double start = clock () / static_cast<double> (CLOCKS_PER_SEC);
-        _icosphere = new Icosphere (depth);
-        double end = clock () / static_cast<double> (CLOCKS_PER_SEC);
-        std::cout << "Built grid with " << _icosphere -> vertexCount () << " vertices in " << end - start << " seconds" << "\n";
-}
-
-calenhad::grid::Icosphere* CalenhadServices::icosphere () {
-    return _icosphere;
-}
-
-void CalenhadServices::provideCubicSphere (const int& depth) {
-    delete _cubicSphere;
-    double start = clock () / static_cast<double> (CLOCKS_PER_SEC);
-    _cubicSphere = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
-    double end = clock () / static_cast<double> (CLOCKS_PER_SEC);
-    std::cout << "Built cubic sphere with " << _cubicSphere -> count()  << " vertices in " << end - start << " seconds" << "\n";
-
-}
-
-CubicSphere* CalenhadServices::cubicSphere() {
-    return _cubicSphere;
-}
 
 void CalenhadServices::provideComputeService() {
     delete _computeService;

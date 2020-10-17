@@ -20,6 +20,37 @@
         <range min="-1.0" max="1.0" />
     </module>
 
+    <module role="generate" name="tectonics" label="Tectonics simulation">
+        <documentation>Simulation of tectonic plate processes to generate topography</documentation>
+        <ports>
+            <input index="0" mode="value" name="Continental lithosphere" label="cont" required="false" />
+            <input index="1" mode="value" name="Oceanic lithosphere" label="ocean" required="false" />
+        </ports>
+        <parameters>
+            <parameter type="integer" name="plates" default="24" display="edit">
+                <documentation>Number of initial plates</documentation>
+                <validator type="AcceptRange" min="3" max="100"/>
+            </parameter>
+            <parameter type="integer" name="tectonicIterations" default="50" display="edit">
+                <documentation>Number of iterations of tectonic movement in each simulation cycle</documentation>
+                <validator type="AcceptRange" min="1" max="100"/>
+            </parameter>
+            <parameter type="integer" name="erosionIterations" default="50" display="edit">
+                <documentation>Number of iterations of erosion in each simulation cycle</documentation>
+                <validator type="AcceptRange" min="1" max="100"/>
+            </parameter>
+            <parameter type="integer" name="cycles" default="50" display="edit">
+                <documentation>Number of cycles to run in the simulation</documentation>
+                <validator type="AcceptRange" min="1" max="100"/>
+            </parameter>
+            <parameter type="double" name="hotspotProb" default="50" display="edit">
+                <documentation>Probability of the appearance of mid-plate hotspot per simulation cycle</documentation>
+                <validator type="AcceptRange" min="0.0" max="100.0"/>
+            </parameter>
+        </parameters>
+        <range min="-1.0" max="-1.0" />
+    </module>
+
     <module role = "grid" name="cache" label="Cache">
         <documentation>Cache</documentation>
         <ports>
@@ -161,7 +192,7 @@
             <input index="1" mode="value" name="Input 2" label="in2" required="true" />
             <input index="2" mode="control" name="Control" label="ctrl" required="true" />
         </ports>
-        <glsl>mix (%0, %1, %2)</glsl>
+        <glsl>mix (%0, %1, (%2 + 1.0) / 2.0)</glsl>
         <range min="min (%0.min, %1.min)" max="max (%0.max, %1.max)" />
     </module>
 

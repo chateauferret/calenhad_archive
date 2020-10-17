@@ -45,9 +45,6 @@ namespace calenhad {
         }
     }
 
-    namespace grid {
-        class Icosphere;
-    }
 
     namespace controls {
         namespace globe {
@@ -74,12 +71,8 @@ namespace calenhad {
         static void provideCalculator (calenhad::expressions::Calculator* calculator);
         static void provideModules (pipeline::ModuleFactory* modules);
 
-        static void provideIcosphere (int depth);
         static void provideComputeService ();
         static graph::ComputeService* compute ();
-        static void provideCubicSphere (const int& depth);
-        static calenhad::grid::Icosphere* icosphere();
-        static grid::CubicSphere* cubicSphere ();
 
         static controls::globe::CalenhadGlobeDialog* globe ();
         static QStringList recentFiles();
@@ -99,7 +92,6 @@ namespace calenhad {
         static calenhad::controls::globe::StatisticsService* _statistics;
         static calenhad::pipeline::ModuleFactory* _modules;
         static calenhad::expressions::Calculator* _calculator;
-        static calenhad::grid::Icosphere* _icosphere;
         static calenhad::grid::CubicSphere* _cubicSphere;
         static calenhad::graph::ComputeService* _computeService;
         static calenhad::controls::globe::CalenhadGlobeDialog* _globeDialog;

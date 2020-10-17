@@ -36,6 +36,8 @@ namespace calenhad {
         };
     }
     namespace grid {
+        class Icosphere;
+
         class CubicSphere {
 
         public:
@@ -75,6 +77,7 @@ namespace calenhad {
 
             void fromRasters (const QList<QImage*>& list);
 
+            void fromIcosphere (Icosphere* icosphere) const;
         protected:
             float* _grid;
             double _computeTime;
@@ -91,6 +94,7 @@ namespace calenhad {
             void adjacent (const mapping::CubeCoordinates& fuv, mapping::CubeCoordinates* m);
 
             void surrounding (const mapping::CubeCoordinates& fuv, mapping::CubeCoordinates* k);
+
         };
     }
 }

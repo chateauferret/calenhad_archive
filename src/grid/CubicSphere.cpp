@@ -7,6 +7,7 @@
 #include <QtGui/QImage>
 #include <src/CalenhadServices.h>
 #include "../controls/globe/CalenhadStatistics.h"
+#include "icosphere.h"
 
 using namespace geoutils;
 using namespace calenhad::grid;
@@ -310,6 +311,23 @@ void CubicSphere::fromRasters (const QList<QImage*>& list) {
                 } else {
                     _grid [index] = 0.0;
                 }
+            }
+        }
+    }
+}
+
+
+void CubicSphere::fromIcosphere (Icosphere* icosphere) const {
+    for (int f = 0; f < 6; f++) {
+        for (int u = 0; u < _size; u++) {
+            for (int v = 0; v < _size; v++) {
+                int index = f * _size * _size + u * _size + v;
+                CubeCoordinates fuv (f, u, v);
+                Geolocation g;
+                toGeolocation (fuv, g);
+                calenhad::grid::geometry::LatLon target (g.latitude(), g.latitude());
+                double value = icosphere -> nearest (target) -> value;
+                _grid [index] = (float) value;
             }
         }
     }

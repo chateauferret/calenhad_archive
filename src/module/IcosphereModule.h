@@ -5,31 +5,31 @@
 #ifndef MESSAGES_ICOSPHEREMODULE_H
 #define MESSAGES_ICOSPHEREMODULE_H
 
+#include <src/grid/icosphere.h>
 #include "Module.h"
-#include "../icosphere/icosphere.h"
+#include "../grid/icosphere.h"
 #include "StructuredGrid.h"
 
 
 namespace calenhad {
     namespace module {
 
-        class IcosphereModule : public calenhad::module::RasterModule {
+        class IcosphereModule : public Module {
         public:
-            IcosphereModule ();
 
-            ~IcosphereModule () override;
+            explicit IcosphereModule (const QString& type);
+            ~IcosphereModule() override;
 
-            void initialise () override;
+            void initialise();
 
-            bool isComplete  () override;
+            bool isComplete() override;
 
             grid::Icosphere* icosphere ();
 
-            QImage* raster() override;
+            void fetch (calenhad::grid::CubicSphere* buffer) override;
 
         protected:
             grid::Icosphere* _icosphere{};
-            void updateCache() override;
 
         };
     }

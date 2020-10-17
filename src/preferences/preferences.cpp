@@ -174,6 +174,8 @@ void Preferences::loadSettings() {
     calenhad_module_altitudemap = _settings -> value ("calenhad/module/altitudemap", "altitudemap").toString();
     calenhad_module_raster = _settings -> value ("calenhad/module/raster", "raster").toString();
     calenhad_module_cuberaster = _settings -> value ("calenhad/module/cuberaster", "cuberaster").toString();
+    calenhad_module_tectonics = _settings -> value ("calenhad/module/tectonics", "tectonics").toString();
+    calenhad_module_erosion = _settings -> value ("calenhad/module/erosion", "erosion").toString();
     calenhad_module_map = _settings -> value ("calenhad/module/map", "map").toString();
     calenhad_module_cache = _settings -> value ("calenhad/module/cache", "cache").toString();
     calenhad_nodegroup = _settings -> value ("calenhad/nodegroup", "nodegroup").toString();
@@ -305,6 +307,8 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/module/altitudemap", calenhad_module_altitudemap);
     _settings -> setValue ("calenhad/module/raster", calenhad_module_raster);
     _settings -> setValue ("calenhad/module/cuberaster", calenhad_module_cuberaster);
+    _settings -> setValue ("calenhad/module/tectonics", calenhad_module_tectonics);
+    _settings -> setValue ("calenhad/module/erosion", calenhad_module_erosion);
     _settings -> setValue ("calenhad/module/map", calenhad_module_map);
     _settings -> setValue ("calenhad/module/cache", calenhad_module_cache);
     _settings -> setValue ("calenhad/nodegroup", calenhad_nodegroup);

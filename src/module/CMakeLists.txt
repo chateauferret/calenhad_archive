@@ -26,5 +26,9 @@
         ${CMAKE_CURRENT_LIST_DIR}/Map.h
         ${CMAKE_CURRENT_LIST_DIR}/Map.cpp
         ${CMAKE_CURRENT_LIST_DIR}/Procedure.h
-        ${CMAKE_CURRENT_LIST_DIR}/Procedure.cpp)
+        ${CMAKE_CURRENT_LIST_DIR}/Procedure.cpp
+         ${CMAKE_CURRENT_LIST_DIR}/IcosphereModule.h
+         ${CMAKE_CURRENT_LIST_DIR}/IcosphereModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/Tectonics.h
+        ${CMAKE_CURRENT_LIST_DIR}/Tectonics.cpp)
 

@@ -97,6 +97,7 @@ namespace grid {
 
         bool makeRaster (QImage* image);
 
+
     protected:
         unsigned _depth;
         uint32_t _count;
