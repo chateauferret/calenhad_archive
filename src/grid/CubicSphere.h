@@ -11,6 +11,8 @@
 #include <src/CalenhadServices.h>
 #include "../geoutils.h"
 #include "../CalenhadServices.h"
+#include "../preferences/PreferencesService.h"
+#include "../CalenhadServices.h"
 
 #define FACE_FRONT 0
 #define FACE_BACK 1
@@ -48,13 +50,14 @@ namespace calenhad {
 
 
             //explicit CubicSphere (const int& depth);
-            CubicSphere (const int& depth);
+            CubicSphere (const int& depth = 0);
             ~CubicSphere();
             long count() const;
 
             float* grid ();
             calenhad::controls::globe::CalenhadStatistics statistics (controls::globe::CalenhadStatistics& statistics) const;
             float valueAt (const geoutils::Geolocation&);
+            float valueAt (const geoutils::Cartesian& c);
             int size () const;
 
             void heightmap (const int& face, QImage* image);

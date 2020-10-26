@@ -18,7 +18,7 @@
 #include "../module/Map.h"
 #include "../noiseconstants.h"
 #include "../nodeedit/NodeBlock.h"
-#include "../module/Tectonics.h"
+#include "../module/TectonicsModule.h"
 //#include "../module/Erosion.h"
 
 using namespace calenhad;
@@ -112,7 +112,7 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         if (type == CalenhadServices::preferences() -> calenhad_module_cuberaster) { CubeRasterModule* rm = new CubeRasterModule(); qm = rm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_cache) { Cache* cm = new Cache (type); qm = cm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_map) { Map* mm = new Map(); qm = mm; n = qm; }
-        if (type == CalenhadServices::preferences() -> calenhad_module_tectonics) { Tectonics* t = new Tectonics(); qm = t; n = qm; }
+        if (type == CalenhadServices::preferences() -> calenhad_module_tectonics) { TectonicsModule* t = new TectonicsModule(); qm = t; n = qm; }
         //if (type == CalenhadServices::preferences() -> calenhad_module_erosion) { Erosion* e = new Erosion(); qm = e; n = qm; }
 
         if (role == "algorithm") {

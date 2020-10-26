@@ -15,7 +15,10 @@ using namespace calenhad::mapping;
 using namespace calenhad::controls::globe;
 
 CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0), _depth (depth) {
-    _size = std::pow (2, depth);
+    if (depth == 0) {
+        _depth = calenhad::CalenhadServices::preferences() -> calenhad_compute_gridsize;
+    }
+    _size = std::pow (2, _depth);
     initialise();
 }
 
@@ -164,6 +167,10 @@ int CubicSphere::size() const {
 
 float CubicSphere::valueAt (const Geolocation& g) {
     Cartesian c (geoutils::Geoutils::toCartesian (g));
+    return valueAt (c);
+}
+
+float CubicSphere::valueAt (const Cartesian& c) {
     CubeCoordinates fuv;
     toCubeCoordinates (fuv, c);
     return valueAt (fuv);
@@ -318,6 +325,7 @@ void CubicSphere::fromRasters (const QList<QImage*>& list) {
 
 
 void CubicSphere::fromIcosphere (Icosphere* icosphere) const {
+    qDebug ("CubicSphere::fromIcosphere");
     for (int f = 0; f < 6; f++) {
         for (int u = 0; u < _size; u++) {
             for (int v = 0; v < _size; v++) {
@@ -326,9 +334,11 @@ void CubicSphere::fromIcosphere (Icosphere* icosphere) const {
                 Geolocation g;
                 toGeolocation (fuv, g);
                 calenhad::grid::geometry::LatLon target (g.latitude(), g.latitude());
-                double value = icosphere -> nearest (target) -> value;
+                double value = icosphere -> walkTowards (target) -> value;
                 _grid [index] = (float) value;
             }
         }
+        std::cout << ".";
     }
+    std::cout << "\n";
 }

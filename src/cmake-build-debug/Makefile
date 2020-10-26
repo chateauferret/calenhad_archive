@@ -1424,6 +1424,33 @@ grid/CubicSphere.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/grid/CubicSphere.cpp.s
 .PHONY : grid/CubicSphere.cpp.s
 
+grid/Tectonics.o: grid/Tectonics.cpp.o
+
+.PHONY : grid/Tectonics.o
+
+# target to build an object file
+grid/Tectonics.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/grid/Tectonics.cpp.o
+.PHONY : grid/Tectonics.cpp.o
+
+grid/Tectonics.i: grid/Tectonics.cpp.i
+
+.PHONY : grid/Tectonics.i
+
+# target to preprocess a source file
+grid/Tectonics.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/grid/Tectonics.cpp.i
+.PHONY : grid/Tectonics.cpp.i
+
+grid/Tectonics.s: grid/Tectonics.cpp.s
+
+.PHONY : grid/Tectonics.s
+
+# target to generate assembly for a file
+grid/Tectonics.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/grid/Tectonics.cpp.s
+.PHONY : grid/Tectonics.cpp.s
+
 grid/icosphere.o: grid/icosphere.cpp.o
 
 .PHONY : grid/icosphere.o
@@ -2216,33 +2243,6 @@ module/CubeRasterModule.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/CubeRasterModule.cpp.s
 .PHONY : module/CubeRasterModule.cpp.s
 
-module/IcosphereModule.o: module/IcosphereModule.cpp.o
-
-.PHONY : module/IcosphereModule.o
-
-# target to build an object file
-module/IcosphereModule.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/IcosphereModule.cpp.o
-.PHONY : module/IcosphereModule.cpp.o
-
-module/IcosphereModule.i: module/IcosphereModule.cpp.i
-
-.PHONY : module/IcosphereModule.i
-
-# target to preprocess a source file
-module/IcosphereModule.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/IcosphereModule.cpp.i
-.PHONY : module/IcosphereModule.cpp.i
-
-module/IcosphereModule.s: module/IcosphereModule.cpp.s
-
-.PHONY : module/IcosphereModule.s
-
-# target to generate assembly for a file
-module/IcosphereModule.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/IcosphereModule.cpp.s
-.PHONY : module/IcosphereModule.cpp.s
-
 module/Map.o: module/Map.cpp.o
 
 .PHONY : module/Map.o
@@ -2432,32 +2432,32 @@ module/StructuredGrid.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/StructuredGrid.cpp.s
 .PHONY : module/StructuredGrid.cpp.s
 
-module/Tectonics.o: module/Tectonics.cpp.o
+module/TectonicsModule.o: module/TectonicsModule.cpp.o
 
-.PHONY : module/Tectonics.o
+.PHONY : module/TectonicsModule.o
 
 # target to build an object file
-module/Tectonics.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Tectonics.cpp.o
-.PHONY : module/Tectonics.cpp.o
+module/TectonicsModule.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/TectonicsModule.cpp.o
+.PHONY : module/TectonicsModule.cpp.o
 
-module/Tectonics.i: module/Tectonics.cpp.i
+module/TectonicsModule.i: module/TectonicsModule.cpp.i
 
-.PHONY : module/Tectonics.i
+.PHONY : module/TectonicsModule.i
 
 # target to preprocess a source file
-module/Tectonics.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Tectonics.cpp.i
-.PHONY : module/Tectonics.cpp.i
+module/TectonicsModule.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/TectonicsModule.cpp.i
+.PHONY : module/TectonicsModule.cpp.i
 
-module/Tectonics.s: module/Tectonics.cpp.s
+module/TectonicsModule.s: module/TectonicsModule.cpp.s
 
-.PHONY : module/Tectonics.s
+.PHONY : module/TectonicsModule.s
 
 # target to generate assembly for a file
-module/Tectonics.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/Tectonics.cpp.s
-.PHONY : module/Tectonics.cpp.s
+module/TectonicsModule.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/calenhad.dir/build.make CMakeFiles/calenhad.dir/module/TectonicsModule.cpp.s
+.PHONY : module/TectonicsModule.cpp.s
 
 nodeedit/Calenhad.o: nodeedit/Calenhad.cpp.o
 
@@ -3014,6 +3014,9 @@ help:
 	@echo "... grid/CubicSphere.o"
 	@echo "... grid/CubicSphere.i"
 	@echo "... grid/CubicSphere.s"
+	@echo "... grid/Tectonics.o"
+	@echo "... grid/Tectonics.i"
+	@echo "... grid/Tectonics.s"
 	@echo "... grid/icosphere.o"
 	@echo "... grid/icosphere.i"
 	@echo "... grid/icosphere.s"
@@ -3101,9 +3104,6 @@ help:
 	@echo "... module/CubeRasterModule.o"
 	@echo "... module/CubeRasterModule.i"
 	@echo "... module/CubeRasterModule.s"
-	@echo "... module/IcosphereModule.o"
-	@echo "... module/IcosphereModule.i"
-	@echo "... module/IcosphereModule.s"
 	@echo "... module/Map.o"
 	@echo "... module/Map.i"
 	@echo "... module/Map.s"
@@ -3125,9 +3125,9 @@ help:
 	@echo "... module/StructuredGrid.o"
 	@echo "... module/StructuredGrid.i"
 	@echo "... module/StructuredGrid.s"
-	@echo "... module/Tectonics.o"
-	@echo "... module/Tectonics.i"
-	@echo "... module/Tectonics.s"
+	@echo "... module/TectonicsModule.o"
+	@echo "... module/TectonicsModule.i"
+	@echo "... module/TectonicsModule.s"
 	@echo "... nodeedit/Calenhad.o"
 	@echo "... nodeedit/Calenhad.i"
 	@echo "... nodeedit/Calenhad.s"

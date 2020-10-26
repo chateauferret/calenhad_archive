@@ -17,11 +17,17 @@ namespace calenhad {
         namespace geometry {
             struct Cartesian {
             public:
-                double x, y, z;
+                Cartesian (double x, double y, double z) : _x (x), _y (y), _z (z) {  }
+                Cartesian () : _x (0.0), _y (0.0), _z (1.0) {  }
+                double _x, _y, _z;
             };
 
             struct LatLon {
             public:
+                LatLon () : lat (0.0), lon (0.0), height (0.0) {
+
+                }
+
                 LatLon (double y, double x) : lat (y), lon (x), height (0.0) {
 
                 }
@@ -46,7 +52,7 @@ namespace grid {
         geometry::Cartesian cartesian;
         std::forward_list<Vertex*> neighbours;              // neighbouring vertices
         uint32_t id;
-        double value;
+        double value = 0.5;
         unsigned level;
     };
 
@@ -80,7 +86,7 @@ namespace grid {
 
         Vertex* nearest (const geometry::LatLon& target, const unsigned int& depth = 0);
 
-        void toGeolocation (const geometry::Cartesian& c, geometry::LatLon& g);
+        void toLatLon (const geometry::Cartesian& c, geometry::LatLon& g);
 
         geometry::Cartesian toCartesian (const geometry::LatLon& g, geometry::Cartesian& c);
 
@@ -138,7 +144,6 @@ namespace grid {
         void setDatum (const geometry::LatLon& g, const std::string& key, float datum);
         double mag;
         int _c1{};
-        unsigned int level;
 
     };
 }

@@ -510,6 +510,12 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h">
 			<Option target="calenhad"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/Tectonics.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/Tectonics.h">
+			<Option target="calenhad"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/icosphere.cpp">
 			<Option target="calenhad"/>
 		</Unit>
@@ -687,12 +693,6 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterModule.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/IcosphereModule.cpp">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/IcosphereModule.h">
-			<Option target="calenhad"/>
-		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Map.cpp">
 			<Option target="calenhad"/>
 		</Unit>
@@ -738,10 +738,10 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/StructuredGrid.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Tectonics.cpp">
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/TectonicsModule.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Tectonics.h">
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/TectonicsModule.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/nodeedit/Calenhad.cpp">

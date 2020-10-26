@@ -19,7 +19,8 @@ using namespace calenhad::grid;
 using namespace calenhad::grid::geometry;
 using namespace calenhad::module;
 
-Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _initial (true), _vertexBuffer (nullptr), mag (1.0), _level (0) {
+Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _initial (true),
+    _vertexBuffer (nullptr), mag (1.0), _level (0) {
 
     //--------------------------------------------------------------------------------
     // icosahedron data
@@ -48,9 +49,9 @@ Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _
     // init with an icosahedron
     for (const auto & i : vdata) {
         Cartesian c;
-        c.x = i[0];
-        c.y = i[1];
-        c.z = i[2];
+        c._x = i[0];
+        c._y = i[1];
+        c._z = i[2];
         addVertex (c, 0);
     }
     _lastVisited = _vertices [0];
@@ -101,7 +102,7 @@ void Icosphere::subdivide (const unsigned int& depth) {
 }
 
 void Icosphere::divideTriangle (Triangle* t) {
-    level = t -> level + 1;
+    unsigned level = t -> level + 1;
     for (k = 0; k < 3; ++k) {
 
         ids0[k] = t -> vertices [k];
@@ -151,13 +152,13 @@ uint64_t Icosphere::makeKey (const uint32_t& v1, const uint32_t& v2) {
 
 
 void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
-        c.x = c1.x + c2.x;
-        c.y = c1.y + c2.y;
-        c.z = c1.z + c2.z;
-         mag = sqrt (c.x * c.x + c.y * c.y + c.z * c.z);
-        c.x /= mag;
-        c.y /= mag;
-        c.z /= mag;
+        c._x = c1._x + c2._x;
+        c._y = c1._y + c2._y;
+        c._z = c1._z + c2._z;
+         mag = sqrt (c._x * c._x + c._y * c._y + c._z * c._z);
+        c._x /= mag;
+        c._y /= mag;
+        c._z /= mag;
     }
 
     Vertex* Icosphere::addVertex (const Cartesian& cartesian, const unsigned int& depth) {
@@ -167,7 +168,7 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
         v -> level = depth;
         _vertices.push_back (v);
         _c1++;
-        if (_c1 == 100000) {
+        if (_c1 % 100000 == 0) {
             std::cout << _vertices.size() << " vertices\n";
             _c1 = 0;
         }
@@ -201,7 +202,7 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
         return _vertices [id];
     }
 
-    Vertex* Icosphere::nearest (const LatLon& target, const unsigned int& depth)  {
+    Vertex* Icosphere::nearest (const LatLon& target, const unsigned int& depth) {
         double d, dist;
         Vertex* pV;
         _lastVisited = _vertices [0];
@@ -225,12 +226,17 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
     }
 
     Vertex* Icosphere::walkTowards (const LatLon& target, const unsigned int& depth) {
-        toCartesian (target, c);
-        return walkTowards (c, depth);
+        if (!_lastVisited) {
+            return nearest (target, depth);
+        } else {
+            toCartesian (target, c);
+            return walkTowards (c, depth);
+        }
     }
 
     Vertex* Icosphere::walkTowards (const Cartesian& target, const unsigned int& depth) const {
         if (depth == 0 || depth > _depth - 1) { return walkTowards (target, _depth - 1); }
+
         double dist = distSquared (_lastVisited -> cartesian, target);
 
         std::forward_list<Vertex*>::const_iterator i  = _lastVisited -> neighbours.begin();
@@ -258,19 +264,19 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
     }
 
     double Icosphere::distSquared (const Cartesian& a, const Cartesian& b) {
-        double dx = fabs (a.x - b.x);
-        double dy = fabs (a.y - b.y);
-        double dz = fabs (a.z - b.z);
+        double dx = fabs (a._x - b._x);
+        double dy = fabs (a._y - b._y);
+        double dz = fabs (a._z - b._z);
         double dist = dx * dx + dy * dy + dz * dz;
         return dist;
     }
 
-    void Icosphere::toGeolocation (const Cartesian& c, LatLon& g) {
-        _gc -> Reverse (c.x, c.y, c.z, g.lat, g.lon, g.height);
+    void Icosphere::toLatLon (const Cartesian& c, LatLon& g) {
+        _gc -> Reverse (c._x, c._y, c._z, g.lat, g.lon, g.height);
     }
 
     Cartesian Icosphere::toCartesian (const LatLon& g, Cartesian& c) {
-        _gc -> Forward (g.lat, g.lon, 0, c.x, c.y, c.z);
+        _gc -> Forward (g.lat, g.lon, 0, c._x, c._y, c._z);
         return c;
     }
 
@@ -300,9 +306,9 @@ float* Icosphere::vertexBuffer () {
             j = i * 4;
             v = _vertices [i];
             c = v -> cartesian;
-            _vertexBuffer [j] = (float) c.x;
-            _vertexBuffer [j + 1] = (float) c.y;
-            _vertexBuffer [j + 2] = (float) c.z;
+            _vertexBuffer [j] = (float) c._x;
+            _vertexBuffer [j + 1] = (float) c._y;
+            _vertexBuffer [j + 2] = (float) c._z;
             _vertexBuffer [j + 3] = 0.0f;
         }
 

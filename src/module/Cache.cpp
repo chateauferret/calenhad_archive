@@ -35,8 +35,8 @@ void Cache::refresh() {
     //if (! _computed) {
         if (isComplete()) {
             if (! inputs().isEmpty()) {
-                Port* p = inputs().first ();
-                Module* source = p -> connections().first() -> otherEnd (p) -> owner ();
+                Port* p = inputs().first();
+                Module* source = p -> connections().first() -> otherEnd (p) -> owner();
 
                 // copy data source module into the input buffer
                 source -> fetch (_buffer);
