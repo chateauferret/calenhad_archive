@@ -1640,16 +1640,16 @@ calenhad: CMakeFiles/calenhad.dir/graph/ComputeService.cpp.o
 calenhad: CMakeFiles/calenhad.dir/preferences/preferences.cpp.o
 calenhad: CMakeFiles/calenhad.dir/qrc_resources.cpp.o
 calenhad: CMakeFiles/calenhad.dir/build.make
-calenhad: /usr/lib/x86_64-linux-gnu/libQt5Xml.so.5.12.8
-calenhad: /usr/lib/x86_64-linux-gnu/libQt5OpenGL.so.5.12.8
+calenhad: /usr/lib/x86_64-linux-gnu/libQt5Xml.so.5.14.2
+calenhad: /usr/lib/x86_64-linux-gnu/libQt5OpenGL.so.5.14.2
 calenhad: /usr/lib/x86_64-linux-gnu/libGeographic.so
 calenhad: /usr/lib/libqwt-qt5.so
 calenhad: /usr/lib/libgmic.so
 calenhad: /usr/lib/x86_64-linux-gnu/libGL.so
 calenhad: /usr/lib/x86_64-linux-gnu/libGLU.so
-calenhad: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.12.8
-calenhad: /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.12.8
-calenhad: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.12.8
+calenhad: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.14.2
+calenhad: /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.14.2
+calenhad: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.14.2
 calenhad: CMakeFiles/calenhad.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_100) "Linking CXX executable calenhad"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/calenhad.dir/link.txt --verbose=$(VERBOSE)

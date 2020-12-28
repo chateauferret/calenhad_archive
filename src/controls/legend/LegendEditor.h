@@ -53,12 +53,9 @@ namespace calenhad {
                 friend class LegendEditorSliderPanel;
                 friend class LegendEditorScale;
 
-                /// get the number of sliders
-                int getSliderCount ();
-
                 /// set a color choose dlg
                 void setColorChoose (QColorDialog* coldlg);
-
+                double valueAt (const int& i);
                 /// set the update emitting when sliding
                 void setSlideUpdate (bool val);
 
@@ -77,29 +74,21 @@ namespace calenhad {
                 /// get the value of a slider
                 qreal updateKey (LegendEditorSlider* sl);
 
-                /// get the position
-                int updatePos (LegendEditorSlider* sl);
 
                 double zoom();
 
                 double pan();
 
-                double maximum();
+                double maximum() const;
 
-                double minimum();
+                double minimum() const;
 
                 double valueAt (const double& pos);
-                void deleteSlider (const int& index);
 
             signals:
 
                 /// signal that hide is changed
                 void legendChanged (const QVector<calenhad::legend::LegendEntry>);
-
-            public slots:
-
-                /// set the index and color of a slider
-                void setSlider (const int& index, const QString& key, const QColor& col);
 
             protected slots:
 
@@ -124,28 +113,18 @@ namespace calenhad {
                 double _zoom;
                 double _pan;
 
-                /// sort the slider list
-                static bool SliderSort (const LegendEditorSlider* a1, const LegendEditorSlider* a2);
-
-                /// all poses with its sliders
-                QList<LegendEditorSlider*> _sliders;
 
                 /// the orientation
                 int _orientation;
 
-                /// bound space
-                int bspace_;
 
                 /// the widgets drawint the ramp, the sliders, the text
                 LegendPreview* _rampWidget;
-                LegendEditorSliderPanel* _sliderWidget_;
+                LegendEditorSliderPanel* _sliderWidget;
                 LegendEditorScale* _scale;
 
                 /// the index of the active slider
                 int activeSlider_;
-
-                /// a color chooser dlg
-                calenhad::controls::legend::LegendEntryDialog* _dialog;
 
                 /// flag to visualize the mapping
                 bool visText_;
@@ -169,6 +148,9 @@ namespace calenhad {
 
                 double posForValue (const double& value);
 
+                int orientation () const;
+
+                int _bspace;
             };
 
 

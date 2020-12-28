@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CalenhadView.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.8)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.14.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "src/nodeedit/CalenhadView.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'CalenhadView.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.12.8. It"
+#error "This file was generated using the moc from 5.14.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -119,7 +120,7 @@ void calenhad::nodeedit::CalenhadView::qt_static_metacall(QObject *_o, QMetaObje
 }
 
 QT_INIT_METAOBJECT const QMetaObject calenhad::nodeedit::CalenhadView::staticMetaObject = { {
-    &QGraphicsView::staticMetaObject,
+    QMetaObject::SuperData::link<QGraphicsView::staticMetaObject>(),
     qt_meta_stringdata_calenhad__nodeedit__CalenhadView.data,
     qt_meta_data_calenhad__nodeedit__CalenhadView,
     qt_static_metacall,
@@ -173,7 +174,7 @@ void calenhad::nodeedit::CalenhadView::zoomOutRequested()
 // SIGNAL 2
 void calenhad::nodeedit::CalenhadView::viewZoomed(double _t1, double _t2)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 QT_WARNING_POP

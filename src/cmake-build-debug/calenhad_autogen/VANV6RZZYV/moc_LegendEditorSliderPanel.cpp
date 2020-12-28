@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'LegendEditorSliderPanel.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.8)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.14.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "src/controls/legend/LegendEditorSliderPanel.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'LegendEditorSliderPanel.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.12.8. It"
+#error "This file was generated using the moc from 5.14.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_calenhad__controls__legend__LegendEditorSliderPanel_t {
-    QByteArrayData data[8];
-    char stringdata0[139];
+    QByteArrayData data[7];
+    char stringdata0[117];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,14 +38,12 @@ QT_MOC_LITERAL(2, 68, 0), // ""
 QT_MOC_LITERAL(3, 69, 12), // "QMouseEvent*"
 QT_MOC_LITERAL(4, 82, 1), // "e"
 QT_MOC_LITERAL(5, 84, 14), // "mouseMoveEvent"
-QT_MOC_LITERAL(6, 99, 17), // "mouseReleaseEvent"
-QT_MOC_LITERAL(7, 117, 21) // "mouseDoubleClickEvent"
+QT_MOC_LITERAL(6, 99, 17) // "mouseReleaseEvent"
 
     },
     "calenhad::controls::legend::LegendEditorSliderPanel\0"
     "mousePressEvent\0\0QMouseEvent*\0e\0"
-    "mouseMoveEvent\0mouseReleaseEvent\0"
-    "mouseDoubleClickEvent"
+    "mouseMoveEvent\0mouseReleaseEvent"
 };
 #undef QT_MOC_LITERAL
 
@@ -54,7 +53,7 @@ static const uint qt_meta_data_calenhad__controls__legend__LegendEditorSliderPan
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -62,13 +61,11 @@ static const uint qt_meta_data_calenhad__controls__legend__LegendEditorSliderPan
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   34,    2, 0x09 /* Protected */,
-       5,    1,   37,    2, 0x09 /* Protected */,
-       6,    1,   40,    2, 0x09 /* Protected */,
-       7,    1,   43,    2, 0x09 /* Protected */,
+       1,    1,   29,    2, 0x09 /* Protected */,
+       5,    1,   32,    2, 0x09 /* Protected */,
+       6,    1,   35,    2, 0x09 /* Protected */,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -85,14 +82,13 @@ void calenhad::controls::legend::LegendEditorSliderPanel::qt_static_metacall(QOb
         case 0: _t->mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         case 1: _t->mouseMoveEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         case 2: _t->mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 3: _t->mouseDoubleClickEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         default: ;
         }
     }
 }
 
 QT_INIT_METAOBJECT const QMetaObject calenhad::controls::legend::LegendEditorSliderPanel::staticMetaObject = { {
-    &QWidget::staticMetaObject,
+    QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
     qt_meta_stringdata_calenhad__controls__legend__LegendEditorSliderPanel.data,
     qt_meta_data_calenhad__controls__legend__LegendEditorSliderPanel,
     qt_static_metacall,
@@ -120,13 +116,13 @@ int calenhad::controls::legend::LegendEditorSliderPanel::qt_metacall(QMetaObject
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 4;
+        _id -= 3;
     }
     return _id;
 }

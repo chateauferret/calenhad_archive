@@ -2,7 +2,7 @@
 // Created by martin on 16/10/17.
 //
 
-#include <QtGui/QList>
+#include <QList>
 #include <tgmath.h>
 #include "Graticule.h"
 #include "CalenhadMapWidget.h"

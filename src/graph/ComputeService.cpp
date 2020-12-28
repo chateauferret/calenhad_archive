@@ -63,7 +63,7 @@ ComputeService::ComputeService () :
     _context.makeCurrent( &_surface);
     QOpenGLFunctions_4_3_Core openglFunctions;
     if (!openglFunctions.initializeOpenGLFunctions()) {
-        throw std::runtime_error ("initialization failed");
+        throw std::runtime_error ("Calenhad requires a decent graphics card. This one is toilet.");
     }
     f = dynamic_cast<QOpenGLFunctions_4_3_Core*> (_context.versionFunctions());
 }

@@ -5,35 +5,70 @@
 #ifndef CALENHAD_LEGENDEDITORSLIDERPANEL_H
 #define CALENHAD_LEGENDEDITORSLIDERPANEL_H
 
+#include <legend/Legend.h>
+#include "LegendEditorSlider.h"
+
 namespace calenhad {
     namespace controls {
         namespace legend {
             class LegendEditor;
             class LegendEditorSliderPanel : public QWidget {
             Q_OBJECT
+
+            friend class LegendEditorScale;
+
             public:
                 /// Constructor
-                LegendEditorSliderPanel (QWidget* parent = NULL);
+                explicit LegendEditorSliderPanel (LegendEditor* parent);
+                ~LegendEditorSliderPanel() override;
+                void createSliders (calenhad::legend::Legend* pLegend);
+                void updateSliders();
+                QVector<::calenhad::legend::LegendEntry> entries ();
+                void addSlider (const int& i, const int& pos);
+                int orientation();
 
-                LegendEditor* _editor;
+                double valueAt (const double& pos);
 
             protected slots:
 
                 /// detect a mouse is pressed
-                virtual void mousePressEvent (QMouseEvent* e) override;
+                void mousePressEvent (QMouseEvent* e) override;
 
                 /// detect a mouse is moved
-                virtual void mouseMoveEvent (QMouseEvent* e) override;
+                void mouseMoveEvent (QMouseEvent* e) override;
 
                 /// detect a mouse is released
-                virtual void mouseReleaseEvent (QMouseEvent* e) override;
+                void mouseReleaseEvent (QMouseEvent* e) override;
 
                 /// detect a mouse is released
-                virtual void mouseDoubleClickEvent (QMouseEvent* e) override;
+                //void mouseDoubleClickEvent (QMouseEvent* e) override;
+
 
             protected:
+
+                LegendEditor* _editor;
+
+
+                /// all poses with its sliders
+                QList<LegendEditorSlider*> _sliders;
+
+                /// sort the slider list
+                static bool SliderSort (const LegendEditorSlider* a1, const LegendEditorSlider* a2);
+
                 /// the active slider
                 int _activeSlider;
+
+                int updatePos (LegendEditorSlider* sl);
+
+                /// bound space
+                int _bspace;
+                void setSlider (const int& index, const QString& key, const QColor& col);
+
+                void deleteSlider (const int& index);
+
+                double posForValue (const double& value);
+
+                qreal updateKey (LegendEditorSlider* sl);
             };
         }
     }

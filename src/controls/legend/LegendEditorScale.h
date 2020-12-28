@@ -10,18 +10,18 @@
 namespace calenhad {
     namespace controls {
         namespace legend {
-            class LegendEditor;
+            class LegendEditorSliderPanel;
 
             class LegendEditorScale : public QWidget {
             Q_OBJECT
 
 
             public:
-                LegendEditorScale (QWidget* parent = NULL);
-                void setEditor (LegendEditor* editor);
+                explicit LegendEditorScale (LegendEditorSliderPanel* parent);
+
             protected:
-                LegendEditor* _editor;
                 void paintEvent (QPaintEvent* e) override;
+                LegendEditorSliderPanel* _panel;
             };
         }
     }

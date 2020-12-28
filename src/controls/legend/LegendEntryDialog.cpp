@@ -10,6 +10,7 @@
 #include <exprtk/Calculator.h>
 #include "LegendEntryDialog.h"
 #include "../../exprtk/ExpressionWidget.h"
+#include "LegendEditorSlider.h"
 
 using namespace calenhad::controls::legend;
 using namespace calenhad::expressions;
@@ -31,7 +32,6 @@ LegendEntryDialog::LegendEntryDialog (QWidget* parent) {
             _indexEdit->setEnabled (!(_deleteCheck->isChecked ()));
             _colorButton->setEnabled (!(_deleteCheck->isChecked ()));
     });
-
 
     widget -> layout() -> addWidget (buttonBox);
     widget -> adjustSize();

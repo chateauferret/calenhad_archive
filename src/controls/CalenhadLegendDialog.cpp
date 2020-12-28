@@ -15,6 +15,7 @@ using namespace calenhad::controls;
 using namespace calenhad::legend;
 
 CalenhadLegendDialog::CalenhadLegendDialog (QWidget* parent) {
+    setModal (false);
     _legendManager = new LegendManager (this);
     setLayout (new  QVBoxLayout());
     layout() -> addWidget (_legendManager);
@@ -22,7 +23,7 @@ CalenhadLegendDialog::CalenhadLegendDialog (QWidget* parent) {
     QDialogButtonBox* buttonBox = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect (buttonBox, &QDialogButtonBox::accepted, this, &CalenhadLegendDialog::accept);
     connect (buttonBox, &QDialogButtonBox::rejected, this, &CalenhadLegendDialog::reject);
-    layout() ->addWidget (buttonBox);
+    layout() -> addWidget (buttonBox);
 }
 
 void CalenhadLegendDialog::showEvent (QShowEvent* event) {

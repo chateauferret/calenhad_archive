@@ -15,11 +15,12 @@ namespace calenhad {
     namespace controls {
         namespace legend {
             class QColorButton;
+            class LegendEditorSlider;
             class LegendEntryDialog : public QDialog {
 
             public:
                 LegendEntryDialog (QWidget* parent = 0);
-                ~LegendEntryDialog();
+                ~LegendEntryDialog() override;
                 QColor color();
                 QString index();
                 bool isDelete();
@@ -37,8 +38,7 @@ namespace calenhad {
                 QCheckBox* _deleteCheck;
 
                 void showEvent (QShowEvent* event) override;
-
-
+                LegendEditorSlider* _slider;
             };
         }
     }

@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CalenhadModel.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.8)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.14.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "src/pipeline/CalenhadModel.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'CalenhadModel.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.12.8. It"
+#error "This file was generated using the moc from 5.14.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -205,7 +206,7 @@ void calenhad::pipeline::CalenhadModel::qt_static_metacall(QObject *_o, QMetaObj
 }
 
 QT_INIT_METAOBJECT const QMetaObject calenhad::pipeline::CalenhadModel::staticMetaObject = { {
-    &QGraphicsScene::staticMetaObject,
+    QMetaObject::SuperData::link<QGraphicsScene::staticMetaObject>(),
     qt_meta_stringdata_calenhad__pipeline__CalenhadModel.data,
     qt_meta_data_calenhad__pipeline__CalenhadModel,
     qt_static_metacall,
@@ -253,14 +254,14 @@ void calenhad::pipeline::CalenhadModel::modelChanged()
 // SIGNAL 1
 void calenhad::pipeline::CalenhadModel::showMessage(QString _t1)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 
 // SIGNAL 2
 void calenhad::pipeline::CalenhadModel::titleChanged(QString _t1)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 QT_WARNING_POP

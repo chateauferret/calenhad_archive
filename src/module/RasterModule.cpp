@@ -42,7 +42,7 @@ void RasterModule::fileDialogRequested () {
         QDir f (_filename);
         dir = f.dirName();
     }
-    QString filename = QFileDialog::getOpenFileName (this, "Select raster", "dir", "Image Files (*.png *.jpg *.bmp)");
+    QString filename = QFileDialog::getOpenFileName (this, "Select raster", "dir", "Image Files (*.png *.jpg *.bmp, *.tif)");
     openFile (filename);
 }
 
