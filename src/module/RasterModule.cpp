@@ -8,6 +8,7 @@
 #include "geoutils.h"
 #include <QApplication>
 #include "../messages/QProgressNotification.h"
+#include "../mapping/Raster.h"
 
 
 using namespace calenhad::module;
@@ -19,7 +20,7 @@ using namespace geoutils;
 using namespace calenhad::notification;
 
 RasterModule::RasterModule (const QString& type) : StructuredGrid (type), _buffer (nullptr),
-                                                   _filename (QString::null),
+                                                   _filename (QString()),
                                                    _rasterLayout (new QFormLayout()) {
     _rasterContent = new QWidget (_expander);
     _rasterContent -> setLayout (_rasterLayout);
@@ -36,9 +37,15 @@ RasterModule::RasterModule (const QString& type) : StructuredGrid (type), _buffe
     connect (selectFileButton, &QAbstractButton::pressed, this, [this] () { fileDialogRequested(); });
 }
 
+RasterModule::~RasterModule() {
+    for (Raster* raster : _rasters) {
+        delete raster;
+    }
+}
+
 void RasterModule::fileDialogRequested () {
     QString dir;
-    if (_filename != QString::null) {
+    if (_filename.isNull()) {
         QDir f (_filename);
         dir = f.dirName();
     }
@@ -95,10 +102,18 @@ QString RasterModule::glsl() {
 }
 
 void RasterModule::assimilateRaster (QImage* image) {
+    Raster* raster = new Raster (image);
+    _rasters.append (raster);
+    updateBuffer();
+}
+
+void RasterModule::updateBuffer() {
     if (! _buffer) {
-        _buffer = new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize);
+        bool ok;
+        double cubeSize = (double) parameter ("resolution").toInt (&ok);
+        _buffer = new CubicSphere (ok ? (int) std::log2 (cubeSize) - 2 : 10);
     }
-    if (image) {
-        _buffer->fromRaster (image);
+    if (! _rasters.isEmpty()) {
+        _buffer -> fromRaster (_rasters.first());  // for now
     }
 }

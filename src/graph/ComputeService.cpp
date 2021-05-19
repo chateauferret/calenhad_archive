@@ -10,10 +10,10 @@
 #include "graph.h"
 #include "../messages/QNotificationHost.h"
 #include <QImage>
-#include <src/module/Procedure.h>
 #include <thread>
 #include <future>
 #include <QtWidgets/QProgressDialog>
+#include "../module/Cache.h"
 
 
 using namespace calenhad::graph;
@@ -82,7 +82,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
     if (! module -> isComputed()) {
         clock_t start = clock ();
         Graph graph (module);
-        QString newCode = graph.glsl ();
+        QString newCode = graph.glsl();
         _context.makeCurrent (&_surface);
         delete _computeShader;
         delete _computeProgram;
@@ -92,7 +92,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
 
         // create and allocate a buffer for any input rasters
 
-        if (newCode != QString::null) {
+        if (newCode != QString()) {
             //if (_forceRender || code != newCode)) {
             std::cout << newCode.toStdString() << "\n";
             _forceRender = false;
@@ -103,10 +103,10 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
             if (_computeShader) {
                 _computeProgram->removeAllShaders ();
                 if (_computeShader->compileSourceCode (sourceCode)) {
-                    _computeProgram->addShader (_computeShader);
-                    _computeProgram->link ();
-                    _computeProgram->bind ();
-                    execute (buffer->data (), graph);
+                    _computeProgram -> addShader (_computeShader);
+                    _computeProgram -> link ();
+                    _computeProgram -> bind ();
+                    execute (buffer -> data(), graph);
                 } else {
                     CalenhadServices::messages ()->message ("Compute shader would not compile", code);
                 }
@@ -115,7 +115,7 @@ void ComputeService::compute (Module *module, CubicSphere *buffer) {
             clock_t end = clock ();
             int time = (int) (((double) end - (double) start) / CLOCKS_PER_SEC * 1000.0);
             std::cout << " ... finished in " << time << " milliseconds\n\n";
-            buffer->setComputeTime (time);
+            buffer -> setComputeTime (time);
             _statistics._computeTime = (int) time;
 
         } else {

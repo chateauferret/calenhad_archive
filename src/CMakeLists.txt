@@ -9,8 +9,8 @@ SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -pthread")
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 project (calenhad LANGUAGES CXX)
-message (STATUS ("CMake prefix ") ${CMAKE_PREFIX_PATH})
 
+find_package (libs2 REQUIRED)
 find_package (Threads REQUIRED)
 find_package (Qt5 5.12 REQUIRED COMPONENTS Core Widgets Gui Xml OpenGL)
 find_package (Qwt REQUIRED)
@@ -62,6 +62,7 @@ include_directories (${Qt5Widgets_INCLUDE_DIRS})
 include_directories (${Qt5Core_INCLUDE_DIRS})
 include_directories (${Qt5Xml_INCLUDE_DIRS})
 include_directories (${GMIC_INCLUDE_DIR})
+include_directories (${LIBS2_INCLUDE_DIRS})
 include_directories (messages)
 
 set (SOURCE_FILES ${SOURCE_FILES}
@@ -94,6 +95,7 @@ qt5_add_resources (RESOURCES ${RESOURCES_DIR}/resources.qrc)
 add_executable (calenhad main.cpp ${SOURCE_FILES} ${RESOURCES})
 add_definitions (${GeographicLib_DEFINITIONS})
 target_link_libraries (calenhad Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Xml Qt5::OpenGL
+        ${LIBS2_LIBRARIES} s2testing.so
         ${GeographicLib_LIBRARIES}
         ${QtWebApp_LIBRARIES}
         ${PROJ4_LIBRARY}

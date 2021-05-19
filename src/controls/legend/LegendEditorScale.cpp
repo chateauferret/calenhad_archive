@@ -32,9 +32,9 @@ void LegendEditorScale::paintEvent (QPaintEvent* e) {
     if (_panel -> orientation() == Qt::Vertical) {
         QString txt1 = QString::number (_panel -> _sliders.first() -> value(), 'f', 2);
         QString txt2 = QString::number (_panel -> _sliders.last() -> value(), 'f', 2);
-        int w = fm.width (txt1) + 4;
+        int w = fm.horizontalAdvance (txt1) + 4;
         if (w > this->width ()) { setFixedWidth (w); }
-        w = fm.width (txt2) + 4;
+        w = fm.horizontalAdvance (txt2) + 4;
         if (w > this->width ()) { setFixedWidth (w); }
 
         // draw the text for vertical orientation
@@ -49,7 +49,7 @@ void LegendEditorScale::paintEvent (QPaintEvent* e) {
             double pos = _panel ->_sliders [i] -> pos().x();
             qreal val = _panel ->_sliders [i]-> value();
             QString txt = QString::number (val, 'f', 2);
-            if ((pos + fm.width (txt)) > width ()) { pos += -fm.width (txt) + _panel -> _sliders [i]->width (); }
+            if ((pos + fm.horizontalAdvance (txt)) > width ()) { pos += -fm.width (txt) + _panel -> _sliders [i]->width (); }
             painter.drawText ((int) pos, 2 + fm.height (), txt);
         }
     }

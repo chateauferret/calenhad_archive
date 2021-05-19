@@ -97,7 +97,7 @@ void EditableLabel::showMessage (const QString& message) {
 
 void EditableLabel::clearMessage() {
     if (_textEdit) {
-        _textEdit -> setToolTip (QString::null);
+        _textEdit -> setToolTip (QString());
         setTextColor (CalenhadServices::preferences() -> calenhad_module_text_color_normal);
     }
 }

@@ -6,8 +6,12 @@
 #define CALENHAD_CUBERASTERDIALOG_H
 #include <QList>
 #include <QDialog>
+#include <QTableView>
 
 namespace calenhad {
+    namespace controls {
+        class CubeRasterWidget;
+    }
     namespace module {
         class CubeRasterFile;
         class CubeRasterModule;
@@ -16,20 +20,10 @@ namespace calenhad {
 
         public:
             explicit CubeRasterDialog (CubeRasterModule* parent);
-            ~CubeRasterDialog();
-
-
-            QList<QImage*> images ();
-
-            QImage* image (int i);
-
-            void populate (const QList<CubeRasterFile*>& list);
-            CubeRasterFile* file (const int& i);
-
+            ~CubeRasterDialog() override;
         private:
 
-            QList<CubeRasterFile*> _files;
-
+            calenhad::controls::CubeRasterWidget* _widget;
         };
     }
 }

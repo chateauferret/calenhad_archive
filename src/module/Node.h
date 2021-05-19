@@ -85,7 +85,8 @@ namespace calenhad {
             void closeEvent (QCloseEvent* event) override;
 
             calenhad::pipeline::CalenhadModel* model ();
-            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator = new AcceptAnyRubbish(), QWidget* panel = 0);
+            void addParameter (const QString& label, const QString& name, const QStringList& choices, const int& defaultChoice, QWidget* panel = nullptr);
+            calenhad::expressions::ExpressionWidget* addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator = new AcceptAnyRubbish(), QWidget* panel = nullptr);
             virtual bool hasParameters ();
 
             Q_PROPERTY (QString name READ name WRITE setName MEMBER _name NOTIFY nameChanged);
@@ -136,7 +137,7 @@ namespace calenhad {
             QWidget* _content;
             calenhad::pipeline::CalenhadModel* _model;
 
-            QMap<QString, calenhad::expressions::ExpressionWidget*> _parameters;
+            QMap<QString, QWidget*> _parameters;
 
 
             int addPanel (const QString& name, QWidget* widget);
@@ -156,6 +157,9 @@ namespace calenhad {
             QWidget* _topPanel;
             QDockWidget *_propertiesDock;
             QWidget* _about;
+
+
+            QString parameterSelected (const QString& name);
         };
 
     } // namespace module

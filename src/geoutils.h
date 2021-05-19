@@ -90,10 +90,14 @@ namespace geoutils {
         static QString toTraditional (double ang, const unsigned& num_dec_places = 2);
         static QString geoLocationString (const Geolocation& loc, const CoordinatesFormat& format);
 
+        static Cartesian rotate (const Cartesian& cartesian, const Geolocation& g, const float& theta);
+
     protected:
         static QString geoLocationStringDecimal (const Geolocation& loc);
         static QString geoLocationStringTraditional (const Geolocation& loc);
+
     };
+
 } // namespace Geoutils
 #endif /* GEOUTILS_H */
 

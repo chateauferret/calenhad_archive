@@ -3,26 +3,29 @@ QGraphicsView {
     border: none;
 }
 
+calenhad--module--CubeRasterFile > QPushButton {
+    background: lightyellow;
+}
+
 calenhad--nodeedit--CalenhadView:disabled {
     color: #323232;
-    background-color: #4f0f0f;
+    background-color: #000020;
 }
 
 calenhad--nodeedit--CalenhadView {
     color: #323232;
-    background-color: #ff7f7f;
+    background-color: #000020;
 }
 
-QPushButton
-{
+QPushButton {
     background-color: #7f7f7f;
 }
 
-QPushButton:hover{
+QPushButton:hover {
     background-color: #0000ff;
 }
 
-QPushButton:pressed{
+QPushButton:pressed {
     background-color:#7f7fff;
 }
 
@@ -38,7 +41,7 @@ Component {
 }
 
 Component > QLabel {
-    color: #ffff00;
+    color: lightblue;
 }
 
 Component:selected {

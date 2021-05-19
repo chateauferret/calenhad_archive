@@ -8,6 +8,7 @@
 #include <QImage>
 #include <QIcon>
 #include <QLabel>
+#include <QPushButton>
 
 namespace calenhad {
     namespace module {
@@ -20,26 +21,28 @@ namespace calenhad {
 
 
         public:
-            explicit CubeRasterFile (CubeRasterModule* module);
+            explicit CubeRasterFile();
             ~CubeRasterFile() override;
 
             const QString& getFilename () const;
-
+            QString filename ();
             void setFilename (const QString& filename);
             void setRotation (int i);
             int getIndex () const;
 
             void setIndex (int index);
+            void setEnabled (const bool& enabled);
 
             int getRotation () const;
+            bool isEnabled () const;
+            bool isFlippedHorizontal () const;
+            bool isFlippedVertical () const;
 
 
             QImage* getImage () const;
 
-            void rotateRight ();
-
-            void rotateLeft ();
-            QWidget* ui();
+            void flipHorizontal (const bool& flip);
+            void flipVertical (const bool& flip);
 
         private:
             QString _filename;
@@ -50,10 +53,15 @@ namespace calenhad {
             QTransform _rotations [4];
             QWidget* _ui;
             QLabel* _filenameLabel;
-            CubeRasterModule* _module;
             QPushButton* _rotationButton;
+            QPushButton* _flipVerticalButton;
+            QPushButton* _flipHorizontalButton;
 
-            void updateUi();
+            bool _flipHorizontal, _flipVertical;
+
+            bool _enabled;
+
+            void updateImage ();
         };
     }
 }

@@ -9,52 +9,14 @@
 #include <list>
 #include <unordered_map>
 #include <src/module/Module.h>
-
-
-
-namespace calenhad {
-    namespace grid {
-        namespace geometry {
-            struct Cartesian {
-            public:
-                Cartesian (double x, double y, double z) : _x (x), _y (y), _z (z) {  }
-                Cartesian () : _x (0.0), _y (0.0), _z (1.0) {  }
-                double _x, _y, _z;
-            };
-
-            struct LatLon {
-            public:
-                LatLon () : lat (0.0), lon (0.0), height (0.0) {
-
-                }
-
-                LatLon (double y, double x) : lat (y), lon (x), height (0.0) {
-
-                }
-
-                double lat, lon, height;
-            };
-
-
-        }
-    }
-
-};
-
+#include "Vertex.h"
 
 
 namespace calenhad {
 namespace grid {
 
 
-    struct Vertex {
-    public:
-        geometry::Cartesian cartesian;
-        std::forward_list<Vertex*> neighbours;              // neighbouring vertices
-        uint32_t id;
-        double value = 0.5;
-        unsigned level;
-    };
+
 
     struct Triangle {
     public:
@@ -80,17 +42,13 @@ namespace grid {
 
         void visit (Vertex* vertex);
 
-        Vertex* walkTowards (const geometry::LatLon& target, const unsigned int& depth = 0);
+        Vertex* walkTowards (const geoutils::Geolocation& target, const unsigned int& depth = 0);
 
-        Vertex* walkTowards (const geometry::Cartesian& target, const unsigned int& depth) const;
+        Vertex* walkTowards (const geoutils::Cartesian& target, const unsigned int& depth) const;
 
-        Vertex* nearest (const geometry::LatLon& target, const unsigned int& depth = 0);
+        Vertex* nearest (const geoutils::Geolocation& target, const unsigned int& depth = 0);
 
-        void toLatLon (const geometry::Cartesian& c, geometry::LatLon& g);
-
-        geometry::Cartesian toCartesian (const geometry::LatLon& g, geometry::Cartesian& c);
-
-        static double distSquared (const geometry::Cartesian& a, const geometry::Cartesian& b);
+        static double distSquared (const geoutils::Cartesian& a, const geoutils::Cartesian& b);
 
         inline void divideTriangle (Triangle* t);
 
@@ -99,10 +57,11 @@ namespace grid {
         std::pair<std::vector<Vertex*>::iterator, std::vector<Vertex*>::iterator> vertices ();
 
         float* vertexBuffer();
-        int getDatum (const geometry::LatLon& g, const std::string& key);
 
         bool makeRaster (QImage* image);
 
+
+        static int verticesForLevel (int level);
 
     protected:
         unsigned _depth;
@@ -116,35 +75,37 @@ namespace grid {
 
         inline void makeTriangle (Vertex* a, Vertex* b, Vertex* c, Triangle* parent);
 
-        inline void makeNeighbours (Vertex* p, Vertex* q);
+        inline void makeNeighbours (Vertex* p, Vertex* q) const;
 
-        inline Vertex* addVertex (const geometry::Cartesian& cartesian, const unsigned int& depth);
+        inline Vertex* addVertex (const geoutils::Cartesian& cartesian, const unsigned int& depth);
 
-        inline void mid (const geometry::Cartesian& c1, const geometry::Cartesian& c2, geometry::Cartesian& c);
+        inline void mid (const geoutils::Cartesian& c1, const geoutils::Cartesian& c2, geoutils::Cartesian& c);
 
         GeographicLib::Geocentric* _gc;
 
         // these are working variables for triangle subdivision
-        uint32_t k{};
-        Vertex* e1{};
-        uint64_t edgeKey{};
+        uint32_t k;
+        Vertex* e1;
+        uint64_t edgeKey;
         bool _initial;
         std::unordered_map<uint64_t, Vertex*> edgeMap;
         std::unordered_map<uint64_t, Vertex*>::iterator it;
 
-        Vertex* ids0[3]{};  // triangles of outer vertices
-        Vertex* ids1[3]{};  // triangles of edge vertices
+        Vertex* ids0[3];  // triangles of outer vertices
+        Vertex* ids1[3];  // triangles of edge vertices
 
-        geometry::Cartesian c{};
-        unsigned _level{};
+        geoutils::Cartesian c;
+        unsigned _level;
         float* _vertexBuffer;
         static inline uint64_t makeKey (const uint32_t& v1, const uint32_t& v2);
 
 
-        void setDatum (const geometry::LatLon& g, const std::string& key, float datum);
         double mag;
-        int _c1{};
+        int _c1;
 
+        virtual void setValue (Vertex* pVertex);
+
+        int _lastVertex;
     };
 }
 } // namespace

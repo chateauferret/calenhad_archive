@@ -25,7 +25,11 @@ using namespace calenhad::controls;
 using namespace geoutils;
 
 StructuredGrid::StructuredGrid (const QString& type) : Module (type, nullptr),
-                                                       _buffer (new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize)) {
+                                                       _buffer (nullptr) {
+    bool ok;
+    double cubeSize = (double) parameterSelected ("resolution").toInt (&ok);
+    _buffer = new CubicSphere (ok ? (int) std::log2 (cubeSize) - 2 : 11);
+    std::cout << "Buffer size " << cubeSize << " order " << _buffer -> size() << "\n";
 }
 
 StructuredGrid::~StructuredGrid() {

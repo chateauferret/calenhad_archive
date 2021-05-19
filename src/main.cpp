@@ -41,7 +41,7 @@ Q_DECLARE_METATYPE (Qt::PenStyle)
 
 int main (int argc, char **argv) {
 
-    clock_t start = clock ();
+
 
     // Register required metatypes for Qt services
     qRegisterMetaType<QImage>();
@@ -105,9 +105,9 @@ int main (int argc, char **argv) {
     CalenhadServices::provideComputeService();
 
     // Calenhad model - the arrangement of modules and connections between them
-    Calenhad window;
+    CalenhadGlobeDialog window (nullptr);
     CalenhadServices::provideMainWindow (&window);
-    window.showSplash();
+    //window.showSplash();
     window.show();
 
     return QApplication::exec();

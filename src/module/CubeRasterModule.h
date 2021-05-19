@@ -20,6 +20,7 @@ namespace calenhad {
             ~CubeRasterModule() override;
             bool isComplete() override;
             void invalidate() override;
+            QList<CubeRasterFile*> files();
 
         public slots:
             void fileDialogRequested() override;
@@ -37,6 +38,11 @@ namespace calenhad {
             int _index;
             int _rotation;
             CubeRasterDialog* _dialog;
+            QList<CubeRasterFile*> _files;
+
+            QImage* image (int i);
+
+            QList<QImage*> images ();
         };
 
     }

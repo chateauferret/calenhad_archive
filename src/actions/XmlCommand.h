@@ -28,7 +28,7 @@ namespace calenhad {
 
         class XmlCommand : public QUndoCommand {
         public:
-            XmlCommand (calenhad::pipeline::CalenhadModel* model, QString  oldXml, QString  newXml = QString::null);
+            XmlCommand (calenhad::pipeline::CalenhadModel* model, QString  oldXml, QString  newXml = QString());
 
             virtual ~XmlCommand ();
 

@@ -229,3 +229,12 @@ using namespace geoutils;
     QString Geoutils::geoLocationString (const Geolocation& loc, const CoordinatesFormat& format) {
         return format == CoordinatesFormat::Decimal ? geoLocationStringDecimal (loc) : geoLocationStringTraditional (loc);
     }
+
+
+    Cartesian Geoutils::rotate (const Cartesian& cartesian, const Geolocation& g, const float& theta) {
+        Cartesian pole = toCartesian (g);
+        QQuaternion q = QQuaternion::fromAxisAndAngle ((float) pole.x, (float) pole.y, (float) pole.z, theta);
+        QVector3D vec ((float) cartesian.x, (float) cartesian.y, (float) cartesian.z);
+        QVector3D result = q.rotatedVector (vec);
+        return Cartesian (result.x(), result.y(), result.z());
+    }

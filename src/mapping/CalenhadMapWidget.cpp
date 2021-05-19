@@ -41,9 +41,9 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
                                                                                  _datumFormat (DatumFormat::Scaled),
                                                                                  _zoomDrag (false),
                                                                                  _graph (nullptr),
-                                                                                 _size (std::pow (2, CalenhadServices::preferences() -> calenhad_compute_gridsize)),
+                                                                                 _legend(CalenhadServices::legends() -> lastUsed()), _size (0),
                                                                                  _mouseDragMode (CalenhadGlobeDragMode::Pan),
-                                                                                 _previewType (OverviewPreviewType::WholeWorld),
+                                                                                 _graticule(new Graticule (this)), _previewType (OverviewPreviewType::WholeWorld),
                                                                                  _createHeightMap (mode == RenderMode::RenderModeGlobe),
                                                                                  _sensitivity (0.5),
                                                                                  _refreshHeightMap (mode == RenderMode::RenderModeGlobe),
@@ -59,11 +59,10 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
                                                                                  _renderProgram (nullptr),
                                                                                  _indexBuffer (nullptr),
                                                                                  _colorMapBuffer (nullptr),
-                                                                                 _buffer (new CubicSphere (CalenhadServices::preferences() -> calenhad_compute_gridsize)),
+                                                                                 _buffer (new CubicSphere (CalenhadServices().preferences() -> calenhad_compute_gridsize)),
                                                                                  _projection (CalenhadServices::projections() -> fetch (mode == RenderMode::RenderModeGlobe ? "Orthographic" : "Equirectangular")),
                                                                                  _scale (1.0),
                                                                                  _shader (""),
-                                                                                 _graticule (nullptr),
                                                                                  _graticuleVisible (true),
                                                                                  _coordinatesFormat (CoordinatesFormat::Traditional),
                                                                                  _rotation (Geolocation (0, 0)),
@@ -72,7 +71,6 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
                                                                                  _tileSize (512),
                                                                                  _mode (mode),
                                                                                  _mainMap (nullptr),
-                                                                                 _legend (nullptr),
                                                                                  _computeVertices (mode == RenderMode::RenderModeGlobe) {
 
     QSurfaceFormat format;
@@ -86,13 +84,13 @@ CalenhadMapWidget::CalenhadMapWidget (const RenderMode& mode, QWidget* parent) :
     vsFile.open (QIODevice::ReadOnly);
     QTextStream vsTextStream (&vsFile);
     _vertexShaderCode = vsTextStream.readAll();
-    _legend = CalenhadServices::legends() -> lastUsed();
+
     QFile fsFile (":/shaders/map_fs.glsl");
     fsFile.open (QIODevice::ReadOnly);
     QTextStream fsTextStream (&fsFile);
     _fragmentShaderCode = fsTextStream.readAll ();
 
-    _graticule = new Graticule (this);
+
     if (_mode == RenderMode::RenderModePreview) { _graticule -> setDensity (-1); }
     if (_mode == RenderMode::RenderModeOverview) { _graticule -> setDensity (-2); }
 
@@ -168,7 +166,7 @@ CubicSphere* CalenhadMapWidget::heightMapBuffer() {
 }
 
 QSize CalenhadMapWidget::heightMapSize() const {
-    return QSize (_globeTexture -> width(), _globeTexture -> height());
+    return {_globeTexture -> width(), _globeTexture -> height() };
 }
 
 void CalenhadMapWidget::resizeGL (int width, int height) {
@@ -213,7 +211,7 @@ void CalenhadMapWidget::setScale (const double& scale) {
     }
 }
 
-double CalenhadMapWidget::scale () {
+double CalenhadMapWidget::scale() const {
     return _scale;
 }
 
@@ -263,11 +261,11 @@ QPoint CalenhadMapWidget::texCoordinates (const QPointF& sc) {
         QPoint tc;
         double x = sc.x () / width ();// * xp;
         double y = sc.y () / height ();// * xp;
-        tc.setX (x * _globeTexture -> width ());
-        tc.setY ((1 - y) * _globeTexture -> height ());
+        tc.setX ((int) (x * _globeTexture -> width ()));
+        tc.setY ((int) ((1 - y) * _globeTexture -> height ()));
         return tc;
     } else {
-        return QPoint();
+        return { };
     }
 }
 
@@ -649,13 +647,13 @@ void CalenhadMapWidget::compute () {
 
 void CalenhadMapWidget::render() {
     if (_source) {
-        std::cout << "CalnehadMapWidget :: render module " << _source -> name().toStdString() << "\n";
         if (! _source -> name().isNull()) {
             if (_mode == RenderModeGlobe) {
                 _source -> fetch (_buffer);
             } else {
                 _buffer = _mainMap -> buffer();
             }
+            _size = _buffer -> size();
         }
 
         if (_buffer) {

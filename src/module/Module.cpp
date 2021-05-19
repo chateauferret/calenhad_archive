@@ -32,11 +32,11 @@ using namespace calenhad::expressions;
 Module::Module (const QString& nodeType, QWidget* parent) : Node (nodeType, parent),
                                                             _valid (false), _minExpr (QString()), _maxExpr (QString()),
                                                             _output (nullptr),
-                                                            _shownParameter (QString::null),
+                                                            _shownParameter (QString()),
                                                             _connectMenu (new QMenu()) {
     _ports.clear();
     // all modules have an output
-    Port* output = new Port (Port::OutputPort, 0, "Output", QString::null);
+    Port* output = new Port (Port::OutputPort, 0, "Output", QString());
     addPort (output);
     QPushButton* globeButton = new QPushButton();
     QIcon globeIcon (":/appicons/controls/globe.png");
@@ -118,8 +118,10 @@ bool Module::isComplete() {
 
 void Module::parameterChanged() {
     Node::parameterChanged();
-    if (sender() == _parameters.find (_shownParameter).value()) {
-        _block -> setText (_parameters.find (_shownParameter).value() -> text());
+    QWidget* widget = _parameters.find (_shownParameter).value();
+    if (sender() == widget) {
+        ExpressionWidget* w = dynamic_cast<ExpressionWidget*> (widget);
+        _block -> setText (w ? w -> text () : ((QComboBox*) widget) -> currentText ());
     }
 }
 
@@ -315,3 +317,4 @@ void Module::setMinExpr (const QString& expr) {
 void Module::setMaxExpr (const QString& expr) {
     _maxExpr = expr;
 }
+

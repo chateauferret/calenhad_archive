@@ -95,7 +95,7 @@ void LegendWidget::checkName() {
         QPalette palette;
         palette.setColor (QPalette::Base, Qt::white);
         _legendNameBox -> setPalette (palette);
-        _legendNameBox -> setToolTip (QString::null);
+        _legendNameBox -> setToolTip (QString());
     }
 }
 

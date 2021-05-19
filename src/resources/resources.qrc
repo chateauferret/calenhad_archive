@@ -21,6 +21,8 @@
         <file>appicons/controls/disconnect.png</file>
         <file>appicons/controls/edit.png</file>
         <file>appicons/controls/find.png</file>
+        <file>appicons/controls/flip_horizontal.png</file>
+        <file>appicons/controls/flip_vertical.png</file>
         <file>appicons/controls/globe.png</file>
         <file>appicons/controls/glsl.png</file>
         <file>appicons/controls/graticule.png</file>

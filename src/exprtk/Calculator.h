@@ -71,7 +71,7 @@ namespace calenhad {
 
             bool hasErrors ();
         signals:
-            void variableChanged (const QString& name = QString::null, const double& value = 0);
+            void variableChanged (const QString& name = QString(), const double& value = 0);
 
         protected:
 

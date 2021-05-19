@@ -44,7 +44,7 @@ using namespace calenhad::module;
 
 
 
-NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _nameLabel (nullptr), _expression (QString::null),
+NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (parent), _node (node), _nameLabel (nullptr), _expression (QString()),
                                                            _size (QSizeF (0, 0)),
                                                            _endorsementOrright (QPixmap (":/appicons/status/orright.png")),
                                                            _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
@@ -60,7 +60,7 @@ NodeBlock::NodeBlock (Node* node, QGraphicsItem* parent) : QGraphicsPathItem (pa
 }
 
 // Use this constructor to build a nodeblock without a model so that we can create an icon representing the node type
-NodeBlock::NodeBlock (const QString& type) : QGraphicsPathItem (nullptr), _node (nullptr), _nameLabel (nullptr), _expression (QString::null),
+NodeBlock::NodeBlock (const QString& type) : QGraphicsPathItem (nullptr), _node (nullptr), _nameLabel (nullptr), _expression (QString()),
                                                            _size (QSizeF (0, 0)),
                                                            _endorsementOrright (QPixmap (":/appicons/status/orright.png")),
                                                            _endorsementGoosed (QPixmap (":/appicons/status/goosed.png")) {
@@ -104,7 +104,7 @@ void NodeBlock::initialise() {
             _node->propertyChangeRequested("name", name);
         });
 
-        if (_expression != QString::null) {
+        if (_expression != QString()) {
             _textLabel = new EditableLabel(this);
             _nameLabel->setText(_expression);
             _nameLabel->setTextColor(CalenhadServices::preferences()->calenhad_module_text_color_normal);

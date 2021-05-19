@@ -19,14 +19,14 @@
         ${CMAKE_CURRENT_LIST_DIR}/CubeRasterFile.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CubeRasterDialog.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CubeRasterDialog.h
+         ${CMAKE_CURRENT_LIST_DIR}/CubeRasterConfig.cpp
+         ${CMAKE_CURRENT_LIST_DIR}/CubeRasterConfig.h
         ${CMAKE_CURRENT_LIST_DIR}/Cache.h
         ${CMAKE_CURRENT_LIST_DIR}/Cache.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ConvolutionKernel.h
         ${CMAKE_CURRENT_LIST_DIR}/ConvolutionKernel.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/Map.h
-        ${CMAKE_CURRENT_LIST_DIR}/Map.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/Procedure.h
-        ${CMAKE_CURRENT_LIST_DIR}/Procedure.cpp
          ${CMAKE_CURRENT_LIST_DIR}/TectonicsModule.h
-         ${CMAKE_CURRENT_LIST_DIR}/TectonicsModule.cpp)
+         ${CMAKE_CURRENT_LIST_DIR}/TectonicsModule.cpp
+         ${CMAKE_CURRENT_LIST_DIR}/FractalGridModule.h
+         ${CMAKE_CURRENT_LIST_DIR}/FractalGridModule.cpp)
 

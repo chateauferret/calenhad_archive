@@ -17,7 +17,7 @@ NodeGroup::NodeGroup (CalenhadModel* model) :
     _borderColor (CalenhadServices::preferences() -> calenhad_module_pen_color_normal),
     _selectedColor (CalenhadServices::preferences() -> calenhad_module_brush_color_selected),
     _selectedBorderColor (CalenhadServices::preferences() -> calenhad_module_pen_color_selected),
-    _name (QString::null),
+    _name (QString()),
     _model (model) {
 
 }

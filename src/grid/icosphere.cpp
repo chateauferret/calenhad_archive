@@ -14,13 +14,15 @@
 #include "icosphere.h"
 
 #include "../module/Module.h"
+#include "Vertex.h"
+
 
 using namespace calenhad::grid;
-using namespace calenhad::grid::geometry;
+using namespace geoutils;
 using namespace calenhad::module;
 
-Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _initial (true),
-    _vertexBuffer (nullptr), mag (1.0), _level (0) {
+Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _gc(new GeographicLib::Geocentric (1, 0)), _initial (true),
+    _vertexBuffer (nullptr), mag (1.0), _level (0), _lastVertex (0) {
 
     //--------------------------------------------------------------------------------
     // icosahedron data
@@ -43,16 +45,12 @@ Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _
     uint32_t capacity = 10 * pow (4, depth - 1) + 2;
     _vertices.reserve (capacity);
 
-    _gc = new GeographicLib::Geocentric (1, 0);
+
 
 
     // init with an icosahedron
     for (const auto & i : vdata) {
-        Cartesian c;
-        c._x = i[0];
-        c._y = i[1];
-        c._z = i[2];
-        addVertex (c, 0);
+        addVertex (Cartesian (i [0], i [1], i [2]), 0);
     }
     _lastVisited = _vertices [0];
     _triangles.push_back (std::vector<Triangle*>());
@@ -74,7 +72,7 @@ Icosphere::Icosphere (const unsigned int& depth) : _depth (depth), _count (0), _
 
     }
 
-    while(_triangles.size()<_depth) {
+    while(_triangles.size() < _depth) {
         subdivide (_triangles.size());
     }
     _initial = false;
@@ -99,6 +97,12 @@ void Icosphere::subdivide (const unsigned int& depth) {
         Triangle* t = _triangles [depth - 1] [i];
         divideTriangle (t);
     }
+
+    for (int i = _lastVertex; i < _vertices.size(); i++) {
+        setValue (_vertices.at (1));
+        _lastVertex = i;
+    }
+
 }
 
 void Icosphere::divideTriangle (Triangle* t) {
@@ -152,13 +156,13 @@ uint64_t Icosphere::makeKey (const uint32_t& v1, const uint32_t& v2) {
 
 
 void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
-        c._x = c1._x + c2._x;
-        c._y = c1._y + c2._y;
-        c._z = c1._z + c2._z;
-         mag = sqrt (c._x * c._x + c._y * c._y + c._z * c._z);
-        c._x /= mag;
-        c._y /= mag;
-        c._z /= mag;
+        c.x = c1.x + c2.x;
+        c.y = c1.y + c2.y;
+        c.z = c1.z + c2.z;
+         mag = sqrt (c.x * c.x + c.y * c.y + c.z * c.z);
+        c.x /= mag;
+        c.y /= mag;
+        c.z /= mag;
     }
 
     Vertex* Icosphere::addVertex (const Cartesian& cartesian, const unsigned int& depth) {
@@ -172,8 +176,6 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
             std::cout << _vertices.size() << " vertices\n";
             _c1 = 0;
         }
-
-
         return v;
     }
 
@@ -185,16 +187,20 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
         t -> vertices [2] = c;
         t -> parent = parent;
         if (parent) {
-            parent->children.emplace_front (t);
+            parent -> children.emplace_front (t);
         }
         t -> level = parent ? parent -> level + 1 : 0;
         _triangles [t -> level].push_back (t);
     }
 
-    void Icosphere::makeNeighbours (Vertex* p, Vertex* q) {
-        if (_initial || std::find (p -> neighbours.begin (), p->neighbours.end(), q) == p -> neighbours.end()) {
-            p -> neighbours.emplace_front (q);
-            q -> neighbours.emplace_front (p);
+    void Icosphere::makeNeighbours (Vertex* p, Vertex* q) const {
+        if (_initial || std::find (p -> edges.begin (), p -> edges.end(), q) == p -> edges.end()) {
+            p -> edges.emplace_front (q);
+            q -> edges.emplace_front (p);
+            if (_triangles.size () == _depth) { // if this is the bottom layer, list as immediate neighbours
+                p -> neighbours.emplace_front (q);
+                q -> neighbours.emplace_front (p);
+            }
         }
     }
 
@@ -202,14 +208,13 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
         return _vertices [id];
     }
 
-    Vertex* Icosphere::nearest (const LatLon& target, const unsigned int& depth) {
+    Vertex* Icosphere::nearest (const Geolocation& target, const unsigned int& depth) {
         double d, dist;
         Vertex* pV;
         _lastVisited = _vertices [0];
         for (int i = 1; i < 12; i++) {
             pV = _vertices [i];
-            Cartesian c;
-            toCartesian (target, c);
+            Cartesian c = geoutils::Geoutils::toCartesian (target);;
             d = distSquared (c, pV -> cartesian);
             if (i == 1 || d < dist) {
                 _lastVisited = pV;
@@ -225,12 +230,12 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
         _lastVisited = pV;
     }
 
-    Vertex* Icosphere::walkTowards (const LatLon& target, const unsigned int& depth) {
+    Vertex* Icosphere::walkTowards (const Geolocation& target, const unsigned int& depth) {
+    //std::cout << target.lon << " " << target.lat << "\n    ";
         if (!_lastVisited) {
             return nearest (target, depth);
         } else {
-            toCartesian (target, c);
-            return walkTowards (c, depth);
+            return walkTowards (geoutils::Geoutils::toCartesian (target), depth);
         }
     }
 
@@ -239,11 +244,11 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
 
         double dist = distSquared (_lastVisited -> cartesian, target);
 
-        std::forward_list<Vertex*>::const_iterator i  = _lastVisited -> neighbours.begin();
-        Vertex* next;
+        std::list<Vertex*>::const_iterator i  = _lastVisited -> edges.begin();
+        Vertex* next = *i;
 
         bool found = false;
-        while (i != _lastVisited -> neighbours.end()) {
+        while (i != _lastVisited -> edges.end()) {
             if ((*i) -> level <= depth) {
                 double d = distSquared ((*i) -> cartesian, target);
                 if (d < dist && (*i) -> level >= (_lastVisited -> level)) {
@@ -264,23 +269,14 @@ void Icosphere::mid (const Cartesian& c1, const Cartesian& c2, Cartesian& c) {
     }
 
     double Icosphere::distSquared (const Cartesian& a, const Cartesian& b) {
-        double dx = fabs (a._x - b._x);
-        double dy = fabs (a._y - b._y);
-        double dz = fabs (a._z - b._z);
+        double dx = fabs (a.x - b.x);
+        double dy = fabs (a.y - b.y);
+        double dz = fabs (a.z - b.z);
         double dist = dx * dx + dy * dy + dz * dz;
         return dist;
     }
 
-    void Icosphere::toLatLon (const Cartesian& c, LatLon& g) {
-        _gc -> Reverse (c._x, c._y, c._z, g.lat, g.lon, g.height);
-    }
-
-    Cartesian Icosphere::toCartesian (const LatLon& g, Cartesian& c) {
-        _gc -> Forward (g.lat, g.lon, 0, c._x, c._y, c._z);
-        return c;
-    }
-
-    std::pair<std::vector<Triangle*>::iterator, std::vector<Triangle*>::iterator> Icosphere::triangles (const unsigned& level) {
+std::pair<std::vector<Triangle*>::iterator, std::vector<Triangle*>::iterator> Icosphere::triangles (const unsigned& level) {
         return std::make_pair (_triangles [level].begin(), _triangles [level].end());
     }
 
@@ -306,9 +302,9 @@ float* Icosphere::vertexBuffer () {
             j = i * 4;
             v = _vertices [i];
             c = v -> cartesian;
-            _vertexBuffer [j] = (float) c._x;
-            _vertexBuffer [j + 1] = (float) c._y;
-            _vertexBuffer [j + 2] = (float) c._z;
+            _vertexBuffer [j] = (float) c.x;
+            _vertexBuffer [j + 1] = (float) c.y;
+            _vertexBuffer [j + 2] = (float) c.z;
             _vertexBuffer [j + 3] = 0.0f;
         }
 
@@ -316,36 +312,12 @@ float* Icosphere::vertexBuffer () {
 }
 
 
-int Icosphere::getDatum (const LatLon& g, const std::string& key) {
-    //std::map<std::string, Dataset>::iterator i = _datasets.find (key);
-    //if (i != _datasets.end()) {
-    //    Dataset dataset = i -> second;
-    toCartesian (g, c);
-    Vertex* v = walkTowards (c, 0); //, dataset.getDepth());
-    return 0; //getDatum (v -> id, key);
-    //} else {
-    //    throw DatasetNotFoundException (key);
-    //}
-}
-
-void Icosphere::setDatum (const LatLon& g, const std::string& key, float datum) {
-    //std::map<std::string, Dataset>::iterator i = _datasets.find (key);
-    //if (i != _datasets.end()) {
-    //    Dataset dataset = i -> second;
-    toCartesian (g, c);
-    Vertex* v = walkTowards (c, 0); //, dataset.getDepth());
-    //setDatum (v -> id, key, datum);
-    //} else {
-    //    throw DatasetNotFoundException (key);
-    //}
-}
-
 bool Icosphere::makeRaster (QImage* image) {
      for (int i = 0; i < image -> width(); i++) {
          double lon = -M_PI + ((M_2_PI / image -> width()) * i);
          for (int j = 0; j < image -> height(); j++) {
              double lat = -M_PI_2 + ((M_PI / image -> height()) * i);
-             Vertex* v = walkTowards (LatLon (lat, lon));
+             Vertex* v = walkTowards (Geolocation (lat, lon));
              image -> setPixel (i, j, v -> value);
          }
      }
@@ -353,5 +325,13 @@ bool Icosphere::makeRaster (QImage* image) {
     //} else {
      //   return false;
    // }
+}
+
+int Icosphere::verticesForLevel (int level) {
+    return 10 * (std::pow (4, level)) + 2;
+}
+
+void Icosphere::setValue (Vertex* pVertex) {
+
 }
 

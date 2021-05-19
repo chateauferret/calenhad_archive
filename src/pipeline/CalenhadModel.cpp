@@ -421,7 +421,7 @@ Node* CalenhadModel::doCreateNode (const QPointF& initPos, const QString& type) 
 }
 
 Module* CalenhadModel::addModule (const QPointF& initPos, const QString& type, const QString& name, NodeGroup* group) {
-    if (type != QString::null) {
+    if (type != QString()) {
         Module* module = (Module*) CalenhadServices::modules() -> createModule (name, type, this);
         //module -> setName (uniqueName (name));
         addNode (module, initPos, group);
@@ -949,7 +949,7 @@ void CalenhadModel::restore (const QString& xml) {
 void CalenhadModel::setRestorePoint (const QString& text) {
     if (_undoEnabled) {
         QString old = lastSnapshot ();
-        XmlCommand* command = new XmlCommand (this, old, QString::null);
+        XmlCommand* command = new XmlCommand (this, old, QString());
         command -> setText (text);
         _controller -> doCommand (command);
         QString newXml = snapshot ();

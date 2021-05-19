@@ -43,7 +43,7 @@ Calculator* CalenhadServices::_calculator;
 CubicSphere* CalenhadServices::_cubicSphere = nullptr;
 ComputeService* CalenhadServices::_computeService = nullptr;
 CalenhadGlobeDialog* CalenhadServices::_globeDialog = nullptr;
-calenhad::nodeedit::Calenhad* CalenhadServices::_mainWindow = nullptr;
+calenhad::controls::globe::CalenhadGlobeDialog* CalenhadServices::_mainWindow = nullptr;
 
 
 PreferencesService* CalenhadServices::preferences () {
@@ -193,11 +193,11 @@ CalenhadGlobeDialog* CalenhadServices::globe (Module* module) {
 
 
 
-Calenhad* CalenhadServices::mainWindow() {
+CalenhadGlobeDialog* CalenhadServices::mainWindow() {
     return _mainWindow;
 }
 
-void CalenhadServices::provideMainWindow (Calenhad* mainWindow) {
+void CalenhadServices::provideMainWindow (CalenhadGlobeDialog* mainWindow) {
     _mainWindow = mainWindow;
 }
 

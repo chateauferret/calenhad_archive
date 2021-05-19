@@ -5,36 +5,36 @@
 		<Option title="messages"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\;CMake Files\modules\;CMake Files\messages\;CMake Files\module\;CMake Files\nodeedit\;CMake Files\controls\;CMake Files\controls\globe\;CMake Files\controls\altitudemap\;CMake Files\controls\legend\;CMake Files\pipeline\;CMake Files\actions\;CMake Files\mapping\;CMake Files\mapping\projection\;CMake Files\grid\;CMake Files\exprtk\;CMake Files\legend\;CMake Files\graph\;CMake Files\preferences\;CMake Files\resources\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\modules\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Xml\;CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\;CMake Files\messages\;CMake Files\module\;CMake Files\nodeedit\;CMake Files\controls\;CMake Files\controls\globe\;CMake Files\controls\altitudemap\;CMake Files\controls\legend\;CMake Files\pipeline\;CMake Files\actions\;CMake Files\mapping\;CMake Files\mapping\projection\;CMake Files\grid\;CMake Files\exprtk\;CMake Files\legend\;CMake Files\graph\;CMake Files\preferences\;CMake Files\resources\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
 				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="calenhad">
@@ -61,19 +61,19 @@
 					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtOpenGL"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="calenhad/fast">
@@ -100,19 +100,19 @@
 					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtOpenGL"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="messages">
@@ -137,19 +137,19 @@
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
 					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="messages/fast">
@@ -174,39 +174,39 @@
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
 					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtXml"/>
-					<Add directory="/usr/include/c++/9"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
-					<Add directory="/usr/include/c++/9/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="calenhad_autogen">
 				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad_autogen"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 calenhad_autogen"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="messages_autogen">
 				<Option working_dir="/home/ferret/CLionProjects/calenhad/src/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages_autogen"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 messages_autogen"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/ferret/CLionProjects/calenhad/src/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
@@ -277,6 +277,12 @@
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/ColorButton.h">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/CubeRasterWidget.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/CubeRasterWidget.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/controls/FlowLayout.cpp">
@@ -510,10 +516,22 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/CubicSphere.h">
 			<Option target="calenhad"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/FractalGrid.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/FractalGrid.h">
+			<Option target="calenhad"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/Tectonics.cpp">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/Tectonics.h">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/Vertex.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/Vertex.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/grid/icosphere.cpp">
@@ -592,6 +610,12 @@
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Graticule.h">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Raster.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/Raster.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/mapping/TerraceCurve.cpp">
@@ -675,6 +699,12 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/ConvolutionKernel.h">
 			<Option target="calenhad"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterConfig.cpp">
+			<Option target="calenhad"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterConfig.h">
+			<Option target="calenhad"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterDialog.cpp">
 			<Option target="calenhad"/>
 		</Unit>
@@ -693,10 +723,10 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/CubeRasterModule.h">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Map.cpp">
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/FractalGridModule.cpp">
 			<Option target="calenhad"/>
 		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Map.h">
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/FractalGridModule.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Module.cpp">
@@ -718,12 +748,6 @@
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/ParamValidator.h">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Procedure.cpp">
-			<Option target="calenhad"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/Procedure.h">
 			<Option target="calenhad"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/module/RasterModule.cpp">
@@ -840,6 +864,27 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/CMakeFindDependencyMacro.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/CheckCXXSourceCompiles.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindGMIC.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindGeographicLib.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindQwt.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/Findlibs2.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/LibFindMacros.cmake">
+			<Option virtualFolder="CMake Files\modules\"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5Config.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\"/>
 		</Unit>
@@ -942,6 +987,12 @@
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QSvgIconPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QSvgPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
 		</Unit>
@@ -968,24 +1019,6 @@
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5OpenGL/Qt5OpenGLConfigVersion.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5OpenGL\"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/CMakeFindDependencyMacro.cmake">
-			<Option virtualFolder="CMake Files\modules\"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/CheckCXXSourceCompiles.cmake">
-			<Option virtualFolder="CMake Files\modules\"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindGMIC.cmake">
-			<Option virtualFolder="CMake Files\modules\"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindGeographicLib.cmake">
-			<Option virtualFolder="CMake Files\modules\"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/FindQwt.cmake">
-			<Option virtualFolder="CMake Files\modules\"/>
-		</Unit>
-		<Unit filename="/home/ferret/CLionProjects/calenhad/src/modules/LibFindMacros.cmake">
-			<Option virtualFolder="CMake Files\modules\"/>
 		</Unit>
 		<Unit filename="/home/ferret/CLionProjects/calenhad/src/messages/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\messages\"/>

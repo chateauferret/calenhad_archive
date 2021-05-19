@@ -85,7 +85,7 @@ ExpressionWidget::~ExpressionWidget() {
 
 void ExpressionWidget::variableChanged (const QString& name, const double& value) {
     QString text = _expressionShortBox -> text();
-    if (text == QString::null || text.contains (name)) {
+    if (text == QString() || text.contains (name)) {
         prepare();
     }
 }
@@ -103,8 +103,8 @@ void ExpressionWidget::editText() {
             if (_expressionLongBox->toPlainText () != _expressionShortBox->text ()) {
                 QFont f = _expressionShortBox->font ();
                 QFontMetrics fm (f);
-                int textWidth = fm.width (_expressionShortBox->text ());
-                if (textWidth > _expressionShortBox->width () * 0.9) {
+                int textWidth = fm.horizontalAdvance (_expressionShortBox->text ());
+                if (textWidth > _expressionShortBox -> width () * 0.9) {
                     openLongBox ();
                 }
             }

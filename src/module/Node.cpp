@@ -51,7 +51,7 @@ Node::Node (QString  nodeType, QWidget* parent) : QWidget (parent),
         _nameEdit -> setPalette (*_palette);
     });
     connect (_validator, &NodeNameValidator::success, this, [=] () {
-        _nameEdit -> setToolTip (QString::null);
+        _nameEdit -> setToolTip (QString());
         _palette -> setColor (QPalette::Text, CalenhadServices::preferences() -> calenhad_module_text_color_normal);
         _nameEdit -> setPalette (*_palette);
     });
@@ -238,7 +238,12 @@ void Node::serialize (QDomElement& element) {
         for (QString key : _parameters.keys()) {
             QDomElement paramElement = doc.createElement ("parameter");
             paramElement.setAttribute ("name", key);
-            paramElement.setAttribute ("value", _parameters.value (key) -> text ());
+            ExpressionWidget* w = dynamic_cast<ExpressionWidget*> (_parameters.value (key));
+            if (w) {
+                paramElement.setAttribute ("value", w -> text ());
+            } else {
+                paramElement.setAttribute ("value", ((QComboBox*) _parameters.value (key)) -> currentText());
+            }
             _element.appendChild (paramElement);
         }
     }
@@ -313,6 +318,29 @@ NodeGroup* Node::group () {
     return _group;
 }
 
+void Node::addParameter (const QString& label, const QString& name, const QStringList& choices, const int& defaultChoice, QWidget* panel) {
+    // create a panel to hold the parameter widgets, if we haven't done this already
+    if (! panel) {
+        if (!(_content)) {
+            addContentPanel();
+        }
+        panel = _content;
+    }
+
+    if (dynamic_cast<QFormLayout*> (panel -> layout())) {
+        QComboBox* widget = new QComboBox (this);
+        widget -> setObjectName (name);
+        ((QFormLayout*) panel -> layout ()) -> addRow (label, widget);
+        _parameters.insert (name, widget);
+        for (const QString& choice : choices) {
+            widget -> addItem (choice);
+        }
+        widget -> setCurrentIndex (defaultChoice);
+        connect (widget, QOverload<int>::of (&QComboBox::currentIndexChanged), this, &Node::nodeChanged);
+        connect (widget, QOverload<int>::of (&QComboBox::currentIndexChanged), this, &Node::parameterChanged);
+    }
+}
+
 ExpressionWidget* Node::addParameter (const QString& label, const QString& name, const double& initial, ParamValidator* validator, QWidget* _panel) {
 
     // create a panel to hold the parameter widgets, if we haven't done this already
@@ -345,23 +373,39 @@ void Node::parameterChanged() {
 }
 
 void Node::setParameter (const QString& key, const QString& text) {
-    QMap<QString, ExpressionWidget*>::iterator item = _parameters.find (key);
+    QMap<QString, QWidget*>::iterator item = _parameters.find (key);
     if (item == _parameters.end()) {
         CalenhadServices::messages() -> message ("No such parameter", "Parameter " + key + " not found for node " + name() + " of type " + nodeType(), NotificationStyle::WarningNotification);
     } else {
-        item.value() -> setText (text);
+        ExpressionWidget* w = dynamic_cast<ExpressionWidget*> (item.value());
+        if (w) {
+            w -> setText (text);
+        } else {
+            QComboBox* cb = dynamic_cast<QComboBox*> (item.value());
+            if (cb) {
+                cb -> setCurrentText (text);
+            }
+        }
     }
 }
 
 QString Node::parameter (const QString& name) {
-    return _parameters.value (name) -> text();
+    return ((ExpressionWidget*) _parameters.value (name)) -> text();
 }
 
 double Node::parameterValue (const QString& name) {
     if (_parameters.keys().contains (name)) {
-        return _parameters.value (name) -> value();
+        return ((ExpressionWidget*) _parameters.value (name)) -> value();
     } else {
         return 0.0;
+    }
+}
+
+QString Node::parameterSelected (const QString& name) {
+    if (_parameters.keys().contains (name)) {
+        return ((QComboBox*) _parameters.value (name)) -> currentText();
+    } else {
+        return QString();
     }
 }
 

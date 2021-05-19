@@ -64,7 +64,7 @@ Graph::~Graph () {
 QString Graph::glsl() {
     _code =  glsl (_module);
 
-    if (_code != QString::null) {
+    if (_code != QString()) {
         _code.append ("\n\nfloat value (ivec3 pos, vec3 cartesian, vec2 geolocation) {\n");
         _code.append ("    return _" + _nodeName + " (pos, cartesian, geolocation);\n");
         _code.append ("}\n");
@@ -133,7 +133,7 @@ QString Graph::glsl (Module* module) {
         }
         return _code;
     } else {
-        return QString::null;
+        return QString();
     }
 }
 

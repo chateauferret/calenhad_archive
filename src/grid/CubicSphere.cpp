@@ -6,6 +6,7 @@
 #include <cmath>
 #include <QtGui/QImage>
 #include <src/CalenhadServices.h>
+#include <mapping/Raster.h>
 #include "../controls/globe/CalenhadStatistics.h"
 #include "icosphere.h"
 
@@ -14,30 +15,25 @@ using namespace calenhad::grid;
 using namespace calenhad::mapping;
 using namespace calenhad::controls::globe;
 
-CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0), _depth (depth) {
-    if (depth == 0) {
-        _depth = calenhad::CalenhadServices::preferences() -> calenhad_compute_gridsize;
-    }
-    _size = std::pow (2, _depth);
+CubicSphere::CubicSphere (const int& depth) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0 ),
+    _size (std::pow (2, depth)), _depth (depth) {
+
     initialise();
 }
 
 // copy constructor
-CubicSphere::CubicSphere (CubicSphere* other) : _renderTime (0.0), _grid (nullptr), _computeTime (0.0), _depth (other -> _depth) {
-    _size = other->size();
-    _grid = (float*) malloc (6 * _size * _size * sizeof (float));
+CubicSphere::CubicSphere (CubicSphere* other) : _renderTime (0.0), _size (other -> size()),
+    _grid ((float*) malloc (6 * other -> size() * other -> size() * sizeof (float))), _computeTime (0.0),  _depth (other -> _depth) {
+
+
     for (int i = 0; i < count (); i++) {
-        _grid[i] = other -> _grid[i];
+        _grid [i] = other -> _grid [i];
     }
 }
 
 
 void CubicSphere::copy (CubicSphere* other) {
     if (_size == other -> size()) {
-    //    for (int i = 0; i < count (); i++) {
-    //        _grid [i] = other -> _grid [i];
-    //    }
-
         memcpy (_grid, other -> _grid, count() * sizeof (GLfloat));
     }
 }
@@ -195,8 +191,8 @@ GLfloat *CubicSphere::data() {
 }
 
 
-void CubicSphere::fromRaster (QImage* image) {
-
+void CubicSphere::fromRaster (Raster* raster) {
+    QImage* image = raster -> image();
     Geolocation g;
     int units = _size * 6;
     int progress = 0;
@@ -238,7 +234,7 @@ void CubicSphere::heightmap (const int& face, QImage* image) {
                 c.setRedF (v);
                 c.setGreenF (v);
                 c.setAlphaF (1.0);
-                image -> setPixelColor (i, j, c);
+                image -> setPixelColor (face == 0 || face == 5 ? image -> width() - i : i, face == 2 || face == 3 ? j : image -> height() - j, c);
             }
         }
     }
@@ -308,15 +304,16 @@ void CubicSphere::fromRasters (const QList<QImage*>& list) {
         QImage* image = list.at (i);
         for (int y = 0; y < _size; y++) {
             for (int x = 0; x < _size; x++) {
+               // int index = i * _size * _size + ((i == 1 || i == 5) ? _size - y : y) * _size + x;
                 int index = i * _size * _size + y * _size + x;
-                if (image && ! image -> isNull()) {
+                if (image && !image -> isNull ()) {
                     double ix = ((double) x / (double) _size) * image -> width ();
                     double iy = ((double) y / (double) _size) * image -> height ();
                     QColor c = image -> pixel ((int) ix, (int) iy);
-                    double value = c.lightnessF() * 2.0 - 1.0;
-                    _grid [index] = (float) value;
+                    double value = c.lightnessF () * 2.0 - 1.0;
+                    _grid[index] = (float) value;
                 } else {
-                    _grid [index] = 0.0;
+                    _grid[index] = 0.0;
                 }
             }
         }
@@ -325,16 +322,16 @@ void CubicSphere::fromRasters (const QList<QImage*>& list) {
 
 
 void CubicSphere::fromIcosphere (Icosphere* icosphere) const {
-    qDebug ("CubicSphere::fromIcosphere");
+    std::cout << "CubicSphere::fromIcosphere " << icosphere << "\n";
     for (int f = 0; f < 6; f++) {
         for (int u = 0; u < _size; u++) {
             for (int v = 0; v < _size; v++) {
-                int index = f * _size * _size + u * _size + v;
                 CubeCoordinates fuv (f, u, v);
                 Geolocation g;
+                int index = f * _size * _size + u * _size + v;
                 toGeolocation (fuv, g);
-                calenhad::grid::geometry::LatLon target (g.latitude(), g.latitude());
-                double value = icosphere -> walkTowards (target) -> value;
+                Vertex* vertex = icosphere -> walkTowards (g);
+                double value = vertex -> value;
                 _grid [index] = (float) value;
             }
         }

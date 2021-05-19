@@ -13,9 +13,9 @@
 #include <module/StructuredGrid.h>
 #include <nodeedit/Port.h>
 #include <src/module/CubeRasterModule.h>
+#include <module/FractalGridModule.h>
 #include "../module/RasterModule.h"
 #include "../module/Cache.h"
-#include "../module/Map.h"
 #include "../noiseconstants.h"
 #include "../nodeedit/NodeBlock.h"
 #include "../module/TectonicsModule.h"
@@ -111,14 +111,15 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
         if (type == CalenhadServices::preferences() -> calenhad_module_raster) { RasterModule* rm = new RasterModule(); qm = rm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_cuberaster) { CubeRasterModule* rm = new CubeRasterModule(); qm = rm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_cache) { Cache* cm = new Cache (type); qm = cm; n = qm; }
-        if (type == CalenhadServices::preferences() -> calenhad_module_map) { Map* mm = new Map(); qm = mm; n = qm; }
         if (type == CalenhadServices::preferences() -> calenhad_module_tectonics) { TectonicsModule* t = new TectonicsModule(); qm = t; n = qm; }
+        if (type == CalenhadServices::preferences() -> calenhad_module_fractalgrid) { FractalGridModule* fg = new FractalGridModule(); qm = fg; n = qm; }
+
         //if (type == CalenhadServices::preferences() -> calenhad_module_erosion) { Erosion* e = new Erosion(); qm = e; n = qm; }
 
         if (role == "algorithm") {
             Cache* c = new Cache (type); qm = c; n = qm;
             QString algorithmName = element.attribute ("algorithm");
-            if (algorithmName != QString::null) {
+            if (algorithmName != QString()) {
                 Algorithm* a = algorithm (algorithmName);
                 if (!a) {
                     std::cout << "No algorithm '" << algorithmName.toStdString() << "' available for module " << type.toStdString() << "\n";
@@ -193,32 +194,46 @@ Node* ModuleFactory::inflateModule (const QString& type, CalenhadModel* model) {
                     }
                     qm -> addParameter (paramLabel, paramName, initial);
                 } else {
-                    bool ok;
-                    double initial = paramElement.attribute ("default").toDouble (&ok);
-                    if (!ok) { initial = 0; }
-                    QString validatorType = paramElement.firstChildElement ("validator").text ();
-                    ParamValidator* v;
-                    if (validatorType == "AcceptRange") {
-                        bool ok;
-                        double min = paramElement.attribute ("minimum").toDouble (&ok);
-                        if (!ok) { min = -1.0; }
-                        double max = paramElement.attribute ("maximum").toDouble (&ok);
-                        if (!ok) { max = std::min (1.0, min); }
-                        double bestMin = paramElement.attribute ("bestMinimum").toDouble (&ok);
-                        if (!ok) { bestMin = min; }
-                        double bestMax = paramElement.attribute ("bestMaximum").toDouble (&ok);
-                        if (!ok) { bestMax = max; }
-                        v = new AcceptRange (bestMin, bestMax, min, max);
+                    if (paramType == "choice") {
+                        QStringList choices;
+                        int defaultChoice = 0;
+                        QDomNodeList nodes = paramElement.elementsByTagName ("choice");
+                        for (int node = 0; node < nodes.length(); node++) {
+                            QDomElement choice = nodes.at (node).toElement();
+                            choices.append (choice.text());
+                            if (choice.hasAttribute ("default") && choice.attribute ("default") == "true") {
+                                defaultChoice = node;
+                            }
+                        }
+                        qm -> addParameter (paramLabel, paramName, choices, defaultChoice);
+
                     } else {
-                        v = validator (validatorType);
-                    }
-                    qm -> addParameter (paramLabel, paramName, initial, v);
-                    if (paramElement.hasAttribute ("display")) {
+                        bool ok;
+                        double initial = paramElement.attribute ("default").toDouble (&ok);
+                        if (!ok) { initial = 0; }
+                        QString validatorType = paramElement.firstChildElement ("validator").text ();
+                        ParamValidator* v;
+                        if (validatorType == "AcceptRange") {
+                            bool ok;
+                            double min = paramElement.attribute ("minimum").toDouble (&ok);
+                            if (!ok) { min = -1.0; }
+                            double max = paramElement.attribute ("maximum").toDouble (&ok);
+                            if (!ok) { max = std::min (1.0, min); }
+                            double bestMin = paramElement . attribute ("bestMinimum").toDouble (&ok);
+                            if (!ok) { bestMin = min; }
+                            double bestMax = paramElement . attribute ("bestMaximum").toDouble (&ok);
+                            if (!ok) { bestMax = max; }
+                            v = new AcceptRange (bestMin, bestMax, min, max);
+                        } else {
+                            v = validator (validatorType);
+                        }
+                        qm -> addParameter (paramLabel, paramName, initial, v);
+                        if (paramElement . hasAttribute ("display")) {
 //                        qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
-                          //qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
+                            //qm->showParameter (paramName, paramElement.attribute ("display").toLower () == "edit");
+                        }
                     }
                 }
-
             }
 
             QDomElement rangeElement = element.firstChildElement ("range");

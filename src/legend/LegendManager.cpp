@@ -101,7 +101,7 @@ void LegendManager::deleteLegend() {
 }
 
 void LegendManager::showEvent (QShowEvent* e) {
-    QString currentLegend = QString::null;
+    QString currentLegend = QString();
     if (_legend) {
         currentLegend = _legend->name ();
     }

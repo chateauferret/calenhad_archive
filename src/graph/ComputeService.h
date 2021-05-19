@@ -69,7 +69,7 @@ namespace calenhad {
             const uint _tiles;
             calenhad::grid::CubicSphere* _tile;
 
-            uint setupGrid ();
+            uint setupGrid();
 
             void downloadBuffer (GLfloat* buffer, const int& size);
 

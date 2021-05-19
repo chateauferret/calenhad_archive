@@ -29,7 +29,7 @@ namespace calenhad {
         }
     }
     namespace mapping {
-
+        struct Raster;
         struct CubeCoordinates {
         public:
             int u, v;
@@ -50,7 +50,7 @@ namespace calenhad {
 
 
             //explicit CubicSphere (const int& depth);
-            CubicSphere (const int& depth = 0);
+            CubicSphere (const int& depth);
             ~CubicSphere();
             long count() const;
 
@@ -72,7 +72,7 @@ namespace calenhad {
 
             void toGeolocation (const mapping::CubeCoordinates& fuv, geoutils::Geolocation& g) const;
 
-            void fromRaster (QImage* image);
+            void fromRaster (calenhad::mapping::Raster* raster);
 
             void setComputeTime (double d);
 

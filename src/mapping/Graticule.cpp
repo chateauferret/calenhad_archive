@@ -191,7 +191,7 @@ void Graticule::drawLatitudeIntersection (QPainter& p, const QPair<double, doubl
                     if (start.x() > 0 && start.y() > 0) {
                         if (!_longitudesLabelled.contains (g.second)) {
 
-                            if (line.intersect (_bottom, &point) == QLineF::IntersectType::BoundedIntersection) {
+                            if (line.intersects (_bottom, &point) == QLineF::IntersectType::BoundedIntersection) {
                                 drawLongitudeLabel (p, point, longitudeLabel (g.second));
                                 _longitudesLabelled.append (g.second);
                             }
@@ -230,7 +230,7 @@ void Graticule::drawLongitudeIntersection (QPainter& p, const QPair<double, doub
                 if (start.x() > -20 && start.y() > 0) {
                     if (!_latitudesLabelled.contains (g.first)) {
 
-                        if (line.intersect (_left, &point) == QLineF::IntersectType::BoundedIntersection) {
+                        if (line.intersects (_left, &point) == QLineF::IntersectType::BoundedIntersection) {
                             drawLatitudeLabel (p, point, latitudeLabel (g.first));
                             _latitudesLabelled.append (g.first);
                         }
@@ -353,7 +353,7 @@ void Graticule::drawLabel (QPainter& p, QPointF point, const QString& text) {
     QFont font ("arial", 10);
     QFontMetrics fm (font);
     p.setFont (font);
-    int w = fm.width (text);
+    int w = fm.horizontalAdvance (text);
 
         point.setX (std::max (10.0, point.x () - w / 2));
 

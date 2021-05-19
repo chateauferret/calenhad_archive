@@ -165,7 +165,7 @@ void CalenhadController::paste() {
 }
 
 void CalenhadController::editAction (const bool& kill, const bool& yank) {
-    QString xml = QString::null;
+    QString xml = QString();
     if (yank) {
         xml = _model -> selectionToXml();
         QClipboard* clipboard = QGuiApplication::clipboard ();

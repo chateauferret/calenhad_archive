@@ -69,7 +69,7 @@ namespace calenhad {
 
             void showEvent (QShowEvent* event) override;
             void setScale (const double& scale);
-            double scale ();
+            double scale () const;
             void rotate (const geoutils::Geolocation& rotation);
             const geoutils::Geolocation& rotation ();
             projection::Projection* projection ();
@@ -122,11 +122,11 @@ namespace calenhad {
             calenhad::graph::Graph* _graph;
             QString _shader;
             GLfloat* _colorMapBuffer, * _icosphereBuffer{};
-            GLfloat _scale;
-            calenhad::mapping::projection::Projection* _projection;
+            GLfloat _scale{};
+            calenhad::mapping::projection::Projection* _projection{};
             QPointF _translation;
             Graticule* _graticule;
-            bool _graticuleVisible;
+            bool _graticuleVisible{};
 
             geoutils::CoordinatesFormat _coordinatesFormat;
             void notifySubscribers();
@@ -154,7 +154,7 @@ namespace calenhad {
 
             GeographicLib::Geodesic* _geodesic;
 
-            // boilerplate code for compute, vertex and fragment shaders
+            // boilerplate code for compute, _vertex and fragment shaders
             QString _shaderTemplate;
             QString _vertexShaderCode;
             QString _fragmentShaderCode;
@@ -166,7 +166,7 @@ namespace calenhad {
             QOpenGLShader* _computeShader;
             QOpenGLShader* _fragmentShader;
             QOpenGLShader* _vertexShader;
-            QOpenGLTexture* _globeTexture, * _rasterTexture, * _insetTexture{};
+            QOpenGLTexture* _globeTexture, * _rasterTexture{}, * _insetTexture{};
 
 
             calenhad::grid::CubicSphere* _buffer;
@@ -174,11 +174,11 @@ namespace calenhad {
             QString _code;
 
             calenhad::controls::globe::RenderMode _mode;
-            int _renderTime;
+            int _renderTime{};
 
             void createTexture ();
             GLuint colorMap = 1;
-            GLint _tileSize;
+            GLint _tileSize{};
             GLuint heightMap = 1;
             void redraw ();
 
@@ -186,9 +186,9 @@ namespace calenhad {
             bool _refreshHeightMap;
             clock_t start{};
             int _createHeightMap;
-            bool _computeVertices;
+            bool _computeVertices{};
 
-            CalenhadMapWidget* _mainMap;
+            CalenhadMapWidget* _mainMap{};
 
             void initializeGL() override;
 

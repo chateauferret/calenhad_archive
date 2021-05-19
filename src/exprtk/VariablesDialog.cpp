@@ -83,7 +83,7 @@ void VariablesDialog::insertItem() {
     _table -> setItem (i, 1, value);
     _table -> setItem (i, 2, notes);
     _table -> itemActivated (item);
-    _table -> setItemSelected (item, true);
+    item -> setSelected (true);
     _table -> editItem (item);
     _dirty = true;
 }
@@ -209,7 +209,7 @@ bool VariablesDialog::validate (int row) {
         }
         _table -> blockSignals (true);
         _table -> item (row, 0) -> setToolTip (nameTooltip);
-        _table -> item (row, 0) -> setTextColor (nameOk ? CalenhadServices::preferences() -> calenhad_variables_color_normal : CalenhadServices::preferences() -> calenhad_variables_color_error);
+        _table -> item (row, 0) -> setForeground (nameOk ? CalenhadServices::preferences() -> calenhad_variables_color_normal : CalenhadServices::preferences() -> calenhad_variables_color_error);
         _table -> blockSignals (false);
     } else {
         nameTooltip += "Name is required\n";
@@ -222,7 +222,7 @@ bool VariablesDialog::validate (int row) {
         valueOk = CalenhadServices::calculator() -> validateVariableValue (value, valueTooltip);
         _table -> blockSignals (true);
         _table -> item (row, 1) -> setToolTip (valueTooltip);
-        _table -> item (row, 1) -> setTextColor (valueOk ? CalenhadServices::preferences() -> calenhad_variables_color_normal : CalenhadServices::preferences() -> calenhad_variables_color_error);
+        _table -> item (row, 1) -> setForeground (valueOk ? CalenhadServices::preferences() -> calenhad_variables_color_normal : CalenhadServices::preferences() -> calenhad_variables_color_error);
         _table -> blockSignals (false);
     } else {
         valueTooltip += "Value is required\n";

@@ -52,7 +52,7 @@ namespace calenhad {
             module::Module* findModule (const QString& name);
 
 
-            calenhad::module::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString::null, calenhad::module::NodeGroup* group = 0);
+            calenhad::module::Module* addModule (const QPointF& initPos, const QString& type, const QString& name = QString(), calenhad::module::NodeGroup* group = 0);
 
 
 

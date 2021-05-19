@@ -29,8 +29,8 @@ void Preferences::loadSettings() {
     calenhad_colormap_buffersize = _settings -> value ("calenhad/colormap/buffersize", 2048).toUInt();
     calenhad_altitudemap_buffersize = _settings -> value ("calenhad/altitudemap/buffersize", 2048).toUInt();
     calenhad_icosphere_depth = _settings -> value ("calenhad/grid/depth", 8).toUInt();
-    calenhad_compute_gridsize = _settings -> value ("calenhad/compute/gridsize", 11).toUInt();
     calenhad_compute_tilesize = _settings -> value ("calenhad/compute/tilesize", 8).toUInt();
+    calenhad_compute_gridsize = _settings -> value ("calenhad/compute/gridsize", 10).toUInt();
 
     // Styling for non-QGraphicsItem elements
     calenhad_stylesheet = _settings -> value ("calenhad/stylesheet", "/home/ferret/.config/calenhad/darkorange.css").toString();
@@ -175,6 +175,7 @@ void Preferences::loadSettings() {
     calenhad_module_raster = _settings -> value ("calenhad/module/raster", "raster").toString();
     calenhad_module_cuberaster = _settings -> value ("calenhad/module/cuberaster", "cuberaster").toString();
     calenhad_module_tectonics = _settings -> value ("calenhad/module/tectonics", "tectonics").toString();
+    calenhad_module_fractalgrid = _settings -> value ("calenhad/module/fractalgrid", "fractalgrid").toString();
     calenhad_module_erosion = _settings -> value ("calenhad/module/erosion", "erosion").toString();
     calenhad_module_map = _settings -> value ("calenhad/module/map", "map").toString();
     calenhad_module_cache = _settings -> value ("calenhad/module/cache", "cache").toString();
@@ -298,8 +299,8 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/desktop/nodegroup/width/default", calenhad_desktop_nodegroup_width_default);
     _settings -> setValue ("calenhad/model/extent", calenhad_model_extent);
     _settings -> setValue ("calenhad/grid/depth", calenhad_icosphere_depth);
-    _settings -> setValue ("calenhad/compute/gridsize", calenhad_compute_gridsize);
     _settings -> setValue ("calenhad/compute/tilesize", calenhad_compute_tilesize);
+    _settings -> setValue ("calenhad/compute/gridsize", calenhad_compute_gridsize);
 
     // Modules
 
@@ -308,6 +309,7 @@ void Preferences::saveSettings() {
     _settings -> setValue ("calenhad/module/raster", calenhad_module_raster);
     _settings -> setValue ("calenhad/module/cuberaster", calenhad_module_cuberaster);
     _settings -> setValue ("calenhad/module/tectonics", calenhad_module_tectonics);
+    _settings -> setValue ("calenhad/module/fractalgrid", calenhad_module_fractalgrid);
     _settings -> setValue ("calenhad/module/erosion", calenhad_module_erosion);
     _settings -> setValue ("calenhad/module/map", calenhad_module_map);
     _settings -> setValue ("calenhad/module/cache", calenhad_module_cache);

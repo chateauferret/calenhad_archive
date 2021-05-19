@@ -6,11 +6,15 @@
 #define CALENHAD_TECTONICS_H
 
 #include <random>
+#include <queue>
 #include "icosphere.h"
+#include <s2/s2point_index.h>
+#include <s2/s2point.h>
 
 // constants
-#define MAX_ANGULAR_VELOCITY 0.02;
-#define NEW_CRUST_THICKNESS 0.1;
+#define MAX_ANGULAR_VELOCITY 0.02
+#define NEW_CRUST_THICKNESS 0.1
+#define INITIAL_CONT_CRUST_THICKNESS 0.5
 
 
 namespace calenhad {
@@ -21,20 +25,24 @@ namespace calenhad {
             Plate () { };
             geoutils::Geolocation _pole;
             geoutils::Geolocation _centre;
-            geometry::Cartesian _c;
+            geoutils::Cartesian _c;
             double _angVelocity;
-            bool _isContinental;
             int _id;
+
         };
 
-        class Mass {
+        class Data;
+
+        class Mass : public Data {
         public:
-            Mass() : _where (0.0, 0.0) { };
-            geometry::LatLon _where;
+            Mass() : Data(), _where (0.0, 0.0) { };
+            geoutils::Geolocation _where;
             double _thickness;
+            double _hardness;
             double _timeCreated;
             Plate* _plate;
-            Vertex* _vertex;
+            Vertex* prevVertex;
+            geoutils::Geolocation _whereTo;
         };
 
         class Tectonics : public Icosphere {
@@ -42,7 +50,7 @@ namespace calenhad {
             explicit Tectonics (const unsigned int& depth = 8);
             ~Tectonics();
             void initialise (const int& seed, const int& plateCount);
-            void createInitialCrust (CubicSphere* oceanic, CubicSphere* continental);
+            void createInitialCrust();
 
             void run();
 
@@ -54,13 +62,20 @@ namespace calenhad {
             void cycle();
             std::uniform_real_distribution<double> _rand;
             std::mt19937 _seq;
-            std::vector<Mass*> _lithosphere;
 
             void createNewCrust (Vertex* v);
 
-            std::map<int, Plate*> _plates;
+            QVector<Plate*> _plates;
+            QVector<Vertex*> _todo;
 
-            Plate* findPlate (const geometry::Cartesian& c);
+            Plate* findPlate (const geoutils::Cartesian& c);
+
+            void createMass (Vertex* v, Plate* p) const;
+
+            void updateLithosphere();
+
+            void move (Vertex* v) const;
+            void makeFeatures (Mass* m);
         };
     }
 }

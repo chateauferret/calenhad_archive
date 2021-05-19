@@ -165,7 +165,7 @@ void QAngleControl::setValidator (calenhad::module::AcceptAngle* validator) {
 
 void QAngleControl::validate() {
     if ((! _validator) || _validator -> isInValidSet (_value)) {
-        setToolTip (QString::null);
+        setToolTip (QString());
         _statusLabel -> setPixmap (_statusOrright);
         _isValid = true;
     } else {

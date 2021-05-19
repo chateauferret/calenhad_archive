@@ -24,17 +24,17 @@ CalenhadNavigator::CalenhadNavigator (QWidget* parent) : QwtCompass (parent), _a
     }
 
     p.setColor (QPalette::Base, Qt::darkBlue);
-    p.setColor (QPalette::WindowText, QColor (Qt::darkBlue).dark (120));
+    p.setColor (QPalette::WindowText, QColor (Qt::darkBlue).darker());
     p.setColor (QPalette::Text, Qt::white);
     p.setColor (QPalette::Background, Qt::transparent);
 
     for ( int i = 0; i < QPalette::NColorGroups; i++ ) {
         const QPalette::ColorGroup colorGroup = static_cast<QPalette::ColorGroup>(i);
-        const QColor light = p.color (colorGroup, QPalette::Base).light (170);
-        const QColor dark = p.color (colorGroup, QPalette::Base).dark (170);
+        const QColor light = p.color (colorGroup, QPalette::Base).lighter ();
+        const QColor dark = p.color (colorGroup, QPalette::Base).darker();
         const QColor mid = frameShadow() == QwtDial::Raised
-                           ? p.color (colorGroup, QPalette::Base).dark (110)
-                           : p.color (colorGroup, QPalette::Base).light (110);
+                           ? p.color (colorGroup, QPalette::Base).darker()
+                           : p.color (colorGroup, QPalette::Base).lighter();
 
         p.setColor (colorGroup, QPalette::Dark, dark);
         p.setColor (colorGroup, QPalette::Mid, mid);
